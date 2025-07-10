@@ -52,15 +52,16 @@ export async function middleware(request: NextRequest) {
 	const subdomain = extractSubdomain(request);
 
 	if (subdomain) {
-		// Block access to /admin on subdomains
-		if (pathname.startsWith('/admin')) {
+		// Block access to /admin or /user on subdomains
+		if (pathname.startsWith('/admin') || pathname.startsWith('/user')) {
 			return NextResponse.redirect(new URL('/', request.url));
 		}
 
-		// Rewrite root path on subdomains to /s/[subdomain]
-		if (pathname === '/') {
-			return NextResponse.rewrite(new URL(`/s/${subdomain}`, request.url));
-		}
+		// get access vendor and affiliate page
+		const newPathname =
+			pathname === '/' ? `/s/${subdomain}` : `/s/${subdomain}${pathname}`;
+
+		return NextResponse.rewrite(new URL(newPathname, request.url));
 	}
 
 	// Proceed normally on root domain or other paths

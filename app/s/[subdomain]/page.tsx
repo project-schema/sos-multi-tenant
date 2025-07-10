@@ -30,8 +30,10 @@ export default async function SubdomainPage({
   params: Promise<{ subdomain: string }>;
 }) {
   const { subdomain } = await params;
+
   const subdomainData = await getSubdomainData(subdomain);
 
+  console.log(subdomain)
   if (!subdomainData) {
     notFound();
   }
@@ -46,6 +48,8 @@ export default async function SubdomainPage({
           {rootDomain}
         </Link>
       </div>
+
+      <Link href={`/vendor`}>Go vendor</Link>
 
       <div className="flex-1 flex items-center justify-center">
         <div className="text-center">
