@@ -1,0 +1,76 @@
+.RadioBox {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	cursor: pointer;
+}
+.RadioBoxLogin {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	cursor: pointer;
+}
+
+.radio {
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	border: 1px solid #969696;
+	display: inline-block;
+}
+.radio.active {
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	border: 6px solid #041438;
+	display: inline-block;
+}
+
+.RadioBoxLogin .radio.active {
+	border: 6px solid #ffffff;
+}
+
+.label {
+	color: var(--paragraph-on-primary, #969696);
+	text-align: center;
+	font-family: Poppins;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+.label.active {
+	color: var(--secondary, #041438);
+	text-align: center;
+	font-family: Poppins;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+}
+.RadioBoxLogin .label.active {
+	color: #ffffff;
+}
+
+@media screen and (max-width: 500px) {
+	.RadioBox {
+		gap: 5px;
+	}
+
+	.radio {
+		width: 14px;
+		height: 14px;
+	}
+	.radio.active {
+		width: 14px;
+		height: 14px;
+		border: 4px solid #041438;
+	}
+
+	.label {
+		font-size: 14px;
+	}
+	.label.active {
+		font-size: 14px;
+	}
+}

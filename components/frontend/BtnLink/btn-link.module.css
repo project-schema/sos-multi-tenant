@@ -1,0 +1,26 @@
+.btn {
+  border-radius: 10px;
+  background: linear-gradient(
+    234deg,
+    #1a77f2 21.61%,
+    rgba(0, 79, 184, 0.76) 95.22%
+  );
+  display: flex;
+  padding: 12px 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+  transition: .5s;
+}
+.btn:hover{
+	opacity: 80%;
+}
+.text {
+  color: #fafafa;
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}

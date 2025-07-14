@@ -1,0 +1,95 @@
+.footerCenter {
+	padding-top: 60px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.footerCenter .contact {
+	max-width: 233px;
+}
+
+.companyLogo {
+	width: 202px;
+	object-fit: contain;
+	height: 60px;
+}
+
+.contactInfoBox {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	margin-bottom: 20px;
+}
+
+.contactInfoBox .con_info_txt {
+	color: var(--w, #fafafa);
+	font-family: Poppins;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 150%; /* 24px */
+}
+
+.companyInfo {
+	max-width: 430px;
+}
+
+.infoSubTitle {
+	color: var(--w, #fafafa);
+	font-family: Poppins;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 150%; /* 27px */
+	margin-top: 20px;
+}
+
+.center__head {
+	color: #fff;
+	font-family: Poppins;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 100%; /* 18px */
+	margin-bottom: 30px;
+}
+.center_list {
+	color: var(--w, #fafafa);
+	font-family: Poppins;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 100%; /* 16px */
+	margin-bottom: 15px;
+	display: block;
+}
+.socialLinks {
+	display: flex;
+	gap: 30px;
+	margin-top: 60px;
+	cursor: pointer;
+}
+.socialMediaIcon {
+	color: #fafafa;
+	width: 30px;
+	height: 30px;
+}
+
+@media screen and (max-width: 1200px) {
+	.footerCenter {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 20px;
+		padding-top: 40px;
+	}
+}
+@media screen and (max-width: 650px) {
+	.footerCenter {
+		grid-template-columns: 1fr;
+		gap: 25px;
+		padding-top: 30px;
+	}
+	.center__head {
+		margin-bottom: 15px;
+	}
+}

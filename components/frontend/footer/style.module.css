@@ -1,0 +1,11 @@
+.footer {
+	background: #041438;
+	z-index: 1;
+	position: relative;
+}
+
+.hr {
+	background: #969696;
+	width: 100%;
+	height: 0.5px;
+}

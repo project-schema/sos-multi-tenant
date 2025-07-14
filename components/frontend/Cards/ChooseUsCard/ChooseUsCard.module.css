@@ -1,0 +1,55 @@
+.card {
+	display: flex;
+	padding: 20px;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	border-radius: 10px;
+	background: #fff;
+	box-shadow: 0px 10px 25px 0px rgba(64, 123, 255, 0.1);
+	margin-bottom: 24px;
+}
+
+.icoBox {
+	width: 70px;
+	height: 70px;
+	flex-shrink: 0;
+	border-radius: 50%;
+	margin: 0 auto;
+	background: #fafafa;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: 0.5s;
+}
+.card:hover .icoBox {
+	background: #2f78d9;
+}
+.icoBox svg {
+	color: #1d1d1d;
+	transition: 0.5s;
+}
+.card:hover .icoBox svg {
+	color: #fafafa;
+}
+.subTxt {
+	color: var(--paragraph-on-primary, #969696);
+	text-align: center;
+	font-family: Poppins;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 150%; /* 27px */
+}
+
+.txt {
+	color: var(--b, #1d1d1d);
+	font-family: Inter;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	text-align: center;
+	margin-bottom: 10px;
+}

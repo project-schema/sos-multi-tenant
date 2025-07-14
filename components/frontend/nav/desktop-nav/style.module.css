@@ -1,0 +1,22 @@
+.navWrap {
+	display: flex;
+	align-items: center;
+	gap: 40px;
+}
+.navItem {
+	color: #fafafa;
+	font-family: Poppins;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 300;
+	line-height: 100%; /* 16px */
+}
+.active {
+	font-weight: bold;
+	text-decoration: underline;
+}
+@media screen and (max-width: 1100px) {
+	.navWrap {
+		display: none;
+	}
+}

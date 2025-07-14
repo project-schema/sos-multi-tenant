@@ -1,0 +1,27 @@
+.h1 {
+	color: #1a77f2;
+	font-family: Poppins;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	margin-bottom: 20px;
+}
+
+.p {
+	color: #1d1d1d;
+	font-family: Poppins;
+	font-size: 34px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 120%; /* 40.8px */
+	text-transform: uppercase;
+}
+@media screen and (max-width: 576px) {
+	.p {
+		font-size: 22px;
+	}
+	.h1 {
+		margin-bottom: 10px;
+	}
+}

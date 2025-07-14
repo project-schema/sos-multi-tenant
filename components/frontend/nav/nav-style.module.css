@@ -1,0 +1,134 @@
+.nav {
+	background: #041438;
+	width: 100%;
+	position: fixed !important;
+	z-index: 99;
+	position: relative;
+}
+.navItem {
+	color: #969696;
+	font-family: Poppins;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 300;
+	line-height: 100%; /* 16px */
+}
+.navWrap {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	max-width: 1320px;
+	margin: 0 auto;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.login {
+	color: #fafafa;
+	font-family: Poppins;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 100%; /* 18px */
+}
+.buttonBox {
+	display: flex;
+	align-items: center;
+	gap: 30px;
+	cursor: pointer;
+}
+.mobileToggler {
+	color: white;
+	display: none;
+	cursor: pointer;
+	z-index: 99;
+}
+.iconMenu {
+	font-size: 45px;
+}
+.btn {
+	border-radius: 10px;
+	background: linear-gradient(
+		234deg,
+		#1a77f2 21.61%,
+		rgba(0, 79, 184, 0.76) 95.22%
+	);
+	display: flex;
+	padding: 12px 32px;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	width: max-content;
+}
+
+.text {
+	color: #fafafa;
+	font-family: Poppins;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+
+.logo {
+	width: 203px;
+	height: 60px;
+	object-fit: contain;
+}
+@media screen and (max-width: 1100px) {
+	.mobileToggler {
+		display: block;
+	}
+	.buttonBox {
+		display: none;
+	}
+	.navWrap {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+}
+
+.progress-bar {
+	position: absolute;
+	height: 4px;
+	width: 100%;
+	background: #1e75b7;
+	/* background: linear-gradient(0deg, rgb(51, 141, 122) 0%, #1142b4); */
+	/* bottom: -5px; */
+	top: 0px;
+	overflow: hidden;
+}
+
+.progress-fill {
+	position: absolute;
+	height: 4px;
+	width: 30%;
+	animation: progress-forward 0.9s infinite;
+	background: #afcbd6;
+	border-radius: 15px;
+	z-index: 1111111111;
+	animation-delay: 0.3s;
+	animation-timing-function: ease-out;
+}
+.progress-fill2 {
+	position: absolute;
+	height: 4px;
+	width: 110px;
+	animation: progress-forward 0.9s infinite;
+	/* background: #a3a3a3; */
+	border-radius: 15px;
+	z-index: 1111111111;
+
+	animation-timing-function: ease-in;
+	/* animation-delay: 0.1s; */
+}
+
+@keyframes progress-forward {
+	0% {
+		left: 0%;
+	}
+
+	100% {
+		left: 100%;
+	}
+}

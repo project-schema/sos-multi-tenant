@@ -1,0 +1,39 @@
+.loginLabel {
+	color: #3a3a3a;
+	font-family: Poppins;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+
+.loginInput {
+	padding: 15px 20px;
+	width: 100%;
+	background: #fafafa;
+	color: #1d1d1d;
+	font-family: Poppins;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	border: 1px solid #1a77f2;
+	margin-top: 15px;
+	margin-bottom: 24px;
+	border-radius: 10px;
+}
+
+.error {
+	border: 1px solid red;
+}
+
+.inputWrap {
+	position: relative;
+}
+
+.eyeIcon {
+	position: absolute;
+	right: 15px;
+	bottom: 36px;
+	font-size: 28px;
+}
