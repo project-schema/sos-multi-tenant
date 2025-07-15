@@ -1,0 +1,75 @@
+.chooseSubTxt {
+  color: var(--paragraph-on-primary, #969696);
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 27px */
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.chooseWrap {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 130px;
+}
+
+.choseUs__left {
+  flex: 1;
+  margin-top: 40px;
+}
+.choseUs__right {
+  flex: 1;
+}
+
+.progressSection {
+  margin-top: 30px;
+}
+.progressbarWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.progressbar {
+  color: #1d1d1d;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+}
+.progressbarValue {
+  color: #969696;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.cards_group2 {
+  margin-top: 50px;
+}
+
+@media screen and (max-width: 1000px) {
+  .chooseWrap {
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 600px) {
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .chooseWrap {
+    margin-bottom: 50px;
+  }
+}

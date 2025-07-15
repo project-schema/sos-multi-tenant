@@ -1,28 +1,29 @@
 import type { Metadata } from 'next';
-import { Geist } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import './globals.css';
 import { RootProviders } from '@/provider';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin']
+const poppins = Poppins({
+	variable: '--font-geist-mono',
+	subsets: ['latin'],
+	weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 });
 
 export const metadata: Metadata = {
-  title: 'Platforms Starter Kit',
-  description: 'Next.js template for building a multi-tenant SaaS.'
+	title: 'SOS',
+	description: 'SOS Management',
 };
 
 export default function RootLayout({
-  children
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className={`${geistSans.variable} antialiased`}>	
-        <RootProviders>{children}</RootProviders>
-        </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body className={` ${poppins.variable} antialiased`}>
+				<RootProviders>{children}</RootProviders>
+			</body>
+		</html>
+	);
 }

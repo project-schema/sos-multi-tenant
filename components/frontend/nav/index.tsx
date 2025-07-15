@@ -8,9 +8,11 @@ import { useSession } from 'next-auth/react';
 import { FaTimes } from 'react-icons/fa';
 import { useState } from 'react';
 import BtnLink from '../BtnLink';
-import { logout } from '@/lib';
+import { env, logout } from '@/lib';
+import { iSettingsType } from '@/types';
+import Image from 'next/image';
 
-function Nav() {
+function Nav({ settings }: { settings: iSettingsType }) {
 	const [open, setOpen] = useState(false);
 	const { data: session } = useSession();
 
@@ -19,16 +21,16 @@ function Nav() {
 			<nav className={style.nav}>
 				<div className={style.navWrap}>
 					<Link href="/">
-						{/* {nav?.logo && (
+						{settings.message?.logo && (
 							<Image
 								className={style.logo}
 								alt="logo"
 								width={202}
 								loading="eager"
 								height={60}
-								src={`${imgUrl}/${nav?.logo}`}
+								src={`${env.baseAPI}/${settings.message?.logo}`}
 							/>
-						)} */}
+						)}
 					</Link>
 					<DesktopNav data={menuData} />
 

@@ -1,17 +1,28 @@
 import style from './style.module.css';
 import PayWith from './footer-pay-with';
+import { iSettingsType } from '@/types';
+import FooterTop from './footer-top';
+import FooterCenter from './footer-center';
+import FooterCopyRight from './footer-copy-right';
+import { getApiData } from '@/lib';
+import { notFound } from 'next/navigation';
 
-function Footer() {
+async function Footer() {
+	const settings = await getApiData<iSettingsType>('/settings');
+
+	if (settings?.status !== 200) {
+		return notFound();
+	}
 	return (
 		<footer className={style.footer}>
 			<div className={`${style.footerWrap} layout`}>
 				{/* join news latter  */}
-				{/* <FooterTop settingsData={settingsData} /> */}
+				<FooterTop />
 
 				<hr className={style.hr} />
 
 				{/* links  */}
-				{/* <FooterCenter settingsData={settingsData} /> */}
+				<FooterCenter />
 
 				{/* pay icon  */}
 				<PayWith />
@@ -19,7 +30,7 @@ function Footer() {
 				<hr className={style.hr} />
 
 				{/* copy right  */}
-				{/* <FooterCopyRight settingsData={settingsData} /> */}
+				<FooterCopyRight settingsData={settings} />
 			</div>
 		</footer>
 	);

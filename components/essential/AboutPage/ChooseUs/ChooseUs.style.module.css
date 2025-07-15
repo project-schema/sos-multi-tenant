@@ -1,0 +1,128 @@
+.chooseUsSection {
+  padding-top: 120px;
+  text-align: center;
+}
+.chooseTopHeader {
+  color: #1a77f2;
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0 0 20px 0;
+}
+.chooseHeader {
+  max-width: 527px;
+  color: #1d1d1d;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 34px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 40.8px */
+  text-transform: uppercase;
+  margin: 0 auto;
+}
+.chooseUs {
+  padding-top: 60px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.singleChoose {
+  border-radius: 10px;
+  background: #fff;
+
+  /* Dropdown 1 */
+  box-shadow: 0px 10px 25px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  max-width: 424px;
+  padding: 40px 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.singleChooseImages {
+  position: relative;
+}
+.singleChooseIcon {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+}
+.singleChooseImg {
+  width: 99px;
+  height: 106px;
+  flex-shrink: 0;
+}
+.signleChooseHeader {
+  color: #1d1d1d;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  margin-bottom: 10px;
+}
+.singleChooseParagraph {
+  color: #969696;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 10px 0 0 0;
+  line-height: 150%; /* 27px */
+}
+
+@media screen and (max-width: 1200px) {
+  .chooseUs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .singleChoose {
+    max-width: 100%;
+  }
+}
+@media screen and (max-width: 767px) {
+  .chooseUsSection {
+    padding-top: 80px;
+  }
+  .chooseUs {
+    padding-top: 40px;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+@media screen and (max-width: 576px) {
+  .chooseUsSection {
+    padding-top: 50px;
+  }
+  .chooseHeader {
+    font-size: 18px;
+  }
+  .singleChoose {
+    padding: 20px 10px;
+  }
+  .signleChooseHeader {
+    font-size: 17px;
+  }
+  .singleChooseParagraph {
+    font-size: 14px;
+    margin: 0;
+  }
+  .chooseTopHeader{
+    margin: 0 0 10px 0;
+  }
+}
+
+
+.pricingPageSection{
+  padding-top: 183px;
+}
+@media screen and (max-width: 576px) {
+  .pricingPageSection{
+    padding-top: 100px;
+  }
+}

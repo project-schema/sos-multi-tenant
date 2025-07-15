@@ -1,35 +1,68 @@
-import Link from 'next/link';
-import { SubdomainForm } from '../subdomain-form';
-import { rootDomain } from '@/lib/utils';
-import { DatePicker } from 'antd';
-
+import Banner from '@/components/essential/Banner';
+import ChooseUs from '@/components/essential/ChooseUs';
+import Counter from '@/components/essential/Counter';
+import ItServices from '@/components/essential/Itservices';
+import Organization from '@/components/essential/Organization';
+import OrganizationProvide from '@/components/essential/OrganizationProvide';
+import Partners from '@/components/essential/Partners';
+import Pricing from '@/components/essential/Pricing';
+import Services from '@/components/essential/Services';
+import { getApiData } from '@/lib';
+import {
+	iItServicesType,
+	iOrgOneType,
+	iOrgTwoType,
+	iPartnersType,
+	iServicesType,
+	iSettingsType,
+	iSubscriptionsType,
+} from '@/types';
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+export const metadata: Metadata = {
+	title: 'SOS | Home',
+	description: 'SOS Management',
+};
 export default async function HomePage() {
+	const settings = await getApiData<iSettingsType>('/settings');
+	const services = await getApiData<iServicesType>('/services');
+	const orgOne = await getApiData<iOrgOneType>('/org-one');
+	const orgTwo = await getApiData<iOrgTwoType>('/org-two');
+	const itService = await getApiData<iItServicesType>('/it-services');
+	const partners = await getApiData<iPartnersType>('/partners');
+	const subscriptions = await getApiData<iSubscriptionsType>('/subscriptions');
+
+	if (settings?.status !== 200 || services?.status !== 200) {
+		return notFound();
+	}
 	return (
-		<div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-blue-50 to-white p-4 relative">
-			<div className="absolute top-4 right-4">
-				<Link
-					href="/admin"
-					className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
-				>
-					Admin
-				</Link>
-			</div>
-			<DatePicker />
+		<>
+			{settings?.status === 200 && <Banner settings={settings} />}
+			{services?.status === 200 && settings?.status !== 200 && (
+				<Services settingsData={settings} getServiceData={services} />
+			)}
+			{orgOne?.status === 200 && (
+				<Organization settingsData={settings} getOrgOneData={orgOne} />
+			)}
+			{settings?.status === 200 && <Counter settings={settings} />}
+			{settings?.status === 200 && itService?.status === 200 && (
+				<ItServices settings={settings} itServices={itService} />
+			)}
+			{settings?.status === 200 && orgTwo?.status === 200 && (
+				<OrganizationProvide settings={settings} getOrTwoData={orgTwo} />
+			)}
+			{settings?.status === 200 && orgTwo?.status === 200 && (
+				<ChooseUs settings={settings} />
+			)}
+			{settings?.status === 200 && partners?.status === 200 && (
+				<Partners settings={settings} partners={partners} />
+			)}
 
-			<div className="w-full max-w-md space-y-8">
-				<div className="text-center">
-					<h1 className="text-4xl font-bold tracking-tight text-gray-900">
-						{rootDomain}
-					</h1>
-					<p className="mt-3 text-lg text-gray-600">
-						Create your own subdomain with a custom emoji
-					</p>
+			{subscriptions?.status === 200 && (
+				<div className="pt-20">
+					<Pricing subscriptions={subscriptions} />
 				</div>
-
-				<div className="mt-8 bg-white shadow-md rounded-lg p-6">
-					<SubdomainForm />
-				</div>
-			</div>
-		</div>
+			)}
+		</>
 	);
 }

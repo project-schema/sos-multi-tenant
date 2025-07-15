@@ -1,0 +1,118 @@
+.keyMembersSection {
+  padding: 120px 0;
+  position: relative;
+  z-index: 1;
+}
+.keyMembersSection::before {
+  content: "";
+  position: absolute;
+  background-image: url(../../../../../public/images/members-sideImg.png);
+  background-repeat: no-repeat;
+  width: 158px;
+  height: 819px;
+  top: 40px;
+  left: 0;
+  z-index: -1;
+}
+.memberTopHeader {
+  color: #1a77f2;
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+.memberHeader {
+  color: #1d1d1d;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 34px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 40.8px */
+  text-transform: uppercase;
+}
+.keyMembers {
+  padding-top: 59px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.memberImage {
+  border-radius: 10px;
+  width: 100%;
+}
+.memberContent {
+  display: flex;
+  justify-content: center;
+}
+.singleMemberName {
+  color: #1d1d1d;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  margin-top: 15px;
+  line-height: 100%; /* 18px */
+  text-align: center;
+}
+.singleMemberTitle {
+  color: #969696;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%; /* 14px */
+  margin: 15px 0 20px 0;
+  text-align: center;
+}
+.socialMedia {
+  display: flex;
+  gap: 20px;
+}
+.socialIcon {
+  border-radius: 100px;
+  background: #f2f4f7;
+  display: flex;
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  color: #969696;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.socialIcon:hover {
+  background: #1a77f2;
+  color: #fafafa;
+}
+
+@media screen and (max-width: 992px) {
+  .keyMembersSection {
+    padding: 80px 0;
+  }
+  .keyMembers {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .keyMembersSection {
+    padding: 30px 0;
+  }
+  .memberHeader {
+    font-size: 18px;
+  }
+  .memberTopHeader {
+    margin: 0 0 10px 0;
+  }
+  .keyMembers {
+    padding-top: 20px;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

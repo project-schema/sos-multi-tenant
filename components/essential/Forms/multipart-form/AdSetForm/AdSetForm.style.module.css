@@ -1,0 +1,272 @@
+.headingAdSet {
+	color: #1d1d1d;
+	font-family: Inter;
+	font-size: 30px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	text-align: center;
+	padding: 60px 0;
+}
+.adSetSectin {
+	max-width: 647px;
+	margin: 0 auto;
+	display: none;
+}
+.adSetSectin.active {
+	display: block;
+}
+.adSet {
+	padding: 30px 55px;
+	border-radius: 10px;
+	background: #fff;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 30px;
+	margin-bottom: 30px;
+}
+
+.adSetFlexColumn {
+	width: 100%;
+}
+.adSetTopHeader {
+	color: var(--b, #1d1d1d);
+	font-family: Inter;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+}
+.inputFieldText {
+	border-radius: 10px;
+	border: 0.5px solid var(--paragraph-on-primary, #969696);
+	background: #fff;
+	display: flex;
+	width: 100%;
+	padding: 14px var(--gap-padding-m, 24px);
+	align-items: center;
+	gap: 10px;
+	margin-top: 15px;
+	color: black;
+	height: 45px;
+}
+.inputFieldText:focus {
+	border: 0.5px solid var(--paragraph-on-primary, #969696);
+}
+.inputFieldText::placeholder {
+	color: var(--paragraph-on-primary, #969696);
+	font-family: Inter;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+.selectField {
+	display: flex;
+	width: 100%;
+	height: 45px;
+	padding: 0px 24px;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 10px;
+	border: 0.5px solid var(--paragraph-on-primary, #969696);
+	background: #fff;
+	margin-top: 15px;
+}
+.selectOption {
+	color: var(--paragraph-on-primary, #969696);
+	font-family: Inter;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+.adSetHeader {
+	color: var(--b, #1d1d1d);
+	font-family: Inter;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	margin-bottom: 30px;
+}
+.adSetLabel {
+	color: #6a6a6a;
+	font-family: Inter;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+.adSetTextarea {
+	border-radius: 10px;
+	border: 0.5px solid var(--paragraph-on-primary, #969696);
+	background: #fff;
+	display: flex;
+	width: 100%;
+	height: 60px;
+	padding: 14px var(--gap-padding-m, 24px);
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 15px;
+}
+.adSetFiles {
+	border-radius: 5px;
+	border: 0.5px dashed var(--paragraph-on-primary, #969696);
+	background: var(--w, #fafafa);
+	display: flex;
+	width: 100%;
+	height: 120px;
+	padding: 10px 20px;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	margin-top: 15px;
+}
+.addSetOptions {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 20px;
+}
+.adSetButton {
+	border-radius: 5px;
+	background: var(
+		--btn,
+		linear-gradient(234deg, #1a77f2 21.61%, rgba(0, 79, 184, 0.76) 95.22%)
+	);
+	display: flex;
+	width: 100%;
+	padding: 14px 32px;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	margin-top: 60px;
+	transition: 0.3s;
+	margin-bottom: 120px;
+}
+.adSetButton:hover {
+	opacity: 80%;
+}
+.adSetButtonText {
+	color: var(--w, #fafafa);
+	text-align: center;
+	font-family: Poppins;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	text-transform: uppercase;
+}
+.addSetIcon {
+	color: #fafafa;
+	height: 20px;
+	width: 20px;
+}
+.adSetImgUploadBox {
+	border-radius: 5px;
+	border: 0.5px dashed var(--paragraph-on-primary, #969696);
+	background: var(--w, #fafafa);
+	display: flex;
+	width: 100%;
+	height: 120px;
+	padding: 10px 20px;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	margin-top: 15px;
+	position: relative;
+}
+.adSetInputFileField {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	width: 100%;
+	height: 120px;
+	padding: 10px 20px;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	cursor: pointer;
+	opacity: 0;
+}
+.adSetImgUpload {
+	display: flex;
+	gap: 10px;
+	color: var(--b, #1d1d1d);
+	font-family: Inter;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+.adSetImgUploadIcon {
+	color: #1d1d1d;
+	width: 22px;
+	height: 22px;
+}
+.adSetImgUploadLimit {
+	color: var(--paragraph-on-primary, #969696);
+	font-family: Inter;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	display: block;
+}
+.adSetImgUploadSpan {
+	color: var(--paragraph-on-primary, #969696);
+	font-family: Inter;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+.view_url {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+@media screen and (max-width: 767px) {
+	.addSetOptions {
+		grid-template-columns: repeat(1, 1fr);
+	}
+	.adSetSectin {
+		padding: 0 10px;
+	}
+}
+
+@media screen and (max-width: 576px) {
+	.adSetHeader {
+		margin-bottom: 20px;
+	}
+	.adSet {
+		padding: 20px;
+		margin-bottom: 15px;
+		gap: 15px;
+	}
+	.adSetButton {
+		margin-top: 20px;
+	}
+}
+@media screen and (max-width: 414px) {
+	.adSet {
+		padding: 10px;
+	}
+	.adSetHeader {
+		margin-bottom: 10px;
+	}
+	.inputFieldText,
+	.selectField,
+	.adSetTextarea {
+		margin-top: 10px;
+	}
+	.adSetButton {
+		margin-top: 15px;
+	}
+}

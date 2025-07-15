@@ -1,0 +1,162 @@
+.loginBg {
+    background: url('../../../../public/images/loginBg.png');
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 200px;
+}
+
+
+.loginFormBox {
+    width: 872px;
+    height: 768px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    margin-bottom: 188px;
+    margin-top: 100px;
+    box-shadow: 0px 10px 25px 0px rgba(0, 0, 0, 0.05);
+
+}
+
+.LoginImg {
+    width: 333px;
+    margin-top: 24px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.loginFromHeading {
+    color: #1D1D1D;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 34px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 20px;
+}
+
+.loignTabBox {
+    width: 50%;
+    margin-top: 20px;
+}
+
+.loginP {
+    color: #1D1D1D;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 15px;
+}
+
+.loginLabel {
+    color: #3A3A3A;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.loginInput {
+    padding: 15px 20px;
+    width: 100%;
+    background: #FAFAFA;
+    color: #1D1D1D;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    border: 1px solid #1A77F2;
+    margin-top: 15px;
+    margin-bottom: 24px;
+    border-radius: 10px;
+}
+
+.loginRadio{
+    display: flex;
+}
+.loginRadio p{
+    margin-left: 10px;
+}
+.loginReFor{
+    display: flex;
+    justify-content: space-between;
+}
+
+.forgatPassword{
+    color: #0086FF;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-decoration-line: underline;
+}
+
+.loginBtn{
+    width: 100%;
+    color: #FFF;
+    background: #1A77F2;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-top: 40px;
+    border: none;
+    outline: 0;
+    padding: 14px 0px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+
+.goRegister{
+    text-align: center;
+    margin-top: 30px;
+}
+.loginGoRLink{
+    color:  #1A77F2;
+    font-family: Poppins;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-decoration-line: underline;
+}
+
+.userItemsBox{
+    border-radius: 5px;
+    background:#041438;
+    width: 348px;
+    padding: 10px;
+    margin-bottom: 40px;
+}
+
+.userItems:hover{
+    background: #0086FF;
+}
+.userItems{
+    color: #fff;
+    padding: 6px 31px;
+    border-radius: 5px;
+}
+
+
+
+
+@media screen and (max-width: 915px) {
+    .loginFormBox{
+        width: 100% !important;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+

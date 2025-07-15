@@ -1,0 +1,55 @@
+.adSetFlexColumn {
+	width: 100%;
+}
+.adSetTopHeader {
+	color: var(--b, #1d1d1d);
+	font-family: Inter;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+}
+.selectOption {
+	color: var(--paragraph-on-primary, #969696);
+	font-family: Inter;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+.selectField {
+	display: flex;
+	width: 100%;
+	height: 45px;
+	padding: 0px 24px;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 10px;
+	border: 0.5px solid var(--paragraph-on-primary, #969696);
+	background: #fff;
+	margin-top: 15px;
+}
+.adSetLabel {
+	color: #6a6a6a;
+	font-family: Inter;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+@media screen and (max-width: 414px) {
+	.adSet {
+		padding: 10px;
+	}
+	.adSetHeader {
+		margin-bottom: 10px;
+	}
+	.inputFieldText,
+	.selectField,
+	.adSetTextarea {
+		margin-top: 10px;
+	}
+	.adSetButton {
+		margin-top: 15px;
+	}
+}

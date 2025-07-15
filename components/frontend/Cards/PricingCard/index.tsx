@@ -1,19 +1,13 @@
-import { ICON, shape } from '@/lib/img';
+'use client';
 import style from './PricingCard.module.css';
 import Image from 'next/image';
-import { USER } from '@/all-api/auth-headers';
-import { useRouter } from 'next/router';
-import ExtraFeature from './extra-fiture';
-import axios from 'axios';
-import { alertError, alertSuccess, popUpAlert } from '../../alert';
-import { PricingLoader } from '../../Loader';
+import { RxCross2 } from 'react-icons/rx';
+import shape from './card-active-bg-shape.svg';
 import { motion } from 'framer-motion';
-import { BASE_URL, DASHBOARD_URL } from '@/lib/env';
+import { BsCheckLg } from 'react-icons/bs';
 
 function PricingCard({ data, user, i }: any) {
-	const { token } = USER();
-	const router = useRouter();
-
+	/*
 	const hanldeSubscription = async (id: number, amount: string) => {
 		const cb = async () => {
 			try {
@@ -51,6 +45,7 @@ function PricingCard({ data, user, i }: any) {
 		};
 		popUpAlert('Membership', 'Are You Sure?', 'warning', cb);
 	};
+	*/
 
 	return (
 		<motion.div
@@ -70,7 +65,7 @@ function PricingCard({ data, user, i }: any) {
 				<span className={style.popular}>MOST POPULAR</span>
 			)}
 			{data.suggest === '1' && (
-				<Image alt="shape" src={shape.Q} className={style.qShape} />
+				<Image alt="shape" src={shape} className={style.qShape} />
 			)}
 
 			<div>
@@ -102,13 +97,13 @@ function PricingCard({ data, user, i }: any) {
 				{data.card_facilities_title.map((e: any) => (
 					<div key={e.id} className={style.items}>
 						{e.key === 'yes' ? (
-							<ICON.checkBox
+							<BsCheckLg
 								className={`${style.features_ico} ${
 									e.key === 'yes' && style.active
 								}`}
 							/>
 						) : (
-							<ICON.x
+							<RxCross2
 								className={`${style.features_ico} ${
 									e.key === 'yes' && style.active
 								}`}
@@ -126,7 +121,7 @@ function PricingCard({ data, user, i }: any) {
 			</div>
 
 			<button
-				onClick={() => hanldeSubscription(data?.id, data?.subscription_amount)}
+				// onClick={() => hanldeSubscription(data?.id, data?.subscription_amount)}
 				className={`${style.buyNow} ${data.suggest && 'mb-5'}`}
 			>
 				{data?.subscription_amount === '0' ? 'Get Free' : 'Buy Now'}

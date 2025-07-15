@@ -5,8 +5,6 @@ export const env = {
 	next_auth_url: process.env.NEXTAUTH_URL,
 };
 
-import { NextRouter } from 'next/router';
-
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
 
 export const DASHBOARD_URL =
@@ -19,11 +17,7 @@ export const DOMAIN_URL =
 		? process.env.NEXT_PUBLIC_DOMAIN_URL
 		: 'localhost';
 
-export const PROFILE_PAGE = (
-	role: string,
-	subscription: any,
-	router: NextRouter
-) => {
+export const PROFILE_PAGE = (role: string, subscription: any, router: any) => {
 	switch (role) {
 		case '1':
 			return (window.location.href = DASHBOARD_URL + `/admin/profile`);

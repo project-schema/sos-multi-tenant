@@ -1,28 +1,21 @@
 import Image from 'next/image';
 import style from './footer-center.module.css';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { BASE_URL } from '@/lib/env';
-function FooterCenter({ settingsData }: any) {
-	const [mediaLink, setMediaLink] = useState([]);
-	const data = settingsData?.message;
-	const imgUrl = BASE_URL;
+import { env, getApiData } from '@/lib';
+import { iFooterMedia, iSettingsType } from '@/types';
+import { notFound } from 'next/navigation';
+async function FooterCenter() {
+	const settings = await getApiData<iSettingsType>('/settings');
+	const mediaLink = await getApiData<iFooterMedia>('/footer-medias');
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const response = await fetch(BASE_URL + '/api/footer-medias');
-				const data = await response?.json();
-				setMediaLink(data?.message);
-			} catch (err) {}
-		};
-		fetchData();
-	}, []);
+	if (settings?.status !== 200 || mediaLink?.status !== 200) {
+		return notFound();
+	}
 
 	return (
 		<div className={style.footerCenter}>
 			<div className={style.companyInfo}>
-				{data?.footer_image && (
+				{settings.message?.logo && (
 					<Link href="/">
 						<Image
 							className={style.companyLogo}
@@ -31,14 +24,16 @@ function FooterCenter({ settingsData }: any) {
 							height={60}
 							loading="eager"
 							// src={`${imgUrl}/${data?.footer_image}`}
-							src={`${imgUrl}/${data?.logo}`}
+							src={`${env.baseAPI}/${settings.message?.logo}`}
 							// src={data?.logo ? `${imgUrl}/${data?.logo}` : logo}
 						/>
 					</Link>
 				)}
-				<p className={style.infoSubTitle}>{data?.footer_description}</p>
+				<p className={style.infoSubTitle}>
+					{settings.message?.footer_description}
+				</p>
 				<div className={style.socialLinks}>
-					{mediaLink?.map((data: any, i) => (
+					{mediaLink?.message?.map((data: any, i) => (
 						<div key={i}>
 							<a href={data?.media_link} target="_black">
 								{/* <IconPickerItem
@@ -95,11 +90,15 @@ function FooterCenter({ settingsData }: any) {
 				<h5 className={style.center__head}>Contact</h5>
 				<div className={style.contactInfoBox}>
 					{/* <Image alt="map" src={ICON.map} /> */}
-					<p className={style.con_info_txt}>{data?.footer_contact_address}</p>
+					<p className={style.con_info_txt}>
+						{settings.message?.footer_contact_address}
+					</p>
 				</div>
 				<div className={style.contactInfoBox}>
 					{/* <Image alt="map" src={ICON.call} /> */}
-					<p className={style.con_info_txt}>{data?.footer_contact_address}</p>
+					<p className={style.con_info_txt}>
+						{settings.message?.footer_contact_address}
+					</p>
 				</div>
 			</div>
 		</div>
