@@ -1,9 +1,8 @@
-import { FaFacebookF, FaInstagram, FaPhone, FaTwitter } from 'react-icons/fa';
+import { FaPhone } from 'react-icons/fa';
 import style from './Contact.style.module.css';
 import { HiLocationMarker, HiMail } from 'react-icons/hi';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { IconPickerItem } from 'react-fa-icon-picker';
 import { BASE_URL } from '@/lib/env';
 
 const ContactContent = ({ data }: any) => {
@@ -109,12 +108,12 @@ const ContactContent = ({ data }: any) => {
 				{mediaLink?.map((data: any, i) => (
 					<div key={i}>
 						<a href={data?.media_link} target="_black">
-							<IconPickerItem
+							{/* <IconPickerItem
 								icon={data?.icon_class}
 								size={30}
 								color="#fafafa"
 								className={style.socialIcon}
-							/>
+							/> */}
 						</a>
 					</div>
 				))}

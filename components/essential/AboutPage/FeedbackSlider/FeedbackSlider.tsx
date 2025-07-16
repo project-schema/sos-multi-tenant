@@ -9,9 +9,7 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import Rating from './Rating';
 import { BASE_URL } from '@/lib/env';
 import { useEffect, useState } from 'react';
-import { fetchData } from '@/components/actions/action';
 import { motion } from 'framer-motion';
-import { GridLoader } from '@/components/ui/Loader';
 
 const FeedbackSlider = ({ getSettingsData }: any) => {
 	const settingData = getSettingsData.message;

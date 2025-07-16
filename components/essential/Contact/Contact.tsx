@@ -1,16 +1,15 @@
+'use client';
+
 import style from './Contact.style.module.css';
 import { useReducer, useState } from 'react';
-import {
-	reducer,
-	initialState,
-} from '@/components/reducer-actions/contact-action';
-import Loader from '@/components/ui/Loader/Loader';
-import { alertSuccess } from '@/components/ui/alert';
+import { reducer, initialState } from './contact-action';
 import ContactContent from './ContactContent';
 import { motion } from 'framer-motion';
 import { BASE_URL } from '@/lib/env';
+import Loader from '@/components/frontend/Loader/Loader';
+import { iContactType } from '@/types';
 
-const Contact = ({ data }: any) => {
+const Contact = ({ data }: { data: iContactType }) => {
 	const [loading, setLoading] = useState(false);
 
 	const [state, dispatch] = useReducer(reducer, initialState);
@@ -47,7 +46,7 @@ const Contact = ({ data }: any) => {
 			return;
 		}
 		if (data?.status === 200) {
-			alertSuccess('Yes!', data?.message);
+			// alertSuccess('Yes!', data?.message);
 			form.reset();
 			setLoading(false);
 		}

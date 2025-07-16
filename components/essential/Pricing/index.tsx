@@ -12,14 +12,12 @@ function Pricing({
 	subscriptions,
 }: {
 	user?: any;
-	subscriptions?: iSubscriptionsType;
+	subscriptions: iSubscriptionsType;
 }) {
 	const { data: session } = useSession();
 	const role = session?.user.role;
 	const [toggle, setToggle] = useState(role === '3' ? 'affiliate' : 'vendor');
 	const [time, setTime] = useState('monthly');
-
-	console.log(subscriptions);
 
 	return (
 		<section className={`${style.pricingMain} !mt-0`}>

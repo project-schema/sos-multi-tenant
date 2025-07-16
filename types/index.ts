@@ -6,3 +6,7 @@ export * from './subscriptions.type';
 export * from './org-two.type';
 export * from './it-service.type';
 export * from './footer-medias.type';
+export * from './missions.type';
+export * from './members.type';
+export * from './contact-page-data.type';
+export * from './faqs.type';

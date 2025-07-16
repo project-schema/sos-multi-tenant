@@ -1,11 +1,13 @@
-import BtnLink from '@/components/ui/BtnLink';
+'use client';
 import Style from './AdvertiseBanner.style.module.css';
 import Image from 'next/image';
-import { BASE_URL } from '@/lib/env';
 import { motion } from 'framer-motion';
+import { iSettingsType } from '@/types';
+import BtnLink from '@/components/frontend/BtnLink';
+import { env } from '@/lib';
 
-function AdvertiseBanner({ getSettingData }: any) {
-	const data = getSettingData?.message;
+function AdvertiseBanner({ settings }: { settings: iSettingsType }) {
+	const data = settings?.message;
 
 	return (
 		<section className={Style.banner}>
@@ -68,7 +70,7 @@ function AdvertiseBanner({ getSettingData }: any) {
 					>
 						{data?.advertise_banner_image && (
 							<Image
-								src={`${BASE_URL}/${data?.advertise_banner_image}`}
+								src={`${env.baseAPI}/${data?.advertise_banner_image}`}
 								alt="BannerImg"
 								className={Style.bannerImg}
 								width={648}

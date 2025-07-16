@@ -1,5 +1,5 @@
 .banner {
-	background: url(../../../../../public/images/servicesBackground.png);
+	background: url('./servicesBackground.png');
 	background-position: top center;
 	background-repeat: no-repeat;
 	padding-top: 100px;

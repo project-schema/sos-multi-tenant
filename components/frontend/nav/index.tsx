@@ -1,4 +1,5 @@
 'use client';
+
 import style from './nav-style.module.css';
 import DesktopNav from './desktop-nav/DesktopNav';
 import MobileNav from './mobile-nav/MobileNav';
@@ -97,10 +98,10 @@ function Nav({ settings }: { settings: iSettingsType }) {
 							</div>
 						) : (
 							<>
-								<Link href={'/login'} className={style.login}>
+								<Link href={'/auth'} className={style.login}>
 									Login
 								</Link>
-								<BtnLink text="Register" path="/register" />
+								<BtnLink text="Register" path="/auth" />
 							</>
 						)}
 					</div>

@@ -1,119 +1,96 @@
-import { BASE_URL } from '@/lib/env';
+'use client';
+
+import { env } from '@/lib/env';
 import style from './OurMission.style.module.css';
 import Image from 'next/image';
-import { IconPickerItem } from 'react-fa-icon-picker';
-import { useEffect, useState } from 'react';
-import { fetchData } from '@/components/actions/action';
-import { ImageList } from '@/components/ui/Loader';
 import { motion } from 'framer-motion';
+import { iMissionsType, iSettingsType } from '@/types';
 
-const OurMission = ({ getSettingsData }: any) => {
-	const data = getSettingsData.message;
-	const [getMissionData, setGetMissionData] = useState<any>(null);
-	const [loading, setLoading] = useState(false);
+const OurMission = ({
+	missions,
+	settings,
+}: {
+	missions: iMissionsType;
+	settings: iSettingsType;
+}) => {
+	const data = settings.message;
+	const ourMissions = missions?.message;
 
-	useEffect(() => {
-		setLoading(true);
-
-		const getData = async () => {
-			const res = await fetchData('/api/missions');
-			setGetMissionData(res);
-			setLoading(false);
-		};
-		getData();
-	}, []);
-	const ourMissions = getMissionData?.message;
+	// Reusable animation variants
+	const fadeIn = (delay = 0.2) => ({
+		hidden: { opacity: 0 },
+		show: {
+			opacity: 1,
+			transition: { duration: 0.5, delay },
+		},
+	});
 
 	return (
 		<section className={style.ourMission}>
 			<div className="layout">
 				<div className={style.mission}>
 					<motion.div
-						initial={{ opacity: 0 }}
-						whileInView={{
-							opacity: 1,
-							transition: {
-								duration: 0.5,
-								delay: 0.2,
-							},
-						}}
+						variants={fadeIn(0.2)}
+						initial="hidden"
+						whileInView="show"
+						viewport={{ once: true }}
 						className={style.leftImg}
 					>
 						<Image
-							src={`${BASE_URL}/${data.mission_image}`}
-							alt="Missin Image"
+							src={`${env.baseAPI}/${data.mission_image}`}
+							alt="Mission Image"
 							width={530}
 							height={500}
 						/>
 					</motion.div>
+
 					<div className={style.rightContent}>
 						<motion.h4
-							initial={{ opacity: 0 }}
-							whileInView={{
-								opacity: 1,
-								transition: {
-									duration: 0.5,
-									delay: 0.2,
-								},
-							}}
+							variants={fadeIn(0.2)}
+							initial="hidden"
+							whileInView="show"
+							viewport={{ once: true }}
 							className={style.missionTopHeader}
 						>
 							{data.mission_title}
 						</motion.h4>
+
 						<motion.h1
-							initial={{ opacity: 0 }}
-							whileInView={{
-								opacity: 1,
-								transition: {
-									duration: 0.5,
-									delay: 0.25,
-								},
-							}}
+							variants={fadeIn(0.25)}
+							initial="hidden"
+							whileInView="show"
+							viewport={{ once: true }}
 							className={style.missionHeader}
 						>
 							{data.mission_heading}
 						</motion.h1>
+
 						<motion.p
-							initial={{ opacity: 0 }}
-							whileInView={{
-								opacity: 1,
-								transition: {
-									duration: 0.5,
-									delay: 0.3,
-								},
-							}}
+							variants={fadeIn(0.3)}
+							initial="hidden"
+							whileInView="show"
+							viewport={{ once: true }}
 							className={style.missionParagraph}
 						>
 							{data.mission_description}
 						</motion.p>
+
 						<div className={style.missionFooter}>
-							{loading ? (
-								<ImageList />
-							) : (
-								ourMissions?.map((singleData: any, i: number) => (
-									<motion.div
-										initial={{ opacity: 0 }}
-										whileInView={{
-											opacity: 1,
-											transition: {
-												duration: 0.5,
-												delay: i * 0.1,
-											},
-										}}
-										className={style.missionFooterContent}
-										key={singleData?.id}
-									>
-										<IconPickerItem
-											icon={singleData?.icon_class}
-											size={28}
-											color="#1A77F2"
-										/>
-										<span className={style.footerContent}>
-											{singleData.title}
-										</span>
-									</motion.div>
-								))
-							)}
+							{ourMissions?.map((singleData: any, i: number) => (
+								<motion.div
+									key={singleData?.id}
+									variants={fadeIn(0.35 + i * 0.1)}
+									initial="hidden"
+									whileInView="show"
+									viewport={{ once: true }}
+									className={style.missionFooterContent}
+								>
+									{/* Optional Icon here */}
+									<span className={style.footerContent}>
+										{singleData.title}
+									</span>
+								</motion.div>
+							))}
 						</div>
 					</div>
 				</div>

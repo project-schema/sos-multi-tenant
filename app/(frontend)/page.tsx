@@ -32,7 +32,7 @@ export default async function HomePage() {
 	const partners = await getApiData<iPartnersType>('/partners');
 	const subscriptions = await getApiData<iSubscriptionsType>('/subscriptions');
 
-	if (settings?.status !== 200 || services?.status !== 200) {
+	if (settings?.status !== 200) {
 		return notFound();
 	}
 	return (
