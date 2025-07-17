@@ -1,12 +1,13 @@
 'use client';
 
 import style from './pricing.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { motion } from 'framer-motion';
 import Radio from '@/components/frontend/Input/Radio';
 import PricingCard from '@/components/frontend/Cards/PricingCard';
 import { iSubscriptionsType } from '@/types';
+import { usePathname, useSearchParams } from 'next/navigation';
 function Pricing({
 	user,
 	subscriptions,
@@ -15,9 +16,26 @@ function Pricing({
 	subscriptions: iSubscriptionsType;
 }) {
 	const { data: session } = useSession();
+	const pathName = usePathname();
+	console.log(pathName);
+	const searchParams = useSearchParams().get('from');
+	console.log(searchParams);
 	const role = session?.user.role;
 	const [toggle, setToggle] = useState(role === '3' ? 'affiliate' : 'vendor');
 	const [time, setTime] = useState('monthly');
+
+	useEffect(() => {
+		/*
+		   For User Switch To Vendor Or Affiliate
+		   get from url and searchparams and set toggle 
+		*/
+		if (
+			pathName === '/user/switch' &&
+			(searchParams === 'vendor' || searchParams === 'affiliate')
+		) {
+			setToggle(searchParams === 'vendor' ? 'vendor' : 'affiliate');
+		}
+	}, [searchParams, pathName]);
 
 	return (
 		<section className={`${style.pricingMain} !mt-0`}>

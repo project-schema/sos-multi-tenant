@@ -31,7 +31,7 @@
 }
 
 .label {
-	color: var(--paragraph-on-primary, #969696);
+	color: #969696;
 	text-align: center;
 	font-family: Poppins;
 	font-size: 16px;
@@ -40,7 +40,7 @@
 	line-height: normal;
 }
 .label.active {
-	color: var(--secondary, #041438);
+	color: #041438;
 	text-align: center;
 	font-family: Poppins;
 	font-size: 16px;

@@ -27,13 +27,11 @@ export const RootProviders = ({ children }: { children: React.ReactNode }) => {
 	const contextValue = useMemo(() => ({ name: 'Ant Design' }), []);
 
 	return (
-		<ThemeProvider attribute="class">
-				<Context.Provider value={contextValue}>
-					<SessionProvider>
-						<Provider store={storeRef.current}>{children}</Provider>
-					</SessionProvider>
-				</Context.Provider>
-		</ThemeProvider>
+		<Context.Provider value={contextValue}>
+			<SessionProvider>
+				<Provider store={storeRef.current}>{children}</Provider>
+			</SessionProvider>
+		</Context.Provider>
 	);
 };
 

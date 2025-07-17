@@ -7,6 +7,9 @@ import { motion } from 'framer-motion';
 import { BsCheckLg } from 'react-icons/bs';
 
 function PricingCard({ data, user, i }: any) {
+	const handleSwith = () => {
+		console.log('fire');
+	};
 	/*
 	const hanldeSubscription = async (id: number, amount: string) => {
 		const cb = async () => {
@@ -122,6 +125,7 @@ function PricingCard({ data, user, i }: any) {
 
 			<button
 				// onClick={() => hanldeSubscription(data?.id, data?.subscription_amount)}
+				onClick={handleSwith}
 				className={`${style.buyNow} ${data.suggest && 'mb-5'}`}
 			>
 				{data?.subscription_amount === '0' ? 'Get Free' : 'Buy Now'}

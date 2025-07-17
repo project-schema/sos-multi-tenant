@@ -17,6 +17,7 @@ function Radio({
 		<div
 			onClick={() => setTime(txt)}
 			// className={route === '/register' ? style.RadioBoxLogin : style.RadioBox}
+			className={style.RadioBox}
 		>
 			<span className={`${style.radio} ${txt === time && style.active}`}></span>
 			<span className={`${style.label} ${txt === time && style.active}`}>
