@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronRight, type LucideIcon } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 import {
 	Collapsible,
@@ -18,8 +18,8 @@ import {
 	SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
-import { sidebarItem } from './app-sidebar';
 import { useRouter } from 'next/navigation';
+import { sidebarItem } from './sidebar.type';
 
 export function NavMain({
 	items,
@@ -34,6 +34,10 @@ export function NavMain({
 			router.push(item.url);
 		}
 	};
+
+	if (!items || items.length === 0) {
+		return null;
+	}
 	return (
 		<SidebarGroup>
 			<SidebarGroupLabel>{groupLabel}</SidebarGroupLabel>

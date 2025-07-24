@@ -1,10 +1,11 @@
-import DBHeader from '@/components/dashboard/header/header';
+import { DbHeader } from '@/components/dashboard';
 import { UserSwitchCard } from '@/store/features/user-switch';
+const breadcrumbItems = [{ name: 'Dashboard' }];
 
 export default function Page() {
 	return (
 		<div>
-			<DBHeader page="User" subPage="Dashboard" />
+			<DbHeader breadcrumb={breadcrumbItems} />
 			<UserSwitchCard />
 		</div>
 	);

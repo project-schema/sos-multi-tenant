@@ -3,6 +3,7 @@ export const env = {
 	development: process.env.NODE_ENV === 'development',
 	baseAPI: process.env.NEXT_PUBLIC_BACKEND_API as string,
 	next_auth_url: process.env.NEXTAUTH_URL,
+	token: process.env.NEXT_PUBLIC_TOKEN,
 };
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;

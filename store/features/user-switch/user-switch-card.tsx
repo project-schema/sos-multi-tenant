@@ -1,3 +1,5 @@
+'use client';
+
 import { Briefcase, Truck } from 'lucide-react';
 import {
 	Card,

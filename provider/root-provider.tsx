@@ -1,12 +1,12 @@
 'use client';
-
+import '@ant-design/v5-patch-for-react-19';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { SessionProvider } from 'next-auth/react';
 
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Provider } from 'react-redux';
-import { ThemeProvider } from './theme-provider';
 import { AppStore, makeStore } from '@/store';
+import { Toaster } from 'sonner';
 export const RootProviders = ({ children }: { children: React.ReactNode }) => {
 	const storeRef = useRef<AppStore | null>(null);
 
@@ -29,6 +29,7 @@ export const RootProviders = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<Context.Provider value={contextValue}>
 			<SessionProvider>
+				<Toaster richColors position="top-right" />
 				<Provider store={storeRef.current}>{children}</Provider>
 			</SessionProvider>
 		</Context.Provider>

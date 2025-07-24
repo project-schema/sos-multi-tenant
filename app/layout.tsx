@@ -1,7 +1,7 @@
+import { RootProviders } from '@/provider';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import './globals.css';
-import { RootProviders } from '@/provider';
 
 const poppins = Poppins({
 	variable: '--font-geist-mono',

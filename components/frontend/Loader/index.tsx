@@ -1,3 +1,1 @@
-export * from './skeleton-loader';
-export * from './cycle-loader';
-export * from './simple-loader';
+export * from './loader-1';

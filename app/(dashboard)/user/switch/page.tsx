@@ -4,7 +4,11 @@ import Pricing from '@/components/essential/Pricing';
 import { getApiData } from '@/lib';
 import { iSubscriptionsType } from '@/types';
 import { notFound } from 'next/navigation';
-import DbHeader from '@/components/dashboard/header/header';
+import { DbHeader } from '@/components/dashboard';
+const breadcrumbItems = [
+	{ name: 'Dashboard', path: '/user' },
+	{ name: 'Pricing' },
+];
 
 export const metadata: Metadata = {
 	title: 'Pricing - SOS',
@@ -18,7 +22,7 @@ export default async function Page() {
 	}
 	return (
 		<div className="user-db-pricing">
-			<DbHeader page="User" subPage="Pricing" />
+			<DbHeader breadcrumb={breadcrumbItems} />
 			<Pricing subscriptions={subscriptions} />
 		</div>
 	);

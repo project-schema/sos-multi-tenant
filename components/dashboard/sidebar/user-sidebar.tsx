@@ -1,12 +1,14 @@
 'use client';
-import { AppSidebar } from './app-sidebar';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import { AppSidebarForUser } from './app-sidebar-for-user';
 
 export function UserSidebar({ children }: { children: React.ReactNode }) {
 	return (
-		<SidebarProvider className="sdfsdf">
-			<AppSidebar />
-			<SidebarInset className="pt-20">{children}</SidebarInset>
+		<SidebarProvider>
+			<AppSidebarForUser />
+			<SidebarInset className="pt-20 overflow-x-hidden">
+				{children}
+			</SidebarInset>
 		</SidebarProvider>
 	);
 }

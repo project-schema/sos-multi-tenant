@@ -24,17 +24,28 @@ export const metadata: Metadata = {
 	description: 'SOS Management',
 };
 export default async function HomePage() {
-	const settings = await getApiData<iSettingsType>('/settings');
-	const services = await getApiData<iServicesType>('/services');
-	const orgOne = await getApiData<iOrgOneType>('/org-one');
-	const orgTwo = await getApiData<iOrgTwoType>('/org-two');
-	const itService = await getApiData<iItServicesType>('/it-services');
-	const partners = await getApiData<iPartnersType>('/partners');
-	const subscriptions = await getApiData<iSubscriptionsType>('/subscriptions');
+	const [
+		settings,
+		services,
+		orgOne,
+		orgTwo,
+		itService,
+		partners,
+		subscriptions,
+	] = await Promise.all([
+		getApiData<iSettingsType>('/settings'),
+		getApiData<iServicesType>('/services'),
+		getApiData<iOrgOneType>('/org-one'),
+		getApiData<iOrgTwoType>('/org-two'),
+		getApiData<iItServicesType>('/it-services'),
+		getApiData<iPartnersType>('/partners'),
+		getApiData<iSubscriptionsType>('/subscriptions'),
+	]);
 
 	if (settings?.status !== 200) {
 		return notFound();
 	}
+
 	return (
 		<>
 			{settings?.status === 200 && <Banner settings={settings} />}
