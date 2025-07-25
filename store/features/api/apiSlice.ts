@@ -15,6 +15,6 @@ export const apiSlice = createApi({
 	endpoints: () => ({}),
 	refetchOnReconnect: true,
 	refetchOnFocus: true,
-	tagTypes: ['UserProfile', 'AdminUserStatistics'],
+	tagTypes: ['UserProfile', 'AdminUserStatistics', 'AdminAllUser'],
 	keepUnusedDataFor: 50000,
 });

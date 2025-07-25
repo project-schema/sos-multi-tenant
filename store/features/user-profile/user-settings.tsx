@@ -1,29 +1,30 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import { z } from 'zod';
 
+import { Button } from '@/components/ui/button';
 import {
 	Form,
+	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
-	FormControl,
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { LoaderCircle } from 'lucide-react';
 
+import { Loader6 } from '@/components/dashboard/loader';
+import { ImageUpload } from '@/components/ui/image-upload';
+import { env } from '@/lib';
 import {
 	useProfileDataQuery,
 	useUserUpdateProfileMutation,
 } from './user-profile-api-slice';
-import { Loader6 } from '@/components/dashboard/loader';
-import { env } from '@/lib';
 
 const profileSchema = z.object({
 	name: z.string().min(1, 'Name is required'),
@@ -41,11 +42,6 @@ export function UserSettings() {
 		isError,
 	} = useProfileDataQuery(undefined);
 	const [updateProfile, { isLoading }] = useUserUpdateProfileMutation();
-
-	const [imageData, setImageData] = useState<{
-		preview: string | null;
-		file: File | null;
-	}>({ preview: null, file: null });
 
 	const form = useForm<ProfileFormValues>({
 		resolver: zodResolver(profileSchema),
@@ -91,14 +87,6 @@ export function UserSettings() {
 			}
 		}
 	}
-	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0];
-		if (file) {
-			const preview = URL.createObjectURL(file);
-			setImageData({ preview, file });
-			form.setValue('image', file);
-		}
-	};
 
 	if (profileLoading) {
 		return (
@@ -117,33 +105,22 @@ export function UserSettings() {
 				className="space-y-6 max-w-md"
 			>
 				{/* Image Upload + Preview */}
-				<div>
-					<FormLabel className="mb-3">Profile Image</FormLabel>
-
-					<div className="flex items-center gap-4">
-						<div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 shadow">
-							{imageData.preview || data?.user?.image ? (
-								<img
-									src={
-										imageData.preview || `${env.baseAPI}/${data?.user?.image}`
-									}
-									alt="Profile Preview"
-									className="w-full h-full object-cover"
-								/>
-							) : (
-								<div className="w-full h-full flex items-center justify-center text-gray-400">
-									No Image
-								</div>
-							)}
-						</div>
-						<Input
-							type="file"
-							accept="image/*"
-							onChange={handleImageChange}
-							className="w-auto"
-						/>
-					</div>
-				</div>
+				<FormField
+					control={form.control}
+					name="image"
+					render={({ field }) => (
+						<FormItem>
+							<ImageUpload
+								label="Profile Image"
+								value={field.value}
+								onChange={(file) => field.onChange(file)}
+								defaultImage={
+									data?.user?.image ? `${env.baseAPI}/${data.user.image}` : null
+								}
+							/>
+						</FormItem>
+					)}
+				/>
 
 				<FormField
 					control={form.control}

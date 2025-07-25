@@ -59,21 +59,23 @@ import {
 import { useDebounce } from '@/hooks/use-debounce';
 import { dateFormat, env, roleFormat, textCount } from '@/lib';
 import {
+	UserAddBalance,
+	UserEditBalance,
+	UserEditProfile,
+	UserRemoveBalance,
+} from '@/store/features/admin/user';
+import {
 	useAdminAllUserQuery,
 	useAdminUserStatisticsQuery,
 } from '@/store/features/admin/user/admin.user.api.slice';
 import { statusType, userType } from '@/store/features/admin/user/type';
-import UserEditProfile from '@/store/features/admin/user/user.edit.profile';
 import {
 	ArrowDown,
 	ArrowUp,
-	BanknoteX,
 	CircleAlert,
 	Ellipsis,
 	ExternalLink,
 	Filter,
-	HandCoins,
-	Landmark,
 	Plus,
 	ScrollText,
 	Search,
@@ -539,24 +541,15 @@ export default function Page() {
 															{/* Edit Profile  */}
 															<UserEditProfile user={user} />
 
-															<DropdownMenuItem>
-																<DropdownMenuShortcut className="ml-0">
-																	<HandCoins className="size-4" />
-																</DropdownMenuShortcut>
-																Add Balance
-															</DropdownMenuItem>
-															<DropdownMenuItem>
-																<DropdownMenuShortcut className="ml-0">
-																	<Landmark className="size-4" />
-																</DropdownMenuShortcut>
-																Edit Balance
-															</DropdownMenuItem>
-															<DropdownMenuItem>
-																<DropdownMenuShortcut className="ml-0">
-																	<BanknoteX className="size-4" />
-																</DropdownMenuShortcut>
-																Remove Balance
-															</DropdownMenuItem>
+															{/* Add Balance  */}
+															<UserAddBalance user={user} />
+
+															{/* Edit Balance  */}
+															<UserEditBalance user={user} />
+
+															{/* Remove Balance  */}
+															<UserRemoveBalance user={user} />
+
 															<DropdownMenuItem>
 																<DropdownMenuShortcut className="ml-0">
 																	<UserRoundCheck className="size-4" />
