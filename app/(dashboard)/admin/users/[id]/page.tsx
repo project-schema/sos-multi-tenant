@@ -1,14 +1,21 @@
-import { DbHeader } from '@/components/dashboard';
+'use client';
+import {
+	AdminUserNote,
+	AdminUserPayments,
+	AdminUserSettings,
+} from '@/store/features/admin/user';
+import { useSearchParams } from 'next/navigation';
 
-const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/user' },
-	{ name: 'User', path: '/user/profile' },
-	{ name: 'Admin' },
-];
 export default function User() {
-	return (
-		<>
-			<DbHeader breadcrumb={breadcrumbItems} />
-		</>
-	);
+	const searchParams = useSearchParams().get('tab');
+	switch (searchParams) {
+		case 'payments':
+			return <AdminUserPayments />;
+
+		case 'note':
+			return <AdminUserNote />;
+
+		default:
+			return <AdminUserSettings />;
+	}
 }

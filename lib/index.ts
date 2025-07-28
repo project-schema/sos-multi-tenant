@@ -1,5 +1,6 @@
 export * from './api';
 export * from './api-hook';
+export * from './badge-fromat';
 export * from './confirm';
 export * from './constant';
 export * from './date-format';

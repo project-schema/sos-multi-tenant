@@ -26,9 +26,10 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { DbHeader, Loader2, Loader8 } from '@/components/dashboard';
+import { Pagination1 } from '@/components/dashboard/pagination';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -43,26 +44,21 @@ import {
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuSeparator,
-	DropdownMenuShortcut,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
-import {
-	Pagination,
-	PaginationContent,
-	PaginationEllipsis,
-	PaginationItem,
-	PaginationLink,
-	PaginationNext,
-	PaginationPrevious,
-} from '@/components/ui/pagination';
 import { useDebounce } from '@/hooks/use-debounce';
-import { dateFormat, env, roleFormat, textCount } from '@/lib';
+import { badgeFormat, dateFormat, env, roleFormat, textCount } from '@/lib';
 import {
 	UserAddBalance,
+	UserAddNote,
+	UserDelete,
 	UserEditBalance,
 	UserEditProfile,
 	UserRemoveBalance,
+	UserStatusActive,
+	UserStatusBlocked,
+	UserStatusPending,
 } from '@/store/features/admin/user';
 import {
 	useAdminAllUserQuery,
@@ -72,16 +68,11 @@ import { statusType, userType } from '@/store/features/admin/user/type';
 import {
 	ArrowDown,
 	ArrowUp,
-	CircleAlert,
 	Ellipsis,
 	ExternalLink,
 	Filter,
 	Plus,
-	ScrollText,
 	Search,
-	TriangleAlert,
-	UserRoundCheck,
-	UserX,
 } from 'lucide-react';
 import Link from 'next/link';
 const breadcrumbItems = [
@@ -179,21 +170,6 @@ export default function Page() {
 		department: '',
 	});
 
-	// Filter data based on search and filters
-	const filteredData = data.filter((item) => {
-		const matchesSearch =
-			item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-			item.email.toLowerCase().includes(searchTerm.toLowerCase());
-
-		const matchesStatus =
-			statusFilter === 'all' || item.status === statusFilter;
-		const matchesRole = roleFilter === 'all' || item.role === roleFilter;
-		const matchesDepartment =
-			departmentFilter === 'all' || item.department === departmentFilter;
-
-		return matchesSearch && matchesStatus && matchesRole && matchesDepartment;
-	});
-
 	const handleCreateUser = () => {
 		if (newUser.name && newUser.email && newUser.role && newUser.department) {
 			const newId = Math.max(...data.map((item) => item.id)) + 1;
@@ -214,18 +190,9 @@ export default function Page() {
 		}
 	};
 
-	const getStatusBadgeVariant = (status: string) => {
-		switch (status) {
-			case 'Active':
-				return 'default';
-			case 'Inactive':
-				return 'secondary';
-			case 'Pending':
-				return 'outline';
-			default:
-				return 'default';
-		}
-	};
+	useEffect(() => {
+		setPage(1);
+	}, [statusFilter, roleFilter, debouncedSearchTerm]);
 
 	return (
 		<>
@@ -335,9 +302,9 @@ export default function Page() {
 											</SelectTrigger>
 											<SelectContent>
 												<SelectItem value="all">All</SelectItem>
-												<SelectItem value="user">Merchant</SelectItem>
-												<SelectItem value="vendor">Vendor</SelectItem>
-												<SelectItem value="affiliate">Affiliate</SelectItem>
+												<SelectItem value="user">User</SelectItem>
+												<SelectItem value="vendor">Merchant</SelectItem>
+												<SelectItem value="affiliate">Drop Shipper</SelectItem>
 											</SelectContent>
 										</Select>
 									</div>
@@ -478,7 +445,7 @@ export default function Page() {
 												<TableCell className="font-medium py-4">
 													#{user.uniqid}
 												</TableCell>
-												<TableCell className="py-4">
+												<TableCell className="py-2">
 													<Avatar className="h-12 w-12 rounded-full">
 														<AvatarImage
 															src={env.baseAPI + '/' + user.image}
@@ -489,33 +456,35 @@ export default function Page() {
 														</AvatarFallback>
 													</Avatar>
 												</TableCell>
-												<TableCell className="py-4">
+												<TableCell className="py-2">
 													{textCount(user.name, 15)}
 												</TableCell>
-												<TableCell className="py-4">
+												<TableCell className="py-2">
 													{textCount(user.email, 15)}
 												</TableCell>
-												<TableCell className="py-4">
-													<Badge variant="outline">
+												<TableCell className="py-2">
+													<Badge
+														variant={badgeFormat(roleFormat(user.role_as))}
+													>
 														{roleFormat(user.role_as)}
 													</Badge>
 												</TableCell>
-												<TableCell className="py-4">{user.balance}</TableCell>
-												<TableCell className="py-4">
+												<TableCell className="py-2">{user.balance}</TableCell>
+												<TableCell className="py-2">
 													{textCount(user.number, 15)}
 												</TableCell>
-												<TableCell className="py-4">
+												<TableCell className="py-2">
 													{dateFormat(user.created_at)}
 												</TableCell>
-												<TableCell className="py-4">
+												<TableCell className="py-2">
 													<Badge
 														className="capitalize"
-														variant={getStatusBadgeVariant(user.status)}
+														variant={badgeFormat(user.status)}
 													>
 														{user.status}
 													</Badge>
 												</TableCell>
-												<TableCell className="py-4">
+												<TableCell className="py-2">
 													<DropdownMenu>
 														<DropdownMenuTrigger asChild>
 															<Button
@@ -550,37 +519,28 @@ export default function Page() {
 															{/* Remove Balance  */}
 															<UserRemoveBalance user={user} />
 
-															<DropdownMenuItem>
-																<DropdownMenuShortcut className="ml-0">
-																	<UserRoundCheck className="size-4" />
-																</DropdownMenuShortcut>
-																Active
-															</DropdownMenuItem>
-															<DropdownMenuItem>
-																<DropdownMenuShortcut className="ml-0">
-																	<TriangleAlert className="size-4" />
-																</DropdownMenuShortcut>
-																Pending
-															</DropdownMenuItem>
-															<DropdownMenuItem>
-																<DropdownMenuShortcut className="ml-0">
-																	<CircleAlert className="size-4" />
-																</DropdownMenuShortcut>
-																Block
-															</DropdownMenuItem>
-															<DropdownMenuItem>
-																<DropdownMenuShortcut className="ml-0">
-																	<ScrollText className="size-4" />
-																</DropdownMenuShortcut>
-																Add Note
-															</DropdownMenuItem>
+															{/* Status Active  */}
+															{user.status !== 'active' && (
+																<UserStatusActive user={user} />
+															)}
+
+															{/* Status Pending  */}
+															{user.status !== 'pending' && (
+																<UserStatusPending user={user} />
+															)}
+
+															{/* Status Blocked  */}
+															{user.status !== 'blocked' && (
+																<UserStatusBlocked user={user} />
+															)}
+
+															{/* Add Note  */}
+															<UserAddNote user={user} />
+
 															<DropdownMenuSeparator />
-															<DropdownMenuItem variant="destructive">
-																<DropdownMenuShortcut className="ml-0">
-																	<UserX className="size-4 text-destructive" />
-																</DropdownMenuShortcut>
-																Delete
-															</DropdownMenuItem>
+
+															{/* Delete User  */}
+															<UserDelete user={user} />
 														</DropdownMenuContent>
 													</DropdownMenu>
 												</TableCell>
@@ -590,29 +550,9 @@ export default function Page() {
 								</TableBody>
 							</Table>
 						</div>
-
-						{/* Results count */}
-						<div className="flex items-center justify-between mt-4">
-							<p className="text-sm text-muted-foreground">
-								Showing {filteredData.length} of {data.length} users
-							</p>
-							<Pagination className="justify-end w-auto ml-auto mx-0">
-								<PaginationContent>
-									<PaginationItem>
-										<PaginationPrevious href="#" />
-									</PaginationItem>
-									<PaginationItem>
-										<PaginationLink href="#">1</PaginationLink>
-									</PaginationItem>
-									<PaginationItem>
-										<PaginationEllipsis />
-									</PaginationItem>
-									<PaginationItem>
-										<PaginationNext href="#" />
-									</PaginationItem>
-								</PaginationContent>
-							</Pagination>
-						</div>
+						{allUsers?.all && (
+							<Pagination1 pagination={allUsers?.all} setPage={setPage} />
+						)}
 					</CardContent>
 				</Card>
 			</div>

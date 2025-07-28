@@ -11,7 +11,7 @@ export const roleFormat = (role: string | number) => {
 		case 2:
 			return 'Merchant';
 		case 3:
-			return 'Affiliate';
+			return 'Drop Shipper';
 		default:
 			return 'User';
 	}

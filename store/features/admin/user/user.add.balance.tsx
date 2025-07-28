@@ -109,13 +109,13 @@ export function UserAddBalance({ user }: { user: iUser }) {
 				<DialogHeader>
 					<DialogTitle>Add Balance</DialogTitle>
 					<DialogDescription>
-						<p>Name : {user.name}</p>
-						<p>Email : {user.email}</p>
-						<p>
+						<span className="block">Name : {user.name}</span>
+						<span className="block">Email : {user.email}</span>
+						<span className="block">
 							Balance : {user.balance}
 							{sign.tk}
-						</p>
-						<p>Status : {user.status}</p>
+						</span>
+						<span className="block">Status : {user.status}</span>
 					</DialogDescription>
 				</DialogHeader>
 

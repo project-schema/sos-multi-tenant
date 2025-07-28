@@ -13,7 +13,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuShortcut,
 } from '@/components/ui/dropdown-menu';
-import { Landmark, LoaderCircle } from 'lucide-react';
+import { LoaderCircle, ScrollText } from 'lucide-react';
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -29,60 +29,59 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { alertConfirm, sign } from '@/lib';
+import { Textarea } from '@/components/ui/textarea';
+import { alertConfirm } from '@/lib';
 import { toast } from 'sonner';
-import { useAdminEditUserBalanceMutation } from './admin.user.api.slice';
+import { useAdminNoteStoreMutation } from './admin.user.api.slice';
 import { iUser } from './type';
 
-// --- Schema for balance operation ---
-const balanceSchema = z.object({
-	amount: z
+// --- Schema for note ---
+const noteSchema = z.object({
+	note: z
 		.string()
-		.min(1, 'Amount is required')
-		.refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, {
-			message: 'Amount must be a positive number',
-		}),
+		.min(1, 'Note is required')
+		.max(1000, 'Note must be less than 1000 characters'),
 });
 
-type BalanceFormValues = z.infer<typeof balanceSchema>;
+type NoteFormValues = z.infer<typeof noteSchema>;
 
-export function UserEditBalance({ user }: { user: iUser }) {
+export function UserAddNote({ user }: { user: iUser }) {
 	const [open, setOpen] = useState(false);
-	const [editUserBalance, { isLoading }] = useAdminEditUserBalanceMutation();
+	const [mutation, { isLoading }] = useAdminNoteStoreMutation();
 
-	const form = useForm<BalanceFormValues>({
-		resolver: zodResolver(balanceSchema),
+	const form = useForm<NoteFormValues>({
+		resolver: zodResolver(noteSchema),
 		defaultValues: {
-			amount: user.balance.toString() || '',
+			note: '',
 		},
 	});
 
-	const onSubmit = async (values: BalanceFormValues) => {
+	const onSubmit = async (values: NoteFormValues) => {
 		alertConfirm({
+			title: 'Confirm Note',
+			content: 'Are you sure you want to add this note?',
 			onOk: async () => {
 				try {
-					const response = await editUserBalance({
-						id: user.id,
-						amount: values.amount,
-						type: 'edit', // can be changed to 'edit' or 'remove'
+					const response = await mutation({
+						user_id: user.id,
+						note: values.note,
 					}).unwrap();
 
 					if (response.status === 200) {
-						toast.success(response.message || 'Balance updated successfully');
+						toast.success(response.message || 'Note saved successfully');
 						form.reset();
 						setOpen(false);
 					}
 				} catch (error: any) {
 					if (error?.status === 422 && typeof error.errors === 'object') {
 						Object.entries(error.errors).forEach(([field, value]) => {
-							form.setError(field as keyof BalanceFormValues, {
+							form.setError(field as keyof NoteFormValues, {
 								type: 'server',
 								message: (value as string[])[0],
 							});
 						});
 					} else {
-						toast.error('Failed to update balance');
+						toast.error('Failed to save note');
 					}
 				}
 			},
@@ -94,27 +93,21 @@ export function UserEditBalance({ user }: { user: iUser }) {
 			<DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
 				<DialogTrigger className="flex items-center gap-2 w-full">
 					<DropdownMenuShortcut className="ml-0">
-						<Landmark className="size-4" />
+						<ScrollText className="size-4" />
 					</DropdownMenuShortcut>
-					Edit Balance
+					Add Note
 				</DialogTrigger>
 			</DropdownMenuItem>
 
 			<DialogContent
 				className="sm:max-w-[400px]"
-				onInteractOutside={(e) => {
-					e.preventDefault();
-				}}
+				onInteractOutside={(e) => e.preventDefault()}
 			>
 				<DialogHeader>
-					<DialogTitle>Edit Balance</DialogTitle>
+					<DialogTitle>Add Note</DialogTitle>
 					<DialogDescription>
 						<span className="block">Name : {user.name}</span>
 						<span className="block">Email : {user.email}</span>
-						<span className="block">
-							Balance : {user.balance}
-							{sign.tk}
-						</span>
 						<span className="block">Status : {user.status}</span>
 					</DialogDescription>
 				</DialogHeader>
@@ -123,16 +116,15 @@ export function UserEditBalance({ user }: { user: iUser }) {
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 						<FormField
 							control={form.control}
-							name="amount"
+							name="note"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Amount</FormLabel>
+									<FormLabel>Note</FormLabel>
 									<FormControl>
-										<Input
+										<Textarea
 											{...field}
-											type="number"
-											inputMode="decimal"
-											placeholder="Enter amount"
+											rows={4}
+											placeholder="Write your note here..."
 										/>
 									</FormControl>
 									<FormMessage />
@@ -145,7 +137,7 @@ export function UserEditBalance({ user }: { user: iUser }) {
 								{isLoading && (
 									<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 								)}
-								{isLoading ? 'Updating...' : 'Edit Balance'}
+								{isLoading ? 'Saving...' : 'Save Note'}
 							</Button>
 						</DialogFooter>
 					</form>

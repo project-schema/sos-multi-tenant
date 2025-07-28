@@ -1,7 +1,10 @@
 import { apiSlice } from '../../api/apiSlice';
 import {
 	AdminUserStatisticType,
+	iAdminPaymentHistory,
+	iAdminUserNote,
 	iAllUserResponse,
+	iUser,
 	statusType,
 	userType,
 } from './type';
@@ -15,6 +18,36 @@ const api = apiSlice.injectEndpoints({
 				method: 'GET',
 			}),
 			providesTags: ['AdminUserStatistics'],
+		}),
+
+		adminNoteVendor: builder.query<
+			iAdminUserNote,
+			{ id: string; page: number }
+		>({
+			query: ({ id, page }) => ({
+				url: `/admin/note/vendor/${id}?page=${page}`,
+				method: 'GET',
+			}),
+		}),
+
+		adminVendorPaymentHistory: builder.query<
+			iAdminPaymentHistory,
+			{ id: string; page: number }
+		>({
+			query: ({ id, page }) => ({
+				url: `/admin/vendor/payment/history/${id}?page=${page}`,
+				method: 'GET',
+			}),
+		}),
+
+		adminUserProfileById: builder.query<
+			{ status: 200; user: iUser },
+			{ id: string }
+		>({
+			query: ({ id }) => ({
+				url: `/edit-user/${id}`,
+				method: 'GET',
+			}),
 		}),
 
 		adminAllUser: builder.query<
@@ -99,12 +132,56 @@ const api = apiSlice.injectEndpoints({
 			},
 			invalidatesTags: ['AdminAllUser'],
 		}),
+
+		// user status
+		adminUserStatusUpdate: builder.mutation<
+			{ status: 200; message: string },
+			{ id: string | number; status: 'active' | 'pending' | 'blocked' }
+		>({
+			query: (data) => ({
+				url: `/user/status/update/${data.id}`,
+				method: 'POST',
+				body: { status: data.status },
+			}),
+			invalidatesTags: ['AdminAllUser', 'AdminUserStatistics'],
+		}),
+
+		// user note
+		adminNoteStore: builder.mutation<
+			{ status: 200; message: string },
+			{ user_id: string | number; note: string }
+		>({
+			query: (data) => ({
+				url: `/admin/note/store`,
+				method: 'POST',
+				body: { note: data.note, user_id: data.user_id },
+			}),
+			invalidatesTags: ['AdminAllUser', 'AdminUserStatistics'],
+		}),
+
+		// delete user
+		adminDeleteUser: builder.mutation<
+			{ status: 200; message: string },
+			{ id: string | number }
+		>({
+			query: (data) => ({
+				url: `/delete-vendor/${data.id}`,
+				method: 'DELETE',
+			}),
+			invalidatesTags: ['AdminAllUser', 'AdminUserStatistics'],
+		}),
 	}),
 });
 
 export const {
 	useAdminUserStatisticsQuery,
 	useAdminAllUserQuery,
+	useAdminNoteStoreMutation,
+	useAdminDeleteUserMutation,
 	useAdminUpdateUserProfileMutation,
 	useAdminEditUserBalanceMutation,
+	useAdminUserProfileByIdQuery,
+	useAdminNoteVendorQuery,
+	useAdminUserStatusUpdateMutation,
+	useAdminVendorPaymentHistoryQuery,
 } = api;
