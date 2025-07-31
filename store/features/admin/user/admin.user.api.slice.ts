@@ -4,6 +4,7 @@ import {
 	iAdminPaymentHistory,
 	iAdminUserNote,
 	iAllUserResponse,
+	iEditVendor,
 	iUser,
 	statusType,
 	userType,
@@ -46,6 +47,13 @@ const api = apiSlice.injectEndpoints({
 		>({
 			query: ({ id }) => ({
 				url: `/edit-user/${id}`,
+				method: 'GET',
+			}),
+		}),
+
+		adminVendorProfileById: builder.query<iEditVendor, { id: string }>({
+			query: ({ id }) => ({
+				url: `/edit-vendor/${id}`,
 				method: 'GET',
 			}),
 		}),
@@ -182,6 +190,7 @@ export const {
 	useAdminEditUserBalanceMutation,
 	useAdminUserProfileByIdQuery,
 	useAdminNoteVendorQuery,
+	useAdminVendorProfileByIdQuery,
 	useAdminUserStatusUpdateMutation,
 	useAdminVendorPaymentHistoryQuery,
 } = api;

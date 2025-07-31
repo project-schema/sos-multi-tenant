@@ -14,25 +14,28 @@ import { NavMain } from './nav-main';
 import { SearchForm } from './search-form';
 import { sidebarItem } from './sidebar.type';
 
-const usersr: sidebarItem[] = [
+const utility: sidebarItem[] = [
 	{
-		title: 'Manage Users',
+		title: 'Manage Categories',
 		icon: Wallet,
 		isActive: false,
 		items: [
 			{
-				title: '',
-				url: '/admin/',
+				title: 'Category',
+				url: '/admin/category',
 			},
 			{
-				title: 'Withdraw',
-				url: '/user/withdraw',
-			},
-			{
-				title: 'History',
-				url: '/user/history',
+				title: 'Sub Category',
+				url: '/admin/sub-category',
 			},
 		],
+	},
+
+	{
+		title: 'Manage Brand',
+		url: '/admin/brand',
+		icon: Tent,
+		isActive: false,
 	},
 ];
 const users: sidebarItem[] = [
@@ -86,7 +89,7 @@ export function AppSidebarForAdmin({
 			.filter(Boolean) as sidebarItem[];
 	};
 
-	const filteredAdvertise = filterItems(userDbAdvertise);
+	const filteredUtility = filterItems(utility);
 	const filterUser = filterItems(users);
 	const filteredSupport = filterItems(userSupport);
 
@@ -113,8 +116,8 @@ export function AppSidebarForAdmin({
 			<SidebarContent className="gap-0">
 				<AppRoot />
 				<NavMain items={filterUser} groupLabel="Users" />
+				<NavMain items={filteredUtility} groupLabel="Utility" />
 				{/* 
-				<NavMain items={filteredAdvertise} groupLabel="Advertise" />
 				<NavMain items={filteredWallet} groupLabel="Wallet" />
 				<NavMain items={filteredSupport} groupLabel="Support" /> */}
 			</SidebarContent>

@@ -2,6 +2,7 @@
 
 import { FormControl, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Pen } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 type ImageUploadProps = {
@@ -38,29 +39,33 @@ export function ImageUpload({
 
 	return (
 		<div className="flex flex-col space-y-2">
-			{label && <FormLabel>{label}</FormLabel>}
-
+			<FormLabel>{label}</FormLabel>
 			<div className="flex items-center gap-4">
-				<div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 shadow">
-					{preview || defaultImage ? (
-						<img
-							src={preview || defaultImage!}
-							alt="Image preview"
-							className="w-full h-full object-cover"
-						/>
-					) : (
-						<div className="w-full h-full flex items-center justify-center text-gray-400">
-							No Image
-						</div>
-					)}
-				</div>
+				<FormLabel>
+					<div className="w-24 h-24 rounded-2xl overflow-hidden bg-gray-100 shadow relative">
+						<span className="w-8 h-8 absolute top-1 right-1 bg-stone-800/70 rounded-md flex items-center justify-center">
+							<Pen className="w-4 h-4 text-white" />
+						</span>
+						{preview || defaultImage ? (
+							<img
+								src={preview || defaultImage!}
+								alt="Image preview"
+								className="w-full h-full object-cover"
+							/>
+						) : (
+							<div className="w-full h-full flex items-center justify-center text-gray-400">
+								Image
+							</div>
+						)}
+					</div>
+				</FormLabel>
 
 				<FormControl>
 					<Input
 						type="file"
 						accept="image/*"
 						onChange={handleFileChange}
-						className="w-auto"
+						className="w-auto hidden"
 					/>
 				</FormControl>
 			</div>

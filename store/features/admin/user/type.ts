@@ -34,6 +34,7 @@ export type iUser = {
 	verify_code_at: string;
 	is_employee: null;
 	vendor_id: null;
+	usersubscription: iSubscription | null;
 };
 
 export type iNote = {
@@ -72,4 +73,34 @@ export type iAdminUserNote = {
 export type iAdminPaymentHistory = {
 	status: number;
 	serviceOrder: iPagination<iPaymentHistory>;
+};
+
+export type iSubscription = {
+	id: number;
+	user_id: number;
+	subscription_id: number;
+	expire_date: string;
+	service_qty: number;
+	product_qty: number;
+	affiliate_request: number;
+	product_request: number;
+	product_approve: number;
+	service_create: number;
+	deleted_at: string;
+	created_at: string;
+	updated_at: string;
+	trxid: string;
+	subscription_price: number;
+	chat_access: number;
+	pos_sale_qty: number;
+	employee_create: string;
+	subscription: {
+		id: number;
+		card_heading: string;
+	};
+};
+
+export type iEditVendor = {
+	status: number;
+	vendor: iUser;
 };
