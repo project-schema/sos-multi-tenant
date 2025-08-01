@@ -102,7 +102,7 @@ export function CategoryCreate() {
 					render={({ field }) => (
 						<FormItem>
 							<ImageUpload
-								label="Profile Image"
+								label="Category Image"
 								value={field.value}
 								onChange={field.onChange}
 								defaultImage={null}

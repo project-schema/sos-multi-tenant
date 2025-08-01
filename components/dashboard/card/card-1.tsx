@@ -31,7 +31,7 @@ export const Card1 = ({
 						{title}
 					</CardTitle>
 				</CardHeader>
-				<CardContent className="p-0 pt-2">
+				<CardContent className="p-0">
 					<h2 className="text-2xl font-bold text-primary capitalize">
 						{isLoading ? '...' : countTitle}
 					</h2>

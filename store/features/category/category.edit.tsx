@@ -114,9 +114,9 @@ export function CategoryEdit({ editData }: { editData: iCategory }) {
 
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
-					<DialogTitle>Edit Profile</DialogTitle>
+					<DialogTitle>Edit Category</DialogTitle>
 					<DialogDescription>
-						Update the user information below.
+						Update the category information.
 					</DialogDescription>
 				</DialogHeader>
 
@@ -129,7 +129,7 @@ export function CategoryEdit({ editData }: { editData: iCategory }) {
 							render={({ field }) => (
 								<FormItem>
 									<ImageUpload
-										label="Profile Image"
+										label="Category Image"
 										value={field.value}
 										onChange={field.onChange}
 										defaultImage={null}

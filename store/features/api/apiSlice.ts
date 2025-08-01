@@ -19,9 +19,18 @@ export const apiSlice = createApi({
 		'UserProfile',
 		'AdminUserStatistics',
 		'AdminAllUser',
+
 		'AdminCategory',
 		'AdminSubCategory',
 		'AdminBrand',
+		'AdminProduct',
+		'AdminProductRequest',
+		'AdminProductOrder',
+
+		'AdminServiceCategory',
+		'AdminServiceSubCategory',
+		'AdminService',
+		'AdminServiceOrder',
 	],
 	keepUnusedDataFor: 50000,
 });

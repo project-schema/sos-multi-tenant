@@ -3,9 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CategoryCreate, CategoryTable } from '@/store/features/category';
 
 const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/user' },
-	{ name: 'User', path: '/user/profile' },
-	{ name: 'Admin' },
+	{ name: 'Dashboard', path: '/admin' },
+	{ name: 'Category' },
 ];
 
 export default function Page() {

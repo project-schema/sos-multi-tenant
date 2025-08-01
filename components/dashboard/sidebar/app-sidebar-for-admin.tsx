@@ -1,6 +1,17 @@
 'use client';
 
-import { Headset, Megaphone, Tent, UserCog, Wallet } from 'lucide-react';
+import {
+	Headset,
+	LandPlot,
+	Megaphone,
+	Package,
+	Package2,
+	PackageCheck,
+	PackageOpen,
+	Settings,
+	Tent,
+	UserCog,
+} from 'lucide-react';
 import * as React from 'react';
 
 import {
@@ -14,10 +25,10 @@ import { NavMain } from './nav-main';
 import { SearchForm } from './search-form';
 import { sidebarItem } from './sidebar.type';
 
-const utility: sidebarItem[] = [
+const products: sidebarItem[] = [
 	{
-		title: 'Manage Categories',
-		icon: Wallet,
+		title: 'Product Categories',
+		icon: LandPlot,
 		isActive: false,
 		items: [
 			{
@@ -32,9 +43,170 @@ const utility: sidebarItem[] = [
 	},
 
 	{
-		title: 'Manage Brand',
+		title: 'Product Brands',
 		url: '/admin/brand',
+		icon: LandPlot,
+		isActive: false,
+	},
+	{
+		title: 'Merchant Products',
+		url: '/admin/merchant-product',
+		icon: Package,
+		isActive: false,
+	},
+	{
+		title: 'Dropshipper Requests',
+		url: '/admin/dropshipper-request',
+		icon: PackageOpen,
+		isActive: false,
+	},
+	{
+		title: 'Products Orders',
+		url: '/admin/product-order',
+		icon: PackageCheck,
+		isActive: false,
+	},
+];
+const services: sidebarItem[] = [
+	{
+		title: 'Service Categories',
+		icon: LandPlot,
+		isActive: false,
+		items: [
+			{
+				title: 'Category',
+				url: '/admin/service-category',
+			},
+			{
+				title: 'Sub Category',
+				url: '/admin/service-sub-category',
+			},
+		],
+	},
+
+	{
+		title: 'Manage Services',
+		url: '/admin/service',
+		icon: Package2,
+		isActive: false,
+	},
+	{
+		title: 'Service Orders',
+		url: '/admin/service-order',
+		icon: PackageCheck,
+		isActive: false,
+	},
+];
+const crm: sidebarItem[] = [
+	{
+		title: 'Home Content',
+		icon: LandPlot,
+		isActive: false,
+		items: [
+			{
+				title: 'Update Home',
+				url: '/admin/crm/home',
+			},
+			{
+				title: 'Service',
+				url: '/admin/crm/service',
+			},
+			{
+				title: 'Organization',
+				url: '/admin/crm/organization',
+			},
+			{
+				title: 'Organization Two',
+				url: '/admin/crm/organization-two',
+			},
+			{
+				title: 'IT Service',
+				url: '/admin/crm/it-service',
+			},
+			{
+				title: 'Partner',
+				url: '/admin/crm/partner',
+			},
+			{
+				title: 'Contact',
+				url: '/admin/crm/contact',
+			},
+		],
+	},
+	{
+		title: 'About Content',
 		icon: Tent,
+		isActive: false,
+		items: [
+			{
+				title: 'Update About',
+				url: '/admin/crm/about',
+			},
+			{
+				title: 'Companions',
+				url: '/admin/crm/companions',
+			},
+			{
+				title: 'Missions',
+				url: '/admin/crm/missions',
+			},
+			{
+				title: 'Testimonial',
+				url: '/admin/crm/testimonial',
+			},
+			{
+				title: 'Members',
+				url: '/admin/crm/members',
+			},
+		],
+	},
+	{
+		title: 'Others Content',
+		icon: Tent,
+		isActive: false,
+		items: [
+			{
+				title: 'General',
+				url: '/admin/crm/general',
+			},
+			{
+				title: 'Advertise',
+				url: '/admin/crm/advertise',
+			},
+			{
+				title: 'Faq',
+				url: '/admin/crm/faq',
+			},
+			{
+				title: 'Service',
+				url: '/admin/crm/service',
+			},
+		],
+	},
+];
+const hrm: sidebarItem[] = [
+	{
+		title: 'Settings',
+		url: '/admin/settings',
+		icon: Settings,
+		isActive: false,
+	},
+	{
+		title: 'Role Permissions',
+		url: '/admin/role-permissions',
+		icon: Megaphone,
+		isActive: false,
+	},
+	{
+		title: 'Withdrawals',
+		url: '/admin/withdrawal',
+		icon: UserCog,
+		isActive: false,
+	},
+	{
+		title: 'User Responses',
+		url: '/admin/user-responses',
+		icon: UserCog,
 		isActive: false,
 	},
 ];
@@ -46,19 +218,79 @@ const users: sidebarItem[] = [
 		isActive: false,
 	},
 ];
-const userDbAdvertise: sidebarItem[] = [
+
+const support: sidebarItem[] = [
 	{
-		title: 'Manage Advertise',
-		url: '/user/advertise',
-		icon: Megaphone,
+		title: 'Manage Supports',
+		icon: Headset,
 		isActive: false,
+		items: [
+			{
+				title: 'All Supports',
+				url: '/admin/support',
+			},
+			{
+				title: 'Support Categories',
+				url: '/admin/support-category',
+			},
+			{
+				title: 'Problem Topics',
+				url: '/admin/support-sub-category',
+			},
+		],
 	},
 ];
-const userSupport: sidebarItem[] = [
+const advertise: sidebarItem[] = [
 	{
-		title: 'Manage Support',
-		url: '/user/support',
+		title: 'Manage Advertise',
 		icon: Headset,
+		isActive: false,
+		items: [
+			{
+				title: 'All Advertise',
+				url: '/admin/advertise',
+			},
+			{
+				title: 'Advertise Utilities',
+				url: '/admin/advertise-utilities',
+			},
+		],
+	},
+];
+const sass: sidebarItem[] = [
+	{
+		title: 'Manage Coupon',
+		icon: Headset,
+		isActive: false,
+		items: [
+			{
+				title: 'Create Coupon',
+				url: '/admin/create-coupon',
+			},
+			{
+				title: 'Active Coupons',
+				url: '/admin/active-coupon',
+			},
+			{
+				title: 'Request Coupons',
+				url: '/admin/request-coupon',
+			},
+			{
+				title: 'Rejected Coupons',
+				url: '/admin/rejected-coupon',
+			},
+		],
+	},
+	{
+		title: 'Membership',
+		url: '/admin/membership',
+		icon: Settings,
+		isActive: false,
+	},
+	{
+		title: 'Subscription',
+		url: '/admin/subscription',
+		icon: Settings,
 		isActive: false,
 	},
 ];
@@ -89,9 +321,14 @@ export function AppSidebarForAdmin({
 			.filter(Boolean) as sidebarItem[];
 	};
 
-	const filteredUtility = filterItems(utility);
+	const filteredUtility = filterItems(products);
 	const filterUser = filterItems(users);
-	const filteredSupport = filterItems(userSupport);
+	const filteredServices = filterItems(services);
+	const filteredCRM = filterItems(crm);
+	const filteredHRM = filterItems(hrm);
+	const filteredSupport = filterItems(support);
+	const filteredAdvertise = filterItems(advertise);
+	const filteredSaas = filterItems(sass);
 
 	return (
 		<Sidebar collapsible="icon" {...props}>
@@ -116,10 +353,13 @@ export function AppSidebarForAdmin({
 			<SidebarContent className="gap-0">
 				<AppRoot />
 				<NavMain items={filterUser} groupLabel="Users" />
-				<NavMain items={filteredUtility} groupLabel="Utility" />
-				{/* 
-				<NavMain items={filteredWallet} groupLabel="Wallet" />
-				<NavMain items={filteredSupport} groupLabel="Support" /> */}
+				<NavMain items={filteredUtility} groupLabel="Products" />
+				<NavMain items={filteredServices} groupLabel="Services" />
+				<NavMain items={filteredAdvertise} groupLabel="Advertise" />
+				<NavMain items={filteredSaas} groupLabel="Saas" />
+				<NavMain items={filteredSupport} groupLabel="Support" />
+				<NavMain items={filteredCRM} groupLabel="CRM" />
+				<NavMain items={filteredHRM} groupLabel="HRM" />
 			</SidebarContent>
 		</Sidebar>
 	);

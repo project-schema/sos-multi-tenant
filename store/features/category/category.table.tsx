@@ -1,5 +1,8 @@
 'use client';
-import { Loader8 } from '@/components/dashboard';
+import { Loader5, Loader8 } from '@/components/dashboard';
+import { Pagination1 } from '@/components/dashboard/pagination';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import {
 	Table,
 	TableBody,
@@ -8,11 +11,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-
-import { Pagination1 } from '@/components/dashboard/pagination';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { badgeFormat, env, tableSrCount, textCount } from '@/lib';
+import { badgeFormat, env, ErrorAlert, tableSrCount, textCount } from '@/lib';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useAdminViewCategoryQuery } from './category.api.slice';
@@ -21,7 +20,27 @@ import { CategoryEdit } from './category.edit';
 
 export function CategoryTable() {
 	const [page, setPage] = useState(1);
-	const { data: allUsers, isFetching } = useAdminViewCategoryQuery({ page });
+	const {
+		data: categories,
+		isFetching,
+		isLoading,
+		isError,
+	} = useAdminViewCategoryQuery({ page });
+
+	if (isError) {
+		return <ErrorAlert />;
+	}
+
+	if (isLoading) {
+		return (
+			<>
+				<Loader5 />
+				<Loader5 />
+				<Loader5 />
+				<Loader5 />
+			</>
+		);
+	}
 	return (
 		<div>
 			<>
@@ -38,7 +57,7 @@ export function CategoryTable() {
 							</TableRow>
 						</TableHeader>
 						<TableBody>
-							{allUsers?.category?.data?.length === 0 ? (
+							{categories?.category?.data?.length === 0 ? (
 								<TableRow>
 									<TableCell
 										colSpan={6}
@@ -48,10 +67,10 @@ export function CategoryTable() {
 									</TableCell>
 								</TableRow>
 							) : (
-								allUsers?.category.data?.map((category, i) => (
+								categories?.category.data?.map((category, i) => (
 									<TableRow key={category.id}>
 										<TableCell className="py-2 pl-4">
-											{tableSrCount(page, i)}
+											{tableSrCount(categories?.category.current_page, i)}
 										</TableCell>
 										<TableCell className="py-2">
 											<Link href={`/admin/users/${category.id}`}>
@@ -68,7 +87,7 @@ export function CategoryTable() {
 										</TableCell>
 
 										<TableCell className="py-2">
-											{textCount(category.name, 15)}
+											{textCount(category.name, 25)}
 										</TableCell>
 
 										<TableCell className="py-2">
@@ -89,8 +108,8 @@ export function CategoryTable() {
 						</TableBody>
 					</Table>
 				</div>
-				{allUsers?.category && (
-					<Pagination1 pagination={allUsers?.category} setPage={setPage} />
+				{categories?.category && (
+					<Pagination1 pagination={categories?.category} setPage={setPage} />
 				)}
 			</>
 		</div>

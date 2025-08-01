@@ -1,7 +1,15 @@
 'use client';
 
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import {
 	Select,
@@ -18,26 +26,17 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from '@/components/ui/dialog';
+import { useState } from 'react';
 
-import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import {
 	Card,
 	CardContent,
+	CardDescription,
 	CardHeader,
 	CardTitle,
-	CardDescription,
 } from '@/components/ui/card';
-import { Plus, Search, Filter } from 'lucide-react';
+import { Label } from '@/components/ui/label';
 import {
 	Pagination,
 	PaginationContent,
@@ -47,6 +46,7 @@ import {
 	PaginationNext,
 	PaginationPrevious,
 } from '@/components/ui/pagination';
+import { Filter, Plus, Search } from 'lucide-react';
 // Sample data
 const initialData = [
 	{
@@ -205,7 +205,7 @@ export default function DbTable() {
 							<div className="relative w-full sm:w-80">
 								<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
 								<Input
-									placeholder="Search users..."
+									placeholder="Search.."
 									value={searchTerm}
 									onChange={(e) => setSearchTerm(e.target.value)}
 									className="pl-10"
