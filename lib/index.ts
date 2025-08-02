@@ -3,6 +3,7 @@ export * from './api-hook';
 export * from './badge-format';
 export * from './confirm';
 export * from './constant';
+export * from './data/meta-data';
 export * from './date-format';
 export * from './env';
 export * from './error-alert';

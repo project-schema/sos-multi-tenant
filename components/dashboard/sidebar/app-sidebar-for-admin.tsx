@@ -1,14 +1,21 @@
 'use client';
 
 import {
+	BanknoteArrowDown,
+	FileText,
 	Headset,
 	LandPlot,
+	MailCheck,
 	Megaphone,
 	Package,
 	Package2,
 	PackageCheck,
 	PackageOpen,
+	Puzzle,
 	Settings,
+	ShieldCheck,
+	Sparkles,
+	Star,
 	Tent,
 	UserCog,
 } from 'lucide-react';
@@ -100,12 +107,12 @@ const services: sidebarItem[] = [
 const crm: sidebarItem[] = [
 	{
 		title: 'Home Content',
-		icon: LandPlot,
+		icon: FileText,
 		isActive: false,
 		items: [
 			{
 				title: 'Update Home',
-				url: '/admin/crm/home',
+				url: '/admin/crm/home-content',
 			},
 			{
 				title: 'Service',
@@ -128,6 +135,10 @@ const crm: sidebarItem[] = [
 				url: '/admin/crm/partner',
 			},
 			{
+				title: 'Social',
+				url: '/admin/crm/social',
+			},
+			{
 				title: 'Contact',
 				url: '/admin/crm/contact',
 			},
@@ -135,7 +146,7 @@ const crm: sidebarItem[] = [
 	},
 	{
 		title: 'About Content',
-		icon: Tent,
+		icon: FileText,
 		isActive: false,
 		items: [
 			{
@@ -162,7 +173,7 @@ const crm: sidebarItem[] = [
 	},
 	{
 		title: 'Others Content',
-		icon: Tent,
+		icon: FileText,
 		isActive: false,
 		items: [
 			{
@@ -194,19 +205,19 @@ const hrm: sidebarItem[] = [
 	{
 		title: 'Role Permissions',
 		url: '/admin/role-permissions',
-		icon: Megaphone,
+		icon: ShieldCheck,
 		isActive: false,
 	},
 	{
 		title: 'Withdrawals',
 		url: '/admin/withdrawal',
-		icon: UserCog,
+		icon: BanknoteArrowDown,
 		isActive: false,
 	},
 	{
 		title: 'User Responses',
 		url: '/admin/user-responses',
-		icon: UserCog,
+		icon: MailCheck,
 		isActive: false,
 	},
 ];
@@ -243,7 +254,7 @@ const support: sidebarItem[] = [
 const advertise: sidebarItem[] = [
 	{
 		title: 'Manage Advertise',
-		icon: Headset,
+		icon: Megaphone,
 		isActive: false,
 		items: [
 			{
@@ -260,7 +271,7 @@ const advertise: sidebarItem[] = [
 const sass: sidebarItem[] = [
 	{
 		title: 'Manage Coupon',
-		icon: Headset,
+		icon: Puzzle,
 		isActive: false,
 		items: [
 			{
@@ -284,13 +295,13 @@ const sass: sidebarItem[] = [
 	{
 		title: 'Membership',
 		url: '/admin/membership',
-		icon: Settings,
+		icon: Star,
 		isActive: false,
 	},
 	{
 		title: 'Subscription',
 		url: '/admin/subscription',
-		icon: Settings,
+		icon: Sparkles,
 		isActive: false,
 	},
 ];
@@ -350,7 +361,7 @@ export function AppSidebarForAdmin({
 			<SearchForm value={searchQuery} onChange={setSearchQuery as any} />
 
 			{/* 📚 Filtered Navigation */}
-			<SidebarContent className="gap-0">
+			<SidebarContent className="gap-0 pb-8">
 				<AppRoot />
 				<NavMain items={filterUser} groupLabel="Users" />
 				<NavMain items={filteredUtility} groupLabel="Products" />

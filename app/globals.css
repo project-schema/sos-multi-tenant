@@ -154,3 +154,9 @@ a {
 	text-decoration: none;
 	transition: 0.5s;
 }
+
+.IconsViewGrid [role='group'] {
+	display: grid;
+	grid-template-columns: repeat(10, 1fr);
+	gap: 0.5rem;
+}

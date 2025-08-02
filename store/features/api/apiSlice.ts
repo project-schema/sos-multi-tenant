@@ -31,6 +31,13 @@ export const apiSlice = createApi({
 		'AdminServiceSubCategory',
 		'AdminService',
 		'AdminServiceOrder',
+
+		'CrmAdminService',
+		'CrmAdminOrganization',
+		'CrmAdminOrganizationTwo',
+		'CrmAdminITService',
+		'AdminCrmPartner',
+		'CrmAdminSocial',
 	],
 	keepUnusedDataFor: 50000,
 });
