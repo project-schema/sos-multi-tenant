@@ -185,12 +185,12 @@ const crm: sidebarItem[] = [
 				url: '/admin/crm/advertise',
 			},
 			{
-				title: 'Faq',
-				url: '/admin/crm/faq',
+				title: 'Advertise Faq',
+				url: '/admin/crm/advertise-faq',
 			},
 			{
 				title: 'Service',
-				url: '/admin/crm/service',
+				url: '/admin/crm/service-content',
 			},
 		],
 	},

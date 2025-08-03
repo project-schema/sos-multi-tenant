@@ -38,6 +38,18 @@ export const apiSlice = createApi({
 		'CrmAdminITService',
 		'AdminCrmPartner',
 		'CrmAdminSocial',
+		'CrmAdminCompanion',
+		'CrmAdminMission',
+		'AdminCrmTestimonial',
+		'AdminCrmMember',
+		'CrmAdminAdvertiseFaq',
+
+		'AdminAdvertise',
+		'AdminCampaignCategory',
+		'AdminConversionLocation',
+		'AdminPerformanceGoal',
+		'AdminAdFormat',
+		'AdminAdvertiseCommonUtilities',
 	],
 	keepUnusedDataFor: 50000,
 });

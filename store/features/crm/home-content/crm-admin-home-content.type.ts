@@ -124,7 +124,7 @@ export type settingData = {
 	about_banner_title: string;
 	about_banner_heading: string;
 	about_banner_description: string;
-	about_banner_image: string;
+	mission_imageabout_banner_image: string;
 	about_banner_increment_one_count: string;
 	about_banner_increment_one_title: string;
 	about_banner_increment_two_count: string;
@@ -163,7 +163,7 @@ export type settingData = {
 	minimum_withdraw: string;
 	withdraw_charge: string;
 	withdraw_charge_status: string;
-	google_tag: null;
+	google_tag?: string;
 	add_product_tutorial: null;
 };
 /*

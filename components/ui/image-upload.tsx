@@ -63,7 +63,7 @@ export function ImageUpload({
 				<FormControl>
 					<Input
 						type="file"
-						accept="image/png, image/jpeg, image/jpg, image/webp"
+						accept="image/png, image/jpeg, image/jpg"
 						onChange={handleFileChange}
 						className="w-auto hidden"
 					/>

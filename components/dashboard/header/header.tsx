@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { SidebarTrigger } from '@/components/ui/sidebar';
-import { Separator } from '@/components/ui/separator';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -12,18 +11,19 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 import {
 	Bell,
-	User,
-	Settings,
-	LogOut,
 	CreditCard,
 	Eye,
 	EyeOff,
+	LogOut,
+	Settings,
+	User,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { Crumb, DbBreadcrumb } from '../breadcrumb/Breadcrumb';
 
 export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
@@ -176,10 +176,7 @@ export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
 							className="relative h-8 w-8 rounded-full cursor-pointer"
 						>
 							<Avatar className="h-12 w-12 bg-amber-100">
-								<AvatarImage
-									src="/placeholder.svg?height=32&width=32"
-									alt="User"
-								/>
+								<AvatarImage alt="User" />
 								<AvatarFallback>JD</AvatarFallback>
 							</Avatar>
 						</Button>

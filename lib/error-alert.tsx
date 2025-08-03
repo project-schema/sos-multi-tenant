@@ -8,8 +8,8 @@ export function ErrorAlert({
 			<p>Please verify your internet connection and try again.</p>
 			<ul className="list-inside list-disc text-sm">
 				<li>Check your internet connection</li>
-				<li>Ensure you are connected to the internet</li>
 				<li>Try refreshing the page</li>
+				<li>Please try again later!</li>
 			</ul>
 		</>
 	),

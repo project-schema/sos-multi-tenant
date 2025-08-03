@@ -121,7 +121,7 @@
 		font-family: 'Poppins', sans-serif;
 	}
 	.db-container {
-		@apply w-full px-6 py-2;
+		@apply w-full px-1 xl:px-6 py-2;
 	}
 }
 
