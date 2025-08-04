@@ -38,7 +38,48 @@ const api = apiSlice.injectEndpoints({
 			},
 			providesTags: ['AdminWithdrawal'],
 		}),
+
+		// new withdraw
+		adminNewWithdrawal: builder.mutation<{ status: 200; message: string }, any>(
+			{
+				query: (data) => {
+					const body = new FormData();
+					Object.entries(data).forEach(([key, value]) => {
+						body.append(key, value as string);
+					});
+					return {
+						url: `/admin/withdraw-paid/${data.id}`,
+						method: 'POST',
+						body,
+						formData: true,
+					};
+				},
+				invalidatesTags: ['AdminWithdrawal'],
+			}
+		),
+		// new withdraw
+		adminWithdrawalCancel: builder.mutation<
+			{ status: 200; message: string },
+			any
+		>({
+			query: (data) => {
+				const body = new FormData();
+				body.append('reason', data.reason);
+				body.append('status', 'rejected');
+				return {
+					url: `/admin/withdraw-cancel/${data.id}`,
+					method: 'POST',
+					body,
+					formData: true,
+				};
+			},
+			invalidatesTags: ['AdminWithdrawal'],
+		}),
 	}),
 });
 
-export const { useAdminWithdrawalQuery } = api;
+export const {
+	useAdminWithdrawalQuery,
+	useAdminNewWithdrawalMutation,
+	useAdminWithdrawalCancelMutation,
+} = api;

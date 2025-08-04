@@ -13,7 +13,7 @@ export type iAdminWithdrawal = {
 	admin_bank_name: string;
 	created_at: string;
 	updated_at: string;
-	status: string;
+	status: 'success' | 'pending' | 'reject';
 	role: string;
 	reason: null;
 	uniqid: string;
@@ -29,3 +29,12 @@ export type iAdminWithdrawalResponse = {
 	status: 200;
 	message: iPagination<iAdminWithdrawal>;
 };
+
+/*
+admin_bank_name 
+text 
+admin_transition_id 
+admin_screenshot 
+status success
+checked true
+*/

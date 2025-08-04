@@ -23,15 +23,16 @@ import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ClickToCopy } from '@/hooks/use-copy';
 import { iPagination } from '@/types';
-import { Ellipsis, LoaderCircle } from 'lucide-react';
-import { useAdminDeleteCouponRequestMutation } from '../coupon';
-import { ViewCouponModal } from '../coupon/admin.coupon.view-modal';
+import { Ellipsis } from 'lucide-react';
+import { AdminWithdrawalRejectMessageModal } from './admin.withdrawal-reject-message';
+import { AdminWithdrawalRejectModal } from './admin.withdrawal-reject-modal';
+import { AdminWithdrawalSuccessModal } from './admin.withdrawal-success-modal';
 import { iAdminWithdrawal } from './admin.withdrawal.type';
+import { ViewWithdrawalModal } from './admin.withdrawal.view-modal';
 export function AdminWithdrawalTable({
 	data,
 }: {
@@ -118,8 +119,6 @@ export function AdminWithdrawalTable({
 	);
 }
 const DropDownAction = ({ item }: { item: iAdminWithdrawal }) => {
-	const [mutation, { isLoading }] = useAdminDeleteCouponRequestMutation();
-
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -128,31 +127,21 @@ const DropDownAction = ({ item }: { item: iAdminWithdrawal }) => {
 					className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
 					size="icon"
 				>
-					{isLoading ? (
-						<LoaderCircle className="size-4 animate-spin text-destructive" />
-					) : (
-						<Ellipsis />
-					)}
+					<Ellipsis />
 					<span className="sr-only">Open menu</span>
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" className="w-56">
-				<ViewCouponModal data={item} />
-				{/* {item.status !== 'reject' && (
-					<>
-						<EditActiveCouponModal data={item} />
-						<EditRejectCouponModal data={item} />
-					</>
-				)} */}
-
-				<DropdownMenuSeparator />
-
-				{/* Delete   */}
-				{/* <AdminCouponDelete
-					data={item}
-					mutation={mutation}
-					isLoading={isLoading}
-				/> */}
+				{item.status === 'success' && <ViewWithdrawalModal data={item} />}
+				{item.status === 'pending' && (
+					<AdminWithdrawalSuccessModal data={item} />
+				)}
+				{item.status === 'pending' && (
+					<AdminWithdrawalRejectModal data={item} />
+				)}
+				{item.status === 'reject' && (
+					<AdminWithdrawalRejectMessageModal data={item} />
+				)}
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

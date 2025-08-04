@@ -18,6 +18,7 @@ export const badgeFormat = (status: string | number): Badge => {
 		case 'active':
 		case 'processing':
 		case 'delivered':
+		case 'success':
 		case 1:
 			return 'success';
 
@@ -37,6 +38,7 @@ export const badgeFormat = (status: string | number): Badge => {
 		case 'blocked':
 		case 'cancel':
 		case 'return':
+		case 'reject':
 		case 3:
 			return 'destructive';
 

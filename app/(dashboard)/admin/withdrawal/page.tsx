@@ -15,7 +15,7 @@ import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/admin' },
-	{ name: 'Active Coupons' },
+	{ name: 'Withdrawal' },
 ];
 
 export default function Page() {
@@ -66,7 +66,7 @@ export default function Page() {
 			<div className="db-container space-y-6">
 				<Card className="gap-0">
 					<CardHeader className="pb-3 flex items-center justify-between">
-						<CardTitle className="text-2xl font-bold">Active Coupon</CardTitle>
+						<CardTitle className="text-2xl font-bold">Withdrawal</CardTitle>
 						<CreateCouponModal />
 					</CardHeader>
 					<CardContent className="space-y-4">
