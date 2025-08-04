@@ -275,20 +275,16 @@ const sass: sidebarItem[] = [
 		isActive: false,
 		items: [
 			{
-				title: 'Create Coupon',
-				url: '/admin/create-coupon',
-			},
-			{
 				title: 'Active Coupons',
-				url: '/admin/active-coupon',
+				url: '/admin/coupon/active',
 			},
 			{
 				title: 'Request Coupons',
-				url: '/admin/request-coupon',
+				url: '/admin/coupon/request',
 			},
 			{
 				title: 'Rejected Coupons',
-				url: '/admin/rejected-coupon',
+				url: '/admin/coupon/rejected',
 			},
 		],
 	},

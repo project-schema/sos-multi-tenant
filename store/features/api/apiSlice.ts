@@ -50,6 +50,10 @@ export const apiSlice = createApi({
 		'AdminPerformanceGoal',
 		'AdminAdFormat',
 		'AdminAdvertiseCommonUtilities',
+
+		'AdminCoupon',
+		'AdminCouponRequest',
+		'AdminWithdrawal',
 	],
 	keepUnusedDataFor: 50000,
 });

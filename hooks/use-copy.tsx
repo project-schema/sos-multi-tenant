@@ -2,7 +2,7 @@
 import { Copy, CopyCheck } from 'lucide-react';
 // copy to clip board
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 // const {copy_data, set_copy_data, copied, click_button_handler}=CopyClipboardHandler()
 export function CopyClipboardHandler() {
@@ -22,11 +22,26 @@ export function CopyClipboardHandler() {
 	return { copy_data, set_copy_data, copied, click_button_handler };
 }
 
-export const ClickToCopy = ({ text }: { text: string }) => {
+interface ClickToCopyProps
+	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+	text: string;
+	iconClassName?: string;
+}
+
+export const ClickToCopy = ({
+	text,
+	iconClassName,
+	...props
+}: ClickToCopyProps) => {
 	const { click_button_handler, copied } = CopyClipboardHandler();
+
 	return (
-		<button onClick={() => click_button_handler(text)}>
-			{!copied ? <Copy /> : <CopyCheck />}
+		<button onClick={() => click_button_handler(text)} {...props}>
+			{!copied ? (
+				<Copy className={iconClassName} />
+			) : (
+				<CopyCheck className={iconClassName} />
+			)}
 		</button>
 	);
 };

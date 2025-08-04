@@ -1,0 +1,160 @@
+'use client';
+
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Input } from '@/components/ui/input';
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from '@/components/ui/popover';
+
+import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
+import { CalendarIcon, Search, XCircle } from 'lucide-react';
+import { useState } from 'react';
+
+export function AdminCouponFilter({
+	filters,
+	setFilters,
+	clearFilters,
+}: {
+	filters: {
+		searchTerm: string;
+		startAmount: string;
+		endAmount: string;
+		startCommission: string;
+		endCommission: string;
+		fromDate: Date | undefined;
+		toDate: Date | undefined;
+	};
+	setFilters: React.Dispatch<React.SetStateAction<typeof filters>>;
+	clearFilters: () => void;
+}) {
+	const [openFrom, setOpenFrom] = useState(false);
+	const [openTo, setOpenTo] = useState(false);
+
+	return (
+		<div className="grid grid-cols-2 lg:grid-cols-4 2xl:grid-cols-8 gap-4">
+			{/* Search Input */}
+			<div className="relative w-full">
+				<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+				<Input
+					placeholder="Search..."
+					value={filters.searchTerm}
+					onChange={(e) =>
+						setFilters((prev) => ({
+							...prev,
+							searchTerm: e.target.value,
+						}))
+					}
+					className="pl-10"
+				/>
+			</div>
+			{/* From Date */}
+			<Popover open={openFrom} onOpenChange={setOpenFrom}>
+				<PopoverTrigger asChild>
+					<Button
+						variant="outline"
+						className={cn(
+							'w-full h-11 justify-start text-left',
+							!filters.fromDate && 'text-muted-foreground'
+						)}
+					>
+						<CalendarIcon className="mr-2 h-4 w-4" />
+						{filters.fromDate
+							? format(filters.fromDate, 'dd-MM-yyyy')
+							: 'From Date'}
+					</Button>
+				</PopoverTrigger>
+				<PopoverContent className="w-auto p-0">
+					<Calendar
+						mode="single"
+						selected={filters.fromDate}
+						onSelect={(date) =>
+							setFilters((prev) => ({ ...prev, fromDate: date }))
+						}
+					/>
+				</PopoverContent>
+			</Popover>
+
+			{/* To Date */}
+			<Popover open={openTo} onOpenChange={setOpenTo}>
+				<PopoverTrigger asChild>
+					<Button
+						variant="outline"
+						className={cn(
+							'w-full h-11 justify-start text-left',
+							!filters.toDate && 'text-muted-foreground'
+						)}
+					>
+						<CalendarIcon className="mr-2 h-4 w-4" />
+						{filters.toDate ? format(filters.toDate, 'dd-MM-yyyy') : 'To Date'}
+					</Button>
+				</PopoverTrigger>
+				<PopoverContent className="w-auto p-0">
+					<Calendar
+						mode="single"
+						selected={filters.toDate}
+						onSelect={(date) =>
+							setFilters((prev) => ({ ...prev, toDate: date }))
+						}
+					/>
+				</PopoverContent>
+			</Popover>
+
+			{/* Amount Range */}
+			<Input
+				type="number"
+				placeholder="Start Amount"
+				value={filters.startAmount}
+				onChange={(e) =>
+					setFilters((prev) => ({
+						...prev,
+						startAmount: e.target.value,
+					}))
+				}
+			/>
+			<Input
+				type="number"
+				placeholder="End Amount"
+				value={filters.endAmount}
+				onChange={(e) =>
+					setFilters((prev) => ({
+						...prev,
+						endAmount: e.target.value,
+					}))
+				}
+			/>
+
+			{/* Commission Range */}
+			<Input
+				type="number"
+				placeholder="Start Commission"
+				value={filters.startCommission}
+				onChange={(e) =>
+					setFilters((prev) => ({
+						...prev,
+						startCommission: e.target.value,
+					}))
+				}
+			/>
+			<Input
+				type="number"
+				placeholder="End Commission"
+				value={filters.endCommission}
+				onChange={(e) =>
+					setFilters((prev) => ({
+						...prev,
+						endCommission: e.target.value,
+					}))
+				}
+			/>
+			{/* Clear Filters Button */}
+			<Button variant="outline" className="h-11" onClick={clearFilters}>
+				<XCircle className="mr-2 h-4 w-4" />
+				Clear Filters
+			</Button>
+		</div>
+	);
+}
