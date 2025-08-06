@@ -65,9 +65,7 @@ export function ServiceCategoryEdit({
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
 					<DialogTitle>Edit ServiceCategory</DialogTitle>
-					<DialogDescription>
-						Update the category information.
-					</DialogDescription>
+					<DialogDescription>Update the information.</DialogDescription>
 				</DialogHeader>
 				<FORM editData={editData} setOpen={setOpen} />
 			</DialogContent>

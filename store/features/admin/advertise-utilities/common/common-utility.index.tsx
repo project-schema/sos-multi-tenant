@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib';
 import { AdvertiseCommonUtilitiesCreate } from './common-utility.create';
 import { AdvertiseCommonUtilitiesTable } from './common-utility.table';
 import { iAdvertiseCommonPath } from './common-utility.type';
@@ -10,9 +11,9 @@ export function AdvertiseCommonUtilitiesIndex({
 }) {
 	return (
 		<>
-			<Card className="col-span-1">
+			<Card className="lg:col-span-1">
 				<CardHeader>
-					<CardTitle className="text-lg font-bold capitalize">
+					<CardTitle className={cn('text-lg xl:text-xl capitalize')}>
 						{path?.replace(/_/g, '  ')}
 					</CardTitle>
 				</CardHeader>
@@ -20,7 +21,7 @@ export function AdvertiseCommonUtilitiesIndex({
 					<AdvertiseCommonUtilitiesCreate path={path} />
 				</CardContent>
 			</Card>
-			<Card className="col-span-2">
+			<Card className="lg:col-span-2">
 				<CardContent>
 					<AdvertiseCommonUtilitiesTable path={path} />
 				</CardContent>

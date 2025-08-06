@@ -39,6 +39,7 @@ import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react'; // Optional: use any spinner icon you prefer
 import { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import { cn } from '../utils';
 
 export const alertConfirm = ({
 	onOk,
@@ -119,11 +120,11 @@ export const alertConfirm = ({
 		return (
 			<AlertDialog open={open} onOpenChange={setOpen}>
 				<AlertDialogContent ref={contentRef} className={className}>
-					<AlertDialogHeader>
+					<AlertDialogHeader className={cn('text-left')}>
 						<AlertDialogTitle>{title}</AlertDialogTitle>
 						<AlertDialogDescription>{content}</AlertDialogDescription>
 					</AlertDialogHeader>
-					<AlertDialogFooter>
+					<AlertDialogFooter className={cn('flex-row justify-end')}>
 						<AlertDialogCancel disabled={isLoading} onClick={handleCancel}>
 							{cancelBtnText}
 						</AlertDialogCancel>
@@ -168,6 +169,5 @@ export const alertConfirm = ({
 
 
   }
-
 
 */

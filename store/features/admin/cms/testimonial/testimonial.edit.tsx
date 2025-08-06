@@ -136,9 +136,7 @@ export function CrmTestimonialEdit({
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
 					<DialogTitle>Edit CrmTestimonial</DialogTitle>
-					<DialogDescription>
-						Update the category information.
-					</DialogDescription>
+					<DialogDescription>Update the information.</DialogDescription>
 				</DialogHeader>
 
 				<Form {...form}>

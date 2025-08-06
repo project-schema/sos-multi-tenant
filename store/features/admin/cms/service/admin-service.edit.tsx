@@ -111,9 +111,7 @@ export function CrmServiceEdit({ editData }: { editData: iCrmService }) {
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
 					<DialogTitle>Edit CrmService</DialogTitle>
-					<DialogDescription>
-						Update the category information.
-					</DialogDescription>
+					<DialogDescription>Update the information.</DialogDescription>
 				</DialogHeader>
 
 				<Form {...form}>

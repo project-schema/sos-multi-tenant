@@ -110,9 +110,8 @@ export function AdminServiceOrderTable({
 									</Badge>
 								</TableCell>
 								<TableCell className="py-2">
-									{item?.details?.slice(0, 70) + '...'}
+									{textCount(item?.details, 70)}
 								</TableCell>
-
 								<TableCell className="py-2">
 									{dateFormat(item.created_at)} <br />
 									{timeFormat(item.created_at)}

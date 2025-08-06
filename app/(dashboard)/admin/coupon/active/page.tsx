@@ -1,10 +1,9 @@
 'use client';
 
-import { DbHeader, Loader5, Loader8 } from '@/components/dashboard';
+import { Container1, DbHeader, Loader8 } from '@/components/dashboard';
 import { Pagination1 } from '@/components/dashboard/pagination';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
-import { ErrorAlert } from '@/lib';
 import {
 	AdminCouponFilter,
 	AdminCouponTable,
@@ -66,50 +65,36 @@ export default function Page() {
 		setPage(1);
 	}, [filters]);
 
-	if (isError) {
-		return <ErrorAlert />;
-	}
-
 	return (
 		<>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<div className="db-container space-y-6">
-				<Card className="gap-0">
-					<CardHeader className="pb-3 flex items-center justify-between">
-						<CardTitle className="text-2xl font-bold">Active Coupon</CardTitle>
+			<Container1
+				isError={isError}
+				isLoading={isLoading}
+				header={
+					<div className="flex items-center justify-between">
+						<CardTitle>Active Coupon</CardTitle>
 						<CreateCouponModal />
-					</CardHeader>
-					<CardContent className="space-y-4">
-						{/* Table */}
-						{isLoading ? (
-							<>
-								<Loader5 />
-								<Loader5 />
-								<Loader5 />
-							</>
-						) : (
-							<>
-								{/* Filter */}
-								<AdminCouponFilter
-									filters={filters}
-									setFilters={setFilters}
-									clearFilters={clearFilters}
-								/>
+					</div>
+				}
+			>
+				{/* Filter */}
+				<AdminCouponFilter
+					filters={filters}
+					setFilters={setFilters}
+					clearFilters={clearFilters}
+				/>
 
-								{data?.message && (
-									<>
-										<div className="border rounded-lg relative">
-											{isFetching && <Loader8 />}
-											<AdminCouponTable data={data?.message} />
-										</div>
-										<Pagination1 pagination={data?.message} setPage={setPage} />
-									</>
-								)}
-							</>
-						)}
-					</CardContent>
-				</Card>
-			</div>
+				{data?.message && (
+					<>
+						<div className="border rounded-lg relative">
+							{isFetching && <Loader8 />}
+							<AdminCouponTable data={data?.message} />
+						</div>
+						<Pagination1 pagination={data?.message} setPage={setPage} />
+					</>
+				)}
+			</Container1>
 		</>
 	);
 }

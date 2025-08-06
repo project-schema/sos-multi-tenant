@@ -2,15 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from '@/components/ui/dialog';
-import {
 	Table,
 	TableBody,
 	TableCell,
@@ -56,7 +47,7 @@ import {
 import { useAdminAllUserQuery } from '@/store/features/admin/user/admin.user.api.slice';
 import { AdminUserStatistics } from '@/store/features/admin/user/admin.user.statistics';
 import { statusType, userType } from '@/store/features/admin/user/type';
-import { ArrowDown, ArrowUp, Ellipsis, ExternalLink, Plus } from 'lucide-react';
+import { Ellipsis, ExternalLink, SlidersHorizontal } from 'lucide-react';
 import Link from 'next/link';
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/user' },
@@ -66,13 +57,12 @@ const breadcrumbItems = [
 
 export default function Page() {
 	const [toggleFilter, setToggleFilter] = useState(true);
-
 	const [searchTerm, setSearchTerm] = useState('');
 	const [statusFilter, setStatusFilter] = useState<statusType>('all');
 	const [roleFilter, setRoleFilter] = useState<userType>('all');
 	const [page, setPage] = useState(1);
 
-	// Debounced version of searchTerm
+	// Debounced
 	const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
 	const {
@@ -87,8 +77,6 @@ export default function Page() {
 		search: debouncedSearchTerm,
 	});
 
-	const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-
 	useEffect(() => {
 		setPage(1);
 	}, [statusFilter, roleFilter, debouncedSearchTerm]);
@@ -101,21 +89,15 @@ export default function Page() {
 				isLoading={isLoading}
 				header={
 					<>
-						<div className="pb-3 flex items-center justify-between">
-							<CardTitle className="text-2xl font-bold">
-								User Management
-							</CardTitle>
+						<div className="pb-2 lg:pb-3 flex items-center justify-between">
+							<CardTitle>User Management</CardTitle>
 							<Button
 								className="ml-auto"
-								variant="secondary"
+								variant="outline"
 								size="icon"
 								onClick={() => setToggleFilter((e) => !e)}
 							>
-								{toggleFilter ? (
-									<ArrowUp className="h-4 w-4" />
-								) : (
-									<ArrowDown className="h-4 w-4" />
-								)}
+								<SlidersHorizontal className="h-4 w-4" />
 							</Button>
 						</div>
 						{toggleFilter && <AdminUserStatistics />}
@@ -123,41 +105,14 @@ export default function Page() {
 				}
 			>
 				{toggleFilter && (
-					<div className="flex flex-col sm:flex-row gap-4 justify-between">
-						<AdminUserFilter
-							roleFilter={roleFilter}
-							setRoleFilter={setRoleFilter}
-							setSearchTerm={setSearchTerm}
-							setStatusFilter={setStatusFilter}
-							statusFilter={statusFilter}
-							searchTerm={searchTerm}
-						/>
-
-						{/* Create Button */}
-						<Dialog
-							open={isCreateDialogOpen}
-							onOpenChange={setIsCreateDialogOpen}
-						>
-							<DialogTrigger asChild>
-								<Button>
-									<Plus className="h-4 w-4 mr-2" />
-									Create User
-								</Button>
-							</DialogTrigger>
-							<DialogContent className="sm:max-w-[425px]">
-								<DialogHeader>
-									<DialogTitle>Create New User</DialogTitle>
-									<DialogDescription>
-										Add a new user to the system. Fill in all required fields.
-									</DialogDescription>
-								</DialogHeader>
-								<div className="grid gap-4 py-4">vasdfs</div>
-								<DialogFooter>
-									<Button>Create User</Button>
-								</DialogFooter>
-							</DialogContent>
-						</Dialog>
-					</div>
+					<AdminUserFilter
+						roleFilter={roleFilter}
+						setRoleFilter={setRoleFilter}
+						setSearchTerm={setSearchTerm}
+						setStatusFilter={setStatusFilter}
+						statusFilter={statusFilter}
+						searchTerm={searchTerm}
+					/>
 				)}
 				<div className="border rounded-lg relative">
 					{isFetching && <Loader8 />}

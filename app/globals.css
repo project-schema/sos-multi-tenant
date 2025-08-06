@@ -121,7 +121,7 @@
 		font-family: 'Poppins', sans-serif;
 	}
 	.db-container {
-		@apply w-full px-1 xl:px-6 py-2;
+		@apply w-full px-1 xl:px-6 py-2 sm:text-start;
 	}
 }
 
@@ -135,6 +135,28 @@
 	.layout {
 		padding-left: 15px;
 		padding-right: 15px;
+	}
+	:root {
+		--spacing: 0.23rem;
+		--radius: 0.6rem;
+	}
+}
+@media (max-width: 1024px) {
+	:root {
+		--spacing: 0.22rem;
+		--radius: 0.5rem;
+	}
+	html {
+		font-size: 15px;
+	}
+}
+@media (max-width: 640px) {
+	:root {
+		--spacing: 0.21rem;
+		--radius: 0.4rem;
+	}
+	html {
+		font-size: 14px;
 	}
 }
 

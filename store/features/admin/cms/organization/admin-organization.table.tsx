@@ -63,7 +63,9 @@ export function CrmOrganizationTable() {
 											{tableSrCount(1, i)}
 										</TableCell>
 
-										<TableCell className={cn('py-2 whitespace-pre-wrap')}>
+										<TableCell
+											className={cn('py-2 whitespace-pre-wrap min-w-3xs ')}
+										>
 											{item.description}
 										</TableCell>
 

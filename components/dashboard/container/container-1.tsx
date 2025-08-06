@@ -41,9 +41,9 @@ export function Container1({
 		loaderMap[loaderName?.replace('loader-', '') ?? '5'] || Loader5;
 
 	return (
-		<div className="w-full px-2 xl:px-6">
-			<Card className={cn('gap-0')}>
-				{header && <CardHeader className="pb-4">{header}</CardHeader>}
+		<div className="w-full px-2 xl:px-4">
+			<Card className={cn('gap-0 py-3 lg:py-6 rounded-md lg:rounded-xl')}>
+				{header && <CardHeader className={cn('pb-4')}>{header}</CardHeader>}
 				<CardContent>
 					{isError && <ErrorAlert />}
 					{!isError &&
@@ -57,3 +57,14 @@ export function Container1({
 		</div>
 	);
 }
+
+/*
+	<Container1
+		isError={isError}
+		isLoading={isLoading}
+		header={<></>}
+	>
+			
+	</Container1>
+
+*/

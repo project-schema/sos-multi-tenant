@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"scripts": {
-		"dev": "next dev --port 3010",
+		"dev": "next dev --port 3000",
 		"build": "next build",
 		"start": "next start --port 3099",
 		"type-check": "tsc --project tsconfig.json --pretty --noEmit && echo 'Typechecking passed!'"

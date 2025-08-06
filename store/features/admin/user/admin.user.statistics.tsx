@@ -15,7 +15,7 @@ export function AdminUserStatistics() {
 	const stats = data.message;
 
 	return (
-		<div className="grid grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 gap-4">
+		<div className="grid grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 gap-2 lg:gap-4">
 			<Card1
 				title="All Members"
 				countTitle={stats?.totalmember?.toString()}

@@ -16,11 +16,7 @@ export function AdminProductOrderStatistics() {
 	const { data, isLoading, isError } = useAdminOrderStatisticsQuery(undefined);
 
 	if (isLoading) {
-		return (
-			<div className="px-6 mb-6">
-				<Loader2 />
-			</div>
-		);
+		return <Loader2 />;
 	}
 
 	if (isError || !data) return null;
@@ -28,7 +24,7 @@ export function AdminProductOrderStatistics() {
 	const stats = data.message;
 
 	return (
-		<div className="grid grid-cols-7 gap-4">
+		<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 2xl:grid-cols-7 gap-4">
 			<Card1
 				title="All Orders"
 				countTitle={stats?.totalorder?.toString()}

@@ -27,18 +27,24 @@ export const Card1 = ({
 			)}
 		>
 			<div className="flex-1 w-full">
-				<CardHeader className="p-0 gap-0">
-					<CardTitle className="text-base font-medium text-gray-700 capitalize">
+				<CardHeader className={cn('p-0 lg:p-0 lg:gap-0')}>
+					<CardTitle
+						className={cn(
+							'text-base xl:text-base font-medium text-gray-700 capitalize'
+						)}
+					>
 						{title}
 					</CardTitle>
 				</CardHeader>
-				<CardContent className="p-0 flex items-center justify-between">
-					<h2 className="text-2xl font-bold text-primary capitalize">
+				<CardContent
+					className={cn('p-0 lg:p-0 flex items-center justify-between')}
+				>
+					<h2 className="text-xl xl:text-2xl font-bold text-primary capitalize">
 						{isLoading ? '...' : countTitle}
 					</h2>
 					{Icon && (
 						<div className={iconClassName || ''}>
-							<Icon className="w-10 h-10" />
+							<Icon className="w-8 xl:w-10 h-8 xl:h-10" />
 						</div>
 					)}
 				</CardContent>

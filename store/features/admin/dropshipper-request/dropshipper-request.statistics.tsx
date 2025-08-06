@@ -9,18 +9,14 @@ export function DropshipperProductStatistics() {
 		useAdminAffiliateProductStatisticsQuery(undefined);
 
 	if (isLoading) {
-		return (
-			<div className="px-6 mb-6">
-				<Loader2 />
-			</div>
-		);
+		return <Loader2 />;
 	}
 
 	if (isError || !data) return null;
 	const stats = data.message;
 
 	return (
-		<div className="grid grid-cols-6 gap-4 pb-4 ml-6">
+		<div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-6 gap-4">
 			<Card1
 				title="All Requested"
 				countTitle={stats?.totalrequest.toString()}

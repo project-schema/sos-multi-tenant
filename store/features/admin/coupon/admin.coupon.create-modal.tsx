@@ -87,7 +87,9 @@ export function CreateCouponModal() {
 				<Button className="ml-auto">Create Coupon</Button>
 			</DialogTrigger>
 
-			<DialogContent className={cn('sm:max-w-2xl w-full')}>
+			<DialogContent
+				className={cn('overflow-y-scroll max-h-[90vh] sm:max-w-2xl w-full')}
+			>
 				<DialogHeader>
 					<DialogTitle>Create Coupon</DialogTitle>
 				</DialogHeader>
@@ -166,8 +168,7 @@ const FORM = ({
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
-				{/* Commission + Type */}
-				<div className="grid grid-cols-2 gap-4">
+				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 					{/* Coupon Name */}
 					<FormField
 						control={form.control}

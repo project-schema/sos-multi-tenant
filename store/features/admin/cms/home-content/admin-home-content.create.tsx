@@ -614,7 +614,7 @@ export function CrmHomeContentCreate() {
 				{/* Choose Cards */}
 				<div className="mt-6 col-span-2 ">
 					<h4 className="text-md font-medium mb-4">Choose Cards</h4>
-					<div className="grid  grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+					<div className="grid  grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-6">
 						{/* Card One */}
 						<div className="border p-4 rounded-lg space-y-4">
 							<FormField
@@ -784,7 +784,7 @@ export function CrmHomeContentCreate() {
 				{/* Counters Section */}
 				<div>
 					<h3 className="text-lg font-medium mb-4">Counters</h3>
-					<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+					<div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
 						<div className="space-y-4">
 							<FormField
 								control={form.control}

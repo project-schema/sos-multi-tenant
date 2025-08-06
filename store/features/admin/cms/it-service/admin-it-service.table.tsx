@@ -76,7 +76,9 @@ export function CrmITServiceTable() {
 										<TableCell className="py-2">
 											{textCount(item.title, 25)}
 										</TableCell>
-										<TableCell className={cn('py-2 whitespace-pre-wrap')}>
+										<TableCell
+											className={cn('py-2 whitespace-pre-wrap min-w-sm')}
+										>
 											{item.description}
 										</TableCell>
 

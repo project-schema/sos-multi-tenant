@@ -1,13 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib';
 import { ConversionLocationCreate } from './conversion-location.create';
 import { ConversionLocationTable } from './conversion-location.table';
 
 export function ConversionLocationIndex() {
 	return (
 		<>
-			<Card className="col-span-1">
+			<Card className="lg:col-span-1">
 				<CardHeader>
-					<CardTitle className="text-lg font-bold">
+					<CardTitle className={cn('text-lg xl:text-xl')}>
 						Conversion Location
 					</CardTitle>
 				</CardHeader>
@@ -15,7 +16,7 @@ export function ConversionLocationIndex() {
 					<ConversionLocationCreate />
 				</CardContent>
 			</Card>
-			<Card className="col-span-2">
+			<Card className="lg:col-span-2">
 				<CardContent>
 					<ConversionLocationTable />
 				</CardContent>

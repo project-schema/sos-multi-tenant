@@ -5,6 +5,7 @@ import {
 	PaginationItem,
 	PaginationLink,
 } from '@/components/ui/pagination';
+import { cn } from '@/lib';
 import { iPagination } from '@/types';
 
 interface Props {
@@ -26,13 +27,13 @@ export function Pagination1({ pagination, setPage }: Props) {
 	};
 
 	return (
-		<div className="flex items-center justify-between mt-4">
+		<div className="flex items-center justify-center gap-2 xl:justify-between mt-4 flex-wrap flex-col sm:flex-row">
 			<p className="text-sm text-muted-foreground">
 				Showing {pagination.from} to {pagination.to} of {pagination.total} users
 			</p>
 
 			<PaginationComponent className="justify-end w-auto ml-auto mx-0">
-				<PaginationContent>
+				<PaginationContent className="flex-wrap justify-center">
 					{pagination.links.map((link, index) => {
 						const isEllipsis = link.label === '...';
 						const isPrevious = link.label.includes('Previous');
@@ -50,11 +51,13 @@ export function Pagination1({ pagination, setPage }: Props) {
 									}}
 									isActive={link.active}
 									aria-disabled={!link.url || isEllipsis}
-									className={
-										!link.url || isEllipsis
-											? 'opacity-50 pointer-events-none select-none'
-											: ''
-									}
+									className={cn(
+										`size-5 sm:size-7 xl:size-9 ${
+											!link.url || isEllipsis
+												? 'opacity-50 pointer-events-none select-none'
+												: ''
+										}`
+									)}
 								>
 									{isPrevious ? '←' : isNext ? '→' : link.label}
 								</PaginationLink>

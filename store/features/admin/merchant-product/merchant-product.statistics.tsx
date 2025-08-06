@@ -26,7 +26,7 @@ export function MerchantProductStatistics() {
 	const stats = data?.message;
 
 	return (
-		<div className="grid grid-cols-6 gap-4 pb-4 ml-6">
+		<div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
 			<Card1
 				title="Products"
 				countTitle={stats?.totalproduct.toString()}

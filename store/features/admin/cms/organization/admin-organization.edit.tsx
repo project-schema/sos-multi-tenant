@@ -110,10 +110,8 @@ export function CrmOrganizationEdit({
 
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
-					<DialogTitle>Edit CrmOrganization</DialogTitle>
-					<DialogDescription>
-						Update the category information.
-					</DialogDescription>
+					<DialogTitle>Edit Organization</DialogTitle>
+					<DialogDescription>Update the information.</DialogDescription>
 				</DialogHeader>
 
 				<Form {...form}>

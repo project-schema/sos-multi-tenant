@@ -1,5 +1,5 @@
-import { DbHeader } from '@/components/dashboard';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Container1, DbHeader } from '@/components/dashboard';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { meta } from '@/lib';
 import { CrmHomeContentCreate } from '@/store/features/admin/cms/home-content';
 import { Metadata } from 'next';
@@ -13,21 +13,13 @@ export default function Page() {
 	return (
 		<>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<div className="db-container space-y-6">
-				<Card className="gap-0">
-					<CardHeader className="pb-3 flex items-center justify-between">
-						<CardTitle className="text-2xl font-bold">Home Content</CardTitle>
-					</CardHeader>
-
+			<Container1 header={<CardTitle>Home Content</CardTitle>}>
+				<Card>
 					<CardContent>
-						<Card>
-							<CardContent>
-								<CrmHomeContentCreate />
-							</CardContent>
-						</Card>
+						<CrmHomeContentCreate />
 					</CardContent>
 				</Card>
-			</div>
+			</Container1>
 		</>
 	);
 }
