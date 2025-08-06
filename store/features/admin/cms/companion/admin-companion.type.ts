@@ -1,4 +1,4 @@
-export type iCrmCompanion = {
+export type iCompanion = {
 	id: number;
 	icon: string;
 	title: string;
@@ -7,7 +7,7 @@ export type iCrmCompanion = {
 	created_at: null | string;
 	updated_at: null | string;
 };
-export type iCrmCompanionResponse = {
+export type iCompanionResponse = {
 	status: 200;
-	data: iCrmCompanion[];
+	data: iCompanion[];
 };

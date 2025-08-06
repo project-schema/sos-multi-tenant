@@ -30,8 +30,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm } from '@/lib';
 import { IconInput } from '@/lib/icon/icon-input';
 import { toast } from 'sonner';
-import { useAdminUpdateCrmOrganizationTwoMutation } from './admin-organization-two.api.slice';
-import { iCrmOrganizationTwo } from './admin-organization-two.type';
+import { useAdminUpdateOrganizationTwoMutation } from './admin-organization-two.api.slice';
+import { iOrganizationTwo } from './admin-organization-two.type';
 
 // --- Zod Schema ---
 const schema = z.object({
@@ -42,14 +42,14 @@ const schema = z.object({
 
 type ZodType = z.infer<typeof schema>;
 
-export function CrmOrganizationTwoEdit({
+export function OrganizationTwoEdit({
 	editData,
 }: {
-	editData: iCrmOrganizationTwo;
+	editData: iOrganizationTwo;
 }) {
 	const [open, setOpen] = useState(false);
 
-	const [update, { isLoading }] = useAdminUpdateCrmOrganizationTwoMutation();
+	const [update, { isLoading }] = useAdminUpdateOrganizationTwoMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
@@ -116,7 +116,7 @@ export function CrmOrganizationTwoEdit({
 
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
-					<DialogTitle>Edit CrmOrganizationTwo</DialogTitle>
+					<DialogTitle>Edit OrganizationTwo</DialogTitle>
 					<DialogDescription>Update the information.</DialogDescription>
 				</DialogHeader>
 

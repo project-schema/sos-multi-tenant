@@ -22,7 +22,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm } from '@/lib';
 import { IconInput } from '@/lib/icon/icon-input';
 import { toast } from 'sonner';
-import { useAdminStoreCrmCompanionMutation } from './admin-companion.api.slice';
+import { useAdminStoreCompanionMutation } from './admin-companion.api.slice';
 
 // --- Zod Schema ---
 export const schema = z.object({
@@ -33,8 +33,8 @@ export const schema = z.object({
 
 export type ZodType = z.infer<typeof schema>;
 
-export function CrmCompanionCreate() {
-	const [store, { isLoading }] = useAdminStoreCrmCompanionMutation();
+export function CompanionCreate() {
+	const [store, { isLoading }] = useAdminStoreCompanionMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),

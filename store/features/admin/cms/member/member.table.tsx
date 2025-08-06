@@ -11,12 +11,12 @@ import {
 } from '@/components/ui/table';
 import { cn, env, ErrorAlert, tableSrCount } from '@/lib';
 import Link from 'next/link';
-import { useAdminViewCrmMemberQuery } from './member.api.slice';
-import { CrmMemberDelete } from './member.delete';
-import { CrmMemberEdit } from './member.edit';
+import { useAdminViewMemberQuery } from './member.api.slice';
+import { MemberDelete } from './member.delete';
+import { MemberEdit } from './member.edit';
 
-export function CrmMemberTable() {
-	const { data, isFetching, isLoading, isError } = useAdminViewCrmMemberQuery({
+export function MemberTable() {
+	const { data, isFetching, isLoading, isError } = useAdminViewMemberQuery({
 		page: '',
 	});
 
@@ -57,7 +57,7 @@ export function CrmMemberTable() {
 										colSpan={6}
 										className="text-center py-8 text-muted-foreground"
 									>
-										No CrmMember found matching your criteria
+										No Member found matching your criteria
 									</TableCell>
 								</TableRow>
 							) : (
@@ -101,8 +101,8 @@ export function CrmMemberTable() {
 										</TableCell>
 
 										<TableCell className="py-2 space-x-2">
-											<CrmMemberEdit editData={item} />
-											<CrmMemberDelete data={item} />
+											<MemberEdit editData={item} />
+											<MemberDelete data={item} />
 										</TableCell>
 									</TableRow>
 								))

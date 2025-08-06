@@ -8,14 +8,14 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { ErrorAlert, tableSrCount, textCount } from '@/lib';
+import { ErrorAlert, tableSrCount } from '@/lib';
 import { DynamicIcon } from '@/lib/icon/dynamic-icon';
-import { useAdminViewCrmMissionQuery } from './admin-mission.api.slice';
-import { CrmMissionDelete } from './admin-mission.delete';
-import { CrmMissionEdit } from './admin-mission.edit';
+import { useAdminViewMissionQuery } from './admin-mission.api.slice';
+import { MissionDelete } from './admin-mission.delete';
+import { MissionEdit } from './admin-mission.edit';
 
-export function CrmMissionTable() {
-	const { data, isFetching, isLoading, isError } = useAdminViewCrmMissionQuery({
+export function MissionTable() {
+	const { data, isFetching, isLoading, isError } = useAdminViewMissionQuery({
 		page: '',
 	});
 
@@ -71,13 +71,11 @@ export function CrmMissionTable() {
 											/>
 										</TableCell>
 
-										<TableCell className="py-2">
-											{textCount(item.title, 25)}
-										</TableCell>
+										<TableCell className="py-2">{item.title}</TableCell>
 
 										<TableCell className="py-2 space-x-2">
-											<CrmMissionEdit editData={item} />
-											<CrmMissionDelete data={item} />
+											<MissionEdit editData={item} />
+											<MissionDelete data={item} />
 										</TableCell>
 									</TableRow>
 								))

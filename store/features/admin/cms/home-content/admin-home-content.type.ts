@@ -1,4 +1,4 @@
-export type iCrmHomeContent = {
+export type iHomeContent = {
 	home_banner_heading: string;
 	home_banner_description: string;
 	service_one_title: string;
@@ -46,7 +46,7 @@ export type iCrmHomeContent = {
 	partner_title: string;
 	partner_heading: string;
 };
-export type iCrmHomeContentResponse = {
+export type iHomeContentResponse = {
 	status: 200;
 	data: 'success';
 	message: settingData[];

@@ -1,4 +1,4 @@
-export type iCrmPartner = {
+export type iPartner = {
 	id: number;
 	image: string | null;
 	tags: null;
@@ -6,7 +6,7 @@ export type iCrmPartner = {
 	updated_at: string | null;
 	deleted_at: string | null;
 };
-export type iCrmPartnerResponse = {
+export type iPartnerResponse = {
 	status: number;
-	data: iCrmPartner[];
+	data: iPartner[];
 };

@@ -1,25 +1,19 @@
 import { apiSlice } from '../../../api/apiSlice';
-import { iCrmMemberResponse } from './member.type';
+import { iMemberResponse } from './member.type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		adminViewCrmMember: builder.query<
-			iCrmMemberResponse,
-			{ page: number | string }
-		>({
+		adminViewMember: builder.query<iMemberResponse, { page: number | string }>({
 			query: ({ page }) => ({
 				url: `/admin/member?page=${page}`,
 				method: 'GET',
 			}),
-			providesTags: ['AdminCrmMember'],
+			providesTags: ['AdminMember'],
 		}),
 
 		// store
-		adminStoreCrmMember: builder.mutation<
-			{ status: 200; message: string },
-			any
-		>({
+		adminStoreMember: builder.mutation<{ status: 200; message: string }, any>({
 			query: (data) => {
 				const body = new FormData();
 				Object.entries(data).forEach(([key, value]) => {
@@ -35,14 +29,11 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['AdminCrmMember'],
+			invalidatesTags: ['AdminMember'],
 		}),
 
 		// update
-		adminUpdateCrmMember: builder.mutation<
-			{ status: 200; message: string },
-			any
-		>({
+		adminUpdateMember: builder.mutation<{ status: 200; message: string }, any>({
 			query: (data) => {
 				const body = new FormData();
 				Object.entries(data).forEach(([key, value]) => {
@@ -59,11 +50,11 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['AdminCrmMember'],
+			invalidatesTags: ['AdminMember'],
 		}),
 
 		// delete
-		adminDeleteCrmMember: builder.mutation<
+		adminDeleteMember: builder.mutation<
 			{ status: 200; message: string },
 			{ id: string | number }
 		>({
@@ -71,14 +62,14 @@ const api = apiSlice.injectEndpoints({
 				url: `/admin/member/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['AdminCrmMember'],
+			invalidatesTags: ['AdminMember'],
 		}),
 	}),
 });
 
 export const {
-	useAdminViewCrmMemberQuery,
-	useAdminStoreCrmMemberMutation,
-	useAdminDeleteCrmMemberMutation,
-	useAdminUpdateCrmMemberMutation,
+	useAdminViewMemberQuery,
+	useAdminStoreMemberMutation,
+	useAdminDeleteMemberMutation,
+	useAdminUpdateMemberMutation,
 } = api;

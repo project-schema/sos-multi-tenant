@@ -5,11 +5,11 @@ import { alertConfirm } from '@/lib';
 import { LoaderCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useAdminDeleteCrmMemberMutation } from './member.api.slice';
-import { iCrmMember } from './member.type';
+import { useAdminDeleteMemberMutation } from './member.api.slice';
+import { iMember } from './member.type';
 
-export function CrmMemberDelete({ data }: { data: iCrmMember }) {
-	const [mutation, { isLoading }] = useAdminDeleteCrmMemberMutation();
+export function MemberDelete({ data }: { data: iMember }) {
+	const [mutation, { isLoading }] = useAdminDeleteMemberMutation();
 	const [clicked, setClicked] = useState(false);
 
 	const handleClick = async () => {

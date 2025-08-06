@@ -10,13 +10,13 @@ import {
 } from '@/components/ui/table';
 import { cn, ErrorAlert, tableSrCount, textCount } from '@/lib';
 import { DynamicIcon } from '@/lib/icon/dynamic-icon';
-import { useAdminViewCrmOrganizationTwoQuery } from './admin-organization-two.api.slice';
-import { CrmOrganizationTwoDelete } from './admin-organization-two.delete';
-import { CrmOrganizationTwoEdit } from './admin-organization-two.edit';
+import { useAdminViewOrganizationTwoQuery } from './admin-organization-two.api.slice';
+import { OrganizationTwoDelete } from './admin-organization-two.delete';
+import { OrganizationTwoEdit } from './admin-organization-two.edit';
 
-export function CrmOrganizationTwoTable() {
+export function OrganizationTwoTable() {
 	const { data, isFetching, isLoading, isError } =
-		useAdminViewCrmOrganizationTwoQuery({
+		useAdminViewOrganizationTwoQuery({
 			page: '',
 		});
 
@@ -56,7 +56,7 @@ export function CrmOrganizationTwoTable() {
 										colSpan={5}
 										className="text-center py-8 text-muted-foreground"
 									>
-										No CrmOrganizationTwo found matching your criteria
+										No OrganizationTwo found matching your criteria
 									</TableCell>
 								</TableRow>
 							) : (
@@ -80,8 +80,8 @@ export function CrmOrganizationTwoTable() {
 										</TableCell>
 
 										<TableCell className="py-2 space-x-2">
-											<CrmOrganizationTwoEdit editData={item} />
-											<CrmOrganizationTwoDelete data={item} />
+											<OrganizationTwoEdit editData={item} />
+											<OrganizationTwoDelete data={item} />
 										</TableCell>
 									</TableRow>
 								))

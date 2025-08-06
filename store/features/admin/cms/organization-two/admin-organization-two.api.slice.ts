@@ -1,22 +1,22 @@
 import { apiSlice } from '../../../api/apiSlice';
-import { iCrmOrganizationTwoResponse } from './admin-organization-two.type';
+import { iOrganizationTwoResponse } from './admin-organization-two.type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		adminViewCrmOrganizationTwo: builder.query<
-			iCrmOrganizationTwoResponse,
+		adminViewOrganizationTwo: builder.query<
+			iOrganizationTwoResponse,
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
 				url: `/admin/organizationTwo?page=${page}`,
 				method: 'GET',
 			}),
-			providesTags: ['CrmAdminOrganizationTwo'],
+			providesTags: ['AdminOrganizationTwo'],
 		}),
 
 		// store
-		adminStoreCrmOrganizationTwo: builder.mutation<
+		adminStoreOrganizationTwo: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -35,11 +35,11 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['CrmAdminOrganizationTwo'],
+			invalidatesTags: ['AdminOrganizationTwo'],
 		}),
 
 		// update
-		adminUpdateCrmOrganizationTwo: builder.mutation<
+		adminUpdateOrganizationTwo: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -59,11 +59,11 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['CrmAdminOrganizationTwo'],
+			invalidatesTags: ['AdminOrganizationTwo'],
 		}),
 
 		// delete
-		adminDeleteCrmOrganizationTwo: builder.mutation<
+		adminDeleteOrganizationTwo: builder.mutation<
 			{ status: 200; message: string },
 			{ id: string | number }
 		>({
@@ -71,14 +71,14 @@ const api = apiSlice.injectEndpoints({
 				url: `/admin/organizationTwo/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['CrmAdminOrganizationTwo'],
+			invalidatesTags: ['AdminOrganizationTwo'],
 		}),
 	}),
 });
 
 export const {
-	useAdminViewCrmOrganizationTwoQuery,
-	useAdminStoreCrmOrganizationTwoMutation,
-	useAdminDeleteCrmOrganizationTwoMutation,
-	useAdminUpdateCrmOrganizationTwoMutation,
+	useAdminViewOrganizationTwoQuery,
+	useAdminStoreOrganizationTwoMutation,
+	useAdminDeleteOrganizationTwoMutation,
+	useAdminUpdateOrganizationTwoMutation,
 } = api;

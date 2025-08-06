@@ -26,9 +26,10 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { alertConfirm } from '@/lib';
 import { toast } from 'sonner';
-import { useAdminUpdateCrmAdvertiseFaqMutation } from './admin-advertise-faq.api.slice';
-import { iCrmAdvertiseFaq } from './admin-advertise-faq.type';
+import { useAdminUpdateAdvertiseFaqMutation } from './admin-advertise-faq.api.slice';
+import { iAdvertiseFaq } from './admin-advertise-faq.type';
 
 // --- Zod Schema ---
 const schema = z.object({
@@ -38,14 +39,10 @@ const schema = z.object({
 
 type ZodType = z.infer<typeof schema>;
 
-export function CrmAdvertiseFaqEdit({
-	editData,
-}: {
-	editData: iCrmAdvertiseFaq;
-}) {
+export function AdvertiseFaqEdit({ editData }: { editData: iAdvertiseFaq }) {
 	const [open, setOpen] = useState(false);
 
-	const [update, { isLoading }] = useAdminUpdateCrmAdvertiseFaqMutation();
+	const [update, { isLoading }] = useAdminUpdateAdvertiseFaqMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),

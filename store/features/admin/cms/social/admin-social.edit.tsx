@@ -29,8 +29,8 @@ import { Input } from '@/components/ui/input';
 import { alertConfirm } from '@/lib';
 import { IconInput } from '@/lib/icon/icon-input';
 import { toast } from 'sonner';
-import { useAdminUpdateCrmSocialMutation } from './admin-social.api.slice';
-import { iCrmSocial } from './admin-social.type';
+import { useAdminUpdateSocialMutation } from './admin-social.api.slice';
+import { iSocial } from './admin-social.type';
 
 // --- Zod Schema ---
 const schema = z.object({
@@ -40,10 +40,10 @@ const schema = z.object({
 
 type ZodType = z.infer<typeof schema>;
 
-export function CrmSocialEdit({ editData }: { editData: iCrmSocial }) {
+export function SocialEdit({ editData }: { editData: iSocial }) {
 	const [open, setOpen] = useState(false);
 
-	const [update, { isLoading }] = useAdminUpdateCrmSocialMutation();
+	const [update, { isLoading }] = useAdminUpdateSocialMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
@@ -107,7 +107,7 @@ export function CrmSocialEdit({ editData }: { editData: iCrmSocial }) {
 
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
-					<DialogTitle>Edit CrmSocial</DialogTitle>
+					<DialogTitle>Edit Social</DialogTitle>
 					<DialogDescription>Update the information.</DialogDescription>
 				</DialogHeader>
 

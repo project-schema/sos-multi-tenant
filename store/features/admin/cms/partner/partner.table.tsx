@@ -11,12 +11,12 @@ import {
 } from '@/components/ui/table';
 import { env, ErrorAlert, tableSrCount } from '@/lib';
 import Link from 'next/link';
-import { useAdminViewCrmPartnerQuery } from './partner.api.slice';
-import { CrmPartnerDelete } from './partner.delete';
-import { CrmPartnerEdit } from './partner.edit';
+import { useAdminViewPartnerQuery } from './partner.api.slice';
+import { PartnerDelete } from './partner.delete';
+import { PartnerEdit } from './partner.edit';
 
-export function CrmPartnerTable() {
-	const { data, isFetching, isLoading, isError } = useAdminViewCrmPartnerQuery({
+export function PartnerTable() {
+	const { data, isFetching, isLoading, isError } = useAdminViewPartnerQuery({
 		page: '',
 	});
 
@@ -54,7 +54,7 @@ export function CrmPartnerTable() {
 										colSpan={3}
 										className="text-center py-8 text-muted-foreground"
 									>
-										No CrmPartner found matching your criteria
+										No Partner found matching your criteria
 									</TableCell>
 								</TableRow>
 							) : (
@@ -78,8 +78,8 @@ export function CrmPartnerTable() {
 										</TableCell>
 
 										<TableCell className="py-2 space-x-2">
-											<CrmPartnerEdit editData={category} />
-											<CrmPartnerDelete data={category} />
+											<PartnerEdit editData={category} />
+											<PartnerDelete data={category} />
 										</TableCell>
 									</TableRow>
 								))

@@ -1,25 +1,22 @@
 import { apiSlice } from '../../../api/apiSlice';
-import { iCrmMissionResponse } from './admin-mission.type';
+import { iMissionResponse } from './admin-mission.type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		adminViewCrmMission: builder.query<
-			iCrmMissionResponse,
+		adminViewMission: builder.query<
+			iMissionResponse,
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
 				url: `/admin/mission?page=${page}`,
 				method: 'GET',
 			}),
-			providesTags: ['CrmAdminMission'],
+			providesTags: ['AdminMission'],
 		}),
 
 		// store
-		adminStoreCrmMission: builder.mutation<
-			{ status: 200; message: string },
-			any
-		>({
+		adminStoreMission: builder.mutation<{ status: 200; message: string }, any>({
 			query: (data) => {
 				const body = new FormData();
 				Object.entries(data).forEach(([key, value]) => {
@@ -35,35 +32,34 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['CrmAdminMission'],
+			invalidatesTags: ['AdminMission'],
 		}),
 
 		// update
-		adminUpdateCrmMission: builder.mutation<
-			{ status: 200; message: string },
-			any
-		>({
-			query: (data) => {
-				const body = new FormData();
-				Object.entries(data).forEach(([key, value]) => {
-					if (value) {
-						body.append(key, value as string);
-					}
-				});
-				body.append('_method', 'PUT');
+		adminUpdateMission: builder.mutation<{ status: 200; message: string }, any>(
+			{
+				query: (data) => {
+					const body = new FormData();
+					Object.entries(data).forEach(([key, value]) => {
+						if (value) {
+							body.append(key, value as string);
+						}
+					});
+					body.append('_method', 'PUT');
 
-				return {
-					url: `/admin/mission/${data.id}`,
-					method: 'POST',
-					body,
-					formData: true,
-				};
-			},
-			invalidatesTags: ['CrmAdminMission'],
-		}),
+					return {
+						url: `/admin/mission/${data.id}`,
+						method: 'POST',
+						body,
+						formData: true,
+					};
+				},
+				invalidatesTags: ['AdminMission'],
+			}
+		),
 
 		// delete
-		adminDeleteCrmMission: builder.mutation<
+		adminDeleteMission: builder.mutation<
 			{ status: 200; message: string },
 			{ id: string | number }
 		>({
@@ -71,14 +67,14 @@ const api = apiSlice.injectEndpoints({
 				url: `/admin/mission/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['CrmAdminMission'],
+			invalidatesTags: ['AdminMission'],
 		}),
 	}),
 });
 
 export const {
-	useAdminViewCrmMissionQuery,
-	useAdminStoreCrmMissionMutation,
-	useAdminDeleteCrmMissionMutation,
-	useAdminUpdateCrmMissionMutation,
+	useAdminViewMissionQuery,
+	useAdminStoreMissionMutation,
+	useAdminDeleteMissionMutation,
+	useAdminUpdateMissionMutation,
 } = api;

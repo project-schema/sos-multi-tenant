@@ -30,8 +30,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm } from '@/lib';
 import { IconInput } from '@/lib/icon/icon-input';
 import { toast } from 'sonner';
-import { useAdminUpdateCrmCompanionMutation } from './admin-companion.api.slice';
-import { iCrmCompanion } from './admin-companion.type';
+import { useAdminUpdateCompanionMutation } from './admin-companion.api.slice';
+import { iCompanion } from './admin-companion.type';
 
 // --- Zod Schema ---
 const schema = z.object({
@@ -42,10 +42,10 @@ const schema = z.object({
 
 type ZodType = z.infer<typeof schema>;
 
-export function CrmCompanionEdit({ editData }: { editData: iCrmCompanion }) {
+export function CompanionEdit({ editData }: { editData: iCompanion }) {
 	const [open, setOpen] = useState(false);
 
-	const [update, { isLoading }] = useAdminUpdateCrmCompanionMutation();
+	const [update, { isLoading }] = useAdminUpdateCompanionMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
@@ -110,7 +110,7 @@ export function CrmCompanionEdit({ editData }: { editData: iCrmCompanion }) {
 
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
-					<DialogTitle>Edit CrmCompanion</DialogTitle>
+					<DialogTitle>Edit Companion</DialogTitle>
 					<DialogDescription>Update the information.</DialogDescription>
 				</DialogHeader>
 

@@ -20,7 +20,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm } from '@/lib';
 import { toast } from 'sonner';
-import { useAdminStoreCrmOrganizationMutation } from './admin-organization.api.slice';
+import { useAdminStoreOrganizationMutation } from './admin-organization.api.slice';
 
 // --- Zod Schema ---
 export const schema = z.object({
@@ -29,8 +29,8 @@ export const schema = z.object({
 
 export type ZodType = z.infer<typeof schema>;
 
-export function CrmOrganizationCreate() {
-	const [store, { isLoading }] = useAdminStoreCrmOrganizationMutation();
+export function OrganizationCreate() {
+	const [store, { isLoading }] = useAdminStoreOrganizationMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),

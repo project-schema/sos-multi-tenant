@@ -22,7 +22,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm } from '@/lib';
 import { IconInput } from '@/lib/icon/icon-input';
 import { toast } from 'sonner';
-import { useAdminStoreCrmServiceMutation } from './admin-service.api.slice';
+import { useAdminStoreServiceMutation } from './admin-service.api.slice';
 
 // --- Zod Schema ---
 export const schema = z.object({
@@ -33,8 +33,8 @@ export const schema = z.object({
 
 export type ZodType = z.infer<typeof schema>;
 
-export function CrmServiceCreate() {
-	const [store, { isLoading }] = useAdminStoreCrmServiceMutation();
+export function ServiceCreate() {
+	const [store, { isLoading }] = useAdminStoreServiceMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),

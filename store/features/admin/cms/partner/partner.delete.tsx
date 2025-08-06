@@ -5,11 +5,11 @@ import { alertConfirm } from '@/lib';
 import { LoaderCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useAdminDeleteCrmPartnerMutation } from './partner.api.slice';
-import { iCrmPartner } from './partner.type';
+import { useAdminDeletePartnerMutation } from './partner.api.slice';
+import { iPartner } from './partner.type';
 
-export function CrmPartnerDelete({ data }: { data: iCrmPartner }) {
-	const [mutation, { isLoading }] = useAdminDeleteCrmPartnerMutation();
+export function PartnerDelete({ data }: { data: iPartner }) {
+	const [mutation, { isLoading }] = useAdminDeletePartnerMutation();
 	const [clicked, setClicked] = useState(false);
 
 	const handleClick = async () => {

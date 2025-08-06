@@ -1,4 +1,4 @@
-export type iCrmMember = {
+export type iMember = {
 	id: number;
 	photo: string;
 	name: string;
@@ -10,7 +10,7 @@ export type iCrmMember = {
 	updated_at: string;
 	deleted_at: string | null;
 };
-export type iCrmMemberResponse = {
+export type iMemberResponse = {
 	status: number;
-	data: iCrmMember[];
+	data: iMember[];
 };

@@ -21,8 +21,8 @@ import { Form, FormField, FormItem } from '@/components/ui/form';
 import { ImageUpload } from '@/components/ui/image-upload';
 import { alertConfirm, env } from '@/lib';
 import { toast } from 'sonner';
-import { useAdminUpdateCrmPartnerMutation } from './partner.api.slice';
-import { iCrmPartner } from './partner.type';
+import { useAdminUpdatePartnerMutation } from './partner.api.slice';
+import { iPartner } from './partner.type';
 
 // --- Zod Schema ---
 const schema = z.object({
@@ -34,10 +34,10 @@ const schema = z.object({
 
 type ZodType = z.infer<typeof schema>;
 
-export function CrmPartnerEdit({ editData }: { editData: iCrmPartner }) {
+export function PartnerEdit({ editData }: { editData: iPartner }) {
 	const [open, setOpen] = useState(false);
 
-	const [updateProfile, { isLoading }] = useAdminUpdateCrmPartnerMutation();
+	const [updateProfile, { isLoading }] = useAdminUpdatePartnerMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
@@ -100,7 +100,7 @@ export function CrmPartnerEdit({ editData }: { editData: iCrmPartner }) {
 
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
-					<DialogTitle>Edit CrmPartner</DialogTitle>
+					<DialogTitle>Edit Partner</DialogTitle>
 					<DialogDescription>Update the information.</DialogDescription>
 				</DialogHeader>
 

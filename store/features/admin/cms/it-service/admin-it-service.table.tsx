@@ -12,16 +12,15 @@ import {
 import { cn, ErrorAlert, tableSrCount, textCount } from '@/lib';
 import { DynamicIcon } from '@/lib/icon/dynamic-icon';
 import { useState } from 'react';
-import { useAdminViewCrmITServiceQuery } from './admin-it-service.api.slice';
-import { CrmITServiceDelete } from './admin-it-service.delete';
-import { CrmITServiceEdit } from './admin-it-service.edit';
+import { useAdminViewITServiceQuery } from './admin-it-service.api.slice';
+import { ITServiceDelete } from './admin-it-service.delete';
+import { ITServiceEdit } from './admin-it-service.edit';
 
-export function CrmITServiceTable() {
+export function ITServiceTable() {
 	const [page, setPage] = useState(1);
-	const { data, isFetching, isLoading, isError } =
-		useAdminViewCrmITServiceQuery({
-			page,
-		});
+	const { data, isFetching, isLoading, isError } = useAdminViewITServiceQuery({
+		page,
+	});
 
 	if (isError) {
 		return <ErrorAlert />;
@@ -59,7 +58,7 @@ export function CrmITServiceTable() {
 										colSpan={5}
 										className="text-center py-8 text-muted-foreground"
 									>
-										No CrmITService found matching your criteria
+										No ITService found matching your criteria
 									</TableCell>
 								</TableRow>
 							) : (
@@ -83,8 +82,8 @@ export function CrmITServiceTable() {
 										</TableCell>
 
 										<TableCell className="py-2 space-x-2">
-											<CrmITServiceEdit editData={item} />
-											<CrmITServiceDelete data={item} />
+											<ITServiceEdit editData={item} />
+											<ITServiceDelete data={item} />
 										</TableCell>
 									</TableRow>
 								))

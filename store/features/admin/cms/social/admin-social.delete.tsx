@@ -5,11 +5,11 @@ import { alertConfirm } from '@/lib';
 import { LoaderCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useAdminDeleteCrmSocialMutation } from './admin-social.api.slice';
-import { iCrmSocial } from './admin-social.type';
+import { useAdminDeleteSocialMutation } from './admin-social.api.slice';
+import { iSocial } from './admin-social.type';
 
-export function CrmSocialDelete({ data }: { data: iCrmSocial }) {
-	const [mutation, { isLoading }] = useAdminDeleteCrmSocialMutation();
+export function SocialDelete({ data }: { data: iSocial }) {
+	const [mutation, { isLoading }] = useAdminDeleteSocialMutation();
 	const [clicked, setClicked] = useState(false);
 
 	const handleClick = async () => {

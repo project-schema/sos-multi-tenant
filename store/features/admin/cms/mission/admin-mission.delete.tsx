@@ -5,11 +5,11 @@ import { alertConfirm } from '@/lib';
 import { LoaderCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useAdminDeleteCrmMissionMutation } from './admin-mission.api.slice';
-import { iCrmMission } from './admin-mission.type';
+import { useAdminDeleteMissionMutation } from './admin-mission.api.slice';
+import { iMission } from './admin-mission.type';
 
-export function CrmMissionDelete({ data }: { data: iCrmMission }) {
-	const [mutation, { isLoading }] = useAdminDeleteCrmMissionMutation();
+export function MissionDelete({ data }: { data: iMission }) {
+	const [mutation, { isLoading }] = useAdminDeleteMissionMutation();
 	const [clicked, setClicked] = useState(false);
 
 	const handleClick = async () => {

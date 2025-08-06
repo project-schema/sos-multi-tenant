@@ -1,9 +1,9 @@
-import { DbHeader } from '@/components/dashboard';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Container1, DbHeader } from '@/components/dashboard';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { meta } from '@/lib';
 import {
-	CrmAdvertiseFaqCreate,
-	CrmAdvertiseFaqTable,
+	AdvertiseFaqCreate,
+	AdvertiseFaqTable,
 } from '@/store/features/admin/cms/advertise-faq';
 
 import { Metadata } from 'next';
@@ -17,28 +17,20 @@ export default function Page() {
 	return (
 		<>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<div className="db-container space-y-6">
-				<Card className="gap-0">
-					<CardHeader className="pb-3 flex items-center justify-between">
-						<CardTitle className="text-2xl font-bold">
-							All Advertise Faq
-						</CardTitle>
-					</CardHeader>
-
-					<CardContent className="grid grid-cols-3 gap-4">
-						<Card className="col-span-1">
-							<CardContent>
-								<CrmAdvertiseFaqCreate />
-							</CardContent>
-						</Card>
-						<Card className="col-span-2">
-							<CardContent>
-								<CrmAdvertiseFaqTable />
-							</CardContent>
-						</Card>
-					</CardContent>
-				</Card>
-			</div>
+			<Container1 header={<CardTitle>All Advertise Faq</CardTitle>}>
+				<div className="grid lg:grid-cols-3 gap-4">
+					<Card className="lg:col-span-1">
+						<CardContent>
+							<AdvertiseFaqCreate />
+						</CardContent>
+					</Card>
+					<Card className="lg:col-span-2 overflow-hidden">
+						<CardContent>
+							<AdvertiseFaqTable />
+						</CardContent>
+					</Card>
+				</div>
+			</Container1>
 		</>
 	);
 }

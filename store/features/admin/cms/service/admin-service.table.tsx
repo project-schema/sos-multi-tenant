@@ -10,12 +10,12 @@ import {
 } from '@/components/ui/table';
 import { cn, ErrorAlert, tableSrCount, textCount } from '@/lib';
 import { DynamicIcon } from '@/lib/icon/dynamic-icon';
-import { useAdminViewCrmServiceQuery } from './admin-service.api.slice';
-import { CrmServiceDelete } from './admin-service.delete';
-import { CrmServiceEdit } from './admin-service.edit';
+import { useAdminViewServiceQuery } from './admin-service.api.slice';
+import { ServiceDelete } from './admin-service.delete';
+import { ServiceEdit } from './admin-service.edit';
 
-export function CrmServiceTable() {
-	const { data, isFetching, isLoading, isError } = useAdminViewCrmServiceQuery({
+export function ServiceTable() {
+	const { data, isFetching, isLoading, isError } = useAdminViewServiceQuery({
 		page: '',
 	});
 
@@ -55,7 +55,7 @@ export function CrmServiceTable() {
 										colSpan={5}
 										className="text-center py-8 text-muted-foreground"
 									>
-										No CrmService found matching your criteria
+										No Service found matching your criteria
 									</TableCell>
 								</TableRow>
 							) : (
@@ -77,8 +77,8 @@ export function CrmServiceTable() {
 										</TableCell>
 
 										<TableCell className="py-2 space-x-2">
-											<CrmServiceEdit editData={item} />
-											<CrmServiceDelete data={item} />
+											<ServiceEdit editData={item} />
+											<ServiceDelete data={item} />
 										</TableCell>
 									</TableRow>
 								))

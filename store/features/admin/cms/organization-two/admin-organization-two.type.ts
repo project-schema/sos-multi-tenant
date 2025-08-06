@@ -1,4 +1,4 @@
-export type iCrmOrganizationTwo = {
+export type iOrganizationTwo = {
 	id: number;
 	icon: string;
 	title: string;
@@ -7,7 +7,7 @@ export type iCrmOrganizationTwo = {
 	created_at: null | string;
 	updated_at: null | string;
 };
-export type iCrmOrganizationTwoResponse = {
+export type iOrganizationTwoResponse = {
 	status: 200;
-	data: iCrmOrganizationTwo[];
+	data: iOrganizationTwo[];
 };

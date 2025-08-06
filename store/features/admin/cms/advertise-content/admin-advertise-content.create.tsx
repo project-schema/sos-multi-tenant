@@ -22,8 +22,8 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import {
-	useAdminUpdateCrmHomeContentMutation,
-	useAdminViewCrmHomeContentQuery,
+	useAdminUpdateHomeContentMutation,
+	useAdminViewHomeContentQuery,
 } from '../home-content/admin-home-content.api.slice';
 
 // --- Zod Schema ---
@@ -44,14 +44,14 @@ export const schema = z.object({
 
 export type ZodType = z.infer<typeof schema>;
 
-export function CrmAdvertiseContentCreate() {
-	const [store, { isLoading }] = useAdminUpdateCrmHomeContentMutation();
+export function AdvertiseContentCreate() {
+	const [store, { isLoading }] = useAdminUpdateHomeContentMutation();
 	const {
 		data,
 		isLoading: loading,
 		isError,
 		refetch,
-	} = useAdminViewCrmHomeContentQuery(undefined);
+	} = useAdminViewHomeContentQuery(undefined);
 	const setting = data?.message[0];
 
 	const form = useForm<ZodType>({
@@ -210,7 +210,10 @@ export function CrmAdvertiseContentCreate() {
 									<FormItem>
 										<FormLabel>Overview description</FormLabel>
 										<FormControl>
-											<Input {...field} placeholder="Overview description..." />
+											<Textarea
+												{...field}
+												placeholder="Overview description..."
+											/>
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -238,7 +241,7 @@ export function CrmAdvertiseContentCreate() {
 									<FormItem>
 										<FormLabel>Get Started description</FormLabel>
 										<FormControl>
-											<Input {...field} placeholder="Enter description..." />
+											<Textarea {...field} placeholder="Enter description..." />
 										</FormControl>
 										<FormMessage />
 									</FormItem>

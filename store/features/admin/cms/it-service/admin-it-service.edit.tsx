@@ -30,8 +30,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm } from '@/lib';
 import { IconInput } from '@/lib/icon/icon-input';
 import { toast } from 'sonner';
-import { useAdminUpdateCrmITServiceMutation } from './admin-it-service.api.slice';
-import { iCrmITService } from './admin-it-service.type';
+import { useAdminUpdateITServiceMutation } from './admin-it-service.api.slice';
+import { iITService } from './admin-it-service.type';
 
 // --- Zod Schema ---
 const schema = z.object({
@@ -42,10 +42,10 @@ const schema = z.object({
 
 type ZodType = z.infer<typeof schema>;
 
-export function CrmITServiceEdit({ editData }: { editData: iCrmITService }) {
+export function ITServiceEdit({ editData }: { editData: iITService }) {
 	const [open, setOpen] = useState(false);
 
-	const [update, { isLoading }] = useAdminUpdateCrmITServiceMutation();
+	const [update, { isLoading }] = useAdminUpdateITServiceMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
@@ -110,7 +110,7 @@ export function CrmITServiceEdit({ editData }: { editData: iCrmITService }) {
 
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
-					<DialogTitle>Edit CrmITService</DialogTitle>
+					<DialogTitle>Edit ITService</DialogTitle>
 					<DialogDescription>Update the information.</DialogDescription>
 				</DialogHeader>
 

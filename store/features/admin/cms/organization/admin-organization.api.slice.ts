@@ -1,22 +1,22 @@
 import { apiSlice } from '../../../api/apiSlice';
-import { iCrmOrganizationResponse } from './admin-organization.type';
+import { iOrganizationResponse } from './admin-organization.type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		adminViewCrmOrganization: builder.query<
-			iCrmOrganizationResponse,
+		adminViewOrganization: builder.query<
+			iOrganizationResponse,
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
 				url: `/admin/organization?page=${page}`,
 				method: 'GET',
 			}),
-			providesTags: ['CrmAdminOrganization'],
+			providesTags: ['AdminOrganization'],
 		}),
 
 		// store
-		adminStoreCrmOrganization: builder.mutation<
+		adminStoreOrganization: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -35,11 +35,11 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['CrmAdminOrganization'],
+			invalidatesTags: ['AdminOrganization'],
 		}),
 
 		// update
-		adminUpdateCrmOrganization: builder.mutation<
+		adminUpdateOrganization: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -59,11 +59,11 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['CrmAdminOrganization'],
+			invalidatesTags: ['AdminOrganization'],
 		}),
 
 		// delete
-		adminDeleteCrmOrganization: builder.mutation<
+		adminDeleteOrganization: builder.mutation<
 			{ status: 200; message: string },
 			{ id: string | number }
 		>({
@@ -71,14 +71,14 @@ const api = apiSlice.injectEndpoints({
 				url: `/admin/organization/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['CrmAdminOrganization'],
+			invalidatesTags: ['AdminOrganization'],
 		}),
 	}),
 });
 
 export const {
-	useAdminViewCrmOrganizationQuery,
-	useAdminStoreCrmOrganizationMutation,
-	useAdminDeleteCrmOrganizationMutation,
-	useAdminUpdateCrmOrganizationMutation,
+	useAdminViewOrganizationQuery,
+	useAdminStoreOrganizationMutation,
+	useAdminDeleteOrganizationMutation,
+	useAdminUpdateOrganizationMutation,
 } = api;

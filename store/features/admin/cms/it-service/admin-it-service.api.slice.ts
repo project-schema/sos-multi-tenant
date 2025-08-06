@@ -1,22 +1,22 @@
 import { apiSlice } from '../../../api/apiSlice';
-import { iCrmITServiceResponse } from './admin-it-service.type';
+import { iITServiceResponse } from './admin-it-service.type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		adminViewCrmITService: builder.query<
-			iCrmITServiceResponse,
+		adminViewITService: builder.query<
+			iITServiceResponse,
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
 				url: `/admin/it-service?page=${page}`,
 				method: 'GET',
 			}),
-			providesTags: ['CrmAdminITService'],
+			providesTags: ['AdminITService'],
 		}),
 
 		// store
-		adminStoreCrmITService: builder.mutation<
+		adminStoreITService: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -35,11 +35,11 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['CrmAdminITService'],
+			invalidatesTags: ['AdminITService'],
 		}),
 
 		// update
-		adminUpdateCrmITService: builder.mutation<
+		adminUpdateITService: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -59,11 +59,11 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['CrmAdminITService'],
+			invalidatesTags: ['AdminITService'],
 		}),
 
 		// delete
-		adminDeleteCrmITService: builder.mutation<
+		adminDeleteITService: builder.mutation<
 			{ status: 200; message: string },
 			{ id: string | number }
 		>({
@@ -71,14 +71,14 @@ const api = apiSlice.injectEndpoints({
 				url: `/admin/it-service/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['CrmAdminITService'],
+			invalidatesTags: ['AdminITService'],
 		}),
 	}),
 });
 
 export const {
-	useAdminViewCrmITServiceQuery,
-	useAdminStoreCrmITServiceMutation,
-	useAdminDeleteCrmITServiceMutation,
-	useAdminUpdateCrmITServiceMutation,
+	useAdminViewITServiceQuery,
+	useAdminStoreITServiceMutation,
+	useAdminDeleteITServiceMutation,
+	useAdminUpdateITServiceMutation,
 } = api;

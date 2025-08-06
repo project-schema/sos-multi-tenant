@@ -1,10 +1,7 @@
 import { Container1, DbHeader } from '@/components/dashboard';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { meta } from '@/lib';
-import {
-	CrmSocialCreate,
-	CrmSocialTable,
-} from '@/store/features/admin/cms/social';
+import { SocialCreate, SocialTable } from '@/store/features/admin/cms/social';
 import { Metadata } from 'next';
 
 const breadcrumbItems = [
@@ -20,12 +17,12 @@ export default function Page() {
 				<div className="grid lg:grid-cols-3 gap-4">
 					<Card className="lg:col-span-1">
 						<CardContent>
-							<CrmSocialCreate />
+							<SocialCreate />
 						</CardContent>
 					</Card>
 					<Card className="lg:col-span-2 overflow-hidden">
 						<CardContent>
-							<CrmSocialTable />
+							<SocialTable />
 						</CardContent>
 					</Card>
 				</div>

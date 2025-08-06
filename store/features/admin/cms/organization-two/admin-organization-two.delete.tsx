@@ -5,15 +5,11 @@ import { alertConfirm } from '@/lib';
 import { LoaderCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useAdminDeleteCrmOrganizationTwoMutation } from './admin-organization-two.api.slice';
-import { iCrmOrganizationTwo } from './admin-organization-two.type';
+import { useAdminDeleteOrganizationTwoMutation } from './admin-organization-two.api.slice';
+import { iOrganizationTwo } from './admin-organization-two.type';
 
-export function CrmOrganizationTwoDelete({
-	data,
-}: {
-	data: iCrmOrganizationTwo;
-}) {
-	const [mutation, { isLoading }] = useAdminDeleteCrmOrganizationTwoMutation();
+export function OrganizationTwoDelete({ data }: { data: iOrganizationTwo }) {
+	const [mutation, { isLoading }] = useAdminDeleteOrganizationTwoMutation();
 	const [clicked, setClicked] = useState(false);
 
 	const handleClick = async () => {

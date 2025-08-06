@@ -5,11 +5,11 @@ import { alertConfirm } from '@/lib';
 import { LoaderCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useAdminDeleteCrmTestimonialMutation } from './testimonial.api.slice';
-import { iCrmTestimonial } from './testimonial.type';
+import { useAdminDeleteTestimonialMutation } from './testimonial.api.slice';
+import { iTestimonial } from './testimonial.type';
 
-export function CrmTestimonialDelete({ data }: { data: iCrmTestimonial }) {
-	const [mutation, { isLoading }] = useAdminDeleteCrmTestimonialMutation();
+export function TestimonialDelete({ data }: { data: iTestimonial }) {
+	const [mutation, { isLoading }] = useAdminDeleteTestimonialMutation();
 	const [clicked, setClicked] = useState(false);
 
 	const handleClick = async () => {

@@ -9,13 +9,13 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 import { cn, ErrorAlert, tableSrCount } from '@/lib';
-import { useAdminViewCrmAdvertiseFaqQuery } from './admin-advertise-faq.api.slice';
-import { CrmAdvertiseFaqDelete } from './admin-advertise-faq.delete';
-import { CrmAdvertiseFaqEdit } from './admin-advertise-faq.edit';
+import { useAdminViewAdvertiseFaqQuery } from './admin-advertise-faq.api.slice';
+import { AdvertiseFaqDelete } from './admin-advertise-faq.delete';
+import { AdvertiseFaqEdit } from './admin-advertise-faq.edit';
 
-export function CrmAdvertiseFaqTable() {
+export function AdvertiseFaqTable() {
 	const { data, isFetching, isLoading, isError } =
-		useAdminViewCrmAdvertiseFaqQuery({
+		useAdminViewAdvertiseFaqQuery({
 			page: '',
 		});
 
@@ -54,7 +54,7 @@ export function CrmAdvertiseFaqTable() {
 										colSpan={4}
 										className="text-center py-8 text-muted-foreground"
 									>
-										No CrmAdvertiseFaq found matching your criteria
+										No AdvertiseFaq found matching your criteria
 									</TableCell>
 								</TableRow>
 							) : (
@@ -73,8 +73,8 @@ export function CrmAdvertiseFaqTable() {
 										</TableCell>
 
 										<TableCell className="py-2 space-x-2">
-											<CrmAdvertiseFaqEdit editData={item} />
-											<CrmAdvertiseFaqDelete data={item} />
+											<AdvertiseFaqEdit editData={item} />
+											<AdvertiseFaqDelete data={item} />
 										</TableCell>
 									</TableRow>
 								))

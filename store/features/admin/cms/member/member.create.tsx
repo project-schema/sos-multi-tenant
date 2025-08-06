@@ -21,7 +21,7 @@ import { ImageUpload } from '@/components/ui/image-upload';
 import { Input } from '@/components/ui/input';
 import { alertConfirm } from '@/lib';
 import { toast } from 'sonner';
-import { useAdminStoreCrmMemberMutation } from './member.api.slice';
+import { useAdminStoreMemberMutation } from './member.api.slice';
 
 // --- Zod Schema ---
 export const schema = z.object({
@@ -39,8 +39,8 @@ export const schema = z.object({
 
 export type ZodType = z.infer<typeof schema>;
 
-export function CrmMemberCreate() {
-	const [store, { isLoading }] = useAdminStoreCrmMemberMutation();
+export function MemberCreate() {
+	const [store, { isLoading }] = useAdminStoreMemberMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),

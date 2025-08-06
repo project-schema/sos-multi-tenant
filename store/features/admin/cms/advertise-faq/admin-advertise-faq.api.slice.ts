@@ -1,22 +1,22 @@
 import { apiSlice } from '../../../api/apiSlice';
-import { iCrmAdvertiseFaqResponse } from './admin-advertise-faq.type';
+import { iAdvertiseFaqResponse } from './admin-advertise-faq.type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		adminViewCrmAdvertiseFaq: builder.query<
-			iCrmAdvertiseFaqResponse,
+		adminViewAdvertiseFaq: builder.query<
+			iAdvertiseFaqResponse,
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
 				url: `/admin/faq?page=${page}`,
 				method: 'GET',
 			}),
-			providesTags: ['CrmAdminAdvertiseFaq'],
+			providesTags: ['AdminAdvertiseFaq'],
 		}),
 
 		// store
-		adminStoreCrmAdvertiseFaq: builder.mutation<
+		adminStoreAdvertiseFaq: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -35,11 +35,11 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['CrmAdminAdvertiseFaq'],
+			invalidatesTags: ['AdminAdvertiseFaq'],
 		}),
 
 		// update
-		adminUpdateCrmAdvertiseFaq: builder.mutation<
+		adminUpdateAdvertiseFaq: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -59,11 +59,11 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['CrmAdminAdvertiseFaq'],
+			invalidatesTags: ['AdminAdvertiseFaq'],
 		}),
 
 		// delete
-		adminDeleteCrmAdvertiseFaq: builder.mutation<
+		adminDeleteAdvertiseFaq: builder.mutation<
 			{ status: 200; message: string },
 			{ id: string | number }
 		>({
@@ -71,14 +71,14 @@ const api = apiSlice.injectEndpoints({
 				url: `/admin/faq/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['CrmAdminAdvertiseFaq'],
+			invalidatesTags: ['AdminAdvertiseFaq'],
 		}),
 	}),
 });
 
 export const {
-	useAdminViewCrmAdvertiseFaqQuery,
-	useAdminStoreCrmAdvertiseFaqMutation,
-	useAdminDeleteCrmAdvertiseFaqMutation,
-	useAdminUpdateCrmAdvertiseFaqMutation,
+	useAdminViewAdvertiseFaqQuery,
+	useAdminStoreAdvertiseFaqMutation,
+	useAdminDeleteAdvertiseFaqMutation,
+	useAdminUpdateAdvertiseFaqMutation,
 } = api;

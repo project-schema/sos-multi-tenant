@@ -1,6 +1,6 @@
 import { iPagination } from '@/types';
 
-export type iCrmITService = {
+export type iITService = {
 	id: number;
 	icon: string;
 	title: string;
@@ -9,7 +9,7 @@ export type iCrmITService = {
 	created_at: null | string;
 	updated_at: null | string;
 };
-export type iCrmITServiceResponse = {
+export type iITServiceResponse = {
 	status: 200;
-	data: iPagination<iCrmITService>;
+	data: iPagination<iITService>;
 };

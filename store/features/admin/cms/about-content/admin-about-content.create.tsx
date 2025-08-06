@@ -22,8 +22,8 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import {
-	useAdminUpdateCrmHomeContentMutation,
-	useAdminViewCrmHomeContentQuery,
+	useAdminUpdateHomeContentMutation,
+	useAdminViewHomeContentQuery,
 } from '../home-content/admin-home-content.api.slice';
 
 // --- Zod Schema ---
@@ -96,14 +96,14 @@ export const schema = z.object({
 
 export type ZodType = z.infer<typeof schema>;
 
-export function CrmAboutContentCreate() {
-	const [store, { isLoading }] = useAdminUpdateCrmHomeContentMutation();
+export function AboutContentCreate() {
+	const [store, { isLoading }] = useAdminUpdateHomeContentMutation();
 	const {
 		data,
 		isLoading: loading,
 		isError,
 		refetch,
-	} = useAdminViewCrmHomeContentQuery(undefined);
+	} = useAdminViewHomeContentQuery(undefined);
 	const setting = data?.message[0];
 
 	const form = useForm<ZodType>({

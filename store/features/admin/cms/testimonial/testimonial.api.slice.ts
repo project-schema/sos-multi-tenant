@@ -1,22 +1,22 @@
 import { apiSlice } from '../../../api/apiSlice';
-import { iCrmTestimonialResponse } from './testimonial.type';
+import { iTestimonialResponse } from './testimonial.type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		adminViewCrmTestimonial: builder.query<
-			iCrmTestimonialResponse,
+		adminViewTestimonial: builder.query<
+			iTestimonialResponse,
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
 				url: `/admin/testimonial?page=${page}`,
 				method: 'GET',
 			}),
-			providesTags: ['AdminCrmTestimonial'],
+			providesTags: ['AdminTestimonial'],
 		}),
 
 		// store
-		adminStoreCrmTestimonial: builder.mutation<
+		adminStoreTestimonial: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -35,11 +35,11 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['AdminCrmTestimonial'],
+			invalidatesTags: ['AdminTestimonial'],
 		}),
 
 		// update
-		adminUpdateCrmTestimonial: builder.mutation<
+		adminUpdateTestimonial: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -59,11 +59,11 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['AdminCrmTestimonial'],
+			invalidatesTags: ['AdminTestimonial'],
 		}),
 
 		// delete
-		adminDeleteCrmTestimonial: builder.mutation<
+		adminDeleteTestimonial: builder.mutation<
 			{ status: 200; message: string },
 			{ id: string | number }
 		>({
@@ -71,14 +71,14 @@ const api = apiSlice.injectEndpoints({
 				url: `/admin/testimonial/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['AdminCrmTestimonial'],
+			invalidatesTags: ['AdminTestimonial'],
 		}),
 	}),
 });
 
 export const {
-	useAdminViewCrmTestimonialQuery,
-	useAdminStoreCrmTestimonialMutation,
-	useAdminDeleteCrmTestimonialMutation,
-	useAdminUpdateCrmTestimonialMutation,
+	useAdminViewTestimonialQuery,
+	useAdminStoreTestimonialMutation,
+	useAdminDeleteTestimonialMutation,
+	useAdminUpdateTestimonialMutation,
 } = api;

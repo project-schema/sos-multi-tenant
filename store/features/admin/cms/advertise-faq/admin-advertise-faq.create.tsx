@@ -20,7 +20,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm } from '@/lib';
 import { toast } from 'sonner';
-import { useAdminStoreCrmAdvertiseFaqMutation } from './admin-advertise-faq.api.slice';
+import { useAdminStoreAdvertiseFaqMutation } from './admin-advertise-faq.api.slice';
 
 // --- Zod Schema ---
 export const schema = z.object({
@@ -30,8 +30,8 @@ export const schema = z.object({
 
 export type ZodType = z.infer<typeof schema>;
 
-export function CrmAdvertiseFaqCreate() {
-	const [store, { isLoading }] = useAdminStoreCrmAdvertiseFaqMutation();
+export function AdvertiseFaqCreate() {
+	const [store, { isLoading }] = useAdminStoreAdvertiseFaqMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),

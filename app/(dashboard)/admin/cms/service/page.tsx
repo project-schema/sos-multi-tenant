@@ -2,8 +2,8 @@ import { Container1, DbHeader } from '@/components/dashboard';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { meta } from '@/lib';
 import {
-	CrmServiceCreate,
-	CrmServiceTable,
+	ServiceCreate,
+	ServiceTable,
 } from '@/store/features/admin/cms/service';
 import { Metadata } from 'next';
 
@@ -20,12 +20,12 @@ export default function Page() {
 				<div className="grid lg:grid-cols-3 gap-4">
 					<Card className="lg:col-span-1">
 						<CardContent>
-							<CrmServiceCreate />
+							<ServiceCreate />
 						</CardContent>
 					</Card>
 					<Card className="lg:col-span-2 overflow-hidden">
 						<CardContent>
-							<CrmServiceTable />
+							<ServiceTable />
 						</CardContent>
 					</Card>
 				</div>

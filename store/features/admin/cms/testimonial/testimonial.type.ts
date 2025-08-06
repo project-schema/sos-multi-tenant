@@ -1,4 +1,4 @@
-export type iCrmTestimonial = {
+export type iTestimonial = {
 	id: number;
 	description: string;
 	image: string;
@@ -9,7 +9,7 @@ export type iCrmTestimonial = {
 	updated_at: string;
 	deleted_at: string | null;
 };
-export type iCrmTestimonialResponse = {
+export type iTestimonialResponse = {
 	status: number;
-	data: iCrmTestimonial[];
+	data: iTestimonial[];
 };

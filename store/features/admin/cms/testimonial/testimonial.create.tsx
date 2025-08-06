@@ -29,7 +29,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm } from '@/lib';
 import { toast } from 'sonner';
-import { useAdminStoreCrmTestimonialMutation } from './testimonial.api.slice';
+import { useAdminStoreTestimonialMutation } from './testimonial.api.slice';
 
 // --- Zod Schema ---
 export const schema = z.object({
@@ -46,8 +46,8 @@ export const schema = z.object({
 
 export type ZodType = z.infer<typeof schema>;
 
-export function CrmTestimonialCreate() {
-	const [store, { isLoading }] = useAdminStoreCrmTestimonialMutation();
+export function TestimonialCreate() {
+	const [store, { isLoading }] = useAdminStoreTestimonialMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),

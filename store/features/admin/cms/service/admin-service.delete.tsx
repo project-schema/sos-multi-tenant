@@ -5,11 +5,11 @@ import { alertConfirm } from '@/lib';
 import { LoaderCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useAdminDeleteCrmServiceMutation } from './admin-service.api.slice';
-import { iCrmService } from './admin-service.type';
+import { useAdminDeleteServiceMutation } from './admin-service.api.slice';
+import { iService } from './admin-service.type';
 
-export function CrmServiceDelete({ data }: { data: iCrmService }) {
-	const [mutation, { isLoading }] = useAdminDeleteCrmServiceMutation();
+export function ServiceDelete({ data }: { data: iService }) {
+	const [mutation, { isLoading }] = useAdminDeleteServiceMutation();
 	const [clicked, setClicked] = useState(false);
 
 	const handleClick = async () => {

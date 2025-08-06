@@ -21,7 +21,7 @@ import { Input } from '@/components/ui/input';
 import { alertConfirm } from '@/lib';
 import { IconInput } from '@/lib/icon/icon-input';
 import { toast } from 'sonner';
-import { useAdminStoreCrmMissionMutation } from './admin-mission.api.slice';
+import { useAdminStoreMissionMutation } from './admin-mission.api.slice';
 
 // --- Zod Schema ---
 export const schema = z.object({
@@ -31,8 +31,8 @@ export const schema = z.object({
 
 export type ZodType = z.infer<typeof schema>;
 
-export function CrmMissionCreate() {
-	const [store, { isLoading }] = useAdminStoreCrmMissionMutation();
+export function MissionCreate() {
+	const [store, { isLoading }] = useAdminStoreMissionMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),

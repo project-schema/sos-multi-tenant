@@ -1,4 +1,4 @@
-export type iCrmService = {
+export type iService = {
 	id: number;
 	icon: string;
 	title: string;
@@ -7,7 +7,7 @@ export type iCrmService = {
 	created_at: null | string;
 	updated_at: null | string;
 };
-export type iCrmServiceResponse = {
+export type iServiceResponse = {
 	status: 200;
-	data: iCrmService[];
+	data: iService[];
 };

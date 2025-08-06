@@ -9,13 +9,13 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 import { cn, ErrorAlert, tableSrCount } from '@/lib';
-import { useAdminViewCrmOrganizationQuery } from './admin-organization.api.slice';
-import { CrmOrganizationDelete } from './admin-organization.delete';
-import { CrmOrganizationEdit } from './admin-organization.edit';
+import { useAdminViewOrganizationQuery } from './admin-organization.api.slice';
+import { OrganizationDelete } from './admin-organization.delete';
+import { OrganizationEdit } from './admin-organization.edit';
 
-export function CrmOrganizationTable() {
+export function OrganizationTable() {
 	const { data, isFetching, isLoading, isError } =
-		useAdminViewCrmOrganizationQuery({
+		useAdminViewOrganizationQuery({
 			page: '',
 		});
 
@@ -53,7 +53,7 @@ export function CrmOrganizationTable() {
 										colSpan={3}
 										className="text-center py-8 text-muted-foreground"
 									>
-										No CrmOrganization found matching your criteria
+										No Organization found matching your criteria
 									</TableCell>
 								</TableRow>
 							) : (
@@ -70,8 +70,8 @@ export function CrmOrganizationTable() {
 										</TableCell>
 
 										<TableCell className="py-2 space-x-2">
-											<CrmOrganizationEdit editData={item} />
-											<CrmOrganizationDelete data={item} />
+											<OrganizationEdit editData={item} />
+											<OrganizationDelete data={item} />
 										</TableCell>
 									</TableRow>
 								))

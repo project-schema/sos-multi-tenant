@@ -5,11 +5,11 @@ import { alertConfirm } from '@/lib';
 import { LoaderCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useAdminDeleteCrmAdvertiseFaqMutation } from './admin-advertise-faq.api.slice';
-import { iCrmAdvertiseFaq } from './admin-advertise-faq.type';
+import { useAdminDeleteAdvertiseFaqMutation } from './admin-advertise-faq.api.slice';
+import { iAdvertiseFaq } from './admin-advertise-faq.type';
 
-export function CrmAdvertiseFaqDelete({ data }: { data: iCrmAdvertiseFaq }) {
-	const [mutation, { isLoading }] = useAdminDeleteCrmAdvertiseFaqMutation();
+export function AdvertiseFaqDelete({ data }: { data: iAdvertiseFaq }) {
+	const [mutation, { isLoading }] = useAdminDeleteAdvertiseFaqMutation();
 	const [clicked, setClicked] = useState(false);
 
 	const handleClick = async () => {

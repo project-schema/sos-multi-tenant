@@ -1,5 +1,7 @@
+'use client';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { cn, ErrorAlert } from '@/lib';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
 	Loader1,
 	Loader2,
@@ -41,20 +43,33 @@ export function Container1({
 		loaderMap[loaderName?.replace('loader-', '') ?? '5'] || Loader5;
 
 	return (
-		<div className="w-full px-2 xl:px-4">
-			<Card className={cn('gap-0 py-3 lg:py-6 rounded-md lg:rounded-xl')}>
-				{header && <CardHeader className={cn('pb-4')}>{header}</CardHeader>}
-				<CardContent>
-					{isError && <ErrorAlert />}
-					{!isError &&
-						isLoading &&
-						Array.from({ length: loadingCount }).map((_, i) => (
-							<LoaderComponent key={i} />
-						))}
-					{!isError && !isLoading && children}
-				</CardContent>
-			</Card>
-		</div>
+		<AnimatePresence mode="wait">
+			<motion.div
+				key="page"
+				className="w-full px-2 xl:px-4"
+				initial={{ opacity: 0, y: 10 }}
+				animate={{ opacity: 1, y: 0 }}
+				exit={{ opacity: 0, y: -5 }}
+				transition={{
+					duration: 0.8,
+					delay: 0.5,
+					ease: [0, 0.71, 0.2, 1.01],
+				}}
+			>
+				<Card className={cn('gap-0 py-3 lg:py-6')}>
+					{header && <CardHeader className={cn('pb-4')}>{header}</CardHeader>}
+					<CardContent>
+						{isError && <ErrorAlert />}
+						{!isError &&
+							isLoading &&
+							Array.from({ length: loadingCount }).map((_, i) => (
+								<LoaderComponent key={i} />
+							))}
+						{!isError && !isLoading && children}
+					</CardContent>
+				</Card>
+			</motion.div>
+		</AnimatePresence>
 	);
 }
 

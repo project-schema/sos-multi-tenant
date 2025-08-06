@@ -2,7 +2,7 @@
 
 import { DialogFooter } from '@/components/ui/dialog';
 import { LoaderCircle } from 'lucide-react';
-import { } from './partner.type';
+import {} from './partner.type';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -13,7 +13,7 @@ import { Form, FormField, FormItem } from '@/components/ui/form';
 import { ImageUpload } from '@/components/ui/image-upload';
 import { alertConfirm } from '@/lib';
 import { toast } from 'sonner';
-import { useAdminStoreCrmPartnerMutation } from './partner.api.slice';
+import { useAdminStorePartnerMutation } from './partner.api.slice';
 
 // --- Zod Schema ---
 export const schema = z.object({
@@ -25,8 +25,8 @@ export const schema = z.object({
 
 export type ZodType = z.infer<typeof schema>;
 
-export function CrmPartnerCreate() {
-	const [store, { isLoading }] = useAdminStoreCrmPartnerMutation();
+export function PartnerCreate() {
+	const [store, { isLoading }] = useAdminStorePartnerMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
@@ -38,7 +38,6 @@ export function CrmPartnerCreate() {
 	const onSubmit = async (data: ZodType) => {
 		alertConfirm({
 			onOk: async () => {
-				
 				try {
 					const response = await store({
 						...data,

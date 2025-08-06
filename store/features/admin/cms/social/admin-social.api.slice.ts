@@ -1,25 +1,19 @@
 import { apiSlice } from '../../../api/apiSlice';
-import { iCrmSocialResponse } from './admin-social.type';
+import { iSocialResponse } from './admin-social.type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		adminViewCrmSocial: builder.query<
-			iCrmSocialResponse,
-			{ page: number | string }
-		>({
+		adminViewSocial: builder.query<iSocialResponse, { page: number | string }>({
 			query: ({ page }) => ({
 				url: `/admin/footer-media?page=${page}`,
 				method: 'GET',
 			}),
-			providesTags: ['CrmAdminSocial'],
+			providesTags: ['AdminSocial'],
 		}),
 
 		// store
-		adminStoreCrmSocial: builder.mutation<
-			{ status: 200; message: string },
-			any
-		>({
+		adminStoreSocial: builder.mutation<{ status: 200; message: string }, any>({
 			query: (data) => {
 				const body = new FormData();
 				Object.entries(data).forEach(([key, value]) => {
@@ -35,14 +29,11 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['CrmAdminSocial'],
+			invalidatesTags: ['AdminSocial'],
 		}),
 
 		// update
-		adminUpdateCrmSocial: builder.mutation<
-			{ status: 200; message: string },
-			any
-		>({
+		adminUpdateSocial: builder.mutation<{ status: 200; message: string }, any>({
 			query: (data) => {
 				const body = new FormData();
 				Object.entries(data).forEach(([key, value]) => {
@@ -59,11 +50,11 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['CrmAdminSocial'],
+			invalidatesTags: ['AdminSocial'],
 		}),
 
 		// delete
-		adminDeleteCrmSocial: builder.mutation<
+		adminDeleteSocial: builder.mutation<
 			{ status: 200; message: string },
 			{ id: string | number }
 		>({
@@ -71,14 +62,14 @@ const api = apiSlice.injectEndpoints({
 				url: `/admin/footer-media/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['CrmAdminSocial'],
+			invalidatesTags: ['AdminSocial'],
 		}),
 	}),
 });
 
 export const {
-	useAdminViewCrmSocialQuery,
-	useAdminStoreCrmSocialMutation,
-	useAdminDeleteCrmSocialMutation,
-	useAdminUpdateCrmSocialMutation,
+	useAdminViewSocialQuery,
+	useAdminStoreSocialMutation,
+	useAdminDeleteSocialMutation,
+	useAdminUpdateSocialMutation,
 } = api;

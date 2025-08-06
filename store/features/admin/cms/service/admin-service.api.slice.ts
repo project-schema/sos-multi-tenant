@@ -1,25 +1,22 @@
 import { apiSlice } from '../../../api/apiSlice';
-import { iCrmServiceResponse } from './admin-service.type';
+import { iServiceResponse } from './admin-service.type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		adminViewCrmService: builder.query<
-			iCrmServiceResponse,
+		adminViewService: builder.query<
+			iServiceResponse,
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
 				url: `/admin/service?page=${page}`,
 				method: 'GET',
 			}),
-			providesTags: ['CrmAdminService'],
+			providesTags: ['AdminService'],
 		}),
 
 		// store
-		adminStoreCrmService: builder.mutation<
-			{ status: 200; message: string },
-			any
-		>({
+		adminStoreService: builder.mutation<{ status: 200; message: string }, any>({
 			query: (data) => {
 				const body = new FormData();
 				Object.entries(data).forEach(([key, value]) => {
@@ -35,35 +32,34 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['CrmAdminService'],
+			invalidatesTags: ['AdminService'],
 		}),
 
 		// update
-		adminUpdateCrmService: builder.mutation<
-			{ status: 200; message: string },
-			any
-		>({
-			query: (data) => {
-				const body = new FormData();
-				Object.entries(data).forEach(([key, value]) => {
-					if (value) {
-						body.append(key, value as string);
-					}
-				});
-				body.append('_method', 'PUT');
+		adminUpdateService: builder.mutation<{ status: 200; message: string }, any>(
+			{
+				query: (data) => {
+					const body = new FormData();
+					Object.entries(data).forEach(([key, value]) => {
+						if (value) {
+							body.append(key, value as string);
+						}
+					});
+					body.append('_method', 'PUT');
 
-				return {
-					url: `/admin/service/${data.id}`,
-					method: 'POST',
-					body,
-					formData: true,
-				};
-			},
-			invalidatesTags: ['CrmAdminService'],
-		}),
+					return {
+						url: `/admin/service/${data.id}`,
+						method: 'POST',
+						body,
+						formData: true,
+					};
+				},
+				invalidatesTags: ['AdminService'],
+			}
+		),
 
 		// delete
-		adminDeleteCrmService: builder.mutation<
+		adminDeleteService: builder.mutation<
 			{ status: 200; message: string },
 			{ id: string | number }
 		>({
@@ -71,14 +67,14 @@ const api = apiSlice.injectEndpoints({
 				url: `/admin/service/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['CrmAdminService'],
+			invalidatesTags: ['AdminService'],
 		}),
 	}),
 });
 
 export const {
-	useAdminViewCrmServiceQuery,
-	useAdminStoreCrmServiceMutation,
-	useAdminDeleteCrmServiceMutation,
-	useAdminUpdateCrmServiceMutation,
+	useAdminViewServiceQuery,
+	useAdminStoreServiceMutation,
+	useAdminDeleteServiceMutation,
+	useAdminUpdateServiceMutation,
 } = api;

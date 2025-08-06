@@ -1,4 +1,4 @@
-export type iCrmMission = {
+export type iMission = {
 	id: number;
 	icon_class: string;
 	title: string;
@@ -6,7 +6,7 @@ export type iCrmMission = {
 	created_at: null | string;
 	updated_at: null | string;
 };
-export type iCrmMissionResponse = {
+export type iMissionResponse = {
 	status: 200;
-	data: iCrmMission[];
+	data: iMission[];
 };

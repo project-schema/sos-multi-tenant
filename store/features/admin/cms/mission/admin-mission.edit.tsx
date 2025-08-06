@@ -29,8 +29,8 @@ import { Input } from '@/components/ui/input';
 import { alertConfirm } from '@/lib';
 import { IconInput } from '@/lib/icon/icon-input';
 import { toast } from 'sonner';
-import { useAdminUpdateCrmMissionMutation } from './admin-mission.api.slice';
-import { iCrmMission } from './admin-mission.type';
+import { useAdminUpdateMissionMutation } from './admin-mission.api.slice';
+import { iMission } from './admin-mission.type';
 
 // --- Zod Schema ---
 const schema = z.object({
@@ -40,10 +40,10 @@ const schema = z.object({
 
 type ZodType = z.infer<typeof schema>;
 
-export function CrmMissionEdit({ editData }: { editData: iCrmMission }) {
+export function MissionEdit({ editData }: { editData: iMission }) {
 	const [open, setOpen] = useState(false);
 
-	const [update, { isLoading }] = useAdminUpdateCrmMissionMutation();
+	const [update, { isLoading }] = useAdminUpdateMissionMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
@@ -107,7 +107,7 @@ export function CrmMissionEdit({ editData }: { editData: iCrmMission }) {
 
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
-					<DialogTitle>Edit CrmMission</DialogTitle>
+					<DialogTitle>Edit Mission</DialogTitle>
 					<DialogDescription>Update the information.</DialogDescription>
 				</DialogHeader>
 

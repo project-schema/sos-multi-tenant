@@ -1,25 +1,22 @@
 import { apiSlice } from '../../../api/apiSlice';
-import { iCrmPartnerResponse } from './partner.type';
+import { iPartnerResponse } from './partner.type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		adminViewCrmPartner: builder.query<
-			iCrmPartnerResponse,
+		adminViewPartner: builder.query<
+			iPartnerResponse,
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
 				url: `/admin/partner?page=${page}`,
 				method: 'GET',
 			}),
-			providesTags: ['AdminCrmPartner'],
+			providesTags: ['AdminPartner'],
 		}),
 
 		// store
-		adminStoreCrmPartner: builder.mutation<
-			{ status: 200; message: string },
-			any
-		>({
+		adminStorePartner: builder.mutation<{ status: 200; message: string }, any>({
 			query: (data) => {
 				const body = new FormData();
 				Object.entries(data).forEach(([key, value]) => {
@@ -35,35 +32,34 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['AdminCrmPartner'],
+			invalidatesTags: ['AdminPartner'],
 		}),
 
 		// update
-		adminUpdateCrmPartner: builder.mutation<
-			{ status: 200; message: string },
-			any
-		>({
-			query: (data) => {
-				const body = new FormData();
-				Object.entries(data).forEach(([key, value]) => {
-					if (value) {
-						body.append(key, value as string);
-					}
-				});
-				body.append('_method', 'PUT');
+		adminUpdatePartner: builder.mutation<{ status: 200; message: string }, any>(
+			{
+				query: (data) => {
+					const body = new FormData();
+					Object.entries(data).forEach(([key, value]) => {
+						if (value) {
+							body.append(key, value as string);
+						}
+					});
+					body.append('_method', 'PUT');
 
-				return {
-					url: `/admin/partner/${data.id}`,
-					method: 'POST',
-					body,
-					formData: true,
-				};
-			},
-			invalidatesTags: ['AdminCrmPartner'],
-		}),
+					return {
+						url: `/admin/partner/${data.id}`,
+						method: 'POST',
+						body,
+						formData: true,
+					};
+				},
+				invalidatesTags: ['AdminPartner'],
+			}
+		),
 
 		// delete
-		adminDeleteCrmPartner: builder.mutation<
+		adminDeletePartner: builder.mutation<
 			{ status: 200; message: string },
 			{ id: string | number }
 		>({
@@ -71,14 +67,14 @@ const api = apiSlice.injectEndpoints({
 				url: `/admin/partner/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['AdminCrmPartner'],
+			invalidatesTags: ['AdminPartner'],
 		}),
 	}),
 });
 
 export const {
-	useAdminViewCrmPartnerQuery,
-	useAdminStoreCrmPartnerMutation,
-	useAdminDeleteCrmPartnerMutation,
-	useAdminUpdateCrmPartnerMutation,
+	useAdminViewPartnerQuery,
+	useAdminStorePartnerMutation,
+	useAdminDeletePartnerMutation,
+	useAdminUpdatePartnerMutation,
 } = api;

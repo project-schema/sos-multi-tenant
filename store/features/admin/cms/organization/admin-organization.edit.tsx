@@ -28,8 +28,8 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm } from '@/lib';
 import { toast } from 'sonner';
-import { useAdminUpdateCrmOrganizationMutation } from './admin-organization.api.slice';
-import { iCrmOrganization } from './admin-organization.type';
+import { useAdminUpdateOrganizationMutation } from './admin-organization.api.slice';
+import { iOrganization } from './admin-organization.type';
 
 // --- Zod Schema ---
 const schema = z.object({
@@ -38,14 +38,10 @@ const schema = z.object({
 
 type ZodType = z.infer<typeof schema>;
 
-export function CrmOrganizationEdit({
-	editData,
-}: {
-	editData: iCrmOrganization;
-}) {
+export function OrganizationEdit({ editData }: { editData: iOrganization }) {
 	const [open, setOpen] = useState(false);
 
-	const [update, { isLoading }] = useAdminUpdateCrmOrganizationMutation();
+	const [update, { isLoading }] = useAdminUpdateOrganizationMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),

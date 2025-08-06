@@ -21,8 +21,8 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import {
-	useAdminUpdateCrmContactMutation,
-	useAdminViewCrmContactQuery,
+	useAdminUpdateContactMutation,
+	useAdminViewContactQuery,
 } from './admin-contact.api.slice';
 
 // --- Zod Schema ---
@@ -36,14 +36,14 @@ export const schema = z.object({
 
 export type ZodType = z.infer<typeof schema>;
 
-export function CrmContactCreate() {
-	const [store, { isLoading }] = useAdminUpdateCrmContactMutation();
+export function ContactCreate() {
+	const [store, { isLoading }] = useAdminUpdateContactMutation();
 	const {
 		data,
 		isLoading: loading,
 		isError,
 		refetch,
-	} = useAdminViewCrmContactQuery(undefined);
+	} = useAdminViewContactQuery(undefined);
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),

@@ -1,22 +1,22 @@
 import { apiSlice } from '../../../api/apiSlice';
-import { iCrmCompanionResponse } from './admin-companion.type';
+import { iCompanionResponse } from './admin-companion.type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		adminViewCrmCompanion: builder.query<
-			iCrmCompanionResponse,
+		adminViewCompanion: builder.query<
+			iCompanionResponse,
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
 				url: `/admin/companion?page=${page}`,
 				method: 'GET',
 			}),
-			providesTags: ['CrmAdminCompanion'],
+			providesTags: ['AdminCompanion'],
 		}),
 
 		// store
-		adminStoreCrmCompanion: builder.mutation<
+		adminStoreCompanion: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -35,11 +35,11 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['CrmAdminCompanion'],
+			invalidatesTags: ['AdminCompanion'],
 		}),
 
 		// update
-		adminUpdateCrmCompanion: builder.mutation<
+		adminUpdateCompanion: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -59,11 +59,11 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['CrmAdminCompanion'],
+			invalidatesTags: ['AdminCompanion'],
 		}),
 
 		// delete
-		adminDeleteCrmCompanion: builder.mutation<
+		adminDeleteCompanion: builder.mutation<
 			{ status: 200; message: string },
 			{ id: string | number }
 		>({
@@ -71,14 +71,14 @@ const api = apiSlice.injectEndpoints({
 				url: `/admin/companion/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['CrmAdminCompanion'],
+			invalidatesTags: ['AdminCompanion'],
 		}),
 	}),
 });
 
 export const {
-	useAdminViewCrmCompanionQuery,
-	useAdminStoreCrmCompanionMutation,
-	useAdminDeleteCrmCompanionMutation,
-	useAdminUpdateCrmCompanionMutation,
+	useAdminViewCompanionQuery,
+	useAdminStoreCompanionMutation,
+	useAdminDeleteCompanionMutation,
+	useAdminUpdateCompanionMutation,
 } = api;

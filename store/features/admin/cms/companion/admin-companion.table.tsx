@@ -10,15 +10,14 @@ import {
 } from '@/components/ui/table';
 import { cn, ErrorAlert, tableSrCount, textCount } from '@/lib';
 import { DynamicIcon } from '@/lib/icon/dynamic-icon';
-import { useAdminViewCrmCompanionQuery } from './admin-companion.api.slice';
-import { CrmCompanionDelete } from './admin-companion.delete';
-import { CrmCompanionEdit } from './admin-companion.edit';
+import { useAdminViewCompanionQuery } from './admin-companion.api.slice';
+import { CompanionDelete } from './admin-companion.delete';
+import { CompanionEdit } from './admin-companion.edit';
 
-export function CrmCompanionTable() {
-	const { data, isFetching, isLoading, isError } =
-		useAdminViewCrmCompanionQuery({
-			page: '',
-		});
+export function CompanionTable() {
+	const { data, isFetching, isLoading, isError } = useAdminViewCompanionQuery({
+		page: '',
+	});
 
 	if (isError) {
 		return <ErrorAlert />;
@@ -56,7 +55,7 @@ export function CrmCompanionTable() {
 										colSpan={5}
 										className="text-center py-8 text-muted-foreground"
 									>
-										No CrmCompanion found matching your criteria
+										No Companion found matching your criteria
 									</TableCell>
 								</TableRow>
 							) : (
@@ -73,13 +72,15 @@ export function CrmCompanionTable() {
 										<TableCell className="py-2">
 											{textCount(item.title, 25)}
 										</TableCell>
-										<TableCell className={cn('py-2 whitespace-pre-wrap')}>
+										<TableCell
+											className={cn('py-2 whitespace-pre-wrap min-w-sm')}
+										>
 											{item.description}
 										</TableCell>
 
 										<TableCell className="py-2 space-x-2">
-											<CrmCompanionEdit editData={item} />
-											<CrmCompanionDelete data={item} />
+											<CompanionEdit editData={item} />
+											<CompanionDelete data={item} />
 										</TableCell>
 									</TableRow>
 								))

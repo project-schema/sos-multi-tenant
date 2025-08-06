@@ -1,10 +1,10 @@
 import { apiSlice } from '../../../api/apiSlice';
-import { iCrmHomeContentResponse } from './admin-home-content.type';
+import { iHomeContentResponse } from './admin-home-content.type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		adminViewCrmHomeContent: builder.query<iCrmHomeContentResponse, undefined>({
+		adminViewHomeContent: builder.query<iHomeContentResponse, undefined>({
 			query: () => ({
 				url: `/admin/settings`,
 				method: 'GET',
@@ -12,7 +12,7 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		// update
-		adminUpdateCrmHomeContent: builder.mutation<
+		adminUpdateHomeContent: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -36,6 +36,6 @@ const api = apiSlice.injectEndpoints({
 });
 
 export const {
-	useAdminViewCrmHomeContentQuery,
-	useAdminUpdateCrmHomeContentMutation,
+	useAdminViewHomeContentQuery,
+	useAdminUpdateHomeContentMutation,
 } = api;

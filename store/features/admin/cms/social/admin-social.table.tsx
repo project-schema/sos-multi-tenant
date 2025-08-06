@@ -10,12 +10,12 @@ import {
 } from '@/components/ui/table';
 import { cn, ErrorAlert, tableSrCount } from '@/lib';
 import { DynamicIcon } from '@/lib/icon/dynamic-icon';
-import { useAdminViewCrmSocialQuery } from './admin-social.api.slice';
-import { CrmSocialDelete } from './admin-social.delete';
-import { CrmSocialEdit } from './admin-social.edit';
+import { useAdminViewSocialQuery } from './admin-social.api.slice';
+import { SocialDelete } from './admin-social.delete';
+import { SocialEdit } from './admin-social.edit';
 
-export function CrmSocialTable() {
-	const { data, isFetching, isLoading, isError } = useAdminViewCrmSocialQuery({
+export function SocialTable() {
+	const { data, isFetching, isLoading, isError } = useAdminViewSocialQuery({
 		page: '',
 	});
 
@@ -54,7 +54,7 @@ export function CrmSocialTable() {
 										colSpan={4}
 										className="text-center py-8 text-muted-foreground"
 									>
-										No CrmSocial found matching your criteria
+										No Social found matching your criteria
 									</TableCell>
 								</TableRow>
 							) : (
@@ -76,8 +76,8 @@ export function CrmSocialTable() {
 										</TableCell>
 
 										<TableCell className="py-2 space-x-2">
-											<CrmSocialEdit editData={item} />
-											<CrmSocialDelete data={item} />
+											<SocialEdit editData={item} />
+											<SocialDelete data={item} />
 										</TableCell>
 									</TableRow>
 								))

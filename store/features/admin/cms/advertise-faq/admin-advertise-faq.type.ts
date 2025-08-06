@@ -1,4 +1,4 @@
-export type iCrmAdvertiseFaq = {
+export type iAdvertiseFaq = {
 	id: number;
 	description: string;
 	heading: string;
@@ -6,7 +6,7 @@ export type iCrmAdvertiseFaq = {
 	created_at: null | string;
 	updated_at: null | string;
 };
-export type iCrmAdvertiseFaqResponse = {
+export type iAdvertiseFaqResponse = {
 	status: 200;
-	datas: iCrmAdvertiseFaq[];
+	datas: iAdvertiseFaq[];
 };

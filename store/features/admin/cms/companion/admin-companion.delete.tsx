@@ -5,11 +5,11 @@ import { alertConfirm } from '@/lib';
 import { LoaderCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useAdminDeleteCrmCompanionMutation } from './admin-companion.api.slice';
-import { iCrmCompanion } from './admin-companion.type';
+import { useAdminDeleteCompanionMutation } from './admin-companion.api.slice';
+import { iCompanion } from './admin-companion.type';
 
-export function CrmCompanionDelete({ data }: { data: iCrmCompanion }) {
-	const [mutation, { isLoading }] = useAdminDeleteCrmCompanionMutation();
+export function CompanionDelete({ data }: { data: iCompanion }) {
+	const [mutation, { isLoading }] = useAdminDeleteCompanionMutation();
 	const [clicked, setClicked] = useState(false);
 
 	const handleClick = async () => {

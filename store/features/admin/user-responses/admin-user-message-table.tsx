@@ -96,7 +96,9 @@ export function AdminUserMessageTable() {
 																<Badge variant="outline">{item?.number}</Badge>
 															</TableCell>
 															<TableCell
-																className={cn('py-2  whitespace-pre-wrap')}
+																className={cn(
+																	'py-2  whitespace-pre-wrap min-w-md'
+																)}
 															>
 																{item.message}
 															</TableCell>

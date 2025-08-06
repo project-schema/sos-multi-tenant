@@ -33,8 +33,8 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 import { alertConfirm, env } from '@/lib';
-import { useAdminUpdateCrmMemberMutation } from './member.api.slice';
-import { iCrmMember } from './member.type';
+import { useAdminUpdateMemberMutation } from './member.api.slice';
+import { iMember } from './member.type';
 
 // --- Zod Schema ---
 const schema = z.object({
@@ -52,10 +52,10 @@ const schema = z.object({
 
 type ZodType = z.infer<typeof schema>;
 
-export function CrmMemberEdit({ editData }: { editData: iCrmMember }) {
+export function MemberEdit({ editData }: { editData: iMember }) {
 	const [open, setOpen] = useState(false);
 
-	const [updateProfile, { isLoading }] = useAdminUpdateCrmMemberMutation();
+	const [updateProfile, { isLoading }] = useAdminUpdateMemberMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
@@ -123,7 +123,7 @@ export function CrmMemberEdit({ editData }: { editData: iCrmMember }) {
 
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
-					<DialogTitle>Edit CrmMember</DialogTitle>
+					<DialogTitle>Edit Member</DialogTitle>
 					<DialogDescription>Update the information.</DialogDescription>
 				</DialogHeader>
 

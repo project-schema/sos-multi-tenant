@@ -1,4 +1,4 @@
-export type iCrmSocial = {
+export type iSocial = {
 	id: number;
 	icon_class: string;
 	media_link: string;
@@ -6,7 +6,7 @@ export type iCrmSocial = {
 	created_at: null | string;
 	updated_at: null | string;
 };
-export type iCrmSocialResponse = {
+export type iSocialResponse = {
 	status: 200;
-	data: iCrmSocial[];
+	data: iSocial[];
 };

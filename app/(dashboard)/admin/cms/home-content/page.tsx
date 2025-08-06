@@ -1,7 +1,7 @@
 import { Container1, DbHeader } from '@/components/dashboard';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { meta } from '@/lib';
-import { CrmHomeContentCreate } from '@/store/features/admin/cms/home-content';
+import { HomeContentCreate } from '@/store/features/admin/cms/home-content';
 import { Metadata } from 'next';
 
 const breadcrumbItems = [
@@ -16,7 +16,7 @@ export default function Page() {
 			<Container1 header={<CardTitle>Home Content</CardTitle>}>
 				<Card>
 					<CardContent>
-						<CrmHomeContentCreate />
+						<HomeContentCreate />
 					</CardContent>
 				</Card>
 			</Container1>

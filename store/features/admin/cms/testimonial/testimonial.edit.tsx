@@ -41,8 +41,8 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 import { alertConfirm, env } from '@/lib';
-import { useAdminUpdateCrmTestimonialMutation } from './testimonial.api.slice';
-import { iCrmTestimonial } from './testimonial.type';
+import { useAdminUpdateTestimonialMutation } from './testimonial.api.slice';
+import { iTestimonial } from './testimonial.type';
 
 // --- Zod Schema ---
 const schema = z.object({
@@ -59,14 +59,10 @@ const schema = z.object({
 
 type ZodType = z.infer<typeof schema>;
 
-export function CrmTestimonialEdit({
-	editData,
-}: {
-	editData: iCrmTestimonial;
-}) {
+export function TestimonialEdit({ editData }: { editData: iTestimonial }) {
 	const [open, setOpen] = useState(false);
 
-	const [updateProfile, { isLoading }] = useAdminUpdateCrmTestimonialMutation();
+	const [updateProfile, { isLoading }] = useAdminUpdateTestimonialMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
@@ -135,7 +131,7 @@ export function CrmTestimonialEdit({
 
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
-					<DialogTitle>Edit CrmTestimonial</DialogTitle>
+					<DialogTitle>Edit Testimonial</DialogTitle>
 					<DialogDescription>Update the information.</DialogDescription>
 				</DialogHeader>
 

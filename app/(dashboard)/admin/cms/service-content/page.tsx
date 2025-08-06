@@ -1,7 +1,7 @@
-import { DbHeader } from '@/components/dashboard';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Container1, DbHeader } from '@/components/dashboard';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { cn, meta } from '@/lib';
-import { CrmServiceContentCreate } from '@/store/features/admin/cms/service-content';
+import { ServiceContentCreate } from '@/store/features/admin/cms/service-content';
 import { Metadata } from 'next';
 
 const breadcrumbItems = [
@@ -13,23 +13,13 @@ export default function Page() {
 	return (
 		<>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<div className="db-container space-y-6">
-				<Card className="gap-0">
-					<CardHeader className="pb-3 flex items-center justify-between">
-						<CardTitle className="text-2xl font-bold">
-							Service Content
-						</CardTitle>
-					</CardHeader>
-
+			<Container1 header={<CardTitle>Service Content</CardTitle>}>
+				<Card className={cn('max-w-2xl')}>
 					<CardContent>
-						<Card className={cn('max-w-2xl')}>
-							<CardContent>
-								<CrmServiceContentCreate />
-							</CardContent>
-						</Card>
+						<ServiceContentCreate />
 					</CardContent>
 				</Card>
-			</div>
+			</Container1>
 		</>
 	);
 }

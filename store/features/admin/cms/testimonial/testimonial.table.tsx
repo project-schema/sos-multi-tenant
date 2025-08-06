@@ -10,15 +10,16 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 import { cn, env, ErrorAlert, tableSrCount } from '@/lib';
-import { useAdminViewCrmTestimonialQuery } from './testimonial.api.slice';
-import { CrmTestimonialDelete } from './testimonial.delete';
-import { CrmTestimonialEdit } from './testimonial.edit';
+import { useAdminViewTestimonialQuery } from './testimonial.api.slice';
+import { TestimonialDelete } from './testimonial.delete';
+import { TestimonialEdit } from './testimonial.edit';
 
-export function CrmTestimonialTable() {
-	const { data, isFetching, isLoading, isError } =
-		useAdminViewCrmTestimonialQuery({
+export function TestimonialTable() {
+	const { data, isFetching, isLoading, isError } = useAdminViewTestimonialQuery(
+		{
 			page: '',
-		});
+		}
+	);
 
 	if (isError) {
 		return <ErrorAlert />;
@@ -58,7 +59,7 @@ export function CrmTestimonialTable() {
 										colSpan={3}
 										className="text-center py-8 text-muted-foreground"
 									>
-										No CrmTestimonial found matching your criteria
+										No Testimonial found matching your criteria
 									</TableCell>
 								</TableRow>
 							) : (
@@ -87,17 +88,19 @@ export function CrmTestimonialTable() {
 											{item.rating} Star
 										</TableCell>
 
-										<TableCell className={cn('py-2 whitespace-pre-wrap')}>
+										<TableCell className={cn('py-2 whitespace-pre-wrap ')}>
 											{item.designation}
 										</TableCell>
 
-										<TableCell className={cn('py-2 whitespace-pre-wrap')}>
+										<TableCell
+											className={cn('py-2 whitespace-pre-wrap min-w-xs')}
+										>
 											{item.description}
 										</TableCell>
 
 										<TableCell className="py-2 space-x-2">
-											<CrmTestimonialEdit editData={item} />
-											<CrmTestimonialDelete data={item} />
+											<TestimonialEdit editData={item} />
+											<TestimonialDelete data={item} />
 										</TableCell>
 									</TableRow>
 								))
