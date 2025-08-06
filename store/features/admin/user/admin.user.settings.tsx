@@ -53,7 +53,7 @@ export function AdminUserSettings() {
 		isLoading: profileLoading,
 		isError,
 	} = useAdminUserProfileByIdQuery({ id: params.id as string });
-	const [updateProfile, { isLoading }] = useAdminUpdateUserProfileMutation();
+	const [update, { isLoading }] = useAdminUpdateUserProfileMutation();
 
 	const form = useForm<ProfileFormValues>({
 		resolver: zodResolver(profileSchema),
@@ -80,8 +80,8 @@ export function AdminUserSettings() {
 
 	async function onSubmit(values: ProfileFormValues) {
 		try {
-			// Assuming updateProfile accepts FormData
-			const response = await updateProfile({
+			// Assuming update accepts FormData
+			const response = await update({
 				...data?.user,
 				...values,
 			}).unwrap();

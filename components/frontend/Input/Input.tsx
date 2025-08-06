@@ -1,7 +1,7 @@
 import { IInput } from '@/types/Ui-Types';
-import style from './Input.module.css';
+import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
-import { ICON } from '@/lib/img';
+import style from './Input.module.css';
 
 function Input({
 	type = 'text',
@@ -20,7 +20,7 @@ function Input({
 					onClick={() => setEye((e) => !e)}
 					className={style.eyeIcon}
 				>
-					{eye ? <ICON.eyeClose /> : <ICON.eye />}
+					{eye ? <EyeOff /> : <Eye />}
 				</button>
 			)}
 			<label className={style.loginLabel} htmlFor={name}>

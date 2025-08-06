@@ -44,7 +44,7 @@ export function AdFormatEdit({ editData }: { editData: iAdFormat }) {
 	const [open, setOpen] = useState(false);
 	const { data: categories, isLoading: categoryLoading } =
 		useAdminCampaignCategoryQuery({ page: 1 });
-	const [updateProfile, { isLoading }] = useAdminUpdateAdFormatMutation();
+	const [update, { isLoading }] = useAdminUpdateAdFormatMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
@@ -56,9 +56,10 @@ export function AdFormatEdit({ editData }: { editData: iAdFormat }) {
 
 	const onSubmit = async (data: ZodType) => {
 		try {
-			const response = await updateProfile({
+			const response = await update({
 				...data,
 				id: editData.id,
+				colum_name: 'ad_format',
 			}).unwrap();
 			if (response.success || response.status === 200) {
 				toast.success('Updated successfully');

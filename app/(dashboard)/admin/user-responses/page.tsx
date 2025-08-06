@@ -1,12 +1,8 @@
 'use client';
 
 import { DbHeader } from '@/components/dashboard';
-import { Card } from '@/components/ui/card';
-import { useQueryParams } from '@/hooks/useQueryParams';
-import {
-	AdminEmailSubTable,
-	AdminUserMessageTable,
-} from '@/store/features/admin/user-responses';
+import UserResponsesClient from '@/store/features/admin/user-responses/user-responses.index';
+import { Suspense } from 'react';
 
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/admin' },
@@ -14,17 +10,12 @@ const breadcrumbItems = [
 ];
 
 export default function Page() {
-	const { getParam } = useQueryParams();
-	const tab = getParam('tab');
 	return (
 		<>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<div className="db-container space-y-6">
-				<Card className="gap-0">
-					{tab !== 'contact' && <AdminEmailSubTable />}
-					{tab === 'contact' && <AdminUserMessageTable />}
-				</Card>
-			</div>
+			<Suspense fallback={<div>Loading user responses...</div>}>
+				<UserResponsesClient />
+			</Suspense>
 		</>
 	);
 }

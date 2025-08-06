@@ -1,10 +1,8 @@
-import style from './style.module.css';
-import RattingCardSD from './ratting-card';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { fetchData } from '@/components/actions/action';
-import Loader from '@/components/ui/Loader/Loader';
+import RattingCardSD from './ratting-card';
+import style from './style.module.css';
 
 function ServiceOfDetails({ data }: { data: any }) {
 	const router = useRouter();
@@ -20,7 +18,7 @@ function ServiceOfDetails({ data }: { data: any }) {
 		setIsLoading(true);
 		// api/all-services?tags=Ipsum & category_id = 2 & type = [latest,best_selling,avg_rating,default] & search = ????..
 		const api = `/api/services-rating/${id}?search=${sortBy}`;
-		const data = await fetchData(api);
+		const data = { message: { data: [] }, status: 200 };
 		setNext(null);
 		setRattingData(data);
 		setRatting(data?.message?.data);
@@ -31,7 +29,7 @@ function ServiceOfDetails({ data }: { data: any }) {
 		setIsLoading(true);
 		// api/all-services?tags=Ipsum & category_id = 2 & type = [latest,best_selling,avg_rating,default] & search = ????..
 		const api = `/api/services-rating/${id}?page=${next}`;
-		const newServiceData = await fetchData(api);
+		const newServiceData = { message: { data: [] }, status: 200 };
 		setRatting(() => [...ratting, ...newServiceData?.message?.data]);
 		setRattingData(newServiceData);
 		setIsLoading(false);
@@ -152,7 +150,7 @@ function ServiceOfDetails({ data }: { data: any }) {
 						type="button"
 						className="px-5 bg-blue-500 py-2 rounded text-white"
 					>
-						{isLoading ? <Loader /> : 'Load More +'}
+						{isLoading ? 'Loading...' : 'Load More +'}
 					</button>
 				</div>
 			)}

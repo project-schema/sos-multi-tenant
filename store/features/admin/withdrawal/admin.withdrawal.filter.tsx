@@ -119,7 +119,7 @@ export function AdminWithdrawalFilter({
 					<SelectValue placeholder="Status" />
 				</SelectTrigger>
 				<SelectContent>
-					<SelectItem value="all">All Statuses</SelectItem>
+					<SelectItem value="all">All Status</SelectItem>
 					<SelectItem value="success">Success</SelectItem>
 					<SelectItem value="pending">Pending</SelectItem>
 				</SelectContent>

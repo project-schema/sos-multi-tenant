@@ -2,9 +2,8 @@
 
 import { Card1, Loader6 } from '@/components/dashboard';
 import { Badge } from '@/components/ui/badge';
-import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { checkCoupon, dateFormat } from '@/lib';
-import { Card } from 'antd';
 import {
 	Box,
 	CalendarClock,

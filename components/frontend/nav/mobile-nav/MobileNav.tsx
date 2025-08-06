@@ -1,12 +1,12 @@
-import { IMenu } from '@/types/Ui-Types';
-import style from './style.module.css';
-import Link from 'next/link';
-import { useSession } from 'next-auth/react';
-import { DASHBOARD_URL } from '@/lib/env';
-import { motion } from 'framer-motion';
-import BtnLink from '../../BtnLink';
 import { logout } from '@/lib';
-import { useRouter } from 'next/navigation';
+import { DASHBOARD_URL } from '@/lib/env';
+import { IMenu } from '@/types/Ui-Types';
+import { motion } from 'framer-motion';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import BtnLink from '../../BtnLink';
+import style from './style.module.css';
 
 function MobileNav({
 	data,
@@ -18,6 +18,7 @@ function MobileNav({
 	setOpen: Function;
 }) {
 	const router = useRouter();
+	const pathname = usePathname();
 	const { data: session } = useSession();
 	return (
 		<motion.div
@@ -37,7 +38,7 @@ function MobileNav({
 					<Link
 						onClick={() => setOpen(false)}
 						className={`${style.navItem} ${
-							router.pathname === e.path && style.active
+							pathname === e.path && style.active
 						}`}
 						href={e.path}
 						key={e.id}

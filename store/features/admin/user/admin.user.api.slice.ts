@@ -9,7 +9,6 @@ import {
 	statusType,
 	userType,
 } from './type';
-import { EditProfileFormData } from './user.edit.profile';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
@@ -78,7 +77,7 @@ const api = apiSlice.injectEndpoints({
 		// user update profile
 		adminUpdateUserProfile: builder.mutation<
 			{ status: 200; message: string },
-			Partial<EditProfileFormData> & {
+			any & {
 				role_as: string | number;
 				id: string | number;
 			}

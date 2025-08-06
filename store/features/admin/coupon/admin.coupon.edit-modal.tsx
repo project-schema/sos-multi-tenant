@@ -360,7 +360,7 @@ const FORM = ({
 					/>
 				</div>
 
-				<Button type="submit" className="w-full">
+				<Button type="submit" disabled={isLoading} className="w-full">
 					{isLoading && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
 					{isLoading ? 'Updating...' : 'Update'}
 				</Button>

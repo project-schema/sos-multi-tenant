@@ -1,1 +1,1 @@
-export * from './JoinNowCard.tsx';
+export * from './JoinNowCard';

@@ -7,7 +7,6 @@ import { getApiData } from '@/lib';
 import { iMembersType, iMissionsType, iSettingsType } from '@/types';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import React from 'react';
 export const metadata: Metadata = {
 	title: 'About Us - SOS',
 	description: 'About Us - SOS Management',
@@ -17,7 +16,11 @@ export default async function Page() {
 	const missions = await getApiData<iMissionsType>('/missions');
 	const members = await getApiData<iMembersType>('/members');
 
-	if (settings?.status !== 200) {
+	if (
+		settings?.status !== 200 ||
+		missions?.status !== 200 ||
+		members?.status !== 200
+	) {
 		return notFound();
 	}
 	return (

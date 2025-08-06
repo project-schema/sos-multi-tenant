@@ -48,7 +48,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
 import { useDebounce } from '@/hooks/use-debounce';
-import { badgeFormat, dateFormat, env, roleFormat, textCount } from '@/lib';
+import {
+	badgeFormat,
+	dateFormat,
+	env,
+	roleFormat,
+	tableSrCount,
+	textCount,
+} from '@/lib';
 import {
 	UserAddBalance,
 	UserAddNote,
@@ -200,6 +207,7 @@ export default function Page() {
 				<Table>
 					<TableHeader>
 						<TableRow>
+							<TableHead className="bg-stone-100">SL. </TableHead>
 							<TableHead className="bg-stone-100">ID </TableHead>
 							<TableHead className="bg-stone-100">Profile </TableHead>
 							<TableHead className="bg-stone-100">Name </TableHead>
@@ -216,15 +224,18 @@ export default function Page() {
 						{allUsers?.all.data.length === 0 ? (
 							<TableRow>
 								<TableCell
-									colSpan={10}
+									colSpan={11}
 									className="text-center py-8 text-muted-foreground"
 								>
 									No users found matching your criteria
 								</TableCell>
 							</TableRow>
 						) : (
-							allUsers?.all.data?.map((user) => (
+							allUsers?.all.data?.map((user, i) => (
 								<TableRow key={user.id}>
+									<TableCell className="font-medium py-4">
+										{tableSrCount(allUsers?.all?.current_page, i)}
+									</TableCell>
 									<TableCell className="font-medium py-4">
 										#{user.uniqid}
 									</TableCell>

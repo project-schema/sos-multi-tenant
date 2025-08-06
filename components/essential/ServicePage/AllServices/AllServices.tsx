@@ -1,15 +1,11 @@
-import Image from 'next/image';
-import style from './AllServices.style.module.css';
-import serviceProviderImg from '../../../../../public/images/serviceProviderImg.png';
-import { FaStar, FaStarHalfAlt, FaUserAlt } from 'react-icons/fa';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import StarRating from '@/components/ui/star/Star';
-import Pagination from '../../Pagination/Pagination';
-import { GridLoader } from '@/components/ui/Loader';
-import { NotFoundComponents } from '@/components/ui/NotFound';
-import NotServiceFound from '@/components/ui/NotFound/NotServiceFound';
 import { BASE_URL } from '@/lib/env';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { FaUserAlt } from 'react-icons/fa';
+import serviceProviderImg from '../../../../../public/images/serviceProviderImg.png';
+import Pagination from '../../Pagination/Pagination';
+import style from './AllServices.style.module.css';
 
 const AllServices = ({
 	getServiceData,
@@ -84,14 +80,14 @@ const AllServices = ({
 						</p>
 					</Link>
 					<div className={style.serviceRating}>
-						<StarRating
+						{/* <StarRating
 							style={style.ratingIcon}
 							value={data?.servicerating_avg_rating}
-						/>
-						  {  parseFloat(data?.servicerating_avg_rating).toFixed(1) }
+						/> */}
+						{parseFloat(data?.servicerating_avg_rating).toFixed(1)}
 					</div>
 					<h4 className={style.servicePrice}>
-						Price  {data?.firstpackage?.price} tk
+						Price {data?.firstpackage?.price} tk
 					</h4>
 				</motion.div>
 			))}
@@ -159,7 +155,7 @@ const AllServices = ({
 						</select>
 					</div>
 				</div>
-				{isLoading ? (
+				{/* {isLoading ? (
 					<GridLoader />
 				) : serviceData?.data?.length > 0 ? (
 					content
@@ -173,7 +169,7 @@ const AllServices = ({
 						seCategoryId={seCategoryId}
 						setTags={setTags}
 					/>
-				)}
+				)} */}
 				<div className="mt-20 ">
 					<Pagination
 						page={page}

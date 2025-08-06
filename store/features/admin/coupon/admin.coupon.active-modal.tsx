@@ -44,7 +44,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { useAdminUpdateCouponMutation } from './admin.coupon.api.slice';
-import { iAdminCoupon, iAdminReqCoupon } from './admin.coupon.type';
+import { iAdminReqCoupon } from './admin.coupon.type';
 
 //  Zod Schema
 const couponSchema = z.object({
@@ -109,7 +109,7 @@ const FORM = ({
 	editData,
 }: {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	editData: iAdminCoupon;
+	editData: iAdminReqCoupon;
 }) => {
 	const [update, { isLoading }] = useAdminUpdateCouponMutation();
 

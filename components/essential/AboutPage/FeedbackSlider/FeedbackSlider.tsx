@@ -1,15 +1,15 @@
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import style from './FeedbackSlider.style.module.css';
+import { BASE_URL } from '@/lib/env';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { useState } from 'react';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Autoplay, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import style from './FeedbackSlider.style.module.css';
 import Rating from './Rating';
-import { BASE_URL } from '@/lib/env';
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 
 const FeedbackSlider = ({ getSettingsData }: any) => {
 	const settingData = getSettingsData.message;
@@ -17,16 +17,6 @@ const FeedbackSlider = ({ getSettingsData }: any) => {
 	const [getTestimonialsData, setGetTestimonialsData] = useState<any>(null);
 	const [loading, setLoading] = useState(false);
 
-	useEffect(() => {
-		setLoading(true);
-
-		const getData = async () => {
-			const res = await fetchData('/api/testimonials');
-			setGetTestimonialsData(res);
-			setLoading(false);
-		};
-		getData();
-	}, []);
 	const data = getTestimonialsData?.message;
 
 	return (
@@ -58,7 +48,7 @@ const FeedbackSlider = ({ getSettingsData }: any) => {
 				{settingData?.testimonial_heading}
 			</motion.h1>
 			{loading ? (
-				<GridLoader />
+				<p>Loading...</p>
 			) : (
 				<Swiper
 					slidesPerView={3}

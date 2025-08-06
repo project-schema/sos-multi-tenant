@@ -1,13 +1,9 @@
-import style from './FeedbackSlider.style.module.css';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
 // import './styles.css';
 
 // import required modules
-import { Autoplay, FreeMode, Navigation, Pagination } from 'swiper/modules';
-import { FaStar } from 'react-icons/fa';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import { BASE_URL } from '@/lib/env';
 
 const Slider = ({ getTestimonialsData }: any) => {

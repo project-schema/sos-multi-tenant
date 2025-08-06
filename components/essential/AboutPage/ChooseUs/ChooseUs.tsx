@@ -1,11 +1,8 @@
-import style from './ChooseUs.style.module.css';
-import Image from 'next/image';
-import chooseImg1 from '../../../../../public/images/chooseimg1.png';
-import { IconPickerItem } from 'react-fa-icon-picker';
-import { useEffect, useState } from 'react';
-import { fetchData } from '@/components/actions/action';
 import { motion } from 'framer-motion';
-import { GridLoader } from '@/components/ui/Loader';
+import Image from 'next/image';
+import { useState } from 'react';
+import chooseImg1 from '../../../../../public/images/chooseimg1.png';
+import style from './ChooseUs.style.module.css';
 
 const ChooseUs = ({ getSettingsData }: any) => {
 	const settingData = getSettingsData.message;
@@ -13,16 +10,6 @@ const ChooseUs = ({ getSettingsData }: any) => {
 	const [getCompanionsData, setCompanionsData] = useState<any>(null);
 	const [loading, setLoading] = useState(false);
 
-	useEffect(() => {
-		setLoading(true);
-
-		const getData = async () => {
-			const res = await fetchData('/api/companions');
-			setCompanionsData(res);
-			setLoading(false);
-		};
-		getData();
-	}, []);
 	const companionsData = getCompanionsData?.message;
 
 	return (
@@ -55,7 +42,7 @@ const ChooseUs = ({ getSettingsData }: any) => {
 					{settingData?.chose_us_two_heading}
 				</motion.h1>
 				{loading ? (
-					<GridLoader />
+					<div>Loader...</div>
 				) : (
 					<div className={style.chooseUs}>
 						{companionsData?.map((data: any, i: number) => (
@@ -83,11 +70,11 @@ const ChooseUs = ({ getSettingsData }: any) => {
 										alt="Choose Us Images"
 									/>
 									<div className={style.singleChooseIcon}>
-										<IconPickerItem
+										{/* <IconPickerItem
 											icon={data?.icon}
 											size={40}
 											color="#FAFAFA"
-										/>{' '}
+										/> */}
 									</div>
 								</div>
 								<h2 className={style.signleChooseHeader}>{data?.title}</h2>

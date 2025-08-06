@@ -89,7 +89,15 @@ export function AdminWithdrawalTable({
 							</TableCell>
 							<TableCell className="py-2">{item.holder_name}</TableCell>
 							<TableCell className="py-2">{item.branch_name}</TableCell>
-							<TableCell className="py-2">{item.admin_transition_id}</TableCell>
+							<TableCell className="py-2">
+								{item?.admin_transition_id}{' '}
+								{item?.admin_transition_id && (
+									<ClickToCopy
+										text={item?.admin_transition_id}
+										iconClassName="w-4 h-4"
+									/>
+								)}
+							</TableCell>
 							<TableCell className="py-2">
 								{dateFormat(item.created_at.toString())} <br />
 								{timeFormat(item.created_at.toString())}

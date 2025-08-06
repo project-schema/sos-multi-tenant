@@ -1,10 +1,8 @@
-import Image from 'next/image';
-import style from './style.module.css';
 import { BASE_URL } from '@/lib/env';
-import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 import { motion } from 'framer-motion';
-import { timeToCovertCurrentTime } from '@/components/actions/action';
-import { userIcon } from '@/lib/img';
+import Image from 'next/image';
+import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
+import style from './style.module.css';
 
 function RattingCardSD({ data, i }: { data: any; i: number }) {
 	return (
@@ -23,9 +21,7 @@ function RattingCardSD({ data, i }: { data: any; i: number }) {
 				<div className={style.reviewImgWidth}>
 					<Image
 						className={style.reviewUser}
-						src={
-							data?.user.image ? BASE_URL + '/' + data?.user.image : userIcon
-						}
+						src={data?.user.image ? BASE_URL + '/' + data?.user.image : ''}
 						width={100}
 						height={100}
 						alt="Choose Us Images"
@@ -39,10 +35,9 @@ function RattingCardSD({ data, i }: { data: any; i: number }) {
 							<RatingStars rating={data.rating} />
 						</div>
 						<p>
-							|{' '}
-							{timeToCovertCurrentTime(data.created_at) === 'just now'
+							{/* {timeToCovertCurrentTime(data.created_at) === 'just now'
 								? 'just now'
-								: timeToCovertCurrentTime(data.created_at) + ' ago'}
+								: timeToCovertCurrentTime(data.created_at) + ' ago'} */}
 						</p>
 					</div>
 					<p className={style.reviewParagraph}>{data.comment}</p>

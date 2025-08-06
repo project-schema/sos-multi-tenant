@@ -6,12 +6,15 @@ import { LoaderCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useAdminDeleteAdvertiseCommonUtilitiesMutation } from './common-utility.api.slice';
-import { iAdvertiseCommonUtilities } from './common-utility.type';
+import {
+	iAdvertiseCommonPath,
+	iAdvertiseCommonUtilities,
+} from './common-utility.type';
 
 export function AdvertiseCommonUtilitiesDelete({
 	data,
 }: {
-	data: iAdvertiseCommonUtilities;
+	data: iAdvertiseCommonUtilities<iAdvertiseCommonPath>;
 }) {
 	const [mutation, { isLoading }] =
 		useAdminDeleteAdvertiseCommonUtilitiesMutation();

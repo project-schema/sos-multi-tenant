@@ -37,7 +37,7 @@ import { useAdminUpdateCrmMemberMutation } from './member.api.slice';
 import { iCrmMember } from './member.type';
 
 // --- Zod Schema ---
-export const schema = z.object({
+const schema = z.object({
 	photo: z
 		.instanceof(File)
 		.refine((file) => file.size > 0, { message: 'Image is required' })

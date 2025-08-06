@@ -1,4 +1,4 @@
-import NextAuth, { DefaultSession } from 'next-auth';
+import { DefaultSession } from 'next-auth';
 
 declare module 'next-auth' {
 	/**
@@ -6,6 +6,7 @@ declare module 'next-auth' {
 	 */
 	interface Session {
 		expires: Date;
+		accessToken: string;
 		user: {
 			/** The user's postal address. */
 			username: string;
@@ -21,7 +22,7 @@ declare module 'next-auth' {
 	}
 }
 
-import { JWT } from 'next-auth/jwt';
+import 'next-auth/jwt';
 
 declare module 'next-auth/jwt' {
 	/** Returned by the `jwt` callback and `getToken`, when using JWT sessions */

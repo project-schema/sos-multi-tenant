@@ -2,10 +2,13 @@ import NextAuth, { User as NextAuthUser } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 type UserType = {
-	email: string;
-	name: string;
-	phone: string;
-	status: any;
+	username: string;
+	user_status: string;
+	token: string;
+	role: string;
+	message: string;
+	is_subscription: string | null;
+	is_employee: string | null;
 };
 // Define the extended user type
 interface CustomUser extends NextAuthUser {
@@ -63,7 +66,6 @@ const handler = NextAuth({
 		async session({ session, token }) {
 			// Map token properties to session
 			session.accessToken = token.accessToken as string;
-			session.refreshToken = token.refreshToken as string;
 			session.user = token.user as UserType;
 
 			return session;

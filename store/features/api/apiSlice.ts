@@ -54,6 +54,12 @@ export const apiSlice = createApi({
 		'AdminCoupon',
 		'AdminCouponRequest',
 		'AdminWithdrawal',
+
+		'AdminSubscriptionPlan',
+
+		'AdminSupport',
+		'AdminSupportCategory',
+		'AdminSupportSubCategory',
 	],
 	keepUnusedDataFor: 50000,
 });

@@ -124,7 +124,7 @@ export type settingData = {
 	about_banner_title: string;
 	about_banner_heading: string;
 	about_banner_description: string;
-	mission_imageabout_banner_image: string;
+	about_banner_image: string;
 	about_banner_increment_one_count: string;
 	about_banner_increment_one_title: string;
 	about_banner_increment_two_count: string;

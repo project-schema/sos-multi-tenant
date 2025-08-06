@@ -1,11 +1,10 @@
 'use client';
-import '@ant-design/v5-patch-for-react-19';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { SessionProvider } from 'next-auth/react';
 
+import { AppStore, makeStore } from '@/store';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Provider } from 'react-redux';
-import { AppStore, makeStore } from '@/store';
 import { Toaster } from 'sonner';
 export const RootProviders = ({ children }: { children: React.ReactNode }) => {
 	const storeRef = useRef<AppStore | null>(null);
