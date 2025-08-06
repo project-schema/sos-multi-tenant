@@ -1,27 +1,27 @@
 'use client';
 
-import React from 'react';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from '@/components/ui/button';
 import {
 	Form,
+	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
-	FormControl,
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import { z } from 'zod';
 
+import { Loader6 } from '@/components/dashboard/loader';
+import { alertConfirm } from '@/lib';
+import { LoaderCircle } from 'lucide-react';
 import {
 	useProfileDataQuery,
 	useUserUpdateProfileMutation,
 } from './user-profile-api-slice';
-import { LoaderCircle } from 'lucide-react';
-import { Loader6 } from '@/components/dashboard/loader';
 
 // ✅ Zod schema
 const passwordSchema = z
@@ -58,32 +58,36 @@ export function UserPassword() {
 	});
 
 	async function onSubmit(values: PasswordFormValues) {
-		try {
-			const response = await updateProfile({
-				...data?.user,
-				...values,
-			}).unwrap();
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await updateProfile({
+						...data?.user,
+						...values,
+					}).unwrap();
 
-			if (response.status === 200) {
-				toast.success(response.message);
-				form.reset();
-			} else {
-				toast.error(response.message);
-			}
-		} catch (error: any) {
-			if (error?.status === 400 && typeof error.message === 'object') {
-				const messages = error.message;
-				// Loop over server errors and set them in the form
-				Object.entries(messages).forEach(([field, value]) => {
-					form.setError(field as keyof PasswordFormValues, {
-						type: 'server',
-						message: (value as string[])[0],
-					});
-				});
-			} else {
-				toast.error('Something went wrong');
-			}
-		}
+					if (response.status === 200) {
+						toast.success(response.message);
+						form.reset();
+					} else {
+						toast.error(response.message);
+					}
+				} catch (error: any) {
+					if (error?.status === 400 && typeof error.message === 'object') {
+						const messages = error.message;
+						// Loop over server errors and set them in the form
+						Object.entries(messages).forEach(([field, value]) => {
+							form.setError(field as keyof PasswordFormValues, {
+								type: 'server',
+								message: (value as string[])[0],
+							});
+						});
+					} else {
+						toast.error('Something went wrong');
+					}
+				}
+			},
+		});
 	}
 	if (profileLoading) {
 		return (

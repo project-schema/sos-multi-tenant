@@ -17,6 +17,7 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { alertConfirm } from '@/lib';
 import { toast } from 'sonner';
 import { useAdminStoreAdvertiseCommonUtilitiesMutation } from './common-utility.api.slice';
 import { iAdvertiseCommonPath } from './common-utility.type';
@@ -44,40 +45,44 @@ export function AdvertiseCommonUtilitiesCreate({
 	});
 
 	const onSubmit = async (data: ZodType) => {
-		try {
-			const response = await store({
-				...data,
-				colum_name: path,
-				[path]: data.name,
-			}).unwrap();
-			if (response.success || response.status === 200) {
-				toast.success(response.message || 'Created successfully');
-				form.reset();
-			} else {
-				const errorResponse = response as any;
-				if (!response.success && typeof errorResponse.data === 'object') {
-					Object.entries(errorResponse.data).forEach(([field, value]) => {
-						form.setError(field as keyof ZodType, {
-							type: 'server',
-							message: (value as string[])[0],
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await store({
+						...data,
+						colum_name: path,
+						[path]: data.name,
+					}).unwrap();
+					if (response.success || response.status === 200) {
+						toast.success(response.message || 'Created successfully');
+						form.reset();
+					} else {
+						const errorResponse = response as any;
+						if (!response.success && typeof errorResponse.data === 'object') {
+							Object.entries(errorResponse.data).forEach(([field, value]) => {
+								form.setError(field as keyof ZodType, {
+									type: 'server',
+									message: (value as string[])[0],
+								});
+							});
+						} else {
+							toast.error(response.message || 'Something went wrong');
+						}
+					}
+				} catch (error: any) {
+					if (error?.status === 422 && typeof error.message === 'object') {
+						Object.entries(error.message).forEach(([field, value]) => {
+							form.setError(field as keyof ZodType, {
+								type: 'server',
+								message: (value as string[])[0],
+							});
 						});
-					});
-				} else {
-					toast.error(response.message || 'Something went wrong');
+					} else {
+						toast.error('Something went wrong');
+					}
 				}
-			}
-		} catch (error: any) {
-			if (error?.status === 422 && typeof error.message === 'object') {
-				Object.entries(error.message).forEach(([field, value]) => {
-					form.setError(field as keyof ZodType, {
-						type: 'server',
-						message: (value as string[])[0],
-					});
-				});
-			} else {
-				toast.error('Something went wrong');
-			}
-		}
+			},
+		});
 	};
 
 	return (

@@ -29,7 +29,7 @@ export function AdminServiceOrderStatistics() {
 	const stats = data.message;
 
 	return (
-		<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 pb-4 ml-6">
+		<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4">
 			<Card1
 				title="Total Orders"
 				countTitle={stats.totalserviceorder.toString()}

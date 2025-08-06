@@ -39,6 +39,7 @@ export const badgeFormat = (status: string | number): Badge => {
 		case 'cancel':
 		case 'return':
 		case 'reject':
+		case 'rejected':
 		case 3:
 			return 'destructive';
 

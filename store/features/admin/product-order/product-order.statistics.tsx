@@ -10,11 +10,10 @@ import {
 	Truck,
 	XCircle,
 } from 'lucide-react';
-import { useAdminAffiliateProductStatisticsQuery } from './product-order.api.slice';
+import { useAdminOrderStatisticsQuery } from './product-order.api.slice';
 
 export function AdminProductOrderStatistics() {
-	const { data, isLoading, isError } =
-		useAdminAffiliateProductStatisticsQuery(undefined);
+	const { data, isLoading, isError } = useAdminOrderStatisticsQuery(undefined);
 
 	if (isLoading) {
 		return (
@@ -29,9 +28,9 @@ export function AdminProductOrderStatistics() {
 	const stats = data.message;
 
 	return (
-		<div className="grid grid-cols-6 gap-4 pb-4 ml-6">
+		<div className="grid grid-cols-7 gap-4">
 			<Card1
-				title="Total Orders"
+				title="All Orders"
 				countTitle={stats?.totalorder?.toString()}
 				icon={ShoppingCart}
 				iconClassName="text-blue-600"

@@ -127,9 +127,9 @@ const DropDownAction = ({ item }: { item: iAdminReqCoupon }) => {
 				{item.status !== 'reject' && (
 					<>
 						<EditActiveCouponModal data={item} />
-						<EditRejectCouponModal data={item} />
 					</>
 				)}
+				<EditRejectCouponModal data={item} />
 
 				<DropdownMenuSeparator />
 

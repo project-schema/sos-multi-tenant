@@ -5,7 +5,6 @@ import { Pagination1 } from '@/components/dashboard/pagination';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
 import { ErrorAlert } from '@/lib';
-import { CreateCouponModal } from '@/store/features/admin/coupon';
 import {
 	AdminWithdrawalFilter,
 	AdminWithdrawalTable,
@@ -67,7 +66,6 @@ export default function Page() {
 				<Card className="gap-0">
 					<CardHeader className="pb-3 flex items-center justify-between">
 						<CardTitle className="text-2xl font-bold">Withdrawal</CardTitle>
-						<CreateCouponModal />
 					</CardHeader>
 					<CardContent className="space-y-4">
 						{/* Table */}

@@ -20,7 +20,7 @@ import { LoaderCircle } from 'lucide-react';
 
 import { Loader6 } from '@/components/dashboard/loader';
 import { ImageUpload } from '@/components/ui/image-upload';
-import { env } from '@/lib';
+import { alertConfirm, env } from '@/lib';
 import {
 	useProfileDataQuery,
 	useUserUpdateProfileMutation,
@@ -62,30 +62,33 @@ export function UserSettings() {
 	}, [data]);
 
 	async function onSubmit(values: ProfileFormValues) {
-		try {
-			// Assuming updateProfile accepts FormData
-			const response = await updateProfile({
-				...data?.user,
-				...values,
-			}).unwrap();
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await updateProfile({
+						...data?.user,
+						...values,
+					}).unwrap();
 
-			if (response.status === 200) {
-				toast.success(response.message);
-			} else {
-				toast.error(response.message);
-			}
-		} catch (error: any) {
-			if (error?.status === 400 && typeof error.message === 'object') {
-				Object.entries(error.message).forEach(([field, value]) => {
-					form.setError(field as keyof ProfileFormValues, {
-						type: 'server',
-						message: (value as string[])[0],
-					});
-				});
-			} else {
-				toast.error('Something went wrong');
-			}
-		}
+					if (response.status === 200) {
+						toast.success(response.message);
+					} else {
+						toast.error(response.message);
+					}
+				} catch (error: any) {
+					if (error?.status === 400 && typeof error.message === 'object') {
+						Object.entries(error.message).forEach(([field, value]) => {
+							form.setError(field as keyof ProfileFormValues, {
+								type: 'server',
+								message: (value as string[])[0],
+							});
+						});
+					} else {
+						toast.error('Something went wrong');
+					}
+				}
+			},
+		});
 	}
 
 	if (profileLoading) {

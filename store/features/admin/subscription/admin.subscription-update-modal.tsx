@@ -35,6 +35,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { alertConfirm } from '@/lib';
 import { useAdminUpdateSubscriptionMutation } from './admin.subscription.api.slice';
 import { iAdminSubscription } from './admin.subscription.type';
 
@@ -159,45 +160,50 @@ const FORMVendor = ({
 	}, [editData]);
 
 	const onSubmit = async (data: ZodType) => {
-		try {
-			const response = await update({
-				...data,
-				id: editData.id,
-				subscription_id: editData.id,
-				card_feature_title: editData.card_feature_title || 'card_feature_title',
-				card_time: editData.card_time || '2',
-				card_symbol_icon: editData.card_symbol_icon || 'X',
-			}).unwrap();
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await update({
+						...data,
+						id: editData.id,
+						subscription_id: editData.id,
+						card_feature_title:
+							editData.card_feature_title || 'card_feature_title',
+						card_time: editData.card_time || '2',
+						card_symbol_icon: editData.card_symbol_icon || 'X',
+					}).unwrap();
 
-			if (response.success || response.status === 200) {
-				toast.success(response.message || 'Updated successfully');
-				form.reset();
-				setOpen(false);
-			} else {
-				const errorResponse = response as any;
-				if (!response.success && typeof errorResponse.data === 'object') {
-					Object.entries(errorResponse.data).forEach(([field, value]) => {
-						form.setError(field as keyof ZodType, {
-							type: 'server',
-							message: (value as string[])[0],
+					if (response.success || response.status === 200) {
+						toast.success(response.message || 'Updated successfully');
+						form.reset();
+						setOpen(false);
+					} else {
+						const errorResponse = response as any;
+						if (!response.success && typeof errorResponse.data === 'object') {
+							Object.entries(errorResponse.data).forEach(([field, value]) => {
+								form.setError(field as keyof ZodType, {
+									type: 'server',
+									message: (value as string[])[0],
+								});
+							});
+						} else {
+							toast.error(response.message || 'Something went wrong');
+						}
+					}
+				} catch (error: any) {
+					if (error?.status === 400 && typeof error.message === 'object') {
+						Object.entries(error.message).forEach(([field, value]) => {
+							form.setError(field as keyof ZodType, {
+								type: 'server',
+								message: (value as string[])[0],
+							});
 						});
-					});
-				} else {
-					toast.error(response.message || 'Something went wrong');
+					} else {
+						toast.error('Something went wrong');
+					}
 				}
-			}
-		} catch (error: any) {
-			if (error?.status === 400 && typeof error.message === 'object') {
-				Object.entries(error.message).forEach(([field, value]) => {
-					form.setError(field as keyof ZodType, {
-						type: 'server',
-						message: (value as string[])[0],
-					});
-				});
-			} else {
-				toast.error('Something went wrong');
-			}
-		}
+			},
+		});
 	};
 
 	const { fields, append, remove } = useFieldArray({
@@ -287,7 +293,9 @@ const FORMVendor = ({
 										<Input
 											type="number"
 											{...field}
-											onChange={(e) => field.onChange(e.target.valueAsNumber)}
+											onChange={(e) =>
+												field.onChange(e.target.valueAsNumber || '')
+											}
 										/>
 									</FormControl>
 									<FormMessage />
@@ -418,7 +426,7 @@ const FORMVendor = ({
 						{isLoading && (
 							<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 						)}
-						{isLoading ? 'Updating...' : 'Submit'}
+						{isLoading ? 'Updating...' : 'Save Changes'}
 					</Button>
 				</div>
 			</form>

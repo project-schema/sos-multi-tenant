@@ -28,6 +28,7 @@ import { z } from 'zod';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { alertConfirm } from '@/lib';
 import { useAdminUpdateSubscriptionFeatureMutation } from './admin.subscription.api.slice';
 import { iAdminSubscription } from './admin.subscription.type';
 
@@ -146,42 +147,46 @@ const FORMVendor = ({
 	}, [editData]);
 
 	const onSubmit = async (data: ZodType) => {
-		try {
-			const response = await update({
-				...data,
-				id: editData.id,
-				subscription_id: editData.id,
-			}).unwrap();
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await update({
+						...data,
+						id: editData.id,
+						subscription_id: editData.id,
+					}).unwrap();
 
-			if (response.success || response.status === 200) {
-				toast.success(response.message || 'Created successfully');
-				form.reset();
-				setOpen(false);
-			} else {
-				const errorResponse = response as any;
-				if (!response.success && typeof errorResponse.data === 'object') {
-					Object.entries(errorResponse.data).forEach(([field, value]) => {
-						form.setError(field as keyof ZodType, {
-							type: 'server',
-							message: (value as string[])[0],
+					if (response.success || response.status === 200) {
+						toast.success(response.message || 'Updated successfully');
+						form.reset();
+						setOpen(false);
+					} else {
+						const errorResponse = response as any;
+						if (!response.success && typeof errorResponse.data === 'object') {
+							Object.entries(errorResponse.data).forEach(([field, value]) => {
+								form.setError(field as keyof ZodType, {
+									type: 'server',
+									message: (value as string[])[0],
+								});
+							});
+						} else {
+							toast.error(response.message || 'Something went wrong');
+						}
+					}
+				} catch (error: any) {
+					if (error?.status === 400 && typeof error.message === 'object') {
+						Object.entries(error.message).forEach(([field, value]) => {
+							form.setError(field as keyof ZodType, {
+								type: 'server',
+								message: (value as string[])[0],
+							});
 						});
-					});
-				} else {
-					toast.error(response.message || 'Something went wrong');
+					} else {
+						toast.error('Something went wrong');
+					}
 				}
-			}
-		} catch (error: any) {
-			if (error?.status === 400 && typeof error.message === 'object') {
-				Object.entries(error.message).forEach(([field, value]) => {
-					form.setError(field as keyof ZodType, {
-						type: 'server',
-						message: (value as string[])[0],
-					});
-				});
-			} else {
-				toast.error('Something went wrong');
-			}
-		}
+			},
+		});
 	};
 	return (
 		<Form {...form}>
@@ -219,7 +224,9 @@ const FORMVendor = ({
 									<Input
 										type="number"
 										{...field}
-										onChange={(e) => field.onChange(e.target.valueAsNumber)}
+										onChange={(e) =>
+											field.onChange(e.target.valueAsNumber || '')
+										}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -238,7 +245,9 @@ const FORMVendor = ({
 									<Input
 										type="number"
 										{...field}
-										onChange={(e) => field.onChange(e.target.valueAsNumber)}
+										onChange={(e) =>
+											field.onChange(e.target.valueAsNumber || '')
+										}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -257,7 +266,9 @@ const FORMVendor = ({
 									<Input
 										type="number"
 										{...field}
-										onChange={(e) => field.onChange(e.target.valueAsNumber)}
+										onChange={(e) =>
+											field.onChange(e.target.valueAsNumber || '')
+										}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -438,7 +449,9 @@ const FORMAffiliate = ({
 									<Input
 										type="number"
 										{...field}
-										onChange={(e) => field.onChange(e.target.valueAsNumber)}
+										onChange={(e) =>
+											field.onChange(e.target.valueAsNumber || '')
+										}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -457,7 +470,9 @@ const FORMAffiliate = ({
 									<Input
 										type="number"
 										{...field}
-										onChange={(e) => field.onChange(e.target.valueAsNumber)}
+										onChange={(e) =>
+											field.onChange(e.target.valueAsNumber || '')
+										}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -476,7 +491,9 @@ const FORMAffiliate = ({
 									<Input
 										type="number"
 										{...field}
-										onChange={(e) => field.onChange(e.target.valueAsNumber)}
+										onChange={(e) =>
+											field.onChange(e.target.valueAsNumber || '')
+										}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -515,7 +532,7 @@ const FORMAffiliate = ({
 						{isLoading && (
 							<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 						)}
-						{isLoading ? 'Updating...' : 'Submit'}
+						{isLoading ? 'Updating...' : 'Save changes'}
 					</Button>
 				</div>
 			</form>

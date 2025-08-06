@@ -21,10 +21,11 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { alertConfirm } from '@/lib';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderCircle, Pen } from 'lucide-react';
-import React, { useState } from 'react';
+import { LoaderCircle, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -47,15 +48,17 @@ export function EditRejectCouponModal({ data }: { data: iAdminReqCoupon }) {
 			<DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
 				<DialogTrigger className="flex items-center gap-2 w-full">
 					<DropdownMenuShortcut className="ml-0">
-						<Pen className="size-4" />
+						<X className="size-4" />
 					</DropdownMenuShortcut>
-					Reject Coupon
+					{data?.status === 'reject' ? 'Reject Message' : 'Reject Coupon'}
 				</DialogTrigger>
 			</DropdownMenuItem>
 
 			<DialogContent className={cn('sm:max-w-2xl w-full')}>
 				<DialogHeader>
-					<DialogTitle>Reject Coupon</DialogTitle>
+					<DialogTitle>
+						{data?.status === 'reject' ? 'Reject Message' : 'Reject Coupon'}
+					</DialogTitle>
 				</DialogHeader>
 
 				<FORM setOpen={setOpen} editData={data} />
@@ -76,47 +79,56 @@ const FORM = ({
 	const form = useForm<ZodType>({
 		resolver: zodResolver(couponSchema),
 		defaultValues: {
-			reason: '',
+			reason: editData?.reason || '',
 		},
 	});
+	useEffect(() => {
+		form.reset({
+			reason: editData?.reason || '',
+		});
+	}, [editData]);
 
 	const onSubmit = async (data: ZodType) => {
-		try {
-			const response = await update({
-				reason: data.reason,
-				status: 'reject',
-				id: editData.id,
-			}).unwrap();
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await update({
+						reason: data.reason,
+						status: 'reject',
+						id: editData.id,
+					}).unwrap();
 
-			if (response.status === 200) {
-				toast.success(response.message || 'Created successfully');
-				form.reset();
-				setOpen(false);
-			} else {
-				const errorResponse = response as any;
-				if (typeof errorResponse.data === 'object') {
-					Object.entries(errorResponse.data).forEach(([field, value]) => {
-						form.setError(field as keyof ZodType, {
-							type: 'server',
-							message: (value as string[])[0],
+					if (response.status === 200) {
+						toast.success(response.message || 'Created successfully');
+						form.reset();
+						setOpen(false);
+					} else {
+						const errorResponse = response as any;
+						if (typeof errorResponse.data === 'object') {
+							Object.entries(errorResponse.data).forEach(([field, value]) => {
+								form.setError(field as keyof ZodType, {
+									type: 'server',
+									message: (value as string[])[0],
+								});
+							});
+						} else {
+							toast.error(response.message || 'Something went wrong');
+						}
+					}
+				} catch (error: any) {
+					if (error?.status === 400 && typeof error.message === 'object') {
+						Object.entries(error.message).forEach(([field, value]) => {
+							form.setError(field as keyof ZodType, {
+								type: 'server',
+								message: (value as string[])[0],
+							});
 						});
-					});
-				} else {
-					toast.error(response.message || 'Something went wrong');
+					} else {
+						toast.error('Something went wrong');
+					}
 				}
-			}
-		} catch (error: any) {
-			if (error?.status === 400 && typeof error.message === 'object') {
-				Object.entries(error.message).forEach(([field, value]) => {
-					form.setError(field as keyof ZodType, {
-						type: 'server',
-						message: (value as string[])[0],
-					});
-				});
-			} else {
-				toast.error('Something went wrong');
-			}
-		}
+			},
+		});
 	};
 	return (
 		<Form {...form}>
@@ -138,7 +150,11 @@ const FORM = ({
 
 				<Button type="submit" className="w-full">
 					{isLoading && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
-					{isLoading ? 'Rejecting...' : 'Reject'}
+					{isLoading
+						? 'Rejecting...'
+						: editData?.status === 'reject'
+						? 'Update Reject Message'
+						: 'Reject Coupon'}
 				</Button>
 			</form>
 		</Form>

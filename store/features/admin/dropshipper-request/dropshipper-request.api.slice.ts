@@ -44,13 +44,14 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		// delete
-		adminDeleteProduct: builder.mutation<
+		adminRequestProductStatus: builder.mutation<
 			{ status: 200; message: string },
-			{ id: string | number }
+			{ id: string | number; reason?: string; status: 1 | 3 }
 		>({
 			query: (data) => ({
-				url: `/delete-product/${data.id}`,
-				method: 'DELETE',
+				url: `/admin/request/product-update/${data.id}`,
+				method: 'POST',
+				body: data,
 			}),
 			invalidatesTags: ['AdminProductRequest'],
 		}),
@@ -58,7 +59,7 @@ const api = apiSlice.injectEndpoints({
 });
 
 export const {
-	useAdminDeleteProductMutation,
+	useAdminRequestProductStatusMutation,
 	useAdminAffiliateProductStatisticsQuery,
 	useAdminRequestProductQuery,
 } = api;

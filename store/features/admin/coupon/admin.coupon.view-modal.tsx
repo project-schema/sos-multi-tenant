@@ -1,5 +1,6 @@
 'use client';
 
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,7 +18,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { badgeFormat, dateFormat } from '@/lib';
 import { cn } from '@/lib/utils';
-import { ExternalLink } from 'lucide-react';
+import { AlertCircleIcon, ExternalLink, MessageCircle } from 'lucide-react';
 import React, { useState } from 'react';
 import { iAdminReqCoupon } from './admin.coupon.type';
 
@@ -83,15 +84,24 @@ const FORM = ({
 
 			<Separator />
 
-			<div className="space-y-2 p-2 rounded border">
-				<Label className="text-muted-foreground">Comments</Label>
-				<div className="whitespace-pre-wrap">{editData.comments || '—'}</div>
-			</div>
+			{editData.comments && (
+				<Alert>
+					<MessageCircle />
+					<AlertTitle>Request Message</AlertTitle>
+					<AlertDescription>
+						<p>{editData?.comments}</p>
+					</AlertDescription>
+				</Alert>
+			)}
+
 			{editData.reason && (
-				<div className="space-y-2 border p-2 rounded">
-					<Label className="text-muted-foreground">Reason</Label>
-					<div className="whitespace-pre-wrap">{editData.reason || '—'}</div>
-				</div>
+				<Alert variant="destructive">
+					<AlertCircleIcon />
+					<AlertTitle>Admin Reject Message</AlertTitle>
+					<AlertDescription>
+						<p>{editData?.reason}</p>
+					</AlertDescription>
+				</Alert>
 			)}
 
 			<div className="flex justify-end pt-4">

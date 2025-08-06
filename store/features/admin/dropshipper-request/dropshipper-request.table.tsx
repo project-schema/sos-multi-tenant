@@ -24,7 +24,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { iPagination } from '@/types';
 import { Ellipsis, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
-import { MerchantProductDelete } from './dropshipper-request.delete';
+import { AdminDropshipperRejectRequest } from './admin.dropshipper.reject-modal';
+import { AdminDropshipperAcceptRequest } from './dropshipper-request.active';
 import { iDropShipReq } from './dropshipper-request.type';
 export function DropshipperProductTable({
 	data,
@@ -140,10 +141,14 @@ export function DropshipperProductTable({
 											</Link>
 										</DropdownMenuItem>
 
+										{item.status !== 1 && (
+											<AdminDropshipperAcceptRequest data={item} />
+										)}
+
 										<DropdownMenuSeparator />
 
 										{/* Delete Product  */}
-										<MerchantProductDelete data={item} />
+										<AdminDropshipperRejectRequest data={item} />
 									</DropdownMenuContent>
 								</DropdownMenu>
 							</TableCell>

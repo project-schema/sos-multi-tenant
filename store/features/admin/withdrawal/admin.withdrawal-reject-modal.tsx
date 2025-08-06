@@ -21,10 +21,11 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { alertConfirm } from '@/lib';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderCircle, Pen } from 'lucide-react';
-import React, { useState } from 'react';
+import { LoaderCircle, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -48,16 +49,20 @@ export function AdminWithdrawalRejectModal({
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
-			<DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
+			<DropdownMenuItem
+				variant="destructive"
+				asChild
+				onSelect={(e) => e.preventDefault()}
+			>
 				<DialogTrigger className="flex items-center gap-2 w-full">
 					<DropdownMenuShortcut className="ml-0">
-						<Pen className="size-4" />
+						<X className="size-4 text-destructive" />
 					</DropdownMenuShortcut>
-					Withdrawal Reject
+					{data.status === 'reject' ? 'Reject Message' : 'Reject Withdrawal'}
 				</DialogTrigger>
 			</DropdownMenuItem>
 
-			<DialogContent className={cn('sm:max-w-2xl w-full')}>
+			<DialogContent className={cn('sm:max-w-xl w-full')}>
 				<DialogHeader>
 					<DialogTitle>Withdrawal Reject</DialogTitle>
 				</DialogHeader>
@@ -80,46 +85,56 @@ const FORM = ({
 	const form = useForm<ZodType>({
 		resolver: zodResolver(couponSchema),
 		defaultValues: {
-			reason: '',
+			reason: editData?.reason || '',
 		},
 	});
 
-	const onSubmit = async (data: ZodType) => {
-		try {
-			const response = await update({
-				...data,
-				id: editData.id,
-			}).unwrap();
+	useEffect(() => {
+		form.reset({
+			reason: editData?.reason || '',
+		});
+	}, [editData]);
 
-			if (response.status === 200) {
-				toast.success(response.message || 'Created successfully');
-				form.reset();
-				setOpen(false);
-			} else {
-				const errorResponse = response as any;
-				if (typeof errorResponse.data === 'object') {
-					Object.entries(errorResponse.data).forEach(([field, value]) => {
-						form.setError(field as keyof ZodType, {
-							type: 'server',
-							message: (value as string[])[0],
+	const onSubmit = async (data: ZodType) => {
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await update({
+						...data,
+						id: editData.id,
+					}).unwrap();
+
+					if (response?.data === 'success') {
+						toast.success(response.message || 'Update successfully');
+						form.reset();
+						setOpen(false);
+					} else {
+						const errorResponse = response as any;
+						if (typeof errorResponse.data === 'object') {
+							Object.entries(errorResponse.data).forEach(([field, value]) => {
+								form.setError(field as keyof ZodType, {
+									type: 'server',
+									message: (value as string[])[0],
+								});
+							});
+						} else {
+							toast.error(response.message || 'Something went wrong');
+						}
+					}
+				} catch (error: any) {
+					if (error?.status === 400 && typeof error.message === 'object') {
+						Object.entries(error.message).forEach(([field, value]) => {
+							form.setError(field as keyof ZodType, {
+								type: 'server',
+								message: (value as string[])[0],
+							});
 						});
-					});
-				} else {
-					toast.error(response.message || 'Something went wrong');
+					} else {
+						toast.error('Something went wrong');
+					}
 				}
-			}
-		} catch (error: any) {
-			if (error?.status === 400 && typeof error.message === 'object') {
-				Object.entries(error.message).forEach(([field, value]) => {
-					form.setError(field as keyof ZodType, {
-						type: 'server',
-						message: (value as string[])[0],
-					});
-				});
-			} else {
-				toast.error('Something went wrong');
-			}
-		}
+			},
+		});
 	};
 	return (
 		<Form {...form}>

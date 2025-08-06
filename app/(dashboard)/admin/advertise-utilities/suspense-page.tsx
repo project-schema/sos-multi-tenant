@@ -54,7 +54,7 @@ export function SuspensePage({ children }: { children: React.ReactNode }) {
 						<SelectTrigger
 							className={cn(
 								`w-[180px] !h-9 py-2 ${
-									isTab ? 'bg-accent-foreground text-white' : ''
+									isTab ? 'bg-accent-foreground text-white capitalize' : ''
 								}`
 							)}
 						>

@@ -27,6 +27,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { alertConfirm } from '@/lib';
 import { toast } from 'sonner';
 import { useAdminViewServiceCategoryQuery } from '../service-category';
 import { useAdminStoreServiceSubCategoryMutation } from './service-sub-category.api.slice';
@@ -66,41 +67,45 @@ export function ServiceSubCategoryCreate() {
 	}
 
 	const onSubmit = async (data: ZodType) => {
-		try {
-			const response = await store({
-				...data,
-			}).unwrap();
-			if (response.status === 200) {
-				toast.success(response.message || 'Category created successfully');
-				form.reset();
-			} else {
-				const errorResponse = response as any;
-				if (
-					response.status === 422 &&
-					typeof errorResponse.errors === 'object'
-				) {
-					Object.entries(errorResponse.errors).forEach(([field, value]) => {
-						form.setError(field as keyof ZodType, {
-							type: 'server',
-							message: (value as string[])[0],
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await store({
+						...data,
+					}).unwrap();
+					if (response.status === 200) {
+						toast.success(response.message || 'Created successfully');
+						form.reset();
+					} else {
+						const errorResponse = response as any;
+						if (
+							response.status === 422 &&
+							typeof errorResponse.errors === 'object'
+						) {
+							Object.entries(errorResponse.errors).forEach(([field, value]) => {
+								form.setError(field as keyof ZodType, {
+									type: 'server',
+									message: (value as string[])[0],
+								});
+							});
+						} else {
+							toast.error(response.message || 'Something went wrong');
+						}
+					}
+				} catch (error: any) {
+					if (error?.status === 422 && typeof error.message === 'object') {
+						Object.entries(error.message).forEach(([field, value]) => {
+							form.setError(field as keyof ZodType, {
+								type: 'server',
+								message: (value as string[])[0],
+							});
 						});
-					});
-				} else {
-					toast.error(response.message || 'Something went wrong');
+					} else {
+						toast.error('Something went wrong');
+					}
 				}
-			}
-		} catch (error: any) {
-			if (error?.status === 422 && typeof error.message === 'object') {
-				Object.entries(error.message).forEach(([field, value]) => {
-					form.setError(field as keyof ZodType, {
-						type: 'server',
-						message: (value as string[])[0],
-					});
-				});
-			} else {
-				toast.error('Something went wrong');
-			}
-		}
+			},
+		});
 	};
 
 	return (

@@ -53,7 +53,7 @@ export function ServiceCategoryCreate() {
 				...data,
 			}).unwrap();
 			if (response.status === 200) {
-				toast.success(response.message || 'Profile updated successfully');
+				toast.success(response.message || 'Created successfully');
 				form.reset();
 			} else {
 				const errorResponse = response as any;
@@ -131,7 +131,7 @@ export function ServiceCategoryCreate() {
 						{isLoading && (
 							<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 						)}
-						{isLoading ? 'Creating...' : 'Create Service Category'}
+						{isLoading ? 'Creating...' : 'Create Category'}
 					</Button>
 				</DialogFooter>
 			</form>

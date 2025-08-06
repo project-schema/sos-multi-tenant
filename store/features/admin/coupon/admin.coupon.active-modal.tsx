@@ -202,7 +202,9 @@ const FORM = ({
 									<Input
 										type="number"
 										{...field}
-										onChange={(e) => field.onChange(e.target.valueAsNumber)}
+										onChange={(e) =>
+											field.onChange(e.target.valueAsNumber || '')
+										}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -220,7 +222,9 @@ const FORM = ({
 									<Input
 										type="number"
 										{...field}
-										onChange={(e) => field.onChange(e.target.valueAsNumber)}
+										onChange={(e) =>
+											field.onChange(e.target.valueAsNumber || '')
+										}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -263,7 +267,9 @@ const FORM = ({
 									<Input
 										type="number"
 										{...field}
-										onChange={(e) => field.onChange(e.target.valueAsNumber)}
+										onChange={(e) =>
+											field.onChange(e.target.valueAsNumber || '')
+										}
 									/>
 								</FormControl>
 								<FormMessage />

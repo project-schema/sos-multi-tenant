@@ -36,7 +36,7 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		// statistics
-		adminAffiliateProductStatistics: builder.query<
+		adminOrderStatistics: builder.query<
 			iAdminProductOrderStatistics,
 			undefined
 		>({
@@ -49,7 +49,4 @@ const api = apiSlice.injectEndpoints({
 	}),
 });
 
-export const {
-	useAdminAffiliateProductStatisticsQuery,
-	useAdminProductOrderQuery,
-} = api;
+export const { useAdminOrderStatisticsQuery, useAdminProductOrderQuery } = api;

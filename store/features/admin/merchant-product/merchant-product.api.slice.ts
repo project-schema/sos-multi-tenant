@@ -24,9 +24,13 @@ const api = apiSlice.injectEndpoints({
 				if (status === 'all' || !status) {
 					status = '';
 				}
+				let url = `/view-product${status}?page=${page}&search=${search}`;
+				if (status === '/edited') {
+					url = `/admin/vendor-products-edit-request?page=${page}&search=${search}`;
+				}
 
 				return {
-					url: `/view-product${status}?page=${page}&search=${search}`,
+					url,
 					method: 'GET',
 				};
 			},

@@ -10,7 +10,7 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { LoaderCircle, Pen } from 'lucide-react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -33,6 +33,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { alertConfirm } from '@/lib';
 import { toast } from 'sonner';
 import { useAdminCampaignCategoryQuery } from '../campaign-category';
 import { useAdminGetConversionLocationQuery } from '../conversion-location';
@@ -72,13 +73,13 @@ export function PerformanceGoalEdit({
 					</DialogDescription>
 				</DialogHeader>
 
-				<DialogComponent editData={editData} setOpen={setOpen} />
+				<FORM editData={editData} setOpen={setOpen} />
 			</DialogContent>
 		</Dialog>
 	);
 }
 
-const DialogComponent = ({
+const FORM = ({
 	editData,
 	setOpen,
 }: {
@@ -100,6 +101,15 @@ const DialogComponent = ({
 		},
 	});
 
+	useEffect(() => {
+		form.reset({
+			name: editData.name || '',
+			campaign_category_id: editData?.category?.id?.toString() || '',
+			conversion_location_id:
+				editData?.conversion_location?.id?.toString() || '',
+		});
+	}, [editData]);
+
 	const { data: conversionLocation, isLoading: conversionLocationLoading } =
 		useAdminGetConversionLocationQuery(
 			{
@@ -114,40 +124,44 @@ const DialogComponent = ({
 	const selectedLocation = form.watch('conversion_location_id');
 
 	const onSubmit = async (data: ZodType) => {
-		try {
-			const response = await updateProfile({
-				...data,
-				id: editData.id,
-			}).unwrap();
-			if (response.success || response.status === 200) {
-				toast.success('Updated successfully');
-				form.reset();
-				setOpen(false);
-			} else {
-				const errorResponse = response as any;
-				if (!response.success && typeof errorResponse.data === 'object') {
-					Object.entries(errorResponse.data).forEach(([field, value]) => {
-						form.setError(field as keyof ZodType, {
-							type: 'server',
-							message: (value as string[])[0],
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await updateProfile({
+						...data,
+						id: editData.id,
+					}).unwrap();
+					if (response.success || response.status === 200) {
+						toast.success('Updated successfully');
+						form.reset();
+						setOpen(false);
+					} else {
+						const errorResponse = response as any;
+						if (!response.success && typeof errorResponse.data === 'object') {
+							Object.entries(errorResponse.data).forEach(([field, value]) => {
+								form.setError(field as keyof ZodType, {
+									type: 'server',
+									message: (value as string[])[0],
+								});
+							});
+						} else {
+							toast.error(response.message || 'Something went wrong');
+						}
+					}
+				} catch (error: any) {
+					if (error?.status === 422 && typeof error.message === 'object') {
+						Object.entries(error.message).forEach(([field, value]) => {
+							form.setError(field as keyof ZodType, {
+								type: 'server',
+								message: (value as string[])[0],
+							});
 						});
-					});
-				} else {
-					toast.error(response.message || 'Something went wrong');
+					} else {
+						toast.error('Something went wrong');
+					}
 				}
-			}
-		} catch (error: any) {
-			if (error?.status === 422 && typeof error.message === 'object') {
-				Object.entries(error.message).forEach(([field, value]) => {
-					form.setError(field as keyof ZodType, {
-						type: 'server',
-						message: (value as string[])[0],
-					});
-				});
-			} else {
-				toast.error('Something went wrong');
-			}
-		}
+			},
+		});
 	};
 	return (
 		<Form {...form}>

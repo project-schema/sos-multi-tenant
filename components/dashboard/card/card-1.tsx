@@ -22,26 +22,27 @@ export const Card1 = ({
 	return (
 		<Card
 			className={cn(
-				'flex items-center flex-row justify-between p-4 shadow-sm ' + className
+				'flex items-center flex-row justify-between px-4 py-2 shadow-sm ' +
+					className
 			)}
 		>
 			<div className="flex-1 w-full">
-				<CardHeader className="p-0">
+				<CardHeader className="p-0 gap-0">
 					<CardTitle className="text-base font-medium text-gray-700 capitalize">
 						{title}
 					</CardTitle>
 				</CardHeader>
-				<CardContent className="p-0">
+				<CardContent className="p-0 flex items-center justify-between">
 					<h2 className="text-2xl font-bold text-primary capitalize">
 						{isLoading ? '...' : countTitle}
 					</h2>
+					{Icon && (
+						<div className={iconClassName || ''}>
+							<Icon className="w-10 h-10" />
+						</div>
+					)}
 				</CardContent>
 			</div>
-			{Icon && (
-				<div className={iconClassName || ''}>
-					<Icon className="w-10 h-10" />
-				</div>
-			)}
 		</Card>
 	);
 };

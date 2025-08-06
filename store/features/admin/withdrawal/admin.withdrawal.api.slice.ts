@@ -57,9 +57,9 @@ const api = apiSlice.injectEndpoints({
 				invalidatesTags: ['AdminWithdrawal'],
 			}
 		),
-		// new withdraw
+		//  withdrawal cancel
 		adminWithdrawalCancel: builder.mutation<
-			{ status: 200; message: string },
+			{ status: 200; message: string; data: 'success' },
 			any
 		>({
 			query: (data) => {

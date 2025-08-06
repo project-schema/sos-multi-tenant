@@ -104,7 +104,7 @@ const services: sidebarItem[] = [
 		isActive: false,
 	},
 ];
-const crm: sidebarItem[] = [
+const cms: sidebarItem[] = [
 	{
 		title: 'Home Content',
 		icon: FileText,
@@ -112,35 +112,35 @@ const crm: sidebarItem[] = [
 		items: [
 			{
 				title: 'Update Home',
-				url: '/admin/crm/home-content',
+				url: '/admin/cms/home-content',
 			},
 			{
 				title: 'Service',
-				url: '/admin/crm/service',
+				url: '/admin/cms/service',
 			},
 			{
 				title: 'Organization',
-				url: '/admin/crm/organization',
+				url: '/admin/cms/organization',
 			},
 			{
 				title: 'Organization Two',
-				url: '/admin/crm/organization-two',
+				url: '/admin/cms/organization-two',
 			},
 			{
 				title: 'IT Service',
-				url: '/admin/crm/it-service',
+				url: '/admin/cms/it-service',
 			},
 			{
 				title: 'Partner',
-				url: '/admin/crm/partner',
+				url: '/admin/cms/partner',
 			},
 			{
 				title: 'Social',
-				url: '/admin/crm/social',
+				url: '/admin/cms/social',
 			},
 			{
 				title: 'Contact',
-				url: '/admin/crm/contact',
+				url: '/admin/cms/contact',
 			},
 		],
 	},
@@ -151,23 +151,23 @@ const crm: sidebarItem[] = [
 		items: [
 			{
 				title: 'Update About',
-				url: '/admin/crm/about',
+				url: '/admin/cms/about',
 			},
 			{
 				title: 'Companions',
-				url: '/admin/crm/companions',
+				url: '/admin/cms/companions',
 			},
 			{
 				title: 'Missions',
-				url: '/admin/crm/missions',
+				url: '/admin/cms/missions',
 			},
 			{
 				title: 'Testimonial',
-				url: '/admin/crm/testimonial',
+				url: '/admin/cms/testimonial',
 			},
 			{
 				title: 'Members',
-				url: '/admin/crm/members',
+				url: '/admin/cms/members',
 			},
 		],
 	},
@@ -178,19 +178,19 @@ const crm: sidebarItem[] = [
 		items: [
 			{
 				title: 'General',
-				url: '/admin/crm/general',
+				url: '/admin/cms/general',
 			},
 			{
 				title: 'Advertise',
-				url: '/admin/crm/advertise',
+				url: '/admin/cms/advertise',
 			},
 			{
 				title: 'Advertise Faq',
-				url: '/admin/crm/advertise-faq',
+				url: '/admin/cms/advertise-faq',
 			},
 			{
 				title: 'Service',
-				url: '/admin/crm/service-content',
+				url: '/admin/cms/service-content',
 			},
 		],
 	},
@@ -331,7 +331,7 @@ export function AppSidebarForAdmin({
 	const filteredUtility = filterItems(products);
 	const filterUser = filterItems(users);
 	const filteredServices = filterItems(services);
-	const filteredCRM = filterItems(crm);
+	const filteredCMS = filterItems(cms);
 	const filteredHRM = filterItems(hrm);
 	const filteredSupport = filterItems(support);
 	const filteredAdvertise = filterItems(advertise);
@@ -365,7 +365,7 @@ export function AppSidebarForAdmin({
 				<NavMain items={filteredAdvertise} groupLabel="Advertise" />
 				<NavMain items={filteredSaas} groupLabel="Saas" />
 				<NavMain items={filteredSupport} groupLabel="Support" />
-				<NavMain items={filteredCRM} groupLabel="CRM" />
+				<NavMain items={filteredCMS} groupLabel="CMS" />
 				<NavMain items={filteredHRM} groupLabel="HRM" />
 			</SidebarContent>
 		</Sidebar>

@@ -10,7 +10,7 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { LoaderCircle, Pen } from 'lucide-react';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -33,6 +33,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { alertConfirm } from '@/lib';
 import { toast } from 'sonner';
 import { useAdminUpdateServiceCategoryMutation } from './service-category.api.slice';
 import { iServiceCategory } from './service-category.type';
@@ -52,43 +53,6 @@ export function ServiceCategoryEdit({
 }) {
 	const [open, setOpen] = useState(false);
 
-	const [updateProfile, { isLoading }] =
-		useAdminUpdateServiceCategoryMutation();
-
-	const form = useForm<ZodType>({
-		resolver: zodResolver(schema),
-		defaultValues: {
-			name: editData.name || '',
-			status: editData.status,
-		},
-	});
-
-	const onSubmit = async (data: ZodType) => {
-		try {
-			const response = await updateProfile({
-				...data,
-				id: editData.id,
-			}).unwrap();
-			if (response.data === 'success') {
-				toast.success(response.message || 'Category updated successfully');
-				setOpen(false);
-			} else {
-				toast.error(response.message || 'Something went wrong');
-			}
-		} catch (error: any) {
-			if (error?.status === 422 && typeof error.message === 'object') {
-				Object.entries(error.message).forEach(([field, value]) => {
-					form.setError(field as keyof ZodType, {
-						type: 'server',
-						message: (value as string[])[0],
-					});
-				});
-			} else {
-				toast.error('Something went wrong');
-			}
-		}
-	};
-
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
@@ -105,61 +69,109 @@ export function ServiceCategoryEdit({
 						Update the category information.
 					</DialogDescription>
 				</DialogHeader>
-
-				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-						{/* Name */}
-						<FormField
-							control={form.control}
-							name="name"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Name</FormLabel>
-									<FormControl>
-										<Input {...field} placeholder="Type category name..." />
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						{/* Status */}
-						<FormField
-							control={form.control}
-							name="status"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Status</FormLabel>
-									<Select
-										onValueChange={field.onChange}
-										defaultValue={field.value}
-									>
-										<FormControl>
-											<SelectTrigger className="w-full">
-												<SelectValue placeholder="Select status" />
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent>
-											<SelectItem value="active">Active</SelectItem>
-											<SelectItem value="deactivate">Deactivate</SelectItem>
-										</SelectContent>
-									</Select>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						<DialogFooter>
-							<Button type="submit" disabled={isLoading}>
-								{isLoading && (
-									<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-								)}
-								{isLoading ? 'Updating...' : 'Update Service Category'}
-							</Button>
-						</DialogFooter>
-					</form>
-				</Form>
+				<FORM editData={editData} setOpen={setOpen} />
 			</DialogContent>
 		</Dialog>
 	);
 }
+
+const FORM = ({
+	setOpen,
+	editData,
+}: {
+	setOpen: Dispatch<SetStateAction<boolean>>;
+	editData: iServiceCategory;
+}) => {
+	const [updateProfile, { isLoading }] =
+		useAdminUpdateServiceCategoryMutation();
+
+	const form = useForm<ZodType>({
+		resolver: zodResolver(schema),
+		defaultValues: {
+			name: editData.name || '',
+			status: editData.status,
+		},
+	});
+
+	const onSubmit = async (data: ZodType) => {
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await updateProfile({
+						...data,
+						id: editData.id,
+					}).unwrap();
+					if (response.data === 'success') {
+						toast.success(response.message || 'Updated successfully');
+						setOpen(false);
+					} else {
+						toast.error(response.message || 'Something went wrong');
+					}
+				} catch (error: any) {
+					if (error?.status === 422 && typeof error.message === 'object') {
+						Object.entries(error.message).forEach(([field, value]) => {
+							form.setError(field as keyof ZodType, {
+								type: 'server',
+								message: (value as string[])[0],
+							});
+						});
+					} else {
+						toast.error('Something went wrong');
+					}
+				}
+			},
+		});
+	};
+	return (
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+				{/* Name */}
+				<FormField
+					control={form.control}
+					name="name"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Name</FormLabel>
+							<FormControl>
+								<Input {...field} placeholder="Type category name..." />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* Status */}
+				<FormField
+					control={form.control}
+					name="status"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Status</FormLabel>
+							<Select onValueChange={field.onChange} defaultValue={field.value}>
+								<FormControl>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="Select status" />
+									</SelectTrigger>
+								</FormControl>
+								<SelectContent>
+									<SelectItem value="active">Active</SelectItem>
+									<SelectItem value="deactivate">Deactivate</SelectItem>
+								</SelectContent>
+							</Select>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<DialogFooter>
+					<Button type="submit" disabled={isLoading}>
+						{isLoading && (
+							<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+						)}
+						{isLoading ? 'Updating...' : 'Update Category'}
+					</Button>
+				</DialogFooter>
+			</form>
+		</Form>
+	);
+};

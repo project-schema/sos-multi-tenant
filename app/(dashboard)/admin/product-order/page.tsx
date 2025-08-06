@@ -48,22 +48,26 @@ export default function Page() {
 			<DbHeader breadcrumb={breadcrumbItems} />
 			<div className="db-container space-y-6">
 				<Card className="gap-0">
-					<CardHeader className="pb-3 flex items-center justify-between">
-						<CardTitle className="text-2xl font-bold">Product Order</CardTitle>
-						<Button
-							className="ml-auto"
-							variant="secondary"
-							size="icon"
-							onClick={() => setToggleFilter((e) => !e)}
-						>
-							{toggleFilter ? (
-								<ArrowUp className="h-4 w-4" />
-							) : (
-								<ArrowDown className="h-4 w-4" />
-							)}
-						</Button>
+					<CardHeader className="pb-4">
+						<div className="pb-3 flex items-center justify-between">
+							<CardTitle className="text-2xl font-bold">
+								Product Order
+							</CardTitle>
+							<Button
+								className="ml-auto"
+								variant="secondary"
+								size="icon"
+								onClick={() => setToggleFilter((e) => !e)}
+							>
+								{toggleFilter ? (
+									<ArrowUp className="h-4 w-4" />
+								) : (
+									<ArrowDown className="h-4 w-4" />
+								)}
+							</Button>
+						</div>
+						{toggleFilter && <AdminProductOrderStatistics />}
 					</CardHeader>
-					{toggleFilter && <AdminProductOrderStatistics />}
 					<CardContent className="space-y-4">
 						{/* Table */}
 						{isLoading ? (

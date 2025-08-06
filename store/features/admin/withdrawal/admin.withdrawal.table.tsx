@@ -28,7 +28,6 @@ import {
 import { ClickToCopy } from '@/hooks/use-copy';
 import { iPagination } from '@/types';
 import { Ellipsis } from 'lucide-react';
-import { AdminWithdrawalRejectMessageModal } from './admin.withdrawal-reject-message';
 import { AdminWithdrawalRejectModal } from './admin.withdrawal-reject-modal';
 import { AdminWithdrawalSuccessModal } from './admin.withdrawal-success-modal';
 import { iAdminWithdrawal } from './admin.withdrawal.type';
@@ -144,11 +143,8 @@ const DropDownAction = ({ item }: { item: iAdminWithdrawal }) => {
 				{item.status === 'pending' && (
 					<AdminWithdrawalSuccessModal data={item} />
 				)}
-				{item.status === 'pending' && (
+				{item.status !== 'success' && (
 					<AdminWithdrawalRejectModal data={item} />
-				)}
-				{item.status === 'reject' && (
-					<AdminWithdrawalRejectMessageModal data={item} />
 				)}
 			</DropdownMenuContent>
 		</DropdownMenu>

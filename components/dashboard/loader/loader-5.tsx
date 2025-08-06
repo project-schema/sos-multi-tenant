@@ -7,8 +7,8 @@ export function Loader5() {
 				<thead>
 					<tr>
 						{[...Array(4)].map((_, i) => (
-							<th key={i} className="p-2 text-left">
-								<Skeleton className="h-4 w-24" />
+							<th key={i} className="px-2 first:pl-0 last:pr-0 py-2 text-left">
+								<Skeleton className="h-4 w-full lg:w-24" />
 							</th>
 						))}
 					</tr>
@@ -17,7 +17,7 @@ export function Loader5() {
 					{[...Array(5)].map((_, row) => (
 						<tr key={row}>
 							{[...Array(4)].map((_, col) => (
-								<td key={col} className="p-2">
+								<td key={col} className="px-2 first:pl-0 last:pr-0 py-2">
 									<Skeleton className="h-3 w-full" />
 								</td>
 							))}
