@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import { rootDomain } from '@/lib/utils';
-
+// import { rootDomain } from '@/lib/utils';
+const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'localhost:3000';
 function extractSubdomain(request: NextRequest): string | null {
 	const host = request.headers.get('host') || '';
 	const hostname = host.split(':')[0];

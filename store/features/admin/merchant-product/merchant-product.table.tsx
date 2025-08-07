@@ -33,6 +33,8 @@ import { Ellipsis, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { MerchantProductDelete } from './merchant-product.delete';
 import { iMerchantProduct } from './merchant-product.type';
+import { AdminProductRejectModal } from './merchant.product.reject.modal';
+import { AdminProductStatusActive } from './merchant.product.status.active';
 export function MerchantProductTable({
 	data,
 }: {
@@ -146,6 +148,12 @@ export function MerchantProductTable({
 												<span>View Product</span>
 											</Link>
 										</DropdownMenuItem>
+
+										{item.status !== 'active' && (
+											<AdminProductStatusActive data={item} />
+										)}
+
+										<AdminProductRejectModal data={item} />
 
 										<DropdownMenuSeparator />
 

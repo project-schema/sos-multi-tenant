@@ -12,7 +12,7 @@ export type iAdminService = {
 	description: string;
 	tags: string[];
 	contract: string;
-	status: string;
+	status: 'active' | 'pending' | 'rejected';
 	commission: number;
 	commission_type: string;
 	image: string;
@@ -48,6 +48,28 @@ export type iAdminServiceResponse = {
 	status: number;
 	data: 'success';
 	message: iPagination<iAdminService>;
+};
+
+export type iAdminServiceOrder = {
+	id: number;
+	trxid: string;
+	details: string;
+	status: string;
+	created_at: string;
+	amount: string;
+	customerdetails: {
+		id: number;
+		name: string;
+		email: string;
+	};
+	servicedetails: {
+		id: number;
+		title: string;
+	};
+};
+export type iAdminServiceOrderResponse = {
+	status: 200;
+	serviceOrder: iPagination<iAdminServiceOrder>;
 };
 
 export type iAdminServiceStatistics = {

@@ -15,7 +15,6 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
@@ -32,6 +31,8 @@ import { ClickToCopy } from '@/hooks/use-copy';
 import { iPagination } from '@/types';
 import { Ellipsis, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
+import { AdminProductOrderStatusCancel } from './admin-product-order-status-cancel';
+import { AdminProductOrderStatus } from './admin-product.order-status';
 import { iAdminProductOrder } from './product-order.type';
 export function AdminProductOrderTable({
 	data,
@@ -185,11 +186,84 @@ export function AdminProductOrderTable({
 													<span>View Product</span>
 												</Link>
 											</DropdownMenuItem>
-
-											<DropdownMenuSeparator />
-
-											{/* Delete Product  */}
-											{/* <MerchantProductDelete data={item} /> */}
+											{/*
+											If the order status is "pending", show the option to
+											mark it as "received"
+											*/}
+											{item?.status === 'pending' && (
+												<AdminProductOrderStatus
+													data={item}
+													icon="PackageCheck"
+													status="received"
+													text="Order Received"
+												/>
+											)}
+											{/* If the order status is "received", show the option to
+											mark it as "processing" */}
+											{item?.status === 'received' && (
+												<AdminProductOrderStatus
+													data={item}
+													icon="PackageSearch"
+													status="processing"
+													text="Product Processing"
+												/>
+											)}
+											{/*If the order status is "processing", show the option to
+											mark it as "ready"*/}
+											{item?.status === 'processing' && (
+												<AdminProductOrderStatus
+													data={item}
+													icon="Box"
+													status="ready"
+													text="Product Ready"
+												/>
+											)}
+											{/* If the order status is NOT one of these (hold, pending,
+											progress, cancel, delivered), // then show the option to
+											mark it as "in delivery" (progress) */}
+											{![
+												'hold',
+												'pending',
+												'progress',
+												'cancel',
+												'delivered',
+											].includes(item?.status) && (
+												<AdminProductOrderStatus
+													data={item}
+													icon="Truck"
+													status="progress"
+													text="Delivery Processing"
+												/>
+											)}
+											{/* If the status is one of the "in-process" states, allow
+											the admin to cancel the order */}
+											{[
+												'ready',
+												'processing',
+												'received',
+												'pending',
+												'hold',
+											].includes(item?.status) && (
+												<AdminProductOrderStatusCancel data={item} />
+											)}
+											{/* If the order is "in delivery" (progress), allow marking
+											as delivered or returned */}
+											{item?.status === 'progress' && (
+												<>
+													<AdminProductOrderStatus
+														data={item}
+														icon="CheckCircle2"
+														status="delivered"
+														text="Product Delivered"
+													/>
+													<AdminProductOrderStatus
+														data={item}
+														icon="RotateCcw"
+														status="return"
+														text="Product Return"
+													/>
+												</>
+											)}
 										</DropdownMenuContent>
 									</DropdownMenu>
 								</TableCell>

@@ -31,6 +31,9 @@ import {
 import { iPagination } from '@/types';
 import { Ellipsis, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
+import { AdminVendorServiceCommission } from './admin-sevice-edit-commission';
+import { AdminVendorServiceActive } from './admin-sevice-status-active';
+import { AdminVendorServiceReject } from './admin-sevice-status-reject';
 import { AdminServiceDelete } from './admin.service.delete';
 import { iAdminService } from './admin.service.type';
 export function AdminServiceTable({
@@ -145,6 +148,10 @@ export function AdminServiceTable({
 												<span>View Service</span>
 											</Link>
 										</DropdownMenuItem>
+
+										<AdminVendorServiceActive data={item} />
+										<AdminVendorServiceCommission data={item} />
+										<AdminVendorServiceReject data={item} />
 
 										<DropdownMenuSeparator />
 

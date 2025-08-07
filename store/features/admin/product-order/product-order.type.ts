@@ -74,6 +74,18 @@ export type iOrderVariant = {
 	previousQty: string;
 };
 
+// hold, pending, received, processing, ready, progress, delivered
+export type iAdminOrderStatusType =
+	| 'hold'
+	| 'pending'
+	| 'received'
+	| 'processing'
+	| 'ready'
+	| 'progress'
+	| 'delivered'
+	| 'return'
+	| 'cancel';
+
 export type iAdminProductOrderResponse = {
 	status: number;
 	message: iPagination<iAdminProductOrder>;

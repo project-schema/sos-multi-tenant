@@ -2,6 +2,7 @@ import { apiSlice } from '../../api/apiSlice';
 import {
 	iAdminAdvertiseResponse,
 	iAdminAdvertiseStatistics,
+	iAdminVendorAdvertise,
 } from './admin.advertise.type';
 
 const api = apiSlice.injectEndpoints({
@@ -14,6 +15,20 @@ const api = apiSlice.injectEndpoints({
 			query: ({ page, search }) => {
 				return {
 					url: `/admin/advertise?page=${page}&search=${search}`,
+					method: 'GET',
+				};
+			},
+			providesTags: ['AdminAdvertise'],
+		}),
+
+		// admin/vendor/advertise/
+		adminVendorAdvertise: builder.query<
+			iAdminVendorAdvertise,
+			{ id: number | string; page: number }
+		>({
+			query: ({ id, page }) => {
+				return {
+					url: `/admin/vendor/advertise/${id}?page=${page}`,
 					method: 'GET',
 				};
 			},
@@ -50,4 +65,5 @@ export const {
 	useAdminAdvertiseQuery,
 	useAdminAdvertiseStatisticsQuery,
 	useAdminDeleteAdvertiseMutation,
+	useAdminVendorAdvertiseQuery,
 } = api;

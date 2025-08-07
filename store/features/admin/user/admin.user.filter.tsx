@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
 	Select,
@@ -11,6 +10,7 @@ import {
 } from '@/components/ui/select';
 import { cn } from '@/lib';
 import { Filter, Search } from 'lucide-react';
+import { UserCreateProfile } from './admin.user.create.profile';
 
 export function AdminUserFilter({
 	statusFilter,
@@ -74,7 +74,7 @@ export function AdminUserFilter({
 					</Select>
 				</div>
 
-				<Button>Create User</Button>
+				<UserCreateProfile />
 			</div>
 		</div>
 	);

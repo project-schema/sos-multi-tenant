@@ -13,22 +13,21 @@ import { Loader6, Loader8 } from '@/components/dashboard';
 import { Pagination1 } from '@/components/dashboard/pagination';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { dateFormat } from '@/lib';
+import { badgeFormat, dateFormat, textCount } from '@/lib';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
-import { useAdminVendorPaymentHistoryQuery } from './admin.user.api.slice';
+import { useAdminVendorAdvertiseQuery } from '../advertise';
 
 export function AdminUserServiceAdvertisement() {
 	const params = useParams();
 	const [page, setPage] = useState(1);
 
-	const { data, isLoading, isError, isFetching } =
-		useAdminVendorPaymentHistoryQuery({
+	const { data, isLoading, isError, isFetching } = useAdminVendorAdvertiseQuery(
+		{
 			id: params.id as string,
 			page,
-		});
-
-	console.log(data);
+		}
+	);
 
 	if (isLoading) {
 		return (
@@ -63,49 +62,50 @@ export function AdminUserServiceAdvertisement() {
 					<TableHeader>
 						<TableRow>
 							<TableHead className="bg-stone-100">ID </TableHead>
-							<TableHead className="bg-stone-100">Amount</TableHead>
-							<TableHead className="bg-stone-100">Transition Type</TableHead>
-							<TableHead className="bg-stone-100">Payment Method</TableHead>
-							<TableHead className="bg-stone-100">Coupon</TableHead>
-							<TableHead className="bg-stone-100">Balance Statement</TableHead>
-							<TableHead className="bg-stone-100">Date</TableHead>
+							<TableHead className="bg-stone-100">Campaign name </TableHead>
+							<TableHead className="bg-stone-100">Campaign objective</TableHead>
+							<TableHead className="bg-stone-100">Budget amount </TableHead>
+							<TableHead className="bg-stone-100">Start date </TableHead>
+							<TableHead className="bg-stone-100">End date </TableHead>
+							<TableHead className="bg-stone-100">Status </TableHead>
+							<TableHead className="bg-stone-100">Date </TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{data?.serviceOrder?.data?.length === 0 ? (
+						{data?.advertise?.data?.length === 0 ? (
 							<TableRow>
 								<TableCell
-									colSpan={7}
+									colSpan={8}
 									className="text-center py-8 text-muted-foreground"
 								>
 									No users found matching your criteria
 								</TableCell>
 							</TableRow>
 						) : (
-							data?.serviceOrder?.data?.map((item) => (
+							data?.advertise?.data?.map((item) => (
 								<TableRow key={item.id}>
 									<TableCell className="font-medium py-4">
-										#{item.trxid}
+										#{item.unique_id}
+									</TableCell>
+									<TableCell className="font-medium py-4">
+										{textCount(item.campaign_name, 20)}
+									</TableCell>
+									<TableCell className="font-medium py-4">
+										{textCount(item.campaign_objective, 20)}
+									</TableCell>
+									<TableCell className="font-medium py-4">
+										{textCount(item.campaign_objective, 20)}
 									</TableCell>
 									<TableCell className="py-2">
-										<Badge variant="outline">{item.amount}</Badge>
+										<Badge variant="outline">{item.budget_amount}</Badge>
 									</TableCell>
-									<TableCell className="py-2">{item.transition_type}</TableCell>
-									<TableCell className="py-2">{item.payment_method}</TableCell>
+									<TableCell className="py-2">{item.start_date}</TableCell>
+									<TableCell className="py-2">{item.end_date}</TableCell>
 									<TableCell className="py-2">
-										{item.coupon || 'None'}
-									</TableCell>
-
-									<TableCell className="py-2">
-										<Badge
-											variant={
-												item?.balance_type !== '-' ? 'default' : 'destructive'
-											}
-										>
-											{item?.balance_type !== '-' ? 'in' : 'out'}
+										<Badge variant={badgeFormat(item.status)}>
+											{item.status}
 										</Badge>
 									</TableCell>
-
 									<TableCell className="py-2">
 										{dateFormat(item.created_at)}
 									</TableCell>
@@ -116,7 +116,7 @@ export function AdminUserServiceAdvertisement() {
 				</Table>
 			</div>
 
-			<Pagination1 pagination={data.serviceOrder} setPage={setPage} />
+			<Pagination1 pagination={data.advertise} setPage={setPage} />
 		</div>
 	);
 }

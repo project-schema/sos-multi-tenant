@@ -46,7 +46,43 @@ const api = apiSlice.injectEndpoints({
 			}),
 			providesTags: ['AdminProductOrder'],
 		}),
+
+		/* order status  
+			hold
+				cancel
+				pending
+			pending
+			 received
+				cancel
+			received
+				processing
+				cancel
+			processing
+				ready
+				cancel
+			ready
+				progress
+				cancel
+			progress
+				delivered
+		*/
+
+		adminProductOrderUpdate: builder.mutation<
+			{ message: string; status: number },
+			any
+		>({
+			query: (body) => ({
+				url: `/admin/order/update/${body.id}`,
+				method: 'POST',
+				body,
+			}),
+			invalidatesTags: ['AdminProductOrder'],
+		}),
 	}),
 });
 
-export const { useAdminOrderStatisticsQuery, useAdminProductOrderQuery } = api;
+export const {
+	useAdminOrderStatisticsQuery,
+	useAdminProductOrderQuery,
+	useAdminProductOrderUpdateMutation,
+} = api;

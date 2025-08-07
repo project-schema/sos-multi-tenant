@@ -1,5 +1,6 @@
 import { apiSlice } from '../../api/apiSlice';
 import {
+	iAdminServiceOrderResponse,
 	iAdminServiceResponse,
 	iAdminServiceStatistics,
 } from './admin.service.type';
@@ -14,6 +15,20 @@ const api = apiSlice.injectEndpoints({
 			query: ({ page, search }) => {
 				return {
 					url: `/admin/vendor-services?page=${page}&search=${search}`,
+					method: 'GET',
+				};
+			},
+			providesTags: ['AdminService'],
+		}),
+
+		// /admin/vendor/service/order/724?page
+		adminVendorServiceOrder: builder.query<
+			iAdminServiceOrderResponse,
+			{ id: number | string; page: number }
+		>({
+			query: ({ id, page }) => {
+				return {
+					url: `/admin/vendor/service/order/${id}?page=${page}`,
 					method: 'GET',
 				};
 			},
@@ -38,8 +53,26 @@ const api = apiSlice.injectEndpoints({
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/delete-product/${data.id}`,
+				url: `/admin/vendor-services/${data.id}`,
 				method: 'DELETE',
+			}),
+			invalidatesTags: ['AdminService'],
+		}),
+
+		// /admin/vendor-services/ update
+		adminUpdateVendorService: builder.mutation<
+			{ status: 200; message: string; data: 'success' },
+			{
+				id: string | number;
+				status: 'active' | 'rejected' | 'pending';
+				reason?: string | null;
+				commission: number;
+			}
+		>({
+			query: (data) => ({
+				url: `/admin/vendor-services/${data.id}`,
+				body: data,
+				method: 'PUT',
 			}),
 			invalidatesTags: ['AdminService'],
 		}),
@@ -49,5 +82,7 @@ const api = apiSlice.injectEndpoints({
 export const {
 	useAdminVendorServiceQuery,
 	useAdminVendorServiceStatisticsQuery,
+	useAdminVendorServiceOrderQuery,
 	useAdminDeleteServiceMutation,
+	useAdminUpdateVendorServiceMutation,
 } = api;

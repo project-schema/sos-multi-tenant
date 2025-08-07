@@ -60,6 +60,29 @@ const api = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: ['AdminProduct'],
 		}),
+
+		//  status  product
+		adminProductStatusUpdate: builder.mutation<
+			{ status: 200; message: string },
+			any
+		>({
+			query: (data) => {
+				const body = new FormData();
+				Object.entries(data).forEach(([key, value]) => {
+					if (value) {
+						body.append(key, value as string);
+					}
+				});
+
+				return {
+					url: `/admin-product-status-update/${data.id}`,
+					method: 'POST',
+					body,
+					formData: true,
+				};
+			},
+			invalidatesTags: ['AdminProduct'],
+		}),
 	}),
 });
 
@@ -67,4 +90,5 @@ export const {
 	useAdminVendorProductStatisticsQuery,
 	useAdminViewProductQuery,
 	useAdminDeleteProductMutation,
+	useAdminProductStatusUpdateMutation,
 } = api;

@@ -24,6 +24,10 @@ export type iAdminAdvertiseResponse = {
 	data: 'success';
 	message: iPagination<iAdminAdvertise>;
 };
+export type iAdminVendorAdvertise = {
+	status: 200;
+	advertise: iPagination<iAdminAdvertise>;
+};
 
 export type iAdminAdvertiseStatistics = {
 	status: number;

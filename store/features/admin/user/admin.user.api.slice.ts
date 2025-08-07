@@ -83,7 +83,6 @@ const api = apiSlice.injectEndpoints({
 			}
 		>({
 			query: (data) => {
-				console.log(data);
 				const body = new FormData();
 				Object.entries(data).forEach(([key, value]) => {
 					if (value) {
@@ -112,6 +111,43 @@ const api = apiSlice.injectEndpoints({
 
 				return {
 					url: `/update-${url()}${data.id}`,
+					method: 'POST',
+					body,
+					formData: true,
+				};
+			},
+			invalidatesTags: ['AdminAllUser', 'AdminUserStatistics'],
+		}),
+		// Create profile
+		adminCreateUserProfile: builder.mutation<
+			{ status: 200; message: string },
+			any
+		>({
+			query: (data) => {
+				const body = new FormData();
+				Object.entries(data).forEach(([key, value]) => {
+					if (value) {
+						body.append(key, value as string);
+					}
+				});
+
+				/*
+					type = User Merchant Dropshipper
+					/type/store
+				*/
+				const url = () => {
+					switch (data.role_as) {
+						case 'Merchant':
+							return 'vendor';
+						case 'Dropshipper':
+							return 'affiliator';
+						default:
+							return 'user';
+					}
+				};
+
+				return {
+					url: `/${url()}/store`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -192,4 +228,5 @@ export const {
 	useAdminVendorProfileByIdQuery,
 	useAdminUserStatusUpdateMutation,
 	useAdminVendorPaymentHistoryQuery,
+	useAdminCreateUserProfileMutation,
 } = api;

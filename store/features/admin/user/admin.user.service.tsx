@@ -13,17 +13,17 @@ import { Loader6, Loader8 } from '@/components/dashboard';
 import { Pagination1 } from '@/components/dashboard/pagination';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { dateFormat } from '@/lib';
+import { badgeFormat, dateFormat, textCount } from '@/lib';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
-import { useAdminVendorPaymentHistoryQuery } from './admin.user.api.slice';
+import { useAdminVendorServiceOrderQuery } from '../service';
 
 export function AdminUserService() {
 	const params = useParams();
 	const [page, setPage] = useState(1);
 
 	const { data, isLoading, isError, isFetching } =
-		useAdminVendorPaymentHistoryQuery({
+		useAdminVendorServiceOrderQuery({
 			id: params.id as string,
 			page,
 		});
@@ -61,12 +61,12 @@ export function AdminUserService() {
 					<TableHeader>
 						<TableRow>
 							<TableHead className="bg-stone-100">ID </TableHead>
+							<TableHead className="bg-stone-100">Service</TableHead>
+							<TableHead className="bg-stone-100">Seller Name</TableHead>
 							<TableHead className="bg-stone-100">Amount</TableHead>
-							<TableHead className="bg-stone-100">Transition Type</TableHead>
-							<TableHead className="bg-stone-100">Payment Method</TableHead>
-							<TableHead className="bg-stone-100">Coupon</TableHead>
-							<TableHead className="bg-stone-100">Balance Statement</TableHead>
+							<TableHead className="bg-stone-100">Details</TableHead>
 							<TableHead className="bg-stone-100">Date</TableHead>
+							<TableHead className="bg-stone-100">Status</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -86,26 +86,23 @@ export function AdminUserService() {
 										#{item.trxid}
 									</TableCell>
 									<TableCell className="py-2">
-										<Badge variant="outline">{item.amount}</Badge>
+										{textCount(item?.customerdetails?.name, 20)}
 									</TableCell>
-									<TableCell className="py-2">{item.transition_type}</TableCell>
-									<TableCell className="py-2">{item.payment_method}</TableCell>
+									<TableCell className="py-2">{item?.amount}</TableCell>
 									<TableCell className="py-2">
-										{item.coupon || 'None'}
+										{textCount(item?.details, 20)}
 									</TableCell>
-
 									<TableCell className="py-2">
-										<Badge
-											variant={
-												item?.balance_type !== '-' ? 'default' : 'destructive'
-											}
-										>
-											{item?.balance_type !== '-' ? 'in' : 'out'}
-										</Badge>
+										{textCount(item?.servicedetails?.title, 20)}
 									</TableCell>
 
 									<TableCell className="py-2">
 										{dateFormat(item.created_at)}
+									</TableCell>
+									<TableCell className="py-2">
+										<Badge variant={badgeFormat(item?.status)}>
+											{item?.status}
+										</Badge>
 									</TableCell>
 								</TableRow>
 							))
