@@ -60,6 +60,8 @@ export const apiSlice = createApi({
 		'AdminSupport',
 		'AdminSupportCategory',
 		'AdminSupportSubCategory',
+
+		'AdminRole',
 	],
 	keepUnusedDataFor: 50000,
 });

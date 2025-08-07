@@ -1,7 +1,7 @@
 'use client';
 
-import { DbHeader } from '@/components/dashboard';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Container1, DbHeader } from '@/components/dashboard';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import {
 	SidebarMenu,
 	SidebarMenuButton,
@@ -86,44 +86,37 @@ export default function Layout({ children }: LayoutProps) {
 	return (
 		<>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<div className="mx-6 mt-4 h-full mb-4">
-				<Card className="h-full">
-					<CardHeader>
-						<CardTitle>{currentItem.title}</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<div className="flex gap-4">
-							<SidebarMenu className="max-w-3xs">
-								{items.map((item) => {
-									const isActive = item.url.includes(`tab=${activeTab}`);
-									return (
-										<SidebarMenuItem key={item.title}>
-											<SidebarMenuButton asChild>
-												<Link
-													href={item.url}
-													className={`flex items-center gap-2 ${
-														isActive
-															? 'text-primary font-semibold'
-															: 'text-muted-foreground'
-													}`}
-												>
-													<item.icon size={18} />
-													<span>{item.title}</span>
-												</Link>
-											</SidebarMenuButton>
-										</SidebarMenuItem>
-									);
-								})}
-							</SidebarMenu>
-							<Card className="w-full">
-								<CardContent>
-									<div>{children}</div>
-								</CardContent>
-							</Card>
-						</div>
-					</CardContent>
-				</Card>
-			</div>
+			<Container1 header={<CardTitle>{currentItem.title}</CardTitle>}>
+				<div className="flex gap-4 flex-col lg:flex-row">
+					<SidebarMenu className=" flex flex-row lg:flex-col w-full lg:max-w-3xs flex-wrap">
+						{items.map((item) => {
+							const isActive = item.url.includes(`tab=${activeTab}`);
+							return (
+								<SidebarMenuItem key={item.title}>
+									<SidebarMenuButton asChild>
+										<Link
+											href={item.url}
+											className={`flex items-center gap-2 ${
+												isActive
+													? 'text-primary font-semibold'
+													: 'text-muted-foreground'
+											}`}
+										>
+											<item.icon size={18} />
+											<span>{item.title}</span>
+										</Link>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							);
+						})}
+					</SidebarMenu>
+					<Card className="w-full">
+						<CardContent>
+							<div>{children}</div>
+						</CardContent>
+					</Card>
+				</div>
+			</Container1>
 		</>
 	);
 }
