@@ -25,18 +25,18 @@ export function AdminAdvertiseStatistics() {
 				className="bg-purple-100/60 border-purple-400"
 			/>
 			<Card1
-				title="In Progress"
-				countTitle={stats.totalprogressadvertise.toString()}
-				icon={Clock}
-				iconClassName="text-cyan-600"
-				className="bg-cyan-100/60 border-cyan-400"
-			/>
-			<Card1
 				title="Pending Ads"
 				countTitle={stats.totalpendingadvertise.toString()}
 				icon={Clock}
 				iconClassName="text-yellow-600"
 				className="bg-yellow-100/60 border-yellow-400"
+			/>
+			<Card1
+				title="In Progress"
+				countTitle={stats.totalprogressadvertise.toString()}
+				icon={Clock}
+				iconClassName="text-cyan-600"
+				className="bg-cyan-100/60 border-cyan-400"
 			/>
 			<Card1
 				title="Delivered"

@@ -12,7 +12,8 @@ export type iAdminServiceOrder = {
 		| 'success'
 		| 'delivered'
 		| 'revision'
-		| 'cancel';
+		| 'cancel'
+		| 'canceled';
 	timer: string;
 	details: string;
 	amount: number;

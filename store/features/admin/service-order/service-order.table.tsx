@@ -32,6 +32,8 @@ import { Ellipsis, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { AdminServiceOrderStatus } from './admin-service-order-status';
 import { AdminServiceOrderCancelReq } from './admin-sevice-order-cancel-req';
+import { AdminServiceOrderStatusAccept } from './admin-sevice-order-cancel-req-accept';
+import { AdminServiceOrderStatusCancel } from './admin-sevice-order-cancel-req-cancel';
 import { iAdminServiceOrder } from './service-order.type';
 export function AdminServiceOrderTable({
 	data,
@@ -117,13 +119,21 @@ export function AdminServiceOrderTable({
 									{dateFormat(item.created_at)} <br />
 									{timeFormat(item.created_at)}
 								</TableCell>
-								<TableCell className="py-2">
+								<TableCell className="py-2 space-y-1">
 									<Badge
 										className="capitalize"
 										variant={badgeFormat(item.status)}
 									>
 										{item.status}
 									</Badge>
+									{item.is_rejected === '1' && (
+										<>
+											<br />
+											<Badge className="capitalize" variant="destructive">
+												Rejected
+											</Badge>
+										</>
+									)}
 								</TableCell>
 								<TableCell className="py-2">
 									<DropdownMenu>
@@ -150,7 +160,19 @@ export function AdminServiceOrderTable({
 
 											<DropdownMenuSeparator />
 
-											<AdminServiceOrderCancelReq data={item} />
+											{item.status !== 'revision' && (
+												<AdminServiceOrderCancelReq data={item} />
+											)}
+
+											{item.is_rejected === '1' &&
+												item.status !== 'canceled' && (
+													<>
+														<AdminServiceOrderStatusAccept data={item} />
+														<AdminServiceOrderStatusCancel data={item} />
+													</>
+												)}
+
+											<DropdownMenuSeparator />
 											{item.status !== 'pending' && (
 												<AdminServiceOrderStatus
 													data={item}

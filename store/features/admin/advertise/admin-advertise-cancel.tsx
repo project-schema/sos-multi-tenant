@@ -20,32 +20,43 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm } from '@/lib';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Ban, LoaderCircle } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { useAdminServiceOrderStatusMutation } from './service-order.api.slice';
-import { iAdminServiceOrder } from './service-order.type';
+import { useAdminAdvertiseCancelMutation } from './admin.advertise.api.slice';
+import { iAdminAdvertise } from './admin.advertise.type';
 
 //  Zod Schema
 const schema = z.object({
 	reason: z.string().trim().min(1, 'Reason is required').max(2000, 'Too long'),
+	return_balance: z
+		.number({ error: 'Return Balance is required' })
+		.min(0, { message: 'Return Balance must be at least 0' })
+		.max(1000000, { message: 'Too long' })
+		.refine((val) => !isNaN(val), {
+			message: 'Return Balance must be a number',
+		}),
+	cost_balance: z
+		.number({ error: 'Cost Balance is required' })
+		.min(0, { message: 'Cost Balance must be at least 0' })
+		.max(1000000, { message: 'Too long' })
+		.refine((val) => !isNaN(val), {
+			message: 'Cost Balance must be a number',
+		}),
 });
 
 type ZodType = z.infer<typeof schema>;
 
-export function AdminServiceOrderCancelReq({
-	data,
-}: {
-	data: iAdminServiceOrder;
-}) {
+export function AdminAdvertiseOrderCancel({ data }: { data: iAdminAdvertise }) {
 	const [open, setOpen] = useState(false);
-	const isRejected = data?.is_rejected === '1';
+	const isRejected = data?.status === 'cancel';
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
@@ -54,14 +65,14 @@ export function AdminServiceOrderCancelReq({
 					<DropdownMenuShortcut className="ml-0">
 						<Ban className="size-4" />
 					</DropdownMenuShortcut>
-					{isRejected ? 'Reject Message' : 'Cancel Request'}
+					{isRejected ? 'Cancel Message' : 'Cancel Order'}
 				</DialogTrigger>
 			</DropdownMenuItem>
 
 			<DialogContent className={cn('sm:max-w-2xl w-full')}>
 				<DialogHeader>
 					<DialogTitle>
-						{isRejected ? 'Reject Message' : 'Cancel Request'}
+						{isRejected ? 'Cancel Message' : 'Cancel Order'}
 					</DialogTitle>
 				</DialogHeader>
 
@@ -76,21 +87,18 @@ const FORM = ({
 	editData,
 }: {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	editData: iAdminServiceOrder;
+	editData: iAdminAdvertise;
 }) => {
-	const [update, { isLoading }] = useAdminServiceOrderStatusMutation();
+	const [update, { isLoading }] = useAdminAdvertiseCancelMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
 		defaultValues: {
-			reason: editData?.reason || '',
+			reason: '',
+			return_balance: 0,
+			cost_balance: 0,
 		},
 	});
-	useEffect(() => {
-		form.reset({
-			reason: editData?.reason || '',
-		});
-	}, [editData]);
 
 	const onSubmit = async (data: ZodType) => {
 		alertConfirm({
@@ -98,11 +106,12 @@ const FORM = ({
 				try {
 					const response = await update({
 						reason: data.reason,
-						status: 'cancel_request',
-						service_order_id: editData.id,
+						advertise_id: editData.id,
+						cost_balance: data?.cost_balance,
+						return_balance: data?.return_balance,
 					}).unwrap();
 
-					if (response.data === 'success') {
+					if (response.status === 200) {
 						toast.success(response.message || 'Updated successfully');
 						form.reset();
 						setOpen(false);
@@ -137,6 +146,45 @@ const FORM = ({
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+				<FormField
+					control={form.control}
+					name="cost_balance"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Cost Balance</FormLabel>
+							<FormControl>
+								<Input
+									placeholder="Enter cost balance"
+									type="number"
+									{...field}
+									onChange={(e) => field.onChange(e.target.valueAsNumber || '')}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* return_balance */}
+				<FormField
+					control={form.control}
+					name="return_balance"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Return Balance</FormLabel>
+							<FormControl>
+								<Input
+									placeholder="Enter return balance"
+									type="number"
+									{...field}
+									onChange={(e) => field.onChange(e.target.valueAsNumber || '')}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
 				{/* Reason */}
 				<FormField
 					control={form.control}
@@ -158,11 +206,7 @@ const FORM = ({
 							{isLoading && (
 								<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 							)}
-							{isLoading
-								? 'Updating...'
-								: editData?.is_rejected === '1'
-								? 'Update Message'
-								: 'Cancel Order'}
+							{isLoading ? 'Canceling...' : 'Cancel Order'}
 						</Button>
 					</div>
 				)}

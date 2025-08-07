@@ -23,6 +23,9 @@ import { badgeFormat, dateFormat, sign, tableSrCount, textCount } from '@/lib';
 import { iPagination } from '@/types';
 import { Ellipsis, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
+import { AdminAdvertiseOrderCancel } from './admin-advertise-cancel';
+import { AdminAdvertiseDelivery } from './admin-advertise-delivery';
+import { AdminAdvertiseProgress } from './admin-advertise-progress';
 import { AdminAdvertiseDelete } from './admin.advertise.delete';
 import { iAdminAdvertise } from './admin.advertise.type';
 export function AdminAdvertiseTable({
@@ -122,9 +125,17 @@ export function AdminAdvertiseTable({
 												<span>View Advertise</span>
 											</Link>
 										</DropdownMenuItem>
+										{item.status === 'pending' && (
+											<AdminAdvertiseProgress data={item} />
+										)}
+										{item.status === 'progress' && (
+											<AdminAdvertiseDelivery data={item} />
+										)}
+										{item.status !== 'cancel' && (
+											<AdminAdvertiseOrderCancel data={item} />
+										)}
 
 										<DropdownMenuSeparator />
-
 										{/* Delete Product  */}
 										<AdminAdvertiseDelete data={item} />
 									</DropdownMenuContent>

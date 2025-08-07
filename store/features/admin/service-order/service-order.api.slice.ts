@@ -65,13 +65,24 @@ const api = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: ['AdminServiceOrder'],
 		}),
-		/*
-		api/cancel-other-serviceorder-request
-	{
-    "service_order_id": 28,
-    "status": "0"
-}
-		*/
+		/* api/cancel-other-serviceorder-request
+    	"service_order_id": 28,
+    	"status": "0" */
+
+		adminCancelServiceOrderRequest: builder.mutation<
+			{ message: string; status: number; data: 'success' },
+			{
+				service_order_id: number | string;
+				status: '0' | '1';
+			}
+		>({
+			query: (body) => ({
+				url: `/cancel-other-serviceorder-request`,
+				method: 'POST',
+				body,
+			}),
+			invalidatesTags: ['AdminServiceOrder'],
+		}),
 	}),
 });
 
@@ -80,4 +91,5 @@ export const {
 	useAdminServiceOrderQuery,
 	useAdminServiceOrderStatusUpdateMutation,
 	useAdminServiceOrderStatusMutation,
+	useAdminCancelServiceOrderRequestMutation,
 } = api;

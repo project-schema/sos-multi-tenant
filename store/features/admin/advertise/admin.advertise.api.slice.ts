@@ -53,8 +53,66 @@ const api = apiSlice.injectEndpoints({
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/delete-product/${data.id}`,
+				url: `/admin/advertise/${data.id}`,
 				method: 'DELETE',
+			}),
+			invalidatesTags: ['AdminAdvertise'],
+		}),
+
+		// admin/advertise/status
+		adminAdvertiseStatus: builder.mutation<
+			{ status: 200; message: string },
+			{ advertise_id: string | number }
+		>({
+			query: (data) => ({
+				url: `/admin/advertise/status`,
+				method: 'POST',
+				body: data,
+			}),
+			invalidatesTags: ['AdminAdvertise'],
+		}),
+
+		// admin/advertise/delivery
+		adminAdvertiseDelivery: builder.mutation<
+			{ status: 200; message: string },
+			{ advertise_id: string | number; images: any }
+		>({
+			query: (data) => {
+				const body = new FormData();
+				Object.entries(data).forEach(([key, value]) => {
+					if (key === 'images') {
+						for (let i = 0; i < value.length; i++) {
+							body.append('files[]', value[i] as string);
+						}
+					}
+					if (key === 'advertise_id') {
+						body.append('advertise_id', value as string);
+					}
+				});
+				return {
+					url: `/admin/advertise/delivery`,
+					method: 'POST',
+					body,
+					formData: true,
+				};
+			},
+			invalidatesTags: ['AdminAdvertise'],
+		}),
+
+		// /admin/advertise/cancel
+		adminAdvertiseCancel: builder.mutation<
+			{ status: 200; message: string },
+			{
+				advertise_id: string | number;
+				reason: string;
+				cost_balance: number;
+				return_balance: number;
+			}
+		>({
+			query: (data) => ({
+				url: `/admin/advertise/cancel`,
+				method: 'POST',
+				body: data,
 			}),
 			invalidatesTags: ['AdminAdvertise'],
 		}),
@@ -66,4 +124,7 @@ export const {
 	useAdminAdvertiseStatisticsQuery,
 	useAdminDeleteAdvertiseMutation,
 	useAdminVendorAdvertiseQuery,
+	useAdminAdvertiseStatusMutation,
+	useAdminAdvertiseDeliveryMutation,
+	useAdminAdvertiseCancelMutation,
 } = api;

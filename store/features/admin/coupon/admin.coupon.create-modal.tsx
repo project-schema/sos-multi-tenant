@@ -192,6 +192,7 @@ const FORM = ({
 								<FormLabel>Limitation</FormLabel>
 								<FormControl>
 									<Input
+										placeholder="Type..."
 										type="number"
 										{...field}
 										onChange={(e) =>
@@ -212,6 +213,7 @@ const FORM = ({
 								<FormLabel>Commission</FormLabel>
 								<FormControl>
 									<Input
+										placeholder="Type..."
 										type="number"
 										{...field}
 										onChange={(e) =>
