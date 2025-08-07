@@ -31,7 +31,7 @@ type ZodType = z.infer<typeof schema>;
 
 import { Loader6 } from '@/components/dashboard';
 import { Headphones } from 'lucide-react';
-import { useGetAdminMangerQuery } from '../manager/admin.manager.api.slice';
+import { useAdminAllManagerListQuery } from '../manager-permissions/admin-manager-permissions-api-slice';
 import { useAdminSupportAssignMutation } from './admin.support.api.slice';
 import { iAdminSupport } from './admin.support.type';
 
@@ -68,7 +68,7 @@ const FORM = ({
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	editData: iAdminSupport;
 }) => {
-	const { data, isLoading } = useGetAdminMangerQuery(undefined);
+	const { data, isLoading } = useAdminAllManagerListQuery(undefined);
 	const [update, { isLoading: isLoadingUpdate }] =
 		useAdminSupportAssignMutation();
 

@@ -204,9 +204,18 @@ const hrm: sidebarItem[] = [
 	},
 	{
 		title: 'Role Permissions',
-		url: '/admin/role-permissions',
 		icon: ShieldCheck,
 		isActive: false,
+		items: [
+			{
+				title: 'Roles',
+				url: '/admin/role-permissions',
+			},
+			{
+				title: 'Managers',
+				url: '/admin/manager-permissions',
+			},
+		],
 	},
 	{
 		title: 'Withdrawals',

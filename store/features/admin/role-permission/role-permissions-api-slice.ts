@@ -18,7 +18,7 @@ const api = apiSlice.injectEndpoints({
 		// /admin/all-roll
 		adminAllRole: builder.query<iAdminRole[], undefined>({
 			query: () => ({
-				url: `/admin/all-role`,
+				url: `/admin/all-roll`,
 				method: 'GET',
 			}),
 			providesTags: ['AdminRole'],
