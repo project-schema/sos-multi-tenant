@@ -20,7 +20,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import {
 	badgeFormat,
-	changeOrderStatusText,
 	dateFormat,
 	sign,
 	tableSrCount,
@@ -31,6 +30,8 @@ import {
 import { iPagination } from '@/types';
 import { Ellipsis, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
+import { AdminServiceOrderStatus } from './admin-service-order-status';
+import { AdminServiceOrderCancelReq } from './admin-sevice-order-cancel-req';
 import { iAdminServiceOrder } from './service-order.type';
 export function AdminServiceOrderTable({
 	data,
@@ -121,7 +122,7 @@ export function AdminServiceOrderTable({
 										className="capitalize"
 										variant={badgeFormat(item.status)}
 									>
-										{changeOrderStatusText(item.status)}
+										{item.status}
 									</Badge>
 								</TableCell>
 								<TableCell className="py-2">
@@ -149,8 +150,63 @@ export function AdminServiceOrderTable({
 
 											<DropdownMenuSeparator />
 
-											{/* Delete Product  */}
-											{/* <MerchantProductDelete data={item} /> */}
+											<AdminServiceOrderCancelReq data={item} />
+											{item.status !== 'pending' && (
+												<AdminServiceOrderStatus
+													data={item}
+													icon="Clock"
+													status="pending"
+													text="Pending"
+												/>
+											)}
+
+											{item.status !== 'progress' && (
+												<AdminServiceOrderStatus
+													data={item}
+													icon="Loader"
+													status="progress"
+													text="In Progress"
+												/>
+											)}
+
+											{item.status !== 'delivered' && (
+												<AdminServiceOrderStatus
+													data={item}
+													icon="Truck"
+													status="delivered"
+													text="Delivered"
+												/>
+											)}
+
+											{item.status !== 'revision' && (
+												<AdminServiceOrderStatus
+													data={item}
+													icon="RotateCcw"
+													status="revision"
+													text="Revision Requested"
+												/>
+											)}
+
+											{item.status !== 'success' && (
+												<AdminServiceOrderStatus
+													data={item}
+													icon="CheckCircle2"
+													status="success"
+													text="Service Completed Successfully"
+												/>
+											)}
+
+											<DropdownMenuSeparator />
+
+											{item.status !== 'cancel' && (
+												<AdminServiceOrderStatus
+													data={item}
+													icon="XCircle"
+													status="cancel"
+													text="Service Cancelled"
+													type="destructive"
+												/>
+											)}
 										</DropdownMenuContent>
 									</DropdownMenu>
 								</TableCell>

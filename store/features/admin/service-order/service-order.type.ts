@@ -6,20 +6,26 @@ export type iAdminServiceOrder = {
 	vendor_service_id: number;
 	service_package_id: number;
 	vendor_id: number;
-	status: string;
+	status:
+		| 'pending'
+		| 'progress'
+		| 'success'
+		| 'delivered'
+		| 'revision'
+		| 'cancel';
 	timer: string;
 	details: string;
 	amount: number;
 	commission_type: string;
 	commission_amount: string;
-	deleted_at: null;
+	deleted_at: null | string;
 	created_at: string;
 	updated_at: string;
 	trxid: string;
 	is_paid: number;
-	is_rejected: string;
-	reason: null;
-	rejected_user_id: null;
+	is_rejected: '0' | '1';
+	reason: null | string;
+	rejected_user_id: null | number;
 	customerdetails: {
 		id: number;
 		name: string;

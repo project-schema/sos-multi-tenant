@@ -9,11 +9,7 @@ export function AdminServiceStatistics() {
 		useAdminVendorServiceStatisticsQuery(undefined);
 
 	if (isLoading) {
-		return (
-			<div className="px-6 mb-6">
-				<Loader2 />
-			</div>
-		);
+		return <Loader2 />;
 	}
 
 	if (isError || !data) return null;
