@@ -9,6 +9,7 @@ export * from './env';
 export * from './error-alert';
 export * from './free-coupon';
 export * from './img';
+export * from './motion';
 export * from './order-status-text';
 export * from './redis';
 export * from './role.format';

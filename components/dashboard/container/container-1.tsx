@@ -1,7 +1,7 @@
 'use client';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { cn, ErrorAlert } from '@/lib';
-import { AnimatePresence, motion } from 'framer-motion';
+import { cn, ErrorAlert, Motion } from '@/lib';
+import { AnimatePresence, motion } from 'motion/react';
 import {
 	Loader1,
 	Loader2,
@@ -49,7 +49,7 @@ export function Container1({
 				className="w-full px-2 xl:px-4"
 				initial={{ opacity: 0, y: 10 }}
 				animate={{ opacity: 1, y: 0 }}
-				exit={{ opacity: 0, y: -5 }}
+				exit={{ opacity: 0, y: -20, transition: { duration: 0.5 } }}
 				transition={{
 					duration: 0.8,
 					delay: 0.5,
@@ -57,7 +57,11 @@ export function Container1({
 				}}
 			>
 				<Card className={cn('gap-0 py-3 lg:py-6')}>
-					{header && <CardHeader className={cn('pb-4')}>{header}</CardHeader>}
+					{header && (
+						<CardHeader className={cn('pb-4')}>
+							<Motion>{header}</Motion>
+						</CardHeader>
+					)}
 					<CardContent>
 						{isError && <ErrorAlert />}
 						{!isError &&
@@ -65,7 +69,8 @@ export function Container1({
 							Array.from({ length: loadingCount }).map((_, i) => (
 								<LoaderComponent key={i} />
 							))}
-						{!isError && !isLoading && children}
+
+						{!isError && !isLoading && <Motion>{children}</Motion>}
 					</CardContent>
 				</Card>
 			</motion.div>

@@ -63,12 +63,14 @@ export default function Page() {
 			>
 				{/* Filter */}
 				{toggleFilter && (
-					<AdminProductOrderFilter
-						searchTerm={searchTerm}
-						setSearchTerm={setSearchTerm}
-						setStatusFilter={setStatusFilter}
-						statusFilter={statusFilter}
-					/>
+					<>
+						<AdminProductOrderFilter
+							searchTerm={searchTerm}
+							setSearchTerm={setSearchTerm}
+							setStatusFilter={setStatusFilter}
+							statusFilter={statusFilter}
+						/>
+					</>
 				)}
 				{data?.message && (
 					<>

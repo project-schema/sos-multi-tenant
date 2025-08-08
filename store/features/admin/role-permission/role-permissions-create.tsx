@@ -30,10 +30,10 @@ import { checkedTotal } from './role-permission-utility';
 import { useAdminRoleCreateMutation } from './role-permissions-api-slice';
 import RoleCard from './role-permissions-card';
 
-export const createRoleSchema = z.object({
+const schema = z.object({
 	role: z.string().min(1, 'Role name is required'),
 });
-export type CreateRoleSchema = z.infer<typeof createRoleSchema>;
+type ZodType = z.infer<typeof schema>;
 
 function CreateRole() {
 	const [open, setOpen] = useState(false);
@@ -42,14 +42,14 @@ function CreateRole() {
 
 	const checkedAll = checkedTotal(state.permissionData);
 
-	const form = useForm<CreateRoleSchema>({
-		resolver: zodResolver(createRoleSchema),
+	const form = useForm<ZodType>({
+		resolver: zodResolver(schema),
 		defaultValues: {
 			role: '',
 		},
 	});
 
-	const createHandler = (data: CreateRoleSchema) => {
+	const onSubmit = (data: ZodType) => {
 		if (checkedAll.length === 0) {
 			dispatch({
 				type: 'API_VALIDATION',
@@ -83,7 +83,7 @@ function CreateRole() {
 						});
 						toast.error('Required! Please fill in all fields');
 						Object.entries(res.data).forEach(([field, value]) => {
-							form.setError(field as keyof CreateRoleSchema, {
+							form.setError(field as keyof ZodType, {
 								type: 'server',
 								message: (value as string[])[0],
 							});
@@ -126,7 +126,7 @@ function CreateRole() {
 
 				<Form {...form}>
 					<form
-						onSubmit={form.handleSubmit(createHandler)}
+						onSubmit={form.handleSubmit(onSubmit)}
 						className="flex flex-col gap-4 max-w-2xl"
 					>
 						<FormField

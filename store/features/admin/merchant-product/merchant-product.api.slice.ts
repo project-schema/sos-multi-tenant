@@ -1,6 +1,7 @@
 import { apiSlice } from '../../api/apiSlice';
 import {
 	iMerchantProductResponse,
+	iMerchantProductSingleResponse,
 	iMerchantProductStatistics,
 } from './merchant-product.type';
 
@@ -37,6 +38,17 @@ const api = apiSlice.injectEndpoints({
 			providesTags: ['AdminProduct'],
 		}),
 
+		// get single api/edit-product/324
+		adminGetSingleProduct: builder.query<
+			iMerchantProductSingleResponse,
+			{ id: number | string }
+		>({
+			query: ({ id }) => ({
+				url: `/edit-product/${id}`,
+				method: 'GET',
+			}),
+			providesTags: ['AdminProduct'],
+		}),
 		// statistics
 		adminVendorProductStatistics: builder.query<
 			iMerchantProductStatistics,
@@ -91,4 +103,5 @@ export const {
 	useAdminViewProductQuery,
 	useAdminDeleteProductMutation,
 	useAdminProductStatusUpdateMutation,
+	useAdminGetSingleProductQuery,
 } = api;

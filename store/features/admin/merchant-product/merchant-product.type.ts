@@ -1,4 +1,8 @@
 import { iPagination } from '@/types';
+import { iBrand } from '../../brand';
+import { iCategory } from '../../category';
+import { iSubCategory } from '../../sub-category';
+import { iUser } from '../user/type';
 
 export type iMerchantProduct = {
 	id: number;
@@ -78,3 +82,102 @@ export type iMerchantProductStatistics = {
 		totalrejectedproduct: number;
 	};
 };
+
+export type iWareHouse = {
+	id: number;
+	user_id: number;
+	name: string;
+	slug: string;
+	description: null;
+	status: string;
+	deleted_at: null;
+	created_at: string;
+	updated_at: string;
+	vendor_id: number;
+};
+export type iSupplier = {
+	id: number;
+	user_id: number;
+	supplier_name: string;
+	supplier_slug: string;
+	supplier_id: string;
+	business_name: string;
+	phone: string;
+	email: string;
+	address: string;
+	description: string;
+	status: string;
+	deleted_at: null;
+	created_at: string;
+	updated_at: string;
+	vendor_id: number;
+};
+
+export type iSize = {
+	id: number;
+	name: string;
+	user_id: number;
+	slug: string;
+	status: string;
+	created_at: string;
+	updated_at: string;
+	deleted_at: null;
+	created_by: string;
+	vendor_id: number;
+};
+export type iColor = {
+	id: number;
+	name: string;
+	user_id: number;
+	slug: string;
+	status: string;
+	code: null;
+	created_at: string;
+	updated_at: string;
+	deleted_at: null;
+	created_by: string;
+	vendor_id: number;
+};
+
+export type iMerchantProductSingleResponse = {
+	status: number;
+	product: iCompleteMerchantProduct;
+	vendor_all_color: iSize[];
+	vendor_all_size: iSize[];
+	all_category_list: iCategory[];
+	all_subcategory_list: iSubCategory[];
+	all_brand_list: iBrand[];
+	suppliers: iSupplier[];
+	warehouse: iWareHouse[];
+};
+export type iMerchantProductMissing = {
+	productrating_avg_rating: null | number;
+	cat: iBrand;
+	category: iCategory;
+	subcategory: iSubCategory;
+	brand: iBrand;
+	product_image: Array<{
+		id: number;
+		product_id: number;
+		image: string;
+		created_at: string;
+		updated_at: string;
+		deleted_at: null | string;
+	}>;
+	productdetails: Array<{
+		id: number;
+		product_id: number;
+		user_id: number;
+		vendor_id: number;
+		status: number;
+		created_at: string;
+		updated_at: string;
+		reason: null | string;
+		uniqid: string;
+	}>;
+	productrating: any[];
+	vendor: iUser;
+};
+
+export type iCompleteMerchantProduct = iMerchantProduct &
+	iMerchantProductMissing;

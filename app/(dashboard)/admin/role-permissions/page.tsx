@@ -1,7 +1,6 @@
 'use client';
 
 import { Container1, DbHeader } from '@/components/dashboard';
-import { Button } from '@/components/ui/button';
 import {
 	Card,
 	CardContent,
@@ -10,10 +9,11 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
-import { cn } from '@/lib';
+import { cn, dateFormat } from '@/lib';
+import { AdminRoleDelete } from '@/store/features/admin/role-permission/admin-role-permissions-delete';
+import { AdminRolePermissionsEdit } from '@/store/features/admin/role-permission/admin-role-permissions-edit';
 import { useAdminAllRoleQuery } from '@/store/features/admin/role-permission/role-permissions-api-slice';
 import CreateRole from '@/store/features/admin/role-permission/role-permissions-create';
-import { Pencil, Trash2 } from 'lucide-react';
 
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/admin' },
@@ -47,22 +47,17 @@ export default function Page() {
 										{role.name}
 									</CardTitle>
 									<CardDescription className={cn('text-xs text-gray-500')}>
-										Created: {new Date(role.created_at).toLocaleDateString()}
+										Created: {dateFormat(role.created_at)}
 									</CardDescription>
 								</CardHeader>
 								<CardContent>
 									<p className="text-sm text-muted-foreground">
-										Last updated:{' '}
-										{new Date(role.updated_at).toLocaleDateString()}
+										Last updated: {dateFormat(role.updated_at)}
 									</p>
 								</CardContent>
 								<CardFooter className={cn('flex justify-end gap-2')}>
-									<Button type="button" variant="outline" size="icon">
-										<Pencil className="w-4 h-4" />
-									</Button>
-									<Button type="button" variant="outline" size="icon">
-										<Trash2 className="w-4 h-4 text-destructive" />
-									</Button>
+									<AdminRolePermissionsEdit editData={role} />
+									<AdminRoleDelete data={role} />
 								</CardFooter>
 							</Card>
 						))}
