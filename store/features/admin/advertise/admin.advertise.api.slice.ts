@@ -1,5 +1,6 @@
 import { apiSlice } from '../../api/apiSlice';
 import {
+	iAdminAdvertiseDetail,
 	iAdminAdvertiseResponse,
 	iAdminAdvertiseStatistics,
 	iAdminVendorAdvertise,
@@ -15,6 +16,21 @@ const api = apiSlice.injectEndpoints({
 			query: ({ page, search }) => {
 				return {
 					url: `/admin/advertise?page=${page}&search=${search}`,
+					method: 'GET',
+				};
+			},
+			providesTags: ['AdminAdvertise'],
+		}),
+
+		// view advertise
+		// admin/advertise/id
+		adminViewAdvertise: builder.query<
+			{ status: 200; product: iAdminAdvertiseDetail },
+			{ id: number | string }
+		>({
+			query: ({ id }) => {
+				return {
+					url: `/admin/advertise/${id}`,
 					method: 'GET',
 				};
 			},
@@ -121,6 +137,7 @@ const api = apiSlice.injectEndpoints({
 
 export const {
 	useAdminAdvertiseQuery,
+	useAdminViewAdvertiseQuery,
 	useAdminAdvertiseStatisticsQuery,
 	useAdminDeleteAdvertiseMutation,
 	useAdminVendorAdvertiseQuery,

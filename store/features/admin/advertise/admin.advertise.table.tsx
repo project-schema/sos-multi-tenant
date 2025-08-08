@@ -119,7 +119,7 @@ export function AdminAdvertiseTable({
 										<DropdownMenuItem>
 											<Link
 												className="flex items-center gap-2 w-full"
-												href={`/admin/service/${item.id}`}
+												href={`/admin/advertise/${item.id}`}
 											>
 												<ExternalLink className="size-4" />
 												<span>View Advertise</span>
