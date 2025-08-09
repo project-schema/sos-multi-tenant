@@ -8,7 +8,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { cn, ErrorAlert, tableSrCount, textCount } from '@/lib';
+import { cn, ErrorAlert, tableSrCount } from '@/lib';
 import { DynamicIcon } from '@/lib/icon/dynamic-icon';
 import { useAdminViewOrganizationTwoQuery } from './admin-organization-two.api.slice';
 import { OrganizationTwoDelete } from './admin-organization-two.delete';
@@ -70,8 +70,10 @@ export function OrganizationTwoTable() {
 											<DynamicIcon icon={item.icon} className="!w-8 !h-8" />
 										</TableCell>
 
-										<TableCell className="py-2">
-											{textCount(item.title, 25)}
+										<TableCell
+											className={cn('py-2 whitespace-pre-wrap min-w-xs')}
+										>
+											{item.title}
 										</TableCell>
 										<TableCell
 											className={cn('py-2 whitespace-pre-wrap min-w-xs')}

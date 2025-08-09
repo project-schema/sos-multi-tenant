@@ -1,5 +1,5 @@
 import { BASE_URL } from '@/lib/env';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import Image from 'next/image';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 import style from './style.module.css';

@@ -1,3 +1,4 @@
+import { DynamicIcon } from '@/lib/icon/dynamic-icon';
 import style from './ChooseUsCard.module.css';
 
 function ChooseUsCard({
@@ -12,7 +13,7 @@ function ChooseUsCard({
 	return (
 		<div className={style.card}>
 			<div className={style.icoBox}>
-				{/* <IconPickerItem icon={icon} size={30} /> */}
+				<DynamicIcon icon={icon} className="size-8" />
 			</div>
 			<h1 className={style.txt}>{title}</h1>
 			<p className={style.subTxt}>{subtitle}</p>

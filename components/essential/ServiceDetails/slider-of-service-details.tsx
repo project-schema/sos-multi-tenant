@@ -1,24 +1,24 @@
-import React, { useRef, useState } from 'react';
+import { useState } from 'react';
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { motion } from 'motion/react';
 import SwiperCore from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import style from './style.module.css';
-import { motion } from 'framer-motion';
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/free-mode';
-import 'swiper/css/navigation';
-import 'swiper/css/thumbs';
 import {
 	IoIosArrowDropleftCircle,
 	IoIosArrowDroprightCircle,
 } from 'react-icons/io';
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/thumbs';
 
 // import required modules
-import { FreeMode, Navigation, Thumbs, Virtual } from 'swiper/modules';
-import Image from 'next/image';
 import { BASE_URL } from '@/lib/env';
+import Image from 'next/image';
+import { FreeMode, Navigation, Thumbs, Virtual } from 'swiper/modules';
 
 function SliderOfSD({ data }: { data: any }) {
 	const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);

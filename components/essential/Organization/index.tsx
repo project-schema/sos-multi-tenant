@@ -1,15 +1,15 @@
 'use client';
 
-import style from './Organization.module.css';
-import Image from 'next/image';
-import { useState } from 'react';
-import { motion } from 'framer-motion';
 import Heading from '@/components/frontend/Heading';
 import { YoutubeModal } from '@/components/frontend/modal';
 import { env } from '@/lib';
-import check from './check-icon.svg';
-import { BsFillPlayCircleFill } from 'react-icons/bs';
 import { iOrgOneType } from '@/types';
+import { motion } from 'motion/react';
+import Image from 'next/image';
+import { useState } from 'react';
+import { BsFillPlayCircleFill } from 'react-icons/bs';
+import check from './check-icon.svg';
+import style from './Organization.module.css';
 function Organization({
 	settingsData,
 	reverse = false,

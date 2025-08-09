@@ -1,10 +1,10 @@
 'use client';
 
-import style from './OurCompany.style.module.css';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { iSettingsType } from '@/types';
 import { env } from '@/lib';
+import { iSettingsType } from '@/types';
+import { motion } from 'motion/react';
+import Image from 'next/image';
+import style from './OurCompany.style.module.css';
 
 const fadeUp = (delay = 0.2) => ({
 	hidden: { opacity: 0, y: 100 },

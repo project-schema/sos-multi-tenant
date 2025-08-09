@@ -72,6 +72,7 @@ interface SearchableSelectProps {
 	options: Option[];
 	description?: string;
 	placeholder?: string;
+	onSelectorClick?: (value: any) => void;
 }
 
 export const SearchableSelect = ({
@@ -80,6 +81,7 @@ export const SearchableSelect = ({
 	options,
 	description,
 	placeholder = 'Select...',
+	onSelectorClick,
 }: SearchableSelectProps) => {
 	return (
 		<FormItem className="flex flex-col">
@@ -108,12 +110,13 @@ export const SearchableSelect = ({
 						<CommandList>
 							<CommandEmpty>No result found.</CommandEmpty>
 							<CommandGroup>
-								{options.map((opt) => (
+								{options.map((opt, i) => (
 									<CommandItem
 										value={opt.label}
-										key={opt.value}
+										key={i}
 										onSelect={() => {
 											field.onChange(opt.value);
+											onSelectorClick && onSelectorClick(opt);
 										}}
 									>
 										{opt.label}

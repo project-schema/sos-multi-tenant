@@ -1,13 +1,13 @@
 'use client';
 
-import style from './pricing.module.css';
-import { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
-import { motion } from 'framer-motion';
-import Radio from '@/components/frontend/Input/Radio';
 import PricingCard from '@/components/frontend/Cards/PricingCard';
+import Radio from '@/components/frontend/Input/Radio';
 import { iSubscriptionsType } from '@/types';
+import { motion } from 'motion/react';
+import { useSession } from 'next-auth/react';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import style from './pricing.module.css';
 function Pricing({
 	user,
 	subscriptions,

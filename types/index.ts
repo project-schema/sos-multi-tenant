@@ -1,3 +1,4 @@
+export * from './companions.type';
 export * from './contact-page-data.type';
 export * from './faqs.type';
 export * from './footer-medias.type';
@@ -11,3 +12,4 @@ export * from './partners.type';
 export * from './service.type';
 export * from './settings.type';
 export * from './subscriptions.type';
+export * from './testimonials.type';

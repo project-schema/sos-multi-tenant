@@ -1,9 +1,9 @@
 'use client';
-import Heading from '@/components/frontend/Heading';
-import style from './choose-us.module.css';
-import { motion } from 'framer-motion';
 import ChooseUsCard from '@/components/frontend/Cards/ChooseUsCard';
+import Heading from '@/components/frontend/Heading';
 import { iSettingsType } from '@/types';
+import { motion } from 'motion/react';
+import style from './choose-us.module.css';
 
 function ChooseUs({ settings }: { settings: iSettingsType }) {
 	const data = settings?.message;

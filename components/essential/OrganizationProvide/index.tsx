@@ -1,10 +1,11 @@
 'use client';
-import style from './Organization.module.css';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { BASE_URL, env } from '@/lib/env';
 import Heading from '@/components/frontend/Heading';
+import { BASE_URL, env } from '@/lib/env';
+import { DynamicIcon } from '@/lib/icon/dynamic-icon';
 import { iOrgTwoType, iSettingsType } from '@/types';
+import { motion } from 'motion/react';
+import Image from 'next/image';
+import style from './Organization.module.css';
 
 function OrganizationProvide({
 	settings,
@@ -57,6 +58,7 @@ function OrganizationProvide({
 											size={40}
 											color="#1A77F2"
 										/> */}
+										<DynamicIcon icon={singleData?.icon} className="size-8" />
 									</div>
 									<div className={style.contents}>
 										<h1 className={style.heading}>{singleData.title}</h1>

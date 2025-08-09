@@ -1,10 +1,10 @@
 'use client';
-import Style from './AdvertiseBanner.style.module.css';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { iSettingsType } from '@/types';
 import BtnLink from '@/components/frontend/BtnLink';
 import { env } from '@/lib';
+import { iSettingsType } from '@/types';
+import { motion } from 'motion/react';
+import Image from 'next/image';
+import Style from './AdvertiseBanner.style.module.css';
 
 function AdvertiseBanner({ settings }: { settings: iSettingsType }) {
 	const data = settings?.message;
@@ -54,7 +54,7 @@ function AdvertiseBanner({ settings }: { settings: iSettingsType }) {
 							}}
 						>
 							<div className={Style?.btnBox}></div>
-							<BtnLink path="/advertiserForm" text="Boost your campaign" />
+							<BtnLink path="/advertise/create" text="Boost your campaign" />
 						</motion.div>
 					</div>
 					<motion.div

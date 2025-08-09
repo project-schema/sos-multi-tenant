@@ -13,13 +13,13 @@ export default async function Page() {
 	const settings = await getApiData<iSettingsType>('/settings');
 	const faqs = await getApiData<iFaqsType>('/faqs');
 
-	if (settings?.status !== 200) {
+	if (settings?.status !== 200 || faqs?.status !== 200) {
 		return notFound();
 	}
 	return (
 		<>
 			<AdvertiseBanner settings={settings} />
-			{faqs?.status === 200 && <SosAdvertise settings={settings} faqs={faqs} />}
+			<SosAdvertise settings={settings} faqs={faqs} />
 		</>
 	);
 }

@@ -1,10 +1,11 @@
 'use client';
-import style from './services.module.css';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
 import Heading from '@/components/frontend/Heading';
-import yellow from './yellow.svg';
+import { DynamicIcon } from '@/lib/icon/dynamic-icon';
 import { iServicesType, iSettingsType } from '@/types';
+import { motion } from 'motion/react';
+import Image from 'next/image';
+import style from './services.module.css';
+import yellow from './yellow.svg';
 
 function Services({
 	settingsData,
@@ -53,11 +54,10 @@ function Services({
 									<div className={style.serviceCardImg}>
 										<Image className={style.icon} alt="icon" src={yellow} />
 										<div className={style.serviceOneIcon}>
-											{/* <IconPickerItem
-												size={40}
-												icon={singleData?.icon}
-												color="#fff"
-											/> */}
+											<DynamicIcon
+												icon={singleData.icon}
+												className="text-white size-8"
+											/>
 										</div>
 									</div>
 								</div>

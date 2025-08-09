@@ -1,7 +1,7 @@
 import { logout } from '@/lib';
 import { DASHBOARD_URL } from '@/lib/env';
 import { IMenu } from '@/types/Ui-Types';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';

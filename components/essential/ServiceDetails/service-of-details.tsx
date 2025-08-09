@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import RattingCardSD from './ratting-card';

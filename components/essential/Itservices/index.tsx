@@ -1,11 +1,12 @@
 'use client';
 
-import style from './itService.module.css';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { iItServicesType, iSettingsType } from '@/types';
 import Heading from '@/components/frontend/Heading';
+import { DynamicIcon } from '@/lib/icon/dynamic-icon';
+import { iItServicesType, iSettingsType } from '@/types';
+import { motion } from 'motion/react';
+import Image from 'next/image';
 import blue from './blue.svg';
+import style from './itService.module.css';
 
 function ItServices({
 	settings,
@@ -56,11 +57,7 @@ function ItServices({
 							<div className={style.icon}>
 								<Image alt="icon" src={blue} className={style.ico} />
 								<div className={style.serviceIcon}>
-									{/* <IconPickerItem
-										className={style.serviceOneIcon}
-										icon={singleData?.icon}
-										size={40}
-									/> */}
+									<DynamicIcon icon={singleData?.icon} className="size-8" />
 								</div>
 							</div>
 							<h1 className={style.text}>{singleData.title}</h1>

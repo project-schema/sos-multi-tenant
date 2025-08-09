@@ -1,7 +1,7 @@
-import style from './ServiceBanner.style.module.css';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { useState } from 'react';
 import { FaSearch, FaTimes } from 'react-icons/fa';
+import style from './ServiceBanner.style.module.css';
 const ServiceBanner = ({ getSettingsData, searchHandler, setPage }: any) => {
 	const serviceData = getSettingsData?.message;
 	const [value, setValue] = useState<any>(null);

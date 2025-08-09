@@ -1,8 +1,8 @@
+import { motion } from 'motion/react';
 import Image from 'next/image';
-import style from './style.module.css';
-import { FaUserAlt } from 'react-icons/fa';
 import UserImg from 'public/images/sDetailsUser.png';
-import { motion } from 'framer-motion';
+import { FaUserAlt } from 'react-icons/fa';
+import style from './style.module.css';
 
 function HeadingOfSD({ data }: { data: any }) {
 	return (

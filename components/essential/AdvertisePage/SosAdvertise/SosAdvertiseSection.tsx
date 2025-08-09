@@ -1,9 +1,15 @@
 'use client';
 
-import Style from './SosAdvertise.style.module.css';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from '@/components/ui/accordion';
 import { iFaqsType, iSettingsType } from '@/types';
+import { motion } from 'motion/react';
+import Link from 'next/link';
+import Style from './SosAdvertise.style.module.css';
 
 function SosAdvertise({
 	settings,
@@ -23,6 +29,8 @@ function SosAdvertise({
 			transition: { duration: 0.5, delay },
 		},
 	});
+
+	console.log({ data });
 
 	return (
 		<section className={Style.SosAdertiseSection}>
@@ -168,8 +176,8 @@ function SosAdvertise({
 							</motion.button>
 
 							<div className={Style.faqMargin}>
-								<div className="join join-vertical w-full">
-									{data?.map((singleData: any, i: number) => (
+								<Accordion type="single" collapsible className="w-full">
+									{data?.map((item, i) => (
 										<motion.div
 											key={i}
 											variants={fadeIn(0.4 + i * 0.1)}
@@ -178,18 +186,13 @@ function SosAdvertise({
 											viewport={{ once: true }}
 											className={Style.faqItems}
 										>
-											<div className="collapse collapse-arrow join-item bg-white p-1 mb-[16px]">
-												<input type="radio" name="faq-accordion" />
-												<div className="collapse-title text-xl font-normal text-[#666666]">
-													{singleData?.heading}
-												</div>
-												<div className="collapse-content">
-													<p>{singleData?.description}</p>
-												</div>
-											</div>
+											<AccordionItem value={`item-${i}`}>
+												<AccordionTrigger>{item.heading}</AccordionTrigger>
+												<AccordionContent>{item.description}</AccordionContent>
+											</AccordionItem>
 										</motion.div>
 									))}
-								</div>
+								</Accordion>
 							</div>
 						</div>
 					</div>

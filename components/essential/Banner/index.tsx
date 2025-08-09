@@ -1,13 +1,13 @@
 'use client';
 
-import style from './banner.style.module.css';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
 import BtnLink from '@/components/frontend/BtnLink';
 import { img } from '@/lib';
 import { iSettingsType } from '@/types';
+import { motion } from 'motion/react';
+import Image from 'next/image';
 import bannerV1 from './banner-v-1.svg';
 import bannerV2 from './banner-v-2.svg';
+import style from './banner.style.module.css';
 import rocket from './rocket.svg';
 
 function Banner({ settings }: { settings: iSettingsType }) {

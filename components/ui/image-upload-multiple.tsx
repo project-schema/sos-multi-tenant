@@ -22,11 +22,20 @@ export function MultiImageUpload({
 	const [previews, setPreviews] = useState<string[]>([]);
 
 	useEffect(() => {
+		if (!value || value.length === 0) {
+			setPreviews([]);
+			return;
+		}
+
 		const urls = value.map((file) => URL.createObjectURL(file));
-		setPreviews(urls);
+		setPreviews((prev) => {
+			const isSame =
+				prev.length === urls.length && prev.every((url, i) => url === urls[i]);
+			return isSame ? prev : urls;
+		});
 
 		return () => {
-			urls.forEach((url) => URL.revokeObjectURL(url)); // Cleanup
+			urls.forEach((url) => URL.revokeObjectURL(url));
 		};
 	}, [value]);
 

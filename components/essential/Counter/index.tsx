@@ -1,7 +1,7 @@
 'use client';
-import { motion } from 'framer-motion';
-import style from './counter.module.css';
 import { iSettingsType } from '@/types';
+import { motion } from 'motion/react';
+import style from './counter.module.css';
 
 function Counter({ settings }: { settings: iSettingsType }) {
 	const data = settings.message;

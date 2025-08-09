@@ -1,10 +1,11 @@
 'use client';
 
 import { env } from '@/lib/env';
-import style from './OurMission.style.module.css';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { DynamicIcon } from '@/lib/icon/dynamic-icon';
 import { iMissionsType, iSettingsType } from '@/types';
+import { motion } from 'motion/react';
+import Image from 'next/image';
+import style from './OurMission.style.module.css';
 
 const OurMission = ({
 	missions,
@@ -76,7 +77,7 @@ const OurMission = ({
 						</motion.p>
 
 						<div className={style.missionFooter}>
-							{ourMissions?.map((singleData: any, i: number) => (
+							{ourMissions?.map((singleData, i: number) => (
 								<motion.div
 									key={singleData?.id}
 									variants={fadeIn(0.35 + i * 0.1)}
@@ -86,6 +87,10 @@ const OurMission = ({
 									className={style.missionFooterContent}
 								>
 									{/* Optional Icon here */}
+									<DynamicIcon
+										icon={singleData.icon_class}
+										className="size-6"
+									/>
 									<span className={style.footerContent}>
 										{singleData.title}
 									</span>

@@ -1,10 +1,10 @@
 'use client';
-import style from './PricingCard.module.css';
+import { motion } from 'motion/react';
 import Image from 'next/image';
+import { BsCheckLg } from 'react-icons/bs';
 import { RxCross2 } from 'react-icons/rx';
 import shape from './card-active-bg-shape.svg';
-import { motion } from 'framer-motion';
-import { BsCheckLg } from 'react-icons/bs';
+import style from './PricingCard.module.css';
 
 function PricingCard({ data, user, i }: any) {
 	const handleSwith = () => {

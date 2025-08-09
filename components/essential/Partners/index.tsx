@@ -1,15 +1,15 @@
 'use client';
-import style from './partners.module.css';
+import Heading from '@/components/frontend/Heading';
+import { env } from '@/lib/env';
+import { iPartnersType, iSettingsType } from '@/types';
+import { motion } from 'motion/react';
 import Image from 'next/image';
 import 'swiper/css';
-import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { motion } from 'framer-motion';
-import { BASE_URL, env } from '@/lib/env';
-import { iPartnersType, iSettingsType } from '@/types';
-import Heading from '@/components/frontend/Heading';
-import { SwiperSlide, Swiper } from 'swiper/react';
+import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import style from './partners.module.css';
 
 function Partners({
 	settings,

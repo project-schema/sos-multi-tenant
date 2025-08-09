@@ -1,9 +1,10 @@
-import Image from 'next/image';
-import style from './footer-center.module.css';
-import Link from 'next/link';
 import { env, getApiData } from '@/lib';
 import { iFooterMedia, iSettingsType } from '@/types';
+import { MapPin, Phone } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import style from './footer-center.module.css';
 async function FooterCenter() {
 	const settings = await getApiData<iSettingsType>('/settings');
 	const mediaLink = await getApiData<iFooterMedia>('/footer-medias');
@@ -89,15 +90,15 @@ async function FooterCenter() {
 			<div className={style.contact}>
 				<h5 className={style.center__head}>Contact</h5>
 				<div className={style.contactInfoBox}>
-					{/* <Image alt="map" src={ICON.map} /> */}
+					<MapPin className="size-8 text-white" />
 					<p className={style.con_info_txt}>
 						{settings.message?.footer_contact_address}
 					</p>
 				</div>
 				<div className={style.contactInfoBox}>
-					{/* <Image alt="map" src={ICON.call} /> */}
+					<Phone className="size-5 text-white" />
 					<p className={style.con_info_txt}>
-						{settings.message?.footer_contact_address}
+						{settings.message?.footer_contact_number}
 					</p>
 				</div>
 			</div>

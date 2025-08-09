@@ -1,229 +1,211 @@
 'use client';
 
-import { BASE_URL } from '@/lib/env';
+import { useFrontendContactStoreMutation } from '@/store/features/frontend';
 import { iContactType } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { useReducer, useState } from 'react';
-import { initialState, reducer } from './contact-action';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
 import style from './Contact.style.module.css';
 import ContactContent from './ContactContent';
 
+// Zod schema
+const contactSchema = z.object({
+	first_name: z
+		.string({ error: 'First name is required' })
+		.trim()
+		.min(1, 'First name is required'),
+	last_name: z
+		.string({ error: 'Last name is required' })
+		.trim()
+		.min(1, 'Last name is required'),
+	email: z.string({ error: 'Email is required' }).trim().email('Invalid email'),
+	number: z
+		.string({ error: 'Phone number is required' })
+		.trim()
+		.min(10, 'Invalid phone number'),
+	message: z
+		.string({ error: 'Message is required' })
+		.trim()
+		.min(1, 'Message is required'),
+});
+
+type ContactFormData = z.infer<typeof contactSchema>;
+
 const Contact = ({ data }: { data: iContactType }) => {
-	const [loading, setLoading] = useState(false);
+	const [submitContact, { isLoading }] = useFrontendContactStoreMutation();
 
-	const [state, dispatch] = useReducer(reducer, initialState);
+	const {
+		register,
+		handleSubmit,
+		reset,
+		setError,
+		formState: { errors },
+	} = useForm<ContactFormData>({
+		resolver: zodResolver(contactSchema),
+	});
 
-	const handleSubmitData = (e: any) => {
-		e.preventDefault();
-		setLoading(true);
-		const form = e.target;
-		submitDataServer(form);
-	};
-	const submitDataServer = async (form: any) => {
-		const res = await fetch(BASE_URL + '/api/contact-store', {
-			method: 'POST',
-			headers: {
-				'content-type': 'application/json',
-			},
-			body: JSON.stringify(state?.data),
-		});
-		const data = await res.json();
-		if (data?.status === 400) {
-			const errors = data?.errors;
-			const validationError = {
-				first_name: errors['first_name'] ? errors['first_name'] : null,
-				last_name: errors['last_name'] ? errors['last_name'] : null,
-				email: errors['email'] ? errors['email'] : null,
-				number: errors['number'] ? errors['number'] : null,
-				message: errors['message'] ? errors['message'] : null,
-			};
-			dispatch({
-				type: 'VALIDATION_ERROR',
-				payload: validationError,
-			});
-			setLoading(false);
-			return;
-		}
-		if (data?.status === 200) {
-			// alertSuccess('Yes!', data?.message);
-			form.reset();
-			setLoading(false);
+	const onSubmit = async (formData: ContactFormData) => {
+		try {
+			const res = await submitContact({
+				first_name: formData.first_name,
+				last_name: formData.last_name,
+				number: formData.number,
+				email: formData.email,
+				message: formData.message,
+			}).unwrap();
+
+			if (res.status === 400 && typeof res.errors === 'object') {
+				Object.entries(res.errors).forEach(([field, value]) => {
+					setError(field as keyof ContactFormData, {
+						type: 'server',
+						message: (value as string[])[0],
+					});
+				});
+			}
+			if (res.status === 200) {
+				toast.success(res.message || 'Thank you for your message!');
+				reset();
+			} else {
+				toast.error(res.message || 'Failed to send message');
+			}
+		} catch (err: any) {
+			toast.error(err.message || 'Failed to send message');
 		}
 	};
+
 	return (
 		<div className={style.contactSection}>
 			<div className="layout">
 				<div className={style.contact}>
 					<ContactContent data={data.message} />
+
 					<div className={style.rightForm}>
-						<form onSubmit={handleSubmitData}>
+						<form onSubmit={handleSubmit(onSubmit)}>
+							{/* First + Last Name */}
 							<div className={style.firstField}>
+								{/* First Name */}
 								<motion.div
 									initial={{ y: 50, opacity: 0 }}
 									whileInView={{
 										y: 0,
 										opacity: 1,
-										transition: {
-											delay: 0.14,
-											duration: 0.3,
-										},
+										transition: { delay: 0.14, duration: 0.3 },
 									}}
 									className={style.middleGap}
 								>
 									<label className={style.userName}>First Name</label>
-									<p style={{ color: 'red', fontSize: '12px' }}>
-										{state?.apiRes?.first_name
-											? state?.apiRes?.first_name
-											: null}
+									<p className="text-red-500 text-xs">
+										{errors.first_name?.message}
 									</p>
 									<input
 										className={style.inputField}
 										type="text"
-										name="first_name"
-										id=""
 										placeholder="Ex: Rifat"
-										onChange={(e) => {
-											dispatch({
-												type: 'INPUT',
-												payload: { name: e.target.name, value: e.target.value },
-											});
-										}}
+										{...register('first_name')}
 									/>
 								</motion.div>
+
+								{/* Last Name */}
 								<motion.div
 									initial={{ y: 50, opacity: 0 }}
 									whileInView={{
 										y: 0,
 										opacity: 1,
-										transition: {
-											delay: 0.14,
-											duration: 0.3,
-										},
+										transition: { delay: 0.14, duration: 0.3 },
 									}}
 									className={style.middleGap}
 								>
 									<label className={style.userName}>Last Name</label>
-									<p style={{ color: 'red', fontSize: '12px' }}>
-										{state?.apiRes?.last_name ? state?.apiRes?.last_name : null}
+									<p className="text-red-500 text-xs">
+										{errors.last_name?.message}
 									</p>
 									<input
 										className={style.inputField}
 										type="text"
-										name="last_name"
-										id=""
-										placeholder="Ex: Rifat"
-										onChange={(e) => {
-											dispatch({
-												type: 'INPUT',
-												payload: { name: e.target.name, value: e.target.value },
-											});
-										}}
+										placeholder="Ex: Ahmed"
+										{...register('last_name')}
 									/>
 								</motion.div>
 							</div>
+
+							{/* Email */}
 							<motion.div
 								initial={{ y: 50, opacity: 0 }}
 								whileInView={{
 									y: 0,
 									opacity: 1,
-									transition: {
-										delay: 0.14,
-										duration: 0.3,
-									},
+									transition: { delay: 0.14, duration: 0.3 },
 								}}
 								className={style.middleGap}
 							>
 								<label className={style.userName}>Mail</label>
-								<p style={{ color: 'red', fontSize: '12px' }}>
-									{state?.apiRes?.email ? state?.apiRes?.email : null}
-								</p>
+								<p className="text-red-500 text-xs">{errors.email?.message}</p>
 								<input
 									id={style.mail}
 									className={style.inputField}
 									type="email"
-									name="email"
 									placeholder="Ex: abc@gmail.com"
-									onChange={(e) => {
-										dispatch({
-											type: 'INPUT',
-											payload: { name: e.target.name, value: e.target.value },
-										});
-									}}
+									{...register('email')}
 								/>
 							</motion.div>
+
+							{/* Phone Number */}
 							<motion.div
 								initial={{ y: 50, opacity: 0 }}
 								whileInView={{
 									y: 0,
 									opacity: 1,
-									transition: {
-										delay: 0.14,
-										duration: 0.3,
-									},
+									transition: { delay: 0.14, duration: 0.3 },
 								}}
 								className={style.middleGap}
 							>
 								<label className={style.userName}>Number</label>
-								<p style={{ color: 'red', fontSize: '12px' }}>
-									{state?.apiRes?.number ? state?.apiRes?.number : null}
-								</p>
+								<p className="text-red-500 text-xs">{errors.number?.message}</p>
 								<input
 									className={style.inputField}
-									type="number"
-									name="number"
+									type="text"
 									id={style.number}
 									placeholder="(+88) 0123456789"
-									onChange={(e) => {
-										dispatch({
-											type: 'INPUT',
-											payload: { name: e.target.name, value: e.target.value },
-										});
-									}}
+									{...register('number')}
 								/>
 							</motion.div>
+
+							{/* Message */}
 							<motion.div
 								initial={{ y: 50, opacity: 0 }}
 								whileInView={{
 									y: 0,
 									opacity: 1,
-									transition: {
-										delay: 0.14,
-										duration: 0.3,
-									},
+									transition: { delay: 0.14, duration: 0.3 },
 								}}
 								className={style.middleGap}
 							>
 								<label className={style.userName}>Message</label>
-								<p style={{ color: 'red', fontSize: '12px' }}>
-									{state?.apiRes?.message ? state?.apiRes?.message : null}
+								<p className="text-red-500 text-xs">
+									{errors.message?.message}
 								</p>
 								<textarea
 									className={style.message}
-									placeholder="Type Here"
-									name="message"
-									id=""
-									onChange={(e) => {
-										dispatch({
-											type: 'INPUT',
-											payload: { name: e.target.name, value: e.target.value },
-										});
-									}}
-								></textarea>
+									placeholder="Type here"
+									{...register('message')}
+								/>
 							</motion.div>
+
+							{/* Submit */}
 							<motion.button
 								initial={{ y: 50, opacity: 0 }}
 								whileInView={{
 									y: 0,
 									opacity: 1,
-									transition: {
-										delay: 0.14,
-										duration: 0.3,
-									},
+									transition: { delay: 0.14, duration: 0.3 },
 								}}
 								className={style.submitBtn}
 								type="submit"
+								disabled={isLoading}
 							>
-								{loading ? 'Sending...' : 'Send'}
+								{isLoading ? 'Sending...' : 'Send'}
 							</motion.button>
 						</form>
 					</div>

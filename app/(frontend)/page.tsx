@@ -49,7 +49,7 @@ export default async function HomePage() {
 	return (
 		<>
 			{settings?.status === 200 && <Banner settings={settings} />}
-			{services?.status === 200 && settings?.status !== 200 && (
+			{services?.status === 200 && settings?.status === 200 && (
 				<Services settingsData={settings} getServiceData={services} />
 			)}
 			{orgOne?.status === 200 && (

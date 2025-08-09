@@ -1,7 +1,8 @@
 import { getApiData } from '@/lib';
-import style from './footerTop.style.module.css';
 import { iSettingsType } from '@/types';
 import { notFound } from 'next/navigation';
+import EmailSubscriptionForm from './email-subscription-form';
+import style from './footerTop.style.module.css';
 
 async function FooterTop() {
 	const settings = await getApiData<iSettingsType>('/settings');
@@ -21,21 +22,7 @@ async function FooterTop() {
 					</p>
 				</div>
 				<div className={style.joinNews__right}>
-					{/* onSubmit={submitDataServer} */}
-					<form>
-						<div className={style.inputWrap}>
-							<input
-								className={style.email}
-								type="email"
-								placeholder="Enter your email"
-								name="email"
-								id="email_"
-							/>
-							<button className={style.subBtn} type="submit">
-								Subscribe
-							</button>
-						</div>
-					</form>
+					<EmailSubscriptionForm />
 				</div>
 			</div>
 		</div>

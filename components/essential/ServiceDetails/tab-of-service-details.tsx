@@ -1,7 +1,7 @@
+import { motion } from 'motion/react';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import style from './style.module.css';
-import { motion } from 'framer-motion';
-import { useSession } from 'next-auth/react';
 
 function TabOfSD({ data, buyPackage }: { data: any; buyPackage: Function }) {
 	const { data: session } = useSession();

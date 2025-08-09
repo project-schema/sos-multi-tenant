@@ -1,9 +1,9 @@
-import { FaPhone } from 'react-icons/fa';
-import style from './Contact.style.module.css';
-import { HiLocationMarker, HiMail } from 'react-icons/hi';
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
 import { BASE_URL } from '@/lib/env';
+import { motion } from 'motion/react';
+import { useEffect, useState } from 'react';
+import { FaPhone } from 'react-icons/fa';
+import { HiLocationMarker, HiMail } from 'react-icons/hi';
+import style from './Contact.style.module.css';
 
 const ContactContent = ({ data }: any) => {
 	const [mediaLink, setMediaLink] = useState([]);

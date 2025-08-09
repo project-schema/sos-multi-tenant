@@ -1,10 +1,10 @@
 'use client';
 import { env } from '@/lib/env';
-import style from './KeyMembers.style.module.css';
+import { iMembersType, iSettingsType } from '@/types';
+import { motion } from 'motion/react';
 import Image from 'next/image';
 import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
-import { motion } from 'framer-motion';
-import { iMembersType, iSettingsType } from '@/types';
+import style from './KeyMembers.style.module.css';
 
 const KeyMembers = ({
 	settings,

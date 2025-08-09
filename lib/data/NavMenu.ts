@@ -21,7 +21,7 @@ export const menuData = [
 		id: 4,
 		menu: 'Advertise',
 		path: '/advertise',
-		subRoute: ['/advertiserForm'],
+		subRoute: ['/advertise/'],
 	},
 	{
 		id: 5,

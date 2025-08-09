@@ -1,9 +1,9 @@
 'use client';
-import style from './OurVissin.style.module.css';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { iSettingsType } from '@/types';
 import { env } from '@/lib';
+import { iSettingsType } from '@/types';
+import { motion } from 'motion/react';
+import Image from 'next/image';
+import style from './OurVissin.style.module.css';
 
 const OurVission = ({ settings }: { settings: iSettingsType }) => {
 	const data = settings.message;
