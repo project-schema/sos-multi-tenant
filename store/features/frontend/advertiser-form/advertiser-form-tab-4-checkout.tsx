@@ -1,3 +1,9 @@
+import Checkout from './checkout/Checkout';
+
 export function AdvertiserFormTab4Checkout() {
-	return <div>AdvertiserFormTab1</div>;
+	return (
+		<div>
+			<Checkout />
+		</div>
+	);
 }

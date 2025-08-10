@@ -13,7 +13,6 @@ import { useSelector } from 'react-redux';
 
 export default function Page() {
 	const step = useSelector(advertiseStep);
-	console.log(step);
 
 	return (
 		<div className="layout">

@@ -5,8 +5,13 @@ export function AdvertiserFormProgressbar({
 }: {
 	currentStep: number;
 }) {
+	console.log(currentStep);
 	return (
-		<div className={style.itemsSuccessBox}>
+		<div
+			className={`${style.itemsSuccessBox} ${
+				currentStep === 4 ? '!hidden' : ''
+			}`}
+		>
 			<Progressbar
 				line={true}
 				text="Objective"

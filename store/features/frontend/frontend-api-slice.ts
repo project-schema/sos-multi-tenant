@@ -14,6 +14,16 @@ const api = apiSlice.injectEndpoints({
 			}),
 		}),
 
+		// get doller-rate
+		frontendGetDollarRate: builder.query<
+			{ data: string; message: { amount: number }; status: number },
+			undefined
+		>({
+			query: () => ({
+				url: `/doller-rate`,
+				method: 'GET',
+			}),
+		}),
 		// contact message store api/contact-store
 		frontendContactStore: builder.mutation<
 			{ errors: any; data: 'success'; message: string; status: number },
@@ -31,4 +41,5 @@ const api = apiSlice.injectEndpoints({
 export const {
 	useFrontendEmailSubscribeMutation,
 	useFrontendContactStoreMutation,
+	useFrontendGetDollarRateQuery,
 } = api;

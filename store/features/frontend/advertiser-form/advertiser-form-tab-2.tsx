@@ -34,9 +34,10 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, LoaderCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import z from 'zod';
 import {
 	useFrontendAdvDyDataQuery,
@@ -46,7 +47,14 @@ import {
 	useFrontendCountryQuery,
 	useFrontendCreateAdvertiseMutation,
 } from './advertiser-form-api-slice';
-import { level2Format, prevStep, updateLevel2 } from './advertiser-form-slice';
+import {
+	L2_RequitedField,
+	level2Format,
+	level2SubmitFormat,
+	nextStep,
+	prevStep,
+	updateLevel2,
+} from './advertiser-form-slice';
 //  Zod Schema
 const optionSchema = z.object({
 	label: z.string().min(1, 'Label is required'),
@@ -304,10 +312,28 @@ export function AdvertiserFormTab2() {
 	const onSubmit = async (data: ZodType) => {
 		const formedData = level2Format(data);
 		try {
-			const response = store(formedData).unwrap();
-			console.log(response);
-		} catch (error) {
-			console.log(error);
+			const response = await store(level2SubmitFormat(formedData)).unwrap();
+			if (response?.message === 'Validation errors') {
+				Object.entries(response?.data).forEach(([field, value]) => {
+					if (L2_RequitedField.includes(field)) {
+						form.setError(field as keyof ZodType, {
+							type: 'server',
+							message: Array.isArray(value) ? value[0] : value,
+						});
+						return toast.error('Please fill all the required fields');
+					}
+				});
+			}
+			dispatch(
+				updateLevel2({
+					...data,
+					start_date: formValue?.start_date?.toLocaleDateString(),
+					end_date: formValue?.end_date?.toLocaleDateString(),
+				})
+			);
+			dispatch(nextStep());
+		} catch (error: any) {
+			toast.error(error?.message || 'Something went wrong');
 		}
 	};
 	const formValue = form.getValues();
@@ -1078,10 +1104,13 @@ export function AdvertiserFormTab2() {
 							className="w-full"
 							variant="outline"
 						>
-							{false ? 'Submitting...' : 'Previous'}
+							Previous
 						</Button>
+
 						<Button type="submit" className="w-full">
-							{/* {isLoading && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />} */}
+							{storeLoading && (
+								<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+							)}
 							{false ? 'Submitting...' : 'Next'}
 						</Button>
 					</div>

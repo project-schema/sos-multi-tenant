@@ -79,7 +79,8 @@ const api = apiSlice.injectEndpoints({
 					| 'search_reel'
 					| 'messages_reel'
 					| 'apps_web'
-					| 'call_to_action';
+					| 'call_to_action'
+					| 'add_format';
 			}
 		>({
 			query: ({ api }) => ({
@@ -116,14 +117,11 @@ const api = apiSlice.injectEndpoints({
 			any
 		>({
 			query: (data) => {
-				const body = new FormData();
-				Object.entries(data).forEach(([key, value]) => {
-					body.append(key, value as string);
-				});
 				return {
 					url: `/create-advertise`,
 					method: 'POST',
-					body,
+					body: data,
+					formData: true,
 				};
 			},
 		}),

@@ -12,8 +12,13 @@ import { nextStep, updateLevel1 } from './advertiser-form-slice';
 import style from './tab-1.style.module.css';
 export function AdvertiserFormTab1() {
 	const dispatch = useAppDispatch();
-	const { data, isLoading, isError } =
-		useFrontendCampaignCategoryQuery(undefined);
+	const { data, isLoading, isError } = useFrontendCampaignCategoryQuery(
+		undefined,
+		{
+			refetchOnFocus: false,
+			refetchOnMountOrArgChange: false,
+		}
+	);
 	const [select, setSelect] = useState<iCampaignCategory | null>(null);
 	const state = useAppSelector((state) => state.advertiseForm);
 
