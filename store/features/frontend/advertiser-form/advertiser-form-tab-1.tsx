@@ -1,12 +1,10 @@
 'use client';
 
-import { Loader5 } from '@/components/dashboard';
+import { Loader6 } from '@/components/dashboard';
 import { DynamicIcon } from '@/lib/icon/dynamic-icon';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { notFound } from 'next/navigation';
-import { useState } from 'react';
 import { toast } from 'sonner';
-import { iCampaignCategory } from '../../admin/advertise-utilities';
 import { useFrontendCampaignCategoryQuery } from './advertiser-form-api-slice';
 import { nextStep, updateLevel1 } from './advertiser-form-slice';
 import style from './tab-1.style.module.css';
@@ -19,15 +17,14 @@ export function AdvertiserFormTab1() {
 			refetchOnMountOrArgChange: false,
 		}
 	);
-	const [select, setSelect] = useState<iCampaignCategory | null>(null);
 	const state = useAppSelector((state) => state.advertiseForm);
 
 	if (isLoading) {
 		return (
-			<div className="py-10">
-				<Loader5 />
-				<Loader5 />
-				<Loader5 />
+			<div className="py-10 max-w-lg mx-auto space-y-4">
+				<Loader6 />
+				<Loader6 />
+				<Loader6 />
 			</div>
 		);
 	}

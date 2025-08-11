@@ -4,9 +4,7 @@ import { env } from '@/lib/env';
 import { iPartnersType, iSettingsType } from '@/types';
 import { motion } from 'motion/react';
 import Image from 'next/image';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import style from './partners.module.css';

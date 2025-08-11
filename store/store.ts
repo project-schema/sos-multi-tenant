@@ -27,7 +27,9 @@ export const makeStore = () => {
 		devTools: process.env.NODE_ENV !== 'production',
 
 		middleware: (getDefaultMiddleware) => {
-			return getDefaultMiddleware().concat(apiSlice.middleware);
+			return getDefaultMiddleware({
+				serializableCheck: false,
+			}).concat(apiSlice.middleware);
 		},
 	});
 };

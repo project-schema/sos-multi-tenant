@@ -182,3 +182,60 @@ a {
 	grid-template-columns: repeat(10, 1fr);
 	gap: 0.5rem;
 }
+
+/* service slider  */
+/* slider control  */
+
+.swiper-slide-thumb-active .style_topSliderImgSmall__BjH1p img {
+	border: 2px solid #041438;
+}
+
+#f-service-details-slider .custom-prev-icon {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	transform: translate(50%, -50%);
+	z-index: 9999;
+	font-size: 40px;
+	color: #fff;
+	cursor: pointer;
+}
+#f-service-details-slider .custom-next-icon {
+	position: absolute;
+	top: 50%;
+	right: 35px;
+	transform: translate(50%, -50%);
+	z-index: 9999;
+	font-size: 40px;
+	color: #fff;
+	cursor: pointer;
+}
+
+/* thumb  */
+#f-service-details-slider-thumb {
+	margin-top: 30px;
+	position: relative;
+}
+.mySwiper2-slider-of-service-dt-thumb {
+	margin-top: 30px;
+}
+.mySwiper2-slider-of-service-dt-thumb.custom-prev-icon {
+	position: absolute;
+	top: 50%;
+	left: -10px;
+	transform: translate(50%, -50%);
+	z-index: 9999;
+	font-size: 25px;
+	color: #fff;
+	cursor: pointer;
+}
+.mySwiper2-slider-of-service-dt-thumb .custom-next-icon {
+	position: absolute;
+	top: 50%;
+	right: 15px;
+	transform: translate(50%, -50%);
+	z-index: 9999;
+	font-size: 25px;
+	color: #fff;
+	cursor: pointer;
+}

@@ -1,17 +1,16 @@
 'use client';
 
-import style from './nav-style.module.css';
-import DesktopNav from './desktop-nav/DesktopNav';
-import MobileNav from './mobile-nav/MobileNav';
+import { env, logout } from '@/lib';
 import { menuData } from '@/lib/data/NavMenu';
-import Link from 'next/link';
+import { iSettingsType } from '@/types';
 import { useSession } from 'next-auth/react';
-import { FaTimes } from 'react-icons/fa';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import BtnLink from '../BtnLink';
-import { env, logout } from '@/lib';
-import { iSettingsType } from '@/types';
-import Image from 'next/image';
+import DesktopNav from './desktop-nav/DesktopNav';
+import MobileNav from './mobile-nav/MobileNav';
+import style from './nav-style.module.css';
 
 function Nav({ settings }: { settings: iSettingsType }) {
 	const [open, setOpen] = useState(false);
@@ -107,7 +106,7 @@ function Nav({ settings }: { settings: iSettingsType }) {
 					</div>
 
 					<div onClick={() => setOpen(!open)} className={style.mobileToggler}>
-						{open ? <FaTimes className={style.iconMenu} /> : <div></div>}
+						{/* {open ? <FaTimes className={style.iconMenu} /> : <div></div>} */}
 						{/* <ICON.menu className={style.iconMenu}></ICON.menu> */}
 					</div>
 				</div>

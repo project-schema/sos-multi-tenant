@@ -22,7 +22,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { skipToken } from '@reduxjs/toolkit/query';
 import { LoaderCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -30,8 +29,6 @@ import { toast } from 'sonner';
 import z from 'zod';
 import {
 	useFrontendAdvDyDataQuery,
-	useFrontendCampaignConversionLocationQuery,
-	useFrontendCampaignPerformanceGoalQuery,
 	useFrontendCreateAdvertiseMutation,
 } from './advertiser-form-api-slice';
 import {
@@ -152,21 +149,6 @@ export function AdvertiserFormTab3() {
 		api: 'call_to_action',
 	});
 
-	const { data: performanceGoals, isLoading: loadingGoals } =
-		useFrontendCampaignPerformanceGoalQuery(
-			selected !== undefined ? { id: selected } : skipToken,
-			{
-				skip: !selected,
-			}
-		);
-
-	const { data: conversionLocations, isLoading: loadingConversions } =
-		useFrontendCampaignConversionLocationQuery(
-			selected !== undefined ? { id: selected } : skipToken,
-			{
-				skip: !selected,
-			}
-		);
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
 		defaultValues: {
@@ -275,7 +257,11 @@ export function AdvertiserFormTab3() {
 												<FormItem>
 													<FormLabel>Post Id</FormLabel>
 													<FormControl>
-														<Input placeholder="Type..." {...field} />
+														<Input
+															placeholder="Type..."
+															{...field}
+															value={field.value ?? ''}
+														/>
 													</FormControl>
 													<FormMessage />
 												</FormItem>

@@ -7,7 +7,6 @@ import { iOrgOneType } from '@/types';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import { useState } from 'react';
-import { BsFillPlayCircleFill } from 'react-icons/bs';
 import check from './check-icon.svg';
 import style from './Organization.module.css';
 function Organization({
@@ -82,7 +81,7 @@ function Organization({
 								htmlFor="my_modal_6"
 								style={{ cursor: 'pointer' }}
 							>
-								<BsFillPlayCircleFill className={style.playIcon} />
+								{/* <BsFillPlayCircleFill className={style.playIcon} /> */}
 							</label>
 							<p onClick={() => setPlay((e) => !e)} className={style.howIiTxt}>
 								How It Works?

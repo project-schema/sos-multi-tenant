@@ -1,75 +1,69 @@
-import { BASE_URL } from '@/lib/env';
-import { motion } from 'motion/react';
+import { Star, StarHalf, StarOff } from 'lucide-react';
 import Image from 'next/image';
-import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
+import ClientMotionWrapper from './ClientMotionWrapper';
 import style from './style.module.css';
 
-function RattingCardSD({ data, i }: { data: any; i: number }) {
+// Static version of the component
+function RattingCardSD() {
+	const mockData = {
+		user: {
+			name: 'John Doe',
+			email: 'john@example.com',
+			image: '/placeholder.svg',
+		},
+		rating: 4.5,
+		comment:
+			'Excellent service! Very professional and friendly. Would highly recommend.',
+		created_at: '2025-08-11',
+	};
+
 	return (
-		<motion.div
-			initial={{ opacity: 0 }}
-			whileInView={{
-				opacity: 1,
-				transition: {
-					duration: 0.2,
-					delay: i * 0.01,
-				},
-			}}
-		>
+		<ClientMotionWrapper delay={0.1}>
 			<div className={style.userBorder}></div>
 			<div className={style.userReviewWP}>
 				<div className={style.reviewImgWidth}>
 					<Image
 						className={style.reviewUser}
-						src={data?.user.image ? BASE_URL + '/' + data?.user.image : ''}
+						src={mockData.user.image}
 						width={100}
 						height={100}
-						alt="Choose Us Images"
+						alt="User Image"
 					/>
 				</div>
 				<div className={style.reviewimgText}>
-					<h3 className={style.userReviewH}>{data.user.name}</h3>
-					<p className={style.userReviewP}>{data.user.email}</p>
+					<h3 className={style.userReviewH}>{mockData.user.name}</h3>
+					<p className={style.userReviewP}>{mockData.user.email}</p>
 					<div className={style.reviewUserDetails}>
 						<div className={style.starts}>
-							<RatingStars rating={data.rating} />
+							<RatingStars rating={mockData.rating} />
 						</div>
-						<p>
-							{/* {timeToCovertCurrentTime(data.created_at) === 'just now'
-								? 'just now'
-								: timeToCovertCurrentTime(data.created_at) + ' ago'} */}
-						</p>
+						<p>2 days ago</p>
 					</div>
-					<p className={style.reviewParagraph}>{data.comment}</p>
+					<p className={style.reviewParagraph}>{mockData.comment}</p>
 				</div>
 			</div>
-		</motion.div>
+		</ClientMotionWrapper>
 	);
 }
 
 export default RattingCardSD;
 
-export function RatingStars({ rating }: { rating: number }) {
+function RatingStars({ rating }: { rating: number }) {
 	const fullStars = Math.floor(rating);
-	const hasHalfStar = rating - fullStars >= 0.5;
+	const hasHalfStar = rating % 1 >= 0.5;
 	const totalStars = 5;
 
 	const stars = [];
+
 	for (let i = 1; i <= totalStars; i++) {
 		if (i <= fullStars) {
-			stars.push(<BsStarFill key={i} />);
+			stars.push(<Star key={i} size={16} fill="#facc15" color="#facc15" />);
 		} else if (hasHalfStar && i === fullStars + 1) {
-			stars.push(<BsStarHalf key={i} />);
+			stars.push(<StarHalf key={i} size={16} color="#facc15" />);
 		} else {
-			stars.push(<BsStar key={i} />);
+			stars.push(<StarOff key={i} size={16} color="#d1d5db" />);
 		}
 	}
 
-	return (
-		<div className={style.starts}>
-			{stars.map((star, index) => (
-				<span key={index}>{star}</span>
-			))}
-		</div>
-	);
+	return <div className={style.starts}>{stars}</div>;
 }

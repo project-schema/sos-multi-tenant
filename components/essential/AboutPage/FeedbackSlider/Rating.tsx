@@ -1,5 +1,3 @@
-import { AiOutlineStar } from "react-icons/ai";
-import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import style from "./FeedbackSlider.style.module.css";
 
 const Rating = ({ rating }: any) => {
@@ -8,11 +6,11 @@ const Rating = ({ rating }: any) => {
     return (
       <span key={index}>
         {rating >= index + 1 ? (
-          <FaStar className={style.feedbackIcons} />
+          // <FaStar className={style.feedbackIcons} />
         ) : rating >= number ? (
-          <FaStarHalfAlt className={style.feedbackIcons} />
+          // <FaStarHalfAlt className={style.feedbackIcons} />
         ) : (
-          <AiOutlineStar className={style.feedbackIcons} />
+          // <AiOutlineStar className={style.feedbackIcons} />
         )}
       </span>
     );

@@ -1,133 +1,59 @@
-import { motion } from 'motion/react';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import ClientMotionWrapper from './ClientMotionWrapper';
 import RattingCardSD from './ratting-card';
 import style from './style.module.css';
 
-function ServiceOfDetails({ data }: { data: any }) {
-	const router = useRouter();
-	const id = router.query?.id?.[0];
+const mockData = {
+	description:
+		'This is a static description of the service. It provides insights about the offering, benefits, and other useful information for customers.',
+	servicecategory: { name: 'Design' },
+	servicesubcategory: { name: 'Logo Design' },
+	tags: ['Creative', 'Professional', 'Affordable'],
+};
 
-	const [rattingData, setRattingData] = useState<any>(null);
-	const [ratting, setRatting] = useState<any>([]);
-	const [isLoading, setIsLoading] = useState(false);
-	const [sortBy, setSortBy] = useState('');
-	const [next, setNext] = useState<any>(null);
-	// Function to fetch data for the current page.
-	const fetchDataForPage = async () => {
-		setIsLoading(true);
-		// api/all-services?tags=Ipsum & category_id = 2 & type = [latest,best_selling,avg_rating,default] & search = ????..
-		const api = `/api/services-rating/${id}?search=${sortBy}`;
-		const data = { message: { data: [] }, status: 200 };
-		setNext(null);
-		setRattingData(data);
-		setRatting(data?.message?.data);
-		setIsLoading(false);
-	};
+const mockReviews = [
+	{ user: 'John', rating: 5, comment: 'Great service!' },
+	{ user: 'Jane', rating: 4, comment: 'Very satisfied!' },
+];
 
-	const fetchDataForNextPage = async () => {
-		setIsLoading(true);
-		// api/all-services?tags=Ipsum & category_id = 2 & type = [latest,best_selling,avg_rating,default] & search = ????..
-		const api = `/api/services-rating/${id}?page=${next}`;
-		const newServiceData = { message: { data: [] }, status: 200 };
-		setRatting(() => [...ratting, ...newServiceData?.message?.data]);
-		setRattingData(newServiceData);
-		setIsLoading(false);
-	};
-
-	// Call fetchDataForPage when the component mounts or currentPage changes.
-	useEffect(() => {
-		fetchDataForPage();
-	}, [sortBy]);
-	useEffect(() => {
-		if (next) {
-			fetchDataForNextPage();
-		}
-	}, [next]);
-
-	const handelNextPageUrl = (e: string) => {
-		const nextPage = e.split('?page=')[1];
-		setNext(nextPage);
-	};
+function ServiceOfDetails() {
 	return (
 		<div className={style.servicesDetailsContent}>
-			<motion.h3
-				initial={{ opacity: 0 }}
-				whileInView={{
-					opacity: 1,
-					transition: {
-						delay: 0.2,
-						duration: 0.5,
-					},
-				}}
-				className={style.sDetailsContentHeading}
-			>
-				Description
-			</motion.h3>
-			<motion.p
-				initial={{ opacity: 0 }}
-				whileInView={{
-					opacity: 1,
-					transition: {
-						delay: 0.2,
-						duration: 0.5,
-					},
-				}}
-				className={style.sDetailsParagraph}
-			>
-				{data?.description}
-			</motion.p>
-			<motion.div
-				initial={{ opacity: 0 }}
-				whileInView={{
-					opacity: 1,
-					transition: {
-						delay: 0.2,
-						duration: 0.5,
-					},
-				}}
-				className={style.userBorder}
-			></motion.div>
-			<motion.div
-				initial={{ opacity: 0 }}
-				whileInView={{
-					opacity: 1,
-					transition: {
-						delay: 0.2,
-						duration: 0.5,
-					},
-				}}
-				className={style.userCategoryWP}
-			>
-				<div className={style.sUserCateItem}>
-					<p className={style.sDetailsCategory}>Category</p>
-					<p className={style.sDetailsCategoryHeadhing}>
-						{data?.servicecategory?.name}
-					</p>
+			<ClientMotionWrapper>
+				<h3 className={style.sDetailsContentHeading}>Description</h3>
+			</ClientMotionWrapper>
+
+			<ClientMotionWrapper>
+				<p className={style.sDetailsParagraph}>{mockData.description}</p>
+			</ClientMotionWrapper>
+
+			<ClientMotionWrapper>
+				<div className={style.userBorder}></div>
+			</ClientMotionWrapper>
+
+			<ClientMotionWrapper>
+				<div className={style.userCategoryWP}>
+					<div className={style.sUserCateItem}>
+						<p className={style.sDetailsCategory}>Category</p>
+						<p className={style.sDetailsCategoryHeadhing}>
+							{mockData.servicecategory.name}
+						</p>
+					</div>
+					<div className={style.sUserCateItem}>
+						<p className={style.sDetailsCategory}>Sub Category</p>
+						<p className={style.sDetailsCategoryHeadhing}>
+							{mockData.servicesubcategory.name}
+						</p>
+					</div>
 				</div>
-				<div className={style.sUserCateItem}>
-					<p className={style.sDetailsCategory}>Sub Category</p>
-					<p className={style.sDetailsCategoryHeadhing}>
-						{data?.servicesubcategory?.name}
-					</p>
-				</div>
-				{/* <div className={style.sUserCateItem}>
-					<p className={style.sDetailsCategory}>Service Type</p>
-					<p className={style.sDetailsCategoryHeadhing}>Smart Gadgets</p>
-				</div> */}
-			</motion.div>
+			</ClientMotionWrapper>
+
 			<div className={style.userReviewWPTop}>
 				<div>
 					<p className={style.reviewText}>Reviews</p>
 				</div>
 				<div className={style.userReviewItemWP}>
 					<p className={style.sortText}>Sort By:</p>
-					<select
-						onChange={(e) => setSortBy(e.target.value)}
-						className={style.userSelectBox}
-						name="languages"
-						id="lang"
-					>
+					<select className={style.userSelectBox}>
 						<option className={style.selectBoxItem} value="">
 							Most Recent
 						</option>
@@ -137,33 +63,21 @@ function ServiceOfDetails({ data }: { data: any }) {
 					</select>
 				</div>
 			</div>
-			{ratting?.map((e: any, i: number) => (
+
+			{/* Static Reviews */}
+			{mockReviews.map((e, i) => (
 				<RattingCardSD key={i} data={e} i={i} />
 			))}
-			{rattingData?.message?.next_page_url && (
-				<div className="flex justify-center items-center">
-					<button
-						onClick={() =>
-							handelNextPageUrl(rattingData?.message?.next_page_url)
-						}
-						disabled={isLoading}
-						type="button"
-						className="px-5 bg-blue-500 py-2 rounded text-white"
-					>
-						{isLoading ? 'Loading...' : 'Load More +'}
-					</button>
-				</div>
-			)}
 
+			{/* Tags */}
 			<p className="mt-20 mb-10 flex flex-wrap gap-2">
 				<span className="text-blue-700 text-xl">Tags: </span>
-				{data?.tags?.map((e: string, i: number) => (
+				{mockData.tags.map((tag, i) => (
 					<span
-						onClick={() => router.push(`/services?tags=${e}`)}
 						key={i}
 						className="bg-slate-600 text-white px-4 py-1 rounded cursor-pointer"
 					>
-						{e}
+						{tag}
 					</span>
 				))}
 			</p>

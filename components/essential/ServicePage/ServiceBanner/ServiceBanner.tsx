@@ -1,10 +1,10 @@
+'use client';
+
+import { iSettingsType } from '@/types';
 import { motion } from 'motion/react';
-import { useState } from 'react';
-import { FaSearch, FaTimes } from 'react-icons/fa';
 import style from './ServiceBanner.style.module.css';
-const ServiceBanner = ({ getSettingsData, searchHandler, setPage }: any) => {
-	const serviceData = getSettingsData?.message;
-	const [value, setValue] = useState<any>(null);
+const ServiceBanner = ({ settings }: { settings: iSettingsType }) => {
+	const serviceData = settings?.message;
 	const data = {
 		id: 1,
 		header: 'Our Services',
@@ -22,10 +22,7 @@ const ServiceBanner = ({ getSettingsData, searchHandler, setPage }: any) => {
 			},
 		],
 	};
-	const handelSearchTag = (e: string) => {
-		setValue(e);
-		searchHandler(e);
-	};
+
 	return (
 		<section className={style.bannerSection}>
 			<div className="layout">
@@ -76,22 +73,13 @@ const ServiceBanner = ({ getSettingsData, searchHandler, setPage }: any) => {
 								type="text"
 								name=""
 								id=""
-								value={value}
-								onChange={(e) => handelSearchTag(e.target.value)}
 								placeholder="Search your service"
 							/>
-							<FaSearch className={style.searchIcon} />
-							{value && (
-								<div
-									onClick={() => {
-										handelSearchTag('');
-										setPage('');
-									}}
-									className="right-0 text-red-600 cursor-pointer"
-								>
-									<FaTimes className={`absolute right-4 top-[15px] `} />
-								</div>
-							)}
+							{/* <FaSearch className={style.searchIcon} /> */}
+
+							<div className="right-0 text-red-600 cursor-pointer">
+								{/* <FaTimes className={`absolute right-4 top-[15px] `} /> */}
+							</div>
 						</div>
 
 						<button className={style.button}>
@@ -116,7 +104,6 @@ const ServiceBanner = ({ getSettingsData, searchHandler, setPage }: any) => {
 						</motion.div>
 						{data?.footerData.map((singleData, i) => (
 							<motion.div
-								onClick={() => handelSearchTag(singleData.name)}
 								initial={{ x: i + 10, opacity: 0 }}
 								whileInView={{
 									x: i - 10,

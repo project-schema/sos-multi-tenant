@@ -3,7 +3,6 @@ import { env } from '@/lib/env';
 import { iMembersType, iSettingsType } from '@/types';
 import { motion } from 'motion/react';
 import Image from 'next/image';
-import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
 import style from './KeyMembers.style.module.css';
 
 const KeyMembers = ({
@@ -79,13 +78,13 @@ const KeyMembers = ({
 									</p>
 									<div className={style.socialMedia}>
 										<a target="_black" href={singleData.facebook_link}>
-											<FaFacebookF className={style.socialIcon} />
+											{/* <FaFacebookF className={style.socialIcon} /> */}
 										</a>
 										<a target="_black" href={singleData.instagram_link}>
-											<FaInstagram className={style.socialIcon} />
+											{/* <FaInstagram className={style.socialIcon} /> */}
 										</a>
 										<a target="_black" href={singleData.twitter_link}>
-											<FaTwitter className={style.socialIcon} />
+											{/* <FaTwitter className={style.socialIcon} /> */}
 										</a>
 									</div>
 								</div>

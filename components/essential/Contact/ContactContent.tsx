@@ -1,8 +1,6 @@
 import { BASE_URL } from '@/lib/env';
 import { motion } from 'motion/react';
 import { useEffect, useState } from 'react';
-import { FaPhone } from 'react-icons/fa';
-import { HiLocationMarker, HiMail } from 'react-icons/hi';
 import style from './Contact.style.module.css';
 
 const ContactContent = ({ data }: any) => {
@@ -59,7 +57,7 @@ const ContactContent = ({ data }: any) => {
 					}}
 					className={style.flexColumn}
 				>
-					<FaPhone className={style.contactInfoIcon} />
+					{/* <FaPhone className={style.contactInfoIcon} /> */}
 					<span className={style.contactDetails}>{data?.phone}</span>
 				</motion.div>
 				<motion.div
@@ -75,7 +73,7 @@ const ContactContent = ({ data }: any) => {
 					id={style.extraGap}
 					className={style.flexColumn}
 				>
-					<HiMail className={style.contactInfoIcon} />
+					{/* <HiMail className={style.contactInfoIcon} /> */}
 					<span className={style.contactDetails}>{data?.email}</span>
 				</motion.div>
 				<motion.div
@@ -90,7 +88,7 @@ const ContactContent = ({ data }: any) => {
 					}}
 					className={style.flexColumn}
 				>
-					<HiLocationMarker className={style.contactInfoIcon} />
+					{/* <HiLocationMarker className={style.contactInfoIcon} /> */}
 					<span className={style.contactDetails}>{data?.address}</span>
 				</motion.div>
 			</div>

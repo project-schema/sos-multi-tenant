@@ -1,6 +1,11 @@
 import { RootProviders } from '@/provider';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/thumbs';
+
 import './globals.css';
 
 const poppins = Poppins({

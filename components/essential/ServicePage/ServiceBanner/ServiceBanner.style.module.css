@@ -1,6 +1,6 @@
 .bannerSection {
 	padding-top: 143px;
-	background-image: url(../../../../../public/images/aboutBanner.png);
+	background-image: url('./aboutBanner.png');
 	background-size: auto;
 	background-repeat: no-repeat;
 	width: 100%;

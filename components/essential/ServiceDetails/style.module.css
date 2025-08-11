@@ -10,7 +10,9 @@
 .servicesdetailsSlider {
 	width: 760px;
 }
-
+.sliderWrapper {
+	position: relative;
+}
 .sDetailsHeading {
 	color: #1d1d1d;
 	font-family: Poppins;

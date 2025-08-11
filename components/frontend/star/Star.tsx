@@ -1,5 +1,4 @@
 import React from 'react';
-import { FaStar, FaStarHalfAlt } from 'react-icons/fa';
 
 interface StarRatingProps {
 	value: number;
@@ -13,11 +12,11 @@ const StarRating: React.FC<StarRatingProps> = ({ value, style }) => {
 	const starIcons = [];
 
 	for (let i = 1; i < fullStars; i++) {
-		starIcons.push(<FaStar key={i} className={style} />);
+		// starIcons.push(<FaStar key={i} className={style} />);
 	}
 
 	if (hasHalfStar) {
-		starIcons.push(<FaStarHalfAlt key="half" className={style} />);
+		// starIcons.push(<FaStarHalfAlt key="half" className={style} />);
 	}
 
 	return starIcons?.map((star, index) => <span key={index}>{star}</span>);

@@ -29,7 +29,7 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib';
+import { calculateBudgetWidthTimeDifference, cn } from '@/lib';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { skipToken } from '@reduxjs/toolkit/query';
@@ -39,6 +39,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import z from 'zod';
+import { useFrontendGetDollarRateQuery } from '../frontend-api-slice';
 import {
 	useFrontendAdvDyDataQuery,
 	useFrontendCampaignConversionLocationQuery,
@@ -163,6 +164,7 @@ const schema = z.object({
 type ZodType = z.infer<typeof schema>;
 
 export function AdvertiserFormTab2() {
+	const { data: dollarRate } = useFrontendGetDollarRateQuery(undefined);
 	const [store, { isLoading: storeLoading }] =
 		useFrontendCreateAdvertiseMutation();
 	const dispatch = useAppDispatch();
@@ -337,6 +339,7 @@ export function AdvertiserFormTab2() {
 		}
 	};
 	const formValue = form.getValues();
+	const watchValue = form.watch();
 
 	return (
 		<div className="max-w-lg mx-auto mb-10">
@@ -570,6 +573,16 @@ export function AdvertiserFormTab2() {
 								</FormItem>
 							)}
 						/>
+						<p className="font-medium text-blue-500">
+							Total Cost:{' '}
+							{calculateBudgetWidthTimeDifference({
+								budget: watchValue.budget_amount,
+								date1: watchValue.start_date,
+								date2: watchValue.end_date,
+								dollarRate: dollarRate?.message?.amount || 0,
+								type: watchValue.budget,
+							})}
+						</p>
 					</div>
 					<div className="space-y-4">
 						<h3 className="text-lg font-semibold">Audience</h3>

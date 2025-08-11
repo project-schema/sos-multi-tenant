@@ -35,6 +35,8 @@ function Checkout() {
 						state.level2.end_date_view
 				  ) || 1
 				: 1) || '--Error--';
+
+	console.log(totalPP);
 	const onSubmit = async () => {
 		const formedDataLOthers = {
 			campaign_objective: state.level1?.name,
