@@ -12,6 +12,7 @@ import Link from 'next/link';
 import AppRoot from './app-root';
 import { NavMain } from './nav-main';
 import { SearchForm } from './search-form';
+import { filterItems } from './sidebar-actions';
 import { sidebarItem } from './sidebar.type';
 
 const userDbWallet: sidebarItem[] = [
@@ -64,32 +65,10 @@ export function AppSidebarForUser({
 }: React.ComponentProps<typeof Sidebar>) {
 	const [searchQuery, setSearchQuery] = React.useState('');
 
-	const filterItems = (items: sidebarItem[]) => {
-		return items
-			.map((item) => {
-				const subItems = item.items?.filter((sub) =>
-					sub.title.toLowerCase().includes(searchQuery.toLowerCase())
-				);
-
-				const isMatch =
-					item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-					(subItems && subItems.length > 0);
-
-				if (isMatch) {
-					return {
-						...item,
-						items: subItems,
-					};
-				}
-				return null;
-			})
-			.filter(Boolean) as sidebarItem[];
-	};
-
-	const filteredOrder = filterItems(userDbOrder);
-	const filteredAdvertise = filterItems(userDbAdvertise);
-	const filteredWallet = filterItems(userDbWallet);
-	const filteredSupport = filterItems(userSupport);
+	const filteredOrder = filterItems(userDbOrder, searchQuery);
+	const filteredAdvertise = filterItems(userDbAdvertise, searchQuery);
+	const filteredWallet = filterItems(userDbWallet, searchQuery);
+	const filteredSupport = filterItems(userSupport, searchQuery);
 
 	return (
 		<Sidebar collapsible="icon" {...props}>

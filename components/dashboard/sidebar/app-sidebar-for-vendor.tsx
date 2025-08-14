@@ -9,28 +9,26 @@ import {
 	SidebarHeader,
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
-import { adminSidebarData } from './admin-sidebar-data';
 import AppRoot from './app-root';
 import { NavMain } from './nav-main';
 import { SearchForm } from './search-form';
 import { filterItems } from './sidebar-actions';
+import { vendorSidebarData } from './vendor-sidebar-data';
 
-export function AppSidebarForAdmin({
+export function AppSidebarForVendor({
 	...props
 }: React.ComponentProps<typeof Sidebar>) {
 	const [searchQuery, setSearchQuery] = React.useState('');
 
-	const filteredProducts = filterItems(adminSidebarData.products, searchQuery);
-	const filterUser = filterItems(adminSidebarData.users, searchQuery);
-	const filteredServices = filterItems(adminSidebarData.services, searchQuery);
-	const filteredCMS = filterItems(adminSidebarData.cms, searchQuery);
-	const filteredHRM = filterItems(adminSidebarData.hrm, searchQuery);
-	const filteredSupport = filterItems(adminSidebarData.support, searchQuery);
-	const filteredAdvertise = filterItems(
-		adminSidebarData.advertise,
+	const filteredProducts = filterItems(vendorSidebarData.products, searchQuery);
+	const filteredPos = filterItems(vendorSidebarData.pos, searchQuery);
+	const filteredSettings = filterItems(vendorSidebarData.settings, searchQuery);
+	const filteredReports = filterItems(vendorSidebarData.reports, searchQuery);
+	const filteredServices = filterItems(
+		vendorSidebarData.servicesAndAdvertise,
 		searchQuery
 	);
-	const filteredSaas = filterItems(adminSidebarData.sass, searchQuery);
+	const filteredSupport = filterItems(vendorSidebarData.support, searchQuery);
 
 	return (
 		<Sidebar collapsible="icon" {...props}>
@@ -54,14 +52,12 @@ export function AppSidebarForAdmin({
 			{/*   Filtered Navigation */}
 			<SidebarContent className="gap-0 pb-8">
 				<AppRoot />
-				<NavMain items={filterUser} groupLabel="Users" />
 				<NavMain items={filteredProducts} groupLabel="Products" />
-				<NavMain items={filteredServices} groupLabel="Services" />
-				<NavMain items={filteredAdvertise} groupLabel="Advertise" />
-				<NavMain items={filteredSaas} groupLabel="Saas" />
+				<NavMain items={filteredPos} groupLabel="POS" />
+				<NavMain items={filteredServices} groupLabel="Services & Advertise" />
 				<NavMain items={filteredSupport} groupLabel="Support" />
-				<NavMain items={filteredCMS} groupLabel="CMS" />
-				<NavMain items={filteredHRM} groupLabel="HRM" />
+				<NavMain items={filteredReports} groupLabel="Reports" />
+				<NavMain items={filteredSettings} groupLabel="Settings" />
 			</SidebarContent>
 		</Sidebar>
 	);

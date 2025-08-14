@@ -98,17 +98,20 @@ function PricingCard({ data, user, i }: any) {
 				{data.card_facilities_title.map((e: any) => (
 					<div key={e.id} className={style.items}>
 						{e.key === 'yes' ? (
-							// <BsCheckLg
+							<>
+								{/* // <BsCheckLg
 							// 	className={`${style.features_ico} ${
 							// 		e.key === 'yes' && style.active
 							// 	}`}
-							// />
+							// /> */}
+							</>
 						) : (
-							// <RxCross2
-							// 	className={`${style.features_ico} ${
-							// 		e.key === 'yes' && style.active
-							// 	}`}
-							// />
+							<>
+								{/* <RxCross2
+								className={`${style.features_ico} ${
+									e.key === 'yes' && style.active
+							 }`} */}
+							</>
 						)}
 						<span
 							className={`${style.features_item}  ${
