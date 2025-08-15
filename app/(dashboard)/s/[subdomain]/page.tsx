@@ -1,4 +1,5 @@
 import { protocol, rootDomain } from '@/lib/utils';
+import { TenantsUserRegisterForm } from '@/store/features/auth';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -35,6 +36,16 @@ export default async function SubdomainPage({
 	// if (!subdomainData) {
 	//   notFound();
 	// }
+
+	return (
+		<div className="layout">
+			<div className="max-w-2xl mx-auto py-40">
+				<div className="bg-white p-6 rounded-lg shadow-md">
+					<TenantsUserRegisterForm />
+				</div>
+			</div>
+		</div>
+	);
 
 	return (
 		<div className="flex min-h-screen flex-col bg-gradient-to-b from-blue-50 to-white p-4">

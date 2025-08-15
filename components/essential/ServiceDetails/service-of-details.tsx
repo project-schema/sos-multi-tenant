@@ -66,7 +66,7 @@ function ServiceOfDetails() {
 
 			{/* Static Reviews */}
 			{mockReviews.map((e, i) => (
-				<RattingCardSD key={i} data={e} i={i} />
+				<RattingCardSD key={i} />
 			))}
 
 			{/* Tags */}

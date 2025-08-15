@@ -1,25 +1,32 @@
+import { Star, StarHalf, StarOff } from 'lucide-react';
 import React from 'react';
 
 interface StarRatingProps {
 	value: number;
-	style: any; // Add your custom styling type here
+	style?: React.CSSProperties;
+	max?: number; // Optional: default 5 stars
 }
 
-const StarRating: React.FC<StarRatingProps> = ({ value, style }) => {
+const StarRating: React.FC<StarRatingProps> = ({ value, style, max = 5 }) => {
 	const fullStars = Math.floor(value);
 	const hasHalfStar = value - fullStars >= 0.5;
+	const emptyStars = max - fullStars - (hasHalfStar ? 1 : 0);
 
-	const starIcons = [];
+	const stars = [];
 
-	for (let i = 1; i < fullStars; i++) {
-		// starIcons.push(<FaStar key={i} className={style} />);
+	for (let i = 0; i < fullStars; i++) {
+		stars.push(<Star key={`full-${i}`} style={style} fill="currentColor" />);
 	}
 
 	if (hasHalfStar) {
-		// starIcons.push(<FaStarHalfAlt key="half" className={style} />);
+		stars.push(<StarHalf key="half" style={style} />);
 	}
 
-	return starIcons?.map((star, index) => <span key={index}>{star}</span>);
+	for (let i = 0; i < emptyStars; i++) {
+		stars.push(<StarOff key={`empty-${i}`} style={style} />);
+	}
+
+	return <div style={{ display: 'flex', gap: 4 }}>{stars}</div>;
 };
 
 export default StarRating;
