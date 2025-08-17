@@ -1,6 +1,6 @@
 import { Container1, DbHeader } from '@/components/dashboard';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
-import { CategoryCreate, CategoryTable } from '@/store/features/category';
+import { CategoryCreate, CategoryTable } from '@/store/features/admin/category';
 
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/admin' },

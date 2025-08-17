@@ -1,10 +1,35 @@
 import { env } from '@/lib';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { getSession } from 'next-auth/react';
+
+const getApiBaseUrl = () => {
+	if (typeof window === 'undefined') return `${env.baseAPI}/api`; // fallback for SSR
+
+	const { hostname } = window.location;
+
+	// Check if the hostname is a subdomain of localhost (e.g., testcompany.localhost)
+	const parts = hostname.split('.');
+
+	let apiHost = hostname;
+
+	// If format is like testcompany.localhost
+	if (parts.length === 2 && parts[1] === 'localhost') {
+		// use the same subdomain, but change the port to 8000
+		apiHost = `${parts[0]}.localhost`;
+	} else if (hostname === 'localhost') {
+		// just localhost, no subdomain
+		apiHost = 'localhost';
+	}
+
+	return `http://${apiHost}:8000/api`;
+};
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: `${env.baseAPI}/api`,
+	baseUrl: getApiBaseUrl(),
 	prepareHeaders: async (headers) => {
-		headers.set('Authorization', `Bearer ${env.token}`);
+		const session = await getSession(); // Get session from NextAuth
+		console.log(session, 'session-api');
+		headers.set('Authorization', `Bearer ${session?.accessToken}`);
 		return headers;
 	},
 });
@@ -15,6 +40,7 @@ export const apiSlice = createApi({
 	endpoints: () => ({}),
 	refetchOnReconnect: true,
 	refetchOnFocus: true,
+	keepUnusedDataFor: 50000,
 	tagTypes: [
 		'UserProfile',
 		'AdminUserStatistics',
@@ -63,6 +89,10 @@ export const apiSlice = createApi({
 
 		'AdminRole',
 		'AdminManager',
+
+		'VendorBrand',
+		'VendorCategory',
+		'VendorColor',
+		'VendorVariation',
 	],
-	keepUnusedDataFor: 50000,
 });

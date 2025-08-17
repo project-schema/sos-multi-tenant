@@ -6,3 +6,4 @@ export * from './loader-5';
 export * from './loader-6';
 export * from './loader-7';
 export * from './loader-8';
+export * from './loader-9';

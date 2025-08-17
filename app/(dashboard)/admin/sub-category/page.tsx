@@ -3,7 +3,7 @@ import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import {
 	SubCategoryCreate,
 	SubCategoryTable,
-} from '@/store/features/sub-category';
+} from '@/store/features/admin/sub-category';
 
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/admin' },

@@ -6,6 +6,45 @@ import { sidebarItem } from './sidebar.type';
 
 const products: sidebarItem[] = [
 	{
+		title: 'Product Utilities',
+		icon: Package,
+		isActive: false,
+		items: [
+			{
+				title: 'Category',
+				url: '/category',
+			},
+			{
+				title: 'Sub Category',
+				url: '/sub-category',
+			},
+			{
+				title: 'Brand',
+				url: '/brand',
+			},
+			{
+				title: 'Unit',
+				url: '/unit',
+			},
+			{
+				title: 'Color',
+				url: '/color',
+			},
+			{
+				title: 'Variation',
+				url: '/variation',
+			},
+			{
+				title: 'Supplier',
+				url: '/supplier',
+			},
+			{
+				title: 'Warehouse',
+				url: '/warehouse',
+			},
+		],
+	},
+	{
 		title: 'All Products',
 		url: '/admin/all-product',
 		icon: Package,
@@ -116,37 +155,6 @@ const pos: sidebarItem[] = [
 	},
 ];
 const settings: sidebarItem[] = [
-	{
-		title: 'Setup First',
-		icon: Package,
-		isActive: false,
-		items: [
-			{
-				title: 'Supplier',
-				url: '/admin/category',
-			},
-			{
-				title: 'Warehouse',
-				url: '/admin/category',
-			},
-			{
-				title: 'Delivery Charge',
-				url: '/admin/category',
-			},
-			{
-				title: 'Unit',
-				url: '/admin/category',
-			},
-			{
-				title: 'Color',
-				url: '/admin/category',
-			},
-			{
-				title: 'Variation',
-				url: '/admin/category',
-			},
-		],
-	},
 	{
 		title: 'Settings',
 		icon: Package,

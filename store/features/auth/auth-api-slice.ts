@@ -1,6 +1,9 @@
 import { apiSlice } from '../api/apiSlice';
 import {
+	iAuthLogin,
+	iAuthLoginResponse,
 	iAuthRegister,
+	iAuthRegisterResponse,
 	iTenantRegister,
 	iTenantRegisterResponse,
 } from './auth-type';
@@ -34,7 +37,20 @@ const api = apiSlice.injectEndpoints({
 				body: data,
 			}),
 		}),
+
+		// auth/login
+		authLogin: builder.mutation<iAuthLoginResponse, iAuthLogin>({
+			query: (data) => ({
+				url: `/auth/login`,
+				method: 'POST',
+				body: data,
+			}),
+		}),
 	}),
 });
 
-export const { useTenantRegisterMutation, useAuthRegisterMutation } = api;
+export const {
+	useTenantRegisterMutation,
+	useAuthRegisterMutation,
+	useAuthLoginMutation,
+} = api;

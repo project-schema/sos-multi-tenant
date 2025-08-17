@@ -21,8 +21,28 @@ export interface iAuthRegister {
 	password_confirmation: string;
 }
 
+export interface iAuthLogin {
+	email: string;
+	password: string;
+}
+
 export interface iAuthRegisterResponse {
 	success: boolean;
 	message: string;
 	data: iAuthRegister;
+}
+
+export interface iAuthLoginResponse {
+	success: boolean;
+	message: string;
+	data: {
+		user: {
+			id: number;
+			name: string;
+			email: string;
+			last_seen: string;
+		};
+		token: string;
+		tenant_id: string;
+	};
 }

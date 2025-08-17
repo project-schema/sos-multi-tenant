@@ -35,15 +35,13 @@ function Nav({ settings }: { settings: iSettingsType }) {
 					<DesktopNav data={menuData} />
 
 					<div className={style.buttonBox}>
-						{session?.user.username ? (
+						{session?.user.name ? (
 							<div className="flex items-center gap-2">
 								<div className="dropdown dropdown-end">
 									<div tabIndex={0} className="avatar online placeholder">
 										<div className="bg-[#004da3] text-white rounded-full w-16">
 											<span className="text-xl capitalize">
-												{/* {loading
-													? 'load..'
-													: profile?.name?.slice(0, 2) || '--'} */}
+												{session.user.name?.slice(0, 2) || '--'}
 											</span>
 										</div>
 									</div>
@@ -63,7 +61,7 @@ function Nav({ settings }: { settings: iSettingsType }) {
 												type="button"
 												className="capitalize"
 											>
-												{session.user.username}
+												{session.user.name}
 											</button>
 										</li>
 										<li>

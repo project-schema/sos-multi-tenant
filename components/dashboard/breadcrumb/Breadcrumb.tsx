@@ -1,14 +1,14 @@
 // components/Breadcrumb.tsx
 
-import React from 'react';
 import {
 	Breadcrumb,
-	BreadcrumbList,
 	BreadcrumbItem,
-	BreadcrumbSeparator,
+	BreadcrumbList,
 	BreadcrumbPage,
+	BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import Link from 'next/link';
+import React from 'react';
 
 export type Crumb = {
 	name: string;
@@ -27,7 +27,7 @@ export const DbBreadcrumb: React.FC<DBBreadcrumbProps> = ({ items }) => {
 					const isLast = index === items.length - 1;
 
 					return (
-						<React.Fragment key={item.name}>
+						<React.Fragment key={index}>
 							<BreadcrumbItem className={index !== 0 ? 'hidden md:block' : ''}>
 								{isLast ? (
 									<BreadcrumbPage>{item.name}</BreadcrumbPage>

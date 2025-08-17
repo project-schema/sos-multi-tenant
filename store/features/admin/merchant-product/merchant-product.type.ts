@@ -1,7 +1,7 @@
 import { iPagination } from '@/types';
-import { iBrand } from '../../brand';
-import { iCategory } from '../../category';
-import { iSubCategory } from '../../sub-category';
+import { iBrand } from '../brand';
+import { iCategory } from '../category';
+import { iSubCategory } from '../sub-category';
 import { iUser } from '../user/type';
 
 export type iMerchantProduct = {

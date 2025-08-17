@@ -1,7 +1,10 @@
+import { DbHeader } from '@/components/dashboard';
 import { protocol, rootDomain } from '@/lib/utils';
-import { TenantsUserRegisterForm } from '@/store/features/auth';
+import { SessionProvider } from '@/provider';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
+const breadcrumbItems = [{ name: 'Dashboard' }];
 
 export async function generateMetadata({
 	params,
@@ -18,8 +21,8 @@ export async function generateMetadata({
 	}
 
 	return {
-		title: `${subdomain}.${rootDomain}`,
-		description: `Subdomain page for ${subdomain}.${rootDomain}`,
+		title: `Dashboard | ${subdomain}`,
+		description: `Dashboard for ${subdomain}`,
 	};
 }
 
@@ -29,48 +32,37 @@ export default async function SubdomainPage({
 	params: Promise<{ subdomain: string }>;
 }) {
 	const { subdomain } = await params;
-
 	// const subdomainData = await getSubdomainData(subdomain);
 
-	console.log(subdomain);
-	// if (!subdomainData) {
-	//   notFound();
-	// }
+	if (!subdomain) {
+		notFound();
+	}
 
 	return (
-		<div className="layout">
-			<div className="max-w-2xl mx-auto py-40">
-				<div className="bg-white p-6 rounded-lg shadow-md">
-					<TenantsUserRegisterForm />
+		<SessionProvider>
+			<DbHeader breadcrumb={breadcrumbItems} />
+			<div className="flex  flex-col bg-gradient-to-b from-blue-50 to-white p-4">
+				<div className="absolute top-4 right-4">
+					<Link
+						href={`${protocol}://${rootDomain}`}
+						className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+					>
+						{rootDomain}
+					</Link>
+				</div>
+
+				<div className="flex-1 flex items-center justify-center">
+					<div className="text-center">
+						<div className="text-9xl mb-6"> </div>
+						<h1 className="text-4xl font-bold tracking-tight text-gray-900">
+							Welcome to {subdomain}.{rootDomain}
+						</h1>
+						<p className="mt-3 text-lg text-gray-600">
+							This is your custom subdomain page
+						</p>
+					</div>
 				</div>
 			</div>
-		</div>
-	);
-
-	return (
-		<div className="flex min-h-screen flex-col bg-gradient-to-b from-blue-50 to-white p-4">
-			<div className="absolute top-4 right-4">
-				<Link
-					href={`${protocol}://${rootDomain}`}
-					className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
-				>
-					{rootDomain}
-				</Link>
-			</div>
-
-			<Link href={`/vendor`}>Go vendor</Link>
-
-			<div className="flex-1 flex items-center justify-center">
-				<div className="text-center">
-					<div className="text-9xl mb-6"> </div>
-					<h1 className="text-4xl font-bold tracking-tight text-gray-900">
-						Welcome to {subdomain}.{rootDomain}
-					</h1>
-					<p className="mt-3 text-lg text-gray-600">
-						This is your custom subdomain page
-					</p>
-				</div>
-			</div>
-		</div>
+		</SessionProvider>
 	);
 }

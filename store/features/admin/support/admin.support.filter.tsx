@@ -20,7 +20,7 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { CalendarIcon, Search, XCircle } from 'lucide-react';
 import { useState } from 'react';
-import { useAdminViewSupportCategoryQuery } from '../../support-category';
+import { useAdminViewSupportCategoryQuery } from '../support-category';
 
 export function AdminSupportFilter({
 	filters,

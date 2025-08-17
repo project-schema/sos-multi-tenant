@@ -192,7 +192,7 @@ export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
 						</DropdownMenuLabel>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>
-							<Link className="flex gap-2 items-center" href="/user/profile">
+							<Link className="flex gap-2 items-center" href="/profile">
 								<User className="mr-2 h-4 w-4" />
 								<span>Profile</span>
 							</Link>

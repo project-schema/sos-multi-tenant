@@ -28,6 +28,8 @@ export const schema = z.object({
 	domain: z.string().min(1, 'Domain is required'),
 	email: z.email('Invalid email address'),
 	owner_name: z.string().min(1, 'Owner name is required'),
+	password: z.string().min(1, 'Password is required'),
+	password_confirmation: z.string().min(1, 'Password confirmation is required'),
 });
 
 export type ZodType = z.infer<typeof schema>;

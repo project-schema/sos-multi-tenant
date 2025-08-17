@@ -20,8 +20,8 @@ function Pricing({
 	console.log(pathName);
 	const searchParams = useSearchParams().get('from');
 	console.log(searchParams);
-	const role = session?.user.role;
-	const [toggle, setToggle] = useState(role === '3' ? 'affiliate' : 'vendor');
+	// Since role is not available in the login response, default to vendor
+	const [toggle, setToggle] = useState('vendor');
 	const [time, setTime] = useState('monthly');
 
 	useEffect(() => {
@@ -53,7 +53,6 @@ function Pricing({
 						className={style.topOfHead}
 					>
 						<button
-							disabled={role === '3'}
 							onClick={() => setToggle('vendor')}
 							className={`${style.btnTop} ${
 								toggle === 'vendor' && style.active
@@ -62,7 +61,6 @@ function Pricing({
 							Merchant
 						</button>
 						<button
-							disabled={role === '2'}
 							onClick={() => setToggle('affiliate')}
 							className={`${style.btnTop} ${
 								toggle === 'affiliate' && style.active

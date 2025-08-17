@@ -47,7 +47,7 @@ function MobileNav({
 					</Link>
 				))}
 				<div className={style.buttonBox}>
-					{session?.user.username ? (
+					{session?.user.name ? (
 						<div className="flex items-center gap-2 flex-col">
 							<Link
 								onClick={() => setOpen(false)}
@@ -58,7 +58,7 @@ function MobileNav({
 								Dashboard
 							</Link>
 
-							<p className="text-white">{session.user.username}</p>
+							<p className="text-white">{session.user.name}</p>
 							<button
 								onClick={() => {
 									logout();

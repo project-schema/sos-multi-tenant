@@ -7,17 +7,13 @@ declare module 'next-auth' {
 	interface Session {
 		expires: Date;
 		accessToken: string;
+		tenant_id: string;
+		tenant_type: 'merchant' | 'dropshipper';
 		user: {
-			/** The user's postal address. */
-			username: string;
-			user_status: string;
-			token: string;
-			role: string;
-			message: string;
-			is_subscription: string | null;
-			is_employee: string | null;
-
-			// address: string;
+			id: number;
+			name: string;
+			email: string;
+			last_seen: string;
 		} & DefaultSession['user'];
 	}
 }
@@ -27,12 +23,18 @@ import 'next-auth/jwt';
 declare module 'next-auth/jwt' {
 	/** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
 	interface JWT {
-		username: string;
-		user_status: string;
-		token: string;
-		role: string;
-		is_subscription: string | null;
-		message: string;
-		is_employee: string;
+		accessToken?: string;
+		refreshToken?: string;
+		tenant_id?: string;
+		tenant_type?: 'merchant' | 'dropshipper';
+		user?: {
+			id: number;
+			name: string;
+			email: string;
+			last_seen: string;
+		};
+		iat?: number;
+		exp?: number;
+		error?: string;
 	}
 }

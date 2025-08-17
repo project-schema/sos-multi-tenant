@@ -29,12 +29,13 @@ export function Pagination1({ pagination, setPage }: Props) {
 	return (
 		<div className="flex items-center justify-center gap-2 xl:justify-between mt-4 flex-wrap flex-col sm:flex-row">
 			<p className="text-sm text-muted-foreground">
-				Showing {pagination.from} to {pagination.to} of {pagination.total} users
+				Showing {pagination?.from} to {pagination?.to} of {pagination?.total}{' '}
+				users
 			</p>
 
 			<PaginationComponent className="justify-end w-auto ml-auto mx-0">
 				<PaginationContent className="flex-wrap justify-center">
-					{pagination.links.map((link, index) => {
+					{pagination?.links?.map((link, index) => {
 						const isEllipsis = link.label === '...';
 						const isPrevious = link.label.includes('Previous');
 						const isNext = link.label.includes('Next');

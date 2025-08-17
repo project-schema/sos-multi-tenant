@@ -35,11 +35,12 @@ export interface IPricing {
 }
 
 export interface IInput {
+	value?: string;
 	name: string;
 	label: string;
 	placeholder: string;
-	dispatch: Function;
-	state: any;
+	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	error: string;
 	type?: 'text' | 'password' | 'number' | 'email';
 }
 
