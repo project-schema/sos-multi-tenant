@@ -1,22 +1,22 @@
 import { apiSlice } from '../../api/apiSlice';
-import { iVendorVariationResponse } from './vendor-variation-type';
+import { iSubCategoryResponse } from './vendor-sub-category.type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		VendorVariation: builder.query<
-			iVendorVariationResponse,
+		VendorSubCategoryAll: builder.query<
+			iSubCategoryResponse,
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
-				url: `/size-view?status=${page}`,
+				url: `/subcategory-all?page=${page}`,
 				method: 'GET',
 			}),
-			providesTags: ['VendorVariation'],
+			providesTags: ['VendorSubCategory'],
 		}),
 
 		// store
-		VendorVariationStore: builder.mutation<
+		VendorSubCategoryStore: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -29,17 +29,17 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/size-store`,
+					url: `/subcategory-store`,
 					method: 'POST',
 					body,
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorVariation'],
+			invalidatesTags: ['VendorSubCategory'],
 		}),
 
 		// update
-		VendorVariationUpdate: builder.mutation<
+		VendorSubCategoryUpdate: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -54,32 +54,32 @@ const api = apiSlice.injectEndpoints({
 				body.append('_method', 'PUT');
 
 				return {
-					url: `/size-update/${data.id}`,
+					url: `/subcategory-update/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorVariation'],
+			invalidatesTags: ['VendorSubCategory'],
 		}),
 
 		// delete
-		VendorVariationDelete: builder.mutation<
+		VendorSubCategoryDelete: builder.mutation<
 			{ status: 200; message: string },
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/size-delete/${data.id}`,
+				url: `/subcategory-delete/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['VendorVariation'],
+			invalidatesTags: ['VendorSubCategory'],
 		}),
 	}),
 });
 
 export const {
-	useVendorVariationQuery,
-	useVendorVariationStoreMutation,
-	useVendorVariationDeleteMutation,
-	useVendorVariationUpdateMutation,
+	useVendorSubCategoryAllQuery,
+	useVendorSubCategoryStoreMutation,
+	useVendorSubCategoryDeleteMutation,
+	useVendorSubCategoryUpdateMutation,
 } = api;

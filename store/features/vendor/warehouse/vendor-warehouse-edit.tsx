@@ -33,20 +33,26 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm, handleValidationError } from '@/lib';
 import { toast } from 'sonner';
-import { useVendorColorUpdateMutation } from './vendor-color-api-slice';
-import { iVendorColor } from './vendor-color-type';
+import { useVendorWarehouseUpdateMutation } from './vendor-warehouse-api-slice';
+import { iVendorWarehouse } from './vendor-warehouse-type';
 
 // --- Zod Schema ---
 const schema = z.object({
 	name: z.string().min(1, 'Name is required'),
+	description: z.string().optional(),
 	status: z.enum(['active', 'deactive']),
 });
 
 type ZodType = z.infer<typeof schema>;
 
-export function VendorColorEdit({ editData }: { editData: iVendorColor }) {
+export function VendorWarehouseEdit({
+	editData,
+}: {
+	editData: iVendorWarehouse;
+}) {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -60,7 +66,7 @@ export function VendorColorEdit({ editData }: { editData: iVendorColor }) {
 
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
-					<DialogTitle>Edit Color</DialogTitle>
+					<DialogTitle>Edit Warehouse</DialogTitle>
 					<DialogDescription>Update the information.</DialogDescription>
 				</DialogHeader>
 				<FORM editData={editData} setOpen={setOpen} />
@@ -73,23 +79,25 @@ const FORM = ({
 	editData,
 	setOpen,
 }: {
-	editData: iVendorColor;
+	editData: iVendorWarehouse;
 	setOpen: any;
 }) => {
-	const [update, { isLoading }] = useVendorColorUpdateMutation();
+	const [updateProfile, { isLoading }] = useVendorWarehouseUpdateMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
 		defaultValues: {
-			name: editData.name || '',
-			status: editData.status,
+			name: editData?.name || '',
+			description: editData?.description || '',
+			status: editData?.status || 'active',
 		},
 	});
 
 	useEffect(() => {
 		form.reset({
-			name: editData?.name || '',
 			status: editData?.status || 'active',
+			name: editData?.name || '',
+			description: editData?.description || '',
 		});
 	}, [editData]);
 
@@ -97,7 +105,7 @@ const FORM = ({
 		alertConfirm({
 			onOk: async () => {
 				try {
-					const response = await update({
+					const response = await updateProfile({
 						...data,
 						id: editData.id,
 					}).unwrap();
@@ -133,7 +141,26 @@ const FORM = ({
 						<FormItem>
 							<FormLabel>Name</FormLabel>
 							<FormControl>
-								<Input {...field} placeholder="Type color name..." />
+								<Input {...field} placeholder="Type Warehouse name..." />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* Description */}
+
+				<FormField
+					control={form.control}
+					name="description"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Description</FormLabel>
+							<FormControl>
+								<Textarea
+									{...field}
+									placeholder="Type Warehouse description..."
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -168,7 +195,7 @@ const FORM = ({
 						{isLoading && (
 							<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 						)}
-						{isLoading ? 'Updating...' : 'Update Color'}
+						{isLoading ? 'Updating...' : 'Update Warehouse'}
 					</Button>
 				</DialogFooter>
 			</form>

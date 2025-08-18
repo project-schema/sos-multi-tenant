@@ -2,7 +2,6 @@
 
 import { DialogFooter } from '@/components/ui/dialog';
 import { LoaderCircle } from 'lucide-react';
-import {} from './vendor-color-type';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -25,26 +24,46 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm, handleValidationError } from '@/lib';
 import { toast } from 'sonner';
-import { useVendorColorStoreMutation } from './vendor-color-api-slice';
+import { useVendorSupplierStoreMutation } from './vendor-supplier-api-slice';
 
 // --- Zod Schema ---
 const schema = z.object({
-	name: z.string({ error: 'Name is required' }).min(1, 'Name is required'),
+	supplier_name: z
+		.string({ error: 'Name is required' })
+		.trim()
+		.min(1, 'Name is required'),
+	business_name: z.string().optional(),
+	phone: z
+		.string({ error: 'Phone number is required' })
+		.trim()
+		.min(1, 'Phone number is required'),
+	email: z.union([
+		z.string().email('Invalid email address').trim(),
+		z.literal(''),
+	]),
+	address: z.string().optional(),
+	description: z.string().optional(),
 	status: z.enum(['active', 'deactive']),
 });
 
 type ZodType = z.infer<typeof schema>;
 
-export function VendorColorCreate() {
-	const [store, { isLoading }] = useVendorColorStoreMutation();
+export function VendorSupplierCreate() {
+	const [store, { isLoading }] = useVendorSupplierStoreMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
 		defaultValues: {
-			name: '',
+			supplier_name: '',
+			business_name: '',
+			phone: '',
+			email: '',
+			address: '',
 			status: 'active',
+			description: '',
 		},
 	});
 
@@ -83,15 +102,93 @@ export function VendorColorCreate() {
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-				{/* Name */}
+				{/* Supplier Name */}
 				<FormField
 					control={form.control}
-					name="name"
+					name="supplier_name"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Name</FormLabel>
+							<FormLabel>Supplier Name</FormLabel>
 							<FormControl>
-								<Input {...field} placeholder="Type color name..." />
+								<Input {...field} placeholder="Type Supplier name..." />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* Company Name */}
+				<FormField
+					control={form.control}
+					name="business_name"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Company Name</FormLabel>
+							<FormControl>
+								<Input {...field} placeholder="Type Company name..." />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* Phone Number */}
+				<FormField
+					control={form.control}
+					name="phone"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Phone Number</FormLabel>
+							<FormControl>
+								<Input {...field} placeholder="Type phone number..." />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* Email */}
+				<FormField
+					control={form.control}
+					name="email"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Email</FormLabel>
+							<FormControl>
+								<Input {...field} placeholder="Type email..." />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* Address */}
+				<FormField
+					control={form.control}
+					name="address"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Address</FormLabel>
+							<FormControl>
+								<Textarea {...field} placeholder="Type address..." />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* Description */}
+				<FormField
+					control={form.control}
+					name="description"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Description</FormLabel>
+							<FormControl>
+								<Textarea
+									{...field}
+									placeholder="Type Supplier description..."
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -126,7 +223,7 @@ export function VendorColorCreate() {
 						{isLoading && (
 							<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 						)}
-						{isLoading ? 'Creating...' : 'Create Color'}
+						{isLoading ? 'Creating...' : 'Create Supplier'}
 					</Button>
 				</DialogFooter>
 			</form>

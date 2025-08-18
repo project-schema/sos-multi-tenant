@@ -1,25 +1,19 @@
 import { apiSlice } from '../../api/apiSlice';
-import { iVendorVariationResponse } from './vendor-variation-type';
+import { iVendorUnitResponse } from './vendor-unit-type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		VendorVariation: builder.query<
-			iVendorVariationResponse,
-			{ page: number | string }
-		>({
+		VendorUnit: builder.query<iVendorUnitResponse, { page: number | string }>({
 			query: ({ page }) => ({
-				url: `/size-view?status=${page}`,
+				url: `/unit?status=active`,
 				method: 'GET',
 			}),
-			providesTags: ['VendorVariation'],
+			providesTags: ['VendorUnit'],
 		}),
 
 		// store
-		VendorVariationStore: builder.mutation<
-			{ status: 200; message: string },
-			any
-		>({
+		VendorUnitStore: builder.mutation<{ status: 200; message: string }, any>({
 			query: (data) => {
 				const body = new FormData();
 				Object.entries(data).forEach(([key, value]) => {
@@ -29,20 +23,17 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/size-store`,
+					url: `/unit/store`,
 					method: 'POST',
 					body,
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorVariation'],
+			invalidatesTags: ['VendorUnit'],
 		}),
 
 		// update
-		VendorVariationUpdate: builder.mutation<
-			{ status: 200; message: string },
-			any
-		>({
+		VendorUnitUpdate: builder.mutation<{ status: 200; message: string }, any>({
 			query: (data) => {
 				const body = new FormData();
 				Object.entries(data).forEach(([key, value]) => {
@@ -51,35 +42,33 @@ const api = apiSlice.injectEndpoints({
 					}
 				});
 
-				body.append('_method', 'PUT');
-
 				return {
-					url: `/size-update/${data.id}`,
+					url: `/unit/update/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorVariation'],
+			invalidatesTags: ['VendorUnit'],
 		}),
 
 		// delete
-		VendorVariationDelete: builder.mutation<
+		VendorUnitDelete: builder.mutation<
 			{ status: 200; message: string },
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/size-delete/${data.id}`,
+				url: `/unit/delete/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['VendorVariation'],
+			invalidatesTags: ['VendorUnit'],
 		}),
 	}),
 });
 
 export const {
-	useVendorVariationQuery,
-	useVendorVariationStoreMutation,
-	useVendorVariationDeleteMutation,
-	useVendorVariationUpdateMutation,
+	useVendorUnitQuery,
+	useVendorUnitStoreMutation,
+	useVendorUnitDeleteMutation,
+	useVendorUnitUpdateMutation,
 } = api;

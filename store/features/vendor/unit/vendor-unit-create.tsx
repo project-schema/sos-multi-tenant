@@ -1,16 +1,8 @@
 'use client';
 
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from '@/components/ui/dialog';
-import { LoaderCircle, Pen } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { DialogFooter } from '@/components/ui/dialog';
+import { LoaderCircle } from 'lucide-react';
+import {} from './vendor-unit-type';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -35,78 +27,46 @@ import {
 } from '@/components/ui/select';
 import { alertConfirm, handleValidationError } from '@/lib';
 import { toast } from 'sonner';
-import { useVendorColorUpdateMutation } from './vendor-color-api-slice';
-import { iVendorColor } from './vendor-color-type';
+import { useVendorUnitStoreMutation } from './vendor-unit-api-slice';
 
 // --- Zod Schema ---
 const schema = z.object({
-	name: z.string().min(1, 'Name is required'),
+	unit_name: z
+		.string({ error: 'Name is required' })
+		.trim()
+		.min(1, 'Name is required'),
 	status: z.enum(['active', 'deactive']),
 });
 
 type ZodType = z.infer<typeof schema>;
 
-export function VendorColorEdit({ editData }: { editData: iVendorColor }) {
-	const [open, setOpen] = useState(false);
-
-	return (
-		<Dialog open={open} onOpenChange={setOpen}>
-			<DialogTrigger asChild>
-				<Button variant="outline" size="icon">
-					<Pen className="h-4 w-4" />
-					<span className="sr-only">Edit</span>
-				</Button>
-			</DialogTrigger>
-
-			<DialogContent className="sm:max-w-[500px]">
-				<DialogHeader>
-					<DialogTitle>Edit Color</DialogTitle>
-					<DialogDescription>Update the information.</DialogDescription>
-				</DialogHeader>
-				<FORM editData={editData} setOpen={setOpen} />
-			</DialogContent>
-		</Dialog>
-	);
-}
-
-const FORM = ({
-	editData,
-	setOpen,
-}: {
-	editData: iVendorColor;
-	setOpen: any;
-}) => {
-	const [update, { isLoading }] = useVendorColorUpdateMutation();
+export function VendorUnitCreate() {
+	const [store, { isLoading }] = useVendorUnitStoreMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
 		defaultValues: {
-			name: editData.name || '',
-			status: editData.status,
+			unit_name: '',
+			status: 'active',
 		},
 	});
-
-	useEffect(() => {
-		form.reset({
-			name: editData?.name || '',
-			status: editData?.status || 'active',
-		});
-	}, [editData]);
 
 	const onSubmit = async (data: ZodType) => {
 		alertConfirm({
 			onOk: async () => {
 				try {
-					const response = await update({
+					const response = await store({
 						...data,
-						id: editData.id,
 					}).unwrap();
 					if (response.status === 200) {
-						toast.success(response.message || 'Updated successfully');
-						setOpen(false);
+						toast.success(response.message || 'Created successfully');
+						form.reset();
 					} else {
 						const errorResponse = response as any;
-						if (response.status === 400) {
+						if (
+							response.status === 400 &&
+							typeof errorResponse.errors === 'object'
+						) {
 							handleValidationError(errorResponse, form.setError, toast.error);
 						} else {
 							toast.error(response.message || 'Something went wrong');
@@ -122,18 +82,19 @@ const FORM = ({
 			},
 		});
 	};
+
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 				{/* Name */}
 				<FormField
 					control={form.control}
-					name="name"
+					name="unit_name"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Name</FormLabel>
 							<FormControl>
-								<Input {...field} placeholder="Type color name..." />
+								<Input {...field} placeholder="Type unit name..." />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -168,10 +129,10 @@ const FORM = ({
 						{isLoading && (
 							<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 						)}
-						{isLoading ? 'Updating...' : 'Update Color'}
+						{isLoading ? 'Creating...' : 'Create Unit'}
 					</Button>
 				</DialogFooter>
 			</form>
 		</Form>
 	);
-};
+}

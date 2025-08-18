@@ -35,18 +35,18 @@ import {
 } from '@/components/ui/select';
 import { alertConfirm, handleValidationError } from '@/lib';
 import { toast } from 'sonner';
-import { useVendorColorUpdateMutation } from './vendor-color-api-slice';
-import { iVendorColor } from './vendor-color-type';
+import { useVendorUnitUpdateMutation } from './vendor-unit-api-slice';
+import { iVendorUnit } from './vendor-unit-type';
 
 // --- Zod Schema ---
 const schema = z.object({
-	name: z.string().min(1, 'Name is required'),
+	unit_name: z.string().min(1, 'Name is required'),
 	status: z.enum(['active', 'deactive']),
 });
 
 type ZodType = z.infer<typeof schema>;
 
-export function VendorColorEdit({ editData }: { editData: iVendorColor }) {
+export function VendorUnitEdit({ editData }: { editData: iVendorUnit }) {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -60,7 +60,7 @@ export function VendorColorEdit({ editData }: { editData: iVendorColor }) {
 
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
-					<DialogTitle>Edit Color</DialogTitle>
+					<DialogTitle>Edit Unit</DialogTitle>
 					<DialogDescription>Update the information.</DialogDescription>
 				</DialogHeader>
 				<FORM editData={editData} setOpen={setOpen} />
@@ -73,23 +73,23 @@ const FORM = ({
 	editData,
 	setOpen,
 }: {
-	editData: iVendorColor;
+	editData: iVendorUnit;
 	setOpen: any;
 }) => {
-	const [update, { isLoading }] = useVendorColorUpdateMutation();
+	const [updateProfile, { isLoading }] = useVendorUnitUpdateMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
 		defaultValues: {
-			name: editData.name || '',
-			status: editData.status,
+			unit_name: editData?.unit_name || '',
+			status: editData?.status || 'active',
 		},
 	});
 
 	useEffect(() => {
 		form.reset({
-			name: editData?.name || '',
 			status: editData?.status || 'active',
+			unit_name: editData?.unit_name || '',
 		});
 	}, [editData]);
 
@@ -97,7 +97,7 @@ const FORM = ({
 		alertConfirm({
 			onOk: async () => {
 				try {
-					const response = await update({
+					const response = await updateProfile({
 						...data,
 						id: editData.id,
 					}).unwrap();
@@ -128,12 +128,12 @@ const FORM = ({
 				{/* Name */}
 				<FormField
 					control={form.control}
-					name="name"
+					name="unit_name"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Name</FormLabel>
 							<FormControl>
-								<Input {...field} placeholder="Type color name..." />
+								<Input {...field} placeholder="Type unit name..." />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -168,7 +168,7 @@ const FORM = ({
 						{isLoading && (
 							<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 						)}
-						{isLoading ? 'Updating...' : 'Update Color'}
+						{isLoading ? 'Updating...' : 'Update Unit'}
 					</Button>
 				</DialogFooter>
 			</form>

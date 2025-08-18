@@ -1,22 +1,22 @@
 import { apiSlice } from '../../api/apiSlice';
-import { iVendorVariationResponse } from './vendor-variation-type';
+import { iVendorSupplierResponse } from './vendor-supplier-type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		VendorVariation: builder.query<
-			iVendorVariationResponse,
+		VendorSupplier: builder.query<
+			iVendorSupplierResponse,
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
-				url: `/size-view?status=${page}`,
+				url: `/supplier?page=${page}`,
 				method: 'GET',
 			}),
-			providesTags: ['VendorVariation'],
+			providesTags: ['VendorSupplier'],
 		}),
 
 		// store
-		VendorVariationStore: builder.mutation<
+		VendorSupplierStore: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -29,17 +29,17 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/size-store`,
+					url: `/supplier/store`,
 					method: 'POST',
 					body,
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorVariation'],
+			invalidatesTags: ['VendorSupplier'],
 		}),
 
 		// update
-		VendorVariationUpdate: builder.mutation<
+		VendorSupplierUpdate: builder.mutation<
 			{ status: 200; message: string },
 			any
 		>({
@@ -51,35 +51,33 @@ const api = apiSlice.injectEndpoints({
 					}
 				});
 
-				body.append('_method', 'PUT');
-
 				return {
-					url: `/size-update/${data.id}`,
+					url: `/supplier/update/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorVariation'],
+			invalidatesTags: ['VendorSupplier'],
 		}),
 
 		// delete
-		VendorVariationDelete: builder.mutation<
+		VendorSupplierDelete: builder.mutation<
 			{ status: 200; message: string },
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/size-delete/${data.id}`,
+				url: `/supplier/delete/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['VendorVariation'],
+			invalidatesTags: ['VendorSupplier'],
 		}),
 	}),
 });
 
 export const {
-	useVendorVariationQuery,
-	useVendorVariationStoreMutation,
-	useVendorVariationDeleteMutation,
-	useVendorVariationUpdateMutation,
+	useVendorSupplierQuery,
+	useVendorSupplierStoreMutation,
+	useVendorSupplierDeleteMutation,
+	useVendorSupplierUpdateMutation,
 } = api;

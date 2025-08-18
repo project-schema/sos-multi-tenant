@@ -9,14 +9,14 @@ const vendorBrandApi = apiSlice.injectEndpoints({
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
-				url: `/vendor-brands?page=${page}`,
+				url: `/tenant-brands?page=${page}`,
 				method: 'GET',
 			}),
 			providesTags: ['VendorBrand'],
 		}),
 
 		// store
-		VendorStoreBrand: builder.mutation<{ status: 200; message: string }, any>({
+		VendorStoreBrand: builder.mutation<any, any>({
 			query: (data) => {
 				const body = new FormData();
 				Object.entries(data).forEach(([key, value]) => {
@@ -26,7 +26,7 @@ const vendorBrandApi = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/vendor-brand-create`,
+					url: `/tenant-brand-store`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -36,7 +36,7 @@ const vendorBrandApi = apiSlice.injectEndpoints({
 		}),
 
 		// update
-		VendorUpdateBrand: builder.mutation<{ status: 200; message: string }, any>({
+		VendorUpdateBrand: builder.mutation<any, any>({
 			query: (data) => {
 				const body = new FormData();
 				Object.entries(data).forEach(([key, value]) => {
@@ -45,8 +45,9 @@ const vendorBrandApi = apiSlice.injectEndpoints({
 					}
 				});
 
+				body.append('_method', 'PUT');
 				return {
-					url: `/vendor-brand-update/${data.id}`,
+					url: `/tenant-brand-update/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -61,7 +62,7 @@ const vendorBrandApi = apiSlice.injectEndpoints({
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/vendor-brand-delete/${data.id}`,
+				url: `/tenant-brand-delete/${data.id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['VendorBrand'],

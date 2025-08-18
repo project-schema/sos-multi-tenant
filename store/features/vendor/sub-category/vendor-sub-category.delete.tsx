@@ -5,11 +5,11 @@ import { alertConfirm } from '@/lib';
 import { LoaderCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useVendorCategoryDeleteMutation } from './vendor-category-api-slice';
-import { iVendorCategory } from './vendor-category-type';
+import { useVendorSubCategoryDeleteMutation } from './vendor-sub-category.api.slice';
+import { iSubCategory } from './vendor-sub-category.type';
 
-export function VendorCategoryDelete({ data }: { data: iVendorCategory }) {
-	const [mutation, { isLoading }] = useVendorCategoryDeleteMutation();
+export function SubCategoryDelete({ data }: { data: iSubCategory }) {
+	const [mutation, { isLoading }] = useVendorSubCategoryDeleteMutation();
 	const [clicked, setClicked] = useState(false);
 
 	const handleClick = async () => {

@@ -7,6 +7,7 @@ export * from './data/meta-data';
 export * from './date-format';
 export * from './env';
 export * from './error-alert';
+export * from './errorHandler';
 export * from './free-coupon';
 export * from './img';
 export * from './motion';

@@ -17,5 +17,5 @@ export type iVendorCategory = {
 };
 export type iVendorCategoryResponse = {
 	status: number;
-	category: iPagination<iVendorCategory>;
+	categories: iPagination<iVendorCategory>;
 };

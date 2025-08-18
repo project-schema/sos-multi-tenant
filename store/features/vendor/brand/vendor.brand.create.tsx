@@ -26,6 +26,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { alertConfirm } from '@/lib';
+import { handleValidationError } from '@/lib/errorHandler';
 import { toast } from 'sonner';
 import { useVendorStoreBrandMutation } from './vendor.brand.api.slice';
 
@@ -35,7 +37,10 @@ const vendorBrandSchema = z.object({
 		.instanceof(File)
 		.refine((file) => file.size > 0, { message: 'Image is required' })
 		.optional(),
-	name: z.string().min(1, 'Name is required'),
+	name: z
+		.string({ error: 'Name is required' })
+		.trim()
+		.min(1, 'Name is required'),
 
 	status: z.enum(['active', 'pending']),
 });
@@ -55,41 +60,31 @@ export function VendorBrandCreate() {
 	});
 
 	const onSubmit = async (data: VendorBrandZodType) => {
-		try {
-			const response = await store({
-				...data,
-			}).unwrap();
-			if (response.status === 200) {
-				toast.success(response.message || 'Profile updated successfully');
-				form.reset();
-			} else {
-				const errorResponse = response as any;
-				if (
-					response.status === 422 &&
-					typeof errorResponse.errors === 'object'
-				) {
-					Object.entries(errorResponse.errors).forEach(([field, value]) => {
-						form.setError(field as keyof VendorBrandZodType, {
-							type: 'server',
-							message: (value as string[])[0],
-						});
-					});
-				} else {
-					toast.error(response.message || 'Something went wrong');
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await store({
+						...data,
+					}).unwrap();
+					if (response.status === 200) {
+						toast.success(response.message || 'Updated successfully');
+						form.reset();
+					} else {
+						if (response?.status === 400) {
+							handleValidationError(response, form.setError, toast.error);
+						} else {
+							toast.error(response.message || 'Something went wrong');
+						}
+					}
+				} catch (error: any) {
+					if (error?.status === 400) {
+						handleValidationError(error, form.setError, toast.error);
+					} else {
+						toast.error('Something went wrong');
+					}
 				}
-			}
-		} catch (error: any) {
-			if (error?.status === 422 && typeof error.message === 'object') {
-				Object.entries(error.message).forEach(([field, value]) => {
-					form.setError(field as keyof VendorBrandZodType, {
-						type: 'server',
-						message: (value as string[])[0],
-					});
-				});
-			} else {
-				toast.error('Something went wrong');
-			}
-		}
+			},
+		});
 	};
 
 	return (
@@ -105,7 +100,7 @@ export function VendorBrandCreate() {
 								label="Brand Image"
 								value={field.value}
 								onChange={field.onChange}
-								defaultImage={null}
+								defaultImage={'/placeholder.svg'}
 							/>
 						</FormItem>
 					)}

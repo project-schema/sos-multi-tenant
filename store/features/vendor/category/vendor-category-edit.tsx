@@ -34,9 +34,10 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { alertConfirm } from '@/lib';
+import { alertConfirm, env } from '@/lib';
+import { handleValidationError } from '@/lib/errorHandler';
 import { toast } from 'sonner';
-import { useVendorUpdateCategoryMutation } from './vendor-category-api-slice';
+import { useVendorCategoryUpdateMutation } from './vendor-category-api-slice';
 import { iVendorCategory } from './vendor-category-type';
 
 // --- Zod Schema ---
@@ -58,7 +59,7 @@ export function VendorCategoryEdit({
 }) {
 	const [open, setOpen] = useState(false);
 
-	const [updateProfile, { isLoading }] = useVendorUpdateCategoryMutation();
+	const [updateProfile, { isLoading }] = useVendorCategoryUpdateMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
@@ -81,29 +82,13 @@ export function VendorCategoryEdit({
 						toast.success(response.message || 'Updated successfully');
 						setOpen(false);
 					} else {
-						const errorResponse = response as any;
-						if (
-							response.status === 422 &&
-							typeof errorResponse.errors === 'object'
-						) {
-							Object.entries(errorResponse.errors).forEach(([field, value]) => {
-								form.setError(field as keyof ZodType, {
-									type: 'server',
-									message: (value as string[])[0],
-								});
-							});
-						} else {
-							toast.error(response.message || 'Something went wrong');
+						if (response.status === 400) {
+							handleValidationError(response, form.setError, toast.error);
 						}
 					}
 				} catch (error: any) {
-					if (error?.status === 422 && typeof error.message === 'object') {
-						Object.entries(error.message).forEach(([field, value]) => {
-							form.setError(field as keyof ZodType, {
-								type: 'server',
-								message: (value as string[])[0],
-							});
-						});
+					if (error.status === 400) {
+						handleValidationError(error, form.setError, toast.error);
 					} else {
 						toast.error('Something went wrong');
 					}
@@ -139,7 +124,11 @@ export function VendorCategoryEdit({
 										label="Category Image"
 										value={field.value}
 										onChange={field.onChange}
-										defaultImage={null}
+										defaultImage={
+											editData.image
+												? `${env.baseAPI}/${editData.image}`
+												: '/placeholder.svg'
+										}
 									/>
 								</FormItem>
 							)}

@@ -1,21 +1,15 @@
 'use client';
 
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from '@/components/ui/dialog';
-import { LoaderCircle, Pen } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { DialogFooter } from '@/components/ui/dialog';
+import { LoaderCircle } from 'lucide-react';
+import {} from './vendor-sub-category.type';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { Loader6 } from '@/components/dashboard';
+import { SearchableSelect } from '@/components/dashboard/form';
 import { Button } from '@/components/ui/button';
 import {
 	Form,
@@ -33,81 +27,66 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { alertConfirm, handleValidationError } from '@/lib';
+import { alertConfirm } from '@/lib';
+import { handleValidationError } from '@/lib/errorHandler';
+import { useState } from 'react';
 import { toast } from 'sonner';
-import { useVendorColorUpdateMutation } from './vendor-color-api-slice';
-import { iVendorColor } from './vendor-color-type';
+import { useVendorCategoryAllActiveQuery } from '../category';
+import { useVendorSubCategoryStoreMutation } from './vendor-sub-category.api.slice';
 
 // --- Zod Schema ---
 const schema = z.object({
-	name: z.string().min(1, 'Name is required'),
-	status: z.enum(['active', 'deactive']),
+	name: z
+		.string({ error: 'Name is required' })
+		.trim()
+		.min(1, 'Name is required'),
+	category_id: z
+		.string({ error: 'Category is required' })
+		.min(1, 'Category is required'),
+	status: z.enum(['active', 'pending']),
 });
 
 type ZodType = z.infer<typeof schema>;
 
-export function VendorColorEdit({ editData }: { editData: iVendorColor }) {
-	const [open, setOpen] = useState(false);
-
-	return (
-		<Dialog open={open} onOpenChange={setOpen}>
-			<DialogTrigger asChild>
-				<Button variant="outline" size="icon">
-					<Pen className="h-4 w-4" />
-					<span className="sr-only">Edit</span>
-				</Button>
-			</DialogTrigger>
-
-			<DialogContent className="sm:max-w-[500px]">
-				<DialogHeader>
-					<DialogTitle>Edit Color</DialogTitle>
-					<DialogDescription>Update the information.</DialogDescription>
-				</DialogHeader>
-				<FORM editData={editData} setOpen={setOpen} />
-			</DialogContent>
-		</Dialog>
-	);
-}
-
-const FORM = ({
-	editData,
-	setOpen,
-}: {
-	editData: iVendorColor;
-	setOpen: any;
-}) => {
-	const [update, { isLoading }] = useVendorColorUpdateMutation();
-
+export function VendorSubCategoryCreate() {
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
 		defaultValues: {
-			name: editData.name || '',
-			status: editData.status,
+			name: '',
+			category_id: '',
+			status: 'active',
 		},
 	});
 
-	useEffect(() => {
-		form.reset({
-			name: editData?.name || '',
-			status: editData?.status || 'active',
-		});
-	}, [editData]);
+	const [store, { isLoading }] = useVendorSubCategoryStoreMutation();
+	const [page, setPage] = useState(1);
+	const { data: categories, isLoading: isLoadingCategories } =
+		useVendorCategoryAllActiveQuery(undefined);
+
+	if (isLoadingCategories) {
+		return (
+			<div className="space-y-4">
+				<Loader6 />
+				<Loader6 />
+				<Loader6 />
+				<Loader6 />
+			</div>
+		);
+	}
 
 	const onSubmit = async (data: ZodType) => {
 		alertConfirm({
 			onOk: async () => {
 				try {
-					const response = await update({
+					const response = await store({
 						...data,
-						id: editData.id,
 					}).unwrap();
 					if (response.status === 200) {
-						toast.success(response.message || 'Updated successfully');
-						setOpen(false);
+						toast.success(response.message || 'Category created successfully');
+						form.reset();
 					} else {
-						const errorResponse = response as any;
 						if (response.status === 400) {
-							handleValidationError(errorResponse, form.setError, toast.error);
+							handleValidationError(response, form.setError, toast.error);
 						} else {
 							toast.error(response.message || 'Something went wrong');
 						}
@@ -122,18 +101,38 @@ const FORM = ({
 			},
 		});
 	};
+
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+				{/* Select Category */}
+				<FormField
+					control={form.control}
+					name="category_id"
+					render={({ field }) => (
+						<SearchableSelect
+							field={field}
+							label="Select Category"
+							options={
+								categories?.categories?.map((cat) => ({
+									label: cat.name,
+									value: cat.id.toString(),
+								})) ?? []
+							}
+							placeholder="Select category"
+						/>
+					)}
+				/>
+
 				{/* Name */}
 				<FormField
 					control={form.control}
 					name="name"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Name</FormLabel>
+							<FormLabel>Sub Category Name</FormLabel>
 							<FormControl>
-								<Input {...field} placeholder="Type color name..." />
+								<Input {...field} placeholder="Type sub category name..." />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -155,7 +154,7 @@ const FORM = ({
 								</FormControl>
 								<SelectContent>
 									<SelectItem value="active">Active</SelectItem>
-									<SelectItem value="deactive">Deactive</SelectItem>
+									<SelectItem value="pending">Pending</SelectItem>
 								</SelectContent>
 							</Select>
 							<FormMessage />
@@ -168,10 +167,10 @@ const FORM = ({
 						{isLoading && (
 							<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 						)}
-						{isLoading ? 'Updating...' : 'Update Color'}
+						{isLoading ? 'Creating...' : 'Create Sub Category'}
 					</Button>
 				</DialogFooter>
 			</form>
 		</Form>
 	);
-};
+}

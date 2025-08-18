@@ -33,20 +33,33 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm, handleValidationError } from '@/lib';
 import { toast } from 'sonner';
-import { useVendorColorUpdateMutation } from './vendor-color-api-slice';
-import { iVendorColor } from './vendor-color-type';
+import { useVendorSupplierUpdateMutation } from './vendor-supplier-api-slice';
+import { iVendorSupplier } from './vendor-supplier-type';
 
 // --- Zod Schema ---
 const schema = z.object({
-	name: z.string().min(1, 'Name is required'),
+	supplier_name: z.string().min(1, 'Name is required'),
+	business_name: z.string().optional(),
+	phone: z.string().trim().min(1, 'Phone number is required'),
+	email: z.union([
+		z.string().email('Invalid email address').trim(),
+		z.literal(''),
+	]),
+	address: z.string().optional(),
+	description: z.string().optional(),
 	status: z.enum(['active', 'deactive']),
 });
 
 type ZodType = z.infer<typeof schema>;
 
-export function VendorColorEdit({ editData }: { editData: iVendorColor }) {
+export function VendorSupplierEdit({
+	editData,
+}: {
+	editData: iVendorSupplier;
+}) {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -60,7 +73,7 @@ export function VendorColorEdit({ editData }: { editData: iVendorColor }) {
 
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
-					<DialogTitle>Edit Color</DialogTitle>
+					<DialogTitle>Edit Supplier</DialogTitle>
 					<DialogDescription>Update the information.</DialogDescription>
 				</DialogHeader>
 				<FORM editData={editData} setOpen={setOpen} />
@@ -73,22 +86,32 @@ const FORM = ({
 	editData,
 	setOpen,
 }: {
-	editData: iVendorColor;
+	editData: iVendorSupplier;
 	setOpen: any;
 }) => {
-	const [update, { isLoading }] = useVendorColorUpdateMutation();
+	const [updateProfile, { isLoading }] = useVendorSupplierUpdateMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
 		defaultValues: {
-			name: editData.name || '',
-			status: editData.status,
+			supplier_name: editData?.supplier_name || '',
+			business_name: editData?.business_name || '',
+			phone: editData?.phone || '',
+			email: editData?.email || '',
+			address: editData?.address || '',
+			description: editData?.description || '',
+			status: editData?.status || 'active',
 		},
 	});
 
 	useEffect(() => {
 		form.reset({
-			name: editData?.name || '',
+			supplier_name: editData?.supplier_name || '',
+			business_name: editData?.business_name || '',
+			phone: editData?.phone || '',
+			email: editData?.email || '',
+			address: editData?.address || '',
+			description: editData?.description || '',
 			status: editData?.status || 'active',
 		});
 	}, [editData]);
@@ -97,7 +120,7 @@ const FORM = ({
 		alertConfirm({
 			onOk: async () => {
 				try {
-					const response = await update({
+					const response = await updateProfile({
 						...data,
 						id: editData.id,
 					}).unwrap();
@@ -125,15 +148,93 @@ const FORM = ({
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-				{/* Name */}
+				{/* Supplier Name */}
 				<FormField
 					control={form.control}
-					name="name"
+					name="supplier_name"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Name</FormLabel>
+							<FormLabel>Supplier Name</FormLabel>
 							<FormControl>
-								<Input {...field} placeholder="Type color name..." />
+								<Input {...field} placeholder="Type Supplier name..." />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* Company Name */}
+				<FormField
+					control={form.control}
+					name="business_name"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Company Name</FormLabel>
+							<FormControl>
+								<Input {...field} placeholder="Type Company name..." />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* Phone Number */}
+				<FormField
+					control={form.control}
+					name="phone"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Phone Number</FormLabel>
+							<FormControl>
+								<Input {...field} placeholder="Type phone number..." />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* Email */}
+				<FormField
+					control={form.control}
+					name="email"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Email</FormLabel>
+							<FormControl>
+								<Input {...field} placeholder="Type email..." />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* Address */}
+				<FormField
+					control={form.control}
+					name="address"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Address</FormLabel>
+							<FormControl>
+								<Textarea {...field} placeholder="Type address..." />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* Description */}
+				<FormField
+					control={form.control}
+					name="description"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Description</FormLabel>
+							<FormControl>
+								<Textarea
+									{...field}
+									placeholder="Type Supplier description..."
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -168,7 +269,7 @@ const FORM = ({
 						{isLoading && (
 							<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 						)}
-						{isLoading ? 'Updating...' : 'Update Color'}
+						{isLoading ? 'Updating...' : 'Update Supplier'}
 					</Button>
 				</DialogFooter>
 			</form>

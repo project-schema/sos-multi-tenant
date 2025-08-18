@@ -10,7 +10,7 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { LoaderCircle, Pen } from 'lucide-react';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -34,7 +34,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { alertConfirm } from '@/lib';
+import { alertConfirm, env, handleValidationError } from '@/lib';
 import { toast } from 'sonner';
 import { useVendorUpdateBrandMutation } from './vendor.brand.api.slice';
 import { iVendorBrand } from './vendor.brand.type';
@@ -54,60 +54,6 @@ type VendorBrandEditZodType = z.infer<typeof vendorBrandEditSchema>;
 export function VendorBrandEdit({ editData }: { editData: iVendorBrand }) {
 	const [open, setOpen] = useState(false);
 
-	const [updateProfile, { isLoading }] = useVendorUpdateBrandMutation();
-
-	const form = useForm<VendorBrandEditZodType>({
-		resolver: zodResolver(vendorBrandEditSchema),
-		defaultValues: {
-			image: undefined,
-			name: editData.name || '',
-			status: editData.status,
-		},
-	});
-
-	const onSubmit = async (data: VendorBrandEditZodType) => {
-		alertConfirm({
-			onOk: async () => {
-				try {
-					const response = await updateProfile({
-						...data,
-						id: editData.id,
-					}).unwrap();
-					if (response.status === 200) {
-						toast.success(response.message || 'Profile updated successfully');
-						setOpen(false);
-					} else {
-						const errorResponse = response as any;
-						if (
-							response.status === 422 &&
-							typeof errorResponse.errors === 'object'
-						) {
-							Object.entries(errorResponse.errors).forEach(([field, value]) => {
-								form.setError(field as keyof VendorBrandEditZodType, {
-									type: 'server',
-									message: (value as string[])[0],
-								});
-							});
-						} else {
-							toast.error(response.message || 'Something went wrong');
-						}
-					}
-				} catch (error: any) {
-					if (error?.status === 422 && typeof error.message === 'object') {
-						Object.entries(error.message).forEach(([field, value]) => {
-							form.setError(field as keyof VendorBrandEditZodType, {
-								type: 'server',
-								message: (value as string[])[0],
-							});
-						});
-					} else {
-						toast.error('Something went wrong');
-					}
-				}
-			},
-		});
-	};
-
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
@@ -123,76 +69,136 @@ export function VendorBrandEdit({ editData }: { editData: iVendorBrand }) {
 					<DialogDescription>Update the information.</DialogDescription>
 				</DialogHeader>
 
-				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-						{/* Image Upload */}
-						<FormField
-							control={form.control}
-							name="image"
-							render={({ field }) => (
-								<FormItem>
-									<ImageUpload
-										label="Brand Image"
-										value={field.value}
-										onChange={field.onChange}
-										defaultImage={null}
-									/>
-								</FormItem>
-							)}
-						/>
-
-						{/* Name */}
-						<FormField
-							control={form.control}
-							name="name"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Name</FormLabel>
-									<FormControl>
-										<Input {...field} placeholder="Type category name..." />
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						{/* Status */}
-						<FormField
-							control={form.control}
-							name="status"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Status</FormLabel>
-									<Select
-										onValueChange={field.onChange}
-										defaultValue={field.value}
-									>
-										<FormControl>
-											<SelectTrigger className="w-full">
-												<SelectValue placeholder="Select status" />
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent>
-											<SelectItem value="active">Active</SelectItem>
-											<SelectItem value="pending">Pending</SelectItem>
-										</SelectContent>
-									</Select>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						<DialogFooter>
-							<Button type="submit" disabled={isLoading}>
-								{isLoading && (
-									<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-								)}
-								{isLoading ? 'Updating...' : 'Update Brand'}
-							</Button>
-						</DialogFooter>
-					</form>
-				</Form>
+				<FORM editData={editData} setOpen={setOpen} />
 			</DialogContent>
 		</Dialog>
 	);
 }
+
+const FORM = ({
+	editData,
+	setOpen,
+}: {
+	editData: iVendorBrand;
+	setOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
+	const [update, { isLoading }] = useVendorUpdateBrandMutation();
+
+	const form = useForm<VendorBrandEditZodType>({
+		resolver: zodResolver(vendorBrandEditSchema),
+		defaultValues: {
+			image: undefined,
+			name: editData.name || '',
+			status: editData.status,
+		},
+	});
+
+	useEffect(() => {
+		form.reset({
+			image: undefined,
+			name: editData.name || '',
+			status: editData.status,
+		});
+	}, [editData]);
+
+	const onSubmit = async (data: VendorBrandEditZodType) => {
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await update({
+						...data,
+						id: editData.id,
+					}).unwrap();
+					if (response.status === 200) {
+						toast.success(response.message || 'Updated successfully');
+						setOpen(false);
+					} else {
+						if (response?.status === 400) {
+							handleValidationError(response, form.setError, toast.error);
+						} else {
+							toast.error(response.message || 'Something went wrong');
+						}
+					}
+				} catch (error: any) {
+					if (error?.status === 400) {
+						handleValidationError(error, form.setError, toast.error);
+					} else {
+						toast.error('Something went wrong');
+					}
+				}
+			},
+		});
+	};
+	return (
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+				{/* Image Upload */}
+				<FormField
+					control={form.control}
+					name="image"
+					render={({ field }) => (
+						<FormItem>
+							<ImageUpload
+								label="Brand Image"
+								value={field.value}
+								onChange={field.onChange}
+								defaultImage={
+									editData.image
+										? `${env.baseAPI}/${editData.image}`
+										: '/placeholder.svg'
+								}
+							/>
+						</FormItem>
+					)}
+				/>
+
+				{/* Name */}
+				<FormField
+					control={form.control}
+					name="name"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Name</FormLabel>
+							<FormControl>
+								<Input {...field} placeholder="Type category name..." />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* Status */}
+				<FormField
+					control={form.control}
+					name="status"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Status</FormLabel>
+							<Select onValueChange={field.onChange} defaultValue={field.value}>
+								<FormControl>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="Select status" />
+									</SelectTrigger>
+								</FormControl>
+								<SelectContent>
+									<SelectItem value="active">Active</SelectItem>
+									<SelectItem value="pending">Pending</SelectItem>
+								</SelectContent>
+							</Select>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<DialogFooter>
+					<Button type="submit" disabled={isLoading}>
+						{isLoading && (
+							<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+						)}
+						{isLoading ? 'Updating...' : 'Update Brand'}
+					</Button>
+				</DialogFooter>
+			</form>
+		</Form>
+	);
+};

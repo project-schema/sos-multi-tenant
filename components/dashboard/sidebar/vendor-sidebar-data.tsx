@@ -71,27 +71,27 @@ const pos: sidebarItem[] = [
 		items: [
 			{
 				title: 'POS Customer',
-				url: '/admin/category',
+				url: '/customer',
 			},
 			{
 				title: 'POS Sales',
-				url: '/admin/category',
+				url: '/sales',
 			},
 			{
 				title: 'POS Orders',
-				url: '/admin/sub-category',
+				url: '/orders',
 			},
 			{
 				title: 'POS Sales History',
-				url: '/admin/support-topic',
+				url: '/sales-history',
 			},
 			{
 				title: 'POS Sales Return',
-				url: '/admin/support-topic',
+				url: '/sales-return',
 			},
 			{
 				title: 'Add Wastage',
-				url: '/admin/support-topic',
+				url: '/wastage',
 			},
 		],
 	},
@@ -102,23 +102,23 @@ const pos: sidebarItem[] = [
 		items: [
 			{
 				title: 'New Purchase',
-				url: '/admin/category',
+				url: '/purchase',
 			},
 			{
 				title: 'Purchase Products',
-				url: '/admin/sub-category',
+				url: '/purchase-products',
 			},
 			{
 				title: 'Purchase History',
-				url: '/admin/support-topic',
+				url: '/purchase-history',
 			},
 			{
 				title: 'Purchase Return',
-				url: '/admin/support-topic',
+				url: '/purchase-return',
 			},
 			{
 				title: 'All Wastage',
-				url: '/admin/support-topic',
+				url: '/wastage',
 			},
 		],
 	},
@@ -129,11 +129,11 @@ const pos: sidebarItem[] = [
 		items: [
 			{
 				title: 'Barcode Generator',
-				url: '/admin/category',
+				url: '/barcode-generator',
 			},
 			{
 				title: 'Manage Barcode',
-				url: '/admin/sub-category',
+				url: '/manage-barcode',
 			},
 		],
 	},
@@ -145,11 +145,11 @@ const pos: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Damage',
-				url: '/admin/category',
+				url: '/create-damage',
 			},
 			{
 				title: 'Damage Products',
-				url: '/admin/sub-category',
+				url: '/damage-products',
 			},
 		],
 	},
@@ -162,35 +162,35 @@ const settings: sidebarItem[] = [
 		items: [
 			{
 				title: 'Order Source',
-				url: '/admin/sub-category',
+				url: '/order-source',
 			},
 			{
 				title: 'Courier Company',
-				url: '/admin/support-topic',
+				url: '/courier-company',
 			},
 			{
 				title: 'Apply Courier',
-				url: '/admin/category',
+				url: '/apply-courier',
 			},
 			{
 				title: 'Delivery Area',
-				url: '/admin/sub-category',
+				url: '/delivery-area',
 			},
 			{
 				title: 'Woo Commerce',
-				url: '/admin/support-topic',
+				url: '/woo-commerce',
 			},
 			{
 				title: 'Pickup Area',
-				url: '/admin/category',
+				url: '/pickup-area',
 			},
 			{
 				title: 'Payment Methods',
-				url: '/admin/sub-category',
+				url: '/payment-methods',
 			},
 			{
 				title: 'Invoice Generate',
-				url: '/admin/support-topic',
+				url: '/invoice-generate',
 			},
 		],
 	},
@@ -201,11 +201,11 @@ const settings: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Employee',
-				url: '/admin/support-category',
+				url: '/create-employee',
 			},
 			{
 				title: 'Manage Employee',
-				url: '/admin/support',
+				url: '/manage-employee',
 			},
 		],
 	},
@@ -216,15 +216,15 @@ const settings: sidebarItem[] = [
 		items: [
 			{
 				title: 'Recharge',
-				url: '/admin/support-category',
+				url: '/recharge',
 			},
 			{
 				title: 'History',
-				url: '/admin/support',
+				url: '/history',
 			},
 			{
 				title: 'Withdraw',
-				url: '/admin/support',
+				url: '/withdraw',
 			},
 		],
 	},
@@ -237,35 +237,35 @@ const reports: sidebarItem[] = [
 		items: [
 			{
 				title: 'Stock Report',
-				url: '/admin/category',
+				url: '/stock-report',
 			},
 			{
 				title: 'Sales Report',
-				url: '/admin/category',
+				url: '/sales-report',
 			},
 			{
 				title: 'Due Sales Report',
-				url: '/admin/category',
+				url: '/due-sales-report',
 			},
 			{
 				title: 'Purchase Report',
-				url: '/admin/category',
+				url: '/purchase-report',
 			},
 			{
 				title: 'Warehouse Report',
-				url: '/admin/category',
+				url: '/warehouse-report',
 			},
 			{
 				title: 'Stock Shortage Report',
-				url: '/admin/category',
+				url: '/stock-shortage-report',
 			},
 			{
 				title: 'Top Repeat Customers',
-				url: '/admin/category',
+				url: '/top-repeat-customers',
 			},
 			{
 				title: 'Daily Sales Report',
-				url: '/admin/category',
+				url: '/daily-sales-report',
 			},
 		],
 	},
@@ -278,25 +278,25 @@ const servicesAndAdvertise: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Service',
-				url: '/admin/category',
+				url: '/create-service',
 			},
 			{
 				title: 'All Services',
-				url: '/admin/category',
+				url: '/all-services',
 			},
 			{
 				title: 'Service Order',
-				url: '/admin/category',
+				url: '/service-order',
 			},
 			{
 				title: 'Purchase Service',
-				url: '/admin/category',
+				url: '/purchase-service',
 			},
 		],
 	},
 	{
 		title: 'Purchase Advertise',
-		url: '/admin/category',
+		url: '/purchase-advertise',
 		icon: Package,
 		isActive: false,
 	},
@@ -310,11 +310,11 @@ const support: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Support',
-				url: '/admin/support-category',
+				url: '/create-support',
 			},
 			{
 				title: 'All Supports',
-				url: '/admin/support',
+				url: '/all-supports',
 			},
 		],
 	},
@@ -322,7 +322,7 @@ const support: sidebarItem[] = [
 		title: 'Customer Chat',
 		icon: Headset,
 		isActive: false,
-		url: '/admin/support',
+		url: '/customer-chat',
 	},
 ];
 

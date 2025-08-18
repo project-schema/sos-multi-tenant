@@ -92,7 +92,12 @@ export const apiSlice = createApi({
 
 		'VendorBrand',
 		'VendorCategory',
+		'VendorSubCategory',
 		'VendorColor',
 		'VendorVariation',
+		'VendorUnit',
+		'VendorWarehouse',
+		'VendorSupplier',
+		'VendorCustomer',
 	],
 });

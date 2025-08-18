@@ -14,7 +14,7 @@ import {
 import { badgeFormat, env, ErrorAlert, tableSrCount, textCount } from '@/lib';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useVendorViewCategoryQuery } from './vendor-category-api-slice';
+import { useVendorCategoryAllQuery } from './vendor-category-api-slice';
 import { VendorCategoryDelete } from './vendor-category-delete';
 import { VendorCategoryEdit } from './vendor-category-edit';
 
@@ -25,7 +25,7 @@ export function VendorCategoryTable() {
 		isFetching,
 		isLoading,
 		isError,
-	} = useVendorViewCategoryQuery({ page });
+	} = useVendorCategoryAllQuery({ page });
 
 	if (isError) {
 		return <ErrorAlert />;
@@ -49,14 +49,14 @@ export function VendorCategoryTable() {
 					<TableHeader>
 						<TableRow>
 							<TableHead className="bg-stone-100">#SL.</TableHead>
-							<TableHead className="bg-stone-100">Profile </TableHead>
+							<TableHead className="bg-stone-100">Image </TableHead>
 							<TableHead className="bg-stone-100">Name </TableHead>
 							<TableHead className="bg-stone-100">Status </TableHead>
 							<TableHead className="bg-stone-100">Action </TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{categories?.category?.data?.length === 0 ? (
+						{categories?.categories?.data?.length === 0 ? (
 							<TableRow>
 								<TableCell
 									colSpan={6}
@@ -66,10 +66,10 @@ export function VendorCategoryTable() {
 								</TableCell>
 							</TableRow>
 						) : (
-							categories?.category.data?.map((category, i) => (
+							categories?.categories?.data?.map((category, i) => (
 								<TableRow key={category.id}>
 									<TableCell className="py-2 pl-4">
-										{tableSrCount(categories?.category.current_page, i)}
+										{tableSrCount(categories?.categories?.current_page, i)}
 									</TableCell>
 									<TableCell className="py-2">
 										<Link href={`/Vendor/users/${category.id}`}>
@@ -107,8 +107,8 @@ export function VendorCategoryTable() {
 					</TableBody>
 				</Table>
 			</div>
-			{categories?.category && (
-				<Pagination1 pagination={categories?.category} setPage={setPage} />
+			{categories?.categories && (
+				<Pagination1 pagination={categories?.categories} setPage={setPage} />
 			)}
 		</>
 	);

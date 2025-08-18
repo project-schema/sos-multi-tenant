@@ -7,7 +7,7 @@ const api = apiSlice.injectEndpoints({
 		VendorColor: builder.query<iVendorColorResponse, { page: number | string }>(
 			{
 				query: ({ page }) => ({
-					url: `/view-color?status=${page}`,
+					url: `/color-view?status=active`,
 					method: 'GET',
 				}),
 				providesTags: ['VendorColor'],
@@ -25,7 +25,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/store-color`,
+					url: `/color-store`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -45,7 +45,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/update-color/${data.id}`,
+					url: `/color-update/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -60,7 +60,7 @@ const api = apiSlice.injectEndpoints({
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/delete-color/${data.id}`,
+				url: `/color-delete/${data.id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['VendorColor'],

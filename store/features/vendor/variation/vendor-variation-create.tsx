@@ -25,7 +25,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { alertConfirm } from '@/lib';
+import { alertConfirm, handleValidationError } from '@/lib';
 import { toast } from 'sonner';
 import { useVendorVariationStoreMutation } from './vendor-variation-api-slice';
 
@@ -59,29 +59,15 @@ export function VendorVariationCreate() {
 						toast.success(response.message || 'Created successfully');
 						form.reset();
 					} else {
-						const errorResponse = response as any;
-						if (
-							response.status === 422 &&
-							typeof errorResponse.errors === 'object'
-						) {
-							Object.entries(errorResponse.errors).forEach(([field, value]) => {
-								form.setError(field as keyof ZodType, {
-									type: 'server',
-									message: (value as string[])[0],
-								});
-							});
+						if (response.status === 400) {
+							handleValidationError(response, form.setError, toast.error);
 						} else {
 							toast.error(response.message || 'Something went wrong');
 						}
 					}
 				} catch (error: any) {
-					if (error?.status === 422 && typeof error.message === 'object') {
-						Object.entries(error.message).forEach(([field, value]) => {
-							form.setError(field as keyof ZodType, {
-								type: 'server',
-								message: (value as string[])[0],
-							});
-						});
+					if (error?.status === 400) {
+						handleValidationError(error, form.setError, toast.error);
 					} else {
 						toast.error('Something went wrong');
 					}

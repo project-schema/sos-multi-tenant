@@ -1,16 +1,17 @@
-export type iVendorVariation = {
+export type iVendorUnit = {
 	id: number;
-	name: string;
+	unit_name: string;
 	user_id: number;
-	slug: string;
+	unit_slug: string;
 	status: 'active' | 'deactive';
+	code: null;
 	created_at: string;
 	updated_at: string;
 	deleted_at: null;
 	created_by: string;
 	vendor_id: number;
 };
-export type iVendorVariationResponse = {
+export type iVendorUnitResponse = {
 	status: 200;
-	size: iVendorVariation[];
+	units: iVendorUnit[];
 };
