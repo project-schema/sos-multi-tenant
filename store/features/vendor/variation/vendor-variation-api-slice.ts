@@ -9,7 +9,7 @@ const api = apiSlice.injectEndpoints({
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
-				url: `/size-view?status=${page}`,
+				url: `/tenant-variant?status=${page}`,
 				method: 'GET',
 			}),
 			providesTags: ['VendorVariation'],
@@ -29,7 +29,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/size-store`,
+					url: `/tenant-variant/store`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -54,7 +54,7 @@ const api = apiSlice.injectEndpoints({
 				body.append('_method', 'PUT');
 
 				return {
-					url: `/size-update/${data.id}`,
+					url: `/tenant-variant/update/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -69,7 +69,7 @@ const api = apiSlice.injectEndpoints({
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/size-delete/${data.id}`,
+				url: `/tenant-variant/delete/${data.id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['VendorVariation'],

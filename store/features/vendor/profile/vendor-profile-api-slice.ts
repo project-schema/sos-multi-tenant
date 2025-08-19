@@ -5,7 +5,7 @@ const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		VendorProfileInfo: builder.query<{ status: 200; user: iUser }, undefined>({
 			query: () => ({
-				url: `/vendor/profile`,
+				url: `/tenant-profile`,
 				method: 'GET',
 			}),
 		}),
@@ -22,7 +22,7 @@ const api = apiSlice.injectEndpoints({
 				body.append('_method', 'PUT');
 
 				return {
-					url: `/vendor/update/profile`,
+					url: `/tenant-profile/update`,
 					method: 'POST',
 					body,
 					formData: true,

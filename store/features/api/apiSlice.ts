@@ -28,7 +28,6 @@ const baseQuery = fetchBaseQuery({
 	baseUrl: getApiBaseUrl(),
 	prepareHeaders: async (headers) => {
 		const session = await getSession(); // Get session from NextAuth
-		console.log(session, 'session-api');
 		headers.set('Authorization', `Bearer ${session?.accessToken}`);
 		return headers;
 	},
@@ -99,5 +98,7 @@ export const apiSlice = createApi({
 		'VendorWarehouse',
 		'VendorSupplier',
 		'VendorCustomer',
+
+		'VendorProduct',
 	],
 });

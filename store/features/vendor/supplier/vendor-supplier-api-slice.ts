@@ -9,7 +9,7 @@ const api = apiSlice.injectEndpoints({
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
-				url: `/supplier?page=${page}`,
+				url: `/tenant-supplier?page=${page}`,
 				method: 'GET',
 			}),
 			providesTags: ['VendorSupplier'],
@@ -29,7 +29,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/supplier/store`,
+					url: `/tenant-supplier/store`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -52,7 +52,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/supplier/update/${data.id}`,
+					url: `/tenant-supplier/update/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -67,7 +67,7 @@ const api = apiSlice.injectEndpoints({
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/supplier/delete/${data.id}`,
+				url: `/tenant-supplier/delete/${data.id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['VendorSupplier'],

@@ -9,7 +9,7 @@ const api = apiSlice.injectEndpoints({
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
-				url: `/customer?page=${page}`,
+				url: `/tenant-customer?page=${page}`,
 				method: 'GET',
 			}),
 			providesTags: ['VendorCustomer'],
@@ -29,7 +29,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/customer/store`,
+					url: `/tenant-customer/store`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -52,7 +52,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/customer/update/${data.id}`,
+					url: `/tenant-customer/update/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -67,7 +67,7 @@ const api = apiSlice.injectEndpoints({
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/customer/delete/${data.id}`,
+				url: `/tenant-customer/delete/${data.id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['VendorCustomer'],

@@ -107,7 +107,6 @@ function CreateRole() {
 
 			onCancel: () => {
 				// Optional: log or notify
-				console.log('Role creation canceled by user');
 			},
 		});
 	};

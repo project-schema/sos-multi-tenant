@@ -6,7 +6,7 @@ const api = apiSlice.injectEndpoints({
 		// get all
 		VendorUnit: builder.query<iVendorUnitResponse, { page: number | string }>({
 			query: ({ page }) => ({
-				url: `/unit?status=active`,
+				url: `/tenant-unit?status=active`,
 				method: 'GET',
 			}),
 			providesTags: ['VendorUnit'],
@@ -23,7 +23,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/unit/store`,
+					url: `/tenant-unit/store`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -43,7 +43,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/unit/update/${data.id}`,
+					url: `/tenant-unit/update/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -58,7 +58,7 @@ const api = apiSlice.injectEndpoints({
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/unit/delete/${data.id}`,
+				url: `/tenant-unit/delete/${data.id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['VendorUnit'],

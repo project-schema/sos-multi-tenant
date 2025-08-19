@@ -51,6 +51,7 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
+	useFormField,
 } from '@/components/ui/form';
 import {
 	Popover,
@@ -59,6 +60,7 @@ import {
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { Check, ChevronsUpDown } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 
 type Option = {
@@ -83,13 +85,32 @@ export const SearchableSelect = ({
 	placeholder = 'Select...',
 	onSelectorClick,
 }: SearchableSelectProps) => {
+	const fieldRef = useRef<HTMLDivElement>(null);
+	const { error } = useFormField();
+
+	// Scroll to field when there's an error
+	useEffect(() => {
+		if (error && fieldRef.current) {
+			// Add a small delay to ensure the error message is rendered
+			const timer = setTimeout(() => {
+				fieldRef.current?.scrollIntoView({
+					behavior: 'smooth',
+					block: 'center',
+				});
+			}, 100);
+
+			return () => clearTimeout(timer);
+		}
+	}, [error]);
+
 	return (
-		<FormItem className="flex flex-col">
+		<FormItem className="flex flex-col" ref={fieldRef}>
 			<FormLabel>{label}</FormLabel>
 			<Popover>
 				<PopoverTrigger asChild>
 					<FormControl>
 						<Button
+							name={field.name}
 							variant="outline"
 							role="combobox"
 							className={cn(

@@ -164,7 +164,6 @@ export function AdvertiserFormTab3() {
 	});
 
 	const formatValue = form.watch('format');
-	console.log(form.formState.errors);
 
 	useEffect(() => {
 		form.reset(level3);

@@ -239,3 +239,32 @@ a {
 	color: #fff;
 	cursor: pointer;
 }
+
+.quill {
+	p {
+		color: #000;
+	}
+	.ql-container {
+		height: 100%;
+	}
+	.ql-toolbar.ql-snow {
+		border-color: #d9d9d9;
+		border-top-right-radius: 6px;
+		border-top-left-radius: 6px;
+	}
+	.ql-container.ql-snow {
+		border-color: #d9d9d9;
+		border-bottom-right-radius: 6px;
+		border-bottom-left-radius: 6px;
+	}
+
+	.ql-blank {
+		padding-bottom: 50px;
+	}
+}
+
+.quill-view {
+	p {
+		color: #000;
+	}
+}

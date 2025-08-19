@@ -6,7 +6,6 @@ import { useSession } from 'next-auth/react';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	const { data: session, status } = useSession();
-	console.log(session, 'session');
 	if (status === 'loading') {
 		return <Loader9 />;
 	}

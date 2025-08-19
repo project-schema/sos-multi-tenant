@@ -45,10 +45,19 @@ const products: sidebarItem[] = [
 		],
 	},
 	{
-		title: 'All Products',
-		url: '/admin/all-product',
+		title: 'Products',
 		icon: Package,
 		isActive: false,
+		items: [
+			{
+				title: 'Create Product',
+				url: '/product/create',
+			},
+			{
+				title: 'All Products',
+				url: '/product/all',
+			},
+		],
 	},
 	{
 		title: 'Products Orders',

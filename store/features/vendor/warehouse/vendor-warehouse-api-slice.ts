@@ -9,7 +9,7 @@ const api = apiSlice.injectEndpoints({
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
-				url: `/warehouse?page=${page}`,
+				url: `/tenant-warehouse?page=${page}`,
 				method: 'GET',
 			}),
 			providesTags: ['VendorWarehouse'],
@@ -29,7 +29,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/warehouse/store`,
+					url: `/tenant-warehouse/store`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -52,7 +52,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/warehouse/update/${data.id}`,
+					url: `/tenant-warehouse/update/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -67,7 +67,7 @@ const api = apiSlice.injectEndpoints({
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/warehouse/delete/${data.id}`,
+				url: `/tenant-warehouse/delete/${data.id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['VendorWarehouse'],

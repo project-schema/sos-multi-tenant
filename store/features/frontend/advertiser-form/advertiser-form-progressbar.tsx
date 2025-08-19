@@ -5,7 +5,6 @@ export function AdvertiserFormProgressbar({
 }: {
 	currentStep: number;
 }) {
-	console.log(currentStep);
 	return (
 		<div
 			className={`${style.itemsSuccessBox} ${

@@ -9,7 +9,7 @@ const vendorBrandApi = apiSlice.injectEndpoints({
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
-				url: `/tenant-brands?page=${page}`,
+				url: `/tenant-brand?page=${page}`,
 				method: 'GET',
 			}),
 			providesTags: ['VendorBrand'],
@@ -26,7 +26,7 @@ const vendorBrandApi = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/tenant-brand-store`,
+					url: `/tenant-brand/store`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -47,7 +47,7 @@ const vendorBrandApi = apiSlice.injectEndpoints({
 
 				body.append('_method', 'PUT');
 				return {
-					url: `/tenant-brand-update/${data.id}`,
+					url: `/tenant-brand/update/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -62,7 +62,7 @@ const vendorBrandApi = apiSlice.injectEndpoints({
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/tenant-brand-delete/${data.id}`,
+				url: `/tenant-brand/delete/${data.id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['VendorBrand'],

@@ -9,7 +9,7 @@ const api = apiSlice.injectEndpoints({
 			{ page: number | string }
 		>({
 			query: ({ page }) => ({
-				url: `/subcategory-all?page=${page}`,
+				url: `/tenant-sub-category?page=${page}`,
 				method: 'GET',
 			}),
 			providesTags: ['VendorSubCategory'],
@@ -29,7 +29,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/subcategory-store`,
+					url: `/tenant-sub-category/store`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -54,7 +54,7 @@ const api = apiSlice.injectEndpoints({
 				body.append('_method', 'PUT');
 
 				return {
-					url: `/subcategory-update/${data.id}`,
+					url: `/tenant-sub-category/update/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -69,7 +69,7 @@ const api = apiSlice.injectEndpoints({
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/subcategory-delete/${data.id}`,
+				url: `/tenant-sub-category/delete/${data.id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['VendorSubCategory'],

@@ -36,7 +36,6 @@ function Checkout() {
 				  ) || 1
 				: 1) || '--Error--';
 
-	console.log(totalPP);
 	const onSubmit = async () => {
 		const formedDataLOthers = {
 			campaign_objective: state.level1?.name,

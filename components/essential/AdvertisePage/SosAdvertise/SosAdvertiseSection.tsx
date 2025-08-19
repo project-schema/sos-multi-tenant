@@ -30,8 +30,6 @@ function SosAdvertise({
 		},
 	});
 
-	console.log({ data });
-
 	return (
 		<section className={Style.SosAdertiseSection}>
 			<div className="layout">

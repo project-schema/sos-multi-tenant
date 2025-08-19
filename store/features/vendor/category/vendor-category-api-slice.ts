@@ -14,7 +14,7 @@ const api = apiSlice.injectEndpoints({
 			query: ({ page = '', status = null }) => {
 				const queryStatus = status ? `&status=${status}` : '';
 				return {
-					url: `/category-all?page=${page}${queryStatus}`,
+					url: `/tenant-category?page=${page}${queryStatus}`,
 					method: 'GET',
 				};
 			},
@@ -27,7 +27,7 @@ const api = apiSlice.injectEndpoints({
 		>({
 			query: () => {
 				return {
-					url: `/category-all/active`,
+					url: `/tenant-category/active`,
 					method: 'GET',
 				};
 			},
@@ -48,7 +48,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/category-store`,
+					url: `/tenant-category/store`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -74,7 +74,7 @@ const api = apiSlice.injectEndpoints({
 				body.append('_method', 'PUT');
 
 				return {
-					url: `/category-update/${data.id}`,
+					url: `/tenant-category/update/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -89,7 +89,7 @@ const api = apiSlice.injectEndpoints({
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/category-delete/${data.id}`,
+				url: `/tenant-category/delete/${data.id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['VendorCategory'],

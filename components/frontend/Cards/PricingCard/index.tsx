@@ -6,7 +6,6 @@ import style from './PricingCard.module.css';
 
 function PricingCard({ data, user, i }: any) {
 	const handleSwith = () => {
-		console.log('fire');
 	};
 	/*
 	const hanldeSubscription = async (id: number, amount: string) => {

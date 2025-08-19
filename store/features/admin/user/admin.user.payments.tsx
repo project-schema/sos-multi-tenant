@@ -28,7 +28,6 @@ export function AdminUserPayments() {
 			page,
 		});
 
-	console.log(data);
 
 	if (isLoading) {
 		return (

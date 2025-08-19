@@ -13,7 +13,6 @@ const api = apiSlice.injectEndpoints({
 			{ page: number | string; search: string; status: string }
 		>({
 			query: ({ page, search, status }) => {
-				console.log(status);
 				/*
 				api/view-product?page=null&search=
 				api/view-product/active?page=null&search=

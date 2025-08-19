@@ -17,9 +17,7 @@ function Pricing({
 }) {
 	const { data: session } = useSession();
 	const pathName = usePathname();
-	console.log(pathName);
 	const searchParams = useSearchParams().get('from');
-	console.log(searchParams);
 	// Since role is not available in the login response, default to vendor
 	const [toggle, setToggle] = useState('vendor');
 	const [time, setTime] = useState('monthly');

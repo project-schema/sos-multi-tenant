@@ -1,11 +1,8 @@
-'use client'
+'use client';
 
-import { useTestQuery } from "./test-api-slice"
+import { useTestQuery } from './test-api-slice';
 
-export const TestQuery=()=>{
-    const {data}=useTestQuery(undefined)
-    console.log(data)
-    return <div>
-        TestQuery
-    </div>
-}
+export const TestQuery = () => {
+	const { data } = useTestQuery(undefined);
+	return <div>TestQuery</div>;
+};

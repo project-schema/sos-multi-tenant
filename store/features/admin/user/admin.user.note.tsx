@@ -27,7 +27,6 @@ export function AdminUserNote() {
 		page,
 	});
 
-	console.log(data);
 
 	if (isLoading) {
 		return (

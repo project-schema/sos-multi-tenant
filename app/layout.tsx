@@ -5,6 +5,7 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
+import 'react-quill-new/dist/quill.snow.css';
 
 import './globals.css';
 
