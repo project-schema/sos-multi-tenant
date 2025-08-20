@@ -1,25 +1,41 @@
 import { apiSlice } from '../../api/apiSlice';
-import { iVendorProductCreateType } from './vendor-product-type';
+import {
+	iVendorProduct,
+	iVendorProductCreateType,
+	iVendorProductResponse,
+} from './vendor-product-type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		VendorProductAll: builder.query<any, { page: number | string }>({
-			query: ({ page }) => ({
-				url: `/tenant-sub-category?page=${page}`,
+		VendorProductAll: builder.query<
+			iVendorProductResponse,
+			{ page: number | string; search: string }
+		>({
+			query: ({ page, search = '' }) => ({
+				url: `/tenant-product?page=${page}&search=${search}`,
 				method: 'GET',
 			}),
 			providesTags: ['VendorProduct'],
 		}),
 
-		//  create data
+		// get by id
+		VendorProductById: builder.query<iVendorProduct, { id: string }>({
+			query: ({ id }) => ({
+				url: `/tenant-product/edit/${id}`,
+				method: 'GET',
+			}),
+			providesTags: ['VendorProduct'],
+		}),
+
+		//  get create data
 		VendorProductCreateData: builder.query<iVendorProductCreateType, undefined>(
 			{
 				query: () => ({
 					url: `/tenant-product/create`,
 					method: 'GET',
 				}),
-				providesTags: ['VendorProduct'],
+				providesTags: ['VendorProductCreateData'],
 			}
 		),
 
@@ -30,17 +46,19 @@ const api = apiSlice.injectEndpoints({
 					const body = new FormData();
 					Object.entries(data as any).forEach(([key, value]) => {
 						if (key === 'images') {
-							body.append('images[]', value as string);
+							(value as any[])?.forEach((item: any, index: number) => {
+								body.append(`images[${index}]`, item);
+							});
 						} else if (key === 'specification') {
-							value.forEach((item: any, index: number) => {
+							(value as any[])?.forEach((item: any, index: number) => {
 								body.append(`specification[]`, item);
 							});
 						} else if (key === 'specification_ans') {
-							value.forEach((item: any, index: number) => {
+							(value as any[])?.forEach((item: any, index: number) => {
 								body.append(`specification_ans[]`, item);
 							});
 						} else if (key === 'selling_details') {
-							value.forEach((item: any, index: number) => {
+							(value as any[])?.forEach((item: any, index: number) => {
 								console.log(item);
 								body.append(
 									`selling_details[${index}][advance_payment]`,
@@ -124,6 +142,7 @@ const api = apiSlice.injectEndpoints({
 
 export const {
 	useVendorProductAllQuery,
+	useVendorProductByIdQuery,
 	useVendorProductStoreMutation,
 	useVendorProductDeleteMutation,
 	useVendorProductUpdateMutation,

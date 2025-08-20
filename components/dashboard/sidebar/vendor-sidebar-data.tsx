@@ -55,7 +55,7 @@ const products: sidebarItem[] = [
 			},
 			{
 				title: 'All Products',
-				url: '/product/all',
+				url: '/product',
 			},
 		],
 	},
@@ -111,11 +111,11 @@ const pos: sidebarItem[] = [
 		items: [
 			{
 				title: 'New Purchase',
-				url: '/purchase',
+				url: '/purchase/create',
 			},
 			{
 				title: 'Purchase Products',
-				url: '/purchase-products',
+				url: '/purchase',
 			},
 			{
 				title: 'Purchase History',
@@ -178,29 +178,30 @@ const settings: sidebarItem[] = [
 				url: '/courier-company',
 			},
 			{
-				title: 'Apply Courier',
-				url: '/apply-courier',
+				title: 'Pickup Area',
+				url: '/pickup-area',
 			},
 			{
 				title: 'Delivery Area',
 				url: '/delivery-area',
 			},
 			{
+				title: 'Delivery Charge',
+				url: '/delivery-charge',
+			},
+			{
 				title: 'Woo Commerce',
 				url: '/woo-commerce',
 			},
-			{
-				title: 'Pickup Area',
-				url: '/pickup-area',
-			},
+
 			{
 				title: 'Payment Methods',
 				url: '/payment-methods',
 			},
-			{
-				title: 'Invoice Generate',
-				url: '/invoice-generate',
-			},
+			// {
+			// 	title: 'Invoice Generate',
+			// 	url: '/invoice-generate',
+			// },
 		],
 	},
 	{

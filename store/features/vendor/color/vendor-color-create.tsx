@@ -2,7 +2,6 @@
 
 import { DialogFooter } from '@/components/ui/dialog';
 import { LoaderCircle } from 'lucide-react';
-import {} from './vendor-color-type';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';

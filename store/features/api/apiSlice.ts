@@ -100,5 +100,15 @@ export const apiSlice = createApi({
 		'VendorCustomer',
 
 		'VendorProduct',
+		'VendorProductCreateData',
+
+		'VendorOrderSource',
+		'VendorPickAndDeliveryAddress',
+		'VendorDeliveryCharge',
+		'VendorPaymentMethods',
+		'VendorWooCommerce',
+		'VendorCourierCompany',
+		'VendorPurchase',
+		'VendorProductPurchaseCreateData',
 	],
 });

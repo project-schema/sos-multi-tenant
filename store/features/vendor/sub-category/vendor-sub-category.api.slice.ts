@@ -35,7 +35,7 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorSubCategory'],
+			invalidatesTags: ['VendorSubCategory', 'VendorProductCreateData'],
 		}),
 
 		// update
@@ -60,7 +60,7 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorSubCategory'],
+			invalidatesTags: ['VendorSubCategory', 'VendorProductCreateData'],
 		}),
 
 		// delete
@@ -72,7 +72,7 @@ const api = apiSlice.injectEndpoints({
 				url: `/tenant-sub-category/delete/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['VendorSubCategory'],
+			invalidatesTags: ['VendorSubCategory', 'VendorProductCreateData'],
 		}),
 	}),
 });

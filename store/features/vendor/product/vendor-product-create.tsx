@@ -1,10 +1,10 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { Container1 } from '@/components/dashboard';
 import { SearchableSelect } from '@/components/dashboard/form/searchable-select';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
@@ -26,13 +26,26 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover';
+import { Editor } from '@/components/ui/quill-editor';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib';
+import { alertConfirm, cn, handleValidationError } from '@/lib';
 import { format } from 'date-fns';
-import { CalendarIcon, Plus, Trash2 } from 'lucide-react';
+import {
+	AlertCircle,
+	CalendarIcon,
+	LoaderCircle,
+	Plus,
+	Trash2,
+} from 'lucide-react';
 import { useEffect } from 'react';
+import { toast } from 'sonner';
+import { VendorBrandCreateModal } from '../brand/vendor-brand-create-modal';
+import { VendorCategoryCreateModal } from '../category/vendor-category-create-modal';
+import { VendorSubCategoryCreateModal } from '../sub-category/vendor-sub-category-create-modal';
+import { VendorSupplierCreateModal } from '../supplier/vendor-supplier-create-modal';
+import { VendorWarehouseCreateModal } from '../warehouse/vendor-warehouse-create-modal';
 import {
 	useVendorProductCreateDataQuery,
 	useVendorProductStoreMutation,
@@ -42,7 +55,6 @@ import {
 	VendorProductCreateSchema,
 	VendorProductCreateZod,
 } from './vendor-product-zod-type';
-import { Editor } from '@/components/ui/quill-editor';
 
 export const VendorProductCreate = () => {
 	const { data, isLoading, isError } = useVendorProductCreateDataQuery(
@@ -117,7 +129,8 @@ export const VendorProductCreate = () => {
 	const categoryId = form.watch('category_id');
 	const sellingType = form.watch('selling_type');
 	const isAffiliate = form.watch('is_affiliate');
-	console.log(sellingType, isAffiliate);
+	const preOrder = form.watch('pre_order');
+
 	const categories = data?.data?.category ?? [];
 	const subcategories =
 		categories.find((c) => c.id.toString() === categoryId)?.subcategory ?? [];
@@ -135,20 +148,50 @@ export const VendorProductCreate = () => {
 	}, [data]);
 
 	console.log(form.formState.errors);
+	console.log(form.getValues());
 
 	const onSubmit = async (values: VendorProductCreateZod) => {
 		const data = VendorProductCreateData(values);
-		try {
-			const res = await storeProduct(data).unwrap();
-			console.log(res);
-		} catch (error) {
-			console.log(error);
-		}
+
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await storeProduct(data).unwrap();
+					if (response.status === 200) {
+						toast.success(response.message || 'Create successfully');
+						form.reset();
+					} else {
+						if (response?.status === 400) {
+							handleValidationError(response, form.setError, toast.error);
+						} else {
+							toast.error(response.message || 'Something went wrong');
+						}
+					}
+				} catch (error: any) {
+					if (error?.status === 400) {
+						handleValidationError(error, form.setError, toast.error);
+					} else {
+						toast.error('Something went wrong');
+					}
+				}
+			},
+		});
 	};
 
 	return (
 		<Container1
-			header={<CardTitle>Product Create</CardTitle>}
+			header={
+				<div className="flex items-center justify-between flex-wrap gap-2">
+					<CardTitle>Product Create</CardTitle>
+					<div className="flex items-center gap-2 flex-wrap">
+						<VendorBrandCreateModal />
+						<VendorCategoryCreateModal />
+						<VendorSubCategoryCreateModal />
+						<VendorSupplierCreateModal />
+						<VendorWarehouseCreateModal />
+					</div>
+				</div>
+			}
 			isLoading={isLoading}
 			isError={isError}
 		>
@@ -280,6 +323,9 @@ export const VendorProductCreate = () => {
 														{...field}
 														placeholder="0.00"
 														type="number"
+														onWheel={(e) => {
+															(e.target as HTMLInputElement).blur();
+														}}
 														onChange={(e) =>
 															field.onChange(e.target.valueAsNumber || '')
 														}
@@ -302,6 +348,9 @@ export const VendorProductCreate = () => {
 														{...field}
 														placeholder="0.00"
 														type="number"
+														onWheel={(e) => {
+															(e.target as HTMLInputElement).blur();
+														}}
 														onChange={(e) =>
 															field.onChange(e.target.valueAsNumber || '')
 														}
@@ -324,6 +373,9 @@ export const VendorProductCreate = () => {
 														{...field}
 														placeholder="0.00"
 														type="number"
+														onWheel={(e) => {
+															(e.target as HTMLInputElement).blur();
+														}}
 														onChange={(e) => {
 															const value = e.target.value;
 															field.onChange(
@@ -350,6 +402,9 @@ export const VendorProductCreate = () => {
 														{...field}
 														placeholder="0"
 														type="number"
+														onWheel={(e) => {
+															(e.target as HTMLInputElement).blur();
+														}}
 														onChange={(e) =>
 															field.onChange(e.target.valueAsNumber || '')
 														}
@@ -370,7 +425,7 @@ export const VendorProductCreate = () => {
 												label="Supplier Company Name"
 												options={
 													(data?.data?.supplier ?? []).map((s) => ({
-														label: s.supplier_name,
+														label: s.business_name,
 														value: s.id.toString(),
 													})) ?? []
 												}
@@ -496,7 +551,6 @@ export const VendorProductCreate = () => {
 												<Editor
 													value={field.value ?? ''}
 													onChange={(val) => field.onChange(val)}
-													placeholder="Type long description..."
 												/>
 											</FormControl>
 											<FormMessage />
@@ -512,7 +566,7 @@ export const VendorProductCreate = () => {
 										{specFields.map((sf, index) => (
 											<Card key={sf.id}>
 												<CardContent>
-													<div className="grid grid-cols-2 gap-6 relative">
+													<div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
 														<FormField
 															control={form.control}
 															name={`specifications.${index}.question`}
@@ -577,7 +631,7 @@ export const VendorProductCreate = () => {
 									</CardContent>
 								</Card>
 
-								<div className="grid grid-cols-2 gap-6">
+								<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
 									{/* Featured Product */}
 									<FormField
 										control={form.control}
@@ -629,449 +683,585 @@ export const VendorProductCreate = () => {
 								</div>
 
 								{/* Drop Shipper Sales Type */}
-								<Card className={isAffiliate ? 'bg-blue-50' : ''}>
-									<CardContent>
-										<div className="space-y-6">
-											<div className="space-y-4">
-												<div className="flex items-center gap-2 justify-between">
-													<h4 className="text-lg font-medium">
-														Drop Shipper Sales Type
-													</h4>
-													<FormField
-														control={form.control}
-														name="is_affiliate"
-														render={({ field }) => (
-															<FormItem>
-																<FormControl>
-																	<Switch
-																		checked={field.value}
-																		onCheckedChange={field.onChange}
-																		className="scale-125"
-																	/>
-																</FormControl>
-															</FormItem>
-														)}
-													/>
-												</div>
-												{isAffiliate && (
-													<>
+								{!preOrder && (
+									<Card className={isAffiliate ? 'bg-blue-50' : ''}>
+										<CardContent>
+											<div className="space-y-6">
+												<div className="space-y-4">
+													<div className="flex items-center gap-2 justify-between">
+														<h4 className="text-lg font-medium">
+															Drop Shipper Sales Type
+														</h4>
 														<FormField
 															control={form.control}
-															name="selling_type"
+															name="is_affiliate"
 															render={({ field }) => (
-																<FormItem className="space-y-3">
+																<FormItem>
 																	<FormControl>
-																		<RadioGroup
-																			onValueChange={field.onChange}
-																			defaultValue={field.value}
-																			className="flex items-center gap-2"
-																		>
-																			<FormItem className="flex items-center gap-3">
-																				<FormControl>
-																					<RadioGroupItem value="single" />
-																				</FormControl>
-																				<FormLabel className="font-normal">
-																					Single
-																				</FormLabel>
-																			</FormItem>
-																			<FormItem className="flex items-center gap-3">
-																				<FormControl>
-																					<RadioGroupItem value="bulk" />
-																				</FormControl>
-																				<FormLabel className="font-normal">
-																					Bulk
-																				</FormLabel>
-																			</FormItem>
-																			<FormItem className="flex items-center gap-3">
-																				<FormControl>
-																					<RadioGroupItem value="both" />
-																				</FormControl>
-																				<FormLabel className="font-normal">
-																					Both
-																				</FormLabel>
-																			</FormItem>
-																		</RadioGroup>
+																		<Switch
+																			checked={field.value}
+																			onCheckedChange={field.onChange}
+																			className="scale-125"
+																		/>
 																	</FormControl>
-																	<FormMessage />
 																</FormItem>
 															)}
 														/>
-														{sellingType === 'both' && (
+													</div>
+													{isAffiliate && (
+														<>
 															<FormField
 																control={form.control}
-																name="is_connect_bulk_single"
+																name="selling_type"
 																render={({ field }) => (
-																	<FormItem className="flex flex-row items-center gap-2">
+																	<FormItem className="space-y-3">
 																		<FormControl>
-																			<Checkbox
-																				checked={field.value}
-																				onCheckedChange={field.onChange}
-																				className="scale-125"
-																			/>
+																			<RadioGroup
+																				onValueChange={field.onChange}
+																				defaultValue={field.value}
+																				className="flex items-center gap-2"
+																			>
+																				<FormItem className="flex items-center gap-3">
+																					<FormControl>
+																						<RadioGroupItem value="single" />
+																					</FormControl>
+																					<FormLabel className="font-normal">
+																						Single
+																					</FormLabel>
+																				</FormItem>
+																				<FormItem className="flex items-center gap-3">
+																					<FormControl>
+																						<RadioGroupItem value="bulk" />
+																					</FormControl>
+																					<FormLabel className="font-normal">
+																						Bulk
+																					</FormLabel>
+																				</FormItem>
+																				<FormItem className="flex items-center gap-3">
+																					<FormControl>
+																						<RadioGroupItem value="both" />
+																					</FormControl>
+																					<FormLabel className="font-normal">
+																						Both
+																					</FormLabel>
+																				</FormItem>
+																			</RadioGroup>
 																		</FormControl>
-																		<FormLabel className="text-sm font-normal">
-																			I Have Unlimited Products
-																		</FormLabel>
+																		<FormMessage />
 																	</FormItem>
 																)}
 															/>
+															{sellingType === 'both' && (
+																<FormField
+																	control={form.control}
+																	name="is_connect_bulk_single"
+																	render={({ field }) => (
+																		<FormItem className="flex flex-row items-center gap-2">
+																			<FormControl>
+																				<Checkbox
+																					checked={field.value}
+																					onCheckedChange={field.onChange}
+																					className="scale-125"
+																				/>
+																			</FormControl>
+																			<FormLabel className="text-sm font-normal">
+																				I Have Unlimited Products
+																			</FormLabel>
+																		</FormItem>
+																	)}
+																/>
+															)}
+														</>
+													)}
+												</div>
+
+												{isAffiliate && (
+													<>
+														{/* Dynamic Selling Details */}
+														{sellingType !== 'single' && (
+															<div className="space-y-4">
+																{sellingFields.map((sf, index) => (
+																	<Card key={sf.id} className="bg-white/70">
+																		<CardContent className="space-y-4">
+																			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 2xl:grid-cols-4 gap-6 relative">
+																				<FormField
+																					control={form.control}
+																					name={`selling_details.${index}.min_bulk_qty`}
+																					render={({ field }) => (
+																						<FormItem className="gap-5">
+																							<FormLabel>
+																								Min Bulk Qty
+																							</FormLabel>
+																							<FormControl>
+																								<Input
+																									{...field}
+																									placeholder="0"
+																									type="number"
+																									onWheel={(e) => {
+																										(
+																											e.target as HTMLInputElement
+																										).blur();
+																									}}
+																									onChange={(e) =>
+																										field.onChange(
+																											e.target.valueAsNumber ||
+																												''
+																										)
+																									}
+																									className="pr-3"
+																								/>
+																							</FormControl>
+																							<FormMessage />
+																						</FormItem>
+																					)}
+																				/>
+																				<FormField
+																					control={form.control}
+																					name={`selling_details.${index}.min_bulk_price`}
+																					render={({ field }) => (
+																						<FormItem className="gap-5">
+																							<FormLabel>
+																								Min Bulk Price
+																							</FormLabel>
+																							<FormControl>
+																								<Input
+																									{...field}
+																									placeholder="0.00"
+																									type="number"
+																									onWheel={(e) => {
+																										(
+																											e.target as HTMLInputElement
+																										).blur();
+																									}}
+																									onChange={(e) =>
+																										field.onChange(
+																											e.target.valueAsNumber ||
+																												''
+																										)
+																									}
+																									className="pr-3"
+																								/>
+																							</FormControl>
+																							<FormMessage />
+																						</FormItem>
+																					)}
+																				/>
+
+																				<div className="relative">
+																					<FormField
+																						control={form.control}
+																						name={`selling_details.${index}.bulk_commission_type`}
+																						render={({ field }) => (
+																							<FormItem className="space-y-3 absolute top-4 left-4">
+																								<FormControl>
+																									<RadioGroup
+																										onValueChange={
+																											field.onChange
+																										}
+																										defaultValue={field.value}
+																										className="flex items-center gap-4"
+																									>
+																										<FormItem className="flex items-center gap-1">
+																											<FormControl>
+																												<RadioGroupItem value="flat" />
+																											</FormControl>
+																											<FormLabel className="font-normal text-xs">
+																												Flat
+																											</FormLabel>
+																										</FormItem>
+																										<FormItem className="flex items-center gap-1">
+																											<FormControl>
+																												<RadioGroupItem value="percent" />
+																											</FormControl>
+																											<FormLabel className="font-normal text-xs">
+																												percent
+																											</FormLabel>
+																										</FormItem>
+																									</RadioGroup>
+																								</FormControl>
+																								<FormMessage />
+																							</FormItem>
+																						)}
+																					/>
+																					<FormField
+																						control={form.control}
+																						name={`selling_details.${index}.bulk_commission`}
+																						render={({ field }) => (
+																							<FormItem className="gap-5">
+																								<FormLabel>
+																									Bulk Commission
+																								</FormLabel>
+																								<FormControl>
+																									<Input
+																										{...field}
+																										placeholder="0.00"
+																										type="number"
+																										onWheel={(e) => {
+																											(
+																												e.target as HTMLInputElement
+																											).blur();
+																										}}
+																										onChange={(e) =>
+																											field.onChange(
+																												e.target
+																													.valueAsNumber || ''
+																											)
+																										}
+																										className="pr-3"
+																									/>
+																								</FormControl>
+																								<FormMessage />
+																							</FormItem>
+																						)}
+																					/>
+																				</div>
+																				<div className="relative">
+																					<FormField
+																						control={form.control}
+																						name={`selling_details.${index}.advance_payment_type`}
+																						render={({ field }) => (
+																							<FormItem className="space-y-3 absolute top-4 left-4">
+																								<FormControl>
+																									<RadioGroup
+																										onValueChange={
+																											field.onChange
+																										}
+																										defaultValue={field.value}
+																										className="flex items-center gap-4"
+																									>
+																										<FormItem className="flex items-center gap-1">
+																											<FormControl>
+																												<RadioGroupItem value="flat" />
+																											</FormControl>
+																											<FormLabel className="font-normal text-xs">
+																												Flat
+																											</FormLabel>
+																										</FormItem>
+																										<FormItem className="flex items-center gap-1">
+																											<FormControl>
+																												<RadioGroupItem value="percent" />
+																											</FormControl>
+																											<FormLabel className="font-normal text-xs">
+																												percent
+																											</FormLabel>
+																										</FormItem>
+																									</RadioGroup>
+																								</FormControl>
+																								<FormMessage />
+																							</FormItem>
+																						)}
+																					/>
+																					<FormField
+																						control={form.control}
+																						name={`selling_details.${index}.advance_payment`}
+																						render={({ field }) => (
+																							<FormItem className="gap-5">
+																								<FormLabel>
+																									Advance Amount
+																								</FormLabel>
+																								<FormControl>
+																									<Input
+																										{...field}
+																										placeholder="0.00"
+																										type="number"
+																										onWheel={(e) => {
+																											(
+																												e.target as HTMLInputElement
+																											).blur();
+																										}}
+																										onChange={(e) =>
+																											field.onChange(
+																												e.target
+																													.valueAsNumber || ''
+																											)
+																										}
+																										className="pr-3"
+																									/>
+																								</FormControl>
+																								<FormMessage />
+																							</FormItem>
+																						)}
+																					/>
+																				</div>
+
+																				<Button
+																					type="button"
+																					variant="link"
+																					size="icon"
+																					onClick={() => removeSelling(index)}
+																					className={`absolute -top-4 -right-4 ${
+																						sellingFields.length === 1
+																							? 'hidden'
+																							: ''
+																					}`}
+																				>
+																					<Trash2 className="h-4 w-4 text-destructive" />
+																					<span className="sr-only">
+																						Remove
+																					</span>
+																				</Button>
+																			</div>
+																		</CardContent>
+																	</Card>
+																))}
+																<div className="flex justify-end">
+																	<Button
+																		type="button"
+																		variant="outline"
+																		size="icon"
+																		onClick={() =>
+																			appendSelling({
+																				min_bulk_qty: 0,
+																				min_bulk_price: 0,
+																				bulk_commission: 0,
+																				bulk_commission_type: 'flat',
+																				advance_payment_type: 'flat',
+																				advance_payment: 0,
+																			})
+																		}
+																	>
+																		<Plus className="h-4 w-4" />
+																		<span className="sr-only">Add New</span>
+																	</Button>
+																</div>
+															</div>
+														)}
+
+														{/* Global discount/commission */}
+														{sellingType !== 'bulk' && (
+															<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+																{/* Advance Amount */}
+																<div className="relative">
+																	<FormField
+																		control={form.control}
+																		name="single_advance_payment_type"
+																		render={({ field }) => (
+																			<FormItem className="space-y-3 absolute top-4 left-4">
+																				<FormControl>
+																					<RadioGroup
+																						onValueChange={field.onChange}
+																						defaultValue={field.value}
+																						className="flex items-center gap-4"
+																					>
+																						<FormItem className="flex items-center gap-1">
+																							<FormControl>
+																								<RadioGroupItem value="flat" />
+																							</FormControl>
+																							<FormLabel className="font-normal text-xs">
+																								Flat
+																							</FormLabel>
+																						</FormItem>
+																						<FormItem className="flex items-center gap-1">
+																							<FormControl>
+																								<RadioGroupItem value="percent" />
+																							</FormControl>
+																							<FormLabel className="font-normal text-xs">
+																								percent
+																							</FormLabel>
+																						</FormItem>
+																					</RadioGroup>
+																				</FormControl>
+																				<FormMessage />
+																			</FormItem>
+																		)}
+																	/>
+																	<FormField
+																		control={form.control}
+																		name="advance_payment"
+																		render={({ field }) => (
+																			<FormItem className="gap-6">
+																				<FormLabel>Advance Amount</FormLabel>
+																				<FormControl>
+																					<Input
+																						{...field}
+																						placeholder="0.00"
+																						type="number"
+																						onWheel={(e) => {
+																							(
+																								e.target as HTMLInputElement
+																							).blur();
+																						}}
+																						onChange={(e) =>
+																							field.onChange(
+																								e.target.valueAsNumber || ''
+																							)
+																						}
+																						className="pr-3"
+																					/>
+																				</FormControl>
+																				<FormMessage />
+																			</FormItem>
+																		)}
+																	/>
+																</div>
+																<div className="relative">
+																	<FormField
+																		control={form.control}
+																		name="discount_type"
+																		render={({ field }) => (
+																			<FormItem className="space-y-3 absolute top-4 left-4">
+																				<FormControl>
+																					<RadioGroup
+																						onValueChange={field.onChange}
+																						defaultValue={field.value}
+																						className="flex items-center gap-4"
+																					>
+																						<FormItem className="flex items-center gap-1">
+																							<FormControl>
+																								<RadioGroupItem value="flat" />
+																							</FormControl>
+																							<FormLabel className="font-normal text-xs">
+																								Flat
+																							</FormLabel>
+																						</FormItem>
+																						<FormItem className="flex items-center gap-1">
+																							<FormControl>
+																								<RadioGroupItem value="percent" />
+																							</FormControl>
+																							<FormLabel className="font-normal text-xs">
+																								percent
+																							</FormLabel>
+																						</FormItem>
+																					</RadioGroup>
+																				</FormControl>
+																				<FormMessage />
+																			</FormItem>
+																		)}
+																	/>
+																	<FormField
+																		control={form.control}
+																		name="discount_rate"
+																		render={({ field }) => (
+																			<FormItem className="gap-6">
+																				<FormLabel>
+																					Discount/Commission
+																				</FormLabel>
+																				<FormControl>
+																					<Input
+																						{...field}
+																						placeholder="0.00"
+																						type="number"
+																						onWheel={(e) => {
+																							(
+																								e.target as HTMLInputElement
+																							).blur();
+																						}}
+																						onChange={(e) =>
+																							field.onChange(
+																								e.target.valueAsNumber || ''
+																							)
+																						}
+																						className="pr-3"
+																					/>
+																				</FormControl>
+																				<FormMessage />
+																			</FormItem>
+																		)}
+																	/>
+																</div>
+															</div>
 														)}
 													</>
 												)}
 											</div>
-
-											{isAffiliate && (
-												<>
-													{/* Dynamic Selling Details */}
-													{sellingType !== 'single' && (
-														<div className="space-y-4">
-															{sellingFields.map((sf, index) => (
-																<Card key={sf.id} className="bg-white/70">
-																	<CardContent className="space-y-4">
-																		<div className="grid grid-cols-2 md:grid-cols-2 2xl:grid-cols-4 gap-6 relative">
-																			<FormField
-																				control={form.control}
-																				name={`selling_details.${index}.min_bulk_qty`}
-																				render={({ field }) => (
-																					<FormItem className="gap-5">
-																						<FormLabel>Min Bulk Qty</FormLabel>
-																						<FormControl>
-																							<Input
-																								{...field}
-																								placeholder="0"
-																								type="number"
-																								onChange={(e) =>
-																									field.onChange(
-																										e.target.valueAsNumber || ''
-																									)
-																								}
-																								className="pr-3"
-																							/>
-																						</FormControl>
-																						<FormMessage />
-																					</FormItem>
-																				)}
-																			/>
-																			<FormField
-																				control={form.control}
-																				name={`selling_details.${index}.min_bulk_price`}
-																				render={({ field }) => (
-																					<FormItem className="gap-5">
-																						<FormLabel>
-																							Min Bulk Price
-																						</FormLabel>
-																						<FormControl>
-																							<Input
-																								{...field}
-																								placeholder="0.00"
-																								type="number"
-																								onChange={(e) =>
-																									field.onChange(
-																										e.target.valueAsNumber || ''
-																									)
-																								}
-																								className="pr-3"
-																							/>
-																						</FormControl>
-																						<FormMessage />
-																					</FormItem>
-																				)}
-																			/>
-
-																			<div className="relative">
-																				<FormField
-																					control={form.control}
-																					name={`selling_details.${index}.bulk_commission_type`}
-																					render={({ field }) => (
-																						<FormItem className="space-y-3 absolute top-4 left-4">
-																							<FormControl>
-																								<RadioGroup
-																									onValueChange={field.onChange}
-																									defaultValue={field.value}
-																									className="flex items-center gap-4"
-																								>
-																									<FormItem className="flex items-center gap-1">
-																										<FormControl>
-																											<RadioGroupItem value="flat" />
-																										</FormControl>
-																										<FormLabel className="font-normal text-xs">
-																											Flat
-																										</FormLabel>
-																									</FormItem>
-																									<FormItem className="flex items-center gap-1">
-																										<FormControl>
-																											<RadioGroupItem value="percent" />
-																										</FormControl>
-																										<FormLabel className="font-normal text-xs">
-																											percent
-																										</FormLabel>
-																									</FormItem>
-																								</RadioGroup>
-																							</FormControl>
-																							<FormMessage />
-																						</FormItem>
-																					)}
-																				/>
-																				<FormField
-																					control={form.control}
-																					name={`selling_details.${index}.bulk_commission`}
-																					render={({ field }) => (
-																						<FormItem className="gap-5">
-																							<FormLabel>
-																								Bulk Commission
-																							</FormLabel>
-																							<FormControl>
-																								<Input
-																									{...field}
-																									placeholder="0.00"
-																									type="number"
-																									onChange={(e) =>
-																										field.onChange(
-																											e.target.valueAsNumber ||
-																												''
-																										)
-																									}
-																									className="pr-3"
-																								/>
-																							</FormControl>
-																							<FormMessage />
-																						</FormItem>
-																					)}
-																				/>
-																			</div>
-																			<div className="relative">
-																				<FormField
-																					control={form.control}
-																					name={`selling_details.${index}.advance_payment_type`}
-																					render={({ field }) => (
-																						<FormItem className="space-y-3 absolute top-4 left-4">
-																							<FormControl>
-																								<RadioGroup
-																									onValueChange={field.onChange}
-																									defaultValue={field.value}
-																									className="flex items-center gap-4"
-																								>
-																									<FormItem className="flex items-center gap-1">
-																										<FormControl>
-																											<RadioGroupItem value="flat" />
-																										</FormControl>
-																										<FormLabel className="font-normal text-xs">
-																											Flat
-																										</FormLabel>
-																									</FormItem>
-																									<FormItem className="flex items-center gap-1">
-																										<FormControl>
-																											<RadioGroupItem value="percent" />
-																										</FormControl>
-																										<FormLabel className="font-normal text-xs">
-																											percent
-																										</FormLabel>
-																									</FormItem>
-																								</RadioGroup>
-																							</FormControl>
-																							<FormMessage />
-																						</FormItem>
-																					)}
-																				/>
-																				<FormField
-																					control={form.control}
-																					name={`selling_details.${index}.advance_payment`}
-																					render={({ field }) => (
-																						<FormItem className="gap-5">
-																							<FormLabel>
-																								Advance Amount
-																							</FormLabel>
-																							<FormControl>
-																								<Input
-																									{...field}
-																									placeholder="0.00"
-																									type="number"
-																									onChange={(e) =>
-																										field.onChange(
-																											e.target.valueAsNumber ||
-																												''
-																										)
-																									}
-																									className="pr-3"
-																								/>
-																							</FormControl>
-																							<FormMessage />
-																						</FormItem>
-																					)}
-																				/>
-																			</div>
-
-																			<Button
-																				type="button"
-																				variant="link"
-																				size="icon"
-																				onClick={() => removeSelling(index)}
-																				className={`absolute -top-4 -right-4 ${
-																					sellingFields.length === 1
-																						? 'hidden'
-																						: ''
-																				}`}
-																			>
-																				<Trash2 className="h-4 w-4 text-destructive" />
-																				<span className="sr-only">Remove</span>
-																			</Button>
-																		</div>
-																	</CardContent>
-																</Card>
-															))}
-															<div className="flex justify-end">
-																<Button
-																	type="button"
-																	variant="outline"
-																	size="icon"
-																	onClick={() =>
-																		appendSelling({
-																			min_bulk_qty: 0,
-																			min_bulk_price: 0,
-																			bulk_commission: 0,
-																			bulk_commission_type: 'flat',
-																			advance_payment_type: 'flat',
-																			advance_payment: 0,
-																		})
+										</CardContent>
+									</Card>
+								)}
+								{form.formState.errors &&
+									Object.keys(form.formState.errors).length > 0 && (
+										<Alert className="border-amber-500/50 text-amber-500 dark:border-amber-500 [&>svg]:text-amber-500">
+											<AlertCircle className="h-4 w-4" />
+											<AlertTitle>Please fix the following errors</AlertTitle>
+											<AlertDescription>
+												{Object.entries(form.formState.errors).map(
+													([fieldKey, error], index) => {
+														// If the error is an array (like specifications or selling_details)
+														if (Array.isArray(error)) {
+															return error.map((item, itemIndex) => {
+																return Object.entries(item).map(
+																	([subField, subError]) => {
+																		if (
+																			subError &&
+																			typeof subError === 'object' &&
+																			'message' in subError
+																		) {
+																			return (
+																				<p
+																					className="text-amber-500"
+																					key={`${fieldKey}-${itemIndex}-${subField}`}
+																				>
+																					{index + 1}.{itemIndex + 1}.{subField}
+																					: {String(subError.message)}
+																				</p>
+																			);
+																		}
+																		return null;
 																	}
-																>
-																	<Plus className="h-4 w-4" />
-																	<span className="sr-only">Add New</span>
-																</Button>
-															</div>
-														</div>
-													)}
+																);
+															});
+														}
 
-													{/* Global discount/commission */}
-													{sellingType !== 'bulk' && (
-														<div className="grid grid-cols-2 gap-6">
-															{/* Advance Amount */}
-															<div className="relative">
-																<FormField
-																	control={form.control}
-																	name="single_advance_payment_type"
-																	render={({ field }) => (
-																		<FormItem className="space-y-3 absolute top-4 left-4">
-																			<FormControl>
-																				<RadioGroup
-																					onValueChange={field.onChange}
-																					defaultValue={field.value}
-																					className="flex items-center gap-4"
-																				>
-																					<FormItem className="flex items-center gap-1">
-																						<FormControl>
-																							<RadioGroupItem value="flat" />
-																						</FormControl>
-																						<FormLabel className="font-normal text-xs">
-																							Flat
-																						</FormLabel>
-																					</FormItem>
-																					<FormItem className="flex items-center gap-1">
-																						<FormControl>
-																							<RadioGroupItem value="percent" />
-																						</FormControl>
-																						<FormLabel className="font-normal text-xs">
-																							percent
-																						</FormLabel>
-																					</FormItem>
-																				</RadioGroup>
-																			</FormControl>
-																			<FormMessage />
-																		</FormItem>
-																	)}
-																/>
-																<FormField
-																	control={form.control}
-																	name="advance_payment"
-																	render={({ field }) => (
-																		<FormItem className="gap-6">
-																			<FormLabel>Advance Amount</FormLabel>
-																			<FormControl>
-																				<Input
-																					{...field}
-																					placeholder="0.00"
-																					type="number"
-																					onChange={(e) =>
-																						field.onChange(
-																							e.target.valueAsNumber || ''
-																						)
-																					}
-																					className="pr-3"
-																				/>
-																			</FormControl>
-																			<FormMessage />
-																		</FormItem>
-																	)}
-																/>
-															</div>
-															<div className="relative">
-																<FormField
-																	control={form.control}
-																	name="discount_type"
-																	render={({ field }) => (
-																		<FormItem className="space-y-3 absolute top-4 left-4">
-																			<FormControl>
-																				<RadioGroup
-																					onValueChange={field.onChange}
-																					defaultValue={field.value}
-																					className="flex items-center gap-4"
-																				>
-																					<FormItem className="flex items-center gap-1">
-																						<FormControl>
-																							<RadioGroupItem value="flat" />
-																						</FormControl>
-																						<FormLabel className="font-normal text-xs">
-																							Flat
-																						</FormLabel>
-																					</FormItem>
-																					<FormItem className="flex items-center gap-1">
-																						<FormControl>
-																							<RadioGroupItem value="percent" />
-																						</FormControl>
-																						<FormLabel className="font-normal text-xs">
-																							percent
-																						</FormLabel>
-																					</FormItem>
-																				</RadioGroup>
-																			</FormControl>
-																			<FormMessage />
-																		</FormItem>
-																	)}
-																/>
-																<FormField
-																	control={form.control}
-																	name="discount_rate"
-																	render={({ field }) => (
-																		<FormItem className="gap-6">
-																			<FormLabel>Discount/Commission</FormLabel>
-																			<FormControl>
-																				<Input
-																					{...field}
-																					placeholder="0.00"
-																					type="number"
-																					onChange={(e) =>
-																						field.onChange(
-																							e.target.valueAsNumber || ''
-																						)
-																					}
-																					className="pr-3"
-																				/>
-																			</FormControl>
-																			<FormMessage />
-																		</FormItem>
-																	)}
-																/>
-															</div>
-														</div>
-													)}
-												</>
-											)}
-										</div>
-									</CardContent>
-								</Card>
+														// If it's a nested object (like question/answer), not an array
+														if (
+															typeof error === 'object' &&
+															!('message' in error)
+														) {
+															return Object.entries(error).map(
+																([subField, subError]) => {
+																	if (
+																		subError &&
+																		typeof subError === 'object' &&
+																		'message' in subError
+																	) {
+																		return (
+																			<p
+																				className="text-amber-500"
+																				key={`${fieldKey}-${subField}`}
+																			>
+																				{index + 1}. {subError.message}
+																			</p>
+																		);
+																	}
+																	return null;
+																}
+															);
+														}
 
+														// Handle error arrays like images.0: ["..."]
+														if (Array.isArray(error)) {
+															return error.map((message, i) => {
+																return (
+																	<p
+																		className="text-amber-500"
+																		key={`${fieldKey}-${i}`}
+																	>
+																		{index + 1}.{i + 1}. {fieldKey}:{' '}
+																		{String(message)}
+																	</p>
+																);
+															});
+														}
+
+														// Direct top-level error
+														if (error?.message) {
+															return (
+																<p className="text-amber-500" key={fieldKey}>
+																	{index + 1}. {error.message}
+																</p>
+															);
+														}
+
+														return null;
+													}
+												)}
+											</AlertDescription>
+										</Alert>
+									)}
 								<div>
 									<Button type="submit" disabled={isSaving}>
+										{isSaving && (
+											<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+										)}
 										{isSaving ? 'Creating...' : 'Create Product'}
 									</Button>
 								</div>

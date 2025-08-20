@@ -1,41 +1,49 @@
 import z from 'zod';
 
 const SpecItemSchema = z.object({
-	question: z.string({ error: 'Question is required' }),
-	answer: z.string({ error: 'Answer is required' }),
+	question: z
+		.string({ error: 'Question is required' })
+		.min(1, 'Question is required'),
+	answer: z
+		.string({ error: 'Answer is required' })
+		.min(1, 'Answer is required'),
 });
 
 const SellingDetailSchema = z.object({
 	min_bulk_qty: z
 		.number({ error: 'Min bulk qty is required' })
 		.min(0, { message: 'Min bulk qty must be at least 0' })
-		.max(1000000, { message: 'Too long' })
+		.max(10000000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Min bulk qty must be a number',
-		}),
+		})
+		.optional(),
 	min_bulk_price: z
 		.number({ error: 'Min bulk price is required' })
-		.min(1, { message: 'Min bulk price must be at least 1' })
-		.max(1000000, { message: 'Too long' })
+		.min(0, { message: 'Min bulk price must be at least 0' })
+		.max(10000000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Min bulk price must be a number',
-		}),
+		})
+		.optional(),
 	bulk_commission: z
 		.number({ error: 'Bulk commission is required' })
 		.min(0, { message: 'Bulk commission must be at least 0' })
-		.max(1000000, { message: 'Too long' })
+		.max(10000000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Bulk commission must be a number',
-		}),
-	bulk_commission_type: z.enum(['flat', 'percent']),
-	advance_payment_type: z.enum(['flat', 'percent']),
+		})
+		.optional(),
+	bulk_commission_type: z.enum(['flat', 'percent']).optional(),
+	advance_payment_type: z.enum(['flat', 'percent']).optional(),
 	advance_payment: z
 		.number({ error: 'Advance payment is required' })
 		.min(0, { message: 'Advance payment must be at least 0' })
-		.max(1000000, { message: 'Too long' })
+		.max(10000000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Advance payment must be a number',
-		}),
+		})
+		.optional(),
 });
 
 export const VendorProductCreateSchema = z
@@ -63,21 +71,21 @@ export const VendorProductCreateSchema = z
 		original_price: z
 			.number({ error: 'Original price is required' })
 			.min(1, { message: 'Original price must be at least 1' })
-			.max(1000000, { message: 'Too long' })
+			.max(10000000000, { message: 'Too long' })
 			.refine((val) => !isNaN(val), {
 				message: 'Original price must be a number',
 			}),
 		selling_price: z
 			.number({ error: 'Selling price is required' })
 			.min(1, { message: 'Selling price must be at least 1' })
-			.max(1000000, { message: 'Too long' })
+			.max(10000000000, { message: 'Too long' })
 			.refine((val) => !isNaN(val), {
 				message: 'Selling price must be a number',
 			}),
 		discount_price: z
 			.number({ error: 'Discount price is required' })
 			.min(0, { message: 'Discount price must be at least 0' })
-			.max(1000000, { message: 'Too long' })
+			.max(10000000000, { message: 'Too long' })
 			.optional(),
 		alert_qty: z
 			.number({ error: 'Alert quantity is required' })
@@ -151,31 +159,33 @@ export const VendorProductCreateSchema = z
 	.refine(
 		(data) => {
 			// Validate that selling_price is not greater than original_price
-			if (data.selling_price > data.original_price) {
+			if (data.selling_price < data.original_price) {
 				return false;
 			}
 			return true;
 		},
 		{
-			message: 'Selling price cannot be greater than original price',
+			message: 'Selling price cannot be less than original price',
 			path: ['selling_price'],
 		}
 	)
 	.refine(
 		(data) => {
-			// Validate discount_price logic
 			if (data.discount_price !== undefined && data.discount_price !== null) {
-				if (data.discount_price >= data.selling_price) {
-					return false;
-				}
+				return (
+					data.discount_price >= data.original_price &&
+					data.discount_price <= data.selling_price
+				);
 			}
 			return true;
 		},
 		{
-			message: 'Discount price must be less than selling price',
+			message:
+				'Discount price must be between original price and selling price',
 			path: ['discount_price'],
 		}
 	)
+
 	.refine(
 		(data) => {
 			// Validate specifications array is not empty
@@ -229,7 +239,7 @@ export const VendorProductCreateData = (values: VendorProductCreateZod) => {
 		images: values.images?.map((e) => e),
 		is_affiliate: values.is_affiliate ? '1' : '0',
 		qty: 0,
-		pre_order: values.pre_order,
+		pre_order: values.pre_order ? '1' : '0',
 		is_connect_bulk_single: 1,
 	};
 	const single = {

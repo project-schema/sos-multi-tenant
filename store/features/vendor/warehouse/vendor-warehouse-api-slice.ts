@@ -35,7 +35,7 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorWarehouse'],
+			invalidatesTags: ['VendorWarehouse', 'VendorProductCreateData'],
 		}),
 
 		// update
@@ -58,7 +58,7 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorWarehouse'],
+			invalidatesTags: ['VendorWarehouse', 'VendorProductCreateData'],
 		}),
 
 		// delete
@@ -70,7 +70,7 @@ const api = apiSlice.injectEndpoints({
 				url: `/tenant-warehouse/delete/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['VendorWarehouse'],
+			invalidatesTags: ['VendorWarehouse', 'VendorProductCreateData'],
 		}),
 	}),
 });

@@ -32,7 +32,7 @@ const vendorBrandApi = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorBrand'],
+			invalidatesTags: ['VendorBrand', 'VendorProductCreateData'],
 		}),
 
 		// update
@@ -45,7 +45,7 @@ const vendorBrandApi = apiSlice.injectEndpoints({
 					}
 				});
 
-				body.append('_method', 'PUT');
+				// body.append('_method', 'PUT');
 				return {
 					url: `/tenant-brand/update/${data.id}`,
 					method: 'POST',
@@ -53,7 +53,7 @@ const vendorBrandApi = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorBrand'],
+			invalidatesTags: ['VendorBrand', 'VendorProductCreateData'],
 		}),
 
 		// delete
@@ -65,7 +65,7 @@ const vendorBrandApi = apiSlice.injectEndpoints({
 				url: `/tenant-brand/delete/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['VendorBrand'],
+			invalidatesTags: ['VendorBrand', 'VendorProductCreateData'],
 		}),
 	}),
 });

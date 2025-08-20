@@ -56,7 +56,7 @@ export function ConversionLocationTable() {
 										colSpan={4}
 										className="text-center py-8 text-muted-foreground"
 									>
-										No Category found matching your criteria
+										No data found matching your criteria
 									</TableCell>
 								</TableRow>
 							) : (

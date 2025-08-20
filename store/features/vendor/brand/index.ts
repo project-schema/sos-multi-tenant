@@ -1,3 +1,4 @@
+export * from './vendor-brand-create-modal';
 export * from './vendor.brand.api.slice';
 export * from './vendor.brand.create';
 export * from './vendor.brand.delete';

@@ -9,12 +9,22 @@ const ReactQuill = dynamic(() => import('react-quill-new'), {
 interface EditorProps {
 	value?: string;
 	onChange?: (value: string) => void;
+	placeholder?: string;
 }
 
-export function Editor({ value, onChange }: EditorProps) {
+export function Editor({
+	value,
+	onChange,
+	placeholder = 'Type description...',
+}: EditorProps) {
 	return (
 		<div>
-			<ReactQuill theme="snow" value={value} onChange={onChange} />
+			<ReactQuill
+				theme="snow"
+				value={value}
+				onChange={onChange}
+				placeholder={placeholder}
+			/>
 		</div>
 	);
 }

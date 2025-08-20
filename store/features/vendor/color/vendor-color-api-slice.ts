@@ -31,7 +31,7 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorColor'],
+			invalidatesTags: ['VendorColor', 'VendorProductPurchaseCreateData'],
 		}),
 
 		// update
@@ -51,7 +51,7 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorColor'],
+			invalidatesTags: ['VendorColor', 'VendorProductPurchaseCreateData'],
 		}),
 
 		// delete
@@ -63,7 +63,7 @@ const api = apiSlice.injectEndpoints({
 				url: `/tenant-color/delete/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['VendorColor'],
+			invalidatesTags: ['VendorColor', 'VendorProductPurchaseCreateData'],
 		}),
 	}),
 });

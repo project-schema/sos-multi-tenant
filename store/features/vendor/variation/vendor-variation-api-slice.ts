@@ -35,7 +35,7 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorVariation'],
+			invalidatesTags: ['VendorVariation', 'VendorProductPurchaseCreateData'],
 		}),
 
 		// update
@@ -60,7 +60,7 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorVariation'],
+			invalidatesTags: ['VendorVariation', 'VendorProductPurchaseCreateData'],
 		}),
 
 		// delete
@@ -72,7 +72,7 @@ const api = apiSlice.injectEndpoints({
 				url: `/tenant-variant/delete/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['VendorVariation'],
+			invalidatesTags: ['VendorVariation', 'VendorProductPurchaseCreateData'],
 		}),
 	}),
 });

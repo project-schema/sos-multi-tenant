@@ -70,7 +70,7 @@ type Option = {
 
 interface SearchableSelectProps {
 	field: ControllerRenderProps<any, any>;
-	label: string;
+	label?: string;
 	options: Option[];
 	description?: string;
 	placeholder?: string;
@@ -105,7 +105,7 @@ export const SearchableSelect = ({
 
 	return (
 		<FormItem className="flex flex-col" ref={fieldRef}>
-			<FormLabel>{label}</FormLabel>
+			{label && <FormLabel>{label}</FormLabel>}
 			<Popover>
 				<PopoverTrigger asChild>
 					<FormControl>
