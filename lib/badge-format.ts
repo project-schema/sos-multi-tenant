@@ -40,6 +40,7 @@ export const badgeFormat = (status: string | number): Badge => {
 		case 'canceled':
 		case 'return':
 		case 'deactive':
+		case 'due':
 		case 'reject':
 		case 'rejected':
 		case 3:

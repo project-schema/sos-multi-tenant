@@ -1,7 +1,9 @@
 import { apiSlice } from '../../api/apiSlice';
 import {
 	VendorPurchaseCreateData,
+	iVendorPurchasePaymentHistoryResponse,
 	iVendorPurchaseResponse,
+	iVendorPurchaseShow,
 } from './vendor-purchase-type';
 
 const api = apiSlice.injectEndpoints({
@@ -9,10 +11,55 @@ const api = apiSlice.injectEndpoints({
 		// get all
 		VendorPurchase: builder.query<
 			iVendorPurchaseResponse,
-			{ page: number | string }
+			{
+				page: number | string;
+				search: string;
+				status: string;
+				start_date: string;
+				end_date: string;
+			}
 		>({
-			query: ({ page }) => ({
-				url: `/tenant-product-purchase?page=${page}`,
+			query: ({ page, search, status, start_date, end_date }) => {
+				if (status === 'all') {
+					status = '';
+				}
+				return {
+					url: `/tenant-product-purchase?page=${page}&search=${search}&status=${status}&start_date=${start_date}&end_date=${end_date}`,
+					method: 'GET',
+				};
+			},
+			providesTags: ['VendorPurchase'],
+		}),
+		// get all
+		VendorPurchasePaymentHistory: builder.query<
+			iVendorPurchasePaymentHistoryResponse,
+			{
+				page: number | string;
+				search: string;
+				status: string;
+				start_date: string;
+				end_date: string;
+			}
+		>({
+			query: ({ page, search, status, start_date, end_date }) => {
+				if (status === 'all') {
+					status = '';
+				}
+				return {
+					url: `/tenant-product-purchase/payment-history?page=${page}&search=${search}&payment_status=${status}&start_date=${start_date}&end_date=${end_date}`,
+					method: 'GET',
+				};
+			},
+			providesTags: ['VendorPurchase'],
+		}),
+
+		// show
+		VendorPurchaseShow: builder.query<
+			iVendorPurchaseShow,
+			{ id: string | number }
+		>({
+			query: ({ id }) => ({
+				url: `/tenant-product-purchase/show/${id}`,
 				method: 'GET',
 			}),
 			providesTags: ['VendorPurchase'],
@@ -63,37 +110,29 @@ const api = apiSlice.injectEndpoints({
 			invalidatesTags: ['VendorPurchase'],
 		}),
 
-		// update
-		VendorPurchaseUpdate: builder.mutation<
-			{ status: 200; message: string },
-			any
+		//  status  purchase
+		VendorPurchaseStatus: builder.mutation<
+			{ status: number; message: string },
+			{ id: string | number }
 		>({
-			query: (data) => {
-				const body = new FormData();
-				Object.entries(data).forEach(([key, value]) => {
-					if (value) {
-						body.append(key, value as string);
-					}
-				});
-
+			query: ({ id }) => {
 				return {
-					url: `/tenant-product-purchase/update/${data.id}`,
-					method: 'POST',
-					body,
-					formData: true,
+					url: `/tenant-product-purchase/status/${id}`,
+					method: 'GET',
 				};
 			},
 			invalidatesTags: ['VendorPurchase'],
 		}),
 
-		// delete
-		VendorPurchaseDelete: builder.mutation<
-			{ status: 200; message: string },
-			{ id: string | number }
+		// add/payment
+		VendorPurchaseAddPayment: builder.mutation<
+			{ status: number; message: string },
+			any
 		>({
 			query: (data) => ({
-				url: `/tenant-product-purchase/delete/${data.id}`,
-				method: 'DELETE',
+				url: `/tenant-product-purchase/add-payment/${data.id}`,
+				method: 'POST',
+				body: data,
 			}),
 			invalidatesTags: ['VendorPurchase'],
 		}),
@@ -102,9 +141,11 @@ const api = apiSlice.injectEndpoints({
 
 export const {
 	useVendorPurchaseQuery,
-	useVendorPurchaseCreateDataQuery,
+	useVendorPurchaseShowQuery,
 	useVendorPurchaseStoreMutation,
-	useVendorPurchaseDeleteMutation,
-	useVendorPurchaseUpdateMutation,
+	useVendorPurchaseStatusMutation,
+	useVendorPurchaseCreateDataQuery,
+	useVendorPurchaseAddPaymentMutation,
+	useVendorPurchasePaymentHistoryQuery,
 	useVendorPurchaseProductBySupplierIdQuery,
 } = api;

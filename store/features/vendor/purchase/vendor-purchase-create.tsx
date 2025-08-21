@@ -38,6 +38,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { format } from 'date-fns';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { VendorUnitCreateModal } from '../unit';
 import { VendorVariationCreateModal } from '../variation';
@@ -120,6 +121,7 @@ const schema = z.object({
 type ZodType = z.infer<typeof schema>;
 
 export const VendorPurchaseCreate = () => {
+	const router = useRouter();
 	const [store, { isLoading: isLoadingStore }] =
 		useVendorPurchaseStoreMutation();
 
@@ -218,6 +220,7 @@ export const VendorPurchaseCreate = () => {
 					if (response.status === 200) {
 						toast.success(response.message || 'Created successfully');
 						form.reset();
+						router.push('/vendor/purchase');
 					} else {
 						const errorResponse = response as any;
 						if (

@@ -1,6 +1,6 @@
 'use client';
-import { Loader5, Loader8 } from '@/components/dashboard';
-import { Badge } from '@/components/ui/badge';
+
+import { Button } from '@/components/ui/button';
 import {
 	Table,
 	TableBody,
@@ -9,105 +9,138 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { badgeFormat, cn, ErrorAlert, tableSrCount, textCount } from '@/lib';
-import { useVendorCustomerQuery } from './vendor-purchase-api-slice';
-import { VendorCustomerDelete } from './vendor-purchase-delete';
-import { VendorCustomerEdit } from './vendor-purchase-edit';
 
-export function VendorCustomerTable() {
-	const {
-		data: customers,
-		isFetching,
-		isLoading,
-		isError,
-	} = useVendorCustomerQuery({ page: '' });
+import { Badge } from '@/components/ui/badge';
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { badgeFormat, sign, tableSrCount, textCount } from '@/lib';
 
-	if (isError) {
-		return <ErrorAlert />;
-	}
+import { iPagination } from '@/types';
+import { Ellipsis, ExternalLink } from 'lucide-react';
+import Link from 'next/link';
+import { VendorPurchasePaymentModal } from './vendor-purchase-payment-modal';
+import { VendorPurchaseStatusReceive } from './vendor-purchase-status-receive';
+import { iVendorPurchase } from './vendor-purchase-type';
 
-	if (isLoading) {
-		return (
-			<>
-				<Loader5 />
-				<Loader5 />
-				<Loader5 />
-				<Loader5 />
-			</>
-		);
-	}
+export function VendorPurchaseTable({
+	data,
+}: {
+	data: iPagination<iVendorPurchase>;
+}) {
+	const products = data.data;
 	return (
-		<>
-			<div className="border rounded-lg relative">
-				{isFetching && <Loader8 />}
-				<Table>
-					<TableHeader>
-						<TableRow>
-							<TableHead className="bg-stone-100">#SL.</TableHead>
-							<TableHead className="bg-stone-100">Name </TableHead>
-							<TableHead className="bg-stone-100"> Phone </TableHead>
-							<TableHead className="bg-stone-100">Email </TableHead>
-							<TableHead className="bg-stone-100">Address </TableHead>
-							<TableHead className="bg-stone-100">Description </TableHead>
-							<TableHead className="bg-stone-100">Status </TableHead>
-							<TableHead className="bg-stone-100">Action </TableHead>
-						</TableRow>
-					</TableHeader>
-					<TableBody>
-						{customers?.customers?.length === 0 ? (
-							<TableRow>
-								<TableCell
-									colSpan={8}
-									className="text-center py-8 text-muted-foreground"
+		<Table>
+			<TableHeader>
+				<TableRow>
+					<TableHead className="bg-stone-100">Sr.</TableHead>
+					<TableHead className="bg-stone-100 w-10">Invoice no </TableHead>
+					<TableHead className="bg-stone-100">Supplier Business Name</TableHead>
+					<TableHead className="bg-stone-100">Purchase Date </TableHead>
+					<TableHead className="bg-stone-100">Purchase Qty </TableHead>
+					<TableHead className="bg-stone-100">Return Qty </TableHead>
+					<TableHead className="bg-stone-100">Amount </TableHead>
+					<TableHead className="bg-stone-100">Payment Status </TableHead>
+					<TableHead className="bg-stone-100">Purchase Status </TableHead>
+					<TableHead className="bg-stone-100">Action </TableHead>
+				</TableRow>
+			</TableHeader>
+			<TableBody>
+				{products.length === 0 ? (
+					<TableRow>
+						<TableCell
+							colSpan={10}
+							className="text-center py-8 text-muted-foreground"
+						>
+							No items found matching your criteria
+						</TableCell>
+					</TableRow>
+				) : (
+					products?.map((item, i) => (
+						<TableRow key={item.id}>
+							<TableCell className="py-2 pl-4">
+								{tableSrCount(data.current_page, i)}
+							</TableCell>
+							<TableCell className="font-medium py-4">
+								#{item.chalan_no}
+							</TableCell>
+							<TableCell className="py-2">
+								{textCount(item.supplier.business_name, 30)}
+							</TableCell>
+
+							<TableCell className="py-2">{item.purchase_date}</TableCell>
+
+							<TableCell className="py-2">
+								<Badge variant="success">{item.total_qty}</Badge>
+							</TableCell>
+
+							<TableCell className="py-2">{item.return_qty}</TableCell>
+							<TableCell className="py-2">
+								<Badge className="capitalize" variant="default">
+									{item.total_price} {sign.tk}
+								</Badge>
+							</TableCell>
+							<TableCell className="py-2">
+								<Badge
+									className="capitalize"
+									variant={badgeFormat(item.payment_status)}
 								>
-									No data found matching your criteria
-								</TableCell>
-							</TableRow>
-						) : (
-							customers?.customers?.map((customer, i) => (
-								<TableRow key={customer.id}>
-									<TableCell className="py-2 pl-4">
-										{tableSrCount(1, i)}
-									</TableCell>
-
-									<TableCell className="py-2">
-										{textCount(customer.customer_name, 25)}
-									</TableCell>
-
-									<TableCell className={cn('py-2 whitespace-pre-wrap')}>
-										{customer?.phone || ''}
-									</TableCell>
-
-									<TableCell className={cn('py-2 whitespace-pre-wrap')}>
-										{customer?.email || ''}
-									</TableCell>
-
-									<TableCell className={cn('py-2 whitespace-pre-wrap')}>
-										{customer?.address || ''}
-									</TableCell>
-
-									<TableCell className={cn('py-2 whitespace-pre-wrap')}>
-										{customer?.description || ''}
-									</TableCell>
-
-									<TableCell className="py-2">
-										<Badge
-											className="capitalize"
-											variant={badgeFormat(customer.status)}
+									{item.payment_status}
+								</Badge>
+								{item.payment_status === 'due' && (
+									<Badge className="capitalize ml-2" variant="destructive">
+										{item.due_amount} {sign.tk}
+									</Badge>
+								)}
+							</TableCell>
+							<TableCell className="py-2">
+								<Badge
+									className="capitalize"
+									variant={badgeFormat(item.status)}
+								>
+									{item.status}
+								</Badge>
+							</TableCell>
+							<TableCell className="py-2">
+								<DropdownMenu>
+									<DropdownMenuTrigger asChild>
+										<Button
+											variant="outline"
+											className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
+											size="icon"
 										>
-											{customer.status}
-										</Badge>
-									</TableCell>
-									<TableCell className="py-2 space-x-2">
-										<VendorCustomerEdit editData={customer} />
-										<VendorCustomerDelete data={customer} />
-									</TableCell>
-								</TableRow>
-							))
-						)}
-					</TableBody>
-				</Table>
-			</div>
-		</>
+											<Ellipsis />
+											<span className="sr-only">Open menu</span>
+										</Button>
+									</DropdownMenuTrigger>
+									<DropdownMenuContent align="end" className="w-56">
+										<DropdownMenuItem>
+											<Link
+												className="flex items-center gap-2 w-full"
+												href={`/purchase/invoice/${item.id}`}
+											>
+												<ExternalLink className="size-4" />
+												<span>View Invoice</span>
+											</Link>
+										</DropdownMenuItem>
+
+										{item.status !== 'received' && (
+											<VendorPurchaseStatusReceive data={item} />
+										)}
+
+										{item.payment_status === 'due' && (
+											<VendorPurchasePaymentModal data={item} />
+										)}
+									</DropdownMenuContent>
+								</DropdownMenu>
+							</TableCell>
+						</TableRow>
+					))
+				)}
+			</TableBody>
+		</Table>
 	);
 }

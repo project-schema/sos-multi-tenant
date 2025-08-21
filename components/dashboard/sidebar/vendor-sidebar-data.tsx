@@ -114,20 +114,20 @@ const pos: sidebarItem[] = [
 				url: '/purchase/create',
 			},
 			{
-				title: 'Purchase Products',
+				title: 'All Purchases',
 				url: '/purchase',
 			},
 			{
-				title: 'Purchase History',
-				url: '/purchase-history',
+				title: 'Payment History',
+				url: '/purchase/payment-history',
 			},
 			{
 				title: 'Purchase Return',
-				url: '/purchase-return',
+				url: '/purchase/return',
 			},
 			{
 				title: 'All Wastage',
-				url: '/wastage',
+				url: '/purchase/wastage',
 			},
 		],
 	},
