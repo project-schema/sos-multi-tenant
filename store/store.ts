@@ -8,6 +8,7 @@ import {
 import { apiSlice } from './features/api/apiSlice';
 import counterReducer from './features/counter/counterSlice';
 import advertiseFormReducer from './features/frontend/advertiser-form/advertiser-form-slice';
+import posSalesReducer from './features/vendor/pos-sales/vendor-pos-sales.slice';
 
 // import webReducer from './web'
 
@@ -16,6 +17,7 @@ import advertiseFormReducer from './features/frontend/advertiser-form/advertiser
 const rootReducer = combineReducers({
 	counter: counterReducer,
 	advertiseForm: advertiseFormReducer,
+	posSales: posSalesReducer,
 	[apiSlice.reducerPath]: apiSlice.reducer,
 });
 

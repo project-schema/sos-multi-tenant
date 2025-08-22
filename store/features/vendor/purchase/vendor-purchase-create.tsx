@@ -220,7 +220,7 @@ export const VendorPurchaseCreate = () => {
 					if (response.status === 200) {
 						toast.success(response.message || 'Created successfully');
 						form.reset();
-						router.push('/vendor/purchase');
+						router.push('/purchase');
 					} else {
 						const errorResponse = response as any;
 						if (

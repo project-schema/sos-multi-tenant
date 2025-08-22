@@ -39,6 +39,7 @@ import {
 	Plus,
 	Trash2,
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { VendorBrandCreateModal } from '../brand/vendor-brand-create-modal';
@@ -57,6 +58,7 @@ import {
 } from './vendor-product-zod-type';
 
 export const VendorProductCreate = () => {
+	const router = useRouter();
 	const { data, isLoading, isError } = useVendorProductCreateDataQuery(
 		undefined,
 		{
@@ -160,6 +162,7 @@ export const VendorProductCreate = () => {
 					if (response.status === 200) {
 						toast.success(response.message || 'Create successfully');
 						form.reset();
+						router.push(`/product`);
 					} else {
 						if (response?.status === 400) {
 							handleValidationError(response, form.setError, toast.error);

@@ -84,7 +84,7 @@ const pos: sidebarItem[] = [
 			},
 			{
 				title: 'POS Sales',
-				url: '/sales',
+				url: '/pos-sales',
 			},
 			{
 				title: 'POS Orders',

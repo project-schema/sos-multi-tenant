@@ -3,6 +3,8 @@ import {
 	VendorPurchaseCreateData,
 	iVendorPurchasePaymentHistoryResponse,
 	iVendorPurchaseResponse,
+	iVendorPurchaseReturn,
+	iVendorPurchaseReturnShow,
 	iVendorPurchaseShow,
 } from './vendor-purchase-type';
 
@@ -136,6 +138,41 @@ const api = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: ['VendorPurchase'],
 		}),
+
+		// return store
+		VendorPurchaseReturn: builder.mutation<
+			{ status: number; message: string },
+			any
+		>({
+			query: (data) => ({
+				url: `/tenant-product-purchase/return/${data.id}`,
+				method: 'POST',
+				body: data,
+			}),
+			invalidatesTags: ['VendorPurchase'],
+		}),
+		// return list
+		VendorPurchaseReturnList: builder.query<
+			{ status: number; return_list: iVendorPurchaseReturn[] },
+			{ search: string; start_date: string; end_date: string }
+		>({
+			query: ({ search, start_date, end_date }) => ({
+				url: `/tenant-product-purchase/return/list?search=${search}&start_date=${start_date}&end_date=${end_date}`,
+				method: 'GET',
+			}),
+			providesTags: ['VendorPurchase'],
+		}),
+		// return show
+		VendorPurchaseReturnShow: builder.query<
+			iVendorPurchaseReturnShow,
+			{ id: string | number }
+		>({
+			query: ({ id }) => ({
+				url: `/tenant-product-purchase/return/list/${id}`,
+				method: 'GET',
+			}),
+			providesTags: ['VendorPurchase'],
+		}),
 	}),
 });
 
@@ -148,4 +185,7 @@ export const {
 	useVendorPurchaseAddPaymentMutation,
 	useVendorPurchasePaymentHistoryQuery,
 	useVendorPurchaseProductBySupplierIdQuery,
+	useVendorPurchaseReturnMutation,
+	useVendorPurchaseReturnListQuery,
+	useVendorPurchaseReturnShowQuery,
 } = api;

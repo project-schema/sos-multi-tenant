@@ -1,17 +1,17 @@
 import { DbHeader } from '@/components/dashboard';
 import { SessionProvider } from '@/provider';
-import { VendorPurchaseInvoicePage } from '@/store/features/vendor/purchase/vendor-purchase-invoice-page';
+import { VendorPurchaseReturnTablePage } from '@/store/features/vendor/purchase/vendor-purchase-return-table-page';
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/' },
 	{ name: 'All Purchases', path: '/purchase' },
-	{ name: 'Purchase Invoice' },
+	{ name: 'Purchase Return' },
 ];
 
 export default function Page() {
 	return (
 		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<VendorPurchaseInvoicePage />
+			<VendorPurchaseReturnTablePage />
 		</SessionProvider>
 	);
 }

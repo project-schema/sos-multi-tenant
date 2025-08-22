@@ -20,7 +20,7 @@ import {
 import { badgeFormat, sign, tableSrCount, textCount } from '@/lib';
 
 import { iPagination } from '@/types';
-import { Ellipsis, ExternalLink } from 'lucide-react';
+import { Ellipsis, ExternalLink, PackageX } from 'lucide-react';
 import Link from 'next/link';
 import { VendorPurchasePaymentModal } from './vendor-purchase-payment-modal';
 import { VendorPurchaseStatusReceive } from './vendor-purchase-status-receive';
@@ -133,6 +133,18 @@ export function VendorPurchaseTable({
 
 										{item.payment_status === 'due' && (
 											<VendorPurchasePaymentModal data={item} />
+										)}
+
+										{item.status === 'received' && (
+											<DropdownMenuItem>
+												<Link
+													className="flex items-center gap-2 w-full"
+													href={`/purchase/return/${item.id}`}
+												>
+													<PackageX className="size-4" />
+													<span>Return Purchase</span>
+												</Link>
+											</DropdownMenuItem>
 										)}
 									</DropdownMenuContent>
 								</DropdownMenu>

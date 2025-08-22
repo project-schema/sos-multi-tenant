@@ -160,3 +160,55 @@ export type iVendorPurchaseShow = {
 		};
 	};
 };
+
+export type iVendorPurchaseReturn = {
+	id: number;
+	chalan_no: string;
+	purchase_date: string;
+	return_date: string;
+	return_qty: number;
+	return_amount: string;
+	supplier_id: number;
+	supplier: {
+		id: number;
+		supplier_name: string;
+	};
+};
+
+export type iVendorPurchaseReturnShow = {
+	status: 200;
+	return_list: {
+		id: number;
+		supplier_id: number;
+		chalan_no: string;
+		purchase_date: string;
+		return_qty: number;
+		return_amount: string;
+		return_date: string;
+		return_details: {
+			id: number;
+			product_purchase_id: number;
+			product_id: number;
+			r_color_id: number;
+			r_unit_id: number;
+			r_size_id: number;
+			return_qty: number;
+			r_rate: string;
+			r_sub_total: string;
+			created_at: string;
+			product: {
+				id: number;
+				name: string;
+			};
+			color: {
+				id: number;
+				name: string;
+			};
+			size: {
+				id: number;
+				name: string;
+			};
+			unit: { id: number; unit_name: string };
+		}[];
+	};
+};
