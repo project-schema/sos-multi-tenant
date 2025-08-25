@@ -24,6 +24,10 @@ export type iVendorPosSalesResponse = {
 				category_id: number;
 			}[];
 		}[];
+		payment_methods: {
+			id: number;
+			payment_method_name: string;
+		}[];
 	};
 	status: number;
 	barcode: string;

@@ -4,7 +4,6 @@ import { Container1 } from '@/components/dashboard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { SelectSearch } from '@/components/ui/searchable-select';
 import {
 	Table,
 	TableBody,
@@ -15,7 +14,7 @@ import {
 } from '@/components/ui/table';
 import { useDebounce } from '@/hooks/use-debounce';
 import { sign, tableSrCount } from '@/lib';
-import { Trash2 } from 'lucide-react';
+import { Minus, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { VendorPosCheckout } from './vendor-pos-checkout';
 import { useVendorPosSalesCreateDataQuery } from './vendor-pos-sales.api-slice';
@@ -77,6 +76,7 @@ export function VendorPosSalesPage() {
 						<VendorPosSellFilter
 							filters={filters}
 							setFilters={setFilters}
+							data={data || undefined}
 							clearFilters={() =>
 								setFilters({
 									searchTerm: '',
@@ -85,7 +85,7 @@ export function VendorPosSalesPage() {
 								})
 							}
 						/>
-						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
 							{data?.products?.map((product) => (
 								<VendorPosSalesCard key={product.id} product={product} />
 							))}
@@ -95,23 +95,6 @@ export function VendorPosSalesPage() {
 				</Card>
 				<Card className="col-span-12 lg:col-span-5">
 					<CardContent className="space-y-4">
-						<div className="grid grid-cols-2 gap-4">
-							<SelectSearch
-								value={filters.brand_id}
-								options={[]}
-								placeholder="Select Category"
-								onSelectorClick={() => {}}
-							/>
-							<SelectSearch
-								value={filters.brand_id}
-								options={[]}
-								placeholder="Select Category"
-								onSelectorClick={() => {}}
-							/>
-							<Input placeholder="Search by invoice no..." />
-							<Input placeholder="Scan Barcode..." />
-						</div>
-
 						{/* Cart Items Table */}
 						<div className="overflow-x-auto">
 							<Table>
@@ -123,7 +106,6 @@ export function VendorPosSalesPage() {
 										<TableHead className="w-24">Discount</TableHead>
 										<TableHead className="w-50 text-center">Qty</TableHead>
 										<TableHead className="w-24">SubTotal</TableHead>
-										<TableHead className="w-6"></TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
@@ -137,7 +119,7 @@ export function VendorPosSalesPage() {
 											</TableCell>
 										</TableRow>
 									) : (
-										cart.map((item, index) => (
+										cart?.map((item, index) => (
 											<TableRow
 												key={`${item.id}-${item.variant_id || 'default'}`}
 											>
@@ -147,19 +129,12 @@ export function VendorPosSalesPage() {
 												<TableCell>
 													<div className="space-y-1">
 														<div className="font-medium">{item.name}</div>
-														<div className="text-sm text-muted-foreground">
-															SKU: {item.sku}
+
+														<div className="text-xs text-muted-foreground capitalize">
+															{item.unit ? item.unit : ''}
+															{item.color ? `, ${item.color}` : ''}
+															{item.size ? `, ${item.size}` : ''}
 														</div>
-														{item.color && (
-															<div className="text-xs text-muted-foreground">
-																Color: {item.color}
-															</div>
-														)}
-														{item.size && (
-															<div className="text-xs text-muted-foreground">
-																Size: {item.size}
-															</div>
-														)}
 													</div>
 												</TableCell>
 												<TableCell>
@@ -171,10 +146,11 @@ export function VendorPosSalesPage() {
 														: '-'}
 												</TableCell>
 												<TableCell>
-													{/* <Button
-															variant="outline"
+													<div className="relative">
+														<Button
+															variant="link"
 															size="icon"
-															className="h-8 w-8"
+															className="h-8 w-8 absolute -bottom-1 right-0 z-10"
 															onClick={() =>
 																updateCartItemQuantity({
 																	id: item.id,
@@ -184,23 +160,23 @@ export function VendorPosSalesPage() {
 															}
 														>
 															<Minus className="h-3 w-3" />
-														</Button> */}
-													<Input
-														type="number"
-														value={item.quantity}
-														onChange={(e) =>
-															updateCartItemQuantity({
-																id: item.id,
-																variant_id: item.variant_id,
-																quantity: parseInt(e.target.value) || 0,
-															})
-														}
-														className="text-center pr-3 hide-number-input-arrow"
-													/>
-													{/* <Button
-															variant="outline"
+														</Button>
+														<Input
+															type="number"
+															value={item.quantity}
+															onChange={(e) =>
+																updateCartItemQuantity({
+																	id: item.id,
+																	variant_id: item.variant_id,
+																	quantity: parseInt(e.target.value) || 0,
+																})
+															}
+															className="pr-3 hide-number-input-arrow w-full"
+														/>
+														<Button
+															variant="link"
 															size="icon"
-															className="h-8 w-8"
+															className="h-8 w-8 absolute -top-1 right-0 z-10"
 															onClick={() =>
 																updateCartItemQuantity({
 																	id: item.id,
@@ -210,15 +186,17 @@ export function VendorPosSalesPage() {
 															}
 														>
 															<Plus className="h-3 w-3" />
-														</Button> */}
+														</Button>
+													</div>
 												</TableCell>
-												<TableCell>
-													{sign.tk} {item.subtotal}
-												</TableCell>
-												<TableCell>
+												<TableCell className="relative overflow-hidden">
+													<span>
+														{sign.tk} {item.subtotal}
+													</span>
 													<Button
 														variant="link"
 														size="icon"
+														className="absolute -top-2 -right-2"
 														onClick={() =>
 															removeFromCart({
 																id: item.id,
@@ -226,7 +204,7 @@ export function VendorPosSalesPage() {
 															})
 														}
 													>
-														<Trash2 className="text-destructive" />
+														<Trash2 className="text-destructive  h-4 w-4" />
 													</Button>
 												</TableCell>
 											</TableRow>
@@ -261,7 +239,7 @@ export function VendorPosSalesPage() {
 											<span>%</span>
 										</div>
 									</div>
-									<div className="flex justify-between">
+									{/* <div className="flex justify-between">
 										<span>Tax:</span>
 										<div className="flex items-center space-x-2">
 											<Input
@@ -275,11 +253,11 @@ export function VendorPosSalesPage() {
 											/>
 											<span>%</span>
 										</div>
-									</div>
+									</div> */}
 									<div className="flex justify-between font-bold text-lg border-t pt-2">
 										<span>Total:</span>
 										<span>
-											{sign.tk} {total}
+											{sign.tk} {total < 0 ? 0 : total}
 										</span>
 									</div>
 								</div>
@@ -309,6 +287,7 @@ export function VendorPosSalesPage() {
 			<VendorPosCheckout
 				isOpen={isCheckoutOpen}
 				onClose={() => setIsCheckoutOpen(false)}
+				data={data}
 			/>
 		</Container1>
 	);

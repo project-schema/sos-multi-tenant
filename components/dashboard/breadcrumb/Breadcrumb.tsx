@@ -12,7 +12,7 @@ import React from 'react';
 
 export type Crumb = {
 	name: string;
-	path?: string; // optional because the last item won't have a link
+	path?: string;
 };
 
 export type DBBreadcrumbProps = {

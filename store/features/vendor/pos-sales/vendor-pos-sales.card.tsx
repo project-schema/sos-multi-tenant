@@ -10,9 +10,11 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover';
 import { Skeleton } from '@/components/ui/skeleton';
-import { env, sign, tableSrCount } from '@/lib';
-import { Plus, X } from 'lucide-react';
+import { cn, env, sign, tableSrCount } from '@/lib';
+import { useAudio } from '@/lib/audio';
+import { Plus, Trash2, X } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { useVendorPosSalesProductDetailsQuery } from './vendor-pos-sales.api-slice';
 import { usePosSales } from './vendor-pos-sales.hook';
 import { iVendorPosSalesResponse } from './vendor-pos-sales.type';
@@ -23,7 +25,10 @@ export const VendorPosSalesCard = ({
 	product: iVendorPosSalesResponse['products'][0];
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const { addToCart } = usePosSales();
+	const { cart, addToCart, removeFromCart } = usePosSales();
+
+	// pos select product
+	const posSelectProduct = cart.find((item) => item.product_id === product.id);
 
 	const handleCardClick = () => {
 		setIsOpen(true);
@@ -33,7 +38,10 @@ export const VendorPosSalesCard = ({
 		<Popover open={isOpen} onOpenChange={setIsOpen}>
 			<PopoverTrigger asChild>
 				<Card
-					className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer group border-2 hover:border-primary/50 py-0 gap-0"
+					className={cn(
+						posSelectProduct && 'border-blue-400',
+						`overflow-hidden hover:shadow-md transition-shadow cursor-pointer group border-2 hover:border-blue-400 py-0 gap-0`
+					)}
 					onClick={handleCardClick}
 				>
 					<div className="relative aspect-square overflow-hidden bg-gray-50">
@@ -79,11 +87,13 @@ const CardDetails = ({
 	slug: string;
 	setIsOpen: (isOpen: boolean) => void;
 }) => {
+	const { playAdd, playRemove } = useAudio();
+
 	const { data, isLoading, isError } = useVendorPosSalesProductDetailsQuery(
 		{ product_id: slug },
 		{ skip: !slug }
 	);
-	const { addToCart } = usePosSales();
+	const { cart, addToCart, removeFromCart } = usePosSales();
 
 	if (isLoading) {
 		return (
@@ -118,6 +128,9 @@ const CardDetails = ({
 
 	const product = data.product;
 
+	// selected item in cart
+	const selectedItem = cart.find((item) => item.product_id === product.id);
+
 	return (
 		<div className="space-y-4">
 			<div className="flex justify-between items-center">
@@ -144,42 +157,103 @@ const CardDetails = ({
 					</tr>
 				</thead>
 				<tbody>
-					{product.product_variant.map((variant, i) => (
-						<tr className="cursor-pointer" key={variant.id}>
-							<td className="text-xs ">{tableSrCount(1, i)}</td>
-							<td className="text-sm px-3 py-2">{variant?.size?.name}</td>
-							<td className="text-sm px-3 py-2">{variant?.color?.name}</td>
-							<td className="text-sm px-3 py-2">{variant?.size?.name}</td>
-							<td className="text-sm px-3 py-2">{variant?.qty}</td>
-							<td className="text-xs ">
-								<Button
-									variant="link"
-									size="icon"
-									className="w-8 h-8"
-									type="button"
-									onClick={() => {
-										addToCart({
-											id: variant.id,
-											product_id: variant.product_id,
-											variant_id: variant.id,
-											name: variant.product.name,
-											sku: variant.product.sku,
-											image: '', // You might need to get this from the product data
-											selling_price: parseFloat(variant.product.selling_price),
-											quantity: 1,
-											stock: variant.qty,
-											subtotal: parseFloat(variant.product.selling_price),
-											color: variant.color?.name,
-											size: variant.size?.name,
-											unit: variant.unit?.unit_name,
-										});
-									}}
-								>
-									<Plus />
-								</Button>
-							</td>
-						</tr>
-					))}
+					{product.product_variant.map((variant, i) => {
+						const isSelected = selectedItem?.variant_id === variant.id;
+						const isOutOfStock = variant?.qty === 0;
+						return (
+							<tr
+								className={cn(
+									isSelected && 'bg-blue-50 rounded-2xl user-select-none',
+									'cursor-pointer'
+								)}
+								onClick={() => {
+									if (isOutOfStock) {
+										toast.error('Out of Stock');
+										return;
+									}
+									playAdd(); // Add audio feedback
+									addToCart({
+										id: variant.id,
+										product_id: variant.product_id,
+										variant_id: variant.id,
+										name: variant.product.name,
+										sku: variant.product.sku,
+										image: '',
+										selling_price: parseFloat(variant.product.selling_price),
+										quantity: 1,
+										stock: variant.qty,
+										subtotal: parseFloat(variant.product.selling_price),
+										color: variant.color?.name,
+										size: variant.size?.name,
+										unit: variant.unit?.unit_name,
+									});
+								}}
+								key={variant.id}
+							>
+								<td className="text-xs ">{tableSrCount(1, i)}</td>
+								<td className="text-sm px-3 py-2">{variant?.size?.name}</td>
+								<td className="text-sm px-3 py-2">{variant?.color?.name}</td>
+								<td className="text-sm px-3 py-2">{variant?.size?.name}</td>
+								<td className="text-sm px-3 py-2">
+									{isOutOfStock ? 'Out of Stock' : variant?.qty}
+								</td>
+								<td className="text-xs ">
+									<Button
+										variant="link"
+										size="icon"
+										className="w-8 h-8"
+										type="button"
+										onClick={(e) => {
+											if (isOutOfStock) {
+												toast.error('Out of Stock');
+												return;
+											}
+											e.stopPropagation();
+											playAdd(); // Add audio feedback
+											addToCart({
+												id: variant.id,
+												product_id: variant.product_id,
+												variant_id: variant.id,
+												name: variant.product.name,
+												sku: variant.product.sku,
+												image: '',
+												selling_price: parseFloat(
+													variant.product.selling_price
+												),
+												quantity: 1,
+												stock: variant.qty,
+												subtotal: parseFloat(variant.product.selling_price),
+												color: variant.color?.name,
+												size: variant.size?.name,
+												unit: variant.unit?.unit_name,
+											});
+										}}
+									>
+										<Plus />
+									</Button>
+
+									{isSelected && (
+										<Button
+											variant="link"
+											size="icon"
+											className="w-8 h-8"
+											type="button"
+											onClick={(e) => {
+												e.stopPropagation();
+												playRemove(); // Add audio feedback
+												removeFromCart({
+													id: variant.id,
+													variant_id: variant.id,
+												});
+											}}
+										>
+											<Trash2 className="text-destructive" />
+										</Button>
+									)}
+								</td>
+							</tr>
+						);
+					})}
 				</tbody>
 			</table>
 		</div>

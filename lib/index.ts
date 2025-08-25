@@ -18,3 +18,4 @@ export * from './subdomains';
 export * from './table-sr-count';
 export * from './text.count';
 export * from './utils';
+export { audioManager, useAudio } from './audio';

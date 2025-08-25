@@ -51,6 +51,7 @@ export interface PosSalesState {
 	total: number;
 	loading: boolean;
 	error: string | null;
+	product_id: number | null;
 }
 
 const initialState: PosSalesState = {
@@ -66,6 +67,7 @@ const initialState: PosSalesState = {
 	total: 0,
 	loading: false,
 	error: null,
+	product_id: null,
 };
 
 const calculateTotals = (
@@ -144,6 +146,7 @@ const posSalesSlice = createSlice({
 			action: PayloadAction<{ id: number; variant_id?: number }>
 		) => {
 			const { id, variant_id } = action.payload;
+			console.log({ id, variant_id });
 			state.cart = state.cart.filter(
 				(item) => !(item.id === id && item.variant_id === variant_id)
 			);

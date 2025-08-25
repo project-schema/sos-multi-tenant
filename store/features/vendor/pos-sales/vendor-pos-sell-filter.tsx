@@ -4,12 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SelectSearch } from '@/components/ui/searchable-select';
 
-import { Search, XCircle } from 'lucide-react';
+import { Barcode, Search, XCircle } from 'lucide-react';
+import { iVendorPosSalesResponse } from './vendor-pos-sales.type';
 
 export function VendorPosSellFilter({
 	filters,
 	setFilters,
 	clearFilters,
+	data,
 }: {
 	filters: {
 		searchTerm: string;
@@ -18,15 +20,16 @@ export function VendorPosSellFilter({
 	};
 	setFilters: React.Dispatch<React.SetStateAction<typeof filters>>;
 	clearFilters: () => void;
+	data?: iVendorPosSalesResponse;
 }) {
 	return (
 		<div className="space-y-4">
-			<div>
+			<div className="grid  grid-cols-1 md:grid-cols-2 gap-4 ">
 				{/* Search Input */}
 				<div className="relative w-full">
 					<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
 					<Input
-						placeholder="Search by invoice no..."
+						placeholder="Search by product name/sku..."
 						value={filters.searchTerm}
 						onChange={(e) =>
 							setFilters((prev) => ({
@@ -37,20 +40,44 @@ export function VendorPosSellFilter({
 						className="pl-10"
 					/>
 				</div>
+				<div className="relative w-full">
+					<Barcode className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+					<Input className="pl-10" placeholder="Scan Barcode..." />
+				</div>
 			</div>
 			<div className="grid grid-cols-7 gap-4">
 				<div className="col-span-6 grid grid-cols-2 gap-4">
 					<SelectSearch
 						value={filters.category_id}
-						options={[]}
-						placeholder="Select Brand"
-						onSelectorClick={() => {}}
+						options={
+							data?.data?.category?.map((category) => ({
+								label: category.name,
+								value: category.id.toString(),
+							})) ?? []
+						}
+						placeholder="Select Category"
+						onSelectorClick={(value) => {
+							setFilters((prev) => ({
+								...prev,
+								category_id: value.value,
+							}));
+						}}
 					/>
 					<SelectSearch
 						value={filters.brand_id}
-						options={[]}
-						placeholder="Select Category"
-						onSelectorClick={() => {}}
+						options={
+							data?.data?.brand?.map((brand) => ({
+								label: brand.name,
+								value: brand.id.toString(),
+							})) ?? []
+						}
+						placeholder="Select Brand"
+						onSelectorClick={(value) => {
+							setFilters((prev) => ({
+								...prev,
+								brand_id: value.value,
+							}));
+						}}
 					/>
 				</div>
 				{/* Clear Filters Button */}
