@@ -1,12 +1,15 @@
 'use client';
 
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SelectSearch } from '@/components/ui/searchable-select';
 import { sign } from '@/lib';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import { useCreateSaleMutation } from './vendor-pos-sales.api-slice';
 import { usePosSales } from './vendor-pos-sales.hook';
 import { iVendorPosSalesResponse } from './vendor-pos-sales.type';
@@ -17,12 +20,23 @@ interface CheckoutProps {
 	data?: iVendorPosSalesResponse;
 }
 
+// Generate a simple barcode
+const generateBarcode = () => {
+	const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+	let result = '';
+	for (let i = 0; i < 10; i++) {
+		result += chars.charAt(Math.floor(Math.random() * chars.length));
+	}
+	return result;
+};
+
 export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 	const [selectedCustomer, setSelectedCustomer] = useState<any>(null);
 	const [orderSource, setOrderSource] = useState<string>('');
 	const [paymentMethod, setPaymentMethod] = useState<string>('');
 	const [paymentAmount, setPaymentAmount] = useState(0);
-
+	const [error, setError] = useState<string | null>(null);
+	const router = useRouter();
 	const {
 		cart,
 		customer,
@@ -38,6 +52,13 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 
 	const [createSale, { isLoading: isCreatingSale }] = useCreateSaleMutation();
 
+	// Clear errors when modal opens
+	useEffect(() => {
+		if (isOpen) {
+			setError(null);
+		}
+	}, [isOpen]);
+
 	// Calculate totals
 	const totalQty = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
 	const totalPrice = subtotal;
@@ -51,55 +72,90 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 	};
 
 	const handleCheckout = async () => {
+		// Clear any previous errors
+		setError(null);
+
 		if (cart.length === 0) {
-			alert('Cart is empty');
+			toast.error('Cart is empty');
 			return;
 		}
 
 		if (!selectedCustomer) {
-			alert('Please select a customer');
+			toast.error('Please select a customer');
 			return;
 		}
 
-		if (paymentAmount < grandTotal) {
-			alert('Payment amount must be equal to or greater than grand total');
+		if (!orderSource) {
+			toast.error('Please select an order source');
+			return;
+		}
+
+		if (!paymentMethod) {
+			toast.error('Please select a payment method');
 			return;
 		}
 
 		try {
+			// Transform cart data into arrays as required by API
+			const productIds = cart.map((item) => item.product_id);
+			const unitIds = cart.map((item) => item.unit_id); // Use unit_id if available, default to 1
+			const colorIds = cart.map((item) => item.color_id); // Use color_id if available, default to 1
+			const sizeIds = cart.map((item) => item.size_id); // Use size_id if available, default to 1
+			const quantities = cart.map((item) => item.quantity);
+			const rates = cart.map((item) => item.selling_price);
+			const subTotals = cart.map((item) => item.subtotal);
+
 			const saleData = {
-				customer: selectedCustomer,
-				orderSource,
-				items: cart,
-				payment: {
-					method: paymentMethod,
-					amount: paymentAmount,
-				},
-				invoice: {
-					date: new Date().toISOString().split('T')[0],
-				},
-				subtotal,
-				discount,
-				tax,
-				total: grandTotal,
-				totalQty,
-				dueAmount,
-				changeAmount,
+				customer_id: parseInt(selectedCustomer),
+				discount_type: 'tk' as const,
+				source_id: parseInt(orderSource),
+				barcode: data?.barcode || generateBarcode(),
+				payment_id: parseInt(paymentMethod),
+				total_qty: totalQty,
+				sale_discount: discount,
+				total_price: grandTotal.toFixed(2),
+				paid_amount: paymentAmount,
+				due_amount: dueAmount.toFixed(2),
+				change_amount: changeAmount,
+				product_id: productIds,
+				unit_id: unitIds,
+				color_id: colorIds,
+				size_id: sizeIds,
+				qty: quantities,
+				rate: rates,
+				sub_total: subTotals,
 			};
 
-			const result = await createSale(saleData).unwrap();
+			const result: any = await createSale(saleData).unwrap();
 
-			// Reset the POS state after successful sale
-			resetPosSales();
-
-			// Close the checkout modal
-			onClose();
-
-			// Show success message
-			alert(`Sale completed successfully! Invoice: ${result.data.invoice_no}`);
-		} catch (error) {
+			if (result.status === 200) {
+				toast.success(result.message || 'Sale completed successfully');
+				resetPosSales();
+				router.push(`/pos-sales/${result?.sale_id}/view`);
+				onClose();
+			} else if (result.status === 400 && result?.errors) {
+				const errorMessages = Object.values(result?.errors).flat().join('\n• ');
+				setError('• ' + errorMessages);
+				toast.error('Validation errors occurred');
+			} else {
+				toast.error(result.message || 'Failed to create sale');
+			}
+		} catch (error: any) {
 			console.error('Error creating sale:', error);
-			alert('Failed to create sale. Please try again.');
+
+			// Handle validation errors
+			if (error?.status === 400 && error?.data?.errors) {
+				const errorMessages = Object.values(error.data.errors)
+					.flat()
+					.join('\n• ');
+				setError('• ' + errorMessages);
+				toast.error('Validation errors occurred');
+			} else {
+				const errorMessage =
+					error?.data?.message || 'Failed to create sale. Please try again.';
+				setError(errorMessage);
+				toast.error(errorMessage);
+			}
 		}
 	};
 
@@ -111,7 +167,13 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 				<CardContent className="p-6 space-y-6">
 					<div className="flex justify-between items-center">
 						<CardTitle>Checkout</CardTitle>
-						<Button variant="outline" onClick={onClose}>
+						<Button
+							variant="outline"
+							onClick={() => {
+								setError(null);
+								onClose();
+							}}
+						>
 							Close
 						</Button>
 					</div>
@@ -119,7 +181,7 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 						{/* Customer Selection */}
 						<div className="space-y-2">
-							<Label>Customer</Label>
+							<Label>Customer *</Label>
 							<SelectSearch
 								value={selectedCustomer}
 								options={
@@ -137,7 +199,7 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 
 						{/* Order Source */}
 						<div className="space-y-2">
-							<Label>Order Source</Label>
+							<Label>Order Source *</Label>
 							<SelectSearch
 								value={orderSource}
 								options={
@@ -155,7 +217,7 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 
 						{/* Payment Method */}
 						<div className="space-y-2">
-							<Label>Payment Method</Label>
+							<Label>Payment Method *</Label>
 							<SelectSearch
 								value={paymentMethod}
 								options={
@@ -187,8 +249,8 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 						</div>
 
 						{/* Payment Amount */}
-						<div className="space-y-2">
-							<Label>Paid Amount</Label>
+						<div className="space-y-2 md:col-span-2">
+							<Label>Paid Amount *</Label>
 							<Input
 								type="number"
 								value={paymentAmount}
@@ -252,9 +314,25 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 						</div>
 					</div>
 
+					{error && (
+						<Alert variant="destructive">
+							<AlertTitle>Error</AlertTitle>
+							<AlertDescription>
+								<div className="whitespace-pre-line">{error}</div>
+							</AlertDescription>
+						</Alert>
+					)}
+
 					{/* Action Buttons */}
 					<div className="flex space-x-2">
-						<Button variant="outline" onClick={onClose} className="flex-1">
+						<Button
+							variant="outline"
+							onClick={() => {
+								setError(null);
+								onClose();
+							}}
+							className="flex-1"
+						>
 							Cancel
 						</Button>
 						<Button

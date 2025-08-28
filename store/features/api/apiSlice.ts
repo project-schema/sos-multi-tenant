@@ -110,5 +110,7 @@ export const apiSlice = createApi({
 		'VendorCourierCompany',
 		'VendorPurchase',
 		'VendorProductPurchaseCreateData',
+
+		'VendorPosSales',
 	],
 });

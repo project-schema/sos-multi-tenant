@@ -1,38 +1,13 @@
 import { apiSlice } from '../../api/apiSlice';
+import { Customer } from './vendor-pos-sales.slice';
 import {
-	CartItem,
-	Customer,
-	InvoiceInfo,
-	PaymentInfo,
-} from './vendor-pos-sales.slice';
-import {
+	iVendorPosSalesAllOrdersResponse,
+	iVendorPosSalesAllReturnResponse,
+	iVendorPosSalesOrderShow,
+	iVendorPosSalesPaymentHistoryResponse,
 	iVendorPosSalesProductDetailsResponse,
 	iVendorPosSalesResponse,
 } from './vendor-pos-sales.type';
-
-// Types for API responses
-export interface CreateSaleRequest {
-	customer: Customer;
-	items: CartItem[];
-	payment: PaymentInfo;
-	invoice: InvoiceInfo;
-	subtotal: number;
-	discount: number;
-	tax: number;
-	total: number;
-}
-
-export interface CreateSaleResponse {
-	status: number;
-	message: string;
-	data: {
-		sale_id: number;
-		invoice_no: string;
-		total_amount: number;
-		payment_status: string;
-		created_at: string;
-	};
-}
 
 export interface SearchCustomerResponse {
 	status: number;
@@ -41,6 +16,7 @@ export interface SearchCustomerResponse {
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
+		// Get create data
 		VendorPosSalesCreateData: builder.query<
 			iVendorPosSalesResponse,
 			{
@@ -55,6 +31,7 @@ const api = apiSlice.injectEndpoints({
 			}),
 		}),
 
+		// Get product details
 		VendorPosSalesProductDetails: builder.query<
 			iVendorPosSalesProductDetailsResponse,
 			{
@@ -65,45 +42,137 @@ const api = apiSlice.injectEndpoints({
 				url: `/tenant-product-pos-sales/product/select/${product_id}`,
 				method: 'GET',
 			}),
+			providesTags: ['VendorPosSales'],
 		}),
 
 		// Create new sale
-		createSale: builder.mutation<CreateSaleResponse, CreateSaleRequest>({
+		createSale: builder.mutation<any, any>({
 			query: (data) => ({
 				url: '/tenant-product-pos-sales/store',
 				method: 'POST',
 				body: data,
 			}),
+			invalidatesTags: ['VendorPosSales'],
 		}),
 
-		// Search customers
-		searchCustomers: builder.query<SearchCustomerResponse, { search: string }>({
-			query: ({ search }) => ({
-				url: `/tenant-product-pos-sales/customers/search?search=${search}`,
-				method: 'GET',
-			}),
-		}),
-
-		// Get sale by invoice number
-		getSaleByInvoice: builder.query<CreateSaleResponse, { invoice_no: string }>(
+		// get all orders
+		VendorPosSalesAllOrders: builder.query<
+			iVendorPosSalesAllOrdersResponse,
 			{
-				query: ({ invoice_no }) => ({
-					url: `/tenant-product-pos-sales/sale/${invoice_no}`,
-					method: 'GET',
-				}),
+				page: number | string;
+				status: 'all' | 'due' | 'paid';
+				search: string;
+				start_date: string;
+				end_date: string;
 			}
-		),
-
-		// Process payment
-		processPayment: builder.mutation<
-			{ status: number; message: string },
-			{ sale_id: number; payment: PaymentInfo }
 		>({
-			query: ({ sale_id, payment }) => ({
-				url: `/tenant-product-pos-sales/payment/${sale_id}`,
-				method: 'POST',
-				body: payment,
+			query: ({
+				page,
+				status,
+				search = '',
+				start_date = '',
+				end_date = '',
+			}) => {
+				if (status === 'all') {
+					status = '' as any;
+				}
+				return {
+					url: `/tenant-product-pos-sales/orders?page=${page}&payment_status=${status}&search=${search}&start_date=${start_date}&end_date=${end_date}`,
+					method: 'GET',
+				};
+			},
+			providesTags: ['VendorPosSales'],
+		}),
+
+		VendorPosSalesOrderShow: builder.query<
+			iVendorPosSalesOrderShow,
+			{ id: string }
+		>({
+			query: ({ id }) => ({
+				url: `/tenant-product-pos-sales/show/${id}`,
 			}),
+			providesTags: ['VendorPosSales'],
+		}),
+
+		// add payment
+		VendorPosSalesAddPayment: builder.mutation<
+			{ status: number; message: string },
+			any
+		>({
+			query: (data) => ({
+				url: `/tenant-product-pos-sales/add-payment/${data.id}`,
+				method: 'POST',
+				body: data,
+			}),
+			invalidatesTags: ['VendorPosSales'],
+		}),
+
+		// sell return
+		VendorPosSellReturn: builder.mutation<any, any>({
+			query: (data) => ({
+				url: `/tenant-product-pos-sales-return/${data.id}`,
+				method: 'POST',
+				body: data,
+			}),
+			invalidatesTags: ['VendorPosSales'],
+		}),
+
+		// get all return
+		VendorPosSalesAllReturn: builder.query<
+			iVendorPosSalesAllReturnResponse,
+			{
+				page: number | string;
+				status: 'all' | 'due' | 'paid';
+				search: string;
+				start_date: string;
+				end_date: string;
+			}
+		>({
+			query: ({
+				page,
+				status,
+				search = '',
+				start_date = '',
+				end_date = '',
+			}) => {
+				if (status === 'all') {
+					status = '' as any;
+				}
+				return {
+					url: `tenant-product-pos-sales-return?page=${page}&payment_status=${status}&search=${search}&start_date=${start_date}&end_date=${end_date}`,
+					method: 'GET',
+				};
+			},
+			providesTags: ['VendorPosSales'],
+		}),
+
+		//   payment-history
+		VendorPosPaymentHistory: builder.query<
+			iVendorPosSalesPaymentHistoryResponse,
+			{
+				page: number | string;
+				status: 'all' | 'due' | 'paid';
+				search: string;
+				start_date: string;
+				end_date: string;
+			}
+		>({
+			query: ({
+				page,
+				status,
+				search = '',
+				start_date = '',
+				end_date = '',
+			}) => {
+				if (status === 'all') {
+					status = '' as any;
+				}
+				return {
+					url: `/tenant-product-pos-sales/payment-history?page=${page}&payment_status=${status}&search=${search}&start_date=${start_date}&end_date=${end_date}`,
+					method: 'GET',
+				};
+			},
+			providesTags: ['VendorPosSales'],
 		}),
 	}),
 });
@@ -112,7 +181,10 @@ export const {
 	useVendorPosSalesCreateDataQuery,
 	useVendorPosSalesProductDetailsQuery,
 	useCreateSaleMutation,
-	useSearchCustomersQuery,
-	useGetSaleByInvoiceQuery,
-	useProcessPaymentMutation,
+	useVendorPosSalesAllOrdersQuery,
+	useVendorPosSalesAddPaymentMutation,
+	useVendorPosSalesOrderShowQuery,
+	useVendorPosSellReturnMutation,
+	useVendorPosSalesAllReturnQuery,
+	useVendorPosPaymentHistoryQuery,
 } = api;

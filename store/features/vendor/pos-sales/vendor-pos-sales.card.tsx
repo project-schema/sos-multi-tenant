@@ -186,6 +186,9 @@ const CardDetails = ({
 										color: variant.color?.name,
 										size: variant.size?.name,
 										unit: variant.unit?.unit_name,
+										unit_id: variant.unit?.id,
+										color_id: variant.color?.id,
+										size_id: variant.size?.id,
 									});
 								}}
 								key={variant.id}
@@ -226,6 +229,9 @@ const CardDetails = ({
 												color: variant.color?.name,
 												size: variant.size?.name,
 												unit: variant.unit?.unit_name,
+												unit_id: variant.unit?.id,
+												color_id: variant.color?.id,
+												size_id: variant.size?.id,
 											});
 										}}
 									>

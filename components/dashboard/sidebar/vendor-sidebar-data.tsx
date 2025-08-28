@@ -84,19 +84,19 @@ const pos: sidebarItem[] = [
 			},
 			{
 				title: 'POS Sales',
-				url: '/pos-sales',
+				url: '/pos-sales/create',
 			},
 			{
 				title: 'POS Orders',
-				url: '/orders',
+				url: '/pos-sales',
 			},
 			{
-				title: 'POS Sales History',
-				url: '/sales-history',
+				title: 'POS Payment History',
+				url: '/pos-sales/payment-history',
 			},
 			{
 				title: 'POS Sales Return',
-				url: '/sales-return',
+				url: '/pos-sales/return',
 			},
 			{
 				title: 'Add Wastage',
@@ -148,7 +148,7 @@ const pos: sidebarItem[] = [
 	},
 
 	{
-		title: 'Damaged Product',
+		title: 'Wastage & Damaged',
 		icon: Package,
 		isActive: false,
 		items: [
@@ -157,8 +157,16 @@ const pos: sidebarItem[] = [
 				url: '/create-damage',
 			},
 			{
-				title: 'Damage Products',
+				title: 'All Damage',
 				url: '/damage-products',
+			},
+			{
+				title: 'Create Wastage',
+				url: '/create-wastage',
+			},
+			{
+				title: 'All Wastage',
+				url: '/manage-wastage',
 			},
 		],
 	},

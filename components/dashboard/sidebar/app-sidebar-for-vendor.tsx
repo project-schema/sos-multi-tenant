@@ -53,7 +53,7 @@ export function AppSidebarForVendor({
 			<SidebarContent className="gap-0 pb-8">
 				<AppRoot />
 				<NavMain items={filteredProducts} groupLabel="Products" />
-				<NavMain items={filteredPos} groupLabel="POS" />
+				<NavMain items={filteredPos} groupLabel="POS & Purchase" />
 				<NavMain items={filteredServices} groupLabel="Services & Advertise" />
 				<NavMain items={filteredSupport} groupLabel="Support" />
 				<NavMain items={filteredReports} groupLabel="Reports" />

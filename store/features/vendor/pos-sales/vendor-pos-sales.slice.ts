@@ -17,6 +17,9 @@ export interface CartItem {
 	size?: string;
 	stock: number;
 	subtotal: number;
+	unit_id?: number;
+	color_id?: number;
+	size_id?: number;
 }
 
 export interface Customer {
