@@ -65,6 +65,9 @@ export function VendorPosSalesOrderTable({
 							</TableCell>
 							<TableCell className="font-medium py-4">
 								#{item.barcode}
+								{item.exchange_qty > 0 && (
+									<Badge variant="warning">Exchange</Badge>
+								)}
 							</TableCell>
 							<TableCell className="py-2">
 								{textCount(item?.customer?.customer_name, 20)}
@@ -73,7 +76,6 @@ export function VendorPosSalesOrderTable({
 								{textCount(item?.source.name, 15)}
 							</TableCell>
 							<TableCell className="py-2">{item?.sale_date}</TableCell>
-
 							<TableCell className="py-2">
 								<Badge
 									className="capitalize"
@@ -89,7 +91,6 @@ export function VendorPosSalesOrderTable({
 									{item?.total_price} {sign.tk}
 								</Badge>
 							</TableCell>
-
 							<TableCell className="py-2">
 								<DropDownAction item={item} />
 							</TableCell>
@@ -139,9 +140,20 @@ const DropDownAction = ({ item }: { item: iVendorPosSalesOrder }) => {
 						href={`/pos-sales/${item.id}/return`}
 					>
 						<PackageX className="size-4" />
-						<span>Sell Return </span>
+						<span>Return </span>
 					</Link>
 				</DropdownMenuItem>
+				{item.exchange_qty <= 0 && (
+					<DropdownMenuItem>
+						<Link
+							className="flex items-center gap-2 w-full"
+							href={`/pos-sales/${item.id}/exchange`}
+						>
+							<ExternalLink className="size-4" />
+							<span>Exchange </span>
+						</Link>
+					</DropdownMenuItem>
+				)}
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

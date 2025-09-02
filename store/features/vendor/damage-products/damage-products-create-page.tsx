@@ -4,6 +4,8 @@ import { Container1 } from '@/components/dashboard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import {
 	Table,
 	TableBody,
@@ -12,24 +14,30 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { Textarea } from '@/components/ui/textarea';
 import { useDebounce } from '@/hooks/use-debounce';
-import { sign, tableSrCount } from '@/lib';
-import { Minus, Plus, Trash2 } from 'lucide-react';
+import { alertConfirm, sign, tableSrCount } from '@/lib';
+import { Minus, Plus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { VendorPosCheckout } from './vendor-pos-checkout';
-import { useVendorPosSalesCreateDataQuery } from './vendor-pos-sales.api-slice';
-import { VendorPosSalesCard } from './vendor-pos-sales.card';
-import { usePosSales } from './vendor-pos-sales.hook';
-import { VendorPosSellFilter } from './vendor-pos-sell-filter';
+import { toast } from 'sonner';
+import { useVendorPosSalesCreateDataQuery } from '../pos-sales';
+import { VendorPosSellFilter } from '../pos-sales/vendor-pos-sell-filter';
+import { useVendorDamageProductsStoreMutation } from './damage-products-api-slice';
+import { VendorDamageProductsCard } from './damage-products-card';
+import { usePosSalesDamage } from './damage-products-hook';
 
-export function VendorPosSalesPage() {
+export function VendorDamageProductsCreatePage() {
 	const [filters, setFilters] = useState({
 		searchTerm: '',
 		brand_id: '',
 		category_id: '',
 	});
-	const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
+	const router = useRouter();
+
+	const [store, { isLoading: isCreating }] =
+		useVendorDamageProductsStoreMutation();
 	const search = useDebounce(filters.searchTerm, 500);
 	const { data, isLoading, isError } = useVendorPosSalesCreateDataQuery({
 		brand_id: filters.brand_id,
@@ -40,15 +48,51 @@ export function VendorPosSalesPage() {
 	// Redux state and actions
 	const {
 		cart,
-		subtotal,
-		discount,
-		total,
 		updateCartItemQuantity,
-		removeFromCart,
 		clearCart,
-		setDiscount,
-	} = usePosSales();
+		setNote,
+		note,
+		setCartRemark,
+	} = usePosSalesDamage();
 
+	const onSubmit = async () => {
+		const submitData = {
+			note,
+			product_id: cart.find((item) => item.id)?.product_id,
+			qty: cart.find((item) => item.id)?.quantity,
+			damage_qty: cart.map((item) => item.quantity),
+			variant_id: cart.map((item) => item.variant_id),
+			remark: cart.map((item) => item.remark),
+		};
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await store({
+						...submitData,
+					}).unwrap();
+					if (response.status === 200) {
+						toast.success(response.message || 'Created successfully');
+						clearCart();
+						router.push('/damage-products');
+					} else {
+						const errorResponse = response as any;
+						if (
+							response.status === 400 &&
+							typeof errorResponse.errors === 'object'
+						) {
+						} else {
+							toast.error(response.message || 'Something went wrong');
+						}
+					}
+				} catch (error: any) {
+					if (error?.status === 400) {
+					} else {
+						toast.error('Something went wrong');
+					}
+				}
+			},
+		});
+	};
 	return (
 		<Container1
 			isError={isError}
@@ -56,7 +100,7 @@ export function VendorPosSalesPage() {
 			header={
 				<>
 					<div className="pb-2 lg:pb-3 flex items-center justify-between">
-						<CardTitle>POS Sales</CardTitle>
+						<CardTitle>Create Damage</CardTitle>
 					</div>
 				</>
 			}
@@ -78,7 +122,7 @@ export function VendorPosSalesPage() {
 						/>
 						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
 							{data?.products?.map((product) => (
-								<VendorPosSalesCard key={product.id} product={product} />
+								<VendorDamageProductsCard key={product.id} product={product} />
 							))}
 						</div>
 						{/* products card and other info  */}
@@ -94,9 +138,8 @@ export function VendorPosSalesPage() {
 										<TableHead className="w-10">Sr.</TableHead>
 										<TableHead>Item Information</TableHead>
 										<TableHead className="w-24">Sell Price</TableHead>
-										<TableHead className="w-24">Discount</TableHead>
 										<TableHead className="w-50 text-center">Qty</TableHead>
-										<TableHead className="w-24">SubTotal</TableHead>
+										<TableHead className="w-50">Note</TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
@@ -131,11 +174,7 @@ export function VendorPosSalesPage() {
 												<TableCell>
 													{sign.tk} {item.selling_price}
 												</TableCell>
-												<TableCell>
-													{item.discount_percentage
-														? `${item.discount_percentage}%`
-														: '-'}
-												</TableCell>
+
 												<TableCell>
 													<div className="relative">
 														<Button
@@ -180,23 +219,18 @@ export function VendorPosSalesPage() {
 														</Button>
 													</div>
 												</TableCell>
-												<TableCell className="relative overflow-hidden">
-													<span>
-														{sign.tk} {item.subtotal}
-													</span>
-													<Button
-														variant="link"
-														size="icon"
-														className="absolute -top-2 -right-2"
-														onClick={() =>
-															removeFromCart({
+												<TableCell>
+													<Textarea
+														placeholder="Note"
+														value={item.remark}
+														onChange={(e) =>
+															setCartRemark({
 																id: item.id,
 																variant_id: item.variant_id,
+																remark: e.target.value,
 															})
 														}
-													>
-														<Trash2 className="text-destructive  h-4 w-4" />
-													</Button>
+													/>
 												</TableCell>
 											</TableRow>
 										))
@@ -205,81 +239,39 @@ export function VendorPosSalesPage() {
 							</Table>
 						</div>
 
+						<Separator />
+
+						<div className="space-y-2">
+							<Label>Note</Label>
+							<Textarea
+								placeholder="Note"
+								value={note}
+								onChange={(e) => setNote(e.target.value)}
+							/>
+						</div>
+
 						{/* Cart Summary */}
 						{cart.length > 0 && (
-							<div className="space-y-4 border-t pt-4">
-								<div className="space-y-2">
-									<div className="flex justify-between">
-										<span>Subtotal:</span>
-										<span>
-											{sign.tk} {subtotal}
-										</span>
-									</div>
-									<div className="flex justify-between">
-										<span>Discount:</span>
-										<div className="flex items-center space-x-2">
-											<Input
-												type="number"
-												value={discount}
-												onChange={(e) =>
-													setDiscount(parseFloat(e.target.value) || 0)
-												}
-												className="pr-3 hide-number-input-arrow"
-												placeholder="0"
-											/>
-											<span>%</span>
-										</div>
-									</div>
-									{/* <div className="flex justify-between">
-										<span>Tax:</span>
-										<div className="flex items-center space-x-2">
-											<Input
-												type="number"
-												value={tax}
-												onChange={(e) =>
-													setTax(parseFloat(e.target.value) || 0)
-												}
-												className="pr-3 hide-number-input-arrow"
-												placeholder="0"
-											/>
-											<span>%</span>
-										</div>
-									</div> */}
-									<div className="flex justify-between font-bold text-lg border-t pt-2">
-										<span>Total:</span>
-										<span>
-											{sign.tk} {total < 0 ? 0 : total}
-										</span>
-									</div>
-								</div>
-
-								<div className="flex space-x-2">
-									<Button
-										variant="outline"
-										onClick={clearCart}
-										className="flex-1"
-									>
-										Clear Cart
-									</Button>
-									<Button
-										className="flex-1"
-										onClick={() => setIsCheckoutOpen(true)}
-									>
-										Checkout
-									</Button>
-								</div>
+							<div className="flex space-x-2">
+								<Button
+									variant="outline"
+									onClick={clearCart}
+									className="flex-1"
+								>
+									Clear Cart
+								</Button>
+								<Button
+									className="flex-1"
+									disabled={isCreating}
+									onClick={onSubmit}
+								>
+									{isCreating ? 'Creating...' : 'Create Damage'}
+								</Button>
 							</div>
 						)}
 					</CardContent>
 				</Card>
 			</div>
-
-			{/* Checkout Modal */}
-			<VendorPosCheckout
-				isOpen={isCheckoutOpen}
-				onClose={() => setIsCheckoutOpen(false)}
-				data={data}
-			/>
 		</Container1>
 	);
 }

@@ -174,6 +174,16 @@ const api = apiSlice.injectEndpoints({
 			},
 			providesTags: ['VendorPosSales'],
 		}),
+
+		// create exchange sale
+		createExchangeSale: builder.mutation<any, any>({
+			query: (data) => ({
+				url: `/tenant-product-pos-sales/exchange/${data.id}`,
+				method: 'POST',
+				body: data,
+			}),
+			invalidatesTags: ['VendorPosSales'],
+		}),
 	}),
 });
 
@@ -187,4 +197,5 @@ export const {
 	useVendorPosSellReturnMutation,
 	useVendorPosSalesAllReturnQuery,
 	useVendorPosPaymentHistoryQuery,
+	useCreateExchangeSaleMutation,
 } = api;

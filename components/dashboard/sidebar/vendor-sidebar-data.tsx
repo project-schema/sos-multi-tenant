@@ -98,10 +98,6 @@ const pos: sidebarItem[] = [
 				title: 'POS Sales Return',
 				url: '/pos-sales/return',
 			},
-			{
-				title: 'Add Wastage',
-				url: '/wastage',
-			},
 		],
 	},
 	{
@@ -154,7 +150,7 @@ const pos: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Damage',
-				url: '/create-damage',
+				url: '/damage-products/create',
 			},
 			{
 				title: 'All Damage',
@@ -162,11 +158,11 @@ const pos: sidebarItem[] = [
 			},
 			{
 				title: 'Create Wastage',
-				url: '/create-wastage',
+				url: '/wastage-products/create',
 			},
 			{
 				title: 'All Wastage',
-				url: '/manage-wastage',
+				url: '/wastage-products',
 			},
 		],
 	},

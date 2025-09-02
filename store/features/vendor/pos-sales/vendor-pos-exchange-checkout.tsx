@@ -10,14 +10,20 @@ import { sign } from '@/lib';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { useCreateSaleMutation } from './vendor-pos-sales.api-slice';
-import { usePosSales } from './vendor-pos-sales.hook';
-import { iVendorPosSalesResponse } from './vendor-pos-sales.type';
+import { usePosSalesExchange } from './vendor-pos-sales-exchange.hook';
+import { useCreateExchangeSaleMutation } from './vendor-pos-sales.api-slice';
+import {
+	iVendorPosSaleShowData,
+	iVendorPosSalesResponse,
+} from './vendor-pos-sales.type';
+import { ReturnFormData } from './vendor-pos-sell-exchange';
 
 interface CheckoutProps {
 	isOpen: boolean;
 	onClose: () => void;
 	data?: iVendorPosSalesResponse;
+	showData?: iVendorPosSaleShowData;
+	returnData?: ReturnFormData;
 }
 
 // Generate a simple barcode
@@ -30,8 +36,13 @@ const generateBarcode = () => {
 	return result;
 };
 
-export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
-	const [selectedCustomer, setSelectedCustomer] = useState<any>(null);
+export function VendorPosExchangeCheckout({
+	isOpen,
+	onClose,
+	data,
+	showData,
+	returnData,
+}: CheckoutProps) {
 	const [orderSource, setOrderSource] = useState<string>('');
 	const [paymentMethod, setPaymentMethod] = useState<string>('');
 	const [paymentAmount, setPaymentAmount] = useState(0);
@@ -39,18 +50,16 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 	const router = useRouter();
 	const {
 		cart,
-		customer,
 		subtotal,
 		discount,
-		tax,
 		total,
 		setCustomer,
-		setPayment,
 		resetPosSales,
 		setDiscount,
-	} = usePosSales();
+	} = usePosSalesExchange();
 
-	const [createSale, { isLoading: isCreatingSale }] = useCreateSaleMutation();
+	const [exchangeSale, { isLoading: isCreatingSale }] =
+		useCreateExchangeSaleMutation();
 
 	// Clear errors when modal opens
 	useEffect(() => {
@@ -66,27 +75,12 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 	const dueAmount = Math.max(0, grandTotal - paymentAmount);
 	const changeAmount = Math.max(0, paymentAmount - grandTotal);
 
-	const handleCustomerSelect = (customerId: string) => {
-		setSelectedCustomer(customerId);
-		setCustomer(customerId as any);
-	};
-
 	const handleCheckout = async () => {
 		// Clear any previous errors
 		setError(null);
 
 		if (cart.length === 0) {
 			toast.error('Cart is empty');
-			return;
-		}
-
-		if (!selectedCustomer) {
-			toast.error('Please select a customer');
-			return;
-		}
-
-		if (!orderSource) {
-			toast.error('Please select an order source');
 			return;
 		}
 
@@ -98,25 +92,21 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 		try {
 			// Transform cart data into arrays as required by API
 			const productIds = cart.map((item) => item.product_id);
-			const unitIds = cart.map((item) => item.unit_id); // Use unit_id if available, default to 1
-			const colorIds = cart.map((item) => item.color_id); // Use color_id if available, default to 1
-			const sizeIds = cart.map((item) => item.size_id); // Use size_id if available, default to 1
+			const unitIds = cart.map((item) => item.unit_id);
+			const colorIds = cart.map((item) => item.color_id);
+			const sizeIds = cart.map((item) => item.size_id);
 			const quantities = cart.map((item) => item.quantity);
 			const rates = cart.map((item) => item.selling_price);
 			const subTotals = cart.map((item) => item.subtotal);
 
 			const saleData = {
-				customer_id: parseInt(selectedCustomer),
-				discount_type: 'tk' as const,
-				source_id: parseInt(orderSource),
-				barcode: data?.barcode || generateBarcode(),
+				barcode: data?.barcode,
 				payment_id: parseInt(paymentMethod),
 				total_qty: totalQty,
 				sale_discount: discount,
 				total_price: grandTotal.toFixed(2),
 				paid_amount: paymentAmount,
 				due_amount: dueAmount.toFixed(2),
-				change_amount: changeAmount,
 				product_id: productIds,
 				unit_id: unitIds,
 				color_id: colorIds,
@@ -124,14 +114,20 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 				qty: quantities,
 				rate: rates,
 				sub_total: subTotals,
+
+				return_qty: returnData?.return_items?.map((item) => item?.return_qty),
+				remark: returnData?.return_items?.map((item) => item?.remark),
+
+				change_amount: changeAmount,
+				id: showData?.id,
 			};
 
-			const result: any = await createSale(saleData).unwrap();
+			const result: any = await exchangeSale(saleData).unwrap();
 
 			if (result.status === 200) {
 				toast.success(result.message || 'Sale completed successfully');
 				resetPosSales();
-				router.push(`/pos-sales/${result?.sale_id}/view`);
+				router.push(`/pos-sales`);
 				onClose();
 			} else if (result.status === 400 && result?.errors) {
 				const errorMessages = Object.values(result?.errors).flat().join('\n• ');
@@ -179,42 +175,6 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 					</div>
 
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-						{/* Customer Selection */}
-						<div className="space-y-2">
-							<Label>Customer *</Label>
-							<SelectSearch
-								value={selectedCustomer}
-								options={
-									data?.data?.customer?.map((customer) => ({
-										label: customer.customer_name,
-										value: customer.id.toString(),
-									})) ?? []
-								}
-								placeholder="Select Customer"
-								onSelectorClick={(value) => {
-									handleCustomerSelect(value.value);
-								}}
-							/>
-						</div>
-
-						{/* Order Source */}
-						<div className="space-y-2">
-							<Label>Order Source *</Label>
-							<SelectSearch
-								value={orderSource}
-								options={
-									data?.data?.resource?.map((item) => ({
-										label: item.name,
-										value: item.id.toString(),
-									})) ?? []
-								}
-								placeholder="Select Order Source"
-								onSelectorClick={(value) => {
-									setOrderSource(value.value);
-								}}
-							/>
-						</div>
-
 						{/* Payment Method */}
 						<div className="space-y-2">
 							<Label>Payment Method *</Label>
@@ -337,9 +297,7 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 						</Button>
 						<Button
 							onClick={handleCheckout}
-							disabled={
-								isCreatingSale || cart.length === 0 || !selectedCustomer
-							}
+							disabled={isCreatingSale || cart.length === 0}
 							className="flex-1"
 						>
 							{isCreatingSale ? 'Processing...' : 'Complete Sale'}

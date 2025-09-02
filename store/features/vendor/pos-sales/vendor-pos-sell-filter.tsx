@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SelectSearch } from '@/components/ui/searchable-select';
 
-import { Barcode, Search, XCircle } from 'lucide-react';
+import { Search, XCircle } from 'lucide-react';
 import { iVendorPosSalesResponse } from './vendor-pos-sales.type';
 
 export function VendorPosSellFilter({
@@ -39,10 +39,6 @@ export function VendorPosSellFilter({
 						}
 						className="pl-10"
 					/>
-				</div>
-				<div className="relative w-full">
-					<Barcode className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-					<Input className="pl-10" placeholder="Scan Barcode..." />
 				</div>
 			</div>
 			<div className="grid grid-cols-7 gap-4">
@@ -83,6 +79,7 @@ export function VendorPosSellFilter({
 				{/* Clear Filters Button */}
 				<Button
 					variant="outline"
+					type="button"
 					className="h-11 col-span-1"
 					onClick={clearFilters}
 				>
