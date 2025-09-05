@@ -10,5 +10,3 @@ export default function Page() {
 		</div>
 	);
 }
-
-// components/JoinCards.tsx

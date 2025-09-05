@@ -121,10 +121,6 @@ const pos: sidebarItem[] = [
 				title: 'Purchase Return',
 				url: '/purchase/return',
 			},
-			{
-				title: 'All Wastage',
-				url: '/purchase/wastage',
-			},
 		],
 	},
 	{
@@ -168,6 +164,18 @@ const pos: sidebarItem[] = [
 	},
 ];
 const settings: sidebarItem[] = [
+	{
+		title: 'Coupons',
+		icon: Package,
+		isActive: false,
+		url: '/coupon',
+	},
+	{
+		title: 'Membership',
+		icon: Package,
+		isActive: false,
+		url: '/membership',
+	},
 	{
 		title: 'Settings',
 		icon: Package,
@@ -251,35 +259,35 @@ const reports: sidebarItem[] = [
 		items: [
 			{
 				title: 'Stock Report',
-				url: '/stock-report',
+				url: '/report?type=stock',
 			},
 			{
 				title: 'Sales Report',
-				url: '/sales-report',
+				url: '/report?type=sales',
 			},
 			{
 				title: 'Due Sales Report',
-				url: '/due-sales-report',
+				url: '/report?type=due-sales',
 			},
 			{
 				title: 'Purchase Report',
-				url: '/purchase-report',
+				url: '/report?type=purchase',
 			},
 			{
 				title: 'Warehouse Report',
-				url: '/warehouse-report',
+				url: '/report?type=warehouse',
 			},
 			{
 				title: 'Stock Shortage Report',
-				url: '/stock-shortage-report',
+				url: '/report?type=stock-shortage',
 			},
 			{
 				title: 'Top Repeat Customers',
-				url: '/top-repeat-customers',
+				url: '/report?type=top-repeat-customers',
 			},
 			{
 				title: 'Daily Sales Report',
-				url: '/daily-sales-report',
+				url: '/report?type=daily-sales',
 			},
 		],
 	},
@@ -295,8 +303,8 @@ const servicesAndAdvertise: sidebarItem[] = [
 				url: '/create-service',
 			},
 			{
-				title: 'All Services',
-				url: '/all-services',
+				title: 'Services',
+				url: '/services',
 			},
 			{
 				title: 'Service Order',
@@ -309,8 +317,8 @@ const servicesAndAdvertise: sidebarItem[] = [
 		],
 	},
 	{
-		title: 'Purchase Advertise',
-		url: '/purchase-advertise',
+		title: 'Advertise',
+		url: '/advertise',
 		icon: Package,
 		isActive: false,
 	},

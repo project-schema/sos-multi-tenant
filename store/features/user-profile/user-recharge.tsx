@@ -1,5 +1,4 @@
 'use client';
-import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
 	Card,
@@ -12,10 +11,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { useUserRechargeMutation } from './user-profile-api-slice';
 import { alertConfirm } from '@/lib';
-import { toast } from 'sonner';
 import { LoaderCircle } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { useUserRechargeMutation } from './user-profile-api-slice';
 
 const plans = [
 	{
