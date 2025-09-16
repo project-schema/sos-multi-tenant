@@ -116,5 +116,7 @@ export const apiSlice = createApi({
 		'VendorWastageProducts',
 
 		'VendorCoupon',
+
+		'DropShipperProduct',
 	],
 });

@@ -1,0 +1,52 @@
+import { apiSlice } from '../../api/apiSlice';
+import { iDropShipperProductResponse } from './dropshipper-product-type';
+
+const api = apiSlice.injectEndpoints({
+	endpoints: (builder) => ({
+		// get all
+		// https://sos.futureinltd.com/api/affiliator/products?page=null&search=%20&low_to_high=low_to_high&category_id=21&start_stock=12&end_stock=12&start_price=12&end_price=12&start_commission=12&end_commission=12&rating=12&warranty=21
+
+		DropShipperProductAll: builder.query<
+			iDropShipperProductResponse,
+			{
+				page: number | string;
+				search: string;
+				low_to_high: string;
+				high_to_low: string;
+				top_sale: string;
+				category_id: string;
+				start_stock: string;
+				end_stock: string;
+				start_price: string;
+				end_price: string;
+				start_commission: string;
+				end_commission: string;
+				rating: string;
+				warranty: string;
+			}
+		>({
+			query: ({
+				page,
+				search = '',
+				low_to_high = '',
+				category_id = '',
+				start_stock = '',
+				end_stock = '',
+				start_price = '',
+				end_price = '',
+				start_commission = '',
+				end_commission = '',
+				rating = '',
+				warranty = '',
+				top_sale = '',
+				high_to_low = '',
+			}) => ({
+				url: `/dropshipper/products?page=${page}&search=${search}&low_to_high=${low_to_high}&category_id=${category_id}&start_stock=${start_stock}&end_stock=${end_stock}&start_price=${start_price}&end_price=${end_price}&start_commission=${start_commission}&end_commission=${end_commission}&rating=${rating}&warranty=${warranty}&top_sale=${top_sale}&high_to_low=${high_to_low}`,
+				method: 'GET',
+			}),
+			providesTags: ['DropShipperProduct'],
+		}),
+	}),
+});
+
+export const { useDropShipperProductAllQuery } = api;

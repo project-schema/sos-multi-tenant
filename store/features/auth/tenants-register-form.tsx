@@ -23,14 +23,21 @@ import { toast } from 'sonner';
 import { useTenantRegisterMutation } from './auth-api-slice';
 
 // --- Zod Schema ---
-export const schema = z.object({
-	company_name: z.string().min(1, 'Company name is required'),
-	domain: z.string().min(1, 'Domain is required'),
-	email: z.email('Invalid email address'),
-	owner_name: z.string().min(1, 'Owner name is required'),
-	password: z.string().min(1, 'Password is required'),
-	password_confirmation: z.string().min(1, 'Password confirmation is required'),
-});
+export const schema = z
+	.object({
+		company_name: z.string().min(1, 'Company name is required'),
+		domain: z.string().min(1, 'Domain is required'),
+		email: z.email('Invalid email address'),
+		owner_name: z.string().min(1, 'Owner name is required'),
+		password: z.string().min(1, 'Password is required'),
+		password_confirmation: z
+			.string()
+			.min(1, 'Password confirmation is required'),
+	})
+	.refine((data) => data.password === data.password_confirmation, {
+		message: 'Passwords do not match',
+		path: ['password_confirmation'],
+	});
 
 export type ZodType = z.infer<typeof schema>;
 
@@ -45,8 +52,12 @@ export const TenantsRegisterForm = () => {
 			domain: '',
 			email: '',
 			owner_name: '',
+			password: '',
+			password_confirmation: '',
 		},
 	});
+
+	console.log(form.formState.errors);
 
 	const onSubmit = async (data: ZodType) => {
 		alertConfirm({
@@ -145,6 +156,39 @@ export const TenantsRegisterForm = () => {
 							<FormLabel>Owner Name</FormLabel>
 							<FormControl>
 								<Input {...field} placeholder="Enter owner name..." />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* Password */}
+				<FormField
+					control={form.control}
+					name="password"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Password</FormLabel>
+							<FormControl>
+								<Input {...field} placeholder="Enter password..." />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{/* Password Confirmation */}
+				<FormField
+					control={form.control}
+					name="password_confirmation"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Password Confirmation</FormLabel>
+							<FormControl>
+								<Input
+									{...field}
+									placeholder="Enter password confirmation..."
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
