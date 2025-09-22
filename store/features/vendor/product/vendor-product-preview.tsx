@@ -2,13 +2,8 @@
 import { ProductImages } from '@/components/dashboard/product/product-images';
 import { ProductInfo } from '@/components/dashboard/product/product-info';
 import { ProductTabs } from '@/components/dashboard/product/product-tab';
-import { iCompleteMerchantProduct } from '@/store/features/admin/merchant-product';
 
-export const VendorProductView = ({
-	product,
-}: {
-	product: iCompleteMerchantProduct;
-}) => {
+export const VendorProductView = ({ product }: { product: any }) => {
 	return (
 		<div>
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-10">

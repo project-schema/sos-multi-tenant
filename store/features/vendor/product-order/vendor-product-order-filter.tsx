@@ -10,8 +10,9 @@ import {
 } from '@/components/ui/select';
 
 import { Filter, Search } from 'lucide-react';
+import { statusRouteMap } from './vendor-product-order-type';
 
-export function VendorProductFilter({
+export function VendorProductOrderFilter({
 	statusFilter,
 	setStatusFilter,
 	searchTerm,
@@ -44,11 +45,13 @@ export function VendorProductFilter({
 						<SelectValue placeholder="Status" />
 					</SelectTrigger>
 					<SelectContent>
-						<SelectItem value="all">All Product</SelectItem>
-						<SelectItem value="/active">Active Product</SelectItem>
-						<SelectItem value="/pending">Pending Product</SelectItem>
-						<SelectItem value="/rejected">Rejected Product</SelectItem>
-						<SelectItem value="/edited">Edited Product</SelectItem>
+						{Object.keys(statusRouteMap)
+							.filter((status) => status !== 'count')
+							.map((status, index) => (
+								<SelectItem key={index} value={status}>
+									{status.toUpperCase()}
+								</SelectItem>
+							))}
 					</SelectContent>
 				</Select>
 			</div>

@@ -58,7 +58,7 @@ export function Container1({
 			>
 				<Card className={cn('gap-0 py-3 lg:py-6')}>
 					{header && (
-						<CardHeader className={cn('pb-4')}>
+						<CardHeader className={cn('pb-0')}>
 							<Motion>{header}</Motion>
 						</CardHeader>
 					)}

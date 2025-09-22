@@ -10,7 +10,6 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
 	DropdownMenu,
@@ -18,24 +17,17 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-	badgeFormat,
-	dateFormat,
-	env,
-	sign,
-	tableSrCount,
-	textCount,
-} from '@/lib';
+import { badgeFormat, dateFormat, sign, tableSrCount } from '@/lib';
 
 import { iPagination } from '@/types';
 import { Ellipsis, ExternalLink, Pencil } from 'lucide-react';
 import Link from 'next/link';
-import { iVendorProduct } from './vendor-product-type';
+import { iVendorProductOrder } from './vendor-product-order-type';
 
-export function VendorProductTable({
+export function VendorProductOrderTable({
 	data,
 }: {
-	data: iPagination<iVendorProduct>;
+	data: iPagination<iVendorProductOrder>;
 }) {
 	const products = data.data;
 	return (
@@ -43,23 +35,26 @@ export function VendorProductTable({
 			<TableHeader>
 				<TableRow>
 					<TableHead className="bg-stone-100">Sr.</TableHead>
-					<TableHead className="bg-stone-100 w-10">ID</TableHead>
-					<TableHead className="bg-stone-100">Image</TableHead>
-					<TableHead className="bg-stone-100">Product Name </TableHead>
-					<TableHead className="bg-stone-100">Original Price </TableHead>
-					<TableHead className="bg-stone-100">Sale Price </TableHead>
-					<TableHead className="bg-stone-100">Offer </TableHead>
-					<TableHead className="bg-stone-100">Stock </TableHead>
-					<TableHead className="bg-stone-100">Date </TableHead>
-					<TableHead className="bg-stone-100">Status </TableHead>
-					<TableHead className="bg-stone-100">Action </TableHead>
+					<TableHead className="bg-stone-100">Order ID</TableHead>
+					<TableHead className="bg-stone-100">Courier</TableHead>
+					<TableHead className="bg-stone-100">Product</TableHead>
+					<TableHead className="bg-stone-100">
+						Drop Shipper / Customer
+					</TableHead>
+					<TableHead className="bg-stone-100">Order Media</TableHead>
+					<TableHead className="bg-stone-100">Items</TableHead>
+					<TableHead className="bg-stone-100">Price</TableHead>
+					<TableHead className="bg-stone-100">Commission</TableHead>
+					<TableHead className="bg-stone-100">Date</TableHead>
+					<TableHead className="bg-stone-100">Status</TableHead>
+					<TableHead className="bg-stone-100">Action</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody>
 				{products.length === 0 ? (
 					<TableRow>
 						<TableCell
-							colSpan={11}
+							colSpan={13}
 							className="text-center py-8 text-muted-foreground"
 						>
 							No items found matching your criteria
@@ -71,45 +66,25 @@ export function VendorProductTable({
 							<TableCell className="py-2 pl-4">
 								{tableSrCount(data.current_page, i)}
 							</TableCell>
-							<TableCell className="font-medium py-4">#{item.uniqid}</TableCell>
-							<TableCell className="py-2">
-								<Link href={`/product/${item.id}/view`}>
-									<Avatar className="h-12 w-12 rounded-xl">
-										<AvatarImage
-											src={env.baseAPI + '/' + item.image}
-											alt={item.name}
-											className="object-cover"
-										/>
-										<AvatarFallback className="rounded-xl bg-sky-100">
-											{item.name.charAt(0).toUpperCase()}
-										</AvatarFallback>
-									</Avatar>
-								</Link>
+							<TableCell className="font-medium py-4">
+								#{item.order_id}
 							</TableCell>
+							<TableCell className="py-2">{item.courier_name || '-'}</TableCell>
+							<TableCell className="py-2">#{item.product_id}</TableCell>
+							<TableCell className="py-2">{item.name || '-'}</TableCell>
+							<TableCell className="py-2">{item.order_media || '-'}</TableCell>
 							<TableCell className="py-2">
-								<Link
-									className="hover:underline hover:text-blue-500 transition"
-									href={`/product/${item.id}/view`}
-								>
-									{textCount(item.name, 15)}
-								</Link>
+								<Badge variant="default">{item.qty || 0}</Badge>
 							</TableCell>
 							<TableCell className="py-2">
 								<Badge variant="info">
-									{item.original_price} {sign.tk}
+									{item.product_amount} {sign.tk}
 								</Badge>
 							</TableCell>
 							<TableCell className="py-2">
 								<Badge variant="outline">
-									{item.selling_price} {sign.tk}
+									{Number((item as any).afi_amount) || 0} {sign.tk}
 								</Badge>
-							</TableCell>
-							<TableCell className="py-2">
-								<Badge variant="success">{item.discount_price || '00'} </Badge>
-							</TableCell>
-
-							<TableCell className="py-2">
-								<Badge variant="default">{item.qty || '00'} </Badge>
 							</TableCell>
 							<TableCell className="py-2">
 								{dateFormat(item.created_at)}
@@ -138,19 +113,19 @@ export function VendorProductTable({
 										<DropdownMenuItem>
 											<Link
 												className="flex items-center gap-2 w-full"
-												href={`/product/${item.id}/view`}
+												href={`/orders/${item.id}/view`}
 											>
 												<ExternalLink className="size-4" />
-												<span>View Product</span>
+												<span>View Order</span>
 											</Link>
 										</DropdownMenuItem>
 										<DropdownMenuItem>
 											<Link
 												className="flex items-center gap-2 w-full"
-												href={`/product/${item.id}/edit`}
+												href={`/orders/${item.id}/edit`}
 											>
 												<Pencil className="size-4" />
-												<span>Edit Product</span>
+												<span>Edit Order</span>
 											</Link>
 										</DropdownMenuItem>
 									</DropdownMenuContent>

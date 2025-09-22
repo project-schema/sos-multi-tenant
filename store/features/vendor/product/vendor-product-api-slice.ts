@@ -1,8 +1,8 @@
 import { apiSlice } from '../../api/apiSlice';
 import {
-	iVendorProduct,
 	iVendorProductCreateType,
 	iVendorProductResponse,
+	iVendorProductView,
 } from './vendor-product-type';
 
 const api = apiSlice.injectEndpoints({
@@ -10,17 +10,58 @@ const api = apiSlice.injectEndpoints({
 		// get all
 		VendorProductAll: builder.query<
 			iVendorProductResponse,
-			{ page: number | string; search: string }
+			{ page: number | string; search: string; status: string }
 		>({
-			query: ({ page, search = '' }) => ({
-				url: `/tenant-product?page=${page}&search=${search}`,
+			query: ({ page, search = '', status = '' }) => {
+				let url = ``;
+				if (status === 'all') {
+					url = `/tenant-product?page=${page}&search=${search}`;
+				} else {
+					if (
+						status === '/active' ||
+						status === '/pending' ||
+						status === '/rejected' ||
+						status === '/edited'
+					) {
+						url = `/tenant-product${status}?page=${page}&search=${search}`;
+					} else {
+						url = `/tenant-product?page=${page}&search=${search}`;
+					}
+				}
+				return {
+					url: url,
+					method: 'GET',
+				};
+			},
+			providesTags: ['VendorProduct'],
+		}),
+
+		// product count
+		VendorProductCount: builder.query<
+			{
+				status: 200;
+				count: {
+					total: number;
+					active: number;
+					pending: number;
+					rejected: number;
+					edited: number;
+				};
+			},
+			undefined
+		>({
+			query: () => ({
+				url: `/tenant-product/count-data`,
 				method: 'GET',
 			}),
 			providesTags: ['VendorProduct'],
 		}),
 
 		// get by id
-		VendorProductById: builder.query<iVendorProduct, { id: string }>({
+		VendorProductById: builder.query<
+			{ product: iVendorProductView; status: 200 },
+			{ id: string }
+		>({
 			query: ({ id }) => ({
 				url: `/tenant-product/edit/${id}`,
 				method: 'GET',
@@ -108,21 +149,75 @@ const api = apiSlice.injectEndpoints({
 		>({
 			query: (data) => {
 				const body = new FormData();
-				Object.entries(data).forEach(([key, value]) => {
-					if (value) {
-						body.append(key, value as string);
+				Object.entries(data as any).forEach(([key, value]) => {
+					if (key === 'images') {
+						(value as any[])?.forEach((item: any, index: number) => {
+							if (item) {
+								body.append(`images[${index}]`, item);
+							}
+						});
+					} else if (key === 'specification') {
+						(value as any[])?.forEach((item: any, index: number) => {
+							body.append(`specification[]`, item);
+						});
+					} else if (key === 'specification_ans') {
+						(value as any[])?.forEach((item: any, index: number) => {
+							body.append(`specification_ans[]`, item);
+						});
+					} else if (key === 'selling_details') {
+						(value as any[])?.forEach((item: any, index: number) => {
+							console.log(item);
+							body.append(
+								`selling_details[${index}][advance_payment]`,
+								item.advance_payment
+							);
+							body.append(
+								`selling_details[${index}][advance_payment_type]`,
+								item.advance_payment_type
+							);
+							body.append(
+								`selling_details[${index}][bulk_commission]`,
+								item.bulk_commission
+							);
+							body.append(
+								`selling_details[${index}][bulk_commission_type]`,
+								item.bulk_commission_type
+							);
+							body.append(
+								`selling_details[${index}][min_bulk_qty]`,
+								item.min_bulk_qty
+							);
+							body.append(
+								`selling_details[${index}][min_bulk_price]`,
+								item.min_bulk_price
+							);
+						});
+					} else {
+						if (value) {
+							body.append(key, value as string);
+						}
 					}
 				});
 
-				body.append('_method', 'PUT');
-
 				return {
-					url: `/tenant-sub-category/update/${data.id}`,
+					url: `/tenant-product/update/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
 				};
 			},
+			invalidatesTags: ['VendorProduct'],
+		}),
+
+		// delete image
+		VendorProductImageDelete: builder.mutation<
+			{ status: 200; message: string },
+			{ id: string | number }
+		>({
+			query: (data) => ({
+				url: `/tenant-product/delete-image/${data.id}`,
+				method: 'DELETE',
+			}),
 			invalidatesTags: ['VendorProduct'],
 		}),
 
@@ -142,9 +237,11 @@ const api = apiSlice.injectEndpoints({
 
 export const {
 	useVendorProductAllQuery,
+	useVendorProductCountQuery,
 	useVendorProductByIdQuery,
 	useVendorProductStoreMutation,
 	useVendorProductDeleteMutation,
 	useVendorProductUpdateMutation,
 	useVendorProductCreateDataQuery,
+	useVendorProductImageDeleteMutation,
 } = api;

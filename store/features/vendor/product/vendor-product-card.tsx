@@ -28,7 +28,7 @@ export function VendorProductCard({
 						className="overflow-hidden hover:shadow-lg transition-shadow gap-0 pt-0"
 					>
 						<CardHeader className="p-0 lg:px-0">
-							<Link href={`/product/view/${item.id}`}>
+							<Link href={`/product/${item.id}/view`}>
 								<div className="relative aspect-square overflow-hidden">
 									<Avatar className="h-full w-full rounded-xl">
 										<AvatarImage
@@ -54,7 +54,7 @@ export function VendorProductCard({
 							<div className="space-y-2">
 								<Link
 									className="hover:underline hover:text-blue-500 transition"
-									href={`/product/view/${item.id}`}
+									href={`/product/${item.id}/view`}
 								>
 									<h3 className="font-semibold text-lg line-clamp-2">
 										{textCount(item.name, 30)}

@@ -61,13 +61,13 @@ const products: sidebarItem[] = [
 	},
 	{
 		title: 'Products Orders',
-		url: '/admin/product-order',
+		url: '/product-order',
 		icon: PackageCheck,
 		isActive: false,
 	},
 	{
 		title: 'Dropshipper Requests',
-		url: '/admin/dropshipper-request',
+		url: '/dropshipper-request',
 		icon: PackageOpen,
 		isActive: false,
 	},

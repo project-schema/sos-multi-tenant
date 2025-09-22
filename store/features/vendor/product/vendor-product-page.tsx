@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { useVendorProductAllQuery } from './vendor-product-api-slice';
 import { VendorProductCard } from './vendor-product-card';
 import { VendorProductFilter } from './vendor-product-filter';
+import { VendorProductStatistics } from './vendor-product-statistics';
 import { VendorProductTable } from './vendor-product-table';
 
 // Local storage key for view preference
@@ -17,6 +18,7 @@ const VIEW_PREFERENCE_KEY = 'vendor-product-view-preference';
 
 export default function VendorProductPage() {
 	const [toggleFilter, setToggleFilter] = useState(true);
+	const [statusFilter, setStatusFilter] = useState('all');
 	const [searchTerm, setSearchTerm] = useState('');
 	const [page, setPage] = useState(1);
 	const [viewMode, setViewMode] = useState<'list' | 'card'>(() => {
@@ -32,6 +34,7 @@ export default function VendorProductPage() {
 	const { data, isLoading, isError, isFetching } = useVendorProductAllQuery({
 		page: page,
 		search: debouncedSearchTerm,
+		status: statusFilter,
 	});
 
 	useEffect(() => {
@@ -52,7 +55,7 @@ export default function VendorProductPage() {
 			isLoading={isLoading}
 			header={
 				<>
-					<div className="pb-2 lg:pb-3 flex items-center justify-between">
+					<div className="pb-2  flex items-center justify-between">
 						<CardTitle>All Products</CardTitle>
 						<div className="flex items-center gap-2">
 							<Button
@@ -81,16 +84,21 @@ export default function VendorProductPage() {
 				</>
 			}
 		>
+			{toggleFilter && <VendorProductStatistics />}
+
 			{toggleFilter && (
 				<VendorProductFilter
 					searchTerm={searchTerm}
 					setSearchTerm={setSearchTerm}
+					statusFilter={statusFilter}
+					setStatusFilter={setStatusFilter}
 				/>
 			)}
 			{data?.product && (
 				<>
 					<div className="relative overflow-hidden">
 						{isFetching && <Loader8 />}
+
 						{viewMode === 'list' ? (
 							<div className="border rounded-lg ">
 								<VendorProductTable data={data?.product} />

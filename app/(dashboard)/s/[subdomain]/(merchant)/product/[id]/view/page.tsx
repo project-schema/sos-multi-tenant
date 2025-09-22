@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/' },
+	{ name: 'Products', path: '/product' },
 	{ name: 'Products Details' },
 ];
 

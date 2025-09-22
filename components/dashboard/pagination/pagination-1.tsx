@@ -30,7 +30,7 @@ export function Pagination1({ pagination, setPage }: Props) {
 		<div className="flex items-center justify-center gap-2 xl:justify-between mt-4 flex-wrap flex-col sm:flex-row">
 			<p className="text-sm text-muted-foreground">
 				Showing {pagination?.from} to {pagination?.to} of {pagination?.total}{' '}
-				users
+				items
 			</p>
 
 			<PaginationComponent className="justify-end w-auto ml-auto mx-0">

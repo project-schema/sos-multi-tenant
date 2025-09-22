@@ -9,6 +9,7 @@ interface Card1Props {
 	isLoading?: boolean;
 	className?: string;
 	iconClassName?: string;
+	cardClick?: () => void;
 }
 
 export const Card1 = ({
@@ -18,6 +19,7 @@ export const Card1 = ({
 	isLoading = false,
 	className,
 	iconClassName,
+	cardClick,
 }: Card1Props) => {
 	return (
 		<Card
@@ -25,6 +27,7 @@ export const Card1 = ({
 				'flex items-center flex-row justify-between px-4 py-2 shadow-sm ' +
 					className
 			)}
+			onClick={cardClick ? cardClick : undefined}
 		>
 			<div className="flex-1 w-full">
 				<CardHeader className={cn('p-0 lg:p-0 lg:gap-0')}>

@@ -78,6 +78,141 @@ export type iVendorProduct = {
 	product_type: string;
 };
 
+export type iVendorProductView = {
+	id: number;
+	category_id: number;
+	subcategory_id: number;
+	brand_id: number;
+	user_id: number;
+	slug: string;
+	name: string;
+	short_description: string;
+	long_description: string;
+	selling_price: string;
+	original_price: string;
+	qty: string;
+	image: string;
+	status: string;
+	meta_title: null;
+	meta_keyword: null;
+	meta_description: null;
+	tags: null;
+	commision_type: null;
+	request: null;
+	user_type: null;
+	discount_type: 'flat' | 'percent' | undefined;
+	discount_rate: string;
+	rejected_details: null;
+	created_at: string;
+	updated_at: string;
+	deleted_at: null;
+	variants: null;
+	selling_type: 'single' | 'bulk' | 'both' | undefined;
+	selling_details?: {
+		advance_payment: string;
+		advance_payment_type: 'flat' | 'percent' | undefined;
+		bulk_commission: string;
+		bulk_commission_type: 'flat' | 'percent' | undefined;
+		min_bulk_qty: string;
+		min_bulk_price: string;
+	}[];
+	advance_payment: number;
+	single_advance_payment_type: 'flat' | 'percent' | undefined;
+	is_connect_bulk_single: string;
+	specifications: {
+		specification: string;
+		specification_ans: string;
+	}[];
+	uniqid: string;
+	sku: string;
+	distributor_price: null;
+	alert_qty: number;
+	supplier_id: number;
+	warehouse_id: number;
+	exp_date: string;
+	barcode: null;
+	warranty: string;
+	is_feature: number;
+	is_affiliate: number;
+	discount_price: string;
+	vendor_id: number;
+	pre_order: string;
+	discount_percentage: string;
+	product_type: string;
+	wc_product_id: null;
+	productrating_avg_rating: null;
+	vendor: {
+		id: number;
+		name: string;
+		email: string;
+	};
+	brand: {
+		id: number;
+		user_id: number;
+		name: string;
+		slug: string;
+		description: null;
+		meta_title: null;
+		meta_keyword: null;
+		meta_description: null;
+		status: string;
+		image: string;
+		created_at: string;
+		updated_at: string;
+		deleted_at: null;
+		created_by: string;
+	};
+	category: {
+		id: number;
+		name: string;
+	};
+	subcategory: {
+		id: number;
+		name: string;
+	};
+	product_image: {
+		id: number;
+		product_id: number;
+		image: string;
+		created_at: string;
+		updated_at: string;
+		deleted_at: null;
+	}[];
+	productrating: never[];
+	supplier: {
+		id: number;
+		supplier_name: string;
+		business_name: string;
+	};
+	warehouse: {
+		id: number;
+		name: string;
+	};
+	product_variant: {
+		id: number;
+		product_id: number;
+		unit_id: number;
+		size_id: number;
+		color_id: number;
+		qty: number;
+		product: {
+			id: number;
+			name: string;
+			sku: string;
+			selling_price: string;
+		};
+		color: null;
+		size: {
+			id: number;
+			name: string;
+		};
+		unit: {
+			id: number;
+			unit_name: string;
+		};
+	}[];
+};
+
 export type iVendorProductResponse = {
 	status: number;
 	product: iPagination<iVendorProduct>;
