@@ -23,10 +23,7 @@ export function VendorServicesPage() {
 	// Debounced version of searchTerm
 	const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-	const { data, isLoading, isError, isFetching } = useVendorServicesQuery({
-		page: page,
-		search: debouncedSearchTerm,
-	});
+	const { data, isLoading, isError, isFetching } = useVendorServicesQuery();
 
 	useEffect(() => {
 		setPage(1);

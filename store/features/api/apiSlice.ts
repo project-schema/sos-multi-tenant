@@ -104,6 +104,8 @@ export const apiSlice = createApi({
 
 		'VendorProductOrder',
 
+		'VendorSupport',
+
 		'VendorOrderSource',
 		'VendorPickAndDeliveryAddress',
 		'VendorDeliveryCharge',

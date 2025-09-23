@@ -45,6 +45,7 @@ export function VendorCouponPage() {
 						<CardTitle className="xl:text-md">Request Coupon</CardTitle>
 					</CardHeader>
 					<CardContent>
+						<div className="overflow-x-auto border rounded-lg">
 						<Table>
 							<TableHeader>
 								<TableRow>
@@ -63,6 +64,7 @@ export function VendorCouponPage() {
 								</TableRow>
 							</TableBody>
 						</Table>
+						</div>
 					</CardContent>
 				</Card>
 			)}

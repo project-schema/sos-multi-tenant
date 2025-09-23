@@ -12,10 +12,10 @@ import {
 
 import { SlidersHorizontal } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useVendorAdvertiseQuery } from './vendor-advertise-api-slice';
-import { VendorAdvertiseStatistics } from './vendor-advertise-statistics';
+import { useVendorServicesQuery } from './vendor-services-api-slice';
+import { VendorServicesStatistics } from './vendor-services-statistics';
 
-export function VendorAdvertisePage() {
+export function VendorServicesPurchasePage() {
 	const [toggleFilter, setToggleFilter] = useState(true);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [page, setPage] = useState(1);
@@ -23,7 +23,7 @@ export function VendorAdvertisePage() {
 	// Debounced version of searchTerm
 	const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-	const { data, isLoading, isError, isFetching } = useVendorAdvertiseQuery();
+	const { data, isLoading, isError, isFetching } = useVendorServicesQuery();
 
 	useEffect(() => {
 		setPage(1);
@@ -37,7 +37,7 @@ export function VendorAdvertisePage() {
 				header={
 					<>
 						<div className="pb-2 lg:pb-3 flex items-center justify-between">
-							<CardTitle>Manage Advertise</CardTitle>
+							<CardTitle>Purchase Order</CardTitle>
 							<Button
 								className="ml-auto"
 								variant="outline"
@@ -47,7 +47,7 @@ export function VendorAdvertisePage() {
 								<SlidersHorizontal className="h-4 w-4" />
 							</Button>
 						</div>
-						{toggleFilter && <VendorAdvertiseStatistics />}
+						{toggleFilter && <VendorServicesStatistics />}
 					</>
 				}
 			>

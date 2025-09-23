@@ -1,9 +1,9 @@
 'use client';
 import { DbHeader } from '@/components/dashboard';
-import { UserRecharge } from '@/store/features';
+import { VendorRecharge } from '@/store/features/vendor/recharge';
 
 const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/user' },
+	{ name: 'Dashboard', path: '/' },
 	{ name: 'Recharge' },
 ];
 
@@ -12,7 +12,7 @@ export default function Page() {
 		<>
 			<DbHeader breadcrumb={breadcrumbItems} />
 			<div className="max-w-2xl mx-auto w-full md:mt-12">
-				<UserRecharge />
+				<VendorRecharge />
 			</div>
 		</>
 	);

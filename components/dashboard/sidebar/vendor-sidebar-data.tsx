@@ -300,7 +300,7 @@ const servicesAndAdvertise: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Service',
-				url: '/create-service',
+				url: '/services/create',
 			},
 			{
 				title: 'Services',
@@ -308,11 +308,11 @@ const servicesAndAdvertise: sidebarItem[] = [
 			},
 			{
 				title: 'Service Order',
-				url: '/service-order',
+				url: '/services/order',
 			},
 			{
 				title: 'Purchase Service',
-				url: '/purchase-service',
+				url: '/services/purchase',
 			},
 		],
 	},
@@ -332,11 +332,11 @@ const support: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Support',
-				url: '/create-support',
+				url: '/support/create',
 			},
 			{
 				title: 'All Supports',
-				url: '/all-supports',
+				url: '/support',
 			},
 		],
 	},
