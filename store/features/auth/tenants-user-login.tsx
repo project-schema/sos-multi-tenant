@@ -40,7 +40,7 @@ export function TenantUserLogin({ settings }: { settings?: iSettingsType }) {
 
 	const onSubmit = async (data: LoginFormData) => {
 		try {
-			const result = await login(data).unwrap();
+			const result = await login({ ...data, login: data.email }).unwrap();
 
 			if (result.success) {
 				// Sign in with NextAuth using the token

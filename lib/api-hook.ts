@@ -1,12 +1,21 @@
 import { BASE_URL } from '@/lib/env';
 import { signOut } from 'next-auth/react';
+import { toast } from 'sonner';
 
 export const logout = async () => {
 	try {
-		await signOut({
+		const response: any = await signOut({
 			redirect: false,
 		});
-	} catch (error) {}
+		console.log(response);
+		if (response.ok) {
+			toast.success('Logged out successfully');
+		} else {
+			toast.error('Error! Please Try Again');
+		}
+	} catch (error) {
+		toast.error('Error! Please Try Again');
+	}
 };
 
 export const post = async (api: string, data: any) => {

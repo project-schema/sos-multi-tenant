@@ -1,8 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
 	Select,
 	SelectContent,
@@ -18,20 +15,10 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from '@/components/ui/dialog';
+import { useState } from 'react';
 
-import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus, Filter } from 'lucide-react';
 import {
 	Pagination,
 	PaginationContent,
@@ -41,6 +28,7 @@ import {
 	PaginationNext,
 	PaginationPrevious,
 } from '@/components/ui/pagination';
+import { Filter } from 'lucide-react';
 import { useAllBanksQuery } from './user-profile-api-slice';
 import { UserWithdrawModal } from './user-withdraw-modal';
 // Sample data

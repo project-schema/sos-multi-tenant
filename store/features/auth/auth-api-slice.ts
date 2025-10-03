@@ -1,6 +1,5 @@
 import { apiSlice } from '../api/apiSlice';
 import {
-	iAuthLogin,
 	iAuthLoginResponse,
 	iAuthRegister,
 	iAuthRegisterResponse,
@@ -39,7 +38,7 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		// auth/login
-		authLogin: builder.mutation<iAuthLoginResponse, iAuthLogin>({
+		authLogin: builder.mutation<iAuthLoginResponse, any>({
 			query: (data) => ({
 				url: `/auth/login`,
 				method: 'POST',

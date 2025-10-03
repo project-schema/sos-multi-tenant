@@ -1,4 +1,5 @@
 import { FieldValues, UseFormSetError } from 'react-hook-form';
+import { toast } from 'sonner';
 
 type ServerErrorResponse = {
 	message?: string;
@@ -7,8 +8,7 @@ type ServerErrorResponse = {
 
 export function handleValidationError<T extends FieldValues>(
 	response: ServerErrorResponse,
-	setError: UseFormSetError<T>,
-	toast?: (message: string) => void
+	setError: UseFormSetError<T>
 ) {
 	if (typeof response.errors === 'object') {
 		Object.entries(response.errors).forEach(([field, messages]) => {
@@ -18,8 +18,6 @@ export function handleValidationError<T extends FieldValues>(
 			});
 		});
 	} else {
-		if (toast) {
-			toast(response?.message || 'Something went wrong');
-		}
+		toast.error(response?.message || 'Something went wrong');
 	}
 }

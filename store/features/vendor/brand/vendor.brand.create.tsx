@@ -71,14 +71,14 @@ export function VendorBrandCreate() {
 						form.reset();
 					} else {
 						if (response?.status === 400) {
-							handleValidationError(response, form.setError, toast.error);
+							handleValidationError(response, form.setError);
 						} else {
 							toast.error(response.message || 'Something went wrong');
 						}
 					}
 				} catch (error: any) {
 					if (error?.status === 400) {
-						handleValidationError(error, form.setError, toast.error);
+						handleValidationError(error, form.setError);
 					} else {
 						toast.error('Something went wrong');
 					}

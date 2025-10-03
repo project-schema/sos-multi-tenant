@@ -8,7 +8,7 @@ declare module 'next-auth' {
 		expires: Date;
 		accessToken: string;
 		tenant_id: string;
-		tenant_type: 'merchant' | 'dropshipper';
+		tenant_type: 'admin' | 'merchant' | 'dropshipper';
 		user: {
 			id: number;
 			name: string;
@@ -26,7 +26,7 @@ declare module 'next-auth/jwt' {
 		accessToken?: string;
 		refreshToken?: string;
 		tenant_id?: string;
-		tenant_type?: 'merchant' | 'dropshipper';
+		tenant_type?: 'admin' | 'merchant' | 'dropshipper';
 		user?: {
 			id: number;
 			name: string;

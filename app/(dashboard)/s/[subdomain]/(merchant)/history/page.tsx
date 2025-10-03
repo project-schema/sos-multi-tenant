@@ -1,5 +1,7 @@
 import { DbHeader } from '@/components/dashboard';
-import { UserHistory } from '@/store/features';
+import { UserHistory } from '@/store/features/vendor/recharge/user-history';
+import { Metadata } from 'next';
+
 const breadcrumbItems = [{ name: 'Dashboard', path: '/' }, { name: 'History' }];
 export default function Page() {
 	return (
@@ -9,3 +11,8 @@ export default function Page() {
 		</>
 	);
 }
+
+export const metadata: Metadata = {
+	title: 'My Wallet | History | SOS',
+	description: 'SOS Management',
+};

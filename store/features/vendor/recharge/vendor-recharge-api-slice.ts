@@ -1,4 +1,6 @@
+import { iPagination } from '@/types';
 import { apiSlice } from '../../api/apiSlice';
+import { iVendorRechargeHistory } from './type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
@@ -7,12 +9,21 @@ const api = apiSlice.injectEndpoints({
 			{ amount: number | string; getwaya: 'aamarpay' }
 		>({
 			query: (data) => ({
-				url: '/tenant-recharge',
+				url: '/recharge',
 				method: 'POST',
 				body: data,
+			}),
+		}),
+		vendorRechargeHistory: builder.query<
+			iPagination<iVendorRechargeHistory>,
+			{ page: number | string }
+		>({
+			query: ({ page }) => ({
+				url: `/transition-history?page=${page}`,
+				method: 'GET',
 			}),
 		}),
 	}),
 });
 
-export const { useVendorRechargeMutation } = api;
+export const { useVendorRechargeMutation, useVendorRechargeHistoryQuery } = api;

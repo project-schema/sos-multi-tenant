@@ -13,6 +13,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import { logout as logoutFn } from '@/lib';
+import { useVendorProfileInfoQuery } from '@/store/features/vendor/profile/vendor-profile-api-slice';
 import {
 	Bell,
 	CreditCard,
@@ -23,12 +25,20 @@ import {
 	User,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Crumb, DbBreadcrumb } from '../breadcrumb/Breadcrumb';
 
 export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
+	const { data } = useVendorProfileInfoQuery(undefined);
 	const [showBalance, setShowBalance] = useState(false);
 	const [balance] = useState(2450.75); // Mock balance
+	const router = useRouter();
+
+	const logout = () => {
+		logoutFn();
+		router.push('/auth');
+	};
 
 	// Auto-hide balance after 1 second
 	useEffect(() => {
@@ -206,7 +216,7 @@ export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
 							<span>Settings</span>
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>
+						<DropdownMenuItem onClick={logout}>
 							<LogOut className="mr-2 h-4 w-4" />
 							<span>Log out</span>
 						</DropdownMenuItem>

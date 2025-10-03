@@ -1,5 +1,5 @@
-import { TenantsRegisterForm } from '@/store/features/auth';
 import { Metadata } from 'next';
+import PageClient from './page-client';
 
 export const metadata: Metadata = {
 	title: 'Service - SOS',
@@ -9,7 +9,7 @@ export default function Page() {
 	return (
 		<div className="layout">
 			<div className="max-w-2xl mx-auto py-40">
-				<TenantsRegisterForm />
+				<PageClient />
 			</div>
 		</div>
 	);

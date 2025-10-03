@@ -95,10 +95,10 @@ function Nav({ settings }: { settings: iSettingsType }) {
 							</div>
 						) : (
 							<>
-								<Link href={'/auth'} className={style.login}>
+								<Link href={'/auth?tab=login'} className={style.login}>
 									Login
 								</Link>
-								<BtnLink text="Register" path="/auth" />
+								<BtnLink text="Register" path="/auth?tab=register" />
 							</>
 						)}
 					</div>

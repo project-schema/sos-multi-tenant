@@ -18,7 +18,51 @@ const api = apiSlice.injectEndpoints({
 			},
 			providesTags: ['VendorSupport'],
 		}),
+
+		VendorSupportCreate: builder.mutation<
+			{ status: 200; message: string },
+			any
+		>({
+			query: (data) => {
+				const body = new FormData();
+				Object.entries(data).forEach(([key, value]) => {
+					if (value) {
+						body.append(key, value as string);
+					}
+				});
+				return {
+					url: `/tenant-support`,
+					method: 'POST',
+					body,
+					formData: true,
+				};
+			},
+		}),
+
+		VendorSupportCategory: builder.query<{ status: 200; message: string }, any>(
+			{
+				query: () => ({
+					url: `/tenant-support/category`,
+					method: 'GET',
+				}),
+			}
+		),
+
+		VendorSupportSubCategory: builder.query<
+			{ status: 200; message: string },
+			{ id: string }
+		>({
+			query: ({ id }) => ({
+				url: `/tenant-support/sub-category/${id}`,
+				method: 'GET',
+			}),
+		}),
 	}),
 });
 
-export const { useVendorSupportAllQuery } = api;
+export const {
+	useVendorSupportAllQuery,
+	useVendorSupportCreateMutation,
+	useVendorSupportCategoryQuery,
+	useVendorSupportSubCategoryQuery,
+} = api;

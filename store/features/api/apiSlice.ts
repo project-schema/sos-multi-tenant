@@ -122,5 +122,7 @@ export const apiSlice = createApi({
 		'VendorCoupon',
 
 		'DropShipperProduct',
+
+		'Withdraw',
 	],
 });

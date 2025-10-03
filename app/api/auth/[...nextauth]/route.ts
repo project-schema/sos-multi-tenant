@@ -15,7 +15,7 @@ type TokenResponse = {
 	user: UserType;
 	token: string;
 	tenant_id: string;
-	tenant_type: 'merchant' | 'dropshipper';
+	tenant_type: 'admin' | 'merchant' | 'dropshipper';
 };
 
 // Define the extended user type
@@ -24,7 +24,7 @@ interface CustomUser extends NextAuthUser {
 	refreshToken?: string;
 	user: UserType;
 	tenant_id: string;
-	tenant_type: 'merchant' | 'dropshipper';
+	tenant_type: 'admin' | 'merchant' | 'dropshipper';
 }
 
 const handler = NextAuth({
@@ -42,6 +42,7 @@ const handler = NextAuth({
 				try {
 					const parsedToken: TokenResponse = JSON.parse(credentials.token);
 
+					console.log(parsedToken);
 					// Validate the token structure
 					if (
 						!parsedToken.user ||
@@ -120,7 +121,10 @@ const handler = NextAuth({
 				...token.user,
 			} as any;
 			session.tenant_id = token.tenant_id as string;
-			session.tenant_type = token.tenant_type as 'merchant' | 'dropshipper';
+			session.tenant_type = token.tenant_type as
+				| 'admin'
+				| 'merchant'
+				| 'dropshipper';
 
 			return session;
 		},
