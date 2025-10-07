@@ -13,7 +13,7 @@ import { Container1, Loader8 } from '@/components/dashboard';
 import { Pagination1 } from '@/components/dashboard/pagination';
 import { Badge } from '@/components/ui/badge';
 import { CardContent, CardTitle } from '@/components/ui/card';
-import { badgeFormat, dateFormat, tableSrCount } from '@/lib';
+import { badgeFormat, dateFormat, tableSrCount, timeFormat } from '@/lib';
 import { useState } from 'react';
 import { useVendorRechargeHistoryQuery } from './vendor-recharge-api-slice';
 
@@ -42,15 +42,16 @@ export function UserHistory() {
 							<TableHeader>
 								<TableRow>
 									<TableHead className="bg-stone-100">SL. </TableHead>
+									<TableHead className="bg-stone-100">Transition ID </TableHead>
 									<TableHead className="bg-stone-100">Amount </TableHead>
 									<TableHead className="bg-stone-100">
 										Transition Type
 									</TableHead>
 									<TableHead className="bg-stone-100">Payment Method</TableHead>
 									<TableHead className="bg-stone-100">Coupon </TableHead>
-									<TableHead className="bg-stone-100">Transition ID </TableHead>
-									<TableHead className="bg-stone-100">Balance </TableHead>
-									<TableHead className="bg-stone-100">Statement</TableHead>
+									<TableHead className="bg-stone-100">
+										Balance Statement
+									</TableHead>
 									<TableHead className="bg-stone-100">Date</TableHead>
 								</TableRow>
 							</TableHeader>
@@ -83,18 +84,20 @@ export function UserHistory() {
 													{user.payment_method}
 												</Badge>
 											</TableCell>
-											<TableCell className="py-2">{user.coupon}</TableCell>
-											<TableCell className="py-2">{user.trxid}</TableCell>
 											<TableCell className="py-2">
-												{dateFormat(user.created_at)}
+												{user.coupon || 'Not Applied'}
 											</TableCell>
 											<TableCell className="py-2">
 												<Badge
 													className="capitalize"
 													variant={badgeFormat(user.balance_type)}
 												>
-													{user.balance_type}
+													{user.balance_type === '+' ? 'in' : 'out'}
 												</Badge>
+											</TableCell>
+											<TableCell className="py-2">
+												{dateFormat(user.created_at)} <br />
+												{timeFormat(user.created_at)}
 											</TableCell>
 										</TableRow>
 									))

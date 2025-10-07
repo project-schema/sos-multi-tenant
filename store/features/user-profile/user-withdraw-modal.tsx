@@ -27,7 +27,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { alertConfirm } from '@/lib';
+import { alertConfirm, handleValidationError } from '@/lib';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle, Plus } from 'lucide-react';
 import React, { useState } from 'react';
@@ -117,29 +117,16 @@ const FORM = ({
 						});
 					}
 
-					// if (res.status === 200) {
-					// 	toast.success('Withdrawal request submitted');
-					// 	form.reset();
-					// 	setIsOpen(false);
-					// } else if (res.status === 401) {
-					// 	const errors = res?.message || {};
-					// 	const validationError = {
-					// 		amount: errors['amount'] ?? null,
-					// 		bank_name: errors['bank_name'] ?? null,
-					// 		ac_or_number: errors['ac_or_number'] ?? null,
-					// 	};
-
-					// 	Object.entries(validationError).forEach(([field, message]) => {
-					// 		if (message) {
-					// 			form.setError(field as keyof WithdrawFormValues, {
-					// 				type: 'server',
-					// 				message: message as string,
-					// 			});
-					// 		}
-					// 	});
-					// } else {
-					// 	toast.error(res.message || 'Withdrawal failed');
-					// }
+					if (response.status === 200) {
+						toast.success('Withdrawal request submitted');
+						form.reset();
+						setOpen(false);
+					} else if (response.status === 401) {
+						const errors = response?.message || {};
+						handleValidationError({ errors }, form.setError);
+					} else {
+						toast.error(response.message || 'Withdrawal failed');
+					}
 				} catch (err: any) {
 					toast.error('Something went wrong');
 				}

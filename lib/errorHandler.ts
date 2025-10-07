@@ -1,3 +1,4 @@
+'use client';
 import { FieldValues, UseFormSetError } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -10,6 +11,7 @@ export function handleValidationError<T extends FieldValues>(
 	response: ServerErrorResponse,
 	setError: UseFormSetError<T>
 ) {
+	console.log({ response });
 	if (typeof response.errors === 'object') {
 		Object.entries(response.errors).forEach(([field, messages]) => {
 			setError(field as any, {

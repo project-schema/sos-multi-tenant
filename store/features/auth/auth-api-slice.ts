@@ -45,6 +45,14 @@ const api = apiSlice.injectEndpoints({
 				body: data,
 			}),
 		}),
+		// auth/login
+		AdminLogin: builder.mutation<iAuthLoginResponse, any>({
+			query: (data) => ({
+				url: `/login`,
+				method: 'POST',
+				body: data,
+			}),
+		}),
 	}),
 });
 
@@ -52,4 +60,5 @@ export const {
 	useTenantRegisterMutation,
 	useAuthRegisterMutation,
 	useAuthLoginMutation,
+	useAdminLoginMutation,
 } = api;

@@ -23,11 +23,16 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { alertConfirm, handleValidationError } from '@/lib';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import {
+	useVendorServiceCategoryAndSubCategoryQuery,
+	useVendorServicesCreateMutation,
+} from './vendor-services-api-slice';
 
 // ----- Zod Schemas -----
 const Step1Schema = z.object({
@@ -134,13 +139,19 @@ const defaultValues: Partial<FormType> = {
 
 export function VendorServicesCreate() {
 	const [step, setStep] = useState<1 | 2>(1);
-
+	const [store, { isLoading }] = useVendorServicesCreateMutation();
+	const {
+		data: categoryAndSubCategory,
+		isLoading: isLoadingCategoryAndSubCategory,
+	} = useVendorServiceCategoryAndSubCategoryQuery();
+	console.log(categoryAndSubCategory);
 	const form = useForm<FormType>({
 		defaultValues,
 		resolver: zodResolver(FormSchema),
 		mode: 'onChange',
 	});
 
+	const categoryId = form.watch('service_category_id');
 	const nextStep = async () => {
 		// Validate only step 1 fields before advancing
 		const valid = await form.trigger([
@@ -161,28 +172,59 @@ export function VendorServicesCreate() {
 
 	const prevStep = () => setStep(1);
 
-	const onSubmit = async (values: FormType) => {
-		// Compose FormData for eventual API submission
-		const body = new FormData();
-		Object.entries(values).forEach(([key, val]) => {
-			if (key === 'tags' && Array.isArray(val)) {
-				val.forEach((tag) => body.append('tags[]', tag));
-			} else if (key === 'images' && Array.isArray(val)) {
-				val.forEach((file) => file && body.append('images[]', file as File));
-			} else if (key === 'image' && val) {
-				body.append('image', val as File);
-			} else if (key === 'contract' && val) {
-				body.append('contract', val as File);
-			} else if (val !== undefined && val !== null) {
-				body.append(key, String(val));
-			}
+	const onSubmit = async (data: FormType) => {
+		console.log(data);
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await store({
+						service_category_id: data.service_category_id,
+						service_sub_category_id: data.service_sub_category_id,
+						title: data.title,
+						tags: data.tags,
+						description: data.description,
+						contract: data.contract,
+						image: data.image,
+						commission: data.commission,
+						commission_type: data.commission_type,
+						images: data.images,
+						time: [data.times__1, data.times__2, data.times__3],
+						revision_max_time: [
+							data.revision_max_time__1,
+							data.revision_max_time__2,
+							data.revision_max_time__3,
+						],
+						package_description: [
+							data.package_description__1,
+							data.package_description__2,
+							data.package_description__3,
+						],
+						package_title: [
+							data.package_title__1,
+							data.package_title__2,
+							data.package_title__3,
+						],
+						price: [data.price__1, data.price__2, data.price__3],
+					}).unwrap();
+					if (response.status === 200) {
+						toast.success(response.message || 'Service created successfully');
+						form.reset();
+					} else {
+						if (response.status === 400) {
+							handleValidationError(response as any, form.setError);
+						} else {
+							toast.error(response.message || 'Something went wrong');
+						}
+					}
+				} catch (error: any) {
+					if (error?.status === 400) {
+						handleValidationError(error, form.setError);
+					} else {
+						toast.error('Something went wrong');
+					}
+				}
+			},
 		});
-
-		// TODO: wire to vendor create service endpoint when available
-		toast.success('Validated. Ready to submit to API.');
-		// Example:
-		// const res = await storeVendorService(body)
-		// toast.success(res.message)
 	};
 
 	// Simple tag input: comma or Enter to add
@@ -269,7 +311,17 @@ export function VendorServicesCreate() {
 													<SearchableSelect
 														field={field}
 														label="Service Category"
-														options={[{ label: 'Test', value: 'test' }]}
+														options={
+															(categoryAndSubCategory &&
+																categoryAndSubCategory?.message &&
+																categoryAndSubCategory?.message?.map(
+																	(item) => ({
+																		label: item.name,
+																		value: item.id.toString(),
+																	})
+																)) ??
+															[]
+														}
 														placeholder="Select category"
 													/>
 												)}
@@ -281,7 +333,21 @@ export function VendorServicesCreate() {
 													<SearchableSelect
 														field={field}
 														label="Service Sub Category"
-														options={[{ label: 'Test', value: 'test' }]}
+														options={
+															(categoryAndSubCategory &&
+																categoryAndSubCategory?.message &&
+																categoryAndSubCategory?.message
+																	?.find(
+																		(item) =>
+																			item.id.toString() ===
+																			categoryId.toString()
+																	)
+																	?.servicesub_categories?.map((item) => ({
+																		label: item.name,
+																		value: item.id.toString(),
+																	}))) ??
+															[]
+														}
 														placeholder="Select sub category"
 													/>
 												)}

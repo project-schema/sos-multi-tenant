@@ -131,7 +131,7 @@ export const SearchableSelect = ({
 						<CommandList>
 							<CommandEmpty>No result found.</CommandEmpty>
 							<CommandGroup>
-								{options.map((opt, i) => (
+								{options?.map((opt, i) => (
 									<CommandItem
 										value={opt.label}
 										key={i}

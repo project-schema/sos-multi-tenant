@@ -12,6 +12,7 @@ export const badgeFormat = (status: string | number): Badge => {
 
 		case 'Drop Shipper':
 		case 'Direct':
+		case 'My wallet':
 		case 'hold':
 			return 'outline';
 
@@ -19,6 +20,8 @@ export const badgeFormat = (status: string | number): Badge => {
 		case 'processing':
 		case 'delivered':
 		case 'success':
+		case 'Ammarpay':
+		case '+':
 		case 1:
 			return 'success';
 
@@ -43,6 +46,7 @@ export const badgeFormat = (status: string | number): Badge => {
 		case 'due':
 		case 'reject':
 		case 'rejected':
+		case '-':
 		case 3:
 			return 'destructive';
 

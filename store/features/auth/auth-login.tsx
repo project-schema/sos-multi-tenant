@@ -20,7 +20,7 @@ import { Input } from '@/components/ui/input';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { useAuthLoginMutation } from './auth-api-slice';
+import { useAdminLoginMutation } from './auth-api-slice';
 
 // --- Zod Schema ---
 export const schema = z.object({
@@ -32,7 +32,8 @@ export type ZodType = z.infer<typeof schema>;
 
 export const AuthLogin = () => {
 	const router = useRouter();
-	const [login, { isLoading }] = useAuthLoginMutation();
+	// const [login, { isLoading }] = useAuthLoginMutation();
+	const [login, { isLoading }] = useAdminLoginMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
