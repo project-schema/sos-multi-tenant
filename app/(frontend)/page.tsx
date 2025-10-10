@@ -19,61 +19,67 @@ import {
 } from '@/types';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+
 export const metadata: Metadata = {
 	title: 'SOS | Home',
 	description: 'SOS Management',
 };
-export default async function HomePage() {
-	const [
-		settings,
-		services,
-		orgOne,
-		orgTwo,
-		itService,
-		partners,
-		subscriptions,
-	] = await Promise.all([
-		getApiData<iSettingsType>('/settings'),
-		getApiData<iServicesType>('/services'),
-		getApiData<iOrgOneType>('/org-one'),
-		getApiData<iOrgTwoType>('/org-two'),
-		getApiData<iItServicesType>('/it-services'),
-		getApiData<iPartnersType>('/partners'),
-		getApiData<iSubscriptionsType>('/subscriptions'),
-	]);
 
-	if (settings?.status !== 200) {
+export default async function HomePage() {
+	try {
+		const [
+			settings,
+			services,
+			orgOne,
+			orgTwo,
+			itService,
+			partners,
+			subscriptions,
+		] = await Promise.all([
+			getApiData<iSettingsType>('/settings'),
+			getApiData<iServicesType>('/services'),
+			getApiData<iOrgOneType>('/org-one'),
+			getApiData<iOrgTwoType>('/org-two'),
+			getApiData<iItServicesType>('/it-services'),
+			getApiData<iPartnersType>('/partners'),
+			getApiData<iSubscriptionsType>('/subscriptions'),
+		]);
+
+		if (settings?.status !== 200) {
+			return notFound();
+		}
+
+		return (
+			<>
+				{settings?.status === 200 && <Banner settings={settings} />}
+				{services?.status === 200 && settings?.status === 200 && (
+					<Services settingsData={settings} getServiceData={services} />
+				)}
+				{orgOne?.status === 200 && (
+					<Organization settingsData={settings} getOrgOneData={orgOne} />
+				)}
+				{settings?.status === 200 && <Counter settings={settings} />}
+				{settings?.status === 200 && itService?.status === 200 && (
+					<ItServices settings={settings} itServices={itService} />
+				)}
+				{settings?.status === 200 && orgTwo?.status === 200 && (
+					<OrganizationProvide settings={settings} getOrTwoData={orgTwo} />
+				)}
+				{settings?.status === 200 && orgTwo?.status === 200 && (
+					<ChooseUs settings={settings} />
+				)}
+				{settings?.status === 200 && partners?.status === 200 && (
+					<Partners settings={settings} partners={partners} />
+				)}
+				{subscriptions?.status === 200 && (
+					<div className="pt-20">
+						<Pricing subscriptions={subscriptions} />
+					</div>
+				)}
+			</>
+		);
+	} catch (error) {
+		console.error('Error loading homepage data:', error);
 		return notFound();
 	}
-
-	return (
-		<>
-			{settings?.status === 200 && <Banner settings={settings} />}
-			{services?.status === 200 && settings?.status === 200 && (
-				<Services settingsData={settings} getServiceData={services} />
-			)}
-			{orgOne?.status === 200 && (
-				<Organization settingsData={settings} getOrgOneData={orgOne} />
-			)}
-			{settings?.status === 200 && <Counter settings={settings} />}
-			{settings?.status === 200 && itService?.status === 200 && (
-				<ItServices settings={settings} itServices={itService} />
-			)}
-			{settings?.status === 200 && orgTwo?.status === 200 && (
-				<OrganizationProvide settings={settings} getOrTwoData={orgTwo} />
-			)}
-			{settings?.status === 200 && orgTwo?.status === 200 && (
-				<ChooseUs settings={settings} />
-			)}
-			{settings?.status === 200 && partners?.status === 200 && (
-				<Partners settings={settings} partners={partners} />
-			)}
-
-			{subscriptions?.status === 200 && (
-				<div className="pt-20">
-					<Pricing subscriptions={subscriptions} />
-				</div>
-			)}
-		</>
-	);
 }

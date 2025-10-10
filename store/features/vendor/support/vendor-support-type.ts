@@ -41,3 +41,26 @@ export type iVendorSupport = {
 		name: string;
 	};
 };
+
+export type iVendorSupportCategory = {
+	id: number;
+	name: string;
+	deleted_at: string;
+	created_at: string;
+	updated_at: string;
+};
+
+export type iVendorSupportSubCategory = {
+	id: number;
+	support_box_category_id: number;
+	name: string;
+	deleted_at: null;
+	created_at: string;
+	updated_at: string;
+};
+
+export type iVendorSupportSubResponse = {
+	status: 200;
+	data: 'success';
+	message: iVendorSupportCategory & { problems: iVendorSupportSubCategory[] };
+};

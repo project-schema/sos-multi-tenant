@@ -1,13 +1,32 @@
 'use client';
 
-import { Headset, Package, PackageCheck, PackageOpen } from 'lucide-react';
+import {
+	BarChart3,
+	CreditCard,
+	DraftingCompass,
+	Headset,
+	LandPlot,
+	Megaphone,
+	MessageSquare,
+	Package,
+	PackageOpen,
+	Percent,
+	QrCode,
+	Settings,
+	ShoppingBag,
+	ShoppingCart,
+	Store,
+	Trash2,
+	UserCheck,
+	Users,
+} from 'lucide-react';
 
 import { sidebarItem } from './sidebar.type';
 
 const products: sidebarItem[] = [
 	{
 		title: 'Product Utilities',
-		icon: Package,
+		icon: LandPlot,
 		isActive: false,
 		items: [
 			{
@@ -62,7 +81,7 @@ const products: sidebarItem[] = [
 	{
 		title: 'Products Orders',
 		url: '/product-order',
-		icon: PackageCheck,
+		icon: ShoppingBag,
 		isActive: false,
 	},
 	{
@@ -72,10 +91,11 @@ const products: sidebarItem[] = [
 		isActive: false,
 	},
 ];
+
 const pos: sidebarItem[] = [
 	{
 		title: 'Manage POS',
-		icon: Package,
+		icon: Store,
 		isActive: false,
 		items: [
 			{
@@ -102,7 +122,7 @@ const pos: sidebarItem[] = [
 	},
 	{
 		title: 'Manage Purchase',
-		icon: Package,
+		icon: ShoppingCart,
 		isActive: false,
 		items: [
 			{
@@ -125,7 +145,7 @@ const pos: sidebarItem[] = [
 	},
 	{
 		title: 'Barcode ',
-		icon: Package,
+		icon: QrCode,
 		isActive: false,
 		items: [
 			{
@@ -141,7 +161,7 @@ const pos: sidebarItem[] = [
 
 	{
 		title: 'Wastage & Damaged',
-		icon: Package,
+		icon: Trash2,
 		isActive: false,
 		items: [
 			{
@@ -163,22 +183,23 @@ const pos: sidebarItem[] = [
 		],
 	},
 ];
+
 const settings: sidebarItem[] = [
 	{
 		title: 'Coupons',
-		icon: Package,
+		icon: Percent,
 		isActive: false,
 		url: '/coupon',
 	},
 	{
 		title: 'Membership',
-		icon: Package,
+		icon: UserCheck,
 		isActive: false,
 		url: '/membership',
 	},
 	{
 		title: 'Settings',
-		icon: Package,
+		icon: Settings,
 		isActive: false,
 		items: [
 			{
@@ -218,7 +239,7 @@ const settings: sidebarItem[] = [
 	},
 	{
 		title: 'Employee',
-		icon: Headset,
+		icon: Users,
 		isActive: false,
 		items: [
 			{
@@ -233,7 +254,7 @@ const settings: sidebarItem[] = [
 	},
 	{
 		title: 'Balance',
-		icon: Headset,
+		icon: CreditCard,
 		isActive: false,
 		items: [
 			{
@@ -251,10 +272,11 @@ const settings: sidebarItem[] = [
 		],
 	},
 ];
+
 const reports: sidebarItem[] = [
 	{
 		title: 'All Reports',
-		icon: Package,
+		icon: BarChart3,
 		isActive: false,
 		items: [
 			{
@@ -292,10 +314,11 @@ const reports: sidebarItem[] = [
 		],
 	},
 ];
+
 const servicesAndAdvertise: sidebarItem[] = [
 	{
 		title: 'Manage Services',
-		icon: Package,
+		icon: DraftingCompass,
 		isActive: false,
 		items: [
 			{
@@ -319,7 +342,7 @@ const servicesAndAdvertise: sidebarItem[] = [
 	{
 		title: 'Advertise',
 		url: '/advertise',
-		icon: Package,
+		icon: Megaphone,
 		isActive: false,
 	},
 ];
@@ -342,7 +365,7 @@ const support: sidebarItem[] = [
 	},
 	{
 		title: 'Customer Chat',
-		icon: Headset,
+		icon: MessageSquare,
 		isActive: false,
 		url: '/customer-chat',
 	},

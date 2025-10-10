@@ -342,9 +342,9 @@ export function VendorServicesCreate() {
 																			item.id.toString() ===
 																			categoryId.toString()
 																	)
-																	?.servicesub_categories?.map((item) => ({
-																		label: item.name,
-																		value: item.id.toString(),
+																	?.servicesub_categories?.map((subItem) => ({
+																		label: subItem.name,
+																		value: subItem.id.toString(),
 																	}))) ??
 															[]
 														}

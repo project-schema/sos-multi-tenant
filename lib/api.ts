@@ -2,6 +2,13 @@
 
 import { env } from './env';
 
+interface ApiError {
+	message: string;
+	status?: number;
+	url: string;
+	stack?: any;
+}
+
 export async function getApiData<T = any>(url: string): Promise<T | null> {
 	try {
 		const res = await fetch(env.baseAPI + '/api' + url, {
@@ -12,12 +19,24 @@ export async function getApiData<T = any>(url: string): Promise<T | null> {
 		});
 
 		if (!res.ok) {
-			throw new Error(`API Error ${res.status}: ${res.statusText}`);
+			const error: ApiError = {
+				message: `API Error ${res.status}: ${res.statusText}`,
+				status: res.status,
+				url,
+			};
+			throw error;
 		}
 
 		const data = await res.json();
 		return data;
-	} catch (error) {
-		throw error;
+	} catch (error: any) {
+		const structuredError: ApiError = {
+			message: error?.message || 'Unexpected API Error',
+			status: error?.status || undefined,
+			url,
+			stack: error?.stack,
+		};
+
+		return null;
 	}
 }

@@ -1,5 +1,9 @@
 import { apiSlice } from '../../api/apiSlice';
-import { iVendorSupportResponse } from './vendor-support-type';
+import {
+	iVendorSupportCategory,
+	iVendorSupportResponse,
+	iVendorSupportSubResponse,
+} from './vendor-support-type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
@@ -39,17 +43,18 @@ const api = apiSlice.injectEndpoints({
 			},
 		}),
 
-		VendorSupportCategory: builder.query<{ status: 200; message: string }, any>(
-			{
-				query: () => ({
-					url: `/tenant-support/category`,
-					method: 'GET',
-				}),
-			}
-		),
+		VendorSupportCategory: builder.query<
+			{ status: 200; message: iVendorSupportCategory[]; data: 'success' },
+			any
+		>({
+			query: () => ({
+				url: `/tenant-support/category`,
+				method: 'GET',
+			}),
+		}),
 
 		VendorSupportSubCategory: builder.query<
-			{ status: 200; message: string },
+			iVendorSupportSubResponse,
 			{ id: string }
 		>({
 			query: ({ id }) => ({

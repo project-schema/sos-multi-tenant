@@ -27,6 +27,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm, handleValidationError } from '@/lib';
 import { toast } from 'sonner';
 
+import { Loader6 } from '@/components/dashboard';
 import {
 	Card,
 	CardContent,
@@ -112,6 +113,15 @@ export function VendorSupportCreatePage() {
 		});
 	};
 
+	if (isLoadingCategories || isLoadingSubCategories) {
+		return (
+			<div className="space-y-4 border p-4 rounded-2xl shadow">
+				<Loader6 />
+				<Loader6 />
+			</div>
+		);
+	}
+
 	return (
 		<div>
 			<Card>
@@ -157,8 +167,11 @@ export function VendorSupportCreatePage() {
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
-												<SelectItem value="active">Active</SelectItem>
-												<SelectItem value="deactive">Deactive</SelectItem>
+												{categories?.message?.map((cat) => (
+													<SelectItem value={cat.id.toString()}>
+														{cat.name}
+													</SelectItem>
+												))}
 											</SelectContent>
 										</Select>
 										<FormMessage />
@@ -182,8 +195,11 @@ export function VendorSupportCreatePage() {
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
-												<SelectItem value="active">Active</SelectItem>
-												<SelectItem value="deactive">Deactive</SelectItem>
+												{subCategories?.message?.problems?.map((sub) => (
+													<SelectItem value={sub.id.toString()}>
+														{sub.name}
+													</SelectItem>
+												))}
 											</SelectContent>
 										</Select>
 										<FormMessage />
