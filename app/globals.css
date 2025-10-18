@@ -280,3 +280,9 @@ a {
 		-moz-appearance: textfield;
 	}
 }
+
+.db-advertise-create {
+	.progressbar_itemsSuccessBox__HClUQ {
+		padding-top: 20px !important;
+	}
+}

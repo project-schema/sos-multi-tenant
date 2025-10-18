@@ -340,10 +340,19 @@ const servicesAndAdvertise: sidebarItem[] = [
 		],
 	},
 	{
-		title: 'Advertise',
-		url: '/advertise',
+		title: 'Manage Advertise',
 		icon: Megaphone,
 		isActive: false,
+		items: [
+			{
+				title: 'Create Advertise',
+				url: '/advertise/create',
+			},
+			{
+				title: 'All Advertise',
+				url: '/advertise',
+			},
+		],
 	},
 ];
 

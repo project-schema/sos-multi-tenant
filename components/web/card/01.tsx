@@ -29,8 +29,7 @@ const defaultProduct: ProductCardProps = {
 	price: '৳2,499',
 	originalPrice: '৳3,999',
 	discount: '37% OFF',
-	image:
-		'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+	image: 'https://i.ibb.co.com/MyvjK6sT/product-1.png',
 	rating: 4.8,
 	reviewCount: 124,
 	badge: 'Best Seller',

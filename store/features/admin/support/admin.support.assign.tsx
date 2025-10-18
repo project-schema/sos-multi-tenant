@@ -30,6 +30,7 @@ const schema = z.object({
 type ZodType = z.infer<typeof schema>;
 
 import { Loader6 } from '@/components/dashboard';
+import { alertConfirm } from '@/lib';
 import { Headphones } from 'lucide-react';
 import { useAdminAllManagerListQuery } from '../manager-permissions/admin-manager-permissions-api-slice';
 import { useAdminSupportAssignMutation } from './admin.support.api.slice';
@@ -80,31 +81,35 @@ const FORM = ({
 	});
 
 	const onSubmit = async (data: ZodType) => {
-		try {
-			const response = await update({
-				...data,
-				support_box_id: editData?.id,
-			}).unwrap();
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await update({
+						...data,
+						support_box_id: editData?.id,
+					}).unwrap();
 
-			if (response.success) {
-				toast.success(response.message || 'Assigned successfully');
-				form.reset();
-				setOpen(false);
-			} else {
-				toast.error(response.message || 'Something went wrong');
-			}
-		} catch (error: any) {
-			if (error?.status === 400 && typeof error.message === 'object') {
-				Object.entries(error.message).forEach(([field, value]) => {
-					form.setError(field as keyof ZodType, {
-						type: 'server',
-						message: (value as string[])[0],
-					});
-				});
-			} else {
-				toast.error('Something went wrong');
-			}
-		}
+					if (response.success) {
+						toast.success(response.message || 'Assigned successfully');
+						form.reset();
+						setOpen(false);
+					} else {
+						toast.error(response.message || 'Something went wrong');
+					}
+				} catch (error: any) {
+					if (error?.status === 400 && typeof error.message === 'object') {
+						Object.entries(error.message).forEach(([field, value]) => {
+							form.setError(field as keyof ZodType, {
+								type: 'server',
+								message: (value as string[])[0],
+							});
+						});
+					} else {
+						toast.error('Something went wrong');
+					}
+				}
+			},
+		});
 	};
 	if (isLoading) {
 		return <Loader6 />;

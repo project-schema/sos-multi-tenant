@@ -14,6 +14,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { logout as logoutFn } from '@/lib';
+import { useVendorProfileInfoQuery } from '@/store/features/vendor/profile';
 import {
 	Bell,
 	CreditCard,
@@ -29,7 +30,7 @@ import { useEffect, useState } from 'react';
 import { Crumb, DbBreadcrumb } from '../breadcrumb/Breadcrumb';
 
 export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
-	// const { data } = useVendorProfileInfoQuery(undefined);
+	const { data } = useVendorProfileInfoQuery(undefined);
 	const [showBalance, setShowBalance] = useState(false);
 	const [balance] = useState(2450.75); // Mock balance
 	const router = useRouter();

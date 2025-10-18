@@ -105,6 +105,7 @@ export function VendorSupportCreatePage() {
 					if (response.status === 200) {
 						toast.success(response.message || 'Created successfully');
 						form.reset();
+						router.push('/support');
 					}
 				} catch (error: any) {
 					toast.error(error?.data?.message || 'Something went wrong');
@@ -168,7 +169,7 @@ export function VendorSupportCreatePage() {
 											</FormControl>
 											<SelectContent>
 												{categories?.message?.map((cat) => (
-													<SelectItem value={cat.id.toString()}>
+													<SelectItem value={cat.id?.toString()}>
 														{cat.name}
 													</SelectItem>
 												))}
@@ -196,7 +197,7 @@ export function VendorSupportCreatePage() {
 											</FormControl>
 											<SelectContent>
 												{subCategories?.message?.problems?.map((sub) => (
-													<SelectItem value={sub.id.toString()}>
+													<SelectItem value={sub.id?.toString()}>
 														{sub.name}
 													</SelectItem>
 												))}

@@ -30,6 +30,7 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { alertConfirm } from '@/lib';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle, Pen } from 'lucide-react';
@@ -112,41 +113,45 @@ const FORM = ({
 	});
 
 	const onSubmit = async (data: ZodType) => {
-		try {
-			const response = await update({
-				...data,
-				id: editData.id,
-			}).unwrap();
+		alertConfirm({
+			onOk: async () => {
+				try {
+					const response = await update({
+						...data,
+						id: editData.id,
+					}).unwrap();
 
-			if (response.status === 200) {
-				toast.success(response.message || 'Created successfully');
-				form.reset();
-				setOpen(false);
-			} else {
-				const errorResponse = response as any;
-				if (typeof errorResponse.data === 'object') {
-					Object.entries(errorResponse.data).forEach(([field, value]) => {
-						form.setError(field as keyof ZodType, {
-							type: 'server',
-							message: (value as string[])[0],
+					if (response.status === 200) {
+						toast.success(response.message || 'Created successfully');
+						form.reset();
+						setOpen(false);
+					} else {
+						const errorResponse = response as any;
+						if (typeof errorResponse.data === 'object') {
+							Object.entries(errorResponse.data).forEach(([field, value]) => {
+								form.setError(field as keyof ZodType, {
+									type: 'server',
+									message: (value as string[])[0],
+								});
+							});
+						} else {
+							toast.error(response.message || 'Something went wrong');
+						}
+					}
+				} catch (error: any) {
+					if (error?.status === 400 && typeof error.message === 'object') {
+						Object.entries(error.message).forEach(([field, value]) => {
+							form.setError(field as keyof ZodType, {
+								type: 'server',
+								message: (value as string[])[0],
+							});
 						});
-					});
-				} else {
-					toast.error(response.message || 'Something went wrong');
+					} else {
+						toast.error('Something went wrong');
+					}
 				}
-			}
-		} catch (error: any) {
-			if (error?.status === 400 && typeof error.message === 'object') {
-				Object.entries(error.message).forEach(([field, value]) => {
-					form.setError(field as keyof ZodType, {
-						type: 'server',
-						message: (value as string[])[0],
-					});
-				});
-			} else {
-				toast.error('Something went wrong');
-			}
-		}
+			},
+		});
 	};
 	return (
 		<Form {...form}>

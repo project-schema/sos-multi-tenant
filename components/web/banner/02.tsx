@@ -20,50 +20,42 @@ interface ImageSlide {
 const imageSlides: ImageSlide[] = [
 	{
 		id: 1,
-		image:
-			'https://images.unsplash.com/photo-1594736797933-d0d3d1e7f5c8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+		image: 'https://i.ibb.co.com/TxSc5rY7/hero.png',
 		alt: 'Traditional South Asian Fashion Collection',
 	},
 	{
 		id: 2,
-		image:
-			'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+		image: 'https://i.ibb.co.com/TxSc5rY7/hero.png',
 		alt: 'Modern Panjabi Collection',
 	},
 	{
 		id: 3,
-		image:
-			'https://images.unsplash.com/photo-1621184455862-c163dfb30e0f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+		image: 'https://i.ibb.co.com/TxSc5rY7/hero.png',
 		alt: 'Premium Shirt Collection',
 	},
 	{
 		id: 4,
-		image:
-			'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+		image: 'https://i.ibb.co.com/TxSc5rY7/hero.png',
 		alt: 'Denim & Casual Wear',
 	},
 	{
 		id: 5,
-		image:
-			'https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+		image: 'https://i.ibb.co.com/TxSc5rY7/hero.png',
 		alt: 'Luxury Designer Collection',
 	},
 	{
 		id: 6,
-		image:
-			'https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+		image: 'https://i.ibb.co.com/TxSc5rY7/hero.png',
 		alt: 'Elegant Ethnic Wear',
 	},
 	{
 		id: 7,
-		image:
-			'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+		image: 'https://i.ibb.co.com/TxSc5rY7/hero.png',
 		alt: 'Contemporary Fashion',
 	},
 	{
 		id: 8,
-		image:
-			'https://images.unsplash.com/photo-1571513720962-7b0a9a1c3d3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+		image: 'https://i.ibb.co.com/TxSc5rY7/hero.png',
 		alt: 'Fashion Show Collection',
 	},
 ];
