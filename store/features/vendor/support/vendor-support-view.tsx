@@ -1,6 +1,8 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useVendorSupportViewQuery } from './vendor-support-api-slice';
 
 type ChatAuthor = 'me' | 'support';
 
@@ -19,6 +21,15 @@ function formatNow() {
 }
 
 export function VendorSupportView() {
+	const { id } = useParams();
+	const { data, isLoading, isError, isFetching } = useVendorSupportViewQuery(
+		{ id: id as string },
+		{
+			skip: !id,
+		}
+	);
+	if (isError) return <div>Error</div>;
+	if (!data?.message) return <div>No data</div>;
 	const [messages, setMessages] = useState<ChatMessage[]>([
 		{
 			id: 1,

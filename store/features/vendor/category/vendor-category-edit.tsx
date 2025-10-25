@@ -83,12 +83,12 @@ export function VendorCategoryEdit({
 						setOpen(false);
 					} else {
 						if (response.status === 400) {
-							handleValidationError(response, form.setError, toast.error);
+							handleValidationError(response, form.setError);
 						}
 					}
 				} catch (error: any) {
 					if (error.status === 400) {
-						handleValidationError(error, form.setError, toast.error);
+						handleValidationError(error, form.setError);
 					} else {
 						toast.error('Something went wrong');
 					}

@@ -1,9 +1,16 @@
 export const env = {
-	production: process.env.NODE_ENV === 'production',
-	development: process.env.NODE_ENV === 'development',
+	production: process.env.NEXT_PUBLIC_NODE_ENV === 'production',
+	development: process.env.NEXT_PUBLIC_NODE_ENV === 'development',
 	baseAPI: process.env.NEXT_PUBLIC_BACKEND_API as string,
 	next_auth_url: process.env.NEXTAUTH_URL,
 	token: process.env.NEXT_PUBLIC_TOKEN,
+};
+
+export const image = (path: string) => {
+	if (!path) {
+		return '/placeholder.svg';
+	}
+	return `${env.baseAPI}/${path}`;
 };
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;

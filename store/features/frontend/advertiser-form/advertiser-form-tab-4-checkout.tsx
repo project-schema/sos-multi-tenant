@@ -1,9 +1,15 @@
 import Checkout from './checkout/Checkout';
 
-export function AdvertiserFormTab4Checkout() {
+export function AdvertiserFormTab4Checkout({
+	createAdvertise,
+	isLoading,
+}: {
+	createAdvertise: (data: any) => any;
+	isLoading: boolean;
+}) {
 	return (
 		<div>
-			<Checkout />
+			<Checkout createAdvertise={createAdvertise} isLoading={isLoading} />
 		</div>
 	);
 }

@@ -1,5 +1,6 @@
 import { apiSlice } from '../../api/apiSlice';
 import {
+	iVendorSupport,
 	iVendorSupportCategory,
 	iVendorSupportResponse,
 	iVendorSupportSubResponse,
@@ -62,6 +63,27 @@ const api = apiSlice.injectEndpoints({
 				method: 'GET',
 			}),
 		}),
+
+		VendorSupportView: builder.query<
+			{ status: 200; message: iVendorSupport },
+			{ id: string }
+		>({
+			query: ({ id }) => ({
+				url: `/tenant-support/${id}`,
+				method: 'GET',
+			}),
+		}),
+
+		VendorSupportCount: builder.query<
+			{ closed: number; all_support: [] },
+			void
+		>({
+			query: () => ({
+				url: `/tenant-support/count`,
+				method: 'GET',
+			}),
+			providesTags: ['VendorSupport'],
+		}),
 	}),
 });
 
@@ -70,4 +92,6 @@ export const {
 	useVendorSupportCreateMutation,
 	useVendorSupportCategoryQuery,
 	useVendorSupportSubCategoryQuery,
+	useVendorSupportViewQuery,
+	useVendorSupportCountQuery,
 } = api;

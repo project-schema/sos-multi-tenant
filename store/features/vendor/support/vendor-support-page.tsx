@@ -9,7 +9,7 @@ import { SlidersHorizontal } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useVendorSupportAllQuery } from './vendor-support-api-slice';
 import { VendorSupportFilter } from './vendor-support-filter';
-import { VendorProductStatistics } from './vendor-support-statistics';
+import { VendorSupportStatistics } from './vendor-support-statistics';
 import { VendorSupportTable } from './vendor-support-table';
 
 export function VendorSupportPage() {
@@ -48,7 +48,7 @@ export function VendorSupportPage() {
 				</>
 			}
 		>
-			{toggleFilter && <VendorProductStatistics />}
+			{toggleFilter && <VendorSupportStatistics />}
 
 			{toggleFilter && (
 				<VendorSupportFilter

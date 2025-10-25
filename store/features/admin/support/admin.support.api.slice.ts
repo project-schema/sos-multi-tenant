@@ -1,5 +1,5 @@
 import { apiSlice } from '../../api/apiSlice';
-import { iAdminSupportResponse } from './admin.support.type';
+import { iAdminSupportResponse, iAdminSupportView } from './admin.support.type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
@@ -112,6 +112,17 @@ const api = apiSlice.injectEndpoints({
 				body: data,
 			}),
 		}),
+
+		//support view
+		adminSupportView: builder.query<
+			{ status: 200; message: iAdminSupportView },
+			{ id: string }
+		>({
+			query: ({ id }) => ({
+				url: `/admin/supportbox/${id}`,
+				method: 'GET',
+			}),
+		}),
 	}),
 });
 
@@ -122,4 +133,5 @@ export const {
 	useAdminSupportCloseMutation,
 	useAdminSupportAssignMutation,
 	useAdminSupportCancelMutation,
+	useAdminSupportViewQuery,
 } = api;

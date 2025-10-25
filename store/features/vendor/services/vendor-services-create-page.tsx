@@ -25,6 +25,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm, handleValidationError } from '@/lib';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -43,9 +44,13 @@ const Step1Schema = z.object({
 		.string({ error: 'Service sub-category is required' })
 		.min(1, 'Service sub-category is required'),
 	title: z.string({ error: 'Title is required' }).min(1, 'Title is required'),
-	tags: z.array(z.string()), // required through default
+	tags: z
+		.array(z.string({ error: 'Tags are required' }))
+		.min(1, 'Tags are required'), // required through default
 	description: z.string().min(1, 'Description is required'),
-	contract: z.string(),
+	contract: z
+		.string({ error: 'Contract is required' })
+		.min(1, 'Contract is required'),
 	commission: z
 		.number({ error: 'Commission is required' })
 		.min(1, { message: 'Commission must be at least 1' })
@@ -139,6 +144,7 @@ const defaultValues: Partial<FormType> = {
 
 export function VendorServicesCreate() {
 	const [step, setStep] = useState<1 | 2>(1);
+	const router = useRouter();
 	const [store, { isLoading }] = useVendorServicesCreateMutation();
 	const {
 		data: categoryAndSubCategory,
@@ -167,6 +173,16 @@ export function VendorServicesCreate() {
 			'images',
 		]);
 		if (!valid) return;
+		if (!form.getValues('image')) {
+			toast.error('Image is required');
+			form.setError('image', { message: 'Image is required' });
+			return;
+		}
+		if ((form.getValues('images')?.length ?? 0) < 1) {
+			form.setError('images', { message: 'At least one image is required' });
+			toast.error('At least one image is required');
+			return;
+		}
 		setStep(2);
 	};
 
@@ -209,6 +225,7 @@ export function VendorServicesCreate() {
 					if (response.status === 200) {
 						toast.success(response.message || 'Service created successfully');
 						form.reset();
+						router.push(`/services`);
 					} else {
 						if (response.status === 400) {
 							handleValidationError(response as any, form.setError);
@@ -295,7 +312,6 @@ export function VendorServicesCreate() {
 														onChange={field.onChange}
 														defaultImages={[]}
 													/>
-													<FormMessage />
 												</FormItem>
 											)}
 										/>
@@ -407,7 +423,7 @@ export function VendorServicesCreate() {
 																	className="ml-1 text-muted-foreground"
 																	onClick={() => removeTag(i)}
 																>
-																	×
+																	x
 																</button>
 															</span>
 														))}

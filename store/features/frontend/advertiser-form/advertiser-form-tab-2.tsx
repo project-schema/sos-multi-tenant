@@ -46,7 +46,6 @@ import {
 	useFrontendCampaignPerformanceGoalQuery,
 	useFrontendCityQuery,
 	useFrontendCountryQuery,
-	useFrontendCreateAdvertiseMutation,
 } from './advertiser-form-api-slice';
 import {
 	L2_RequitedField,
@@ -163,10 +162,14 @@ const schema = z.object({
 
 type ZodType = z.infer<typeof schema>;
 
-export function AdvertiserFormTab2() {
+export function AdvertiserFormTab2({
+	createAdvertise,
+	isLoading,
+}: {
+	createAdvertise: (data: any) => any;
+	isLoading: boolean;
+}) {
 	const { data: dollarRate } = useFrontendGetDollarRateQuery(undefined);
-	const [store, { isLoading: storeLoading }] =
-		useFrontendCreateAdvertiseMutation();
 	const dispatch = useAppDispatch();
 	const level2 = useAppSelector((state) => state.advertiseForm.level2);
 
@@ -188,50 +191,123 @@ export function AdvertiserFormTab2() {
 		}
 	);
 
-	const { data: AudData, isLoading: loadAud } = useFrontendAdvDyDataQuery({
-		api: 'audience_age',
-	});
+	const { data: AudData, isLoading: loadAud } = useFrontendAdvDyDataQuery(
+		{
+			api: 'audience_age',
+		},
+		{
+			refetchOnFocus: false,
+			refetchOnMountOrArgChange: false,
+			refetchOnReconnect: false,
+		}
+	);
 
-	const { data: devData, isLoading: loadDev } = useFrontendAdvDyDataQuery({
-		api: 'device',
-	});
+	const { data: devData, isLoading: loadDev } = useFrontendAdvDyDataQuery(
+		{
+			api: 'device',
+		},
+		{
+			refetchOnFocus: false,
+			refetchOnMountOrArgChange: false,
+			refetchOnReconnect: false,
+		}
+	);
 
-	const { data: platData, isLoading: loadPlat } = useFrontendAdvDyDataQuery({
-		api: 'platform',
-	});
+	const { data: platData, isLoading: loadPlat } = useFrontendAdvDyDataQuery(
+		{
+			api: 'platform',
+		},
+		{
+			refetchOnFocus: false,
+			refetchOnMountOrArgChange: false,
+			refetchOnReconnect: false,
+		}
+	);
 
-	const { data: ageToData, isLoading: loadAgeTo } = useFrontendAdvDyDataQuery({
-		api: 'audience_age_to',
-	});
+	const { data: ageToData, isLoading: loadAgeTo } = useFrontendAdvDyDataQuery(
+		{
+			api: 'audience_age_to',
+		},
+		{
+			refetchOnFocus: false,
+			refetchOnMountOrArgChange: false,
+			refetchOnReconnect: false,
+		}
+	);
 
-	const { data: feedData, isLoading: feedLoad } = useFrontendAdvDyDataQuery({
-		api: 'feed',
-	});
+	const { data: feedData, isLoading: feedLoad } = useFrontendAdvDyDataQuery(
+		{
+			api: 'feed',
+		},
+		{
+			refetchOnFocus: false,
+			refetchOnMountOrArgChange: false,
+			refetchOnReconnect: false,
+		}
+	);
 
-	const { data: storyData, isLoading: storyLoad } = useFrontendAdvDyDataQuery({
-		api: 'store_reel',
-	});
-	const { data: vidData, isLoading: vidLoad } = useFrontendAdvDyDataQuery({
-		api: 'video_reel',
-	});
+	const { data: storyData, isLoading: storyLoad } = useFrontendAdvDyDataQuery(
+		{
+			api: 'store_reel',
+		},
+		{
+			refetchOnFocus: false,
+			refetchOnMountOrArgChange: false,
+			refetchOnReconnect: false,
+		}
+	);
+	const { data: vidData, isLoading: vidLoad } = useFrontendAdvDyDataQuery(
+		{
+			api: 'video_reel',
+		},
+		{
+			refetchOnFocus: false,
+			refetchOnMountOrArgChange: false,
+			refetchOnReconnect: false,
+		}
+	);
 
-	const { data: searData, isLoading: searLoad } = useFrontendAdvDyDataQuery({
-		api: 'search_reel',
-	});
+	const { data: searData, isLoading: searLoad } = useFrontendAdvDyDataQuery(
+		{
+			api: 'search_reel',
+		},
+		{
+			refetchOnFocus: false,
+			refetchOnMountOrArgChange: false,
+			refetchOnReconnect: false,
+		}
+	);
 
-	const { data: mesData, isLoading: mesLoad } = useFrontendAdvDyDataQuery({
-		api: 'messages_reel',
-	});
+	const { data: mesData, isLoading: mesLoad } = useFrontendAdvDyDataQuery(
+		{
+			api: 'messages_reel',
+		},
+		{
+			refetchOnFocus: false,
+			refetchOnMountOrArgChange: false,
+			refetchOnReconnect: false,
+		}
+	);
 
-	const { data: appData, isLoading: loadApp } = useFrontendAdvDyDataQuery({
-		api: 'apps_web',
-	});
+	const { data: appData, isLoading: loadApp } = useFrontendAdvDyDataQuery(
+		{
+			api: 'apps_web',
+		},
+		{
+			refetchOnFocus: false,
+			refetchOnMountOrArgChange: false,
+			refetchOnReconnect: false,
+		}
+	);
 
 	const { data: performanceGoals, isLoading: loadingGoals } =
 		useFrontendCampaignPerformanceGoalQuery(
 			selected !== undefined ? { id: selected } : skipToken,
 			{
 				skip: !selected,
+				refetchOnFocus: false,
+				refetchOnMountOrArgChange: false,
+				refetchOnReconnect: false,
 			}
 		);
 
@@ -240,6 +316,9 @@ export function AdvertiserFormTab2() {
 			selected !== undefined ? { id: selected } : skipToken,
 			{
 				skip: !selected,
+				refetchOnFocus: false,
+				refetchOnMountOrArgChange: false,
+				refetchOnReconnect: false,
 			}
 		);
 	const form = useForm<ZodType>({
@@ -314,7 +393,9 @@ export function AdvertiserFormTab2() {
 	const onSubmit = async (data: ZodType) => {
 		const formedData = level2Format(data);
 		try {
-			const response = await store(level2SubmitFormat(formedData)).unwrap();
+			const response = await createAdvertise(
+				level2SubmitFormat(formedData)
+			).unwrap();
 			if (response?.message === 'Validation errors') {
 				Object.entries(response?.data).forEach(([field, value]) => {
 					if (L2_RequitedField.includes(field)) {
@@ -1121,7 +1202,7 @@ export function AdvertiserFormTab2() {
 						</Button>
 
 						<Button type="submit" className="w-full">
-							{storeLoading && (
+							{isLoading && (
 								<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 							)}
 							{false ? 'Submitting...' : 'Next'}

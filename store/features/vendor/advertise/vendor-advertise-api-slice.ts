@@ -6,8 +6,15 @@ import {
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
-		VendorAdvertise: builder.query<iVendorAdvertiseResponse, void>({
-			query: () => '/tenant-advertise',
+		VendorAdvertise: builder.query<
+			iVendorAdvertiseResponse,
+			{ page: number | string; search: string }
+		>({
+			query: ({ page, search }) => ({
+				url: '/tenant-advertise',
+				method: 'GET',
+				params: { page, search },
+			}),
 		}),
 
 		// count
@@ -16,7 +23,7 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		// view
-		VendorAdvertiseView: builder.query<iVendorAdvertise, { id: string }>({
+		VendorAdvertiseView: builder.query<any, { id: string }>({
 			query: ({ id }) => `/tenant-advertise/${id}`,
 		}),
 	}),

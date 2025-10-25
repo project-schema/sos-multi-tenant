@@ -1,6 +1,7 @@
 import { DbHeader } from '@/components/dashboard';
 import { SessionProvider } from '@/provider';
-import { VendorAdvertiseCreate } from '@/store/features/vendor/advertise';
+import { Suspense } from 'react';
+import PageClient from './page.client';
 
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/' },
@@ -12,7 +13,9 @@ export default function Page() {
 	return (
 		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<VendorAdvertiseCreate />
+			<Suspense fallback={<div>Loading...</div>}>
+				<PageClient />
+			</Suspense>
 		</SessionProvider>
 	);
 }

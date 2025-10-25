@@ -33,7 +33,7 @@ export function DropShipperProductFilter({
 		rating: string;
 		warranty: string;
 	};
-	setFilters: React.Dispatch<React.SetStateAction<typeof filters>>;
+	setFilters: any;
 	clearFilters: () => void;
 }) {
 	return (
@@ -45,7 +45,7 @@ export function DropShipperProductFilter({
 					placeholder="Search by id and name..."
 					value={filters.searchTerm}
 					onChange={(e) =>
-						setFilters((prev) => ({ ...prev, searchTerm: e.target.value }))
+						setFilters((prev: any) => ({ ...prev, searchTerm: e.target.value }))
 					}
 					className="pl-10"
 				/>
@@ -57,7 +57,7 @@ export function DropShipperProductFilter({
 				placeholder="Start Stock"
 				value={filters.start_stock}
 				onChange={(e) =>
-					setFilters((prev) => ({ ...prev, start_stock: e.target.value }))
+					setFilters((prev: any) => ({ ...prev, start_stock: e.target.value }))
 				}
 			/>
 			<Input
@@ -65,7 +65,7 @@ export function DropShipperProductFilter({
 				placeholder="End Stock"
 				value={filters.end_stock}
 				onChange={(e) =>
-					setFilters((prev) => ({ ...prev, end_stock: e.target.value }))
+					setFilters((prev: any) => ({ ...prev, end_stock: e.target.value }))
 				}
 			/>
 			<Input
@@ -73,7 +73,7 @@ export function DropShipperProductFilter({
 				placeholder="Start Price"
 				value={filters.start_price}
 				onChange={(e) =>
-					setFilters((prev) => ({ ...prev, start_price: e.target.value }))
+					setFilters((prev: any) => ({ ...prev, start_price: e.target.value }))
 				}
 			/>
 			<Input
@@ -81,7 +81,7 @@ export function DropShipperProductFilter({
 				placeholder="End Price"
 				value={filters.end_price}
 				onChange={(e) =>
-					setFilters((prev) => ({ ...prev, end_price: e.target.value }))
+					setFilters((prev: any) => ({ ...prev, end_price: e.target.value }))
 				}
 			/>
 			<Input
@@ -89,7 +89,10 @@ export function DropShipperProductFilter({
 				placeholder="Start Commission"
 				value={filters.start_commission}
 				onChange={(e) =>
-					setFilters((prev) => ({ ...prev, start_commission: e.target.value }))
+					setFilters((prev: any) => ({
+						...prev,
+						start_commission: e.target.value,
+					}))
 				}
 			/>
 			<Input
@@ -97,7 +100,10 @@ export function DropShipperProductFilter({
 				placeholder="End Commission"
 				value={filters.end_commission}
 				onChange={(e) =>
-					setFilters((prev) => ({ ...prev, end_commission: e.target.value }))
+					setFilters((prev: any) => ({
+						...prev,
+						end_commission: e.target.value,
+					}))
 				}
 			/>
 			<Input
@@ -105,7 +111,7 @@ export function DropShipperProductFilter({
 				placeholder="Rating"
 				value={filters.rating}
 				onChange={(e) =>
-					setFilters((prev) => ({ ...prev, rating: e.target.value }))
+					setFilters((prev: any) => ({ ...prev, rating: e.target.value }))
 				}
 			/>
 			<Input
@@ -113,14 +119,14 @@ export function DropShipperProductFilter({
 				placeholder="Warranty"
 				value={filters.warranty}
 				onChange={(e) =>
-					setFilters((prev) => ({ ...prev, warranty: e.target.value }))
+					setFilters((prev: any) => ({ ...prev, warranty: e.target.value }))
 				}
 			/>
 
 			<Select
 				value={filters.category_id}
 				onValueChange={(value: string) =>
-					setFilters((prev) => ({ ...prev, category_id: value }))
+					setFilters((prev: any) => ({ ...prev, category_id: value }))
 				}
 			>
 				<SelectTrigger className="w-full h-11">
@@ -135,7 +141,7 @@ export function DropShipperProductFilter({
 			<Select
 				value={filters.status}
 				onValueChange={(value: string) =>
-					setFilters((prev) => ({ ...prev, status: value }))
+					setFilters((prev: any) => ({ ...prev, status: value }))
 				}
 			>
 				<SelectTrigger className="w-full h-11">

@@ -33,7 +33,7 @@ export function VendorReportFilter({
 		start_date: Date | undefined;
 		end_date: Date | undefined;
 	};
-	setFilters: React.Dispatch<React.SetStateAction<typeof filters>>;
+	setFilters: any;
 	clearFilters: () => void;
 	select: ('searchTerm' | 'start_date' | 'end_date' | 'status')[];
 }) {
@@ -52,7 +52,7 @@ export function VendorReportFilter({
 								placeholder="Search by id..."
 								value={filters.searchTerm}
 								onChange={(e) =>
-									setFilters((prev) => ({
+									setFilters((prev: any) => ({
 										...prev,
 										searchTerm: e.target.value,
 									}))
@@ -82,7 +82,7 @@ export function VendorReportFilter({
 									mode="single"
 									selected={filters.start_date}
 									onSelect={(date) =>
-										setFilters((prev) => ({ ...prev, start_date: date }))
+										setFilters((prev: any) => ({ ...prev, start_date: date }))
 									}
 								/>
 							</PopoverContent>
@@ -109,7 +109,7 @@ export function VendorReportFilter({
 									mode="single"
 									selected={filters.end_date}
 									onSelect={(date) =>
-										setFilters((prev) => ({ ...prev, end_date: date }))
+										setFilters((prev: any) => ({ ...prev, end_date: date }))
 									}
 								/>
 							</PopoverContent>
@@ -119,7 +119,7 @@ export function VendorReportFilter({
 						<Select
 							value={filters.status}
 							onValueChange={(value: 'all' | 'close' | 'answer' | 'pending') =>
-								setFilters((prev) => ({ ...prev, status: value }))
+								setFilters((prev: any) => ({ ...prev, status: value }))
 							}
 						>
 							<SelectTrigger className="w-full h-11">

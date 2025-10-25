@@ -10,14 +10,13 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 
-import { Badge } from '@/components/ui/badge';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { dateFormat, tableSrCount } from '@/lib';
+import { dateFormat, tableSrCount, timeFormat } from '@/lib';
 
 import { iPagination } from '@/types';
 import { Ellipsis, ExternalLink, Pencil } from 'lucide-react';
@@ -68,21 +67,17 @@ export function VendorSupportTable({
 							<TableCell className="py-2">{item.subject || '-'}</TableCell>
 							<TableCell className="py-2">{item.description || '-'}</TableCell>
 							<TableCell className="py-2">
-								{item.category.name || '-'}
+								{item?.category?.name || '-'}
 							</TableCell>
 							<TableCell className="py-2">
-								{item.problem_topic.name || '-'}
+								{item?.problem_topic?.name || '-'}
 							</TableCell>
 							<TableCell className="py-2">{item.rating || '-'}</TableCell>
 							<TableCell className="py-2">{item.status || '-'}</TableCell>
 							<TableCell className="py-2">
 								{dateFormat(item.created_at)}
-							</TableCell>
-							<TableCell className="py-2">
-								<Badge variant="info">{item.status}</Badge>
-							</TableCell>
-							<TableCell className="py-2">
-								<Badge variant="outline">{item.status}</Badge>
+								<br />
+								{timeFormat(item.created_at)}
 							</TableCell>
 
 							<TableCell className="py-2">
@@ -101,19 +96,19 @@ export function VendorSupportTable({
 										<DropdownMenuItem>
 											<Link
 												className="flex items-center gap-2 w-full"
-												href={`/orders/${item.id}/view`}
+												href={`/support/${item.id}`}
 											>
 												<ExternalLink className="size-4" />
-												<span>View Order</span>
+												<span>View Support</span>
 											</Link>
 										</DropdownMenuItem>
 										<DropdownMenuItem>
 											<Link
 												className="flex items-center gap-2 w-full"
-												href={`/orders/${item.id}/edit`}
+												href={`/support/${item.id}/edit`}
 											>
 												<Pencil className="size-4" />
-												<span>Edit Order</span>
+												<span>Edit Support</span>
 											</Link>
 										</DropdownMenuItem>
 									</DropdownMenuContent>

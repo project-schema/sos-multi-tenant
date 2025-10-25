@@ -12,13 +12,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { sign, tableSrCount, textCount } from '@/lib';
 
-import { iVendorPosSalesAllReturnResponse } from './vendor-pos-sales.type';
-
-export function VendorPosSalesReturnTable({
-	data,
-}: {
-	data: iVendorPosSalesAllReturnResponse['return_list'][];
-}) {
+export function VendorPosSalesReturnTable({ data }: { data: any }) {
 	return (
 		<Table>
 			<TableHeader>
@@ -42,7 +36,7 @@ export function VendorPosSalesReturnTable({
 						</TableCell>
 					</TableRow>
 				) : (
-					data?.map((item, i) => (
+					data?.map((item: any, i: number) => (
 						<TableRow key={item.id}>
 							<TableCell className="py-2 pl-4">{tableSrCount(1, i)}</TableCell>
 							<TableCell className="font-medium py-4">

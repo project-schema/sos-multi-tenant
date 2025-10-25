@@ -80,14 +80,20 @@ export function VendorSupportCreatePage() {
 			file: undefined,
 		},
 	});
-	const categoryId = form.watch('support_problem_topic_id');
-	const { data: subCategories, isLoading: isLoadingSubCategories } =
-		useVendorSupportSubCategoryQuery(
-			{ id: categoryId },
-			{
-				skip: !categoryId,
-			}
-		);
+	const categoryId = form.watch('support_box_category_id');
+	const {
+		data: subCategories,
+		isLoading: isLoadingSubCategories,
+		isFetching: isFetchingSubCategories,
+	} = useVendorSupportSubCategoryQuery(
+		{ id: categoryId },
+		{
+			skip: !categoryId,
+			refetchOnMountOrArgChange: false,
+			refetchOnFocus: false,
+			refetchOnReconnect: false,
+		}
+	);
 	const handleSubmit = (data: ZodType) => {
 		alertConfirm({
 			onOk: async () => {
@@ -113,15 +119,6 @@ export function VendorSupportCreatePage() {
 			},
 		});
 	};
-
-	if (isLoadingCategories || isLoadingSubCategories) {
-		return (
-			<div className="space-y-4 border p-4 rounded-2xl shadow">
-				<Loader6 />
-				<Loader6 />
-			</div>
-		);
-	}
 
 	return (
 		<div>
@@ -152,61 +149,69 @@ export function VendorSupportCreatePage() {
 							/>
 
 							{/* Categories */}
-							<FormField
-								control={form.control}
-								name="support_problem_topic_id"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Support Problem Topic</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
-											<FormControl>
-												<SelectTrigger className="w-full">
-													<SelectValue placeholder="Select Support Problem Topic" />
-												</SelectTrigger>
-											</FormControl>
-											<SelectContent>
-												{categories?.message?.map((cat) => (
-													<SelectItem value={cat.id?.toString()}>
-														{cat.name}
-													</SelectItem>
-												))}
-											</SelectContent>
-										</Select>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
+							{isLoadingCategories ? (
+								<Loader6 />
+							) : (
+								<FormField
+									control={form.control}
+									name="support_box_category_id"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Support Box Category </FormLabel>
+											<Select
+												onValueChange={field.onChange}
+												defaultValue={field.value}
+											>
+												<FormControl>
+													<SelectTrigger className="w-full">
+														<SelectValue placeholder="Select Support Box Category" />
+													</SelectTrigger>
+												</FormControl>
+												<SelectContent>
+													{categories?.message?.map((cat) => (
+														<SelectItem key={cat.id} value={cat.id?.toString()}>
+															{cat.name}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							)}
 							{/* Sub Categories */}
-							<FormField
-								control={form.control}
-								name="support_box_category_id"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Support Box Category</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
-											<FormControl>
-												<SelectTrigger className="w-full">
-													<SelectValue placeholder="Select Support Box Category" />
-												</SelectTrigger>
-											</FormControl>
-											<SelectContent>
-												{subCategories?.message?.problems?.map((sub) => (
-													<SelectItem value={sub.id?.toString()}>
-														{sub.name}
-													</SelectItem>
-												))}
-											</SelectContent>
-										</Select>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
+							{isLoadingSubCategories || isFetchingSubCategories ? (
+								<Loader6 />
+							) : (
+								<FormField
+									control={form.control}
+									name="support_problem_topic_id"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Support Problem Topic</FormLabel>
+											<Select
+												onValueChange={field.onChange}
+												defaultValue={field.value}
+											>
+												<FormControl>
+													<SelectTrigger className="w-full">
+														<SelectValue placeholder="Select Support Problem Topic" />
+													</SelectTrigger>
+												</FormControl>
+												<SelectContent>
+													{subCategories?.message?.problems?.map((sub) => (
+														<SelectItem key={sub.id} value={sub.id?.toString()}>
+															{sub.name}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							)}
 
 							{/* File */}
 							<FormField

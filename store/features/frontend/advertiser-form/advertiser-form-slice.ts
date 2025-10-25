@@ -51,6 +51,13 @@ const advertiseForm = createSlice({
 		) {
 			state.paymethod = action.payload;
 		},
+		resetForm(state) {
+			state.level1 = null;
+			state.level2 = {};
+			state.level3 = {};
+			state.cards = [];
+			state.paymethod = 'aamarpay';
+		},
 	},
 });
 
@@ -62,6 +69,7 @@ export const {
 	updateLevel3,
 	updateCardsCreate,
 	updatePaymentMethod,
+	resetForm,
 } = advertiseForm.actions;
 
 // Other code such as selectors can use the imported `RootState` type

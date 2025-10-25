@@ -6,7 +6,6 @@ import {
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
 } from '@/components/ui/dialog';
 import {
 	Form,
@@ -44,10 +43,9 @@ export function VendorCouponRequestModal() {
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
-			<DialogTrigger className="flex items-center gap-2 w-full">
-				<Button>Request Coupon</Button>
-			</DialogTrigger>
-
+			<Button type="button" onClick={() => setOpen(true)}>
+				Request Coupon
+			</Button>
 			<DialogContent className={cn('sm:max-w-xl w-full')}>
 				<DialogHeader>
 					<DialogTitle>Request Coupon</DialogTitle>

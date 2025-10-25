@@ -81,14 +81,14 @@ export function VendorCustomerCreate() {
 							response.status === 400 &&
 							typeof errorResponse.errors === 'object'
 						) {
-							handleValidationError(errorResponse, form.setError, toast.error);
+							handleValidationError(errorResponse, form.setError);
 						} else {
 							toast.error(response.message || 'Something went wrong');
 						}
 					}
 				} catch (error: any) {
 					if (error?.status === 400) {
-						handleValidationError(error, form.setError, toast.error);
+						handleValidationError(error, form.setError);
 					} else {
 						toast.error('Something went wrong');
 					}

@@ -22,11 +22,13 @@ import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
+	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
 import { iPagination } from '@/types';
-import { Ellipsis, LoaderCircle } from 'lucide-react';
+import { Ellipsis, ExternalLink, LoaderCircle } from 'lucide-react';
+import Link from 'next/link';
 import {
 	useAdminSupportCloseMutation,
 	useAdminSupportDeleteMutation,
@@ -84,7 +86,9 @@ export function AdminSupportTable({
 								{textCount(item?.description, 15)}
 							</TableCell>
 							<TableCell className="py-2">
-								{textCount(item?.category?.name, 15)}
+								<Badge className="capitalize" variant="outline">
+									{item?.category?.name}
+								</Badge>
 							</TableCell>
 							<TableCell className="py-2">
 								{textCount(item?.problem_topic?.name, 15)}
@@ -135,6 +139,15 @@ const DropDownAction = ({ item }: { item: iAdminSupport }) => {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" className="w-56">
+				<DropdownMenuItem>
+					<Link
+						className="flex items-center gap-2 w-full"
+						href={`/admin/support/${item.id}`}
+					>
+						<ExternalLink className="size-4" />
+						<span>View Support</span>
+					</Link>
+				</DropdownMenuItem>
 				{item?.is_close?.toString() !== '1' && (
 					<AdminSupportAssignModal data={item} />
 				)}

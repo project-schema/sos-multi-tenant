@@ -5,15 +5,13 @@ import { Pagination1 } from '@/components/dashboard/pagination';
 import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
-import {
-	AdminAdvertiseFilter,
-	AdminAdvertiseTable,
-} from '@/store/features/admin/advertise';
+import { AdminAdvertiseFilter } from '@/store/features/admin/advertise';
 
 import { SlidersHorizontal } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useVendorServicesQuery } from './vendor-services-api-slice';
 import { VendorServicesStatistics } from './vendor-services-statistics';
+import { VendorServiceTable } from './vendor.service.table';
 
 export function VendorServicesOrderPage() {
 	const [toggleFilter, setToggleFilter] = useState(true);
@@ -62,7 +60,7 @@ export function VendorServicesOrderPage() {
 					<>
 						<div className="border rounded-lg relative">
 							{isFetching && <Loader8 />}
-							<AdminAdvertiseTable data={data?.message} />
+							<VendorServiceTable data={data?.message} />
 						</div>
 						<Pagination1 pagination={data?.message} setPage={setPage} />
 					</>

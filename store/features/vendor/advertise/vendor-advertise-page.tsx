@@ -5,15 +5,13 @@ import { Pagination1 } from '@/components/dashboard/pagination';
 import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
-import {
-	AdminAdvertiseFilter,
-	AdminAdvertiseTable,
-} from '@/store/features/admin/advertise';
+import { AdminAdvertiseFilter } from '@/store/features/admin/advertise';
 
 import { SlidersHorizontal } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useVendorAdvertiseQuery } from './vendor-advertise-api-slice';
 import { VendorAdvertiseStatistics } from './vendor-advertise-statistics';
+import { VendorAdvertiseTable } from './vendor-advertise-table';
 
 export function VendorAdvertisePage() {
 	const [toggleFilter, setToggleFilter] = useState(true);
@@ -23,7 +21,10 @@ export function VendorAdvertisePage() {
 	// Debounced version of searchTerm
 	const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-	const { data, isLoading, isError, isFetching } = useVendorAdvertiseQuery();
+	const { data, isLoading, isError, isFetching } = useVendorAdvertiseQuery({
+		page: page,
+		search: debouncedSearchTerm,
+	});
 
 	useEffect(() => {
 		setPage(1);
@@ -62,7 +63,7 @@ export function VendorAdvertisePage() {
 					<>
 						<div className="border rounded-lg relative">
 							{isFetching && <Loader8 />}
-							<AdminAdvertiseTable data={data?.message} />
+							<VendorAdvertiseTable data={data?.message} />
 						</div>
 						<Pagination1 pagination={data?.message} setPage={setPage} />
 					</>

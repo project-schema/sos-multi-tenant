@@ -36,9 +36,8 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm, handleValidationError } from '@/lib';
 import { toast } from 'sonner';
-import { iVendorCustomer } from './vendor-customer-type';
-import { useVendorCustomerUpdateMutation } from './vendor-purchase-api-slice';
-
+import { useVendorCustomerUpdateMutation } from '../customer/vendor-customer-api-slice';
+import { iVendorCustomer } from '../customer/vendor-customer-type';
 // --- Zod Schema ---
 const schema = z.object({
 	customer_name: z.string().min(1, 'Name is required'),
@@ -127,14 +126,14 @@ const FORM = ({
 					} else {
 						const errorResponse = response as any;
 						if (response.status === 400) {
-							handleValidationError(errorResponse, form.setError, toast.error);
+							handleValidationError(errorResponse, form.setError);
 						} else {
 							toast.error(response.message || 'Something went wrong');
 						}
 					}
 				} catch (error: any) {
 					if (error?.status === 400) {
-						handleValidationError(error, form.setError, toast.error);
+						handleValidationError(error, form.setError);
 					} else {
 						toast.error('Something went wrong');
 					}

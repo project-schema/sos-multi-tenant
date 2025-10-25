@@ -64,7 +64,9 @@ export function VendorPosSalesReturnPage() {
 					<>
 						<div className="border rounded-lg relative">
 							{isFetching && <Loader8 />}
-							<VendorPosSalesReturnTable data={data?.return_list} />
+							{data?.return_list && (
+								<VendorPosSalesReturnTable data={data?.return_list} />
+							)}
 						</div>
 					</>
 				)}

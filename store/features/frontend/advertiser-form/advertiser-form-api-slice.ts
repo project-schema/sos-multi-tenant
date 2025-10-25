@@ -125,6 +125,19 @@ const api = apiSlice.injectEndpoints({
 				};
 			},
 		}),
+		TenantCreateAdvertise: builder.mutation<
+			{ errors: any; data: 'success'; message: string; status: number },
+			any
+		>({
+			query: (data) => {
+				return {
+					url: `/tenant/create-advertise`,
+					method: 'POST',
+					body: data,
+					formData: true,
+				};
+			},
+		}),
 	}),
 });
 
@@ -136,4 +149,5 @@ export const {
 	useFrontendAdvDyDataQuery,
 	useFrontendCountryQuery,
 	useFrontendCityQuery,
+	useTenantCreateAdvertiseMutation,
 } = api;

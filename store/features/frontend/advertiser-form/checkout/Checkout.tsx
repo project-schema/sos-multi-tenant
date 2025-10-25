@@ -5,9 +5,9 @@ import { timeDifference } from '@/lib';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { LoaderCircle } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useFrontendGetDollarRateQuery } from '../../frontend-api-slice';
-import { useFrontendCreateAdvertiseMutation } from '../advertiser-form-api-slice';
 import {
 	level2Format,
 	level2SubmitFormat,
@@ -20,12 +20,18 @@ import myBalance from './my-balance.svg';
 import style from './style.module.css';
 import SummeryRow from './SummeryRow';
 
-function Checkout() {
+function Checkout({
+	createAdvertise,
+	isLoading,
+}: {
+	createAdvertise: (data: any) => any;
+	isLoading: boolean;
+}) {
 	const state = useAppSelector((state) => state.advertiseForm);
 	const dispatch = useAppDispatch();
-	const [store, { isLoading: storeLoading }] =
-		useFrontendCreateAdvertiseMutation();
-	const { data, isLoading } = useFrontendGetDollarRateQuery(undefined);
+	const router = useRouter();
+	const { data, isLoading: isLoadingDollarRate } =
+		useFrontendGetDollarRateQuery(undefined);
 	const totalPP =
 		parseInt(state.level2.budget_amount) *
 			parseInt(String(data?.message?.amount ?? '0')) *
@@ -39,7 +45,8 @@ function Checkout() {
 	const onSubmit = async () => {
 		const formedDataLOthers = {
 			campaign_objective: state.level1?.name,
-			payment_method: state.paymethod,
+			paymethod: state.paymethod,
+			audience: 'no data',
 			status: 'pending',
 		};
 		const formedDataL2 = level2SubmitFormat({
@@ -49,8 +56,16 @@ function Checkout() {
 		});
 
 		try {
-			const response = await store(formedDataL2).unwrap();
-			if (response?.message === 'Validation errors') {
+			const response = await createAdvertise(formedDataL2).unwrap();
+			if (response.status === 200) {
+				if (response.message.result === 'true') {
+					window.location.href = `${response.message.payment_url}`;
+				} else {
+					router.push(`/advertise`);
+				}
+				toast.success('Created successfully');
+			} else {
+				toast.error(response.message || 'Something went wrong');
 			}
 		} catch (error: any) {
 			toast.error(error?.message || 'Something went wrong');
@@ -73,7 +88,7 @@ function Checkout() {
 						pp={`$${state?.level2?.budget_amount || '00'}`}
 						text={{ h: state?.level2?.budget || 'Budget', p: 'USD Currency' }}
 					/>
-					{isLoading ? (
+					{isLoadingDollarRate ? (
 						<Loader2 />
 					) : (
 						<SummeryRow
@@ -167,10 +182,10 @@ function Checkout() {
 						<Button
 							onClick={onSubmit}
 							type="button"
-							disabled={storeLoading}
+							disabled={isLoading}
 							className="w-full"
 						>
-							{storeLoading && (
+							{isLoading && (
 								<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 							)}
 							{false ? 'Wait...' : 'Pay Now'}

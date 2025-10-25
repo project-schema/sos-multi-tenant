@@ -81,15 +81,15 @@ export function VendorProfileSettings() {
 			onOk: async () => {
 				try {
 					// Assuming update accepts FormData
-					const response = await update({
+					const response: any = await update({
 						...data?.user,
 						...values,
 					}).unwrap();
 
 					if (response.status === 200) {
-						toast.success(response.message);
+						toast.success(response.message || 'Profile updated successfully');
 					} else {
-						toast.error(response.message);
+						toast.error(response.message || 'Failed to update profile');
 					}
 				} catch (error: any) {
 					if (error?.status === 400 && typeof error.message === 'object') {

@@ -6,6 +6,7 @@ import {
 	AdvertiserFormTab2,
 	AdvertiserFormTab3,
 	AdvertiserFormTab4Checkout,
+	useFrontendCreateAdvertiseMutation,
 } from '@/store/features/frontend/advertiser-form';
 import { advertiseStep } from '@/store/features/frontend/advertiser-form/advertiser-form-slice';
 
@@ -13,14 +14,30 @@ import { useSelector } from 'react-redux';
 
 export default function Page() {
 	const step = useSelector(advertiseStep);
+	const [createAdvertise, { isLoading }] = useFrontendCreateAdvertiseMutation();
 
 	return (
 		<div className="layout">
 			<AdvertiserFormProgressbar currentStep={step} />
 			{step === 1 && <AdvertiserFormTab1 />}
-			{step === 2 && <AdvertiserFormTab2 />}
-			{step === 3 && <AdvertiserFormTab3 />}
-			{step === 4 && <AdvertiserFormTab4Checkout />}
+			{step === 2 && (
+				<AdvertiserFormTab2
+					createAdvertise={createAdvertise}
+					isLoading={isLoading}
+				/>
+			)}
+			{step === 3 && (
+				<AdvertiserFormTab3
+					createAdvertise={createAdvertise}
+					isLoading={isLoading}
+				/>
+			)}
+			{step === 4 && (
+				<AdvertiserFormTab4Checkout
+					createAdvertise={createAdvertise}
+					isLoading={isLoading}
+				/>
+			)}
 		</div>
 	);
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { Card1 } from '@/components/dashboard';
+import { Card1, Loader2 } from '@/components/dashboard';
 import {
 	CircleAlert,
 	CircleDashed,
@@ -8,22 +8,15 @@ import {
 	PackageCheck,
 	ShoppingCart,
 } from 'lucide-react';
+import { useVendorSupportCountQuery } from './vendor-support-api-slice';
 
-export function VendorProductStatistics() {
-	// if (isLoading) {
-	// 	return <Loader2 />;
-	// }
+export function VendorSupportStatistics() {
+	const { data: stats, isLoading, isError } = useVendorSupportCountQuery();
+	if (isLoading) {
+		return <Loader2 />;
+	}
 
-	// if (isError || !data) return null;
-	const stats = {
-		all: '10',
-		hold: '10',
-		pending: '10',
-		progress: '10',
-		received: '10',
-		delivered: '10',
-		cancelled: '10',
-	};
+	if (isError || !stats) return null;
 
 	return (
 		<div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-7 gap-4 pb-4">

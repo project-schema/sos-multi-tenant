@@ -37,8 +37,9 @@ export const apiSlice = createApi({
 	reducerPath: 'api',
 	baseQuery,
 	endpoints: () => ({}),
-	refetchOnReconnect: true,
-	refetchOnFocus: true,
+	refetchOnReconnect: env.production ? false : true,
+	refetchOnMountOrArgChange: env.production ? false : true,
+	refetchOnFocus: env.production ? false : true,
 	keepUnusedDataFor: 50000,
 	tagTypes: [
 		'UserProfile',
@@ -124,5 +125,6 @@ export const apiSlice = createApi({
 		'DropShipperProduct',
 
 		'Withdraw',
+		'VendorService',
 	],
 });

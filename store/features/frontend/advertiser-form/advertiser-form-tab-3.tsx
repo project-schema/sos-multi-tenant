@@ -27,10 +27,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import z from 'zod';
-import {
-	useFrontendAdvDyDataQuery,
-	useFrontendCreateAdvertiseMutation,
-} from './advertiser-form-api-slice';
+import { useFrontendAdvDyDataQuery } from './advertiser-form-api-slice';
 import {
 	L3_RequitedField,
 	level2SubmitFormat,
@@ -120,7 +117,13 @@ const schema = z
 
 type ZodType = z.infer<typeof schema>;
 
-export function AdvertiserFormTab3() {
+export function AdvertiserFormTab3({
+	createAdvertise,
+	isLoading,
+}: {
+	createAdvertise: (data: any) => any;
+	isLoading: boolean;
+}) {
 	const [card, setCard] = useState({
 		format: '',
 		primary_text: '',
@@ -129,8 +132,6 @@ export function AdvertiserFormTab3() {
 		description: '',
 		call_to_action: '',
 	});
-	const [store, { isLoading: storeLoading }] =
-		useFrontendCreateAdvertiseMutation();
 	const dispatch = useAppDispatch();
 	const level3 = useAppSelector((state) => state.advertiseForm.level3);
 
@@ -172,7 +173,9 @@ export function AdvertiserFormTab3() {
 	const onSubmit = async (data: ZodType) => {
 		const formedData = level3Format(data);
 		try {
-			const response = await store(level2SubmitFormat(formedData)).unwrap();
+			const response = await createAdvertise(
+				level2SubmitFormat(formedData)
+			).unwrap();
 			if (response?.message === 'Validation errors') {
 				Object.entries(response?.data).forEach(([field, value]) => {
 					if (L3_RequitedField.includes(field)) {
@@ -716,7 +719,7 @@ export function AdvertiserFormTab3() {
 							Previous
 						</Button>
 						<Button type="submit" className="w-full">
-							{storeLoading && (
+							{isLoading && (
 								<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 							)}
 							{false ? 'Submitting...' : 'Next'}

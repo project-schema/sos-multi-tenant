@@ -26,7 +26,7 @@ export default function Page() {
 				isLoading={isLoading}
 				header={<CardTitle>Product Edit</CardTitle>}
 			>
-				<VendorProductEdit editData={data?.product} />
+				{data?.product && <VendorProductEdit editData={data?.product} />}
 			</Container1>
 		</>
 	);

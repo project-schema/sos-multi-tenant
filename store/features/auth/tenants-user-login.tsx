@@ -70,8 +70,9 @@ export function TenantUserLogin({ settings }: { settings?: iSettingsType }) {
 				<div className="layout">
 					<div className={style.layoutBgImg}>
 						<div className={`${style.loginFormBox} max-w-2xl`}>
-							<MotionFadeIn className={style.LoginImg}>
-								{/* <Image
+							{/*<MotionFadeIn className={style.LoginImg}>
+
+								 <Image
 									className={style.singleChooseImg}
 									width={333}
 									height={60}
@@ -81,8 +82,8 @@ export function TenantUserLogin({ settings }: { settings?: iSettingsType }) {
 											: '/placeholder.svg'
 									}
 									alt="logo"
-								/> */}
-							</MotionFadeIn>
+								/> 
+							</MotionFadeIn>*/}
 
 							<MotionFadeIn className={style.loginFromHeading} delay={0.18}>
 								<h3>Login Your Account</h3>

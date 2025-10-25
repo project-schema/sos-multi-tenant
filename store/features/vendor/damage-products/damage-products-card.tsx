@@ -189,6 +189,9 @@ const CardDetails = ({
 										unit_id: variant.unit?.id,
 										color_id: variant.color?.id,
 										size_id: variant.size?.id,
+										remark: '',
+										discount_price: 0,
+										discount_percentage: 0,
 									});
 								}}
 								key={variant.id}
@@ -232,6 +235,9 @@ const CardDetails = ({
 												unit_id: variant.unit?.id,
 												color_id: variant.color?.id,
 												size_id: variant.size?.id,
+												remark: '',
+												discount_price: 0,
+												discount_percentage: 0,
 											});
 										}}
 									>

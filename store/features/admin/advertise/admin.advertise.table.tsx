@@ -18,10 +18,18 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { badgeFormat, dateFormat, sign, tableSrCount, textCount } from '@/lib';
+import {
+	badgeFormat,
+	dateFormat,
+	sign,
+	tableSrCount,
+	textCount,
+	timeFormat,
+} from '@/lib';
 
 import { iPagination } from '@/types';
 import { Ellipsis, ExternalLink } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { AdminAdvertiseOrderCancel } from './admin-advertise-cancel';
 import { AdminAdvertiseDelivery } from './admin-advertise-delivery';
@@ -34,6 +42,8 @@ export function AdminAdvertiseTable({
 	data: iPagination<iAdminAdvertise>;
 }) {
 	const advertises = data.data;
+	const { data: session } = useSession();
+	console.log({ session });
 	return (
 		<Table>
 			<TableHeader>
@@ -102,44 +112,11 @@ export function AdminAdvertiseTable({
 							</TableCell>
 							<TableCell className="py-2">
 								{dateFormat(item.created_at)}
+								<br />
+								{timeFormat(item.created_at)}
 							</TableCell>
 							<TableCell className="py-2">
-								<DropdownMenu>
-									<DropdownMenuTrigger asChild>
-										<Button
-											variant="outline"
-											className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
-											size="icon"
-										>
-											<Ellipsis />
-											<span className="sr-only">Open menu</span>
-										</Button>
-									</DropdownMenuTrigger>
-									<DropdownMenuContent align="end" className="w-56">
-										<DropdownMenuItem>
-											<Link
-												className="flex items-center gap-2 w-full"
-												href={`/admin/advertise/${item.id}`}
-											>
-												<ExternalLink className="size-4" />
-												<span>View Advertise</span>
-											</Link>
-										</DropdownMenuItem>
-										{item.status === 'pending' && (
-											<AdminAdvertiseProgress data={item} />
-										)}
-										{item.status === 'progress' && (
-											<AdminAdvertiseDelivery data={item} />
-										)}
-										{item.status !== 'cancel' && (
-											<AdminAdvertiseOrderCancel data={item} />
-										)}
-
-										<DropdownMenuSeparator />
-										{/* Delete Product  */}
-										<AdminAdvertiseDelete data={item} />
-									</DropdownMenuContent>
-								</DropdownMenu>
+								<DropdownAction item={item} />
 							</TableCell>
 						</TableRow>
 					))
@@ -148,3 +125,38 @@ export function AdminAdvertiseTable({
 		</Table>
 	);
 }
+
+const DropdownAction = ({ item }: { item: iAdminAdvertise }) => {
+	return (
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button
+					variant="outline"
+					className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
+					size="icon"
+				>
+					<Ellipsis />
+					<span className="sr-only">Open menu</span>
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align="end" className="w-56">
+				<DropdownMenuItem>
+					<Link
+						className="flex items-center gap-2 w-full"
+						href={`/admin/advertise/${item.id}`}
+					>
+						<ExternalLink className="size-4" />
+						<span>View Advertise</span>
+					</Link>
+				</DropdownMenuItem>
+				{item.status === 'pending' && <AdminAdvertiseProgress data={item} />}
+				{item.status === 'progress' && <AdminAdvertiseDelivery data={item} />}
+				{item.status !== 'cancel' && <AdminAdvertiseOrderCancel data={item} />}
+
+				<DropdownMenuSeparator />
+				{/* Delete Product  */}
+				<AdminAdvertiseDelete data={item} />
+			</DropdownMenuContent>
+		</DropdownMenu>
+	);
+};
