@@ -10,6 +10,7 @@ export * from './org-two.type';
 export * from './pagination.type';
 export * from './partners.type';
 export * from './service.type';
+export * from './services.type';
 export * from './settings.type';
 export * from './subscriptions.type';
 export * from './testimonials.type';

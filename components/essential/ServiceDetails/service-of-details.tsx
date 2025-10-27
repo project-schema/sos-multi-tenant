@@ -2,20 +2,8 @@ import ClientMotionWrapper from './ClientMotionWrapper';
 import RattingCardSD from './ratting-card';
 import style from './style.module.css';
 
-const mockData = {
-	description:
-		'This is a static description of the service. It provides insights about the offering, benefits, and other useful information for customers.',
-	servicecategory: { name: 'Design' },
-	servicesubcategory: { name: 'Logo Design' },
-	tags: ['Creative', 'Professional', 'Affordable'],
-};
-
-const mockReviews = [
-	{ user: 'John', rating: 5, comment: 'Great service!' },
-	{ user: 'Jane', rating: 4, comment: 'Very satisfied!' },
-];
-
-function ServiceOfDetails() {
+export default function ServiceOfDetails({ service }: { service: any }) {
+	const tags: string[] = Array.isArray(service?.tags) ? service.tags : [];
 	return (
 		<div className={style.servicesDetailsContent}>
 			<ClientMotionWrapper>
@@ -23,7 +11,7 @@ function ServiceOfDetails() {
 			</ClientMotionWrapper>
 
 			<ClientMotionWrapper>
-				<p className={style.sDetailsParagraph}>{mockData.description}</p>
+				<p className={style.sDetailsParagraph}>{service?.description}</p>
 			</ClientMotionWrapper>
 
 			<ClientMotionWrapper>
@@ -35,13 +23,13 @@ function ServiceOfDetails() {
 					<div className={style.sUserCateItem}>
 						<p className={style.sDetailsCategory}>Category</p>
 						<p className={style.sDetailsCategoryHeadhing}>
-							{mockData.servicecategory.name}
+							{service?.servicecategory?.name || '--'}
 						</p>
 					</div>
 					<div className={style.sUserCateItem}>
 						<p className={style.sDetailsCategory}>Sub Category</p>
 						<p className={style.sDetailsCategoryHeadhing}>
-							{mockData.servicesubcategory.name}
+							{service?.servicesubcategory?.name || '--'}
 						</p>
 					</div>
 				</div>
@@ -64,15 +52,14 @@ function ServiceOfDetails() {
 				</div>
 			</div>
 
-			{/* Static Reviews */}
-			{mockReviews.map((e, i) => (
+			{/* Placeholder reviews until API is available */}
+			{[0, 1].map((_, i) => (
 				<RattingCardSD key={i} />
 			))}
 
-			{/* Tags */}
 			<p className="mt-20 mb-10 flex flex-wrap gap-2">
 				<span className="text-blue-700 text-xl">Tags: </span>
-				{mockData.tags.map((tag, i) => (
+				{tags.map((tag, i) => (
 					<span
 						key={i}
 						className="bg-slate-600 text-white px-4 py-1 rounded cursor-pointer"
@@ -84,5 +71,3 @@ function ServiceOfDetails() {
 		</div>
 	);
 }
-
-export default ServiceOfDetails;

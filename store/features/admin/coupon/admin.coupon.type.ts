@@ -17,6 +17,7 @@ export type iAdminCoupon = {
 	updated_at: string;
 	couponused_count: number;
 	couponused_sum_total_commission: null;
+	tenant_id: string;
 	user: {
 		id: number;
 		name: string;
@@ -65,6 +66,7 @@ export type iAdminReqCoupon = {
 	id: number;
 	user_id: number;
 	comments: string;
+	tenant_id: string;
 	status: string;
 	deleted_at: null;
 	created_at: string;

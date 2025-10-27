@@ -1,49 +1,26 @@
 'use client';
 import { motion } from 'motion/react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import style from './style.module.css';
 
-function TabOfSD() {
+export default function TabOfSD({ packages = [] as any[] }) {
 	const [tab, setTab] = useState(0);
 
-	// Static mock data for service packages
-	const servicePackages = [
-		{
-			id: 1,
-			price: 100,
-			package_title: 'Basic Package',
-			package_description: '<p>This is the basic package description.</p>',
-			time: 3,
-			revision_max_time: 1,
-			vendor_service_id: 101,
-		},
-		{
-			id: 2,
-			price: 200,
-			package_title: 'Standard Package',
-			package_description: '<p>This is the standard package description.</p>',
-			time: 5,
-			revision_max_time: 3,
-			vendor_service_id: 102,
-		},
-		{
-			id: 3,
-			price: 300,
-			package_title: 'Premium Package',
-			package_description: '<p>This is the premium package description.</p>',
-			time: 7,
-			revision_max_time: 5,
-			vendor_service_id: 103,
-		},
-	];
+	const servicePackages = useMemo(() => packages, [packages]);
 
 	return (
 		<div className={style.servicesDetailsTab}>
 			<div className={style.tabTotalBox}>
 				<div className={style.tabBox}>
-					<Tab text="Basic" tab={tab} value={0} setTab={setTab} />
-					<Tab text="Standard" tab={tab} value={1} setTab={setTab} />
-					<Tab text="Premium" tab={tab} value={2} setTab={setTab} />
+					{servicePackages.map((_, idx) => (
+						<Tab
+							key={idx}
+							text={['Basic', 'Standard', 'Premium'][idx] || `Pack ${idx + 1}`}
+							tab={tab}
+							value={idx}
+							setTab={setTab}
+						/>
+					))}
 				</div>
 				{servicePackages
 					.filter((_, i) => i === tab)
@@ -148,8 +125,6 @@ function TabOfSD() {
 		</div>
 	);
 }
-
-export default TabOfSD;
 
 export const Tab = ({
 	text,

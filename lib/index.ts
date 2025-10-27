@@ -2,6 +2,7 @@ export * from './api';
 export * from './api-hook';
 export { audioManager, useAudio } from './audio';
 export * from './badge-format';
+// Avoid re-exporting client-only barcode from server-safe barrel
 export * from './confirm';
 export * from './constant';
 export * from './data/meta-data';

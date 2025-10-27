@@ -8,6 +8,7 @@ import {
 import { apiSlice } from './features/api/apiSlice';
 import counterReducer from './features/counter/counterSlice';
 import advertiseFormReducer from './features/frontend/advertiser-form/advertiser-form-slice';
+import barcodeGeneratorReducer from './features/vendor/barcode-generator/barcode-generator.slice';
 import posSalesDamageReducer from './features/vendor/damage-products/damage-products.slice';
 import posSalesExchangeReducer from './features/vendor/pos-sales/vendor-pos-sales-exchange.slice';
 import posSalesReducer from './features/vendor/pos-sales/vendor-pos-sales.slice';
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
 	posSales: posSalesReducer,
 	posSalesExchange: posSalesExchangeReducer,
 	posSalesDamage: posSalesDamageReducer,
+	barcodeGenerator: barcodeGeneratorReducer,
 	[apiSlice.reducerPath]: apiSlice.reducer,
 });
 

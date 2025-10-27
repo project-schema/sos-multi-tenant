@@ -100,6 +100,7 @@ export function VendorSupportCreatePage() {
 				try {
 					const response: any = await store({
 						...data,
+						status: 'pending',
 					}).unwrap();
 					if (response.message === 'Validation errors') {
 						console.log(response.data, 'test');

@@ -1,64 +1,46 @@
+import { imageFormat } from '@/lib';
+import { iPagination, iServiceType } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import style from './AllServices.style.module.css';
 import ClientMotionWrapper from './ClientMotionWrapper';
+// @ts-ignore
+import Filters from './Filters';
 
-const staticServiceData = [
-	{
-		id: 1,
-		image: '/placeholder.svg',
-		title: 'Static Service Title 1',
-		user: {
-			name: 'John Doe',
-			image: '/placeholder.svg',
-		},
-		servicerating_avg_rating: '4.5',
-		firstpackage: {
-			price: 1500,
-		},
-	},
-	{
-		id: 2,
-		image: '/placeholder.svg',
-		title:
-			'Another Great Static Service With A Long Title That Will Be Trimmed',
-		user: {
-			name: 'Jane Smith',
-			image: '/placeholder.svg',
-		},
-		servicerating_avg_rating: '4.8',
-		firstpackage: {
-			price: 2000,
-		},
-	},
-	// Add more static services as needed
-];
+type Category = { id: number; name: string; slug: string; status: string };
 
-const AllServices = () => {
+const AllServices = ({
+	services,
+	categories = [],
+	current,
+}: {
+	services?: iPagination<iServiceType> | null;
+	categories?: Category[];
+	current?: {
+		page?: string;
+		category_id?: string;
+		type?: string;
+		search?: string;
+		tags?: string;
+	};
+}) => {
+	const data = services?.data || [];
 	return (
 		<section className={style.servicesSection}>
 			<div className="layout">
 				<div className={style.serviceFilter}>
 					<h2 className={style.serviceHeader}>Top List Of Services</h2>
-					<div className={style.filterOption}>
-						<p className={style.serviceLeftFilter}>Filter:</p>
-						<select className={style.filterBySort} id="sortBy" disabled>
-							<option className={style.values}>Sort by</option>
-						</select>
-						<select className={style.filterByCategory} id="categories" disabled>
-							<option className={style.values}>Category</option>
-						</select>
-					</div>
+					<Filters categories={categories} current={current} />
 				</div>
 
 				<div className={style.services}>
-					{staticServiceData.map((data, i) => (
+					{data?.map((data, i) => (
 						<ClientMotionWrapper key={data.id} index={i}>
 							<div className={style.singleService}>
 								<Link href={`/services/${data.id}`}>
 									<Image
 										className={style.serviceImage}
-										src={`${data.image}`}
+										src={imageFormat(data.image)}
 										alt="Service Image"
 										width={312}
 										height={200}
@@ -67,7 +49,7 @@ const AllServices = () => {
 								<div className={style.serviceProviderInfo}>
 									{data.user.image ? (
 										<Image
-											src={'/placeholder.svg'}
+											src={imageFormat(data.user.image)}
 											alt="Service Provider Image"
 											height={20}
 											width={20}
@@ -94,6 +76,42 @@ const AllServices = () => {
 						</ClientMotionWrapper>
 					))}
 				</div>
+
+				{services && services.total > services.per_page && (
+					<div className="mt-10 flex items-center justify-center gap-2">
+						{services.current_page > 1 && (
+							<Link
+								className="px-3 py-2 border rounded"
+								href={`?page=${services.current_page - 1}`}
+							>
+								Prev
+							</Link>
+						)}
+						{Array.from({ length: services.last_page }).map((_, idx) => {
+							const page = idx + 1;
+							const active = page === services.current_page;
+							return (
+								<Link
+									key={page}
+									className={`px-3 py-2 border rounded ${
+										active ? 'bg-black text-white' : ''
+									}`}
+									href={`?page=${page}`}
+								>
+									{page}
+								</Link>
+							);
+						})}
+						{services.current_page < services.last_page && (
+							<Link
+								className="px-3 py-2 border rounded"
+								href={`?page=${services.current_page + 1}`}
+							>
+								Next
+							</Link>
+						)}
+					</div>
+				)}
 			</div>
 		</section>
 	);

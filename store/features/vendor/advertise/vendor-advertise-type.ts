@@ -17,3 +17,11 @@ export type iVendorAdvertiseResponse = {
 	data: 'success';
 	message: iPagination<iVendorAdvertise>;
 };
+
+export type iVendorAdvertiseStatistics = {
+	pending: number;
+	progress: number;
+	delivered: number;
+	cancel: number;
+	all: number;
+};

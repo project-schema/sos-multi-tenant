@@ -1,7 +1,7 @@
 import { apiSlice } from '@/store/features/api/apiSlice';
 import {
-	iVendorAdvertise,
 	iVendorAdvertiseResponse,
+	iVendorAdvertiseStatistics,
 } from './vendor-advertise-type';
 
 const api = apiSlice.injectEndpoints({
@@ -18,7 +18,7 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		// count
-		VendorAdvertiseCount: builder.query<iVendorAdvertise, void>({
+		VendorAdvertiseCount: builder.query<iVendorAdvertiseStatistics, void>({
 			query: () => '/tenant-advertise/count',
 		}),
 

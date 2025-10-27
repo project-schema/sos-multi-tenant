@@ -11,25 +11,30 @@ export const metadata: Metadata = {
 	title: 'Service - SOS',
 	description: 'Service - SOS Management',
 };
-export default async function Page() {
-	const [settings] = await Promise.all([
+export default async function Page({ params }: { params: { id: string } }) {
+	const [settings, details] = await Promise.all([
 		getApiData<iSettingsType>('/settings'),
+		getApiData<any>(`/services-view/${params.id}`),
 	]);
 
-	if (settings?.status !== 200) {
+	if (settings?.status !== 200 || !details || details?.status !== 200) {
 		return notFound();
 	}
+
+	const service = details.message; // expecting shape from API
+
 	return (
 		<>
 			<section className={style.servicesDetails}>
 				<div className="layout">
 					<div className={style.servicesDetailsWp}>
 						<div className={style.servicesdetailsSlider}>
-							<HeadingOfSD />
-							<SliderOfSD />
-							<ServiceOfDetails />
+							<HeadingOfSD service={service} />
+							<SliderOfSD images={service.serviceimages} />
+							<ServiceOfDetails service={service} />
 						</div>
-						<TabOfSD />
+						{/* @ts-ignore */}
+						<TabOfSD packages={service.servicepackages} />
 					</div>
 				</div>
 			</section>

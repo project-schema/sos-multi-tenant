@@ -69,7 +69,7 @@ const api = apiSlice.injectEndpoints({
 			{ id: string }
 		>({
 			query: ({ id }) => ({
-				url: `/tenant-support/${id}`,
+				url: `/tenant-support/show/${id}`,
 				method: 'GET',
 			}),
 		}),

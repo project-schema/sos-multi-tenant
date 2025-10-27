@@ -1,24 +1,29 @@
 'use client';
 
+import { imageFormat } from '@/lib';
 import { motion } from 'framer-motion';
+import { ChevronLeftCircle, ChevronRightCircle } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import SwiperCore from 'swiper';
 import { FreeMode, Navigation, Thumbs, Virtual } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import style from './style.module.css';
 
-import { ChevronLeftCircle, ChevronRightCircle } from 'lucide-react';
+type ImageType = { id?: number; images?: string } | string;
 
-const staticImages = [
-	{ id: 1, image: '/placeholder.svg' },
-	{ id: 2, image: '/placeholder.svg' },
-	{ id: 3, image: '/placeholder.svg' },
-	{ id: 4, image: '/placeholder.svg' },
-];
-
-const SliderOfSD = () => {
+export default function SliderOfSD({ images = [] as ImageType[] }) {
 	const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
+
+	const normalized = useMemo(
+		() =>
+			(images as ImageType[])?.map((img, idx) =>
+				typeof img === 'string'
+					? { id: idx, image: img }
+					: { id: img?.id || idx, image: imageFormat(img?.images || '') }
+			) || [],
+		[images]
+	);
 
 	return (
 		<>
@@ -37,7 +42,7 @@ const SliderOfSD = () => {
 						prevEl: '.custom-prev-icon',
 					}}
 				>
-					{staticImages.map((img, i) => (
+					{normalized.map((img, i) => (
 						<SwiperSlide key={img.id} virtualIndex={i}>
 							<motion.div
 								initial={{ opacity: 0 }}
@@ -49,7 +54,7 @@ const SliderOfSD = () => {
 							>
 								<Image
 									className={style.sliderImages}
-									src={img.image}
+									src={img.image || '/placeholder.svg'}
 									alt={`Slide ${i + 1}`}
 									width={760}
 									height={361}
@@ -59,7 +64,6 @@ const SliderOfSD = () => {
 					))}
 				</Swiper>
 
-				{/* Lucide Navigation Arrows */}
 				<div className={`custom-prev-icon`}>
 					<ChevronLeftCircle size={32} strokeWidth={1.5} />
 				</div>
@@ -84,7 +88,7 @@ const SliderOfSD = () => {
 				modules={[FreeMode, Navigation, Thumbs, Virtual]}
 				className="mySwiper2-slider-of-service-dt-thumb"
 			>
-				{staticImages.map((img, i) => (
+				{normalized.map((img, i) => (
 					<SwiperSlide key={img.id} virtualIndex={i}>
 						<motion.div
 							initial={{ opacity: 0 }}
@@ -96,7 +100,7 @@ const SliderOfSD = () => {
 						>
 							<Image
 								className={style.sliderImages}
-								src={img.image}
+								src={img.image || '/placeholder.svg'}
 								alt={`Thumb ${i + 1}`}
 								width={760}
 								height={361}
@@ -107,6 +111,4 @@ const SliderOfSD = () => {
 			</Swiper>
 		</>
 	);
-};
-
-export default SliderOfSD;
+}

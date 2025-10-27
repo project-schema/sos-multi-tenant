@@ -150,11 +150,11 @@ const pos: sidebarItem[] = [
 		items: [
 			{
 				title: 'Barcode Generator',
-				url: '/barcode-generator',
+				url: '/barcode/generator',
 			},
 			{
 				title: 'Manage Barcode',
-				url: '/manage-barcode',
+				url: '/barcode/manage',
 			},
 		],
 	},

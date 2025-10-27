@@ -3,6 +3,7 @@ import {
 	iVendorServiceCategoryAndSubCategoryResponse,
 	iVendorServices,
 	iVendorServicesResponse,
+	iVendorServicesStatistics,
 } from './vendor-services-type';
 
 const api = apiSlice.injectEndpoints({
@@ -108,7 +109,7 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		// count
-		VendorServicesCount: builder.query<iVendorServices, void>({
+		VendorServicesCount: builder.query<iVendorServicesStatistics, void>({
 			query: () => '/tenant-service/count',
 			providesTags: ['VendorService'],
 		}),
@@ -126,6 +127,15 @@ const api = apiSlice.injectEndpoints({
 			query: () => '/tenant-service/category-subcategory',
 			providesTags: ['VendorService'],
 		}),
+
+		// delete
+		VendorServicesDelete: builder.mutation<any, { id: string }>({
+			query: ({ id }) => ({
+				url: `/tenant-service/delete/${id}`,
+				method: 'DELETE',
+			}),
+			invalidatesTags: ['VendorService'],
+		}),
 	}),
 });
 
@@ -137,4 +147,5 @@ export const {
 	useVendorServicesSingleQuery,
 	useVendorServiceCategoryAndSubCategoryQuery,
 	useVendorServicesUpdateMutation,
+	useVendorServicesDeleteMutation,
 } = api;

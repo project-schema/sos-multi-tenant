@@ -32,6 +32,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { iPagination } from '@/types';
 import { Ellipsis, ExternalLink, Pencil } from 'lucide-react';
 import Link from 'next/link';
+import { VendorServicesDelete } from './vendor-services-delete';
 import { iVendorServices } from './vendor-services-type';
 export function VendorServiceTable({
 	data,
@@ -164,7 +165,7 @@ const DropdownAction = ({ item }: { item: iVendorServices }) => {
 
 				<DropdownMenuSeparator />
 				{/* Delete Service  */}
-				{/* <VendorServiceDelete data={item} /> */}
+				<VendorServicesDelete data={item} />
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

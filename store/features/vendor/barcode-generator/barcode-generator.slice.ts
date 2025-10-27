@@ -44,7 +44,7 @@ export interface InvoiceInfo {
 	notes?: string;
 }
 
-export interface PosSalesDamageState {
+export interface BarcodeGeneratorState {
 	cart: CartItem[];
 	customer: Customer | null;
 	payment: PaymentInfo | null;
@@ -59,7 +59,7 @@ export interface PosSalesDamageState {
 	note: string;
 }
 
-const initialState: PosSalesDamageState = {
+const initialState: BarcodeGeneratorState = {
 	cart: [],
 	customer: null,
 	payment: null,
@@ -89,8 +89,8 @@ const calculateTotals = (
 	return { subtotal, discountAmount, taxAmount, total };
 };
 
-const posSalesDamageSlice = createSlice({
-	name: 'posSalesDamage',
+const barcodeGeneratorSlice = createSlice({
+	name: 'barcodeGenerator',
 	initialState,
 	reducers: {
 		// Cart Management
@@ -267,6 +267,6 @@ export const {
 	resetPosSales,
 	setNote,
 	setCartRemark,
-} = posSalesDamageSlice.actions;
+} = barcodeGeneratorSlice.actions;
 
-export default posSalesDamageSlice.reducer;
+export default barcodeGeneratorSlice.reducer;

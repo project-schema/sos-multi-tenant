@@ -1,39 +1,40 @@
+import { imageFormat } from '@/lib';
 import Image from 'next/image';
 import ClientMotionWrapper from './ClientMotionWrapper';
 import UserImg from './sDetailsUser.png';
 import style from './style.module.css';
 
-function HeadingOfSD() {
-	// Static mock data
-	const staticData = {
-		title: 'Professional Web Design Service',
-		user: {
-			name: 'John Doe',
-			image: 'user-image.jpg',
-		},
-	};
-
+export default function HeadingOfSD({ service }: { service: any }) {
+	const userImage = service?.user?.image
+		? imageFormat(service.user.image)
+		: null;
 	return (
 		<div>
 			<ClientMotionWrapper fromY={50} delay={0.2}>
-				<h2 className={style.sDetailsHeading}>{staticData.title}</h2>
+				<h2 className={style.sDetailsHeading}>{service?.title}</h2>
 			</ClientMotionWrapper>
 
 			<ClientMotionWrapper delay={0.25}>
 				<div className={style.userDetails}>
 					<div>
-						{staticData.user.image ? (
+						{userImage ? (
+							<Image
+								className={style.sDetailsUserImg}
+								src={userImage}
+								width={48}
+								height={48}
+								alt="User Image"
+							/>
+						) : (
 							<Image
 								className={style.sDetailsUserImg}
 								src={UserImg}
 								alt="User Image"
 							/>
-						) : (
-							<span>{/* fallback icon */}</span>
 						)}
 					</div>
 					<div>
-						<p className={style.userName}>{staticData.user.name}</p>
+						<p className={style.userName}>{service?.user?.name}</p>
 					</div>
 				</div>
 			</ClientMotionWrapper>
@@ -44,5 +45,3 @@ function HeadingOfSD() {
 		</div>
 	);
 }
-
-export default HeadingOfSD;

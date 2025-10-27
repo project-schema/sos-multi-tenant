@@ -1,6 +1,7 @@
 'use client';
 
 import { Container1 } from '@/components/dashboard';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
 	Table,
@@ -10,7 +11,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { dateFormat } from '@/lib';
+import { badgeFormat, dateFormat } from '@/lib';
 import {
 	useVendorCouponQuery,
 	useVendorCouponRequestQuery,
@@ -46,24 +47,37 @@ export function VendorCouponPage() {
 					</CardHeader>
 					<CardContent>
 						<div className="overflow-x-auto border rounded-lg">
-						<Table>
-							<TableHeader>
-								<TableRow>
-									<TableHead>Comment</TableHead>
-									<TableHead>Status</TableHead>
-									<TableHead>Date</TableHead>
-								</TableRow>
-							</TableHeader>
-							<TableBody>
-								<TableRow>
-									<TableCell>{requestData?.message?.comments}</TableCell>
-									<TableCell>{requestData?.message?.status}</TableCell>
-									<TableCell>
-										{dateFormat(requestData?.message?.created_at)}
-									</TableCell>
-								</TableRow>
-							</TableBody>
-						</Table>
+							<Table>
+								<TableHeader>
+									<TableRow>
+										<TableHead>Comment</TableHead>
+										<TableHead>Status</TableHead>
+										<TableHead>Date</TableHead>
+									</TableRow>
+								</TableHeader>
+								<TableBody>
+									<TableRow>
+										<TableCell>{requestData?.message?.comments}</TableCell>
+										<TableCell>
+											<Badge
+												className="capitalize"
+												variant={badgeFormat(requestData?.message?.status)}
+											>
+												{requestData?.message?.status}
+											</Badge>{' '}
+											<br />
+											{requestData?.message?.status === 'reject' && (
+												<span className="text-destructive">
+													{requestData?.message?.reason}
+												</span>
+											)}
+										</TableCell>
+										<TableCell>
+											{dateFormat(requestData?.message?.created_at)}
+										</TableCell>
+									</TableRow>
+								</TableBody>
+							</Table>
 						</div>
 					</CardContent>
 				</Card>
