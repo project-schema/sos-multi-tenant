@@ -11,10 +11,15 @@ export const metadata: Metadata = {
 	title: 'Service - SOS',
 	description: 'Service - SOS Management',
 };
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({
+	params,
+}: {
+	params: Promise<{ id: string }>;
+}) {
+	const { id } = await params;
 	const [settings, details] = await Promise.all([
 		getApiData<iSettingsType>('/settings'),
-		getApiData<any>(`/services-view/${params.id}`),
+		getApiData<any>(`/services-view/${id}`),
 	]);
 
 	if (settings?.status !== 200 || !details || details?.status !== 200) {

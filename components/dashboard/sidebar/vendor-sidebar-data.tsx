@@ -2,7 +2,7 @@
 
 import {
 	BarChart3,
-	CreditCard,
+	Crown,
 	DraftingCompass,
 	Headset,
 	LandPlot,
@@ -17,8 +17,8 @@ import {
 	ShoppingCart,
 	Store,
 	Trash2,
-	UserCheck,
 	Users,
+	Wallet,
 } from 'lucide-react';
 
 import { sidebarItem } from './sidebar.type';
@@ -193,7 +193,7 @@ const settings: sidebarItem[] = [
 	},
 	{
 		title: 'Membership',
-		icon: UserCheck,
+		icon: Crown,
 		isActive: false,
 		url: '/membership',
 	},
@@ -254,20 +254,20 @@ const settings: sidebarItem[] = [
 	},
 	{
 		title: 'Balance',
-		icon: CreditCard,
+		icon: Wallet,
 		isActive: false,
 		items: [
 			{
 				title: 'Recharge',
-				url: '/recharge',
+				url: '/balance/recharge',
 			},
 			{
 				title: 'History',
-				url: '/history',
+				url: '/balance/history',
 			},
 			{
 				title: 'Withdraw',
-				url: '/withdraw',
+				url: '/balance/withdraw',
 			},
 		],
 	},

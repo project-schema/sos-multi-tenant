@@ -134,7 +134,7 @@ export function TenantUserLogin({ settings }: { settings?: iSettingsType }) {
 								<div className={style.goRegister}>
 									<p>
 										New here?{' '}
-										<Link className={style.loginGoRLink} href="/register">
+										<Link className={style.loginGoRLink} href="register">
 											Register now
 										</Link>
 									</p>

@@ -11,10 +11,11 @@ export default function PageClient() {
 	switch (tab) {
 		case 'register':
 			return <TenantsRegisterForm />;
+
 		case 'login':
 			return <AuthLogin />;
 
 		default:
-			break;
+			return <AuthLogin />;
 	}
 }

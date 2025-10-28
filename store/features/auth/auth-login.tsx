@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { signIn } from 'next-auth/react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useAdminLoginMutation } from './auth-api-slice';
@@ -71,6 +72,7 @@ export const AuthLogin = () => {
 				console.log(signInResult);
 				if (signInResult?.ok) {
 					toast.success('Login successful!');
+					router.push('/');
 				} else {
 					toast.error('Authentication failed. Please try again.');
 				}
@@ -83,47 +85,58 @@ export const AuthLogin = () => {
 	};
 
 	return (
-		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-				{/* Company Name */}
-				<FormField
-					control={form.control}
-					name="email"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Email</FormLabel>
-							<FormControl>
-								<Input {...field} placeholder="Enter email..." />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-
-				{/* Password */}
-				<FormField
-					control={form.control}
-					name="password"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Password</FormLabel>
-							<FormControl>
-								<Input {...field} placeholder="Enter password..." />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-
-				<DialogFooter>
-					<Button type="submit" disabled={isLoading}>
-						{isLoading && (
-							<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+		<div>
+			<Form {...form}>
+				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+					{/* Company Name */}
+					<FormField
+						control={form.control}
+						name="email"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Email</FormLabel>
+								<FormControl>
+									<Input {...field} placeholder="Enter email..." />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
 						)}
-						{isLoading ? 'Logging in...' : 'Login'}
-					</Button>
-				</DialogFooter>
-			</form>
-		</Form>
+					/>
+
+					{/* Password */}
+					<FormField
+						control={form.control}
+						name="password"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Password</FormLabel>
+								<FormControl>
+									<Input {...field} placeholder="Enter password..." />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<DialogFooter>
+						<Button type="submit" disabled={isLoading}>
+							{isLoading && (
+								<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+							)}
+							{isLoading ? 'Logging in...' : 'Login'}
+						</Button>
+					</DialogFooter>
+				</form>
+			</Form>
+
+			<div>
+				<p>
+					New here?{' '}
+					<Link className="text-blue-500" href="/auth?tab=register">
+						Register now
+					</Link>
+				</p>
+			</div>
+		</div>
 	);
 };

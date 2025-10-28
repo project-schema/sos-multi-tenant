@@ -1,6 +1,17 @@
 'use client';
 
-import { Headset, Package, PackageCheck } from 'lucide-react';
+import {
+	Crown,
+	DraftingCompass,
+	Headset,
+	Megaphone,
+	MessageSquare,
+	Package,
+	PackageCheck,
+	Percent,
+	ShoppingCart,
+	Wallet,
+} from 'lucide-react';
 
 import { sidebarItem } from './sidebar.type';
 
@@ -11,36 +22,36 @@ const products: sidebarItem[] = [
 		isActive: false,
 		items: [
 			{
-				title: 'Merchant Products',
-				url: '/merchant-products/all',
+				title: 'Dropshipper Products',
+				url: '/dropshipper-products/all',
 			},
 			{
 				title: 'Active Products',
-				url: '/merchant-products/active',
+				url: '/dropshipper-products/active',
 			},
 			{
 				title: 'Pending Products',
-				url: '/merchant-products/pending',
+				url: '/dropshipper-products/pending',
 			},
 			{
 				title: 'Rejected Products',
-				url: '/merchant-products/rejected',
+				url: '/dropshipper-products/rejected',
 			},
 			{
 				title: 'Expired Products',
-				url: '/merchant-products/expired',
+				url: '/dropshipper-products/expired',
 			},
 		],
 	},
 	{
 		title: 'Cart',
 		url: '/cart',
-		icon: Package,
+		icon: ShoppingCart,
 		isActive: false,
 	},
 	{
 		title: 'Products Orders',
-		url: '/merchant-orders',
+		url: '/dropshipper-orders',
 		icon: PackageCheck,
 		isActive: false,
 	},
@@ -49,33 +60,33 @@ const products: sidebarItem[] = [
 const settings: sidebarItem[] = [
 	{
 		title: 'Coupons',
-		icon: Package,
+		icon: Percent,
 		isActive: false,
-		url: '/merchant-coupon',
+		url: '/coupon',
 	},
 	{
 		title: 'Membership',
-		icon: Package,
+		icon: Crown,
 		isActive: false,
-		url: '/merchant-membership',
+		url: '/membership',
 	},
 
 	{
 		title: 'Balance',
-		icon: Headset,
+		icon: Wallet,
 		isActive: false,
 		items: [
 			{
 				title: 'Recharge',
-				url: '/merchant-balance/recharge',
+				url: '/balance/recharge',
 			},
 			{
 				title: 'History',
-				url: '/merchant-balance',
+				url: '/balance/history',
 			},
 			{
 				title: 'Withdraw',
-				url: '/merchant-balance/withdraw',
+				url: '/balance/withdraw',
 			},
 		],
 	},
@@ -84,31 +95,31 @@ const settings: sidebarItem[] = [
 const servicesAndAdvertise: sidebarItem[] = [
 	{
 		title: 'Manage Services',
-		icon: Package,
+		icon: DraftingCompass,
 		isActive: false,
 		items: [
 			{
 				title: 'Create Service',
-				url: '/my-service/create',
+				url: '/service/create',
 			},
 			{
 				title: 'Services',
-				url: '/my-service',
+				url: '/service',
 			},
 			{
 				title: 'Service Order',
-				url: '/my-service/order',
+				url: '/service/order',
 			},
 			{
 				title: 'Purchase Service',
-				url: '/my-service/purchase',
+				url: '/service/purchase',
 			},
 		],
 	},
 	{
 		title: 'Advertise',
-		url: '/merchant-advertise',
-		icon: Package,
+		url: '/advertise',
+		icon: Megaphone,
 		isActive: false,
 	},
 ];
@@ -121,19 +132,19 @@ const support: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Support',
-				url: '/merchant-support/create',
+				url: '/support/create',
 			},
 			{
 				title: 'All Supports',
-				url: '/merchant-support',
+				url: '/support',
 			},
 		],
 	},
 	{
 		title: 'Customer Chat',
-		icon: Headset,
+		icon: MessageSquare,
 		isActive: false,
-		url: '/merchant-support/customer-chat',
+		url: '/customer-chat',
 	},
 ];
 

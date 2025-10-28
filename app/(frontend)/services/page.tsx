@@ -19,15 +19,20 @@ type ServicesSearchParams = {
 export default async function Page({
 	searchParams,
 }: {
-	searchParams: ServicesSearchParams;
+	searchParams: Promise<ServicesSearchParams>;
 }) {
+	const resolvedSearchParams = await searchParams;
 	const params = new URLSearchParams();
-	if (searchParams?.page) params.set('page', String(searchParams.page));
-	if (searchParams?.category_id)
-		params.set('category_id', String(searchParams.category_id));
-	if (searchParams?.type) params.set('type', String(searchParams.type));
-	if (searchParams?.search) params.set('search', String(searchParams.search));
-	if (searchParams?.tags) params.set('tags', String(searchParams.tags));
+	if (resolvedSearchParams?.page)
+		params.set('page', String(resolvedSearchParams.page));
+	if (resolvedSearchParams?.category_id)
+		params.set('category_id', String(resolvedSearchParams.category_id));
+	if (resolvedSearchParams?.type)
+		params.set('type', String(resolvedSearchParams.type));
+	if (resolvedSearchParams?.search)
+		params.set('search', String(resolvedSearchParams.search));
+	if (resolvedSearchParams?.tags)
+		params.set('tags', String(resolvedSearchParams.tags));
 
 	const queryString = params.toString();
 
@@ -54,11 +59,11 @@ export default async function Page({
 				services={services}
 				categories={categories?.message || []}
 				current={{
-					page: searchParams?.page || '',
-					category_id: searchParams?.category_id || '',
-					type: (searchParams?.type as any) || '',
-					search: searchParams?.search || '',
-					tags: searchParams?.tags || '',
+					page: resolvedSearchParams?.page || '',
+					category_id: resolvedSearchParams?.category_id || '',
+					type: (resolvedSearchParams?.type as any) || '',
+					search: resolvedSearchParams?.search || '',
+					tags: resolvedSearchParams?.tags || '',
 				}}
 			/>
 		</>

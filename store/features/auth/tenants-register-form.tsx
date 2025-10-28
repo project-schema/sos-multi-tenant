@@ -17,6 +17,13 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select';
 import { alertConfirm } from '@/lib';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -29,6 +36,7 @@ export const schema = z
 		domain: z.string().min(1, 'Domain is required'),
 		email: z.email('Invalid email address'),
 		owner_name: z.string().min(1, 'Owner name is required'),
+		type: z.enum(['merchant', 'dropshipper']),
 		password: z.string().min(1, 'Password is required'),
 		password_confirmation: z
 			.string()
@@ -52,6 +60,7 @@ export const TenantsRegisterForm = () => {
 			domain: '',
 			email: '',
 			owner_name: '',
+			type: 'merchant',
 			password: '',
 			password_confirmation: '',
 		},
@@ -95,6 +104,31 @@ export const TenantsRegisterForm = () => {
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+				{/* Type */}
+				<FormField
+					control={form.control}
+					name="type"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>User Type</FormLabel>
+							<FormControl>
+								<Select
+									onValueChange={field.onChange}
+									defaultValue={field.value}
+								>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="Select type" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="merchant">Merchant</SelectItem>
+										<SelectItem value="dropshipper">Dropshipper</SelectItem>
+									</SelectContent>
+								</Select>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 				{/* Company Name */}
 				<FormField
 					control={form.control}
