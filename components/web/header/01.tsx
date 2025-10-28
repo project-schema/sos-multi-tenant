@@ -1,6 +1,14 @@
 'use client';
 
-import { ChevronDown, Heart, Search, ShoppingCart, User } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import {
+	ChevronDown,
+	Heart,
+	Menu,
+	Search,
+	ShoppingCart,
+	User,
+} from 'lucide-react';
 import Link from 'next/link';
 
 export default function Header01() {
@@ -23,7 +31,7 @@ export default function Header01() {
 						</div>
 
 						{/* Search Bar */}
-						<div className="flex-1 max-w-lg mx-8">
+						<div className="flex-1 max-w-lg mx-8 hidden md:block">
 							<div className="relative">
 								<input
 									type="text"
@@ -37,7 +45,7 @@ export default function Header01() {
 						</div>
 
 						{/* Right Side Actions */}
-						<div className="flex items-center space-x-6">
+						<div className="  items-center space-x-6 hidden md:flex">
 							{/* Wishlist */}
 							<div className="flex items-center space-x-2">
 								<div className="relative">
@@ -84,15 +92,20 @@ export default function Header01() {
 								</div>
 							</div>
 						</div>
+						<div className="md:hidden">
+							<Button variant="ghost" size="icon">
+								<Menu className="w-4 h-4" />
+							</Button>
+						</div>
 					</div>
 				</div>
 			</div>
 
 			{/* Navigation Bar */}
-			<div className="bg-black">
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<nav className="flex items-center justify-center h-12">
-						<ul className="flex items-center space-x-8">
+			<div className="bg-black md:block hidden">
+				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+					<nav className="flex items-center justify-center">
+						<ul className="flex items-center space-x-8 whitespace-nowrap flex-wrap">
 							<li>
 								<Link
 									href="/category/t-shirts"

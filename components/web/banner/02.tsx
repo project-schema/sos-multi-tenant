@@ -68,18 +68,6 @@ export default function Banner02() {
 		setActiveIndex(swiper.realIndex);
 	};
 
-	const goToNext = () => {
-		if (swiperRef.current) {
-			swiperRef.current.slideNext();
-		}
-	};
-
-	const goToPrev = () => {
-		if (swiperRef.current) {
-			swiperRef.current.slidePrev();
-		}
-	};
-
 	return (
 		<div className="relative w-full max-h-[700px] overflow-hidden bg-gray-100">
 			<Swiper
@@ -117,7 +105,6 @@ export default function Banner02() {
 
 			{/* Navigation Arrows */}
 			<button
-				onClick={goToPrev}
 				className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 w-10 h-10 bg-white bg-opacity-80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-800 hover:bg-opacity-100 hover:scale-110 transition-all duration-300 shadow-lg"
 				aria-label="Previous slide"
 			>
@@ -125,7 +112,6 @@ export default function Banner02() {
 			</button>
 
 			<button
-				onClick={goToNext}
 				className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 w-10 h-10 bg-white bg-opacity-80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-800 hover:bg-opacity-100 hover:scale-110 transition-all duration-300 shadow-lg"
 				aria-label="Next slide"
 			>

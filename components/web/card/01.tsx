@@ -37,7 +37,7 @@ const defaultProduct: ProductCardProps = {
 	isOnSale: true,
 	colors: ['#3B82F6', '#EF4444', '#10B981', '#F59E0B'],
 	sizes: ['S', 'M', 'L', 'XL'],
-	href: '/my-site/shop/koti-collection',
+	href: '/shop/koti-collection',
 };
 
 export default function Card01({
@@ -164,7 +164,7 @@ export default function Card01({
 				{/* Title & Subtitle */}
 				<div>
 					<Link
-						href={product.href || `/my-site/shop/${product.id}`}
+						href={product.href || `/shop/${product.id}`}
 						className="block group-hover:text-blue-600 transition-colors duration-200"
 					>
 						<h3 className="font-semibold text-gray-900 text-sm line-clamp-1">
@@ -190,7 +190,7 @@ export default function Card01({
 				{/* Add to Cart Button */}
 				<button className="w-full bg-black text-white py-2 px-4 rounded-md font-medium hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center space-x-2 group/btn">
 					<ShoppingCart className="w-4 h-4 group-hover/btn:scale-110 transition-transform duration-200" />
-					<span>Order Now</span>
+					<span className="hidden md:block">Order Now</span>
 				</button>
 			</div>
 		</div>

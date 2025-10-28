@@ -42,7 +42,7 @@ export default function Card03({
 
 					{/* bottom centered label */}
 					<div className="absolute bottom-3 left-1/2 -translate-x-1/2">
-						<span className="px-4 py-2 rounded-md bg-white text-gray-900 text-sm font-semibold shadow-sm group-hover:bg-black group-hover:text-white transition-colors">
+						<span className="whitespace-nowrap px-4 py-2 rounded-md bg-white text-gray-900 text-sm font-semibold shadow-sm group-hover:bg-black group-hover:text-white transition-colors">
 							{title}
 						</span>
 					</div>
