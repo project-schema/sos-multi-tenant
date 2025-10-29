@@ -33,7 +33,7 @@ const api = apiSlice.injectEndpoints({
 				start_stock = '',
 				end_stock = '',
 				start_price = '',
-				end_price = '',
+				// end_price = '',
 				start_commission = '',
 				end_commission = '',
 				rating = '',
@@ -41,7 +41,7 @@ const api = apiSlice.injectEndpoints({
 				top_sale = '',
 				high_to_low = '',
 			}) => ({
-				url: `/dropshipper/products?page=${page}&search=${search}&low_to_high=${low_to_high}&category_id=${category_id}&start_stock=${start_stock}&end_stock=${end_stock}&start_price=${start_price}&end_price=${end_price}&start_commission=${start_commission}&end_commission=${end_commission}&rating=${rating}&warranty=${warranty}&top_sale=${top_sale}&high_to_low=${high_to_low}`,
+				url: `/tenant-dropshipper/products?page=${page}&search=${search}&low_to_high=${low_to_high}&category_id=${category_id}&start_stock=${start_stock}&end_stock=${end_stock}&start_price=${start_price}&start_commission=${start_commission}&end_commission=${end_commission}&rating=${rating}&warranty=${warranty}&top_sale=${top_sale}&high_to_low=${high_to_low}`,
 				method: 'GET',
 			}),
 			providesTags: ['DropShipperProduct'],

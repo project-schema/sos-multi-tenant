@@ -72,7 +72,7 @@ export const AuthLogin = () => {
 				console.log(signInResult);
 				if (signInResult?.ok) {
 					toast.success('Login successful!');
-					router.push('/');
+					router.push('/dashboard');
 				} else {
 					toast.error('Authentication failed. Please try again.');
 				}

@@ -31,35 +31,35 @@ const products: sidebarItem[] = [
 		items: [
 			{
 				title: 'Category',
-				url: '/category',
+				url: '/dashboard/category',
 			},
 			{
 				title: 'Sub Category',
-				url: '/sub-category',
+				url: '/dashboard/sub-category',
 			},
 			{
 				title: 'Brand',
-				url: '/brand',
+				url: '/dashboard/brand',
 			},
 			{
 				title: 'Unit',
-				url: '/unit',
+				url: '/dashboard/unit',
 			},
 			{
 				title: 'Color',
-				url: '/color',
+				url: '/dashboard/color',
 			},
 			{
 				title: 'Variation',
-				url: '/variation',
+				url: '/dashboard/variation',
 			},
 			{
 				title: 'Supplier',
-				url: '/supplier',
+				url: '/dashboard/supplier',
 			},
 			{
 				title: 'Warehouse',
-				url: '/warehouse',
+				url: '/dashboard/warehouse',
 			},
 		],
 	},
@@ -70,23 +70,23 @@ const products: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Product',
-				url: '/product/create',
+				url: '/dashboard/product/create',
 			},
 			{
 				title: 'All Products',
-				url: '/product',
+				url: '/dashboard/product',
 			},
 		],
 	},
 	{
 		title: 'Products Orders',
-		url: '/product-order',
+		url: '/dashboard/product-order',
 		icon: ShoppingBag,
 		isActive: false,
 	},
 	{
 		title: 'Dropshipper Requests',
-		url: '/dropshipper-request',
+		url: '/dashboard/dropshipper-request',
 		icon: PackageOpen,
 		isActive: false,
 	},
@@ -100,23 +100,23 @@ const pos: sidebarItem[] = [
 		items: [
 			{
 				title: 'POS Customer',
-				url: '/customer',
+				url: '/dashboard/customer',
 			},
 			{
 				title: 'POS Sales',
-				url: '/pos-sales/create',
+				url: '/dashboard/pos-sales/create',
 			},
 			{
 				title: 'POS Orders',
-				url: '/pos-sales',
+				url: '/dashboard/pos-sales',
 			},
 			{
 				title: 'POS Payment History',
-				url: '/pos-sales/payment-history',
+				url: '/dashboard/pos-sales/payment-history',
 			},
 			{
 				title: 'POS Sales Return',
-				url: '/pos-sales/return',
+				url: '/dashboard/pos-sales/return',
 			},
 		],
 	},
@@ -127,19 +127,19 @@ const pos: sidebarItem[] = [
 		items: [
 			{
 				title: 'New Purchase',
-				url: '/purchase/create',
+				url: '/dashboard/purchase/create',
 			},
 			{
 				title: 'All Purchases',
-				url: '/purchase',
+				url: '/dashboard/purchase',
 			},
 			{
 				title: 'Payment History',
-				url: '/purchase/payment-history',
+				url: '/dashboard/purchase/payment-history',
 			},
 			{
 				title: 'Purchase Return',
-				url: '/purchase/return',
+				url: '/dashboard/purchase/return',
 			},
 		],
 	},
@@ -150,11 +150,11 @@ const pos: sidebarItem[] = [
 		items: [
 			{
 				title: 'Barcode Generator',
-				url: '/barcode/generator',
+				url: '/dashboard/barcode/generator',
 			},
 			{
 				title: 'Manage Barcode',
-				url: '/barcode/manage',
+				url: '/dashboard/barcode/manage',
 			},
 		],
 	},
@@ -166,19 +166,19 @@ const pos: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Damage',
-				url: '/damage-products/create',
+				url: '/dashboard/damage-products/create',
 			},
 			{
 				title: 'All Damage',
-				url: '/damage-products',
+				url: '/dashboard/damage-products',
 			},
 			{
 				title: 'Create Wastage',
-				url: '/wastage-products/create',
+				url: '/dashboard/wastage-products/create',
 			},
 			{
 				title: 'All Wastage',
-				url: '/wastage-products',
+				url: '/dashboard/wastage-products',
 			},
 		],
 	},
@@ -189,13 +189,13 @@ const settings: sidebarItem[] = [
 		title: 'Coupons',
 		icon: Percent,
 		isActive: false,
-		url: '/coupon',
+		url: '/dashboard/coupon',
 	},
 	{
 		title: 'Membership',
 		icon: Crown,
 		isActive: false,
-		url: '/membership',
+		url: '/dashboard/membership',
 	},
 	{
 		title: 'Settings',
@@ -204,36 +204,36 @@ const settings: sidebarItem[] = [
 		items: [
 			{
 				title: 'Order Source',
-				url: '/order-source',
+				url: '/dashboard/order-source',
 			},
 			{
 				title: 'Courier Company',
-				url: '/courier-company',
+				url: '/dashboard/courier-company',
 			},
 			{
 				title: 'Pickup Area',
-				url: '/pickup-area',
+				url: '/dashboard/pickup-area',
 			},
 			{
 				title: 'Delivery Area',
-				url: '/delivery-area',
+				url: '/dashboard/delivery-area',
 			},
 			{
 				title: 'Delivery Charge',
-				url: '/delivery-charge',
+				url: '/dashboard/delivery-charge',
 			},
 			{
 				title: 'Woo Commerce',
-				url: '/woo-commerce',
+				url: '/dashboard/woo-commerce',
 			},
 
 			{
 				title: 'Payment Methods',
-				url: '/payment-methods',
+				url: '/dashboard/payment-methods',
 			},
 			// {
 			// 	title: 'Invoice Generate',
-			// 	url: '/invoice-generate',
+			// 	url: '/dashboard/invoice-generate',
 			// },
 		],
 	},
@@ -244,11 +244,11 @@ const settings: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Employee',
-				url: '/create-employee',
+				url: '/dashboard/create-employee',
 			},
 			{
 				title: 'Manage Employee',
-				url: '/manage-employee',
+				url: '/dashboard/manage-employee',
 			},
 		],
 	},
@@ -259,15 +259,15 @@ const settings: sidebarItem[] = [
 		items: [
 			{
 				title: 'Recharge',
-				url: '/balance/recharge',
+				url: '/dashboard/balance/recharge',
 			},
 			{
 				title: 'History',
-				url: '/balance/history',
+				url: '/dashboard/balance/history',
 			},
 			{
 				title: 'Withdraw',
-				url: '/balance/withdraw',
+				url: '/dashboard/balance/withdraw',
 			},
 		],
 	},
@@ -281,35 +281,35 @@ const reports: sidebarItem[] = [
 		items: [
 			{
 				title: 'Stock Report',
-				url: '/report?type=stock',
+				url: '/dashboard/report?type=stock',
 			},
 			{
 				title: 'Sales Report',
-				url: '/report?type=sales',
+				url: '/dashboard/report?type=sales',
 			},
 			{
 				title: 'Due Sales Report',
-				url: '/report?type=due-sales',
+				url: '/dashboard/report?type=due-sales',
 			},
 			{
 				title: 'Purchase Report',
-				url: '/report?type=purchase',
+				url: '/dashboard/report?type=purchase',
 			},
 			{
 				title: 'Warehouse Report',
-				url: '/report?type=warehouse',
+				url: '/dashboard/report?type=warehouse',
 			},
 			{
 				title: 'Stock Shortage Report',
-				url: '/report?type=stock-shortage',
+				url: '/dashboard/report?type=stock-shortage',
 			},
 			{
 				title: 'Top Repeat Customers',
-				url: '/report?type=top-repeat-customers',
+				url: '/dashboard/report?type=top-repeat-customers',
 			},
 			{
 				title: 'Daily Sales Report',
-				url: '/report?type=daily-sales',
+				url: '/dashboard/report?type=daily-sales',
 			},
 		],
 	},
@@ -323,19 +323,19 @@ const servicesAndAdvertise: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Service',
-				url: '/services/create',
+				url: '/dashboard/services/create',
 			},
 			{
 				title: 'Services',
-				url: '/services',
+				url: '/dashboard/services',
 			},
 			{
 				title: 'Service Order',
-				url: '/services/order',
+				url: '/dashboard/services/order',
 			},
 			{
 				title: 'Purchase Service',
-				url: '/services/purchase',
+				url: '/dashboard/services/purchase',
 			},
 		],
 	},
@@ -346,11 +346,11 @@ const servicesAndAdvertise: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Advertise',
-				url: '/advertise/create',
+				url: '/dashboard/advertise/create',
 			},
 			{
 				title: 'All Advertise',
-				url: '/advertise',
+				url: '/dashboard/advertise',
 			},
 		],
 	},
@@ -364,11 +364,11 @@ const support: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Support',
-				url: '/support/create',
+				url: '/dashboard/support/create',
 			},
 			{
 				title: 'All Supports',
-				url: '/support',
+				url: '/dashboard/support',
 			},
 		],
 	},
@@ -376,7 +376,7 @@ const support: sidebarItem[] = [
 		title: 'Customer Chat',
 		icon: MessageSquare,
 		isActive: false,
-		url: '/customer-chat',
+		url: '/dashboard/customer-chat',
 	},
 ];
 

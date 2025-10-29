@@ -52,7 +52,7 @@ export function TenantUserLogin({ settings }: { settings?: iSettingsType }) {
 				if (signInResult?.ok) {
 					toast.success('Login successful!');
 					reset();
-					router.push('/');
+					router.push('/dashboard');
 				} else {
 					toast.error('Authentication failed. Please try again.');
 				}

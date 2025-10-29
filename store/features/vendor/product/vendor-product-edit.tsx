@@ -217,7 +217,7 @@ export const VendorProductEdit = ({
 					if (response.status === 200) {
 						toast.success(response.message || 'Update successfully');
 						form.reset();
-						router.push(`/product`);
+						router.push(`/dashboard/product`);
 					} else {
 						if (response?.status === 400) {
 							handleValidationError(response, form.setError);

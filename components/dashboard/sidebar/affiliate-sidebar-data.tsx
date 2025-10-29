@@ -23,23 +23,23 @@ const products: sidebarItem[] = [
 		items: [
 			{
 				title: 'Dropshipper Products',
-				url: '/dropshipper-products/all',
+				url: '/dashboard/dropshipper-products/all',
 			},
 			{
 				title: 'Active Products',
-				url: '/dropshipper-products/active',
+				url: '/dashboard/dropshipper-products/active',
 			},
 			{
 				title: 'Pending Products',
-				url: '/dropshipper-products/pending',
+				url: '/dashboard/dropshipper-products/pending',
 			},
 			{
 				title: 'Rejected Products',
-				url: '/dropshipper-products/rejected',
+				url: '/dashboard/dropshipper-products/rejected',
 			},
 			{
 				title: 'Expired Products',
-				url: '/dropshipper-products/expired',
+				url: '/dashboard/dropshipper-products/expired',
 			},
 		],
 	},

@@ -104,7 +104,7 @@ export function VendorWastageProductsCreateTable({
 					if (response.status === 200) {
 						toast.success(response.message || 'Return submitted successfully');
 						form.reset();
-						router.push(`/wastage-products`);
+						router.push(`/dashboard/wastage-products`);
 					} else {
 						toast.error(response.message || 'Failed to submit return');
 					}

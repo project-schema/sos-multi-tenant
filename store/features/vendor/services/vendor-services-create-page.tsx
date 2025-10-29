@@ -225,7 +225,7 @@ export function VendorServicesCreate() {
 					if (response.status === 200) {
 						toast.success(response.message || 'Service created successfully');
 						form.reset();
-						router.push(`/services`);
+						router.push(`/dashboard/services`);
 					} else {
 						if (response.status === 400) {
 							handleValidationError(response as any, form.setError);

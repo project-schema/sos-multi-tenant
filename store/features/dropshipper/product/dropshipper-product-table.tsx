@@ -16,7 +16,6 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
@@ -74,7 +73,9 @@ export function DropShipperProductTable({
 							</TableCell>
 							<TableCell className="font-medium py-4">#{item.uniqid}</TableCell>
 							<TableCell className="py-2">
-								<Link href={`/product/view/${item.id}`}>
+								<Link
+									href={`/dashboard/dropshipper-products/${item.id}/request`}
+								>
 									<Avatar className="h-12 w-12 rounded-xl">
 										<AvatarImage
 											src={env.baseAPI + '/' + item.image}
@@ -89,7 +90,7 @@ export function DropShipperProductTable({
 							<TableCell className="py-2">
 								<Link
 									className="hover:underline hover:text-blue-500 transition"
-									href={`/product/view/${item.id}`}
+									href={`/dashboard/dropshipper-products/${item.id}/request`}
 								>
 									{textCount(item.name, 15)}
 								</Link>
@@ -138,7 +139,7 @@ export function DropShipperProductTable({
 										<DropdownMenuItem>
 											<Link
 												className="flex items-center gap-2 w-full"
-												href={`/product/view/${item.id}`}
+												href={`/dashboard/dropshipper-products/${item.id}/request`}
 											>
 												<ExternalLink className="size-4" />
 												<span>View Product</span>
@@ -151,7 +152,7 @@ export function DropShipperProductTable({
 
 										{/* <AdminProductRejectModal data={item} /> */}
 
-										<DropdownMenuSeparator />
+										{/* <DropdownMenuSeparator /> */}
 
 										{/* Delete Product  */}
 										{/* <MerchantProductDelete data={item} /> */}

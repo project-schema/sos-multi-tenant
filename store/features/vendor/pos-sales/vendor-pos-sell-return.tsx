@@ -126,7 +126,7 @@ export function VendorPOSalesSellReturn({
 					if (response.status === 200) {
 						toast.success(response.message || 'Return submitted successfully');
 						form.reset();
-						router.push(`/pos-sales`);
+						router.push(`/dashboard/pos-sales`);
 					} else {
 						toast.error(response.message || 'Failed to submit return');
 					}

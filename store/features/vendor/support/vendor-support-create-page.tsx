@@ -112,7 +112,7 @@ export function VendorSupportCreatePage() {
 					if (response.status === 200) {
 						toast.success(response.message || 'Created successfully');
 						form.reset();
-						router.push('/support');
+						router.push('/dashboard/support');
 					}
 				} catch (error: any) {
 					toast.error(error?.data?.message || 'Something went wrong');

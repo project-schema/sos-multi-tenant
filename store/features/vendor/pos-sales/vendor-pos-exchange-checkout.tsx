@@ -127,7 +127,7 @@ export function VendorPosExchangeCheckout({
 			if (result.status === 200) {
 				toast.success(result.message || 'Sale completed successfully');
 				resetPosSales();
-				router.push(`/pos-sales`);
+				router.push(`/dashboard/pos-sales`);
 				onClose();
 			} else if (result.status === 400 && result?.errors) {
 				const errorMessages = Object.values(result?.errors).flat().join('\n• ');

@@ -73,7 +73,7 @@ export function VendorDamageProductsCreatePage() {
 					if (response.status === 200) {
 						toast.success(response.message || 'Created successfully');
 						clearCart();
-						router.push('/damage-products');
+						router.push('/dashboard/damage-products');
 					} else {
 						const errorResponse = response as any;
 						if (

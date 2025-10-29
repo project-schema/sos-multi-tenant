@@ -131,7 +131,7 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 			if (result.status === 200) {
 				toast.success(result.message || 'Sale completed successfully');
 				resetPosSales();
-				router.push(`/pos-sales/${result?.sale_id}/view`);
+				router.push(`/dashboard/pos-sales/${result?.sale_id}/view`);
 				onClose();
 			} else if (result.status === 400 && result?.errors) {
 				const errorMessages = Object.values(result?.errors).flat().join('\n• ');
