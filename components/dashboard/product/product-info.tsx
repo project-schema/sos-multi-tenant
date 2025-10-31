@@ -12,7 +12,7 @@ export const ProductInfo = ({
 		<div className="space-y-8">
 			<div>
 				<h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
-					{product.name}
+					{product?.name}
 				</h1>
 				<div className="flex items-center space-x-2">
 					<div className="flex">
@@ -25,23 +25,23 @@ export const ProductInfo = ({
 						))}
 					</div>
 					<span className="text-sm text-gray-500">
-						({product.productrating_avg_rating || '4.5'} /{' '}
-						{product.productrating.length || '0'} reviews)
+						({product?.productrating_avg_rating || '4.5'} /{' '}
+						{product?.productrating?.length || '0'} reviews)
 					</span>
 				</div>
 			</div>
 
 			<div className="flex items-center gap-4">
-				<p className="text-2xl font-semibold">৳ {product.selling_price}</p>
-				{product.discount_price && (
+				<p className="text-2xl font-semibold">৳ {product?.selling_price}</p>
+				{product?.discount_price && (
 					<p className="text-lg line-through text-gray-500">
-						৳ {product.original_price}
+						৳ {product?.original_price}
 					</p>
 				)}
 			</div>
 
 			<p className="text-gray-700 text-lg leading-relaxed">
-				{product.short_description || 'No description available'}
+				{product?.short_description || 'No description available'}
 			</p>
 
 			<ProductVariants product={product} />

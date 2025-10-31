@@ -15,12 +15,12 @@ export const ProductImages = ({
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	const images =
-		product.product_image.length > 0
-			? product.product_image
+		product?.product_image?.length > 0
+			? product?.product_image
 			: [
 					{
 						id: 0,
-						image: product.image,
+						image: product?.image,
 						created_at: '',
 						updated_at: '',
 						deleted_at: null,

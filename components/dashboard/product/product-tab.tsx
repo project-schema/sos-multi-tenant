@@ -26,24 +26,24 @@ export const ProductTabs = ({
 					<div
 						className="text-gray-700"
 						dangerouslySetInnerHTML={{
-							__html: product.long_description || 'No details available',
+							__html: product?.long_description || 'No details available',
 						}}
 					/>
 				</TabsContent>
 
 				<TabsContent value="specs" className="mt-4">
-					{product.specifications ? (
+					{product?.specifications ? (
 						<table className="w-full text-left">
 							<tbody>
-								{product.specifications.map(
+								{product?.specifications?.map(
 									(spec, index) =>
 										spec.specification && (
 											<tr key={index} className="border-b">
 												<th className="py-2 pr-4 font-semibold">
-													{spec.specification}
+													{spec?.specification}
 												</th>
 												<td className="py-2">
-													{spec.specification_ans || '-'}
+													{spec?.specification_ans || '-'}
 												</td>
 											</tr>
 										)
@@ -56,9 +56,9 @@ export const ProductTabs = ({
 				</TabsContent>
 
 				<TabsContent value="reviews" className="mt-4">
-					{product.productrating.length > 0 ? (
+					{product?.productrating?.length > 0 ? (
 						<div className="space-y-4">
-							{product.productrating.map((review) => (
+							{product?.productrating?.map((review) => (
 								<div key={review.id} className="flex items-center space-x-4">
 									{/* Render reviews here */}
 								</div>

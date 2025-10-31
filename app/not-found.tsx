@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Ghost } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function NotFound() {
+	const router = useRouter();
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-background px-4">
 			<Card className="w-full max-w-md text-center shadow-lg">
@@ -19,9 +21,14 @@ export default function NotFound() {
 					<p className="text-muted-foreground">
 						Sorry, the page you're looking for doesn't exist or has been moved.
 					</p>
-					<Link href="/">
-						<Button variant="default">Go Home</Button>
-					</Link>
+					<div className="flex justify-center gap-2">
+						<Button onClick={() => router.back()} variant="outline">
+							Back
+						</Button>
+						<Link href="/">
+							<Button variant="default">Go Home</Button>
+						</Link>
+					</div>
 				</CardContent>
 			</Card>
 		</div>

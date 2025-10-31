@@ -74,7 +74,7 @@ export function DropShipperProductTable({
 							<TableCell className="font-medium py-4">#{item.uniqid}</TableCell>
 							<TableCell className="py-2">
 								<Link
-									href={`/dashboard/dropshipper-products/${item.id}/request`}
+									href={`/dashboard/dropshipper-products/request/${item?.tenant_id}/${item.id}`}
 								>
 									<Avatar className="h-12 w-12 rounded-xl">
 										<AvatarImage
@@ -90,7 +90,7 @@ export function DropShipperProductTable({
 							<TableCell className="py-2">
 								<Link
 									className="hover:underline hover:text-blue-500 transition"
-									href={`/dashboard/dropshipper-products/${item.id}/request`}
+									href={`/dashboard/dropshipper-products/request/${item.tenant_id}/${item.id}`}
 								>
 									{textCount(item.name, 15)}
 								</Link>
@@ -139,7 +139,7 @@ export function DropShipperProductTable({
 										<DropdownMenuItem>
 											<Link
 												className="flex items-center gap-2 w-full"
-												href={`/dashboard/dropshipper-products/${item.id}/request`}
+												href={`/dashboard/dropshipper-products/request/${item.tenant_id}/${item.id}`}
 											>
 												<ExternalLink className="size-4" />
 												<span>View Product</span>

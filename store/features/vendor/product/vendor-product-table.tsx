@@ -71,7 +71,17 @@ export function VendorProductTable({
 							<TableCell className="py-2 pl-4">
 								{tableSrCount(data.current_page, i)}
 							</TableCell>
-							<TableCell className="font-medium py-4">#{item.uniqid}</TableCell>
+							<TableCell className="font-medium py-4 relative">
+								{item.is_affiliate === 1 && (
+									<Badge
+										className="absolute top-2 left-0 text-xs text-blue-500"
+										variant="text"
+									>
+										AFFILIATE
+									</Badge>
+								)}
+								<span>#{item.uniqid}</span>
+							</TableCell>
 							<TableCell className="py-2">
 								<Link href={`/product/${item.id}/view`}>
 									<Avatar className="h-12 w-12 rounded-xl">

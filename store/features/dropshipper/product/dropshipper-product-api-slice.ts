@@ -1,3 +1,4 @@
+import { iCompleteMerchantProduct } from '../../admin/merchant-product';
 import { apiSlice } from '../../api/apiSlice';
 import { iDropShipperProductResponse } from './dropshipper-product-type';
 
@@ -46,7 +47,37 @@ const api = apiSlice.injectEndpoints({
 			}),
 			providesTags: ['DropShipperProduct'],
 		}),
+
+		// /single/product/{tenant_id}/{id}
+
+		SingleProduct: builder.query<
+			{ product: iCompleteMerchantProduct },
+			{ tenantId: string; productId: string }
+		>({
+			query: ({ tenantId, productId }) => ({
+				url: `/tenant-dropshipper/single/product/${tenantId}/${productId}`,
+				method: 'GET',
+			}),
+			providesTags: ['DropShipperProduct'],
+		}),
+
+		// request/product
+		RequestProduct: builder.mutation<
+			{ status: 200; message: string },
+			{ tenantId: string; productId: string; comments: string }
+		>({
+			query: ({ tenantId, productId, comments }) => ({
+				url: `/tenant-dropshipper/request/product/${tenantId}/${productId}`,
+				method: 'POST',
+				body: { reason: comments },
+			}),
+			invalidatesTags: ['DropShipperProduct'],
+		}),
 	}),
 });
 
-export const { useDropShipperProductAllQuery } = api;
+export const {
+	useDropShipperProductAllQuery,
+	useSingleProductQuery,
+	useRequestProductMutation,
+} = api;

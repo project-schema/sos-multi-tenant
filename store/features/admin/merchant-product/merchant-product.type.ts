@@ -61,6 +61,7 @@ export type iMerchantProduct = {
 	discount_percentage: string;
 	product_type: string;
 	wc_product_id: null | string;
+	tenant_id?: string;
 	vendor: {
 		id: number;
 		name: string;
