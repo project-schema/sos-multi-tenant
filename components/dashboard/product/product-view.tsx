@@ -102,14 +102,12 @@ export default function ProductPage() {
 										productVariants.findIndex((v) => v.id === variant.id)
 									)
 								}
-								className={`relative w-16 h-16 rounded-lg overflow-hidden transition-all
-                      ${
-												currentIndex ===
-												productVariants.findIndex((v) => v.id === variant.id)
-													? 'ring-2 ring-black'
-													: 'hover:ring-1 hover:ring-gray-200'
-											}
-                    `}
+								className={`relative w-16 h-16 rounded-lg overflow-hidden transition-all${
+									currentIndex ===
+									productVariants.findIndex((v) => v.id === variant.id)
+										? 'ring-2 ring-black'
+										: 'hover:ring-1 hover:ring-gray-200'
+								}`}
 							>
 								<Image
 									src={variant.image || '/placeholder.svg'}

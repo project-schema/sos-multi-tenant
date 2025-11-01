@@ -482,7 +482,7 @@ export const VendorPurchaseCreate = () => {
 														<SearchableSelect
 															field={field}
 															options={
-																data?.data?.variation?.map((cat) => ({
+																data?.data?.color?.map((cat) => ({
 																	label: cat?.name,
 																	value: cat?.id?.toString(),
 																})) ?? []

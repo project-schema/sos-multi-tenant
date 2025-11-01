@@ -28,15 +28,15 @@ export type iMerchantProduct = {
 	commision_type: null | string;
 	request: null | string;
 	user_type: null | string;
-	discount_type: string;
+	discount_type: 'flat' | 'percent';
 	discount_rate: string;
 	created_at: string;
 	updated_at: string;
 	deleted_at: null | string;
-	variants: null | string;
+	product_variant: null | iVariant[];
 	rejected_details: string;
-	selling_type: 'single' | 'bulk';
-	selling_details: null | string;
+	selling_type: 'single' | 'bulk' | 'both';
+	selling_details: null | iSellingDetail[];
 	advance_payment: number;
 	single_advance_payment_type: string;
 	is_connect_bulk_single: string;
@@ -67,6 +67,42 @@ export type iMerchantProduct = {
 		name: string;
 	};
 };
+
+export type iVariant = {
+	id: number;
+	product_id: number;
+	user_id: number;
+	unit_id: number;
+	size_id: number;
+	color_id: number;
+	qty: number;
+	rate: string;
+	deleted_at: null;
+	created_at: string;
+	updated_at: string;
+	size: {
+		id: number;
+		name: string;
+	};
+	unit: {
+		id: number;
+		unit_name: string;
+	};
+	color: {
+		id: number;
+		unit_name: string;
+	};
+};
+
+export type iSellingDetail = {
+	advance_payment: string;
+	advance_payment_type: string;
+	bulk_commission: string;
+	bulk_commission_type: string;
+	min_bulk_qty: string;
+	min_bulk_price: string;
+};
+
 export type iMerchantProductResponse = {
 	status: number;
 	product: iPagination<iMerchantProduct>;
