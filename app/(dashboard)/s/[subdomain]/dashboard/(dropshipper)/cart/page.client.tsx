@@ -1,7 +1,7 @@
 'use client';
 
 import { Container1, Loader8 } from '@/components/dashboard';
-import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { CardContent, CardTitle } from '@/components/ui/card';
 import {
 	Table,
@@ -11,8 +11,10 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { badgeFormat, dateFormat, tableSrCount, timeFormat } from '@/lib';
+import { dateFormat, sign, tableSrCount, timeFormat } from '@/lib';
 import { useGetAllCartsQuery } from '@/store/features/dropshipper/cart';
+import { ShoppingCartIcon, X } from 'lucide-react';
+import Link from 'next/link';
 
 export default function CartPageClient() {
 	const { data, isLoading, isError, isFetching } = useGetAllCartsQuery();
@@ -29,19 +31,18 @@ export default function CartPageClient() {
 					<Table>
 						<TableHeader>
 							<TableRow>
-								<TableHead className="bg-stone-100">Sr. Product </TableHead>
-								<TableHead className="bg-stone-100">Transition ID </TableHead>
+								<TableHead className="bg-stone-100">Sr. </TableHead>
+								<TableHead className="bg-stone-100">Product </TableHead>
 								<TableHead className="bg-stone-100">Price </TableHead>
 								<TableHead className="bg-stone-100">Per Commission </TableHead>
 								<TableHead className="bg-stone-100">Qty</TableHead>
 								<TableHead className="bg-stone-100">Income </TableHead>
 								<TableHead className="bg-stone-100">Date</TableHead>
-								<TableHead className="bg-stone-100">Action </TableHead>
-								<TableHead className="bg-stone-100">Checkout </TableHead>
+								<TableHead className="bg-stone-100 w-10">Action </TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
-							{data?.data.length === 0 ? (
+							{data?.products?.length === 0 ? (
 								<TableRow>
 									<TableCell
 										colSpan={11}
@@ -51,40 +52,40 @@ export default function CartPageClient() {
 									</TableCell>
 								</TableRow>
 							) : (
-								data?.data?.map((user, i) => (
-									<TableRow key={user.id}>
+								data?.products?.map((product, i) => (
+									<TableRow key={product.id}>
 										<TableCell className="font-medium py-4">
-											{tableSrCount(historyData?.current_page, i)}
+											{tableSrCount(1, i)}
 										</TableCell>
 										<TableCell className="font-medium py-4">
-											#{user.trxid}
+											{product.name}
+										</TableCell>
+										<TableCell className="py-2">
+											{product.selling_price}
+											{sign.tk}
+										</TableCell>
+										<TableCell className="py-2">
+											{product.advance_payment || 0}
+											{sign.tk}
+										</TableCell>
+										<TableCell className="py-2">{product.qty}</TableCell>
+										<TableCell className="py-2">{product.alert_qty}</TableCell>
+										<TableCell className="py-2">
+											{dateFormat(product.created_at)} <br />
+											{timeFormat(product.created_at)}
 										</TableCell>
 
-										<TableCell className="py-2">{user.amount}</TableCell>
-										<TableCell className="py-2">
-											{user.transition_type}
-										</TableCell>
-										<TableCell className="py-2">
-											<Badge variant={badgeFormat(user.payment_method)}>
-												{user.payment_method}
-											</Badge>
-										</TableCell>
-										<TableCell className="py-2">
-											{user.coupon || 'Not Applied'}
-										</TableCell>
-										<TableCell className="py-2">{user.quantity}</TableCell>
-										<TableCell className="py-2">{user.income}</TableCell>
-										<TableCell className="py-2">
-											<Badge
-												className="capitalize"
-												variant={badgeFormat(user.balance_type)}
-											>
-												{user.balance_type === '+' ? 'in' : 'out'}
-											</Badge>
-										</TableCell>
-										<TableCell className="py-2">
-											{dateFormat(user.created_at)} <br />
-											{timeFormat(user.created_at)}
+										<TableCell className="py-2 space-x-2">
+											<Button variant="outline">
+												<X className="size-4 text-destructive" />
+												<span className="sr-only">Remove</span>
+											</Button>
+											<Link href={`/dashboard/cart/${product.cart_id}`}>
+												<Button variant="outline">
+													<ShoppingCartIcon className="size-4" />
+													<span>Checkout</span>
+												</Button>
+											</Link>
 										</TableCell>
 									</TableRow>
 								))
