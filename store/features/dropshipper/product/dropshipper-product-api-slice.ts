@@ -73,6 +73,16 @@ const api = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: ['DropShipperProduct'],
 		}),
+
+		// add-to-cart
+		AddToCart: builder.mutation<{ status: 201; message: string }, any>({
+			query: (data) => ({
+				url: `/tenant-dropshipper/add-to-cart`,
+				method: 'POST',
+				body: data,
+			}),
+			invalidatesTags: ['DropShipperProduct'],
+		}),
 	}),
 });
 
@@ -80,4 +90,5 @@ export const {
 	useDropShipperProductAllQuery,
 	useSingleProductQuery,
 	useRequestProductMutation,
+	useAddToCartMutation,
 } = api;

@@ -45,13 +45,13 @@ const products: sidebarItem[] = [
 	},
 	{
 		title: 'Cart',
-		url: '/cart',
+		url: '/dashboard/cart',
 		icon: ShoppingCart,
 		isActive: false,
 	},
 	{
 		title: 'Products Orders',
-		url: '/dropshipper-orders',
+		url: '/dashboard/dropshipper-orders',
 		icon: PackageCheck,
 		isActive: false,
 	},
@@ -62,13 +62,13 @@ const settings: sidebarItem[] = [
 		title: 'Coupons',
 		icon: Percent,
 		isActive: false,
-		url: '/coupon',
+		url: '/dashboard/coupon',
 	},
 	{
 		title: 'Membership',
 		icon: Crown,
 		isActive: false,
-		url: '/membership',
+		url: '/dashboard/membership',
 	},
 
 	{
@@ -78,15 +78,15 @@ const settings: sidebarItem[] = [
 		items: [
 			{
 				title: 'Recharge',
-				url: '/balance/recharge',
+				url: '/dashboard/balance/recharge',
 			},
 			{
 				title: 'History',
-				url: '/balance/history',
+				url: '/dashboard/balance/history',
 			},
 			{
 				title: 'Withdraw',
-				url: '/balance/withdraw',
+				url: '/dashboard/balance/withdraw',
 			},
 		],
 	},
@@ -100,25 +100,25 @@ const servicesAndAdvertise: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Service',
-				url: '/service/create',
+				url: '/dashboard/service/create',
 			},
 			{
 				title: 'Services',
-				url: '/service',
+				url: '/dashboard/service',
 			},
 			{
 				title: 'Service Order',
-				url: '/service/order',
+				url: '/dashboard/service/order',
 			},
 			{
 				title: 'Purchase Service',
-				url: '/service/purchase',
+				url: '/dashboard/service/purchase',
 			},
 		],
 	},
 	{
 		title: 'Advertise',
-		url: '/advertise',
+		url: '/dashboard/advertise',
 		icon: Megaphone,
 		isActive: false,
 	},
@@ -132,11 +132,11 @@ const support: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Support',
-				url: '/support/create',
+				url: '/dashboard/support/create',
 			},
 			{
 				title: 'All Supports',
-				url: '/support',
+				url: '/dashboard/support',
 			},
 		],
 	},
@@ -144,7 +144,7 @@ const support: sidebarItem[] = [
 		title: 'Customer Chat',
 		icon: MessageSquare,
 		isActive: false,
-		url: '/customer-chat',
+		url: '/dashboard/customer-chat',
 	},
 ];
 

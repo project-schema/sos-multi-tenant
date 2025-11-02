@@ -1,5 +1,6 @@
 import { DbHeader } from '@/components/dashboard';
 import { SessionProvider } from '@/provider';
+import CartPageClient from './page.client';
 
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/dashboard' },
@@ -10,7 +11,7 @@ export default function Page() {
 	return (
 		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<div>Card Page</div>
+			<CartPageClient />
 		</SessionProvider>
 	);
 }
