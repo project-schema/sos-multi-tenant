@@ -123,6 +123,7 @@ export const apiSlice = createApi({
 		'VendorCoupon',
 
 		'DropShipperProduct',
+		'DropShipperCart',
 
 		'Withdraw',
 		'VendorService',

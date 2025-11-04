@@ -12,6 +12,7 @@ import barcodeGeneratorReducer from './features/vendor/barcode-generator/barcode
 import posSalesDamageReducer from './features/vendor/damage-products/damage-products.slice';
 import posSalesExchangeReducer from './features/vendor/pos-sales/vendor-pos-sales-exchange.slice';
 import posSalesReducer from './features/vendor/pos-sales/vendor-pos-sales.slice';
+import dropshipperCartReducer from './features/dropshipper/cart/dropshipper-cart-slice';
 // import webReducer from './web'
 
 // ...
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
 	posSalesExchange: posSalesExchangeReducer,
 	posSalesDamage: posSalesDamageReducer,
 	barcodeGenerator: barcodeGeneratorReducer,
+	dropshipperCart: dropshipperCartReducer,
 	[apiSlice.reducerPath]: apiSlice.reducer,
 });
 

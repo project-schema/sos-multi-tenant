@@ -58,6 +58,47 @@ export type iDropShipperCart = {
 	cart_id: number;
 };
 
+export type CartCreatePayload = {
+	products: Array<{
+		product_id: number;
+		product_qty: number;
+		variant_id?: string | null;
+		color?: number | null;
+		size?: number | null;
+		unit_id?: number | null;
+	}>;
+	first_name: string;
+	last_name?: string;
+	phone: string;
+	email: string;
+	city: string;
+	address: string;
+	note?: string;
+	delivery_area_id?: number | null;
+	courier_id?: number | null;
+};
+
+export type CartUpdatePayload = {
+	cart_id: number;
+	products?: Array<{
+		product_id: number;
+		product_qty: number;
+		variant_id?: string | null;
+		color?: number | null;
+		size?: number | null;
+		unit_id?: number | null;
+	}>;
+	first_name?: string;
+	last_name?: string;
+	phone?: string;
+	email?: string;
+	city?: string;
+	address?: string;
+	note?: string;
+	delivery_area_id?: number | null;
+	courier_id?: number | null;
+};
+
 export type iDropShipperCartView = {
 	data: {
 		id: number;
@@ -135,19 +176,26 @@ export type iDropShipperCartView = {
 			wc_product_id: null;
 			tenant_id: string;
 			tenant_name: string;
-			cart_details: {
-				id: number;
-				cart_id: number;
-				color: null;
-				size: null;
-				qty: string;
-				created_at: string;
-				updated_at: string;
-				variant_id: string;
-				unit_id: number;
-				unit: null;
-			}[];
 		};
+		cart_details: {
+			id: number;
+			cart_id: number;
+			color: {
+				id: number;
+				name: string;
+			};
+			size: {
+				id: number;
+				name: string;
+			};
+			qty: string;
+			variant_id: string;
+			unit_id: number;
+			unit: {
+				id: number;
+				name: string;
+			};
+		}[];
 		deliveryArea: {
 			id: number;
 			area: string;
