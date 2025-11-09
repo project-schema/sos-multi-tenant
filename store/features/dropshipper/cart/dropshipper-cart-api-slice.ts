@@ -23,12 +23,10 @@ const api = apiSlice.injectEndpoints({
 		// cart view
 		CartView: builder.query<iDropShipperCartView, { cartId: string }>({
 			query: ({ cartId }) => ({
-				url: `/tenant-dropshipper/cat/${cartId}`,
+				url: `/tenant-dropshipper/cart/${cartId}`,
 				method: 'GET',
 			}),
-			providesTags: (result, error, { cartId }) => [
-				{ type: 'DropShipperCart', id: cartId },
-			],
+			providesTags: ['DropShipperCart'],
 		}),
 
 		// create cart
@@ -173,10 +171,7 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: (result, error, { cart_id }) => [
-				'DropShipperCart',
-				{ type: 'DropShipperCart', id: String(cart_id) },
-			],
+			invalidatesTags: ['DropShipperCart'],
 		}),
 
 		// delete cart
@@ -185,7 +180,7 @@ const api = apiSlice.injectEndpoints({
 			{ cartId: number }
 		>({
 			query: ({ cartId }) => ({
-				url: `/tenant-dropshipper/cart/${cartId}`,
+				url: `/tenant-dropshipper/delete-cartitem/${cartId}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['DropShipperCart'],

@@ -7,7 +7,7 @@ const api = apiSlice.injectEndpoints({
 		VendorColor: builder.query<iVendorColorResponse, { page: number | string }>(
 			{
 				query: ({ page }) => ({
-					url: `/tenant-color?status=active`,
+					url: `/tenant-color`,
 					method: 'GET',
 				}),
 				providesTags: ['VendorColor'],

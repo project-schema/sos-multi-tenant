@@ -128,5 +128,7 @@ export const apiSlice = createApi({
 		'Withdraw',
 		'VendorService',
 		'VendorBarcodeGenerator',
+
+		'UserSupport',
 	],
 });

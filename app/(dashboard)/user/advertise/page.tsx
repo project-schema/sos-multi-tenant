@@ -1,13 +1,17 @@
 import { DbHeader } from '@/components/dashboard';
+import { SessionProvider } from '@/provider';
+import { UserAdvertisePage } from '@/store/features/user/advertise';
+
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/dashboard' },
-	{ name: 'Support' },
+	{ name: 'Advertise' },
 ];
+
 export default function Page() {
 	return (
-		<>
+		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			{/* <VendorSupportPage /> */}
-		</>
+			<UserAdvertisePage />
+		</SessionProvider>
 	);
 }

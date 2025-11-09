@@ -90,7 +90,7 @@ export type iVariant = {
 	};
 	color: {
 		id: number;
-		unit_name: string;
+		name: string;
 	};
 };
 

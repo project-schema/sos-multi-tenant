@@ -413,23 +413,11 @@ export default function CartViewPageClient({
 									name="delivery_area_id"
 									value={form.delivery_area_id || form.courier_id || ''}
 									onValueChange={(value) => {
-										// Check if it's an area or courier
-										const isArea = data?.data?.deliveryArea?.some(
-											(a) => a.id.toString() === value
-										);
-										if (isArea) {
-											setForm((prev: any) => ({
-												...prev,
-												delivery_area_id: value,
-												courier_id: '',
-											}));
-										} else {
-											setForm((prev: any) => ({
-												...prev,
-												courier_id: value,
-												delivery_area_id: '',
-											}));
-										}
+										setForm((prev: any) => ({
+											...prev,
+											delivery_area_id: value,
+											courier_id: '',
+										}));
 									}}
 								>
 									<SelectTrigger className="w-full" id="deliveryCharge">
@@ -439,14 +427,6 @@ export default function CartViewPageClient({
 										{data?.data?.deliveryArea?.map((area) => (
 											<SelectItem key={area.id} value={area.id.toString()}>
 												{area.area} - {area.charge} tk
-											</SelectItem>
-										))}
-										{data?.data?.courier?.map((courier) => (
-											<SelectItem
-												key={courier.id}
-												value={courier.id.toString()}
-											>
-												{courier.name} - {courier.charge} tk
 											</SelectItem>
 										))}
 									</SelectContent>

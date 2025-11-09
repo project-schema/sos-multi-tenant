@@ -12,8 +12,10 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { alertConfirm } from '@/lib';
 import { iCompleteMerchantProduct } from '@/store/features/admin/merchant-product';
 import { ShoppingCart } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { useAddToCartMutation } from './dropshipper-product-api-slice';
@@ -21,9 +23,9 @@ import { useAddToCartMutation } from './dropshipper-product-api-slice';
 interface SelectedVariant {
 	id: number;
 	qty: number;
-	size: number;
-	color: number;
-	unit: number;
+	size: number | null;
+	color: number | null;
+	unit: number | null;
 	variant_id: number;
 }
 
@@ -35,7 +37,7 @@ export const DropshipperProductAddToCart = ({
 	const [productType, setProductType] = useState<'single' | 'bulk'>('single');
 	const [quantities, setQuantities] = useState<Map<number, number>>(new Map());
 	const [addToCart, { isLoading }] = useAddToCartMutation();
-
+	const router = useRouter();
 	const handleQtyChange = (variantId: number, value: string) => {
 		const qty = parseInt(value) || 0;
 		const newQuantities = new Map(quantities);
@@ -55,48 +57,57 @@ export const DropshipperProductAddToCart = ({
 			return;
 		}
 
-		const cartItems: SelectedVariant[] = [];
+		alertConfirm({
+			onOk: async () => {
+				const cartItems: SelectedVariant[] = [];
 
-		quantities.forEach((qty, variantId) => {
-			const variant = product?.product_variant?.find((v) => v.id === variantId);
-			if (variant) {
-				cartItems.push({
-					id: variantId,
-					qty: qty,
-					size: variant.size?.id || 0,
-					color: variant.color?.id || 0,
-					unit: variant.unit?.id || 0,
-					variant_id: variantId,
+				quantities.forEach((qty, variantId) => {
+					const variant = product?.product_variant?.find(
+						(v) => v.id === variantId
+					);
+					if (variant) {
+						cartItems.push({
+							id: variantId,
+							qty: qty,
+							size: variant.size?.id || null,
+							color: variant.color?.id || null,
+							unit: variant.unit?.id || null,
+							variant_id: variantId,
+						});
+					}
 				});
-			}
+
+				const cartData = {
+					product_id: product.id,
+					vendor_id: product.vendor_id,
+					product_price: product.selling_price,
+					discount_type: product.discount_type || 'flat',
+					discount_rate: product.discount_rate || '0',
+					category_id: product.category_id,
+					purchase_type: productType,
+					color_id: cartItems.map((item) => item.color || null),
+					size_id: cartItems.map((item) => item.size || null),
+					unit_id: cartItems.map((item) => item.unit || null),
+					qty: cartItems.map((item) => item.qty || null),
+					cartItems: cartItems,
+					tenant_id: product.tenant_id,
+				};
+
+				console.log('Cart Data:', cartData);
+				// TODO: Here you would typically call your API or update your cart state
+				// For example: addToCart(cartData) or dispatch(addToCartAction(cartData))
+
+				const response = await addToCart(cartData).unwrap();
+				if (response.status === 201) {
+					router.push(`/dashboard/cart`);
+					toast.success(
+						response?.message || 'Product added to cart successfully'
+					);
+				} else {
+					toast.error(response?.message || 'Failed to add product to cart');
+				}
+			},
 		});
-
-		const cartData = {
-			product_id: product.id,
-			vendor_id: product.vendor_id,
-			product_price: product.selling_price,
-			discount_type: product.discount_type || 'flat',
-			discount_rate: product.discount_rate || '0',
-			category_id: product.category_id,
-			purchase_type: productType,
-			color_id: cartItems.map((item) => item.color),
-			size_id: cartItems.map((item) => item.size),
-			unit_id: cartItems.map((item) => item.unit),
-			qty: cartItems.map((item) => item.qty),
-			cartItems: cartItems,
-			tenant_id: product.tenant_id,
-		};
-
-		console.log('Cart Data:', cartData);
-		// TODO: Here you would typically call your API or update your cart state
-		// For example: addToCart(cartData) or dispatch(addToCartAction(cartData))
-
-		const response = await addToCart(cartData).unwrap();
-		if (response.status === 201) {
-			toast.success(response?.message || 'Product added to cart successfully');
-		} else {
-			toast.error(response?.message || 'Failed to add product to cart');
-		}
 	};
 
 	useEffect(() => {
@@ -113,68 +124,74 @@ export const DropshipperProductAddToCart = ({
 
 	return (
 		<>
-			<div className="mt-4 border rounded-lg p-1">
-				<p>Bulk Product Details</p>
-				<Table>
-					<TableHeader>
-						<TableRow>
-							<TableHead>Bulk Qty </TableHead>
-							<TableHead>Bulk Price </TableHead>
-							<TableHead>Commission </TableHead>
-							<TableHead>Advance Amount</TableHead>
-						</TableRow>
-					</TableHeader>
-					<TableBody>
-						{product?.selling_details?.map((variant, index) => (
-							<TableRow key={index}>
-								<TableCell>{variant?.min_bulk_qty}</TableCell>
-								<TableCell>{variant?.min_bulk_price} BDT</TableCell>
-								<TableCell>{variant?.bulk_commission} BDT</TableCell>
-								<TableCell>{variant?.advance_payment}</TableCell>
+			{product?.selling_details && product?.selling_details?.length > 0 && (
+				<div className="mt-4 border rounded-lg p-1">
+					<p>Bulk Product Details</p>
+					<Table>
+						<TableHeader>
+							<TableRow>
+								<TableHead>Bulk Qty </TableHead>
+								<TableHead>Bulk Price </TableHead>
+								<TableHead>Commission </TableHead>
+								<TableHead>Advance Amount</TableHead>
 							</TableRow>
-						))}
-					</TableBody>
-				</Table>
-			</div>
-			<div className="mt-4 border rounded-lg p-1">
-				<Table>
-					<TableHeader>
-						<TableRow>
-							<TableHead>Size</TableHead>
-							<TableHead>Color</TableHead>
-							<TableHead>Price</TableHead>
-							<TableHead>Stock</TableHead>
-							<TableHead>Quantity</TableHead>
-						</TableRow>
-					</TableHeader>
-					<TableBody>
-						{product?.product_variant?.map((variant) => {
-							const qty = quantities.get(variant.id) || '';
-
-							return (
-								<TableRow key={variant.id}>
-									<TableCell>{variant?.size?.name}</TableCell>
-									<TableCell>{variant?.color?.unit_name}</TableCell>
-									<TableCell>{variant?.rate} BDT</TableCell>
-									<TableCell>{variant?.qty}</TableCell>
-									<TableCell>
-										<Input
-											type="number"
-											className="w-24"
-											min="0"
-											placeholder="0"
-											value={qty}
-											onChange={(e) =>
-												handleQtyChange(variant.id, e.target.value)
-											}
-										/>
-									</TableCell>
+						</TableHeader>
+						<TableBody>
+							{product?.selling_details?.map((variant, index) => (
+								<TableRow key={index}>
+									<TableCell>{variant?.min_bulk_qty}</TableCell>
+									<TableCell>{variant?.min_bulk_price} BDT</TableCell>
+									<TableCell>{variant?.bulk_commission} BDT</TableCell>
+									<TableCell>{variant?.advance_payment}</TableCell>
 								</TableRow>
-							);
-						})}
-					</TableBody>
-				</Table>
-			</div>
+							))}
+						</TableBody>
+					</Table>
+				</div>
+			)}
+			{product?.product_variant && product?.product_variant?.length > 0 && (
+				<div className="mt-4 border rounded-lg p-1">
+					<Table>
+						<TableHeader>
+							<TableRow>
+								<TableHead>Unit</TableHead>
+								<TableHead>Size</TableHead>
+								<TableHead>Color</TableHead>
+								<TableHead>Price</TableHead>
+								<TableHead>Stock</TableHead>
+								<TableHead>Quantity</TableHead>
+							</TableRow>
+						</TableHeader>
+						<TableBody>
+							{product?.product_variant?.map((variant) => {
+								const qty = quantities.get(variant.id) || '';
+
+								return (
+									<TableRow key={variant.id}>
+										<TableCell>{variant?.unit?.unit_name}</TableCell>
+										<TableCell>{variant?.size?.name}</TableCell>
+										<TableCell>{variant?.color?.name}</TableCell>
+										<TableCell>{variant?.rate} BDT</TableCell>
+										<TableCell>{variant?.qty}</TableCell>
+										<TableCell>
+											<Input
+												type="number"
+												className="w-24"
+												min="0"
+												placeholder="0"
+												value={qty}
+												onChange={(e) =>
+													handleQtyChange(variant.id, e.target.value)
+												}
+											/>
+										</TableCell>
+									</TableRow>
+								);
+							})}
+						</TableBody>
+					</Table>
+				</div>
+			)}
 			<div>
 				<div className="grid grid-cols-2 gap-2 max-w-sm mb-4">
 					{(product.selling_type === 'single' ||

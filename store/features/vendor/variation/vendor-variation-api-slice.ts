@@ -51,13 +51,12 @@ const api = apiSlice.injectEndpoints({
 					}
 				});
 
-				body.append('_method', 'PUT');
+				// body.append('_method', 'PUT');
 
 				return {
 					url: `/tenant-variant/update/${data.id}`,
 					method: 'POST',
-					body,
-					formData: true,
+					body: data,
 				};
 			},
 			invalidatesTags: ['VendorVariation', 'VendorProductPurchaseCreateData'],

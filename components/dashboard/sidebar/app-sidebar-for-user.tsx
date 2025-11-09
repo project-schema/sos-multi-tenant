@@ -47,17 +47,35 @@ const userDbOrder: sidebarItem[] = [
 const userDbAdvertise: sidebarItem[] = [
 	{
 		title: 'Manage Advertise',
-		url: '/user/advertise',
 		icon: Megaphone,
 		isActive: false,
+		items: [
+			{
+				title: 'Create Advertise',
+				url: '/user/advertise/create',
+			},
+			{
+				title: 'All Advertise',
+				url: '/user/advertise',
+			},
+		],
 	},
 ];
 const userSupport: sidebarItem[] = [
 	{
 		title: 'Manage Support',
-		url: '/user/support',
 		icon: Headset,
 		isActive: false,
+		items: [
+			{
+				title: 'Create Support',
+				url: '/user/support/create',
+			},
+			{
+				title: 'All Support',
+				url: '/user/support',
+			},
+		],
 	},
 ];
 export function AppSidebarForUser({

@@ -43,7 +43,7 @@ const api = apiSlice.injectEndpoints({
 			{ amount: number | string; getwaya: 'aamarpay' }
 		>({
 			query: (data) => ({
-				url: '/recharge',
+				url: '/user/recharge',
 				method: 'POST',
 				body: data,
 			}),
@@ -56,6 +56,19 @@ const api = apiSlice.injectEndpoints({
 				method: 'GET',
 			}),
 		}),
+
+		// all-withdraw/history
+		allWithdrawHistory: builder.query<
+			any,
+			{ status: string; page: number | string }
+		>({
+			query: ({ status, page }) => ({
+				url: `/all-withdraw/history?status=${status}&page=${page}`,
+				method: 'GET',
+			}),
+			providesTags: ['Withdraw'],
+		}),
+
 		// user withdraw
 		userWithdraw: builder.mutation<
 			{ status: 200; message: string },
@@ -76,4 +89,5 @@ export const {
 	useUserRechargeMutation,
 	useAllBanksQuery,
 	useUserWithdrawMutation,
+	useAllWithdrawHistoryQuery,
 } = api;

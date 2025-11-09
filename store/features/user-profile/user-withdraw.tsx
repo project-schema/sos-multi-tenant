@@ -29,7 +29,10 @@ import {
 	PaginationPrevious,
 } from '@/components/ui/pagination';
 import { Filter } from 'lucide-react';
-import { useAllBanksQuery } from './user-profile-api-slice';
+import {
+	useAllBanksQuery,
+	useAllWithdrawHistoryQuery,
+} from './user-profile-api-slice';
 import { UserWithdrawModal } from './user-withdraw-modal';
 // Sample data
 const initialData = [
@@ -46,6 +49,8 @@ const initialData = [
 
 export function UserWithdraw() {
 	const { data: allBanks, isLoading } = useAllBanksQuery(undefined);
+	const { data: withdrawHistory, isLoading: isLoadingWithdrawHistory } =
+		useAllWithdrawHistoryQuery({ status: '', page: 1 });
 	const [data, setData] = useState(initialData);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [statusFilter, setStatusFilter] = useState('all');
