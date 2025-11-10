@@ -13,63 +13,21 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { logout as logoutFn, sign } from '@/lib';
-import { useVendorProfileInfoQuery } from '@/store/features/vendor/profile';
-import {
-	Bell,
-	CreditCard,
-	Eye,
-	EyeOff,
-	Loader2,
-	LogOut,
-	Settings,
-	User,
-} from 'lucide-react';
+import { logout as logoutFn } from '@/lib';
+import { Bell, CreditCard, LogOut, Settings, User } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import { Crumb, DbBreadcrumb } from '../breadcrumb/Breadcrumb';
-
+import { BalanceToggle } from './_ctx/balance-toggle';
 export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
-	const { data, refetch, isLoading, isFetching } = useVendorProfileInfoQuery(
-		undefined,
-		{
-			refetchOnFocus: false,
-			refetchOnMountOrArgChange: false,
-		}
-	);
-	const [showBalance, setShowBalance] = useState(false);
-	const [isBalanceLoading, setIsBalanceLoading] = useState(false);
+	const { data: session } = useSession();
+
 	const router = useRouter();
 
 	const logout = () => {
 		logoutFn();
 		router.push('/auth');
-	};
-
-	// Auto-hide balance after 1 second
-	useEffect(() => {
-		if (showBalance) {
-			const timer = setTimeout(() => {
-				setShowBalance(false);
-			}, 3000);
-			return () => clearTimeout(timer);
-		}
-	}, [showBalance]);
-
-	const toggleBalance = async () => {
-		if (isLoading || isFetching) return;
-		if (showBalance) {
-			setShowBalance(false);
-			return;
-		}
-		setIsBalanceLoading(true);
-		try {
-			await refetch();
-		} finally {
-			setIsBalanceLoading(false);
-			setShowBalance(true);
-		}
 	};
 
 	// Mock notifications data
@@ -124,32 +82,7 @@ export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
 			{/* Right side elements */}
 			<div className="flex items-center gap-2 ml-auto px-4">
 				{/* Balance Toggle */}
-				<div className="flex items-center gap-2">
-					<Button
-						variant="ghost"
-						size="sm"
-						onClick={toggleBalance}
-						className="flex items-center gap-2 cursor-pointer"
-					>
-						{isBalanceLoading || isFetching ? (
-							<span className="text-muted-foreground flex items-center gap-1">
-								<Loader2 className="h-3 w-3 animate-spin" />
-								Loading...
-							</span>
-						) : showBalance ? (
-							<span className="font-medium">
-								{sign.tk} {data?.user?.balance?.toFixed(2)}
-							</span>
-						) : (
-							<span className="text-muted-foreground">••••</span>
-						)}
-						{isBalanceLoading || isFetching ? null : showBalance ? (
-							<EyeOff className="h-2 w-2" />
-						) : (
-							<Eye className="h-2 w-2" />
-						)}
-					</Button>
-				</div>
+				{session?.user?.tenant_type !== 'admin' ? <BalanceToggle /> : null}
 
 				{/* Notifications Dropdown */}
 				<DropdownMenu>

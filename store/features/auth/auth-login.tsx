@@ -57,14 +57,14 @@ export const AuthLogin = () => {
 					token: JSON.stringify({
 						user: {
 							role: response.role,
-							email: 'test@test.com',
-							name: 'test',
+							email: data.email,
+							name: response.username,
 							id: 1,
-							tenant_type: 'admin',
+							tenant_type: response.role === '1' ? 'admin' : 'user',
 							last_seen: new Date().toISOString(),
 						},
 						token: response.token,
-						tenant_id: '1',
+						tenant_id: response?.token?.split('|')[0] || '1',
 					}),
 					redirect: false,
 				});
@@ -72,7 +72,7 @@ export const AuthLogin = () => {
 				console.log(signInResult);
 				if (signInResult?.ok) {
 					toast.success('Login successful!');
-					router.push('/admin');
+					router.push(response.role === '1' ? '/admin' : '/user');
 				} else {
 					toast.error('Authentication failed. Please try again.');
 				}

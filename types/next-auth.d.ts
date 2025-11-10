@@ -8,12 +8,13 @@ declare module 'next-auth' {
 		expires: Date;
 		accessToken: string;
 		tenant_id: string;
-		tenant_type: 'admin' | 'merchant' | 'dropshipper';
+		tenant_type: 'admin' | 'merchant' | 'dropshipper' | 'user';
 		user: {
 			id: number;
 			name: string;
 			email: string;
 			last_seen: string;
+			tenant_type: 'admin' | 'merchant' | 'dropshipper' | 'user';
 		} & DefaultSession['user'];
 	}
 }
@@ -26,12 +27,13 @@ declare module 'next-auth/jwt' {
 		accessToken?: string;
 		refreshToken?: string;
 		tenant_id?: string;
-		tenant_type?: 'admin' | 'merchant' | 'dropshipper';
+		tenant_type?: 'admin' | 'merchant' | 'dropshipper' | 'user';
 		user?: {
 			id: number;
 			name: string;
 			email: string;
 			last_seen: string;
+			tenant_type: 'admin' | 'merchant' | 'dropshipper' | 'user';
 		};
 		iat?: number;
 		exp?: number;

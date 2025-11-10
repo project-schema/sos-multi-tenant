@@ -7,8 +7,7 @@ export const logout = async () => {
 		const response: any = await signOut({
 			redirect: false,
 		});
-		console.log(response);
-		if (response.ok) {
+		if (response) {
 			toast.success('Logged out successfully');
 		} else {
 			toast.error('Error! Please Try Again');
