@@ -5,7 +5,7 @@ import Radio from '@/components/frontend/Input/Radio';
 import { iSubscriptionsType } from '@/types';
 import { motion } from 'motion/react';
 import { useSession } from 'next-auth/react';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import style from './pricing.module.css';
 function Pricing({
@@ -18,6 +18,10 @@ function Pricing({
 	const { data: session } = useSession();
 	const pathName = usePathname();
 	const searchParams = useSearchParams().get('from');
+	const router = useRouter();
+
+	const isVendorOrAffiliate =
+		searchParams === 'vendor' || searchParams === 'affiliate';
 	// Since role is not available in the login response, default to vendor
 	const [toggle, setToggle] = useState('vendor');
 	const [time, setTime] = useState('monthly');
@@ -27,14 +31,17 @@ function Pricing({
 		   For User Switch To Vendor Or Affiliate
 		   get from url and searchparams and set toggle 
 		*/
-		if (
-			pathName === '/user/switch' &&
-			(searchParams === 'vendor' || searchParams === 'affiliate')
-		) {
+		if (pathName === '/user/switch' && isVendorOrAffiliate) {
 			setToggle(searchParams === 'vendor' ? 'vendor' : 'affiliate');
 		}
 	}, [searchParams, pathName]);
 
+	const handleToggle = (type: string) => {
+		if (pathName === '/user/switch' && isVendorOrAffiliate) {
+			router.push(`${pathName}?from=${type}`);
+		}
+		setToggle(type);
+	};
 	return (
 		<section className={`${style.pricingMain} !mt-0`}>
 			<div className="layout">
@@ -51,7 +58,7 @@ function Pricing({
 						className={style.topOfHead}
 					>
 						<button
-							onClick={() => setToggle('vendor')}
+							onClick={() => handleToggle('vendor')}
 							className={`${style.btnTop} ${
 								toggle === 'vendor' && style.active
 							}`}
@@ -59,7 +66,7 @@ function Pricing({
 							Merchant
 						</button>
 						<button
-							onClick={() => setToggle('affiliate')}
+							onClick={() => handleToggle('affiliate')}
 							className={`${style.btnTop} ${
 								toggle === 'affiliate' && style.active
 							}`}

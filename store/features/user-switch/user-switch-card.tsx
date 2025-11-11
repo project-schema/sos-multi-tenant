@@ -1,17 +1,17 @@
 'use client';
 
-import { Briefcase, Truck } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
 	Card,
+	CardContent,
+	CardDescription,
 	CardHeader,
 	CardTitle,
-	CardDescription,
-	CardContent,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import homeImage from './user-home.gif';
+import { Briefcase, Truck } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import homeImage from './user-home.gif';
 
 export const UserSwitchCard = () => {
 	return (

@@ -1,10 +1,10 @@
-import { Metadata } from 'next';
-import React from 'react';
+import { DbHeader } from '@/components/dashboard';
 import Pricing from '@/components/essential/Pricing';
 import { getApiData } from '@/lib';
+import { SwitchPage } from '@/store/features/user/switch';
 import { iSubscriptionsType } from '@/types';
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { DbHeader } from '@/components/dashboard';
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/user' },
 	{ name: 'Pricing' },
@@ -23,6 +23,7 @@ export default async function Page() {
 	return (
 		<div className="user-db-pricing">
 			<DbHeader breadcrumb={breadcrumbItems} />
+			<SwitchPage />
 			<Pricing subscriptions={subscriptions} />
 		</div>
 	);
