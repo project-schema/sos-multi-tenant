@@ -4,9 +4,9 @@ import { Container1, Loader8 } from '@/components/dashboard';
 import { Pagination1 } from '@/components/dashboard/pagination';
 import { CardTitle } from '@/components/ui/card';
 import { useState } from 'react';
-import { UserWithdrawModal } from '../../user-profile/user-withdraw-modal';
 import { useVendorWithdrawAllQuery } from './vendor-withdraw-api-slice';
 import { VendorWithdrawFilter } from './vendor-withdraw-filter';
+import { TenantWithdrawModal } from './vendor-withdraw-modal';
 import { VendorWithdrawTable } from './vendor-withdraw-table';
 
 export default function VendorWithdrawPage() {
@@ -27,7 +27,7 @@ export default function VendorWithdrawPage() {
 					<div className="pb-2  flex items-center justify-between">
 						<CardTitle>All Withdraw</CardTitle>
 						<div className="flex items-center gap-2">
-							<UserWithdrawModal />
+							<TenantWithdrawModal />
 						</div>
 					</div>
 				</>

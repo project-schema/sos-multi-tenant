@@ -14,6 +14,18 @@ const api = apiSlice.injectEndpoints({
 			}),
 		}),
 
+		// create-advertise
+		UserAdvertiseCreate: builder.mutation<
+			{ status: 200; message: string },
+			any
+		>({
+			query: (data) => ({
+				url: '/advertise',
+				method: 'POST',
+				body: data,
+			}),
+		}),
+
 		// count
 		UserAdvertiseCount: builder.query<iUserAdvertiseStatistics, void>({
 			query: () => '/advertise/count',

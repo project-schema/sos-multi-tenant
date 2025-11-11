@@ -52,7 +52,7 @@ const api = apiSlice.injectEndpoints({
 
 		allBanks: builder.query<iBankResponse, undefined>({
 			query: () => ({
-				url: '/all/banks',
+				url: '/user/all/banks',
 				method: 'GET',
 			}),
 		}),
@@ -75,7 +75,7 @@ const api = apiSlice.injectEndpoints({
 			Partial<WithdrawFormValues>
 		>({
 			query: (data) => ({
-				url: '/withdraw-money',
+				url: '/user/withdraw-money',
 				method: 'POST',
 				body: data,
 			}),

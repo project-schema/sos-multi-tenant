@@ -1,4 +1,5 @@
 import { apiSlice } from '../../api/apiSlice';
+import { WithdrawFormValues } from './vendor-withdraw-modal';
 import { iVendorWithdrawResponse } from './vendor-withdraw-type';
 
 const api = apiSlice.injectEndpoints({
@@ -26,7 +27,27 @@ const api = apiSlice.injectEndpoints({
 			},
 			providesTags: ['Withdraw'],
 		}),
+
+		TenantWithdrawMoney: builder.mutation<
+			{ status: 200; message: string },
+			Partial<WithdrawFormValues>
+		>({
+			query: (data) => ({
+				url: '/tenant-withdraw-money',
+				method: 'POST',
+				body: data,
+			}),
+			invalidatesTags: ['Withdraw'],
+		}),
+		// tenant-all-banks
+		TenantAllBanks: builder.query<any, void>({
+			query: () => ({ url: '/tenant-all-banks', method: 'GET' }),
+		}),
 	}),
 });
 
-export const { useVendorWithdrawAllQuery } = api;
+export const {
+	useVendorWithdrawAllQuery,
+	useTenantWithdrawMoneyMutation,
+	useTenantAllBanksQuery,
+} = api;

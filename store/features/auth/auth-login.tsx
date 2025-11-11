@@ -65,6 +65,8 @@ export const AuthLogin = () => {
 						},
 						token: response.token,
 						tenant_id: response?.token?.split('|')[0] || '1',
+						tenant_type: response.role === '1' ? 'admin' : 'user',
+
 					}),
 					redirect: false,
 				});

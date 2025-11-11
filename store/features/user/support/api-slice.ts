@@ -17,7 +17,7 @@ const api = apiSlice.injectEndpoints({
 				// Use 'all' as default status
 
 				return {
-					url: `/supportbox?page=${page}&search=${search}`,
+					url: `/user/supportbox?page=${page}&search=${search}`,
 					method: 'GET',
 				};
 			},
@@ -33,7 +33,7 @@ const api = apiSlice.injectEndpoints({
 					}
 				});
 				return {
-					url: `/supportbox`,
+					url: `/user/supportbox`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -46,7 +46,7 @@ const api = apiSlice.injectEndpoints({
 			any
 		>({
 			query: () => ({
-				url: `/tenant-support/category`,
+				url: `/user/all-ticket-category`,
 				method: 'GET',
 			}),
 		}),
@@ -56,7 +56,7 @@ const api = apiSlice.injectEndpoints({
 			{ id: string }
 		>({
 			query: ({ id }) => ({
-				url: `/tenant-support/sub-category/${id}`,
+				url: `/user/ticket-category-to-problem/${id}`,
 				method: 'GET',
 			}),
 		}),
@@ -73,7 +73,7 @@ const api = apiSlice.injectEndpoints({
 
 		UserSupportCount: builder.query<{ closed: number; all_support: [] }, void>({
 			query: () => ({
-				url: `/support-count`,
+				url: `/user/support-count`,
 				method: 'GET',
 			}),
 			providesTags: ['UserSupport'],

@@ -1,5 +1,5 @@
 import { DbHeader } from '@/components/dashboard';
-import { VendorSupportCreatePage } from '@/store/features/vendor/support';
+import { UserSupportCreatePage } from '@/store/features/user/support';
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/dashboard' },
 	{ name: 'Support', path: '/support' },
@@ -10,7 +10,7 @@ export default function Page() {
 		<>
 			<DbHeader breadcrumb={breadcrumbItems} />
 			<div className="max-w-3xl mx-auto w-full md:mt-12">
-				<VendorSupportCreatePage />
+				<UserSupportCreatePage />
 			</div>
 		</>
 	);
