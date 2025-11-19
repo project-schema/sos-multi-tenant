@@ -8,7 +8,7 @@ const api = apiSlice.injectEndpoints({
 			{ page: number | string; search: string }
 		>({
 			query: ({ page, search }) => ({
-				url: '/all-advertise',
+				url: '/user/all-advertise',
 				method: 'GET',
 				params: { page, search },
 			}),

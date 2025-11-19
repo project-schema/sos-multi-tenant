@@ -3,3 +3,6 @@ export { default as Card02 } from './02';
 export { default as Card03 } from './03';
 export { default as Card04 } from './04';
 export { default as Card05 } from './05';
+export { default as Card06 } from './06';
+export { default as Card07 } from './07';
+export { default as Card08 } from './08';

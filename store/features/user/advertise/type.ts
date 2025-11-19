@@ -14,8 +14,8 @@ export type iUserAdvertise = {
 };
 export type iUserAdvertiseResponse = {
 	status: number;
-	data: 'success';
-	message: iPagination<iUserAdvertise>;
+	message: 'success';
+	data: iPagination<iUserAdvertise>;
 };
 
 export type iUserAdvertiseStatistics = {

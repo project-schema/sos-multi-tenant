@@ -59,13 +59,13 @@ export function UserAdvertisePage() {
 						setSearchTerm={setSearchTerm}
 					/>
 				)}
-				{data?.message && (
+				{data?.data && (
 					<>
 						<div className="border rounded-lg relative">
 							{isFetching && <Loader8 />}
-							<UserAdvertiseTable data={data?.message} />
+							<UserAdvertiseTable data={data?.data} />
 						</div>
-						<Pagination1 pagination={data?.message} setPage={setPage} />
+						<Pagination1 pagination={data?.data} setPage={setPage} />
 					</>
 				)}
 			</Container1>
