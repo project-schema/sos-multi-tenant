@@ -4,6 +4,9 @@ export const env = {
 	baseAPI: process.env.NEXT_PUBLIC_BACKEND_API as string,
 	next_auth_url: process.env.NEXTAUTH_URL,
 	token: process.env.NEXT_PUBLIC_TOKEN,
+	placeholderImage:
+		process.env.NEXT_PUBLIC_PLACEHOLDER_IMAGE ||
+		'https://ui.shadcn.com/placeholder.svg',
 };
 
 export const image = (path: string) => {
