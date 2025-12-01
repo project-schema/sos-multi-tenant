@@ -1,27 +1,16 @@
 'use client';
 
-import { DialogFooter } from '@/components/ui/dialog';
-import { LoaderCircle } from 'lucide-react';
-
+import Input from '@/components/frontend/Input/Input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-import { Button } from '@/components/ui/button';
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import { z } from 'zod';
 import { useAdminLoginMutation } from './auth-api-slice';
+import MotionFadeIn from './MotionFadeIn';
+import style from './sign-in.module.css';
 
 // --- Zod Schema ---
 export const schema = z.object({
@@ -36,7 +25,12 @@ export const AuthLogin = () => {
 	// const [login, { isLoading }] = useAuthLoginMutation();
 	const [login, { isLoading }] = useAdminLoginMutation();
 
-	const form = useForm<ZodType>({
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		reset,
+	} = useForm<ZodType>({
 		resolver: zodResolver(schema),
 		defaultValues: {
 			email: '',
@@ -66,7 +60,6 @@ export const AuthLogin = () => {
 						token: response.token,
 						tenant_id: response?.token?.split('|')[0] || '1',
 						tenant_type: response.role === '1' ? 'admin' : 'user',
-
 					}),
 					redirect: false,
 				});
@@ -74,6 +67,7 @@ export const AuthLogin = () => {
 				console.log(signInResult);
 				if (signInResult?.ok) {
 					toast.success('Login successful!');
+					reset();
 					router.push(response.role === '1' ? '/admin' : '/user');
 				} else {
 					toast.error('Authentication failed. Please try again.');
@@ -87,58 +81,70 @@ export const AuthLogin = () => {
 	};
 
 	return (
-		<div>
-			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-					{/* Company Name */}
-					<FormField
-						control={form.control}
-						name="email"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Email</FormLabel>
-								<FormControl>
-									<Input {...field} placeholder="Enter email..." />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+		<section className="shadow-lg rounded-lg">
+			<div className="layout">
+				<div className={style.layoutBgImg}>
+					<div className={`${style.loginFormBox} max-w-2xl`}>
+						<MotionFadeIn className={style.loginFromHeading} delay={0.18}>
+							<h3>Login Your Account</h3>
+						</MotionFadeIn>
 
-					{/* Password */}
-					<FormField
-						control={form.control}
-						name="password"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Password</FormLabel>
-								<FormControl>
-									<Input {...field} placeholder="Enter password..." />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+						<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+							<MotionFadeIn delay={0.15}>
+								<Input
+									label="Email"
+									placeholder="Your Email"
+									type="email"
+									error={errors.email?.message || ''}
+									{...register('email')}
+									tabIndex={1}
+								/>
+							</MotionFadeIn>
 
-					<DialogFooter>
-						<Button type="submit" disabled={isLoading}>
-							{isLoading && (
-								<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-							)}
-							{isLoading ? 'Logging in...' : 'Login'}
-						</Button>
-					</DialogFooter>
-				</form>
-			</Form>
+							<MotionFadeIn delay={0.15}>
+								<Input
+									label="Password"
+									placeholder="Your Password"
+									type="password"
+									error={errors.password?.message || ''}
+									{...register('password')}
+									tabIndex={2}
+								/>
+							</MotionFadeIn>
 
-			<div>
-				<p>
-					New here?{' '}
-					<Link className="text-blue-500" href="/auth?tab=register">
-						Register now
-					</Link>
-				</p>
+							<div>
+								<p>
+									<Link className={style.loginGoRLink} href="/forget-password">
+										Forget Password?
+									</Link>
+								</p>
+							</div>
+
+							<MotionFadeIn className={style.loginButton} delay={0.15}>
+								<button
+									type="submit"
+									className={style.loginBtn}
+									disabled={isLoading}
+								>
+									{isLoading ? 'Logging in...' : 'Login'}
+								</button>
+							</MotionFadeIn>
+
+							<div className={style.goRegister}>
+								<p>
+									New here?{' '}
+									<Link
+										className={style.loginGoRLink}
+										href="/auth?tab=register"
+									>
+										Register now
+									</Link>
+								</p>
+							</div>
+						</form>
+					</div>
+				</div>
 			</div>
-		</div>
+		</section>
 	);
 };

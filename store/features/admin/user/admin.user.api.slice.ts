@@ -66,11 +66,14 @@ const api = apiSlice.injectEndpoints({
 				search?: string;
 			}
 		>({
-			query: (params) => ({
-				url: `/all/user/${params.status}?type=${params.userType}&page=${params.page}&email=${params.search}`,
-				method: 'GET',
-				params,
-			}),
+			query: (params) => {
+				return {
+					url: `/all/user/${params.userType}?page=${params.page}&email=${
+						params.search || ''
+					}&status=${params.status === 'all' ? '' : params.status || ''}`,
+					method: 'GET',
+				};
+			},
 			providesTags: ['AdminAllUser'],
 		}),
 

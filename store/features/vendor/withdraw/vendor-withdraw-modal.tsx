@@ -172,7 +172,7 @@ const FORM = ({
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
-										{allBanks?.message?.map((bank) => (
+										{allBanks?.message?.map((bank: any) => (
 											<SelectItem key={bank.id} value={bank.name}>
 												{bank.name}
 											</SelectItem>

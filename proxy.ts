@@ -48,9 +48,35 @@ function extractSubdomain(request: NextRequest): string | null {
 		: null;
 }
 
-export async function middleware(request: NextRequest) {
+// List of web routes that should NOT have /dashboard prefix
+const WEB_ROUTES = ['/shop', '/account', '/contact', '/auth'];
+
+// Check if a pathname is a dashboard route
+function isDashboardRoute(pathname: string): boolean {
+	// If it already starts with /dashboard, it's a dashboard route
+	if (pathname.startsWith('/dashboard')) {
+		return true;
+	}
+
+	// If it's a web route, it's not a dashboard route
+	if (WEB_ROUTES.some((route) => pathname.startsWith(route))) {
+		return false;
+	}
+
+	// If it's root or empty, it's not a dashboard route
+	if (pathname === '/' || pathname === '') {
+		return false;
+	}
+
+	// Everything else is considered a dashboard route
+	return true;
+}
+
+export async function proxy(request: NextRequest) {
 	const { pathname } = request.nextUrl;
 	const subdomain = extractSubdomain(request);
+
+	console.log({ subdomain, pathname });
 
 	if (subdomain) {
 		// Block access to /admin or /user on subdomains
@@ -58,11 +84,27 @@ export async function middleware(request: NextRequest) {
 			return NextResponse.redirect(new URL('/', request.url));
 		}
 
-		// get access vendor and affiliate page
-		const newPathname =
-			pathname === '/' ? `/s/${subdomain}` : `/s/${subdomain}${pathname}`;
+		// Determine the correct rewrite path
+		let newPathname: string;
 
-		return NextResponse.rewrite(new URL(newPathname, request.url));
+		if (pathname === '/') {
+			newPathname = `/s/${subdomain}`;
+		} else if (pathname.startsWith('/dashboard')) {
+			// If pathname already has /dashboard, just prepend /s/${subdomain}
+			newPathname = `/s/${subdomain}${pathname}`;
+		} else if (isDashboardRoute(pathname)) {
+			// Dashboard routes need /dashboard prefix
+			newPathname = `/s/${subdomain}/dashboard${pathname}`;
+		} else {
+			// Web routes (shop, account, etc.) don't need /dashboard
+			newPathname = `/s/${subdomain}${pathname}`;
+		}
+
+		// Create a new URL with the rewritten pathname, preserving query params and other URL parts
+		const url = request.nextUrl.clone();
+		url.pathname = newPathname;
+
+		return NextResponse.rewrite(url);
 	}
 
 	// Protect /admin and /user routes on root domain

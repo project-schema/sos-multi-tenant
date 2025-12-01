@@ -97,7 +97,7 @@ export function UserWithdraw() {
 									</TableCell>
 								</TableRow>
 							) : (
-								data?.message?.data?.map((item, i) => (
+								data?.message?.data?.map((item: any, i: number) => (
 									<TableRow key={item.id}>
 										<TableCell className="py-2 pl-4">
 											{tableSrCount(data?.message?.current_page, i)}

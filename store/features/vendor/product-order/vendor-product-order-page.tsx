@@ -39,7 +39,7 @@ export function VendorProductOrderPage() {
 			header={
 				<>
 					<div className="pb-2  flex items-center justify-between">
-						<CardTitle>All Products</CardTitle>
+						<CardTitle>Product Orders</CardTitle>
 						<Button
 							variant="outline"
 							size="icon"
