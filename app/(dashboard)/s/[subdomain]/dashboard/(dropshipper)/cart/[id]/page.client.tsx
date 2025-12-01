@@ -266,7 +266,7 @@ export default function CartViewPageClient({
 
 	const getDeliveryCharge = (item: CartItem) => {
 		if (item.delivery_type === 'area' && item.delivery_area_id) {
-			const area = data?.data?.deliveryArea?.find(
+			const area = data?.deliveryArea?.find(
 				(a) => a.id.toString() === item.delivery_area_id
 			);
 			return area ? parseFloat(area.charge) : 0;
@@ -424,7 +424,7 @@ export default function CartViewPageClient({
 										<SelectValue placeholder="Select" />
 									</SelectTrigger>
 									<SelectContent>
-										{data?.data?.deliveryArea?.map((area) => (
+										{data?.deliveryArea?.map((area) => (
 											<SelectItem key={area.id} value={area.id.toString()}>
 												{area.area} - {area.charge} tk
 											</SelectItem>
@@ -526,7 +526,7 @@ export default function CartViewPageClient({
 														<p>
 															Delivery Charge:{' '}
 															{
-																data?.data?.deliveryArea?.find(
+																data?.deliveryArea?.find(
 																	(a) =>
 																		a.id.toString() === item.delivery_area_id
 																)?.area

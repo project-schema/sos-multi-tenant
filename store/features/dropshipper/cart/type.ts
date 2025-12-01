@@ -196,11 +196,7 @@ export type iDropShipperCartView = {
 				name: string;
 			};
 		}[];
-		deliveryArea: {
-			id: number;
-			area: string;
-			charge: string;
-		}[];
+
 		courier: {
 			id: number;
 			name: string;
@@ -213,6 +209,11 @@ export type iDropShipperCartView = {
 			code: string;
 		}[];
 	};
+	deliveryArea: {
+		id: number;
+		area: string;
+		charge: string;
+	}[];
 	default_courier: null;
 	areas: {
 		id: number;
