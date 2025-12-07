@@ -185,6 +185,14 @@ const api = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: ['DropShipperCart'],
 		}),
+
+		CheckoutCart: builder.mutation<{ status: 200; message: string }, any>({
+			query: (data) => ({
+				url: `/tenant-dropshipper/order-create`,
+				method: 'POST',
+				body: data,
+			}),
+		}),
 	}),
 });
 
@@ -194,4 +202,6 @@ export const {
 	useCreateCartMutation,
 	useUpdateCartMutation,
 	useDeleteCartMutation,
+
+	useCheckoutCartMutation,
 } = api;
