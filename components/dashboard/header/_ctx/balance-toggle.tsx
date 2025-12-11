@@ -92,7 +92,9 @@ export function BalanceToggle() {
 					{sign.tk}{' '}
 					{session?.user?.tenant_type === 'user'
 						? userData?.user?.balance?.toFixed(2)
-						: data?.user?.balance?.toFixed(2)}
+						: data?.user?.balance
+						? data?.user?.balance
+						: 0}
 				</span>
 			) : (
 				<span className="text-muted-foreground">••••</span>

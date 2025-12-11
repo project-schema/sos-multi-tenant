@@ -22,7 +22,22 @@ const api = apiSlice.injectEndpoints({
 			},
 			providesTags: ['VendorProductOrder'],
 		}),
+
+		VendorProductOrderUpdate: builder.mutation<
+			{ message: string; status: number },
+			any
+		>({
+			query: (body) => ({
+				url: `/tenant-product-order/status/${body.id}`,
+				method: 'POST',
+				body,
+			}),
+			invalidatesTags: ['VendorProductOrder'],
+		}),
 	}),
 });
 
-export const { useVendorProductOrderAllQuery } = api;
+export const {
+	useVendorProductOrderAllQuery,
+	useVendorProductOrderUpdateMutation,
+} = api;

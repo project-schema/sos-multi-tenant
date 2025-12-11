@@ -484,7 +484,6 @@ export default function CartViewPageClient({
 	};
 
 	const totals = calculateTotals();
-
 	// For backward compatibility, keep the old variables
 	const price = totals.basePrice;
 	const quantity = totals.totalQuantity;
@@ -574,18 +573,17 @@ export default function CartViewPageClient({
 		alertConfirm({
 			onOk: async () => {
 				try {
-					const response = await checkoutCart({
+					const response: any = await checkoutCart({
 						cart_id: cartId,
+						tenant_id: data?.data?.tenant_id,
 						datas: checkoutData,
 						payment_type: gateway,
 					});
 					console.log('Response:', response);
-					if (response?.data === 'success') {
-						toast.success(response.message || 'Request successfully');
-						form.reset();
-						setOpen(false);
+					if (response?.data?.payment_url) {
+						window.location.href = response?.data?.payment_url;
 					} else {
-						toast.error(response.message || 'Something went wrong');
+						toast.error(response?.data?.message || 'Something went wrong');
 					}
 				} catch (error: any) {
 					toast.error('Something went wrong');

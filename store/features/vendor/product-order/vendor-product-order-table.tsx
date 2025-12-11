@@ -20,8 +20,10 @@ import {
 import { badgeFormat, dateFormat, sign, tableSrCount } from '@/lib';
 
 import { iPagination } from '@/types';
-import { Ellipsis, ExternalLink, Pencil } from 'lucide-react';
+import { Ellipsis, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
+import { VendorProductOrderStatus } from './vendor-product-order-status';
+import { VendorProductOrderStatusCancel } from './vendor-product-order-status-cancel';
 import { iVendorProductOrder } from './vendor-product-order-type';
 
 export function VendorProductOrderTable({
@@ -113,21 +115,102 @@ export function VendorProductOrderTable({
 										<DropdownMenuItem>
 											<Link
 												className="flex items-center gap-2 w-full"
-												href={`/orders/${item.id}/view`}
+												href={`/admin/merchant-product/${item.id}`}
 											>
 												<ExternalLink className="size-4" />
-												<span>View Order</span>
+												<span>View Product {item.status}</span>
 											</Link>
 										</DropdownMenuItem>
-										<DropdownMenuItem>
-											<Link
-												className="flex items-center gap-2 w-full"
-												href={`/orders/${item.id}/edit`}
-											>
-												<Pencil className="size-4" />
-												<span>Edit Order</span>
-											</Link>
-										</DropdownMenuItem>
+										{/*
+											If the order status is "hold", show the option to
+											mark it as "received"
+											*/}
+										{item?.status === 'hold' && (
+											<VendorProductOrderStatus
+												data={item}
+												icon="Clock"
+												status="pending"
+												text="Order Pending"
+											/>
+										)}
+										{/*
+											If the order status is "pending", show the option to
+											mark it as "received"
+											*/}
+										{item?.status === 'pending' && (
+											<VendorProductOrderStatus
+												data={item}
+												icon="PackageCheck"
+												status="received"
+												text="Order Received"
+											/>
+										)}
+										{/* If the order status is "received", show the option to
+											mark it as "processing" */}
+										{item?.status === 'received' && (
+											<VendorProductOrderStatus
+												data={item}
+												icon="PackageSearch"
+												status="processing"
+												text="Product Processing"
+											/>
+										)}
+										{/*If the order status is "processing", show the option to
+											mark it as "ready"*/}
+										{item?.status === 'processing' && (
+											<VendorProductOrderStatus
+												data={item}
+												icon="Box"
+												status="ready"
+												text="Product Ready"
+											/>
+										)}
+										{/* If the order status is NOT one of these (hold, pending,
+											progress, cancel, delivered), // then show the option to
+											mark it as "in delivery" (progress) */}
+										{![
+											'hold',
+											'pending',
+											'progress',
+											'cancel',
+											'delivered',
+										].includes(item?.status) && (
+											<VendorProductOrderStatus
+												data={item}
+												icon="Truck"
+												status="progress"
+												text="Delivery Processing"
+											/>
+										)}
+										{/* If the status is one of the "in-process" states, allow
+											the admin to cancel the order */}
+										{[
+											'ready',
+											'processing',
+											'received',
+											'pending',
+											'hold',
+										].includes(item?.status) && (
+											<VendorProductOrderStatusCancel data={item} />
+										)}
+										{/* If the order is "in delivery" (progress), allow marking
+											as delivered or returned */}
+										{item?.status === 'progress' && (
+											<>
+												<VendorProductOrderStatus
+													data={item}
+													icon="CheckCircle2"
+													status="delivered"
+													text="Product Delivered"
+												/>
+												<VendorProductOrderStatus
+													data={item}
+													icon="RotateCcw"
+													status="return"
+													text="Product Return"
+												/>
+											</>
+										)}
 									</DropdownMenuContent>
 								</DropdownMenu>
 							</TableCell>

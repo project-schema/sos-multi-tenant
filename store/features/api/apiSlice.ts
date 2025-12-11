@@ -124,6 +124,7 @@ export const apiSlice = createApi({
 
 		'DropShipperProduct',
 		'DropShipperCart',
+		'DropshipperProductOrder',
 
 		'Withdraw',
 		'VendorService',
