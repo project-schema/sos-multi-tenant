@@ -236,6 +236,8 @@ export const VendorProductEdit = ({
 		});
 	};
 
+	console.log(form.formState.errors);
+
 	return (
 		<Container1
 			header={
