@@ -20,7 +20,7 @@ const api = apiSlice.injectEndpoints({
 			any
 		>({
 			query: (data) => ({
-				url: '/user/create-advertise',
+				url: '/advertise',
 				method: 'POST',
 				body: data,
 			}),
@@ -40,7 +40,6 @@ const api = apiSlice.injectEndpoints({
 
 export const {
 	useUserAdvertiseQuery,
-	useUserAdvertiseCreateMutation,
 	useUserAdvertiseCountQuery,
 	useUserAdvertiseViewQuery,
 } = api;

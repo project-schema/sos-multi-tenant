@@ -112,7 +112,7 @@ export function UserSupportCreatePage() {
 					if (response.status === 200) {
 						toast.success(response.message || 'Created successfully');
 						form.reset();
-						router.push('/dashboard/support');
+						router.push('/user/support');
 					}
 				} catch (error: any) {
 					toast.error(error?.data?.message || 'Something went wrong');

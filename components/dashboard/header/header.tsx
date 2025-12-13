@@ -1,6 +1,5 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,12 +13,12 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { logout as logoutFn } from '@/lib';
-import { Bell, CreditCard, LogOut, Settings, User } from 'lucide-react';
+import { Bell } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Crumb, DbBreadcrumb } from '../breadcrumb/Breadcrumb';
 import { BalanceToggle } from './_ctx/balance-toggle';
+import { UserDropdown } from './_ctx/user-dropdown';
 export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
 	const { data: session } = useSession();
 
@@ -90,7 +89,7 @@ export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
 						<Button
 							variant="ghost"
 							size="sm"
-							className="relative cursor-pointer"
+							className="relative cursor-pointer hidden"
 						>
 							<Bell className="h-4 w-4" />
 							{unreadCount > 0 && (
@@ -137,49 +136,7 @@ export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
 				</DropdownMenu>
 
 				{/* User Profile Dropdown */}
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button
-							variant="ghost"
-							className="relative h-8 w-8 rounded-full cursor-pointer"
-						>
-							<Avatar className="h-12 w-12 bg-amber-100">
-								<AvatarImage alt="User" />
-								<AvatarFallback>JD</AvatarFallback>
-							</Avatar>
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent className="w-56" align="end" forceMount>
-						<DropdownMenuLabel className="font-normal">
-							<div className="flex flex-col space-y-1">
-								<p className="text-sm font-medium leading-none">John Doe</p>
-								<p className="text-xs leading-none text-muted-foreground">
-									john.doe@example.com
-								</p>
-							</div>
-						</DropdownMenuLabel>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem>
-							<Link className="flex gap-2 items-center" href="/profile">
-								<User className="mr-2 h-4 w-4" />
-								<span>Profile</span>
-							</Link>
-						</DropdownMenuItem>
-						<DropdownMenuItem>
-							<CreditCard className="mr-2 h-4 w-4" />
-							<span>Billing</span>
-						</DropdownMenuItem>
-						<DropdownMenuItem>
-							<Settings className="mr-2 h-4 w-4" />
-							<span>Settings</span>
-						</DropdownMenuItem>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem onClick={logout}>
-							<LogOut className="mr-2 h-4 w-4" />
-							<span>Log out</span>
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
+				{session?.user?.tenant_type === 'user' ? <UserDropdown /> : null}
 			</div>
 		</header>
 	);

@@ -131,5 +131,6 @@ export const apiSlice = createApi({
 		'VendorBarcodeGenerator',
 
 		'UserSupport',
+		'Advertise',
 	],
 });

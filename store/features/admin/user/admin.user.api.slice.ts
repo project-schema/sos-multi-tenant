@@ -139,7 +139,7 @@ const api = apiSlice.injectEndpoints({
 					/type/store
 				*/
 				const url = () => {
-					switch (data.role_as) {
+					switch (data.type) {
 						case 'Merchant':
 							return 'vendor';
 						case 'Dropshipper':

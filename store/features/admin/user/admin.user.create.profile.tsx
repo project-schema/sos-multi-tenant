@@ -100,12 +100,10 @@ export function UserCreateProfile() {
 					if (response.status === 200) {
 						toast.success(response.message || 'Profile updated successfully');
 						setOpen(false);
+						form.reset();
 					} else {
 						const errorResponse = response as any;
-						if (
-							response.status === 422 &&
-							typeof errorResponse.errors === 'object'
-						) {
+						if (typeof errorResponse.errors === 'object') {
 							Object.entries(errorResponse.errors).forEach(([field, value]) => {
 								form.setError(field as keyof ZodType, {
 									type: 'server',
@@ -117,7 +115,7 @@ export function UserCreateProfile() {
 						}
 					}
 				} catch (error: any) {
-					if (error?.status === 422 && typeof error.message === 'object') {
+					if (typeof error.message === 'object') {
 						Object.entries(error.message).forEach(([field, value]) => {
 							form.setError(field as keyof ZodType, {
 								type: 'server',

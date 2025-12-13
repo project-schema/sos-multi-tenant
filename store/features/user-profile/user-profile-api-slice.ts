@@ -8,10 +8,18 @@ const api = apiSlice.injectEndpoints({
 		// profile
 		profileData: builder.query<{ status: 200; user: iUserProfile }, undefined>({
 			query: () => ({
-				url: '/profile-data',
+				url: '/user/profile-data',
 				method: 'GET',
 			}),
 			providesTags: ['UserProfile'],
+		}),
+
+		// user history
+		UserTransitionHistory: builder.query<any, { page: number | string }>({
+			query: ({ page }) => ({
+				url: `/user/transition-history?page=${page}`,
+				method: 'GET',
+			}),
 		}),
 
 		// user update profile
@@ -63,7 +71,7 @@ const api = apiSlice.injectEndpoints({
 			{ status: string; page: number | string }
 		>({
 			query: ({ status, page }) => ({
-				url: `/all-withdraw/history?status=${status}&page=${page}`,
+				url: `/user/all-withdraw/history?status=${status}&page=${page}`,
 				method: 'GET',
 			}),
 			providesTags: ['Withdraw'],
@@ -79,6 +87,7 @@ const api = apiSlice.injectEndpoints({
 				method: 'POST',
 				body: data,
 			}),
+			invalidatesTags: ['Withdraw'],
 		}),
 	}),
 });
@@ -90,4 +99,5 @@ export const {
 	useAllBanksQuery,
 	useUserWithdrawMutation,
 	useAllWithdrawHistoryQuery,
+	useUserTransitionHistoryQuery,
 } = api;

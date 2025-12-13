@@ -125,6 +125,7 @@ const api = apiSlice.injectEndpoints({
 				};
 			},
 		}),
+
 		TenantCreateAdvertise: builder.mutation<
 			{ errors: any; data: 'success'; message: string; status: number },
 			any
