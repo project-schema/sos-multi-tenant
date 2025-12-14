@@ -31,6 +31,7 @@ const profileSchema = z.object({
 	image: z.any().optional(),
 	number: z.any().optional(),
 	number2: z.any().optional(),
+	email: z.string().email('Invalid email address'),
 });
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
@@ -50,6 +51,7 @@ export function UserSettings() {
 			image: null,
 			number2: data?.user?.number2 || '',
 			number: data?.user?.number || '',
+			email: data?.user?.email || '',
 		},
 	});
 
@@ -58,6 +60,7 @@ export function UserSettings() {
 			form.setValue('name', data.user.name || '');
 			form.setValue('number2', data.user.number2 || '');
 			form.setValue('number', data.user.number || '');
+			form.setValue('email', data.user.email || '');
 		}
 	}, [data]);
 
@@ -133,6 +136,24 @@ export function UserSettings() {
 							<FormLabel>Name</FormLabel>
 							<FormControl>
 								<Input placeholder="Enter your name" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="email"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Email</FormLabel>
+							<FormControl>
+								<Input
+									disabled
+									readOnly
+									placeholder="Enter your email"
+									{...field}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
