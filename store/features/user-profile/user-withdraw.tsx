@@ -131,15 +131,20 @@ export function UserWithdraw() {
 											{timeFormat(item.created_at)}
 										</TableCell>
 										<TableCell className="py-2">
-											<Badge
-												className="capitalize"
-												variant={badgeFormat(item.status)}
-											>
-												{item.status}
-											</Badge>
+											{item.admin_screenshot}
 										</TableCell>
 										<TableCell className="py-2">
 											{item.admin_transition_id}
+										</TableCell>
+										<TableCell className="py-2">
+											{item.status && (
+												<Badge
+													className="capitalize"
+													variant={badgeFormat(item.status)}
+												>
+													{item.status}
+												</Badge>
+											)}
 										</TableCell>
 									</TableRow>
 								))
