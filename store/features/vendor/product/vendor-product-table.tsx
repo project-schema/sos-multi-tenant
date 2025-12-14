@@ -115,7 +115,9 @@ export function VendorProductTable({
 								</Badge>
 							</TableCell>
 							<TableCell className="py-2">
-								<Badge variant="success">{item.discount_price || '00'} </Badge>
+								<Badge variant="success">
+									{item.discount_price || '00'} {sign.tk}
+								</Badge>
 							</TableCell>
 
 							<TableCell className="py-2">

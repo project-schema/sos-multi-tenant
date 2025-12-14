@@ -4,11 +4,11 @@ import { Container1, Loader8 } from '@/components/dashboard';
 import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
-import { AdminAdvertiseFilter } from '@/store/features/admin/advertise';
 
 import { SlidersHorizontal } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useUserAdvertiseQuery } from './api-slice';
+import { useUserServiceOrderQuery } from './api-slice';
+import { UserServiceTable } from './table';
 
 export function UserServicePage() {
 	const [toggleFilter, setToggleFilter] = useState(true);
@@ -18,7 +18,7 @@ export function UserServicePage() {
 	// Debounced version of searchTerm
 	const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-	const { data, isLoading, isError, isFetching } = useUserAdvertiseQuery({
+	const { data, isLoading, isError, isFetching } = useUserServiceOrderQuery({
 		page: page,
 		search: debouncedSearchTerm,
 	});
@@ -50,17 +50,17 @@ export function UserServicePage() {
 				}
 			>
 				{/* Filter */}
-				{toggleFilter && (
+				{/* {toggleFilter && (
 					<AdminAdvertiseFilter
 						searchTerm={searchTerm}
 						setSearchTerm={setSearchTerm}
 					/>
-				)}
+				)} */}
 				{data?.message && (
 					<>
 						<div className="border rounded-lg relative">
 							{isFetching && <Loader8 />}
-							{/* <UserServiceTable data={data?.message} /> */}
+							<UserServiceTable data={data?.message} />
 						</div>
 						{/* <Pagination1 pagination={data?.message} setPage={setPage} /> */}
 					</>

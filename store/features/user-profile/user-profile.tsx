@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
-import { useProfileDataQuery } from './user-profile-api-slice';
+import { Loader6 } from '@/components/dashboard/loader';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import {
 	Card,
 	CardContent,
@@ -9,10 +10,8 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { env, sign } from '@/lib';
-import { Loader6 } from '@/components/dashboard/loader';
+import { useProfileDataQuery } from './user-profile-api-slice';
 
 export function UserProfile() {
 	const { data, isLoading, isError } = useProfileDataQuery(undefined);

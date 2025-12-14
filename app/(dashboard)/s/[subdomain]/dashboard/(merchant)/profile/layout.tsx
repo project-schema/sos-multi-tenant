@@ -7,14 +7,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import {
-	Award,
-	CreditCard,
-	DollarSign,
-	FileBadge2,
-	Home,
-	ScrollText,
-} from 'lucide-react';
+import { Home, ScrollText, Store } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
@@ -42,24 +35,9 @@ export default function Layout({ children }: LayoutProps) {
 				icon: ScrollText,
 			},
 			{
-				title: 'Payments',
-				url: `/profile?tab=payments`,
-				icon: DollarSign,
-			},
-			{
-				title: 'Subscriptions',
-				url: `/profile?tab=subscriptions`,
-				icon: CreditCard,
-			},
-			{
-				title: 'Service',
-				url: `/profile?tab=service`,
-				icon: FileBadge2,
-			},
-			{
-				title: 'Advertisement',
-				url: `/profile?tab=advertisement`,
-				icon: Award,
+				title: 'My Shop',
+				url: `/profile?tab=my_shop`,
+				icon: Store,
 			},
 		],
 		[]

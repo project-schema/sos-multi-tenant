@@ -1,12 +1,13 @@
 'use client';
 
-import { Tent } from 'lucide-react';
+import { Earth, Tent } from 'lucide-react';
 import * as React from 'react';
 
 import {
 	Sidebar,
 	SidebarContent,
 	SidebarHeader,
+	useSidebar,
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import AppRoot from './app-root';
@@ -19,6 +20,7 @@ export function AppSidebarForVendor({
 	...props
 }: React.ComponentProps<typeof Sidebar>) {
 	const [searchQuery, setSearchQuery] = React.useState('');
+	const { state } = useSidebar();
 
 	const filteredProducts = filterItems(vendorSidebarData.products, searchQuery);
 	const filteredPos = filterItems(vendorSidebarData.pos, searchQuery);
@@ -32,8 +34,8 @@ export function AppSidebarForVendor({
 
 	return (
 		<Sidebar collapsible="icon" {...props}>
-			<SidebarHeader className="mb-4">
-				<Link href="/" className="flex items-center gap-2">
+			<SidebarHeader className="mb-4 relative">
+				<Link href="/dashboard" className="flex items-center gap-2">
 					<div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
 						<Tent className="size-4" />
 					</div>
@@ -44,6 +46,15 @@ export function AppSidebarForVendor({
 						<span className="truncate text-xs">This is your Business</span>
 					</div>
 				</Link>
+				{state === 'expanded' && (
+					<Link
+						href="/"
+						target="_blank"
+						className="flex items-center gap-2 absolute right-2 top-5"
+					>
+						<Earth className="size-6" />
+					</Link>
+				)}
 			</SidebarHeader>
 
 			{/*   Search Input */}

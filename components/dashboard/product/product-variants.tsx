@@ -1,6 +1,7 @@
 'use client';
 import { iCompleteMerchantProduct } from '@/store/features/admin/merchant-product';
 import { DropshipperProductAddToCart } from '@/store/features/dropshipper/product';
+import { useSession } from 'next-auth/react';
 
 interface SelectedVariant {
 	id: number;
@@ -16,6 +17,7 @@ export const ProductVariants = ({
 }: {
 	product: iCompleteMerchantProduct;
 }) => {
+	const { data: session } = useSession();
 	return (
 		<>
 			{/* Size Selection */}
@@ -76,7 +78,9 @@ export const ProductVariants = ({
 				</div>
 			</div> */}
 
-			<DropshipperProductAddToCart product={product} />
+			{session?.user?.tenant_type === 'dropshipper' && (
+				<DropshipperProductAddToCart product={product} />
+			)}
 		</>
 	);
 };

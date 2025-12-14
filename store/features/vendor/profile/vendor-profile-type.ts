@@ -13,7 +13,24 @@ export type AdminUserStatisticType = {
 
 export type statusType = 'all' | 'active' | 'pending';
 export type userType = 'all' | 'vendor' | 'affiliate' | 'user';
-
+const data = {
+	id: 'borax',
+	company_name: 'borax',
+	email: 'borax@gmail.com',
+	owner_name: 'borax',
+	phone: '01717171717',
+	number: '01717171717',
+	address: 'Dhaka, Bangladesh',
+	created_at: '2025-12-14T12:39:37.000000Z',
+	updated_at: '2025-12-14T12:39:37.000000Z',
+	data: '2025-12-14T12:39:37.000000Z',
+	deleted_at: '2025-12-14T12:39:37.000000Z',
+	type: 'merchant',
+	balance: '0.00',
+	tenancy_db_name: 'sosanik_tenant_borax',
+	image: '',
+};
+export type iVendorProfile = typeof data;
 export type iUser = {
 	id: number;
 	name: string;

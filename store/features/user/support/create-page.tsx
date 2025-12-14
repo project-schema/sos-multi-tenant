@@ -101,6 +101,7 @@ export function UserSupportCreatePage() {
 					const response: any = await store({
 						...data,
 						status: 'pending',
+						tenant_type: 'user',
 					}).unwrap();
 					if (response.message === 'Validation errors') {
 						console.log(response.data, 'test');

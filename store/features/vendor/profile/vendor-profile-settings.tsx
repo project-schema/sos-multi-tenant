@@ -20,28 +20,67 @@ import { LoaderCircle } from 'lucide-react';
 
 import { Loader6 } from '@/components/dashboard/loader';
 import { ImageUpload } from '@/components/ui/image-upload';
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '@/components/ui/select';
 import { alertConfirm, env } from '@/lib';
 import {
 	useVendorProfileInfoQuery,
 	useVendorProfileUpdateMutation,
 } from './vendor-profile-api-slice';
 
-const profileSchema = z.object({
-	name: z.string({ error: 'Name is required' }).min(1, 'Name is required'),
-	email: z.email('Invalid email address'),
-	image: z.any().optional(),
-	number: z.string({ error: 'Phone number is required' }).optional(),
-	balance: z.union([z.string(), z.number()]).optional(),
-	password: z.string({ error: 'Password is required' }).optional(),
-	status: z.enum(['active', 'pending', 'blocked']),
-});
+const profileSchema = z
+	.object({
+		name: z.string({ error: 'Name is required' }).min(1, 'Name is required'),
+		email: z.email('Invalid email address'),
+		image: z.any().optional(),
+		number: z.string({ error: 'Phone number is required' }).optional(),
+		balance: z.union([z.string(), z.number()]).optional(),
+		old_password: z.string().optional(),
+		new_password: z.string().optional(),
+		confirm_password: z.string().optional(),
+	})
+	.superRefine((values, ctx) => {
+		const wantsPasswordChange =
+			!!values.old_password ||
+			!!values.new_password ||
+			!!values.confirm_password;
+
+		if (!wantsPasswordChange) return;
+
+		if (!values.old_password) {
+			ctx.addIssue({
+				path: ['old_password'],
+				code: z.ZodIssueCode.custom,
+				message: 'Old password is required',
+			});
+		}
+
+		if (!values.new_password) {
+			ctx.addIssue({
+				path: ['new_password'],
+				code: z.ZodIssueCode.custom,
+				message: 'New password is required',
+			});
+		} else if (values.new_password.length < 8) {
+			ctx.addIssue({
+				path: ['new_password'],
+				code: z.ZodIssueCode.custom,
+				message: 'New password must be at least 8 characters',
+			});
+		}
+
+		if (!values.confirm_password) {
+			ctx.addIssue({
+				path: ['confirm_password'],
+				code: z.ZodIssueCode.custom,
+				message: 'Please confirm the new password',
+			});
+		} else if (values.new_password !== values.confirm_password) {
+			ctx.addIssue({
+				path: ['confirm_password'],
+				code: z.ZodIssueCode.custom,
+				message: 'Passwords do not match',
+			});
+		}
+	});
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
@@ -56,34 +95,40 @@ export function VendorProfileSettings() {
 	const form = useForm<ProfileFormValues>({
 		resolver: zodResolver(profileSchema),
 		defaultValues: {
-			name: data?.user?.name || '',
+			name: data?.user?.owner_name || '',
 			email: data?.user?.email || '',
 			image: null,
 			number: data?.user?.number || '',
 			balance: data?.user?.balance || '',
-			password: '',
-			status: data?.user?.status || 'active',
+			old_password: '',
+			new_password: '',
+			confirm_password: '',
 		},
 	});
 
 	useEffect(() => {
 		if (data) {
-			form.setValue('name', data.user.name || '');
+			form.setValue('name', data.user.owner_name || '');
 			form.setValue('email', data.user.email || '');
 			form.setValue('number', data.user.number || '');
 			form.setValue('balance', data.user.balance || '');
-			form.setValue('status', data.user.status || 'active');
 		}
 	}, [data]);
 
 	async function onSubmit(values: ProfileFormValues) {
+		const { confirm_password, new_password, old_password, ...rest } = values;
+
+		const payload = { ...data?.user, ...rest };
+
 		alertConfirm({
 			onOk: async () => {
 				try {
 					// Assuming update accepts FormData
 					const response: any = await update({
-						...data?.user,
-						...values,
+						...payload,
+						old_password,
+						new_password,
+						confirm_password,
 					}).unwrap();
 
 					if (response.status === 200) {
@@ -170,7 +215,7 @@ export function VendorProfileSettings() {
 							<FormItem>
 								<FormLabel>Email</FormLabel>
 								<FormControl>
-									<Input type="email" {...field} />
+									<Input disabled type="email" {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -200,49 +245,65 @@ export function VendorProfileSettings() {
 							<FormItem>
 								<FormLabel>Balance</FormLabel>
 								<FormControl>
-									<Input type="number" step="0.01" {...field} />
+									<Input disabled type="number" step="0.01" {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
 
+					{/* Old Password */}
 					<FormField
 						control={form.control}
-						name="password"
+						name="old_password"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Old Password</FormLabel>
+								<FormControl>
+									<Input
+										type="password"
+										autoComplete="current-password"
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					{/* New Password */}
+					<FormField
+						control={form.control}
+						name="new_password"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>New Password</FormLabel>
 								<FormControl>
-									<Input type="password" {...field} />
+									<Input
+										type="password"
+										autoComplete="new-password"
+										{...field}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
 
-					{/* Status */}
+					{/* Confirm New Password */}
 					<FormField
 						control={form.control}
-						name="status"
+						name="confirm_password"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Status</FormLabel>
-								<Select
-									onValueChange={field.onChange}
-									defaultValue={field.value}
-								>
-									<FormControl>
-										<SelectTrigger className="w-full">
-											<SelectValue placeholder="Select status" />
-										</SelectTrigger>
-									</FormControl>
-									<SelectContent>
-										<SelectItem value="active">Active</SelectItem>
-										<SelectItem value="pending">Pending</SelectItem>
-										<SelectItem value="blocked">Blocked</SelectItem>
-									</SelectContent>
-								</Select>
+								<FormLabel>Confirm New Password</FormLabel>
+								<FormControl>
+									<Input
+										type="password"
+										autoComplete="new-password"
+										{...field}
+									/>
+								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}

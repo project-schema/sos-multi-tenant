@@ -29,30 +29,22 @@ import {
 } from '@/lib';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { iPagination } from '@/types';
 import { Ellipsis, ExternalLink, Pencil } from 'lucide-react';
 import Link from 'next/link';
 // import { VendorServicesDelete } from './vendor-services-delete';
 // import { iVendorServices } from './vendor-services-type';
-export function UserServiceTable({
-	data,
-}: {
-	data: iPagination<iVendorServices>;
-}) {
+export function UserServiceTable({ data }: { data: any }) {
 	const services = data.data;
 	return (
 		<Table>
 			<TableHeader>
 				<TableRow>
 					<TableHead className="bg-stone-100">Sr.</TableHead>
-					<TableHead className="bg-stone-100 w-10">ID</TableHead>
-
-					<TableHead className="bg-stone-100"> Title </TableHead>
-					<TableHead className="bg-stone-100">Commission </TableHead>
-					<TableHead className="bg-stone-100">Image </TableHead>
+					<TableHead className="bg-stone-100 w-10">Service</TableHead>
+					<TableHead className="bg-stone-100"> Seller Name </TableHead>
+					<TableHead className="bg-stone-100">Amount </TableHead>
+					<TableHead className="bg-stone-100">Details Date </TableHead>
 					<TableHead className="bg-stone-100">Status </TableHead>
-					<TableHead className="bg-stone-100">Date </TableHead>
-
 					<TableHead className="bg-stone-100">Action </TableHead>
 				</TableRow>
 			</TableHeader>
@@ -67,7 +59,7 @@ export function UserServiceTable({
 						</TableCell>
 					</TableRow>
 				) : (
-					services?.map((item, i) => (
+					services?.map((item: any, i: number) => (
 						<TableRow key={item.id}>
 							<TableCell className="py-2 pl-4">
 								{tableSrCount(data.current_page, i)}
@@ -75,7 +67,6 @@ export function UserServiceTable({
 							<TableCell className="font-medium py-4">
 								#{item.uniqueid}
 							</TableCell>
-
 							<TableCell className="py-2">
 								<Link
 									className="hover:underline hover:text-blue-500 transition"
@@ -104,7 +95,6 @@ export function UserServiceTable({
 									</Avatar>
 								</Link>
 							</TableCell>
-
 							<TableCell className="py-2">
 								<Badge
 									className="capitalize"
@@ -129,7 +119,7 @@ export function UserServiceTable({
 	);
 }
 
-const DropdownAction = ({ item }: { item: iVendorServices }) => {
+const DropdownAction = ({ item }: { item: any }) => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -165,7 +155,6 @@ const DropdownAction = ({ item }: { item: iVendorServices }) => {
 
 				<DropdownMenuSeparator />
 				{/* Delete Service  */}
-				<VendorServicesDelete data={item} />
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

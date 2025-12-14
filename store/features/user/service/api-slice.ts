@@ -3,12 +3,12 @@ import { iUserAdvertiseResponse, iUserAdvertiseStatistics } from './type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
-		UserAdvertise: builder.query<
+		UserServiceOrder: builder.query<
 			iUserAdvertiseResponse,
 			{ page: number | string; search: string }
 		>({
 			query: ({ page, search }) => ({
-				url: '/user/all-advertise',
+				url: '/service/orders',
 				method: 'GET',
 				params: { page, search },
 			}),
@@ -26,4 +26,4 @@ const api = apiSlice.injectEndpoints({
 	}),
 });
 
-export const {} = api;
+export const { useUserServiceOrderQuery } = api;

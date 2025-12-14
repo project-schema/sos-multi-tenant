@@ -2,11 +2,11 @@
 
 import { Card1, Loader2 } from '@/components/dashboard';
 import { Clock, PackageCheck, PackageX, TrendingUp } from 'lucide-react'; // Added more icons
-import { useUserAdvertiseCountQuery } from './api-slice';
+import { useUserServiceOrderQuery } from './api-slice';
 import { iUserAdvertiseStatistics } from './type';
 
 export function UserAdvertiseStatistics() {
-	const { data, isLoading, isError } = useUserAdvertiseCountQuery(undefined);
+	const { data, isLoading, isError } = useUserServiceOrderQuery();
 
 	if (isLoading) {
 		return <Loader2 />;

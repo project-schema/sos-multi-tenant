@@ -14,7 +14,7 @@ export const ProductInfo = ({
 				<h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
 					{product?.name}
 				</h1>
-				<div className="flex items-center space-x-2">
+				<div className="flex items-center space-x-2 hidden! ">
 					<div className="flex">
 						{[1, 2, 3, 4, 5].map((star) => (
 							<Star
@@ -32,10 +32,17 @@ export const ProductInfo = ({
 			</div>
 
 			<div className="flex items-center gap-4">
-				<p className="text-2xl font-semibold">৳ {product?.selling_price}</p>
 				{product?.discount_price && (
+					<p className="text-2xl font-semibold">৳ {product?.discount_price}</p>
+				)}
+				{!product?.discount_price && (
 					<p className="text-lg line-through text-gray-500">
-						৳ {product?.original_price}
+						৳ {product?.selling_price}
+					</p>
+				)}
+				{product?.selling_price && (
+					<p className="text-lg line-through text-gray-500">
+						৳ {product?.selling_price}
 					</p>
 				)}
 			</div>

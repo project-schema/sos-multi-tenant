@@ -36,7 +36,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: '/user/update/profile',
+					url: '/profile-data-update',
 					method: 'POST',
 					body,
 					formData: true,
