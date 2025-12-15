@@ -29,6 +29,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { LoaderCircle } from 'lucide-react';
 
 import { alertConfirm, sign } from '@/lib';
+import { useRouter } from 'next/navigation';
 import { useVendorPurchaseReturnMutation } from './vendor-purchase-api-slice';
 import { iVendorPurchaseShow } from './vendor-purchase-type';
 
@@ -60,6 +61,7 @@ const returnSchema = z.object({
 type ReturnFormData = z.infer<typeof returnSchema>;
 
 export function VendorPurchaseReturn({ data }: { data: iVendorPurchaseShow }) {
+	const router = useRouter();
 	const { logo, purchase_show } = data;
 	const [submitReturn, { isLoading }] = useVendorPurchaseReturnMutation();
 	const form = useForm<ReturnFormData>({
@@ -120,6 +122,7 @@ export function VendorPurchaseReturn({ data }: { data: iVendorPurchaseShow }) {
 					if (response.status === 200) {
 						toast.success(response.message || 'Return submitted successfully');
 						form.reset();
+						router.push(`/dashboard/purchase/return`);
 					} else {
 						toast.error(response.message || 'Failed to submit return');
 					}

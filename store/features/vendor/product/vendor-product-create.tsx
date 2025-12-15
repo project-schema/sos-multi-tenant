@@ -229,6 +229,7 @@ export const VendorProductCreate = () => {
 													value={field.value ?? []}
 													onChange={field.onChange}
 													defaultImages={[]}
+													maxImages={4}
 												/>
 											</FormItem>
 										)}
@@ -1137,7 +1138,7 @@ export const VendorProductCreate = () => {
 																		render={({ field }) => (
 																			<FormItem className="gap-6">
 																				<FormLabel>
-																					Discount/Commission
+																					Dropshipper Commission
 																				</FormLabel>
 																				<FormControl>
 																					<Input

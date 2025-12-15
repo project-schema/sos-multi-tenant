@@ -242,18 +242,18 @@ export const VendorProductCreateData = (values: VendorProductCreateZod) => {
 		pre_order: values.pre_order ? '1' : '0',
 		is_connect_bulk_single: 1,
 	};
-	const single = {
+	let single = {
 		selling_type: values.selling_type,
 		advance_payment: values.advance_payment,
 		single_advance_payment_type: values.single_advance_payment_type,
 		discount_rate: values.discount_rate,
 		discount_type: values.discount_type,
 	};
-	const bulk = {
+	let bulk = {
 		selling_type: values.selling_type,
 		selling_details: values.selling_details,
 	};
-	const both = {
+	let both = {
 		selling_type: values.selling_type,
 		advance_payment: values.advance_payment,
 		single_advance_payment_type: values.single_advance_payment_type,
@@ -262,6 +262,12 @@ export const VendorProductCreateData = (values: VendorProductCreateZod) => {
 		selling_details: values.selling_details,
 		is_connect_bulk_single: values.is_connect_bulk_single ? '0' : '1',
 	};
+
+	if (data.pre_order.toString() === '1') {
+		return {
+			...data,
+		};
+	}
 
 	if (values.selling_type === 'both') {
 		return {

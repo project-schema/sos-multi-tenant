@@ -93,7 +93,7 @@ export const VendorProductEdit = ({
 			alert_qty: Number(editData.alert_qty),
 
 			sku: editData.sku,
-			warranty: editData.warranty,
+			warranty: editData.warranty || '',
 			exp_date: new Date(editData.exp_date),
 
 			short_description: editData.short_description,
@@ -175,7 +175,7 @@ export const VendorProductEdit = ({
 			discount_price: Number(editData.discount_price),
 			alert_qty: Number(editData.alert_qty),
 			sku: editData.sku,
-			warranty: editData.warranty,
+			warranty: editData.warranty || '',
 			short_description: editData.short_description,
 			long_description: editData.long_description,
 			is_feature: editData.is_feature,

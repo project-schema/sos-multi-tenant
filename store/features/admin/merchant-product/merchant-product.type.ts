@@ -34,6 +34,7 @@ export type iMerchantProduct = {
 	updated_at: string;
 	deleted_at: null | string;
 	product_variant: null | iVariant[];
+
 	rejected_details: string;
 	selling_type: 'single' | 'bulk' | 'both';
 	selling_details: null | iSellingDetail[];
@@ -80,6 +81,12 @@ export type iVariant = {
 	deleted_at: null;
 	created_at: string;
 	updated_at: string;
+	product: {
+		id: number;
+		name: string;
+		selling_price: string;
+		sku: string;
+	};
 	size: {
 		id: number;
 		name: string;

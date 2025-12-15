@@ -8,6 +8,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { sign } from '@/lib';
 import { iCompleteMerchantProduct } from '@/store/features/admin/merchant-product';
 import { Star } from 'lucide-react';
 import { ProductVariants } from './product-variants';
@@ -68,6 +69,33 @@ export const ProductInfo = ({
 
 			<div>SKU: {product?.sku}</div>
 
+			{(product.selling_type === 'single' ||
+				product.selling_type === 'both') && (
+				<div className="mt-4 border rounded-lg  space-y-2 p-3">
+					<p>Single Product Details</p>
+					<div className="flex items-center gap-2">
+						<h2 className="text-lg font-medium">Advance Payment</h2>
+						<p>
+							<Badge>
+								{product?.advance_payment}{' '}
+								{product.single_advance_payment_type === 'flat'
+									? sign.tk
+									: sign.percent}
+							</Badge>
+						</p>
+					</div>
+					<div className="flex items-center gap-2">
+						<h2 className="text-lg font-medium">Dropshipper Commission</h2>
+						<p>
+							<Badge>
+								{product?.discount_rate}{' '}
+								{product.discount_type === 'flat' ? sign.tk : sign.percent}
+							</Badge>
+						</p>
+					</div>
+				</div>
+			)}
+
 			{product?.product_variant && product?.product_variant?.length > 0 && (
 				<div className="mt-4 border rounded-lg p-1">
 					<p>Product Variants Details</p>
@@ -89,7 +117,11 @@ export const ProductInfo = ({
 										<TableCell>{variant?.unit?.unit_name}</TableCell>
 										<TableCell>{variant?.size?.name}</TableCell>
 										<TableCell>{variant?.color?.name}</TableCell>
-										<TableCell>{variant?.rate} BDT</TableCell>
+										<TableCell>
+											<Badge>
+												{variant?.product?.selling_price} {sign.tk}
+											</Badge>
+										</TableCell>
 										<TableCell>{variant?.qty}</TableCell>
 									</TableRow>
 								);
@@ -115,9 +147,21 @@ export const ProductInfo = ({
 							{product?.selling_details?.map((variant, index) => (
 								<TableRow key={index}>
 									<TableCell>{variant?.min_bulk_qty}</TableCell>
-									<TableCell>{variant?.min_bulk_price} BDT</TableCell>
-									<TableCell>{variant?.bulk_commission} BDT</TableCell>
-									<TableCell>{variant?.advance_payment}</TableCell>
+									<TableCell>
+										{variant?.min_bulk_price} {sign.tk}
+									</TableCell>
+									<TableCell>
+										{variant?.bulk_commission}{' '}
+										{variant.bulk_commission_type === 'flat'
+											? sign.tk
+											: sign.percent}
+									</TableCell>
+									<TableCell>
+										{variant?.advance_payment}{' '}
+										{variant.advance_payment_type === 'flat'
+											? sign.tk
+											: sign.percent}
+									</TableCell>
 								</TableRow>
 							))}
 						</TableBody>
