@@ -80,7 +80,7 @@ const handler = NextAuth({
 		maxAge: 24 * 60 * 60, // 24 hours
 	},
 	callbacks: {
-		async jwt({ token, user, account }) {
+		async jwt({ token, user, account, trigger, session }) {
 			// Initial sign in
 			if (account && user) {
 				const customUser = user as CustomUser;
@@ -94,6 +94,19 @@ const handler = NextAuth({
 					},
 					tenant_id: customUser.tenant_id,
 					tenant_type: customUser.tenant_type,
+					iat: Math.floor(Date.now() / 1000),
+					exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60, // 24 hours
+				};
+			}
+
+			// Handle explicit client-side session updates
+			if (trigger === 'update' && session?.user) {
+				return {
+					...token,
+					user: {
+						...token.user,
+						...(session.user as UserType),
+					},
 					iat: Math.floor(Date.now() / 1000),
 					exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60, // 24 hours
 				};

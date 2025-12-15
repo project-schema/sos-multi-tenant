@@ -4,6 +4,7 @@ import { ProductInfo } from '@/components/dashboard/product/product-info';
 import { ProductTabs } from '@/components/dashboard/product/product-tab';
 
 export const VendorProductView = ({ product }: { product: any }) => {
+	console.log({ product });
 	return (
 		<div>
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-10">

@@ -4,7 +4,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { env } from '@/lib';
 import { iCompleteMerchantProduct } from '@/store/features/admin/merchant-product';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import Image from 'next/image';
 import { useState } from 'react';
 
 export const ProductImages = ({
@@ -13,27 +12,38 @@ export const ProductImages = ({
 	product: iCompleteMerchantProduct;
 }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
+	const [isFading, setIsFading] = useState(false);
+	const mainImage = product?.image
+		? `${env.baseAPI}/${product?.image}`
+		: '/placeholder.svg';
 
-	const images =
-		product?.product_image?.length > 0
-			? product?.product_image
-			: [
-					{
-						id: 0,
-						image: product?.image,
-						created_at: '',
-						updated_at: '',
-						deleted_at: null,
-					},
-			  ];
+	const images = [
+		{
+			id: 0,
+			image: product?.image,
+			created_at: '',
+			updated_at: '',
+			deleted_at: null,
+		},
+		...product?.product_image,
+	];
 
-	const nextImage = () => {
-		setCurrentIndex((prev) => (prev + 1) % images.length);
+	console.log(`image : ${env.baseAPI}/${images[currentIndex]?.image}`);
+
+	console.log(images);
+	const changeImage = (direction: 1 | -1) => {
+		if (images.length === 0) return;
+		setIsFading(true);
+		setTimeout(() => {
+			setCurrentIndex(
+				(prev) => (prev + direction + images.length) % images.length
+			);
+			setIsFading(false);
+		}, 150);
 	};
 
-	const previousImage = () => {
-		setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-	};
+	const nextImage = () => changeImage(1);
+	const previousImage = () => changeImage(-1);
 
 	return (
 		<Card>
@@ -49,15 +59,16 @@ export const ProductImages = ({
 					</Button>
 
 					<div className="relative w-full h-full overflow-hidden rounded-2xl group bg-stone-100">
-						<Image
+						<img
 							src={
 								images[currentIndex]?.image
 									? `${env.baseAPI}/${images[currentIndex]?.image}`
 									: '/placeholder.svg'
 							}
 							alt={product.name}
-							fill
-							className="object-contain transition-all duration-300 group-hover:scale-110"
+							className={`object-cover w-full h-full transition-all  group-hover:scale-110   duration-200 ${
+								isFading ? 'opacity-0' : 'opacity-100'
+							}`}
 						/>
 					</div>
 
@@ -75,7 +86,14 @@ export const ProductImages = ({
 					{images.slice(0, 5).map((img, index) => (
 						<button
 							key={img.id}
-							onClick={() => setCurrentIndex(index)}
+							onClick={() => {
+								if (index === currentIndex) return;
+								setIsFading(true);
+								setTimeout(() => {
+									setCurrentIndex(index);
+									setIsFading(false);
+								}, 150);
+							}}
 							className={`relative w-16 h-16 rounded-lg overflow-hidden transition-all
               ${
 								currentIndex === index
@@ -83,13 +101,12 @@ export const ProductImages = ({
 									: 'hover:ring-1 hover:ring-gray-200'
 							}`}
 						>
-							<Image
+							<img
 								src={
 									img.image ? `${env.baseAPI}/${img.image}` : '/placeholder.svg'
 								}
 								alt={`${product.name} thumbnail ${index}`}
-								fill
-								className="object-contain"
+								className="object-cover w-full h-full transition-all duration-300 group-hover:scale-110"
 							/>
 						</button>
 					))}

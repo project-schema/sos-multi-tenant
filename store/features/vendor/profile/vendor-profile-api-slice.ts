@@ -1,6 +1,11 @@
 import { iPagination } from '@/types';
 import { apiSlice } from '../../api/apiSlice';
-import { iNote, iUser, iVendorProfile } from './vendor-profile-type';
+import {
+	iNote,
+	iUser,
+	iVendorProfile,
+	iVendorShopInfo,
+} from './vendor-profile-type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
@@ -24,6 +29,40 @@ const api = apiSlice.injectEndpoints({
 				method: 'GET',
 				params: { page },
 			}),
+		}),
+
+		// shop-info
+		VendorShopInfo: builder.query<
+			{ status: 200; shop_info: iVendorShopInfo },
+			undefined
+		>({
+			query: () => ({
+				url: `/shop-info`,
+				method: 'GET',
+			}),
+			providesTags: ['VendorShopInfo'],
+		}),
+
+		// shop-info-update
+		VendorShopInfoUpdate: builder.mutation<
+			{ status: 200; user: iVendorShopInfo },
+			any
+		>({
+			query: (data) => {
+				const body = new FormData();
+				Object.entries(data).forEach(([key, value]) => {
+					if (value) {
+						body.append(key, value as string);
+					}
+				});
+				return {
+					url: `/shop-info-update`,
+					method: 'POST',
+					body,
+					formData: true,
+				};
+			},
+			invalidatesTags: ['VendorShopInfo'],
 		}),
 
 		VendorProfileUpdate: builder.mutation<{ status: 200; user: iUser }, any>({
@@ -75,4 +114,6 @@ export const {
 	useVendorProfileUpdateMutation,
 	useVendorProfileNoteQuery,
 	useVendorProfileShopUpdateMutation,
+	useVendorShopInfoQuery,
+	useVendorShopInfoUpdateMutation,
 } = api;

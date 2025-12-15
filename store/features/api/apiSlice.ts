@@ -116,6 +116,8 @@ export const apiSlice = createApi({
 		'VendorPurchase',
 		'VendorProductPurchaseCreateData',
 
+		'VendorShopInfo',
+
 		'VendorPosSales',
 		'VendorDamageProducts',
 		'VendorWastageProducts',

@@ -20,17 +20,19 @@ import { LoaderCircle } from 'lucide-react';
 
 import { Loader6 } from '@/components/dashboard/loader';
 import { ImageUpload } from '@/components/ui/image-upload';
+import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm, env } from '@/lib';
 import {
-	useVendorProfileInfoQuery,
-	useVendorProfileShopUpdateMutation,
+	useVendorShopInfoQuery,
+	useVendorShopInfoUpdateMutation,
 } from './vendor-profile-api-slice';
 
 const shopSchema = z.object({
-	shop_name: z.string({ error: 'Shop name is required' }).min(1, 'Required'),
-	email: z.email('Invalid email address'),
+	company_name: z.string({ error: 'Shop name is required' }).min(1, 'Required'),
+	owner_name: z.string({ error: 'Shop name is required' }).min(1, 'Required'),
 	phone: z.string({ error: 'Phone is required' }).min(1, 'Required'),
 	address: z.string().optional(),
+
 	image: z.any().optional(),
 });
 
@@ -41,46 +43,36 @@ export function MyShop() {
 		data,
 		isLoading: profileLoading,
 		isError,
-	} = useVendorProfileInfoQuery(undefined);
-	const [update, { isLoading }] = useVendorProfileShopUpdateMutation();
+	} = useVendorShopInfoQuery(undefined);
+	const [update, { isLoading }] = useVendorShopInfoUpdateMutation();
 
 	const form = useForm<ShopFormValues>({
 		resolver: zodResolver(shopSchema),
 		defaultValues: {
-			shop_name:
-				data?.user?.company_name ??
-				(data as any)?.user?.shop_name ??
-				(data as any)?.shop_name ??
-				'',
-			email: data?.user?.email ?? '',
-			phone: data?.user?.phone ?? data?.user?.number ?? '',
-			address: data?.user?.address ?? '',
+			company_name: data?.shop_info?.company_name ?? '',
+			owner_name: data?.shop_info?.owner_name ?? '',
+			phone: data?.shop_info?.phone ?? '',
+			address: data?.shop_info?.address ?? '',
 			image: null,
 		},
 	});
 
 	useEffect(() => {
-		if (data?.user) {
-			form.setValue(
-				'shop_name',
-				data.user.company_name ??
-					(data as any)?.user?.shop_name ??
-					(data as any)?.shop_name ??
-					''
-			);
-			form.setValue('email', data.user.email ?? '');
-			form.setValue('phone', data.user.phone ?? data.user.number ?? '');
-			form.setValue('address', data.user.address ?? '');
+		if (data?.shop_info) {
+			form.setValue('company_name', data.shop_info.company_name ?? '');
+			form.setValue('owner_name', data.shop_info.owner_name ?? '');
+			form.setValue('phone', data.shop_info.phone ?? '');
+			form.setValue('address', data.shop_info.address ?? '');
 		}
-	}, [data, form]);
+	}, [data?.shop_info, form]);
 
 	async function onSubmit(values: ShopFormValues) {
 		const payload = {
-			shop_name: values.shop_name,
-			email: values.email,
+			company_name: values.company_name,
+			owner_name: values.owner_name,
 			phone: values.phone,
 			address: values.address,
-			image: values.image,
+			image: values.image ? values.image : null,
 		};
 
 		alertConfirm({
@@ -139,7 +131,9 @@ export function MyShop() {
 								value={field.value}
 								onChange={(file) => field.onChange(file)}
 								defaultImage={
-									data?.user?.image ? `${env.baseAPI}/${data.user.image}` : null
+									data?.shop_info?.data
+										? `${env.baseAPI}/${data.shop_info.data}`
+										: null
 								}
 							/>
 						</FormItem>
@@ -149,12 +143,12 @@ export function MyShop() {
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 					<FormField
 						control={form.control}
-						name="shop_name"
+						name="company_name"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Shop Name</FormLabel>
+								<FormLabel>Company Name</FormLabel>
 								<FormControl>
-									<Input {...field} />
+									<Input {...field} placeholder="Enter company name..." />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -163,12 +157,12 @@ export function MyShop() {
 
 					<FormField
 						control={form.control}
-						name="email"
+						name="owner_name"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Email</FormLabel>
+								<FormLabel>Owner Name</FormLabel>
 								<FormControl>
-									<Input type="email" {...field} />
+									<Input {...field} placeholder="Enter owner name..." />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -182,7 +176,7 @@ export function MyShop() {
 							<FormItem>
 								<FormLabel>Phone</FormLabel>
 								<FormControl>
-									<Input type="tel" {...field} />
+									<Input {...field} placeholder="Enter phone number..." />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -196,7 +190,7 @@ export function MyShop() {
 							<FormItem className="sm:col-span-2">
 								<FormLabel>Address</FormLabel>
 								<FormControl>
-									<Input {...field} />
+									<Textarea {...field} placeholder="Enter address..." />
 								</FormControl>
 								<FormMessage />
 							</FormItem>

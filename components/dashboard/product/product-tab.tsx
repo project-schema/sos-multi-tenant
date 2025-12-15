@@ -8,7 +8,7 @@ export const ProductTabs = ({
 	product: iCompleteMerchantProduct;
 }) => {
 	return (
-		<div className="mt-16">
+		<div className="mt-16 pb-16">
 			<Tabs defaultValue="details">
 				<TabsList className="w-full justify-start border-b">
 					<TabsTrigger value="details" className="text-lg">
@@ -31,7 +31,10 @@ export const ProductTabs = ({
 					/>
 				</TabsContent>
 
-				<TabsContent value="specs" className="mt-4">
+				<TabsContent
+					value="specs"
+					className="mt-4 mx-auto max-w-[800px] w-full"
+				>
 					{product?.specifications ? (
 						<table className="w-full text-left">
 							<tbody>

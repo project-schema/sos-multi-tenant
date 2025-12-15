@@ -14,23 +14,35 @@ export type AdminUserStatisticType = {
 export type statusType = 'all' | 'active' | 'pending';
 export type userType = 'all' | 'vendor' | 'affiliate' | 'user';
 const data = {
+	id: 1,
+	name: 'Test',
+	email: 'borax@gmail.com',
+	last_seen: '2025-12-15 18:38:15',
+	created_at: '2025-12-14T12:39:55.000000Z',
+	updated_at: '2025-12-15T12:49:16.000000Z',
+};
+
+const shopData = {
 	id: 'borax',
 	company_name: 'borax',
 	email: 'borax@gmail.com',
 	owner_name: 'borax',
-	phone: '01717171717',
-	number: '01717171717',
-	address: 'Dhaka, Bangladesh',
+	phone: '',
+	address: '',
 	created_at: '2025-12-14T12:39:37.000000Z',
-	updated_at: '2025-12-14T12:39:37.000000Z',
-	data: '2025-12-14T12:39:37.000000Z',
-	deleted_at: '2025-12-14T12:39:37.000000Z',
+	updated_at: '2025-12-14T14:37:13.000000Z',
+	data: '',
+	deleted_at: '',
 	type: 'merchant',
 	balance: '0.00',
 	tenancy_db_name: 'sosanik_tenant_borax',
-	image: '',
+	name: 'borax',
+	number: 'borax@gmail.com',
+	number2: '',
 };
+
 export type iVendorProfile = typeof data;
+export type iVendorShopInfo = typeof shopData;
 export type iUser = {
 	id: number;
 	name: string;

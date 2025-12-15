@@ -21,6 +21,7 @@ import { LoaderCircle } from 'lucide-react';
 import { Loader6 } from '@/components/dashboard/loader';
 import { ImageUpload } from '@/components/ui/image-upload';
 import { alertConfirm, env } from '@/lib';
+import { useSession } from 'next-auth/react';
 import {
 	useVendorProfileInfoQuery,
 	useVendorProfileUpdateMutation,
@@ -31,8 +32,6 @@ const profileSchema = z
 		name: z.string({ error: 'Name is required' }).min(1, 'Name is required'),
 		email: z.email('Invalid email address'),
 		image: z.any().optional(),
-		number: z.string({ error: 'Phone number is required' }).optional(),
-		balance: z.union([z.string(), z.number()]).optional(),
 		old_password: z.string().optional(),
 		new_password: z.string().optional(),
 		confirm_password: z.string().optional(),
@@ -91,15 +90,13 @@ export function VendorProfileSettings() {
 		isError,
 	} = useVendorProfileInfoQuery(undefined);
 	const [update, { isLoading }] = useVendorProfileUpdateMutation();
-
+	const { update: updateSession, data: session } = useSession();
 	const form = useForm<ProfileFormValues>({
 		resolver: zodResolver(profileSchema),
 		defaultValues: {
-			name: data?.user?.owner_name || '',
+			name: data?.user?.name || '',
 			email: data?.user?.email || '',
 			image: null,
-			number: data?.user?.number || '',
-			balance: data?.user?.balance || '',
 			old_password: '',
 			new_password: '',
 			confirm_password: '',
@@ -108,10 +105,8 @@ export function VendorProfileSettings() {
 
 	useEffect(() => {
 		if (data) {
-			form.setValue('name', data.user.owner_name || '');
+			form.setValue('name', data.user.name || '');
 			form.setValue('email', data.user.email || '');
-			form.setValue('number', data.user.number || '');
-			form.setValue('balance', data.user.balance || '');
 		}
 	}, [data]);
 
@@ -132,6 +127,12 @@ export function VendorProfileSettings() {
 					}).unwrap();
 
 					if (response.status === 200) {
+						await updateSession({
+							user: {
+								...session?.user,
+								name: response?.user?.name,
+							},
+						});
 						toast.success(response.message || 'Profile updated successfully');
 					} else {
 						toast.error(response.message || 'Failed to update profile');
@@ -216,36 +217,6 @@ export function VendorProfileSettings() {
 								<FormLabel>Email</FormLabel>
 								<FormControl>
 									<Input disabled type="email" {...field} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-
-					{/* Number */}
-					<FormField
-						control={form.control}
-						name="number"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Phone Number</FormLabel>
-								<FormControl>
-									<Input type="tel" {...field} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-
-					{/* Balance */}
-					<FormField
-						control={form.control}
-						name="balance"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Balance</FormLabel>
-								<FormControl>
-									<Input disabled type="number" step="0.01" {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
