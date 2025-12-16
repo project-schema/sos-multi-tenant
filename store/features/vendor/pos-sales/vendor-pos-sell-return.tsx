@@ -97,19 +97,17 @@ export function VendorPOSalesSellReturn({
 			onOk: async () => {
 				try {
 					// Sanitize and filter return items
-					const returnData = formData.return_items
-						.map((item) => {
-							const correctedQty = Math.min(
-								item.return_qty,
-								item?.purchase_qty || 0
-							);
-							return {
-								...item,
-								return_qty: correctedQty,
-								remark: correctedQty > 0 ? item.remark : '',
-							};
-						})
-						.filter((item) => item.return_qty > 0);
+					const returnData = formData.return_items.map((item) => {
+						const correctedQty = Math.min(
+							item.return_qty,
+							item?.purchase_qty || 0
+						);
+						return {
+							...item,
+							return_qty: correctedQty || 0,
+							remark: correctedQty > 0 ? item.remark : null,
+						};
+					});
 
 					if (returnData.length === 0) {
 						toast.error('Please select at least one item to return');
@@ -126,7 +124,7 @@ export function VendorPOSalesSellReturn({
 					if (response.status === 200) {
 						toast.success(response.message || 'Return submitted successfully');
 						form.reset();
-						router.push(`/dashboard/pos-sales`);
+						router.push(`/dashboard/pos-sales/return`);
 					} else {
 						toast.error(response.message || 'Failed to submit return');
 					}

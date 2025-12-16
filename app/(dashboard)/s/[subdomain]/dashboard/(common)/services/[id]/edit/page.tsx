@@ -26,7 +26,7 @@ export default function Page() {
 				isLoading={isLoading}
 				header={<CardTitle>Service Edit</CardTitle>}
 			>
-				{data && <VendorServicesEdit editData={data} />}
+				{data && <VendorServicesEdit editData={data.message} />}
 			</Container1>
 		</>
 	);

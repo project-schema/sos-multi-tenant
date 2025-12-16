@@ -88,7 +88,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/tenant-service/update/${data.id}`,
+					url: `/tenant-service/edit/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -103,8 +103,11 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		// single vendor service
-		VendorServicesSingle: builder.query<iVendorServices, { id: string }>({
-			query: ({ id }) => `/tenant-service/${id}`,
+		VendorServicesSingle: builder.query<
+			{ status: 200; message: iVendorServices },
+			{ id: string }
+		>({
+			query: ({ id }) => `/tenant-service/view/${id}`,
 			providesTags: ['VendorService'],
 		}),
 

@@ -58,7 +58,7 @@ const Step1Schema = z.object({
 		.refine((val) => !isNaN(val), {
 			message: 'Commission must be a number',
 		}),
-	commission_type: z.enum(['flat', 'percent']),
+	commission_type: z.enum(['flat', 'percentage']),
 	image: z.instanceof(File).optional(),
 	images: z.array(z.instanceof(File)).optional(),
 });
@@ -469,7 +469,9 @@ export function VendorServicesCreate() {
 															</FormControl>
 															<SelectContent>
 																<SelectItem value="flat">Flat</SelectItem>
-																<SelectItem value="percent">Percent</SelectItem>
+																<SelectItem value="percentage">
+																	Percent
+																</SelectItem>
 															</SelectContent>
 														</Select>
 														<FormMessage />

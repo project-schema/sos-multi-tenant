@@ -139,6 +139,7 @@ export type iWareHouse = {
 	updated_at: string;
 	vendor_id: number;
 };
+
 export type iSupplier = {
 	id: number;
 	user_id: number;
@@ -169,6 +170,7 @@ export type iSize = {
 	created_by: string;
 	vendor_id: number;
 };
+
 export type iColor = {
 	id: number;
 	name: string;
@@ -194,6 +196,7 @@ export type iMerchantProductSingleResponse = {
 	suppliers: iSupplier[];
 	warehouse: iWareHouse[];
 };
+
 export type iMerchantProductMissing = {
 	productrating_avg_rating: null | number;
 	cat: iBrand;

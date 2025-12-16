@@ -55,7 +55,7 @@ const Step1Schema = z.object({
 		.refine((val) => !isNaN(val), {
 			message: 'Commission must be a number',
 		}),
-	commission_type: z.enum(['flat', 'percent']),
+	commission_type: z.enum(['flat', 'percentage']),
 	image: z.instanceof(File).optional(),
 	images: z.array(z.instanceof(File)).optional(),
 });
@@ -119,6 +119,8 @@ export function VendorServicesEdit({
 		isLoading: isLoadingCategoryAndSubCategory,
 	} = useVendorServiceCategoryAndSubCategoryQuery();
 
+	console.log(editData);
+
 	const p1 = editData.servicepackages?.[0];
 	const p2 = editData.servicepackages?.[1];
 	const p3 = editData.servicepackages?.[2];
@@ -135,7 +137,7 @@ export function VendorServicesEdit({
 			image: undefined,
 			commission: Number(editData.commission) || 0,
 			commission_type:
-				(editData.commission_type as 'flat' | 'percent') || 'flat',
+				(editData.commission_type as 'flat' | 'percentage') || 'flat',
 			images: [],
 
 			package_title__1: p1?.package_title || '',
@@ -174,7 +176,7 @@ export function VendorServicesEdit({
 			image: undefined,
 			commission: Number(editData.commission) || 0,
 			commission_type:
-				(editData.commission_type as 'flat' | 'percent') || 'flat',
+				(editData.commission_type as 'flat' | 'percentage') || 'flat',
 			images: [],
 
 			package_title__1: p1?.package_title || '',
@@ -507,7 +509,9 @@ export function VendorServicesEdit({
 															</FormControl>
 															<SelectContent>
 																<SelectItem value="flat">Flat</SelectItem>
-																<SelectItem value="percent">Percent</SelectItem>
+																<SelectItem value="percentage">
+																	Percent
+																</SelectItem>
 															</SelectContent>
 														</Select>
 														<FormMessage />
