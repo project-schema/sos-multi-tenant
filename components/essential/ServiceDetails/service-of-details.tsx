@@ -1,5 +1,5 @@
 import ClientMotionWrapper from './ClientMotionWrapper';
-import RattingCardSD from './ratting-card';
+import ServiceRatting from './service-ratting';
 import style from './style.module.css';
 
 export default function ServiceOfDetails({ service }: { service: any }) {
@@ -51,11 +51,7 @@ export default function ServiceOfDetails({ service }: { service: any }) {
 					</select>
 				</div>
 			</div>
-
-			{/* Placeholder reviews until API is available */}
-			{[0, 1].map((_, i) => (
-				<RattingCardSD key={i} />
-			))}
+			<ServiceRatting service={service} />
 
 			<p className="mt-20 mb-10 flex flex-wrap gap-2">
 				<span className="text-blue-700 text-xl">Tags: </span>

@@ -1,23 +1,21 @@
 import { Button } from '@/components/ui/button';
 import { sign } from '@/lib';
 import { useProfileDataQuery } from '@/store/features/user-profile/user-profile-api-slice';
-import { useVendorProfileInfoQuery } from '@/store/features/vendor/profile';
+import { useVendorProfileDataInfoQuery } from '@/store/features/vendor/profile';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
 export function BalanceToggle() {
 	const { data: session } = useSession();
-	const { data, refetch, isLoading, isFetching } = useVendorProfileInfoQuery(
-		undefined,
-		{
+	const { data, refetch, isLoading, isFetching } =
+		useVendorProfileDataInfoQuery(undefined, {
 			refetchOnFocus: false,
 			refetchOnMountOrArgChange: false,
 			skip:
 				session?.tenant_type !== 'merchant' &&
 				session?.tenant_type !== 'dropshipper',
-		}
-	);
+		});
 	const {
 		data: userData,
 		refetch: userRefetch,
@@ -71,6 +69,8 @@ export function BalanceToggle() {
 		}
 	};
 
+	console.log(data);
+
 	return (
 		<Button
 			variant="ghost"
@@ -92,8 +92,8 @@ export function BalanceToggle() {
 					{sign.tk}{' '}
 					{session?.user?.tenant_type === 'user'
 						? userData?.user?.balance?.toFixed(2)
-						: data?.user?.balance
-						? data?.user?.balance
+						: data?.shop_info?.balance
+						? data?.shop_info?.balance
 						: 0}
 				</span>
 			) : (

@@ -3,7 +3,6 @@
 import { imageFormat } from '@/lib';
 import { motion } from 'framer-motion';
 import { ChevronLeftCircle, ChevronRightCircle } from 'lucide-react';
-import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import SwiperCore from 'swiper';
 import { FreeMode, Navigation, Thumbs, Virtual } from 'swiper/modules';
@@ -52,7 +51,7 @@ export default function SliderOfSD({ images = [] as ImageType[] }) {
 								}}
 								className={style.topSliderImg}
 							>
-								<Image
+								<img
 									className={style.sliderImages}
 									src={img.image || '/placeholder.svg'}
 									alt={`Slide ${i + 1}`}
@@ -98,7 +97,7 @@ export default function SliderOfSD({ images = [] as ImageType[] }) {
 							}}
 							className={style.topSliderImgSmall}
 						>
-							<Image
+							<img
 								className={style.sliderImages}
 								src={img.image || '/placeholder.svg'}
 								alt={`Thumb ${i + 1}`}

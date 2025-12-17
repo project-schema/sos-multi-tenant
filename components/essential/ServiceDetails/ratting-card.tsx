@@ -1,21 +1,26 @@
+import { env, imageFormat } from '@/lib';
 import { Star, StarHalf, StarOff } from 'lucide-react';
 import Image from 'next/image';
 import ClientMotionWrapper from './ClientMotionWrapper';
 import style from './style.module.css';
+import { iServiceRatingType } from './type';
 
-// Static version of the component
-function RattingCardSD() {
-	const mockData = {
-		user: {
-			name: 'John Doe',
-			email: 'john@example.com',
-			image: '/placeholder.svg',
-		},
-		rating: 4.5,
-		comment:
-			'Excellent service! Very professional and friendly. Would highly recommend.',
-		created_at: '2025-08-11',
-	};
+type Props = {
+	rating: iServiceRatingType;
+};
+
+function RattingCardSD({ rating }: Props) {
+	const profileImage = rating?.user?.image
+		? imageFormat(rating.user.image)
+		: env.placeholderImage;
+	const displayName =
+		rating?.tenant?.company_name || rating?.user?.name || 'Unknown reviewer';
+	const secondaryText = rating?.tenant
+		? rating?.tenant?.owner_name || 'Tenant'
+		: 'User';
+	const reviewDate = rating?.created_at
+		? new Date(rating.created_at).toLocaleDateString()
+		: '';
 
 	return (
 		<ClientMotionWrapper delay={0.1}>
@@ -24,22 +29,22 @@ function RattingCardSD() {
 				<div className={style.reviewImgWidth}>
 					<Image
 						className={style.reviewUser}
-						src={mockData.user.image}
+						src={profileImage}
 						width={100}
 						height={100}
-						alt="User Image"
+						alt={displayName}
 					/>
 				</div>
 				<div className={style.reviewimgText}>
-					<h3 className={style.userReviewH}>{mockData.user.name}</h3>
-					<p className={style.userReviewP}>{mockData.user.email}</p>
+					<h3 className={style.userReviewH}>{displayName}</h3>
+					<p className={style.userReviewP}>{secondaryText}</p>
 					<div className={style.reviewUserDetails}>
 						<div className={style.starts}>
-							<RatingStars rating={mockData.rating} />
+							<RatingStars rating={rating?.rating || 0} />
 						</div>
-						<p>2 days ago</p>
+						{reviewDate && <p>{reviewDate}</p>}
 					</div>
-					<p className={style.reviewParagraph}>{mockData.comment}</p>
+					<p className={style.reviewParagraph}>{rating?.comment}</p>
 				</div>
 			</div>
 		</ClientMotionWrapper>

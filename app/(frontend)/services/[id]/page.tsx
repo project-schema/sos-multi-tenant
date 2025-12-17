@@ -17,31 +17,29 @@ export default async function Page({
 	params: Promise<{ id: string }>;
 }) {
 	const { id } = await params;
-	const [settings, details] = await Promise.all([
+	const [settings, service] = await Promise.all([
 		getApiData<iSettingsType>('/settings'),
 		getApiData<any>(`/services-view/${id}`),
 	]);
 
-	console.log(details);
+	console.log(service);
 
-	if (settings?.status !== 200 || !details) {
+	if (settings?.status !== 200 || !service) {
 		return notFound();
 	}
-
-	const service = details.message; // expecting shape from API
 
 	return (
 		<>
 			<section className={style.servicesDetails}>
 				<div className="layout">
 					<div className={style.servicesDetailsWp}>
-						<div className={style.servicesdetailsSlider}>
+						<div className={style?.servicesdetailsSlider}>
 							<HeadingOfSD service={service} />
-							<SliderOfSD images={service.serviceimages} />
+							<SliderOfSD images={service?.serviceimages} />
 							<ServiceOfDetails service={service} />
 						</div>
 						{/* @ts-ignore */}
-						<TabOfSD packages={service.servicepackages} />
+						<TabOfSD packages={service?.servicepackages} />
 					</div>
 				</div>
 			</section>

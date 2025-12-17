@@ -39,7 +39,7 @@ const AllServices = ({
 						<ClientMotionWrapper key={data.id} index={i}>
 							<div className={style.singleService}>
 								<Link href={`/services/${data.id}`}>
-									<Image
+									<img
 										className={style.serviceImage}
 										src={imageFormat(data.image)}
 										alt="Service Image"

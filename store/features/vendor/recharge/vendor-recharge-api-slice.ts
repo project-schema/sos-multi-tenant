@@ -11,7 +11,10 @@ const api = apiSlice.injectEndpoints({
 			query: (data) => ({
 				url: '/recharge',
 				method: 'POST',
-				body: data,
+				body: {
+					...data,
+					tenant_type: 'tenant',
+				},
 			}),
 		}),
 		vendorRechargeHistory: builder.query<

@@ -18,6 +18,16 @@ const api = apiSlice.injectEndpoints({
 				method: 'GET',
 			}),
 		}),
+		// vendor profile data
+		VendorProfileDataInfo: builder.query<
+			{ status: 200; shop_info: iVendorShopInfo },
+			undefined
+		>({
+			query: () => ({
+				url: `/shop-info`,
+				method: 'GET',
+			}),
+		}),
 
 		// note
 		VendorProfileNote: builder.query<
@@ -116,4 +126,5 @@ export const {
 	useVendorProfileShopUpdateMutation,
 	useVendorShopInfoQuery,
 	useVendorShopInfoUpdateMutation,
+	useVendorProfileDataInfoQuery,
 } = api;
