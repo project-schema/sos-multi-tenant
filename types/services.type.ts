@@ -5,10 +5,12 @@ export interface iServiceType {
 	image: string;
 	tags: string[];
 	servicerating_avg_rating: string;
-	user: {
-		id: number;
-		name: string;
-		image: null;
+	tenant: {
+		id: string;
+		company_name: string;
+		owner_name: string;
+		data: null;
+		type: null;
 	};
 	firstpackage: {
 		id: number;

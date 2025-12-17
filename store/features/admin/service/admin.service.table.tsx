@@ -100,9 +100,9 @@ export function AdminServiceTable({
 							<TableCell className="py-2">
 								<Link
 									className="hover:underline hover:text-blue-500 transition"
-									href={`/admin/users/${item.id}`}
+									href={`/admin/users/${item.tenant.id}`}
 								>
-									{textCount(item.user.name, 15)}
+									{textCount(item.tenant.name || '--', 15)}
 								</Link>
 							</TableCell>
 
@@ -148,10 +148,13 @@ export function AdminServiceTable({
 												<span>View Service</span>
 											</Link>
 										</DropdownMenuItem>
-
-										<AdminVendorServiceActive data={item} />
+										{item.status !== 'active' && (
+											<AdminVendorServiceActive data={item} />
+										)}
 										<AdminVendorServiceCommission data={item} />
-										<AdminVendorServiceReject data={item} />
+										{item.status !== 'rejected' && (
+											<AdminVendorServiceReject data={item} />
+										)}
 
 										<DropdownMenuSeparator />
 

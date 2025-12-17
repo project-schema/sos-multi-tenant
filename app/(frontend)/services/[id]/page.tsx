@@ -22,7 +22,9 @@ export default async function Page({
 		getApiData<any>(`/services-view/${id}`),
 	]);
 
-	if (settings?.status !== 200 || !details || details?.status !== 200) {
+	console.log(details);
+
+	if (settings?.status !== 200 || !details) {
 		return notFound();
 	}
 

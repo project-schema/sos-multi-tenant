@@ -35,6 +35,15 @@ const api = apiSlice.injectEndpoints({
 			providesTags: ['AdminService'],
 		}),
 
+		// get single
+		adminVendorServiceSingle: builder.query<any, { id: number | string }>({
+			query: ({ id }) => ({
+				url: `/admin/vendor-services/${id}`,
+				method: 'GET',
+			}),
+			providesTags: ['AdminService'],
+		}),
+
 		// statistics
 		adminVendorServiceStatistics: builder.query<
 			iAdminServiceStatistics,
@@ -85,4 +94,5 @@ export const {
 	useAdminVendorServiceOrderQuery,
 	useAdminDeleteServiceMutation,
 	useAdminUpdateVendorServiceMutation,
+	useAdminVendorServiceSingleQuery,
 } = api;

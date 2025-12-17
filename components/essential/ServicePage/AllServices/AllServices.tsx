@@ -1,4 +1,4 @@
-import { imageFormat } from '@/lib';
+import { env, imageFormat } from '@/lib';
 import { iPagination, iServiceType } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -25,6 +25,7 @@ const AllServices = ({
 	};
 }) => {
 	const data = services?.data || [];
+	console.log(data);
 	return (
 		<section className={style.servicesSection}>
 			<div className="layout">
@@ -47,17 +48,16 @@ const AllServices = ({
 									/>
 								</Link>
 								<div className={style.serviceProviderInfo}>
-									{data.user.image ? (
-										<Image
-											src={imageFormat(data.user.image)}
-											alt="Service Provider Image"
-											height={20}
-											width={20}
-										/>
-									) : (
-										<span />
-									)}
-									<p className={style.serviceProviderName}>{data.user.name}</p>
+									<Image
+										src={env.placeholderImage}
+										alt="Service Provider Image"
+										height={20}
+										width={20}
+									/>
+
+									<p className={style.serviceProviderName}>
+										{data?.tenant?.company_name}
+									</p>
 								</div>
 								<Link href={`/services/${data.id}`}>
 									<p className={style.serviceDetails}>

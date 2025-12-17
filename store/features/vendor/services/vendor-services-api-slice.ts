@@ -112,8 +112,17 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		// count
-		VendorServicesCount: builder.query<iVendorServicesStatistics, void>({
+		VendorServicesCount: builder.query<
+			{ active: number; pending: number; all: number },
+			void
+		>({
 			query: () => '/tenant-service/count',
+			providesTags: ['VendorService'],
+		}),
+
+		// order count
+		VendorServicesOrderCount: builder.query<iVendorServicesStatistics, void>({
+			query: () => '/tenant-service/order/count',
 			providesTags: ['VendorService'],
 		}),
 
@@ -151,4 +160,5 @@ export const {
 	useVendorServiceCategoryAndSubCategoryQuery,
 	useVendorServicesUpdateMutation,
 	useVendorServicesDeleteMutation,
+	useVendorServicesOrderCountQuery,
 } = api;

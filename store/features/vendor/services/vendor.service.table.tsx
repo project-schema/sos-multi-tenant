@@ -86,12 +86,14 @@ export function VendorServiceTable({
 							</TableCell>
 							<TableCell className="py-2">
 								<Badge className="capitalize" variant="default">
-									{sign.dollar}
 									{item.commission}
+									{item.commission_type === 'percentage'
+										? sign.percent
+										: sign.tk}
 								</Badge>
 							</TableCell>
 							<TableCell className="py-2">
-								<Link href={`/services/${item.id}`}>
+								<Link href={`/services/${item.id}/view`}>
 									<Avatar className="h-12 w-12 rounded-xl">
 										<AvatarImage
 											src={env.baseAPI + '/' + item.image}
@@ -146,7 +148,7 @@ const DropdownAction = ({ item }: { item: iVendorServices }) => {
 				<DropdownMenuItem>
 					<Link
 						className="flex items-center gap-2 w-full"
-						href={`/services/${item.id}`}
+						href={`/services/${item.id}/view`}
 					>
 						<ExternalLink className="size-4" />
 						<span>View Service</span>

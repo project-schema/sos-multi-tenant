@@ -1,5 +1,4 @@
 import { iPagination } from '@/types';
-import { iUser } from '../user/type';
 
 export type iAdminService = {
 	id: number;
@@ -41,7 +40,24 @@ export type iAdminService = {
 		created_at: string;
 		updated_at: string;
 	}[];
-	user: iUser;
+	tenant: {
+		id: string;
+		company_name: string;
+		email: string;
+		owner_name: string;
+		phone: string;
+		address: string;
+		created_at: string;
+		updated_at: string;
+		data: null;
+		deleted_at: null;
+		type: string;
+		balance: string;
+		tenancy_db_name: string;
+		name: string;
+		number: string;
+		number2: null;
+	};
 };
 
 export type iAdminServiceResponse = {
