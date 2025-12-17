@@ -2,6 +2,7 @@
 import { Container1, DbHeader } from '@/components/dashboard';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { badgeFormat, env } from '@/lib';
@@ -9,13 +10,14 @@ import { useVendorAdvertiseViewQuery } from '@/store/features/vendor/advertise';
 import {
 	AlertCircleIcon,
 	Box,
+	Download,
 	Home,
 	MapPin,
 	Pickaxe,
+	Truck,
 	User,
 	Waypoints,
 } from 'lucide-react';
-import Image from 'next/image';
 import { useParams } from 'next/navigation';
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/dashboard' },
@@ -52,6 +54,11 @@ const tabs = [
 		name: 'Others',
 		value: 'Others',
 		icon: Waypoints,
+	},
+	{
+		name: 'Delivery',
+		value: 'Delivery',
+		icon: Truck,
 	},
 ];
 
@@ -208,10 +215,10 @@ export default function Page() {
 										</div>
 										<div>
 											<h3 className="text-xl font-semibold">Location Files</h3>
-											<div>
+											<div className="flex gap-2">
 												{data?.message?.advertise_audience_file?.map(
 													(item: any, index: number) => (
-														<Image
+														<img
 															key={index}
 															src={
 																item.file
@@ -244,10 +251,10 @@ export default function Page() {
 										</div>
 										<div>
 											<h3 className="text-xl font-semibold">Location Files</h3>
-											<div>
+											<div className="flex gap-2">
 												{data?.message?.advertise_location_files?.map(
 													(item: any, index: number) => (
-														<Image
+														<img
 															key={index}
 															src={
 																item?.file
@@ -490,6 +497,69 @@ export default function Page() {
 											</p>
 											<p>{data?.message?.user?.email || '--'}</p>
 										</div>
+									</TabsContent>
+
+									<TabsContent value="Delivery" className="space-y-4">
+										{data?.message?.status === 'delivered' ? (
+											<>
+												<div className="flex gap-2">
+													<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
+														Delivery Status:
+													</p>
+													<Badge variant={'success'}>
+														{data?.message?.status}
+													</Badge>
+												</div>
+												<div className="space-y-2">
+													<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
+														Files:
+													</p>
+													<div className="flex flex-wrap gap-4">
+														{data?.message?.files?.map(
+															(item: any, index: number) => {
+																const fileUrl = `${env.baseAPI}/${item.name}`;
+																return (
+																	<div
+																		key={index}
+																		className="flex flex-col gap-2"
+																	>
+																		<img
+																			src={fileUrl}
+																			alt={`Delivered file ${index + 1}`}
+																			width={120}
+																			height={120}
+																			className="rounded border object-cover"
+																		/>
+																		<Button
+																			asChild
+																			variant="outline"
+																			size="sm"
+																			className="w-full"
+																		>
+																			<a
+																				href={fileUrl}
+																				download
+																				target="_blank"
+																				rel="noreferrer"
+																			>
+																				<Download className="h-4 w-4 mr-2" />
+																				Download
+																			</a>
+																		</Button>
+																	</div>
+																);
+															}
+														)}
+													</div>
+												</div>
+											</>
+										) : (
+											<>
+												<p className="flex gap-2 text-yellow-600">
+													Delivery is not completed.
+												</p>
+											</>
+										)}
 									</TabsContent>
 								</div>
 							</Tabs>

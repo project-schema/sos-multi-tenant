@@ -78,10 +78,8 @@ const schema = z
 			.trim()
 			.min(1, 'Tracking from  is required'),
 
-		url_perimeter: z
-			.string({ error: 'URL is required' })
-			.trim()
-			.min(1, 'URL is required'),
+		url_perimeter: z.url({ error: 'URL is required' }),
+
 		number: z
 			.string({ error: 'Number is required' })
 			.trim()

@@ -13,7 +13,7 @@ import {
 } from '@/store/features/admin/advertise-utilities/common';
 import { useSearchParams } from 'next/navigation';
 
-export default function ProfilePage() {
+export default function Page() {
 	const tab = useSearchParams().get('tab');
 
 	switch (tab) {

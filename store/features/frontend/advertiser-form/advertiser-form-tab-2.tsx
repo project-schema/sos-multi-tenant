@@ -172,6 +172,7 @@ export function AdvertiserFormTab2({
 	const { data: dollarRate } = useFrontendGetDollarRateQuery(undefined);
 	const dispatch = useAppDispatch();
 	const level2 = useAppSelector((state) => state.advertiseForm.level2);
+	console.log('level2', level2);
 
 	const [country, setCountry] = useState<string>('');
 	const selected = useAppSelector((state) => state.advertiseForm.level1?.id);
@@ -655,7 +656,7 @@ export function AdvertiserFormTab2({
 							)}
 						/>
 						<p className="font-medium text-blue-500">
-							Total Cost:{' '}
+							Total Cost:
 							{calculateBudgetWidthTimeDifference({
 								budget: watchValue.budget_amount,
 								date1: watchValue.start_date,

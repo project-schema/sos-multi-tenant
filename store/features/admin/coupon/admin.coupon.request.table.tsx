@@ -59,44 +59,48 @@ export function AdminCouponRequestTable({
 						</TableCell>
 					</TableRow>
 				) : (
-					coupons?.map((item, i) => (
-						<TableRow key={item.id}>
-							<TableCell className="py-2 pl-4">
-								{tableSrCount(data.current_page, i)}
-							</TableCell>
-							<TableCell className="py-2">
-								<Link href={`/admin/users/${item.id}`}>
-									<Avatar className="h-12 w-12 rounded-xl">
-										<AvatarImage
-											src={env.baseAPI + '/' + item?.user?.image}
-											alt={'Image'}
-										/>
-										<AvatarFallback className="rounded-xl bg-sky-100">
-											{item?.user?.name?.slice(0, 1) || 'I'}
-										</AvatarFallback>
-									</Avatar>
-								</Link>
-							</TableCell>
-							<TableCell className="py-2">{item?.user?.name}</TableCell>
-							<TableCell className="py-2">{item?.user?.email}</TableCell>
-							<TableCell className="py-2">{item?.user?.number}</TableCell>
-							<TableCell className="py-2">
-								{dateFormat(item.created_at.toString())}
-							</TableCell>
-							<TableCell className="py-2">
-								<Badge
-									className="capitalize"
-									variant={badgeFormat(item.status)}
-								>
-									{item.status}
-								</Badge>
-							</TableCell>
+					coupons?.map((item, i) => {
+						return (
+							<TableRow key={item.id}>
+								<TableCell className="py-2 pl-4">
+									{tableSrCount(data.current_page, i)}
+								</TableCell>
+								<TableCell className="py-2">
+									<Link href={`/admin/users/${item.id}`}>
+										<Avatar className="h-12 w-12 rounded-xl">
+											<AvatarImage
+												src={env.baseAPI + '/' + item?.tenant?.company_name}
+												alt={item?.tenant?.company_name || 'Image'}
+											/>
+											<AvatarFallback className="rounded-xl bg-sky-100">
+												{item?.tenant?.company_name?.slice(0, 1) || 'I'}
+											</AvatarFallback>
+										</Avatar>
+									</Link>
+								</TableCell>
+								<TableCell className="py-2">
+									{item?.tenant?.company_name}
+								</TableCell>
+								<TableCell className="py-2">{item?.tenant?.email}</TableCell>
+								<TableCell className="py-2">{item?.tenant?.phone}</TableCell>
+								<TableCell className="py-2">
+									{dateFormat(item.created_at.toString())}
+								</TableCell>
+								<TableCell className="py-2">
+									<Badge
+										className="capitalize"
+										variant={badgeFormat(item.status)}
+									>
+										{item.status}
+									</Badge>
+								</TableCell>
 
-							<TableCell className="py-2">
-								<DropDownAction item={item} />
-							</TableCell>
-						</TableRow>
-					))
+								<TableCell className="py-2">
+									<DropDownAction item={item} />
+								</TableCell>
+							</TableRow>
+						);
+					})
 				)}
 			</TableBody>
 		</Table>

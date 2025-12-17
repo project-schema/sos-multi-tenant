@@ -11,7 +11,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { badgeFormat, dateFormat } from '@/lib';
+import { badgeFormat, dateFormat, sign } from '@/lib';
 import {
 	useVendorCouponQuery,
 	useVendorCouponRequestQuery,
@@ -25,6 +25,8 @@ export function VendorCouponPage() {
 		isLoading: requestLoading,
 		isError: requestError,
 	} = useVendorCouponRequestQuery(undefined);
+
+	console.log(data);
 
 	return (
 		<Container1
@@ -76,6 +78,61 @@ export function VendorCouponPage() {
 											{dateFormat(requestData?.message?.created_at)}
 										</TableCell>
 									</TableRow>
+								</TableBody>
+							</Table>
+						</div>
+					</CardContent>
+				</Card>
+			)}
+			{data?.status === 200 && data.message.length > 0 && (
+				<Card>
+					<CardHeader>
+						<CardTitle className="xl:text-md">Coupons</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<div className="overflow-x-auto border rounded-lg">
+							<Table>
+								<TableHeader>
+									<TableRow>
+										<TableHead>Coupon Code</TableHead>
+										<TableHead>Amount</TableHead>
+										<TableHead>Commission</TableHead>
+										<TableHead>Limitation</TableHead>
+										<TableHead>Income</TableHead>
+										<TableHead>Use</TableHead>
+										<TableHead>Expire Date</TableHead>
+										<TableHead>Status</TableHead>
+										<TableHead>Date</TableHead>
+									</TableRow>
+								</TableHeader>
+								<TableBody>
+									{data?.message?.map((item) => (
+										<TableRow key={item.id}>
+											<TableCell>{item.name}</TableCell>
+											<TableCell>{item.amount}</TableCell>
+											<TableCell>
+												{item.commission}{' '}
+												{item.commission_type === 'flat'
+													? sign.tk
+													: sign.percent}
+											</TableCell>
+											<TableCell>{item.limitation}</TableCell>
+											<TableCell>
+												{item.couponused_sum_total_commission || '0'} {sign.tk}
+											</TableCell>
+											<TableCell>{item.couponused_count}</TableCell>
+											<TableCell>{dateFormat(item.expire_date)}</TableCell>
+											<TableCell>
+												<Badge
+													className="capitalize"
+													variant={badgeFormat(item.status)}
+												>
+													{item.status}
+												</Badge>
+											</TableCell>
+											<TableCell>{dateFormat(item.created_at)}</TableCell>
+										</TableRow>
+									))}
 								</TableBody>
 							</Table>
 						</div>

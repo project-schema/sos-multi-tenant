@@ -14,6 +14,7 @@ export const badgeFormat = (status: string | number): Badge => {
 		case 'Direct':
 		case 'My wallet':
 		case 'hold':
+		case 'progress':
 			return 'outline';
 
 		case 'active':
@@ -27,8 +28,7 @@ export const badgeFormat = (status: string | number): Badge => {
 
 		case 'pending':
 		case 'Merchant':
-		case 'Merchant':
-		case 'progress':
+
 		case 2:
 			return 'warning';
 

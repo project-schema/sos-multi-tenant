@@ -98,4 +98,13 @@ export type iAdminAdvertiseDetail = {
 		number: string;
 		uniqid: string;
 	};
+	tenant: {
+		id: number;
+		company_name: string;
+		owner_name: string;
+		data: null;
+		type: null;
+		phone: string;
+		email: string;
+	};
 };

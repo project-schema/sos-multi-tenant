@@ -1,7 +1,7 @@
 'use client';
 import { Loader2 } from '@/components/dashboard';
 import { Button } from '@/components/ui/button';
-import { timeDifference } from '@/lib';
+import { timeDifference, timeDifference2 } from '@/lib';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { LoaderCircle } from 'lucide-react';
 import Image from 'next/image';
@@ -28,6 +28,7 @@ function Checkout({
 	isLoading: boolean;
 }) {
 	const state = useAppSelector((state) => state.advertiseForm);
+	console.log(state);
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const { data, isLoading: isLoadingDollarRate } =
@@ -99,9 +100,9 @@ function Checkout({
 
 					<SummeryRow
 						pp={
-							(timeDifference(
-								state.level2.start_date_view,
-								state.level2.end_date_view
+							(timeDifference2(
+								state.level2.start_date,
+								state.level2.end_date
 							)?.toString() || '0') + ' Days'
 						}
 						text={{ h: 'Total Date' }}

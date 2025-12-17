@@ -1,5 +1,4 @@
 import { iPagination } from '@/types';
-import { iUser } from '../user/type';
 
 export type iAdminCoupon = {
 	id: number;
@@ -72,7 +71,15 @@ export type iAdminReqCoupon = {
 	created_at: string;
 	updated_at: string;
 	reason: null | string;
-	user: iUser;
+	tenant: {
+		id: number;
+		balance: string;
+		email: string;
+		company_name: string;
+		phone: string;
+		owner_name: string;
+		type: string;
+	};
 };
 
 export type iAdminCouponUsersRes = {

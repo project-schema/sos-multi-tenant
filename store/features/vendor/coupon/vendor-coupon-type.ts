@@ -13,6 +13,7 @@ export type iVendorCoupon = {
 	created_at: string;
 	updated_at: string;
 	couponused_count: number;
+	tenant_id: string;
 	couponused_sum_total_commission: number | null;
 };
 

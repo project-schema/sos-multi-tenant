@@ -38,7 +38,7 @@ const shopSchema = z.object({
 
 type ShopFormValues = z.infer<typeof shopSchema>;
 
-export function MyShop() {
+export function MyShopDropshipper() {
 	const {
 		data,
 		isLoading: profileLoading,

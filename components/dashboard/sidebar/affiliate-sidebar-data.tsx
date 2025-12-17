@@ -5,7 +5,6 @@ import {
 	DraftingCompass,
 	Headset,
 	Megaphone,
-	MessageSquare,
 	Package,
 	PackageCheck,
 	Percent,
@@ -100,27 +99,36 @@ const servicesAndAdvertise: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Service',
-				url: '/dashboard/service/create',
+				url: '/dashboard/services/create',
 			},
 			{
 				title: 'Services',
-				url: '/dashboard/service',
+				url: '/dashboard/services',
 			},
 			{
 				title: 'Service Order',
-				url: '/dashboard/service/order',
+				url: '/dashboard/services/order',
 			},
 			{
 				title: 'Purchase Service',
-				url: '/dashboard/service/purchase',
+				url: '/dashboard/services/purchase',
 			},
 		],
 	},
 	{
-		title: 'Advertise',
-		url: '/dashboard/advertise',
+		title: 'Manage Advertise',
 		icon: Megaphone,
 		isActive: false,
+		items: [
+			{
+				title: 'Create Advertise',
+				url: '/dashboard/advertise/create',
+			},
+			{
+				title: 'All Advertise',
+				url: '/dashboard/advertise',
+			},
+		],
 	},
 ];
 
@@ -140,12 +148,12 @@ const support: sidebarItem[] = [
 			},
 		],
 	},
-	{
-		title: 'Customer Chat',
-		icon: MessageSquare,
-		isActive: false,
-		url: '/dashboard/customer-chat',
-	},
+	// {
+	// 	title: 'Customer Chat',
+	// 	icon: MessageSquare,
+	// 	isActive: false,
+	// 	url: '/dashboard/customer-chat',
+	// },
 ];
 
 export const affiliateSidebarData = {

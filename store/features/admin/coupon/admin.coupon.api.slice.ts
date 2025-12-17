@@ -74,9 +74,9 @@ const api = apiSlice.injectEndpoints({
 			Partial<iAdminCoupon>
 		>({
 			query: (data) => ({
-				url: `/admin/coupons/${data.id}`,
+				url: `/admin/coupon-update/${data.id}`,
 				body: data,
-				method: 'PUT',
+				method: 'POST',
 			}),
 			invalidatesTags: ['AdminCoupon'],
 		}),

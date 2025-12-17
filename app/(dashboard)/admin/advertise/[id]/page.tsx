@@ -23,17 +23,19 @@ import { AdminAdvertiseProgress } from '@/store/features/admin/advertise/admin-a
 import {
 	AlertCircleIcon,
 	Box,
+	Download,
 	Ellipsis,
 	Home,
 	MapPin,
 	Pickaxe,
+	Truck,
 	User,
 	Waypoints,
 } from 'lucide-react';
-import Image from 'next/image';
 import { useParams } from 'next/navigation';
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/admin' },
+	{ name: 'Manage Advertise', path: '/admin/advertise' },
 	{ name: 'Advertise Details' },
 ];
 const tabs = [
@@ -72,6 +74,11 @@ const tabs = [
 		value: 'User',
 		icon: User,
 	},
+	{
+		name: 'Delivery',
+		value: 'Delivery',
+		icon: Truck,
+	},
 ];
 
 export default function Page() {
@@ -89,6 +96,9 @@ export default function Page() {
 			resultObject[key] = value;
 		}
 	}
+
+	const tenant = data?.product?.tenant;
+	const user = data?.product?.user;
 	return (
 		<>
 			<DbHeader breadcrumb={breadcrumbItems} />
@@ -257,10 +267,10 @@ export default function Page() {
 										</div>
 										<div>
 											<h3 className="text-xl font-semibold">Location Files</h3>
-											<div>
+											<div className="flex gap-2">
 												{data?.product?.advertise_audience_file?.map(
 													(item, index) => (
-														<Image
+														<img
 															key={index}
 															src={
 																item.file
@@ -293,10 +303,10 @@ export default function Page() {
 										</div>
 										<div>
 											<h3 className="text-xl font-semibold">Location Files</h3>
-											<div>
+											<div className="flex gap-2">
 												{data?.product?.advertise_location_files?.map(
 													(item, index) => (
-														<Image
+														<img
 															key={index}
 															src={
 																item.file
@@ -507,30 +517,115 @@ export default function Page() {
 										</div>
 									</TabsContent>
 									<TabsContent value="User" className="space-y-4">
-										<div className="flex gap-2">
-											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
-												User Id:
-											</p>
-											<p>{data?.product?.user?.id || '--'}</p>
-										</div>
-										<div className="flex gap-2">
-											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
-												User Name:
-											</p>
-											<p>{data?.product?.user?.name || '--'}</p>
-										</div>
-										<div className="flex gap-2">
-											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
-												Number:
-											</p>
-											<p>{data?.product?.user?.name || '--'}</p>
-										</div>
-										<div className="flex gap-2">
-											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
-												Email:
-											</p>
-											<p>{data?.product?.user?.email || '--'}</p>
-										</div>
+										{tenant ? (
+											<>
+												<div className="flex gap-2">
+													<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
+														Owner Name:
+													</p>
+													<p>{tenant?.owner_name || '--'}</p>
+												</div>
+												<div className="flex gap-2">
+													<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
+														Company Name:
+													</p>
+													<p>{tenant?.company_name || '--'}</p>
+												</div>
+												<div className="flex gap-2">
+													<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
+														Number:
+													</p>
+													<p>{tenant?.phone || '--'}</p>
+												</div>
+												<div className="flex gap-2">
+													<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
+														Email:
+													</p>
+													<p>{tenant?.email || '--'}</p>
+												</div>
+											</>
+										) : (
+											<>
+												<div className="flex gap-2">
+													<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
+														User Name:
+													</p>
+													<p>{user?.name || '--'}</p>
+												</div>
+												<div className="flex gap-2">
+													<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
+														Number:
+													</p>
+													<p>{user?.number || '--'}</p>
+												</div>
+												<div className="flex gap-2">
+													<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
+														Email:
+													</p>
+													<p>{user?.email || '--'}</p>
+												</div>
+											</>
+										)}
+									</TabsContent>
+									<TabsContent value="Delivery" className="space-y-4">
+										{data?.product?.status === 'delivered' ? (
+											<>
+												<div className="flex gap-2">
+													<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
+														Delivery Status:
+													</p>
+													<Badge variant={'success'}>
+														{data?.product?.status}
+													</Badge>
+												</div>
+												<div className="space-y-2">
+													<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
+														Files:
+													</p>
+													<div className="flex flex-wrap gap-4">
+														{data?.product?.files?.map(
+															(item: any, index: number) => {
+																const fileUrl = `${env.baseAPI}/${item.name}`;
+																return (
+																	<div
+																		key={index}
+																		className="flex flex-col gap-2"
+																	>
+																		<img
+																			src={fileUrl}
+																			alt={`Delivered file ${index + 1}`}
+																			width={120}
+																			height={120}
+																			className="rounded border object-cover"
+																		/>
+																		<Button
+																			asChild
+																			variant="outline"
+																			size="sm"
+																			className="w-full"
+																		>
+																			<a
+																				href={fileUrl}
+																				download
+																				target="_blank"
+																				rel="noreferrer"
+																			>
+																				<Download className="h-4 w-4 mr-2" />
+																				Download
+																			</a>
+																		</Button>
+																	</div>
+																);
+															}
+														)}
+													</div>
+												</div>
+											</>
+										) : (
+											<>
+												<p className="flex gap-2">Delivery is completed.</p>
+											</>
+										)}
 									</TabsContent>
 								</div>
 							</Tabs>

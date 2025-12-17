@@ -44,7 +44,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { useAdminUpdateCouponMutation } from './admin.coupon.api.slice';
+import { useAdminStoreCouponMutation } from './admin.coupon.api.slice';
 import { iAdminReqCoupon } from './admin.coupon.type';
 
 //  Zod Schema
@@ -114,7 +114,8 @@ const FORM = ({
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	editData: iAdminReqCoupon;
 }) => {
-	const [update, { isLoading }] = useAdminUpdateCouponMutation();
+	// const [update, { isLoading }] = useAdminUpdateCouponMutation();
+	const [update, { isLoading }] = useAdminStoreCouponMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(couponSchema),
@@ -355,8 +356,8 @@ const FORM = ({
 								label="User"
 								options={[
 									{
-										label: editData?.user?.name,
-										value: editData?.user?.id.toString(),
+										label: editData?.tenant?.company_name,
+										value: editData?.tenant?.id?.toString() || '',
 									},
 								]}
 								placeholder={'Select User'}
