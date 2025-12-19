@@ -43,6 +43,7 @@ export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
 
 				{/* User Profile Dropdown */}
 				{session?.user?.tenant_type === 'user' ? <UserDropdown /> : null}
+				{session?.user?.tenant_type === 'admin' ? <UserDropdown /> : null}
 				{session?.user?.tenant_type === 'merchant' ||
 				session?.user?.tenant_type === 'dropshipper' ? (
 					<TenantDropdown />

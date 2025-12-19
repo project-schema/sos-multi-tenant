@@ -27,7 +27,6 @@ import { alertConfirm } from '@/lib';
 import {
 	useCartViewQuery,
 	useCheckoutCartMutation,
-	useUpdateCartMutation,
 } from '@/store/features/dropshipper/cart';
 import {
 	Check,
@@ -87,12 +86,12 @@ interface CartItem {
 export default function CartViewPageClient({
 	cartId,
 }: CartViewPageClientProps) {
+	console.log(cartId);
 	const [gateway, setGateway] = useState<'aamarpay'>('aamarpay');
 	const { data, isLoading, isError, isFetching } = useCartViewQuery(
-		{ cartId },
-		{ skip: !cartId }
+		{ cartId: cartId[1] || '', tenantId: cartId[0] || '' },
+		{ skip: !cartId[1] || !cartId[0] }
 	);
-	const [updateCart, { isLoading: isUpdating }] = useUpdateCartMutation();
 	const [checkoutCart, { isLoading: isCheckoutLoading }] =
 		useCheckoutCartMutation();
 	const cartItem = data?.data;
@@ -578,12 +577,17 @@ export default function CartViewPageClient({
 						tenant_id: data?.data?.tenant_id,
 						datas: checkoutData,
 						payment_type: gateway,
+						tenant_type: 'tenant',
 					});
 					console.log('Response:', response);
 					if (response?.data?.payment_url) {
 						window.location.href = response?.data?.payment_url;
 					} else {
-						toast.error(response?.data?.message || 'Something went wrong');
+						if (response?.data?.status === 200) {
+							toast.error(response?.data?.message || 'Something went wrong');
+						} else {
+							toast.error(response?.data?.message || 'Something went wrong');
+						}
 					}
 				} catch (error: any) {
 					toast.error('Something went wrong');

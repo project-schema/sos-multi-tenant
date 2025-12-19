@@ -20,7 +20,7 @@ const api = apiSlice.injectEndpoints({
 				}
 
 				return {
-					url: `/affiliator/request/product/${status}?page=${page}&search=${search}`,
+					url: `/dropshipper/request/product/${status}?page=${page}&search=${search}`,
 					method: 'GET',
 				};
 			},

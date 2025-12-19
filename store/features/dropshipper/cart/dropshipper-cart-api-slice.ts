@@ -21,9 +21,12 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		// cart view
-		CartView: builder.query<iDropShipperCartView, { cartId: string }>({
-			query: ({ cartId }) => ({
-				url: `/tenant-dropshipper/cart/${cartId}`,
+		CartView: builder.query<
+			iDropShipperCartView,
+			{ cartId: string; tenantId: string }
+		>({
+			query: ({ cartId, tenantId }) => ({
+				url: `/tenant-dropshipper/cart/${tenantId}/${cartId}`,
 				method: 'GET',
 			}),
 			providesTags: ['DropShipperCart'],

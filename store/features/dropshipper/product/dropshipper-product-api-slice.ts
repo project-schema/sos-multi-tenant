@@ -1,4 +1,8 @@
-import { iCompleteMerchantProduct } from '../../admin/merchant-product';
+import { iPagination } from '@/types';
+import {
+	iCompleteMerchantProduct,
+	iRequestDropProduct,
+} from '../../admin/merchant-product';
 import { apiSlice } from '../../api/apiSlice';
 import { iDropShipperProductResponse } from './dropshipper-product-type';
 
@@ -83,6 +87,17 @@ const api = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: ['DropShipperProduct'],
 		}),
+
+		AllRequestProduct: builder.query<
+			{ products: iPagination<iRequestDropProduct> },
+			{ page: number | string; search: string; status: string }
+		>({
+			query: ({ page, search, status }) => ({
+				url: `/tenant-dropshipper/request/${status}/product?page=${page}&search=${search}`,
+				method: 'GET',
+			}),
+			providesTags: ['DropShipperProduct'],
+		}),
 	}),
 });
 
@@ -91,4 +106,5 @@ export const {
 	useSingleProductQuery,
 	useRequestProductMutation,
 	useAddToCartMutation,
+	useAllRequestProductQuery,
 } = api;

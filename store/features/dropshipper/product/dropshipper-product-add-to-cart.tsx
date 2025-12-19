@@ -151,6 +151,8 @@ export const DropshipperProductAddToCart = ({
 			)}
 			{product?.product_variant && product?.product_variant?.length > 0 && (
 				<div className="mt-4 border rounded-lg p-1">
+					<p className="capitalize">{product.selling_type} Product Details</p>
+
 					<Table>
 						<TableHeader>
 							<TableRow>

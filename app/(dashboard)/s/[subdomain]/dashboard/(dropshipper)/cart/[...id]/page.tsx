@@ -9,13 +9,13 @@ const breadcrumbItems = [
 export default async function Page({
 	params,
 }: {
-	params: Promise<{ id: string }>;
+	params: Promise<{ tenant_id: string; id: string }>;
 }) {
-	const { id } = await params;
+	const { tenant_id, id } = await params;
 	return (
 		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<CartViewPageClient cartId={id} />
+			<CartViewPageClient tenantId={tenant_id} cartId={id} />
 		</SessionProvider>
 	);
 }

@@ -91,7 +91,7 @@ export function VendorProductTable({
 											className="object-cover"
 										/>
 										<AvatarFallback className="rounded-xl bg-sky-100">
-											{item.name.charAt(0).toUpperCase()}
+											{item?.name?.charAt(0).toUpperCase()}
 										</AvatarFallback>
 									</Avatar>
 								</Link>

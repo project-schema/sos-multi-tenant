@@ -63,5 +63,5 @@ export type iDropShipperProduct = {
 
 export type iDropShipperProductResponse = {
 	status: number;
-	product: iPagination<iDropShipperProduct>;
+	products: iPagination<iDropShipperProduct>;
 };

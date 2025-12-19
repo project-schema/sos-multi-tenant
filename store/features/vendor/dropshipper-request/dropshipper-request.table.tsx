@@ -32,7 +32,7 @@ export function DropshipperProductTable({
 }: {
 	data: iPagination<iDropShipReq>;
 }) {
-	const products = data.data;
+	const products = data?.data;
 	return (
 		<Table>
 			<TableHeader>
@@ -42,14 +42,13 @@ export function DropshipperProductTable({
 					<TableHead className="bg-stone-100">Image</TableHead>
 					<TableHead className="bg-stone-100">Product Name </TableHead>
 					<TableHead className="bg-stone-100">Drop Shipper Name </TableHead>
-					<TableHead className="bg-stone-100">Merchant Name</TableHead>
 					<TableHead className="bg-stone-100">Date </TableHead>
 					<TableHead className="bg-stone-100">Status </TableHead>
 					<TableHead className="bg-stone-100">Action </TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody>
-				{products.length === 0 ? (
+				{products?.length === 0 ? (
 					<TableRow>
 						<TableCell
 							colSpan={10}
@@ -62,11 +61,13 @@ export function DropshipperProductTable({
 					products?.map((item, i) => (
 						<TableRow key={item.id}>
 							<TableCell className="py-2 pl-4">
-								{tableSrCount(data.current_page, i)}
+								{tableSrCount(data?.current_page, i)}
 							</TableCell>
 							<TableCell className="font-medium py-4">#{item.uniqid}</TableCell>
 							<TableCell className="py-2">
-								<Link href={`/admin/merchant-product/${item?.product?.id}`}>
+								<Link
+									href={`/dashboard/dropshipper-request/${item?.product?.id}`}
+								>
 									<Avatar className="h-12 w-12 rounded-xl">
 										<AvatarImage
 											src={env.baseAPI + '/' + item?.product?.image}
@@ -81,7 +82,7 @@ export function DropshipperProductTable({
 							<TableCell className="py-2">
 								<Link
 									className="hover:underline hover:text-blue-500 transition"
-									href={`/admin/merchant-product/${item.id}`}
+									href={`/dashboard/dropshipper-request/${item.id}`}
 								>
 									{textCount(item?.product?.name || 'N/A', 15)}
 								</Link>
@@ -91,15 +92,7 @@ export function DropshipperProductTable({
 									className="hover:underline hover:text-blue-500 transition"
 									href={`/admin/users/${item?.vendor?.id}`}
 								>
-									{textCount(item?.vendor?.name, 15)}
-								</Link>
-							</TableCell>
-							<TableCell className="py-2">
-								<Link
-									className="hover:underline hover:text-blue-500 transition"
-									href={`/admin/users/${item?.affiliator?.id}`}
-								>
-									{textCount(item?.affiliator?.name, 15)}
+									{textCount(item?.tenant_name, 15)}
 								</Link>
 							</TableCell>
 
@@ -134,7 +127,7 @@ export function DropshipperProductTable({
 										<DropdownMenuItem>
 											<Link
 												className="flex items-center gap-2 w-full"
-												href={`/admin/merchant-product/${item.id}`}
+												href={`/dashboard/dropshipper-request/${item.id}`}
 											>
 												<ExternalLink className="size-4" />
 												<span>View Product</span>

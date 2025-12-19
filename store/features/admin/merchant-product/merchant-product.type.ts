@@ -228,3 +228,30 @@ export type iMerchantProductMissing = {
 
 export type iCompleteMerchantProduct = iMerchantProduct &
 	iMerchantProductMissing;
+
+export type iRequestDropProduct = {
+	id: number;
+	product_id: number;
+	user_id: number;
+	vendor_id: number;
+	status: number;
+	reason: string;
+	created_at: string;
+	updated_at: string;
+	uniqid: string;
+	tenant_id: string;
+	product: {
+		id: number;
+		name: string;
+		selling_price: string;
+		image: string;
+		product_image: {
+			id: number;
+			product_id: number;
+			image: string;
+			created_at: string;
+			updated_at: string;
+			deleted_at: null;
+		}[];
+	};
+};

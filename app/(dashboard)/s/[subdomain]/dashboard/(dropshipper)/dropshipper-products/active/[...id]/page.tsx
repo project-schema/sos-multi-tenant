@@ -1,17 +1,18 @@
 import { DbHeader } from '@/components/dashboard';
 import { SessionProvider } from '@/provider';
-import DropshipperProductActivePage from '@/store/features/dropshipper/product/dropshipper-product-active-page';
+import PageClient from './page.client';
 
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/dashboard' },
-	{ name: 'Product' },
+	{ name: 'Products', path: '/dropshipper-products' },
+	{ name: 'Details' },
 ];
 
 export default function Page() {
 	return (
 		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<DropshipperProductActivePage status="active" />
+			<PageClient />
 		</SessionProvider>
 	);
 }

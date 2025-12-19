@@ -77,7 +77,9 @@ export default function CartPageClient() {
 
 									<TableCell className="py-2 space-x-2">
 										<CartDelete data={product} />
-										<Link href={`/dashboard/cart/${product.cart_id}`}>
+										<Link
+											href={`/dashboard/cart/${product.tenant_id}/${product.cart_id}`}
+										>
 											<Button variant="outline">
 												<ShoppingCartIcon className="size-4" />
 												<span>Checkout</span>

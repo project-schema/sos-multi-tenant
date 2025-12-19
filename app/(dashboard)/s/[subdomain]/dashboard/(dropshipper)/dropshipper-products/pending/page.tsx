@@ -1,6 +1,6 @@
 import { DbHeader } from '@/components/dashboard';
 import { SessionProvider } from '@/provider';
-import { VendorProductPage } from '@/store/features/vendor/product';
+import DropshipperProductPendingPage from '@/store/features/dropshipper/product/dropshipper-product-pending-page';
 
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/dashboard' },
@@ -11,7 +11,7 @@ export default function Page() {
 	return (
 		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<VendorProductPage />
+			<DropshipperProductPendingPage />
 		</SessionProvider>
 	);
 }

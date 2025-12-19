@@ -69,6 +69,7 @@ export const ProductInfo = ({
 
 			<div>SKU: {product?.sku}</div>
 
+			{/* for single and both selling type */}
 			{(product.selling_type === 'single' ||
 				product.selling_type === 'both') && (
 				<div className="mt-4 border rounded-lg  space-y-2 p-3">
@@ -96,6 +97,7 @@ export const ProductInfo = ({
 				</div>
 			)}
 
+			{/* for single and both selling type */}
 			{product?.product_variant && product?.product_variant?.length > 0 && (
 				<div className="mt-4 border rounded-lg p-1">
 					<p>Product Variants Details</p>

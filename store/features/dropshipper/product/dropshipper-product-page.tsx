@@ -147,19 +147,19 @@ export default function DropShipperProductPage() {
 					clearFilters={clearFilters}
 				/>
 			)}
-			{data?.product && (
+			{data?.products && (
 				<>
 					<div className="relative overflow-hidden">
 						{isFetching && <Loader8 />}
 						{viewMode === 'list' ? (
 							<div className="border rounded-lg ">
-								<DropShipperProductTable data={data?.product} />
+								<DropShipperProductTable data={data?.products} />
 							</div>
 						) : (
-							<DropShipperProductCard data={data?.product} />
+							<DropShipperProductCard data={data?.products} />
 						)}
 					</div>
-					<Pagination1 pagination={data?.product} setPage={setPage} />
+					<Pagination1 pagination={data?.products} setPage={setPage} />
 				</>
 			)}
 		</Container1>

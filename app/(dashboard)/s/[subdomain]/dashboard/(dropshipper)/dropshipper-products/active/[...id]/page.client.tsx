@@ -2,7 +2,7 @@
 import { Container1 } from '@/components/dashboard';
 import { CardTitle } from '@/components/ui/card';
 import { useSingleProductQuery } from '@/store/features/dropshipper/product';
-import { DropshipperProductViewRequest } from '@/store/features/dropshipper/product/dropshipper-product-view-request';
+import { DropshipperProductActiveView } from '@/store/features/dropshipper/product/dropshipper-product-active-view';
 import { useParams } from 'next/navigation';
 
 export default function PageClient() {
@@ -25,7 +25,7 @@ export default function PageClient() {
 				header={<CardTitle>Details</CardTitle>}
 			>
 				{data?.product && (
-					<DropshipperProductViewRequest product={data.product} />
+					<DropshipperProductActiveView product={data.product} />
 				)}
 			</Container1>
 		</>

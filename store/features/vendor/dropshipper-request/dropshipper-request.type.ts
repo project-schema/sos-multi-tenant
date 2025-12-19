@@ -7,6 +7,7 @@ export type iDropShipReq = {
 	vendor_id: number;
 	status: number;
 	created_at: string;
+	tenant_name: string;
 	updated_at: string;
 	reason: null | string;
 	uniqid: string;
@@ -27,7 +28,7 @@ export type iDropShipReq = {
 };
 export type iDropShipReqResponse = {
 	status: number;
-	product: iPagination<iDropShipReq>;
+	products: iPagination<iDropShipReq>;
 };
 
 export type iDropShipReqStatistics = {
