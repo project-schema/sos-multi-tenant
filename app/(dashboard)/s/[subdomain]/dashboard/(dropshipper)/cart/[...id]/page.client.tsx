@@ -573,7 +573,7 @@ export default function CartViewPageClient({
 			onOk: async () => {
 				try {
 					const response: any = await checkoutCart({
-						cart_id: cartId,
+						cart_id: cartId[1],
 						tenant_id: data?.data?.tenant_id,
 						datas: checkoutData,
 						payment_type: gateway,
