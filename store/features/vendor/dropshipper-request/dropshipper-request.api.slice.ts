@@ -30,12 +30,20 @@ const api = apiSlice.injectEndpoints({
 		// delete
 		VendorRequestProductStatus: builder.mutation<
 			{ status: 200; message: string },
-			{ id: string | number; reason?: string; status: 1 | 3 }
+			{
+				id: string | number;
+				reason?: string;
+				status: 1 | 3;
+				tenant_id: string | number;
+			}
 		>({
 			query: (data) => ({
-				url: `/admin/request/product-update/${data.id}`,
+				url: `/dropshipper/request/product-update/${data.tenant_id}/${data.id}`,
 				method: 'POST',
-				body: data,
+				body: {
+					reason: data.reason,
+					status: data.status,
+				},
 			}),
 			invalidatesTags: ['AdminProductRequest'],
 		}),

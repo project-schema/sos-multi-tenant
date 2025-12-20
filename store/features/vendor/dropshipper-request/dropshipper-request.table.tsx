@@ -24,9 +24,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { iPagination } from '@/types';
 import { Ellipsis, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
-import { AdminDropshipperRejectRequest } from './admin.dropshipper.reject-modal';
-import { AdminDropshipperAcceptRequest } from './dropshipper-request.active';
+import { DropshipperAcceptRequest } from './dropshipper-accept-request.active';
 import { iDropShipReq } from './dropshipper-request.type';
+import { DropshipperRejectRequest } from './dropshipper.reject-modal';
 export function DropshipperProductTable({
 	data,
 }: {
@@ -135,13 +135,13 @@ export function DropshipperProductTable({
 										</DropdownMenuItem>
 
 										{item.status !== 1 && (
-											<AdminDropshipperAcceptRequest data={item} />
+											<DropshipperAcceptRequest data={item} />
 										)}
 
 										<DropdownMenuSeparator />
 
 										{/* Delete Product  */}
-										<AdminDropshipperRejectRequest data={item} />
+										<DropshipperRejectRequest data={item} />
 									</DropdownMenuContent>
 								</DropdownMenu>
 							</TableCell>

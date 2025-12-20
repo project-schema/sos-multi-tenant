@@ -69,8 +69,6 @@ export function BalanceToggle() {
 		}
 	};
 
-	console.log(data);
-
 	return (
 		<Button
 			variant="ghost"

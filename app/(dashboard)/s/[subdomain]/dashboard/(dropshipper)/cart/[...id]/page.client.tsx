@@ -37,6 +37,7 @@ import {
 	Trash2,
 	X,
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 const plans = [
@@ -96,7 +97,7 @@ export default function CartViewPageClient({
 		useCheckoutCartMutation();
 	const cartItem = data?.data;
 	const product = cartItem?.product;
-
+	const router = useRouter();
 	const [items, setItems] = useState<CartItem[]>([]);
 	console.log(items);
 
@@ -564,8 +565,6 @@ export default function CartViewPageClient({
 			};
 		});
 
-		console.log('Checkout Data:', checkoutData);
-
 		// TODO: Replace with actual API call
 		// await checkoutCart(checkoutData);
 
@@ -584,13 +583,17 @@ export default function CartViewPageClient({
 						window.location.href = response?.data?.payment_url;
 					} else {
 						if (response?.data?.status === 200) {
-							toast.error(response?.data?.message || 'Something went wrong');
+							toast.success(
+								response?.data?.message || 'Order placed successfully'
+							);
+							router.push('/dashboard/dropshipper-orders');
 						} else {
-							toast.error(response?.data?.message || 'Something went wrong');
+							toast.error(response?.data?.message || 'Failed to place order');
 						}
 					}
 				} catch (error: any) {
-					toast.error('Something went wrong');
+					console.log('Error:', error);
+					toast.error('Failed to place order');
 				}
 			},
 		});

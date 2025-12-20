@@ -40,11 +40,7 @@ const couponSchema = z.object({
 type ZodType = z.infer<typeof couponSchema>;
 
 //  Component
-export function AdminDropshipperRejectRequest({
-	data,
-}: {
-	data: iDropShipReq;
-}) {
+export function DropshipperRejectRequest({ data }: { data: iDropShipReq }) {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -102,6 +98,7 @@ const FORM = ({
 						reason: data?.reason,
 						id: editData.id,
 						status: 3,
+						tenant_id: editData.tenant_id,
 					}).unwrap();
 
 					if (response.status === 200) {
