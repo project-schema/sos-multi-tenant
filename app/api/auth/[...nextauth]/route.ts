@@ -18,6 +18,10 @@ type TokenResponse = {
 	tenant_type: 'admin' | 'merchant' | 'dropshipper' | 'user';
 };
 
+type TokenUser = UserType & {
+	tenant_type: 'admin' | 'merchant' | 'dropshipper' | 'user';
+};
+
 // Define the extended user type
 interface CustomUser extends NextAuthUser {
 	accessToken?: string;
@@ -80,7 +84,7 @@ const handler = NextAuth({
 		maxAge: 24 * 60 * 60, // 24 hours
 	},
 	callbacks: {
-		async jwt({ token, user, account, trigger, session }) {
+		async jwt({ token, user, account, trigger, session }): Promise<JWT> {
 			// Initial sign in
 			if (account && user) {
 				const customUser = user as CustomUser;
@@ -101,12 +105,21 @@ const handler = NextAuth({
 
 			// Handle explicit client-side session updates
 			if (trigger === 'update' && session?.user) {
+				const updatedUser = {
+					...(token.user as TokenUser | undefined),
+					...(session.user as UserType),
+					tenant_type:
+						(token.user as TokenUser | undefined)?.tenant_type ??
+						(token.tenant_type as
+							| 'admin'
+							| 'merchant'
+							| 'dropshipper'
+							| 'user'),
+				};
+
 				return {
 					...token,
-					user: {
-						...token.user,
-						...(session.user as UserType),
-					},
+					user: updatedUser,
 					iat: Math.floor(Date.now() / 1000),
 					exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60, // 24 hours
 				};
@@ -158,7 +171,7 @@ const handler = NextAuth({
  * `accessToken` and `accessTokenExpires`. If an error occurs,
  * returns the old token and an error property
  */
-async function refreshAccessToken(token: JWT) {
+async function refreshAccessToken(token: JWT): Promise<JWT> {
 	try {
 		// Here you would typically make a request to your refresh token endpoint
 		// For now, we'll just return the existing token

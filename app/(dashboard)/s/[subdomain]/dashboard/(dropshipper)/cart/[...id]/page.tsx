@@ -15,7 +15,7 @@ export default async function Page({
 	return (
 		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<CartViewPageClient tenantId={tenant_id} cartId={id} />
+			<CartViewPageClient cartId={id} />
 		</SessionProvider>
 	);
 }

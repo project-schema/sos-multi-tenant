@@ -25,13 +25,8 @@ import { iPagination } from '@/types';
 import { Ellipsis, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { DropshipperAcceptRequest } from './dropshipper-accept-request.active';
-import { iDropShipReq } from './dropshipper-request.type';
 import { DropshipperRejectRequest } from './dropshipper.reject-modal';
-export function DropshipperProductTable({
-	data,
-}: {
-	data: iPagination<iDropShipReq>;
-}) {
+export function DropshipperProductTable({ data }: { data: iPagination<any> }) {
 	const products = data?.data;
 	return (
 		<Table>

@@ -71,6 +71,11 @@ export type iAdminReqCoupon = {
 	created_at: string;
 	updated_at: string;
 	reason: null | string;
+	user: {
+		id: number;
+		name: string;
+		email: string;
+	};
 	tenant: {
 		id: number;
 		balance: string;

@@ -34,7 +34,7 @@ const api = apiSlice.injectEndpoints({
 				id: string | number;
 				reason?: string;
 				status: 1 | 3;
-				tenant_id: string | number;
+				tenant_id?: string | number;
 			}
 		>({
 			query: (data) => ({

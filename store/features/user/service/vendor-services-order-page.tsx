@@ -3,7 +3,6 @@
 import { useDebounce } from '@/hooks/use-debounce';
 
 import { useEffect, useState } from 'react';
-import { useVendorServicesQuery } from './vendor-services-api-slice';
 
 export function VendorServicesOrderPage() {
 	const [toggleFilter, setToggleFilter] = useState(true);
@@ -12,8 +11,6 @@ export function VendorServicesOrderPage() {
 
 	// Debounced version of searchTerm
 	const debouncedSearchTerm = useDebounce(searchTerm, 500);
-
-	const { data, isLoading, isError, isFetching } = useVendorServicesQuery();
 
 	useEffect(() => {
 		setPage(1);

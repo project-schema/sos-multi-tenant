@@ -185,7 +185,9 @@ export function VendorProfileSettings() {
 								value={field.value}
 								onChange={(file) => field.onChange(file)}
 								defaultImage={
-									data?.user?.image ? `${env.baseAPI}/${data.user.image}` : null
+									data?.user?.image
+										? `${env.baseAPI}/${data?.user?.image}`
+										: null
 								}
 							/>
 						</FormItem>

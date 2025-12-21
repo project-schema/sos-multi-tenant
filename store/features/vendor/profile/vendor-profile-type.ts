@@ -20,6 +20,7 @@ const data = {
 	last_seen: '2025-12-15 18:38:15',
 	created_at: '2025-12-14T12:39:55.000000Z',
 	updated_at: '2025-12-15T12:49:16.000000Z',
+	image: '',
 };
 
 const shopData = {

@@ -87,7 +87,6 @@ interface CartItem {
 export default function CartViewPageClient({
 	cartId,
 }: CartViewPageClientProps) {
-	console.log(cartId);
 	const [gateway, setGateway] = useState<'aamarpay'>('aamarpay');
 	const { data, isLoading, isError, isFetching } = useCartViewQuery(
 		{ cartId: cartId[1] || '', tenantId: cartId[0] || '' },

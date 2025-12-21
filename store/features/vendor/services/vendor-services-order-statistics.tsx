@@ -1,7 +1,14 @@
 'use client';
 
 import { Card1, Loader2 } from '@/components/dashboard';
-import { Clock, PackageCheck, PackageX, TrendingUp } from 'lucide-react'; // Added more icons
+import {
+	CheckCircle,
+	Clock,
+	FileEdit,
+	PackageCheck,
+	PackageX,
+	TrendingUp,
+} from 'lucide-react'; // Added more icons
 import { useVendorServicesOrderCountQuery } from './vendor-services-api-slice';
 
 export function VendorServicesOrderStatistics() {

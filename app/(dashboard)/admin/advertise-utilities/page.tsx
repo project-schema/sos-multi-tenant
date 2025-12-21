@@ -12,8 +12,9 @@ import {
 	iAdvertiseCommonPath,
 } from '@/store/features/admin/advertise-utilities/common';
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default function Page() {
+function AdvertiseUtilitiesContent() {
 	const tab = useSearchParams().get('tab');
 
 	switch (tab) {
@@ -33,4 +34,14 @@ export default function Page() {
 			}
 			return <CampaignCategoryIndex />;
 	}
+}
+
+export default function Page() {
+	return (
+		<Suspense
+			fallback={<div className="p-6 text-center">Loading utilities...</div>}
+		>
+			<AdvertiseUtilitiesContent />
+		</Suspense>
+	);
 }

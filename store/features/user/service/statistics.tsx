@@ -3,17 +3,19 @@
 import { Card1, Loader2 } from '@/components/dashboard';
 import { Clock, PackageCheck, PackageX, TrendingUp } from 'lucide-react'; // Added more icons
 import { useUserServiceOrderQuery } from './api-slice';
-import { iUserAdvertiseStatistics } from './type';
 
 export function UserAdvertiseStatistics() {
-	const { data, isLoading, isError } = useUserServiceOrderQuery();
+	const { data, isLoading, isError } = useUserServiceOrderQuery({
+		page: 1,
+		search: '',
+	});
 
 	if (isLoading) {
 		return <Loader2 />;
 	}
 
 	if (isError || !data) return null;
-	const stats: iUserAdvertiseStatistics = data;
+	const stats: any = data;
 
 	return (
 		<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 pb-4">

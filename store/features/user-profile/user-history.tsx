@@ -66,7 +66,7 @@ export function UserHistory() {
 										</TableCell>
 									</TableRow>
 								) : (
-									historyData?.data?.map((user, i) => (
+									historyData?.data?.map((user: any, i: number) => (
 										<TableRow key={user.id}>
 											<TableCell className="font-medium py-4">
 												{tableSrCount(historyData?.current_page, i)}

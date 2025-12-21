@@ -69,13 +69,16 @@ export default function PageClient() {
 						statusFilter={statusFilter}
 					/>
 				)}
-				{data?.product && (
+				{(data as any)?.product && (
 					<>
 						<div className="border rounded-lg relative">
 							{isFetching && <Loader8 />}
-							<DropshipperProductTable data={data?.product} />
+							<DropshipperProductTable data={(data as any)?.product} />
 						</div>
-						<Pagination1 pagination={data?.product} setPage={setPage} />
+						<Pagination1
+							pagination={(data as any)?.product}
+							setPage={setPage}
+						/>
 					</>
 				)}
 			</Container1>
