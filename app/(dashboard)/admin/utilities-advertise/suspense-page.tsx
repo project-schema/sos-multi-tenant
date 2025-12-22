@@ -43,7 +43,7 @@ export function SuspensePage({ children }: { children: React.ReactNode }) {
 							{tabs.map((item) => (
 								<Link
 									key={item.value}
-									href={`/admin/advertise-utilities?tab=${item.value}`}
+									href={`/admin/utilities-advertise?tab=${item.value}`}
 								>
 									<Button variant={tab === item.value ? 'default' : 'outline'}>
 										{item.label}

@@ -109,6 +109,9 @@ function Organization({
 								src={`${env.baseAPI}/${data?.org_one_photo}`}
 								width={588}
 								height={552}
+								priority
+								loading="eager"
+								unoptimized
 							/>
 						)}
 					</motion.div>

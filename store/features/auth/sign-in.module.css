@@ -142,11 +142,16 @@
 .userItemsBox {
 	border-radius: 5px;
 	background: #041438;
-	width: 348px;
+	max-width: 448px;
 	padding: 10px;
-	margin-bottom: 40px;
+	display: flex;
+	gap: 5px;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
-
+.userItems.active {
+	background: #0086ff;
+}
 .userItems:hover {
 	background: #0086ff;
 }
@@ -164,5 +169,13 @@
 	}
 	.loginBg {
 		padding-top: 80px;
+	}
+
+	.userItems {
+		padding: 6px 10px;
+		max-width: 100%;
+	}
+	.userItemsBox {
+		max-width: fit-content;
 	}
 }

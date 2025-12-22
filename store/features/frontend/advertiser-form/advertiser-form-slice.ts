@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { format } from 'date-fns';
 import { iCampaignCategory } from '../../admin/advertise-utilities';
 
-type AdvertiseFormState = {
+export type AdvertiseFormState = {
 	step: number;
 	level1: iCampaignCategory | null;
 	level2: any;

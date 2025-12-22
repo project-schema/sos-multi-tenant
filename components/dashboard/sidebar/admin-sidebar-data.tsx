@@ -175,7 +175,7 @@ const cms: sidebarItem[] = [
 			},
 			{
 				title: 'Advertise Faq',
-				url: '/admin/cms/advertise-faq',
+				url: '/admin/cms/faq-advertise',
 			},
 			{
 				title: 'Service',
@@ -260,7 +260,7 @@ const advertise: sidebarItem[] = [
 			},
 			{
 				title: 'Advertise Utilities',
-				url: '/admin/advertise-utilities',
+				url: '/admin/utilities-advertise',
 			},
 		],
 	},

@@ -42,6 +42,7 @@ const OurMission = ({
 							alt="Mission Image"
 							width={530}
 							height={500}
+							unoptimized
 						/>
 					</motion.div>
 

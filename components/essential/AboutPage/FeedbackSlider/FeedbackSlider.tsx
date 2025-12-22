@@ -141,6 +141,7 @@ const FeedbackSlider = ({
 										alt="Feedback Image"
 										width={50}
 										height={50}
+										unoptimized
 									/>
 									<div>
 										<h5 className={style.feedbackPersonName}>

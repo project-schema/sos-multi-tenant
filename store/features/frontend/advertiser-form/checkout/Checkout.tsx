@@ -1,9 +1,10 @@
 'use client';
 import { Loader2 } from '@/components/dashboard';
 import { Button } from '@/components/ui/button';
-import { timeDifference, timeDifference2 } from '@/lib';
+import { timeDifference2 } from '@/lib';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { LoaderCircle } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -27,6 +28,7 @@ function Checkout({
 	createAdvertise: (data: any) => any;
 	isLoading: boolean;
 }) {
+	const { data: session } = useSession();
 	const state = useAppSelector((state) => state.advertiseForm);
 	console.log(state);
 	const dispatch = useAppDispatch();
@@ -37,11 +39,8 @@ function Checkout({
 		parseInt(state.level2.budget_amount) *
 			parseInt(String(data?.message?.amount ?? '0')) *
 			(state.level2.budget === 'Daily Budget'
-				? timeDifference(
-						state.level2.start_date_view,
-						state.level2.end_date_view
-				  ) || 1
-				: 1) || '--Error--';
+				? timeDifference2(state.level2.start_date, state.level2.end_date) || 1
+				: 1) || '------';
 
 	const onSubmit = async () => {
 		const formedDataLOthers = {
@@ -49,6 +48,7 @@ function Checkout({
 			paymethod: state.paymethod,
 			audience: 'no data',
 			status: 'pending',
+			tenant_type: session?.user?.tenant_type === 'user' ? 'user' : 'tenant',
 		};
 		const formedDataL2 = level2SubmitFormat({
 			...level2Format(state.level2),
@@ -148,22 +148,6 @@ function Checkout({
 					</div>
 				</div>
 
-				<div className="alert alert-error">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						className="stroke-current shrink-0 h-6 w-6 cursor-pointer"
-						fill="none"
-						viewBox="0 0 24 24"
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth="2"
-							d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-						/>
-					</svg>
-					<span>Error! Err</span>
-				</div>
 				<div className="w-full">
 					<div className="grid grid-cols-2 gap-4">
 						<Button

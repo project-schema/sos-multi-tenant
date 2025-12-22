@@ -75,6 +75,7 @@ function AdvertiseBanner({ settings }: { settings: iSettingsType }) {
 								className={Style.bannerImg}
 								width={648}
 								height={600}
+								unoptimized
 							/>
 						)}
 					</motion.div>

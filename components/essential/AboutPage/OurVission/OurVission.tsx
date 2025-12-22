@@ -63,6 +63,7 @@ const OurVission = ({ settings }: { settings: iSettingsType }) => {
 								src={`${env.baseAPI}/${data?.vision_image_one}`}
 								width={312}
 								height={287}
+								unoptimized
 							/>
 						</motion.div>
 
@@ -78,6 +79,7 @@ const OurVission = ({ settings }: { settings: iSettingsType }) => {
 								src={`${env.baseAPI}/${data?.vision_image_two}`}
 								width={648}
 								height={287}
+								unoptimized
 							/>
 						</motion.div>
 
@@ -93,6 +95,7 @@ const OurVission = ({ settings }: { settings: iSettingsType }) => {
 								src={`${env.baseAPI}/${data?.vision_image_three}`}
 								width={312}
 								height={287}
+								unoptimized
 							/>
 						</motion.div>
 					</div>

@@ -1,8 +1,11 @@
 'use client';
 
 import Input from '@/components/frontend/Input/Input';
+import { env } from '@/lib';
+import { iSettingsType } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -20,7 +23,7 @@ export const schema = z.object({
 
 export type ZodType = z.infer<typeof schema>;
 
-export const AuthLogin = () => {
+export const AuthLogin = ({ settings }: { settings: iSettingsType }) => {
 	const router = useRouter();
 	// const [login, { isLoading }] = useAuthLoginMutation();
 	const [login, { isLoading }] = useAdminLoginMutation();
@@ -85,6 +88,15 @@ export const AuthLogin = () => {
 			<div className="layout">
 				<div className={style.layoutBgImg}>
 					<div className={`${style.loginFormBox} max-w-2xl`}>
+						<div className="flex justify-center items-center mb-2">
+							<Image
+								unoptimized
+								src={`${env.baseAPI}/${settings?.message?.logo}`}
+								alt="logo"
+								width={100}
+								height={100}
+							/>
+						</div>
 						<MotionFadeIn className={style.loginFromHeading} delay={0.18}>
 							<h3>Login Your Account</h3>
 						</MotionFadeIn>

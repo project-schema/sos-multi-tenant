@@ -87,6 +87,7 @@ function OrganizationProvide({
 								src={`${env.baseAPI}/${data?.org_one_photo}`}
 								width={588}
 								height={552}
+								unoptimized
 							/>
 						)}
 					</motion.div>

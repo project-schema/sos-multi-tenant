@@ -1,5 +1,13 @@
 'use client';
 
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { env, logout } from '@/lib';
 import { menuData } from '@/lib/data/NavMenu';
 import { iSettingsType } from '@/types';
@@ -26,6 +34,7 @@ function Nav({ settings }: { settings: iSettingsType }) {
 								className={style.logo}
 								alt="logo"
 								width={202}
+								unoptimized
 								loading="eager"
 								height={60}
 								src={`${env.baseAPI}/${settings.message?.logo}`}
@@ -37,61 +46,48 @@ function Nav({ settings }: { settings: iSettingsType }) {
 					<div className={style.buttonBox}>
 						{session?.user.name ? (
 							<div className="flex items-center gap-2">
-								<div className="dropdown dropdown-end">
-									<div tabIndex={0} className="avatar online placeholder">
-										<div className="bg-[#004da3] text-white rounded-full w-16">
-											<span className="text-xl capitalize">
-												{session.user.name?.slice(0, 2) || '--'}
-											</span>
-										</div>
-									</div>
-									<ul
-										tabIndex={0}
-										className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 gap-3"
-									>
-										<li className="cursor-default">
-											<button
-												onClick={() => {
-													// PROFILE_PAGE(
-													// 	session.user.role,
-													// 	profile?.usersubscription,
-													// 	router
-													// )
-												}}
-												type="button"
-												className="capitalize"
-											>
-												{session.user.name}
-											</button>
-										</li>
-										<li>
-											<button
-												type="button"
-												onClick={() => {
-													// DASHBOARD_PAGE(
-													// 	session.user.role,
-													// 	profile?.usersubscription,
-													// 	router
-													// )
-												}}
-												className="capitalize"
-											>
-												Dashboard
-											</button>
-										</li>
-										<li>
-											<button
-												onClick={() => logout()}
-												className={`${style.btn} !py-2 !w-full`}
-											>
-												<span className={style.text}>Log out</span>
-											</button>
-										</li>
-									</ul>
-									{/* {!loading && (
-										
-									)} */}
-								</div>
+								<DropdownMenu>
+									<DropdownMenuTrigger asChild>
+										<button
+											type="button"
+											className="avatar online placeholder focus:outline-none"
+										>
+											<div className="bg-[#004da3] text-white rounded-full w-16 h-16 flex items-center justify-center">
+												<span className="text-xl capitalize">
+													{session.user.name?.slice(0, 2) || '--'}
+												</span>
+											</div>
+										</button>
+									</DropdownMenuTrigger>
+									<DropdownMenuContent align="end" className="w-52">
+										<DropdownMenuLabel className="capitalize">
+											{session.user.name}
+										</DropdownMenuLabel>
+										<DropdownMenuSeparator />
+										<DropdownMenuItem
+											className="capitalize mb-1"
+											onClick={() => {
+												// PROFILE_PAGE(session.user.role, profile?.usersubscription, router);
+											}}
+										>
+											Profile
+										</DropdownMenuItem>
+										<DropdownMenuItem
+											className="capitalize mb-1"
+											onClick={() => {
+												// DASHBOARD_PAGE(session.user.role, profile?.usersubscription, router);
+											}}
+										>
+											Dashboard
+										</DropdownMenuItem>
+										<DropdownMenuItem
+											className={`${style.btn} !py-1 !w-full`}
+											onClick={() => logout()}
+										>
+											<span className={style.text}>Log out</span>
+										</DropdownMenuItem>
+									</DropdownMenuContent>
+								</DropdownMenu>
 							</div>
 						) : (
 							<>

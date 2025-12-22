@@ -69,6 +69,7 @@ const KeyMembers = ({
 								alt="Member Image"
 								width={310}
 								height={231}
+								unoptimized
 							/>
 							<div className={style.memberContent}>
 								<div>

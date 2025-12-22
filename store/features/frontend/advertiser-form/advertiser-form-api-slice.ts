@@ -118,7 +118,7 @@ const api = apiSlice.injectEndpoints({
 		>({
 			query: (data) => {
 				return {
-					url: `/create-advertise`,
+					url: `/user/create-advertise`,
 					method: 'POST',
 					body: data,
 					formData: true,

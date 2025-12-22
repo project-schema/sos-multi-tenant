@@ -103,6 +103,7 @@ const OurCompany = ({ settings }: { settings: iSettingsType }) => {
 							src={`${env.baseAPI}/${companyData?.about_banner_image}`}
 							width={532}
 							height={550}
+							unoptimized
 						/>
 					</motion.div>
 				</div>

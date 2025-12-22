@@ -71,6 +71,7 @@ const ChooseUs = ({
 									className={style.singleChooseImg}
 									src={chooseImg1}
 									alt="Choose Us Images"
+									unoptimized
 								/>
 								<div className={style.singleChooseIcon}>
 									<DynamicIcon

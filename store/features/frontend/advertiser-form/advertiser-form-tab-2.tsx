@@ -1202,7 +1202,7 @@ export function AdvertiserFormTab2({
 							Previous
 						</Button>
 
-						<Button type="submit" className="w-full">
+						<Button disabled={isLoading} type="submit" className="w-full">
 							{isLoading && (
 								<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 							)}

@@ -26,6 +26,7 @@ async function FooterCenter() {
 							loading="eager"
 							// src={`${imgUrl}/${data?.footer_image}`}
 							src={`${env.baseAPI}/${settings.message?.logo}`}
+							unoptimized
 							// src={data?.logo ? `${imgUrl}/${data?.logo}` : logo}
 						/>
 					</Link>

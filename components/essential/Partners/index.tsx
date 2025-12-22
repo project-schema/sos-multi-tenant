@@ -97,6 +97,7 @@ function Partners({
 									src={`${env.baseAPI}/${e.image}`}
 									width={133}
 									height={40}
+									unoptimized
 								/>
 							</motion.div>
 						</SwiperSlide>

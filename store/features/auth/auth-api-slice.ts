@@ -3,26 +3,30 @@ import {
 	iAuthLoginResponse,
 	iAuthRegister,
 	iAuthRegisterResponse,
-	iTenantRegister,
 	iTenantRegisterResponse,
 } from './auth-type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// register tenant
-		tenantRegister: builder.mutation<iTenantRegisterResponse, iTenantRegister>({
+		tenantRegister: builder.mutation<iTenantRegisterResponse, any>({
 			query: (data) => {
-				const body = new FormData();
-				Object.entries(data).forEach(([key, value]) => {
-					if (value) {
-						body.append(key, value as string);
-					}
-				});
+				const isUser = data.type === 'user';
+
+				console.log(data);
+				const userData = {
+					role: 4,
+					email: data.email,
+					password: data.password,
+					name: data.owner_name,
+					number: data.number,
+				};
+				const regAPI = isUser ? '/register' : '/tenants/register';
 
 				return {
-					url: `/tenants/register`,
+					url: regAPI,
 					method: 'POST',
-					body,
+					body: isUser ? userData : data,
 					formData: true,
 				};
 			},

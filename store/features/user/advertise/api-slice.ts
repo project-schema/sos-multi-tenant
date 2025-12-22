@@ -23,6 +23,7 @@ const api = apiSlice.injectEndpoints({
 				url: '/user/create-advertise',
 				method: 'POST',
 				body: data,
+				formData: true,
 			}),
 		}),
 
