@@ -1,5 +1,6 @@
 'use client';
 import { motion } from 'motion/react';
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import style from './style.module.css';
 
@@ -7,6 +8,9 @@ export default function TabOfSD({ packages = [] as any[] }) {
 	const [tab, setTab] = useState(0);
 
 	const servicePackages = useMemo(() => packages, [packages]);
+
+	console.log(servicePackages);
+	console.log(packages);
 
 	return (
 		<div className={style.servicesDetailsTab}>
@@ -102,7 +106,11 @@ export default function TabOfSD({ packages = [] as any[] }) {
 									</div>
 								</motion.div>
 								<div className={style.tabfullBtnb}>
-									<button className={style.tabBtn}>
+									<Link
+										href={`/services/${e.vendor_service_id}/pay?package_id=${e.id}&price=${e.price}`}
+										className={style.tabBtn}
+										prefetch={false}
+									>
 										<span className={style.btnText}>Buy now </span>
 										<svg
 											width="23"
@@ -116,7 +124,7 @@ export default function TabOfSD({ packages = [] as any[] }) {
 												fill="#FAFAFA"
 											/>
 										</svg>
-									</button>
+									</Link>
 								</div>
 							</div>
 						</div>

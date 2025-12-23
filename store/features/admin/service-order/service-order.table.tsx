@@ -82,7 +82,7 @@ export function AdminServiceOrderTable({
 									{item?.servicedetails ? (
 										<Link
 											className="hover:underline hover:text-blue-500 transition"
-											href={`/admin/merchant-product/${item.id}`}
+											href={`/admin/service-order/${item.id}`}
 										>
 											{textCount(item?.servicedetails?.title, 20)}
 										</Link>
@@ -95,7 +95,7 @@ export function AdminServiceOrderTable({
 										className="hover:underline hover:text-blue-500 transition"
 										href={`/admin/users/${item.id}`}
 									>
-										{item?.customerdetails?.name}
+										{item?.vendor?.name}
 									</Link>
 								</TableCell>
 								<TableCell className="py-2">
@@ -103,7 +103,7 @@ export function AdminServiceOrderTable({
 										className="hover:underline hover:text-blue-500 transition"
 										href={`/admin/users/${item.id}`}
 									>
-										{item?.vendor?.name}
+										{item?.customerdetails?.name}
 									</Link>
 								</TableCell>
 
@@ -151,7 +151,7 @@ export function AdminServiceOrderTable({
 											<DropdownMenuItem>
 												<Link
 													className="flex items-center gap-2 w-full"
-													href={`/admin/merchant-product/${item.id}`}
+													href={`/admin/service-order/${item.id}`}
 												>
 													<ExternalLink className="size-4" />
 													<span>View Product</span>

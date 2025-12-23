@@ -38,7 +38,7 @@ const AllServices = ({
 					{data?.map((data, i) => (
 						<ClientMotionWrapper key={data.id} index={i}>
 							<div className={style.singleService}>
-								<Link href={`/services/${data.id}`}>
+								<Link href={`/services/${data.id}/view`}>
 									<img
 										className={style.serviceImage}
 										src={imageFormat(data.image)}
@@ -59,7 +59,7 @@ const AllServices = ({
 										{data?.tenant?.company_name}
 									</p>
 								</div>
-								<Link href={`/services/${data.id}`}>
+								<Link href={`/services/${data.id}/view`}>
 									<p className={style.serviceDetails}>
 										{data.title.length > 80
 											? data.title.slice(0, 80) + '...'

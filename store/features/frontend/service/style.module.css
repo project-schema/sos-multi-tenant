@@ -1,0 +1,306 @@
+.checkoutFinal {
+  display: none;
+  padding-top: 103px;
+}
+
+.checkoutFinal.active {
+  display: block;
+}
+.heading {
+  color: var(--B, #1d1d1d);
+  font-family: Poppins;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%; /* 30px */
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 40px;
+}
+.subHeading {
+  color: var(--Paragraph-on-primary, #969696);
+  text-align: center;
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 27px */
+}
+
+.orderBox {
+  border-radius: 10px;
+  background: #fff;
+  display: flex;
+  max-width: 872px;
+  padding: 40px 30px;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin: 60px auto;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.boxHeading {
+  color: var(--B, #1d1d1d);
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%; /* 20px */
+  margin-bottom: 30px;
+}
+
+.summeryBox {
+  display: flex;
+  padding: 30px;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 10px;
+  background: rgba(29, 29, 29, 0.05);
+  width: 100%;
+  gap: 30px;
+}
+
+.chooseWallerBox {
+  padding: 30px;
+  border-radius: 10px;
+  background: rgba(29, 29, 29, 0.05);
+  width: 100%;
+}
+.chooseWalletHeading {
+  color: var(--B, #1d1d1d);
+  text-align: left;
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  margin-bottom: 30px;
+  line-height: normal;
+}
+
+.payOptions {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.payOption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#btn {
+  border-radius: 10px;
+  background: linear-gradient(
+    266deg,
+    #1a77f2 22.95%,
+    rgba(0, 79, 184, 0.76) 93.94%
+  );
+  display: flex;
+  width: 100%;
+  padding: 12px 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: #fafafa;
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 40px;
+}
+#btn[disabled] {
+  opacity: 75%;
+}
+.checkField {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px;
+  background: #e5e5e570;
+  border-radius: 5px;
+  align-self: stretch;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.checkField.active {
+  background: #fff;
+  border: 1px solid #1a77f2;
+}
+
+.checkBorder {
+  max-width: 20px;
+  min-width: 20px;
+  height: 20px;
+  background-color: transparent;
+  display: inline-block;
+  border-radius: 50%;
+  border: 2px solid #1a77f2;
+  position: relative;
+}
+.dot {
+  width: 12px;
+  height: 12px;
+  background-color: rgb(160, 158, 158);
+  display: inline-block;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dot.active {
+  background-color: #1a77f2;
+}
+.couponSubmit {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.couponSubmit label {
+  display: block;
+  color: #969696;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  margin-bottom: 10px;
+}
+.couponSubmit .inputFiled {
+  border: 1px solid #eee;
+  padding: 7px 20px;
+  border-radius: 15px;
+  color: #777;
+  border-radius: 15px;
+  width: 250px;
+}
+.couponSubmit .submitBtn {
+  padding: 7px 25px;
+  background: #1a77f2;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+.label {
+  font-size: 16px;
+}
+.orderMessage {
+  width: 100%;
+  height: 80px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  padding: 10px 15px;
+  margin-top: 10px;
+}
+
+.advertiser_store_image_preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+.customFile {
+  display: inline-block;
+  height: calc(1.5em + 1.18rem + 2px);
+  margin-bottom: 0;
+  position: relative;
+  width: 100%;
+}
+.customFileInput {
+  height: calc(1.5em + 1.18rem + 2px);
+  margin: 0;
+  opacity: 0;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  z-index: 2;
+}
+.customFileLabel {
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  color: #495057;
+  font-weight: 400;
+  height: calc(1.5em + 1.18rem + 2px);
+  left: 0;
+  line-height: 1.5;
+  overflow: hidden;
+  padding: 0.59rem 1rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+.customFileLabel::after {
+  background-color: #e9ecef;
+  border-left: inherit;
+  border-radius: 0 0.25rem 0.25rem 0;
+  bottom: 0;
+  color: #495057;
+  content: "Browse";
+  display: block;
+  height: calc(1.5em + 1.18rem);
+  line-height: 1.5;
+  padding: 0.59rem 1rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 3;
+}
+.preImagView {
+  display: flex;
+  gap: 10px;
+}
+@media only screen and (max-width: 900px) {
+  .orderBox {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 20px;
+  }
+  .summeryBox {
+    padding: 15px;
+  }
+  #btn {
+    margin-top: 20px;
+  }
+  .boxHeading {
+    margin-bottom: 0px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .chooseWallerBox {
+    padding: 15px;
+  }
+  .payOptions {
+    flex-direction: column;
+    gap: 5px;
+  }
+  .payOption {
+    /* flex-direction: column; */
+    gap: 5px;
+  }
+  .chooseWalletHeading {
+    margin-bottom: 10px;
+  }
+  .checkField {
+    width: 200px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .couponSubmit {
+    flex-direction: column;
+  }
+  .submitBtn {
+    width: 100%;
+  }
+  .inputFiled {
+    width: 100% !important;
+  }
+}

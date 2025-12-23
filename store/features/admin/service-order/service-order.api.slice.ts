@@ -33,6 +33,17 @@ const api = apiSlice.injectEndpoints({
 			providesTags: ['AdminServiceOrder'],
 		}),
 
+		AdminSingleServiceOrder: builder.query<
+			{ message: iAdminServiceOrder; status: number; data: 'success' },
+			{ id: number | string }
+		>({
+			query: ({ id }) => ({
+				url: `/admin/customer-orders/${id}`,
+				method: 'GET',
+			}),
+			providesTags: ['AdminServiceOrder'],
+		}),
+
 		adminServiceOrderStatusUpdate: builder.mutation<
 			{ message: string; status: number; data: 'success' },
 			{ id: number; status: iAdminServiceOrder['status'] }
@@ -92,4 +103,5 @@ export const {
 	useAdminServiceOrderStatusUpdateMutation,
 	useAdminServiceOrderStatusMutation,
 	useAdminCancelServiceOrderRequestMutation,
+	useAdminSingleServiceOrderQuery,
 } = api;

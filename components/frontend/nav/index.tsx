@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { env, logout } from '@/lib';
 import { menuData } from '@/lib/data/NavMenu';
+import { dashboardLink, profileLink } from '@/lib/links';
 import { iSettingsType } from '@/types';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -67,18 +68,24 @@ function Nav({ settings }: { settings: iSettingsType }) {
 										<DropdownMenuItem
 											className="capitalize mb-1"
 											onClick={() => {
-												// PROFILE_PAGE(session.user.role, profile?.usersubscription, router);
+												profileLink(session.user.tenant_type);
 											}}
+											asChild
 										>
-											Profile
+											<Link href={profileLink(session.user.tenant_type)}>
+												Profile
+											</Link>
 										</DropdownMenuItem>
 										<DropdownMenuItem
 											className="capitalize mb-1"
+											asChild
 											onClick={() => {
-												// DASHBOARD_PAGE(session.user.role, profile?.usersubscription, router);
+												dashboardLink(session.user.tenant_type);
 											}}
 										>
-											Dashboard
+											<Link href={dashboardLink(session.user.tenant_type)}>
+												Dashboard
+											</Link>
 										</DropdownMenuItem>
 										<DropdownMenuItem
 											className={`${style.btn} !py-1 !w-full`}

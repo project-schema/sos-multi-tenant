@@ -1,4 +1,6 @@
 import { apiSlice } from '@/store/features/api/apiSlice';
+import { iPagination } from '@/types';
+import { iAdminServiceOrder } from '../../admin/service';
 import {
 	iVendorServiceCategoryAndSubCategoryResponse,
 	iVendorServices,
@@ -120,12 +122,6 @@ const api = apiSlice.injectEndpoints({
 			providesTags: ['VendorService'],
 		}),
 
-		// order count
-		VendorServicesOrderCount: builder.query<iVendorServicesStatistics, void>({
-			query: () => '/tenant-service/order/count',
-			providesTags: ['VendorService'],
-		}),
-
 		// view
 		VendorServicesView: builder.query<iVendorServices, { id: string }>({
 			query: ({ id }) => `/tenant-service/${id}`,
@@ -148,6 +144,68 @@ const api = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: ['VendorService'],
 		}),
+
+		// order count
+		VendorServicesOrderCount: builder.query<iVendorServicesStatistics, void>({
+			query: () => '/tenant-service/order/count',
+			providesTags: ['VendorService'],
+		}),
+
+		// order
+		VendorServicesOrder: builder.query<
+			{ message: iPagination<iAdminServiceOrder> },
+			void
+		>({
+			query: () => '/tenant-service/orders',
+			providesTags: ['VendorService'],
+		}),
+
+		// order
+		VendorServicesOrderSingle: builder.query<
+			{ message: iAdminServiceOrder },
+			{ id: string }
+		>({
+			query: ({ id }) => `/tenant-service/orders/view/${id}`,
+			providesTags: ['VendorService'],
+		}),
+
+		vendorServiceOrderStatusUpdate: builder.mutation<
+			{ message: string; status: number; data: 'success' },
+			{
+				service_order_id: number | string;
+				status: iAdminServiceOrder['status'];
+			}
+		>({
+			query: (body) => {
+				console.log(body);
+				return {
+					url: `/tenant-service/status`,
+					method: 'POST',
+					body,
+				};
+			},
+			invalidatesTags: ['VendorService'],
+		}),
+
+		VendorServiceOrderDelivery: builder.mutation<
+			{ message: string; status: number; data: 'success' },
+			{
+				service_order_id: number | string;
+				description: string;
+				files: File[];
+			}
+		>({
+			query: (body) => {
+				console.log(body);
+				return {
+					url: `/service/delivery-to-customer`,
+					method: 'POST',
+					body,
+					formData: true,
+				};
+			},
+			invalidatesTags: ['VendorService'],
+		}),
 	}),
 });
 
@@ -161,4 +219,8 @@ export const {
 	useVendorServicesUpdateMutation,
 	useVendorServicesDeleteMutation,
 	useVendorServicesOrderCountQuery,
+	useVendorServicesOrderQuery,
+	useVendorServicesOrderSingleQuery,
+	useVendorServiceOrderStatusUpdateMutation,
+	useVendorServiceOrderDeliveryMutation,
 } = api;

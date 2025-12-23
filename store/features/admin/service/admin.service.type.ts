@@ -19,6 +19,7 @@ export type iAdminService = {
 	updated_at: string;
 	deleted_at: null | string;
 	reason: null | string;
+	tenant_id: string;
 	servicepackages: {
 		id: number;
 		vendor_service_id: number;
@@ -66,6 +67,18 @@ export type iAdminServiceResponse = {
 	message: iPagination<iAdminService>;
 };
 
+const files = [
+	{
+		id: 60,
+		name: 'uploads/support/694abae9bef9e1.jpg',
+		filetable_type: 'App\\Models\\ServiceOrder',
+		filetable_id: 48,
+		deleted_at: null,
+		created_at: '2025-12-23T15:53:13.000000Z',
+		updated_at: '2025-12-23T15:53:13.000000Z',
+	},
+];
+
 export type iAdminServiceOrder = {
 	id: number;
 	trxid: string;
@@ -73,6 +86,15 @@ export type iAdminServiceOrder = {
 	status: string;
 	created_at: string;
 	amount: string;
+	files: {
+		id: number;
+		name: string;
+		filetable_type: string;
+		filetable_id: number;
+		deleted_at: null;
+		created_at: string;
+		updated_at: string;
+	}[];
 	customerdetails: {
 		id: number;
 		name: string;
@@ -82,7 +104,28 @@ export type iAdminServiceOrder = {
 		id: number;
 		title: string;
 	};
+	orderdelivery: {
+		id: number;
+		vendor_id: number;
+		customer_id: number;
+		service_order_id: number;
+		description: string;
+		status: string;
+		type: string;
+		deleted_at: null;
+		created_at: string;
+		updated_at: string;
+		deliveryfiles: {
+			id: number;
+			order_delivery_id: number;
+			files: string;
+			deleted_at: null;
+			created_at: string;
+			updated_at: string;
+		}[];
+	}[];
 };
+
 export type iAdminServiceOrderResponse = {
 	status: 200;
 	serviceOrder: iPagination<iAdminServiceOrder>;

@@ -4,3 +4,4 @@ export * from './service-order.statistics';
 export * from './service-order.table';
 export * from './service-order.type';
 
+export * from './admin-service-order-view';

@@ -9,10 +9,29 @@ import { AdminAdvertiseFilter } from '@/store/features/admin/advertise';
 
 import { SlidersHorizontal } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useVendorServicesQuery } from './vendor-services-api-slice';
+import { useVendorServicesOrderQuery } from './vendor-services-api-slice';
 import { VendorServicesStatistics } from './vendor-services-statistics';
-import { VendorServiceTable } from './vendor.service.table';
 
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from '@/components/ui/table';
+
+import { Badge } from '@/components/ui/badge';
+import {
+	badgeFormat,
+	dateFormat,
+	sign,
+	tableSrCount,
+	textCount,
+	timeFormat,
+} from '@/lib';
+
+import Link from 'next/link';
 export function VendorServicesOrderPage() {
 	const [toggleFilter, setToggleFilter] = useState(true);
 	const [searchTerm, setSearchTerm] = useState('');
@@ -21,11 +40,14 @@ export function VendorServicesOrderPage() {
 	// Debounced version of searchTerm
 	const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-	const { data, isLoading, isError, isFetching } = useVendorServicesQuery();
+	const { data, isLoading, isError, isFetching } =
+		useVendorServicesOrderQuery();
 
 	useEffect(() => {
 		setPage(1);
 	}, [debouncedSearchTerm]);
+
+	const services = data?.message;
 
 	return (
 		<>
@@ -60,7 +82,111 @@ export function VendorServicesOrderPage() {
 					<>
 						<div className="border rounded-lg relative">
 							{isFetching && <Loader8 />}
-							<VendorServiceTable data={data?.message} />
+							<Table>
+								<TableHeader>
+									<TableRow>
+										<TableHead className="bg-stone-100">Sr.</TableHead>
+										<TableHead className="bg-stone-100 w-10">
+											Order Id
+										</TableHead>
+										<TableHead className="bg-stone-100">Service </TableHead>
+										<TableHead className="bg-stone-100">Seller Name </TableHead>
+										<TableHead className="bg-stone-100">User Name </TableHead>
+										<TableHead className="bg-stone-100">Amount </TableHead>
+										<TableHead className="bg-stone-100"> Details </TableHead>
+										<TableHead className="bg-stone-100">Date </TableHead>
+										<TableHead className="bg-stone-100">Status </TableHead>
+										<TableHead className="bg-stone-100">Action </TableHead>
+									</TableRow>
+								</TableHeader>
+								<TableBody>
+									{services?.data.length === 0 ? (
+										<TableRow>
+											<TableCell
+												colSpan={10}
+												className="text-center py-8 text-muted-foreground"
+											>
+												No items found matching your criteria
+											</TableCell>
+										</TableRow>
+									) : (
+										services?.data.map((item, i) => {
+											return (
+												<TableRow key={item.id}>
+													<TableCell className="py-2 pl-4">
+														{tableSrCount(services.current_page, i)}
+													</TableCell>
+													<TableCell className="font-medium py-4">
+														{item.trxid ? `#${item.trxid}` : '--'}
+													</TableCell>
+
+													<TableCell className="py-2">
+														{item?.servicedetails ? (
+															<Link
+																className="hover:underline hover:text-blue-500 transition"
+																href={`/dashboard/services/order/${item.id}`}
+															>
+																{textCount(item?.servicedetails?.title, 20)}
+															</Link>
+														) : (
+															'--'
+														)}
+													</TableCell>
+													<TableCell className="py-2">
+														<Link
+															className="hover:underline hover:text-blue-500 transition"
+															href={`/users/${item.id}`}
+														>
+															{item?.vendor?.name}
+														</Link>
+													</TableCell>
+													<TableCell className="py-2">
+														<Link
+															className="hover:underline hover:text-blue-500 transition"
+															href={`/admin/users/${item.id}`}
+														>
+															{item?.customerdetails?.name}
+														</Link>
+													</TableCell>
+
+													<TableCell className="py-2">
+														<Badge className="capitalize" variant="default">
+															{item?.amount || '00'} {sign.tk}
+														</Badge>
+													</TableCell>
+													<TableCell className="py-2">
+														{textCount(item?.details, 70)}
+													</TableCell>
+													<TableCell className="py-2">
+														{dateFormat(item.created_at)} <br />
+														{timeFormat(item.created_at)}
+													</TableCell>
+													<TableCell className="py-2 space-y-1">
+														<Badge
+															className="capitalize"
+															variant={badgeFormat(item.status)}
+														>
+															{item.status}
+														</Badge>
+														{item.is_rejected === '1' && (
+															<>
+																<br />
+																<Badge
+																	className="capitalize"
+																	variant="destructive"
+																>
+																	Rejected
+																</Badge>
+															</>
+														)}
+													</TableCell>
+													<TableCell className="py-2"></TableCell>
+												</TableRow>
+											);
+										})
+									)}
+								</TableBody>
+							</Table>
 						</div>
 						<Pagination1 pagination={data?.message} setPage={setPage} />
 					</>

@@ -5,9 +5,12 @@ import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
 
+import { Pagination1 } from '@/components/dashboard/pagination';
 import { SlidersHorizontal } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { AdminServiceFilter } from '../../admin/service';
 import { useUserServiceOrderQuery } from './api-slice';
+import { UserServiceStatistics } from './statistics';
 import { UserServiceTable } from './table';
 
 export function UserServicePage() {
@@ -45,24 +48,24 @@ export function UserServicePage() {
 								<SlidersHorizontal className="h-4 w-4" />
 							</Button>
 						</div>
-						{/* {toggleFilter && <VendorServicesStatistics />} */}
+						{toggleFilter && <UserServiceStatistics />}
 					</>
 				}
 			>
 				{/* Filter */}
-				{/* {toggleFilter && (
-					<AdminAdvertiseFilter
+				{toggleFilter && (
+					<AdminServiceFilter
 						searchTerm={searchTerm}
 						setSearchTerm={setSearchTerm}
 					/>
-				)} */}
-				{data?.message && (
+				)}
+				{data?.data && (
 					<>
 						<div className="border rounded-lg relative">
 							{isFetching && <Loader8 />}
-							<UserServiceTable data={data?.message} />
+							<UserServiceTable data={data?.data} />
 						</div>
-						{/* <Pagination1 pagination={data?.message} setPage={setPage} /> */}
+						<Pagination1 pagination={data?.data} setPage={setPage} />
 					</>
 				)}
 			</Container1>

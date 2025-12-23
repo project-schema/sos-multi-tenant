@@ -50,6 +50,7 @@ function Checkout({
 			status: 'pending',
 			tenant_type: session?.user?.tenant_type === 'user' ? 'user' : 'tenant',
 		};
+		
 		const formedDataL2 = level2SubmitFormat({
 			...level2Format(state.level2),
 			...level3Format(state.level3),

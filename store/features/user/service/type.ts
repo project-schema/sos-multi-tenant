@@ -1,4 +1,5 @@
 import { iPagination } from '@/types';
+import { iAdminServiceOrder } from '../../admin/service';
 
 export type iUserAdvertise = {
 	id: number;
@@ -24,4 +25,10 @@ export type iUserAdvertiseStatistics = {
 	delivered: number;
 	cancel: number;
 	all: number;
+};
+
+export type iUserServiceOrderResponse = {
+	status: number;
+	message: 'success';
+	data: iPagination<iAdminServiceOrder>;
 };
