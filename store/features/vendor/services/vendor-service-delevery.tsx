@@ -61,7 +61,7 @@ export function VendorServiceDelivery({
 }) {
 	const [open, setOpen] = useState(false);
 	const [mutation, { isLoading }] = useVendorServiceOrderDeliveryMutation();
-
+	console.log(order);
 	const form = useForm<NoteFormValues>({
 		resolver: zodResolver(noteSchema),
 		defaultValues: {
@@ -80,6 +80,7 @@ export function VendorServiceDelivery({
 						service_order_id: order.id,
 						description: values.description,
 						files: values.files,
+						tenant_id: order.tenant_id,
 					}).unwrap();
 
 					if (response.status === 200) {
@@ -148,7 +149,7 @@ export function VendorServiceDelivery({
 							render={({ field }) => (
 								<FormItem>
 									<MultiImageUpload
-										label="Product New Images (multiple choose)"
+										label="Service Images (multiple choose)"
 										value={field.value ?? []}
 										onChange={field.onChange}
 										defaultImages={[]}

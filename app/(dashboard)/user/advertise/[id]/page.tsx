@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { badgeFormat, env } from '@/lib';
-import { useVendorAdvertiseViewQuery } from '@/store/features/vendor/advertise';
+import { useUserAdvertiseViewQuery } from '@/store/features/user/advertise';
 import {
 	AlertCircleIcon,
 	Box,
@@ -57,14 +57,14 @@ const tabs = [
 
 export default function Page() {
 	const { id } = useParams();
-	const { data, isLoading, isError } = useVendorAdvertiseViewQuery(
+	const { data, isLoading, isError } = useUserAdvertiseViewQuery(
 		{ id: id?.toString() || '' },
 		{ skip: !id }
 	);
 
 	const resultObject: { [key: string]: any } = {};
 	if (data) {
-		for (const item of data?.message?.placements) {
+		for (const item of data?.data?.placements) {
 			const key = Object?.keys(item)[0];
 			const value = item[key];
 			resultObject[key] = value;
@@ -80,12 +80,12 @@ export default function Page() {
 					<div className="flex items-center justify-between">
 						<div className="flex items-center gap-3">
 							<CardTitle>Advertise Details</CardTitle>
-							{data?.message?.status && (
+							{data?.data?.status && (
 								<Badge
 									className="capitalize"
-									variant={badgeFormat(data?.message?.status || '--')}
+									variant={badgeFormat(data?.data?.status || '--')}
 								>
-									{data?.message?.status || '--'}
+									{data?.data?.status || '--'}
 								</Badge>
 							)}
 						</div>
@@ -93,12 +93,12 @@ export default function Page() {
 				}
 			>
 				<div className="space-y-4">
-					{data?.message?.status === 'cancel' && (
+					{data?.data?.status === 'cancel' && (
 						<Alert variant="destructive" className="max-w-5xl">
 							<AlertCircleIcon />
 							<AlertTitle>Cancel Advertise Order Reason:</AlertTitle>
 							<AlertDescription>
-								<p>{data?.message?.reason || '--'}</p>
+								<p>{data?.data?.reason || '--'}</p>
 							</AlertDescription>
 						</Alert>
 					)}
@@ -106,27 +106,27 @@ export default function Page() {
 					<div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-5 gap-4 border rounded-lg ">
 						<div className="space-y-1 text-center py-2">
 							<h3 className="text-base font-bold">Campaign Name</h3>
-							<p>{data?.message?.campaign_name || '--'}</p>
+							<p>{data?.data?.campaign_name || '--'}</p>
 						</div>
 						<div className="space-y-1 text-center py-2">
 							<h3 className="text-base font-bold">Budget Amount</h3>
-							<p>{data?.message?.budget || '--'}</p>
+							<p>{data?.data?.budget || '--'}</p>
 						</div>
 						<div className="space-y-1 text-center py-2">
 							<h3 className="text-base font-bold">Campaign Start Date</h3>
-							<p>{data?.message?.start_date || '--'}</p>
+							<p>{data?.data?.start_date || '--'}</p>
 						</div>
 						<div className="space-y-1 text-center py-2">
 							<h3 className="text-base font-bold">Campaign End Date</h3>
-							<p>{data?.message?.end_date || '--'}</p>
+							<p>{data?.data?.end_date || '--'}</p>
 						</div>
 						<div className="space-y-1 text-center py-2">
 							<h3 className="text-base font-bold">Status</h3>
 							<Badge
 								className="capitalize"
-								variant={badgeFormat(data?.message?.status || '--')}
+								variant={badgeFormat(data?.data?.status || '--')}
 							>
-								{data?.message?.status || '--'}
+								{data?.data?.status || '--'}
 							</Badge>
 						</div>
 					</div>
@@ -154,31 +154,31 @@ export default function Page() {
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Campaign objective:
 											</p>
-											<p>{data?.message?.campaign_objective || '--'}</p>
+											<p>{data?.data?.campaign_objective || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Budget:
 											</p>
-											<p>{data?.message?.budget || '--'}</p>
+											<p>{data?.data?.budget || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Budget Amount:
 											</p>
-											<p>{data?.message?.budget_amount || '--'}</p>
+											<p>{data?.data?.budget_amount || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Conversion Location:
 											</p>
-											<p>{data?.message?.conversion_location || '--'}</p>
+											<p>{data?.data?.conversion_location || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Performance Goal:
 											</p>
-											<p>{data?.message?.performance_goal || '--'}</p>
+											<p>{data?.data?.performance_goal || '--'}</p>
 										</div>
 									</TabsContent>
 									<TabsContent value="Audience" className="space-y-4">
@@ -186,30 +186,30 @@ export default function Page() {
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Age From:
 											</p>
-											<p>{data?.message?.age || '--'}</p>
+											<p>{data?.data?.age || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Age to:
 											</p>
-											<p>{data?.message?.ageto || '--'}</p>
+											<p>{data?.data?.ageto || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Gender:
 											</p>
-											<p>{data?.message?.gender || '--'}</p>
+											<p>{data?.data?.gender || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Detail Targeting:
 											</p>
-											<p>{data?.message?.detail_targeting || '--'}</p>
+											<p>{data?.data?.detail_targeting || '--'}</p>
 										</div>
 										<div>
 											<h3 className="text-xl font-semibold">Location Files</h3>
 											<div>
-												{data?.message?.advertise_audience_file?.map(
+												{data?.data?.advertise_audience_file?.map(
 													(item: any, index: number) => (
 														<Image
 															key={index}
@@ -221,6 +221,7 @@ export default function Page() {
 															alt=""
 															width={100}
 															height={100}
+															unoptimized
 														/>
 													)
 												)}
@@ -232,20 +233,20 @@ export default function Page() {
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Country:
 											</p>
-											<p>{data?.message?.country || '--'}</p>
+											<p>{data?.data?.country || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												City:
 											</p>
-											{data?.message?.city?.map((item: any, index: number) => (
+											{data?.data?.city?.map((item: any, index: number) => (
 												<p key={index}>{item},</p>
 											))}
 										</div>
 										<div>
 											<h3 className="text-xl font-semibold">Location Files</h3>
 											<div>
-												{data?.message?.advertise_location_files?.map(
+												{data?.data?.advertise_location_files?.map(
 													(item: any, index: number) => (
 														<Image
 															key={index}
@@ -257,6 +258,7 @@ export default function Page() {
 															alt=""
 															width={100}
 															height={100}
+															unoptimized
 														/>
 													)
 												)}
@@ -268,17 +270,15 @@ export default function Page() {
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Devices:
 											</p>
-											<p>{data?.message?.device || '--'}</p>
+											<p>{data?.data?.device || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Platform:
 											</p>
-											{data?.message?.platform?.map(
-												(item: any, index: number) => (
-													<p key={index}>{item},</p>
-												)
-											)}
+											{data?.data?.platform?.map((item: any, index: number) => (
+												<p key={index}>{item},</p>
+											))}
 										</div>
 										<h2 className="text-xl font-semibold">Placements</h2>
 										<div className="flex gap-2">
@@ -343,7 +343,7 @@ export default function Page() {
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Inventory
 											</p>
-											<p>{data?.message?.inventory || '--'}</p>
+											<p>{data?.data?.inventory || '--'}</p>
 										</div>
 									</TabsContent>
 									<TabsContent value="Create-Ad" className="space-y-4">
@@ -351,27 +351,25 @@ export default function Page() {
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Conversion Location:
 											</p>
-											<p>{data?.message?.country || '--'}</p>
+											<p>{data?.data?.country || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Platform
 											</p>
-											{data?.message?.platform?.map(
-												(item: any, index: number) => (
-													<p key={index}>{item},</p>
-												)
-											)}
+											{data?.data?.platform?.map((item: any, index: number) => (
+												<p key={index}>{item},</p>
+											))}
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Format:
 											</p>
-											<p>{data?.message?.format || '--'}</p>
+											<p>{data?.data?.format || '--'}</p>
 										</div>
 
-										{data?.message?.format === 'Existing Add'
-											? data?.message?.ad_creative?.map(
+										{data?.data?.format === 'Existing Add'
+											? data?.data?.ad_creative?.map(
 													(placement: any, index: number) => {
 														return (
 															<div key={index}>
@@ -388,7 +386,7 @@ export default function Page() {
 														);
 													}
 											  )
-											: data?.message?.ad_creative?.map(
+											: data?.data?.ad_creative?.map(
 													(placement: any, index: number) => {
 														return (
 															<div key={index} className="space-y-4">
@@ -432,37 +430,37 @@ export default function Page() {
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Destination:
 											</p>
-											<p>{data?.message?.destination || '--'}</p>
+											<p>{data?.data?.destination || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Tracking:
 											</p>
-											<p>{data?.message?.tracking || '--'}</p>
+											<p>{data?.data?.tracking || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												URL perimeter:
 											</p>
-											<p>{data?.message?.url_perimeter || '--'}</p>
+											<p>{data?.data?.url_perimeter || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Number:
 											</p>
-											<p>{data?.message?.number || '--'}</p>
+											<p>{data?.data?.number || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Description :
 											</p>
-											<p>{data?.message?.last_description || '--'}</p>
+											<p>{data?.data?.last_description || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Transition Id:
 											</p>
-											<p>{data?.message?.trxid || '--'}</p>
+											<p>{data?.data?.trxid || '--'}</p>
 										</div>
 									</TabsContent>
 									<TabsContent value="User" className="space-y-4">
@@ -470,25 +468,25 @@ export default function Page() {
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												User Id:
 											</p>
-											<p>{data?.message?.user?.id || '--'}</p>
+											<p>{data?.data?.user?.id || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												User Name:
 											</p>
-											<p>{data?.message?.user?.name || '--'}</p>
+											<p>{data?.data?.user?.name || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Number:
 											</p>
-											<p>{data?.message?.user?.name || '--'}</p>
+											<p>{data?.data?.user?.name || '--'}</p>
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Email:
 											</p>
-											<p>{data?.message?.user?.email || '--'}</p>
+											<p>{data?.data?.user?.email || '--'}</p>
 										</div>
 									</TabsContent>
 								</div>

@@ -78,7 +78,18 @@ const files = [
 		updated_at: '2025-12-23T15:53:13.000000Z',
 	},
 ];
-
+const data = {
+	id: 7,
+	user_id: 725,
+	vendor_service_id: 19,
+	rating: 4,
+	deleted_at: null,
+	created_at: '2025-12-24T12:10:55.000000Z',
+	updated_at: '2025-12-24T12:10:55.000000Z',
+	service_order_id: 48,
+	comment: '123456',
+	tenant_id: null,
+};
 export type iAdminServiceOrder = {
 	id: number;
 	trxid: string;
@@ -86,6 +97,17 @@ export type iAdminServiceOrder = {
 	status: string;
 	created_at: string;
 	amount: string;
+	servicerating: {
+		id: number;
+		user_id: number;
+		vendor_service_id: number;
+		rating: number;
+		deleted_at: null;
+		created_at: string;
+		updated_at: string;
+		service_order_id: number;
+		comment: string;
+	};
 	files: {
 		id: number;
 		name: string;
@@ -122,6 +144,7 @@ export type iAdminServiceOrder = {
 			deleted_at: null;
 			created_at: string;
 			updated_at: string;
+			name: string;
 		}[];
 	}[];
 };

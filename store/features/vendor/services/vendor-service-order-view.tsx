@@ -21,6 +21,7 @@ import { badgeFormat, dateFormat, env, timeFormat } from '@/lib';
 import { ChevronDown, CreditCard, FileText, Package, User } from 'lucide-react';
 import Image from 'next/image';
 import { iAdminServiceOrder } from '../../admin/service';
+import { ServiceRatingCard } from '../../user/service/service-ratting-card';
 import { VendorServiceDelivery } from './vendor-service-delevery';
 import { VendorServiceOrderStatus } from './vendor-service-order-status';
 
@@ -74,17 +75,16 @@ export function VendorServiceOrderView({
 										</>
 									)}
 
-									<DropdownMenuSeparator />
-									{order.status !== 'pending' && (
+									{/* {order.status !== 'pending' && (
 										<VendorServiceOrderStatus
 											data={order}
 											icon="Clock"
 											status="pending"
 											text="Pending"
 										/>
-									)}
+									)} */}
 
-									{order.status !== 'progress' && (
+									{order.status === 'pending' && (
 										<VendorServiceOrderStatus
 											data={order}
 											icon="Loader"
@@ -93,29 +93,29 @@ export function VendorServiceOrderView({
 										/>
 									)}
 
-									{order.status !== 'delivered' && (
+									{(order.status === 'progress' ||
+										order.status === 'revision') && (
 										<VendorServiceDelivery order={order} />
 									)}
 
-									{order.status !== 'revision' && (
+									{/* {order.status !== 'revision' && (
 										<VendorServiceOrderStatus
 											data={order}
 											icon="RotateCcw"
 											status="revision"
 											text="Revision Requested"
 										/>
-									)}
+									)} */}
 
-									{order.status !== 'success' && (
+									{/* {order.status !== 'success' && (
 										<VendorServiceOrderStatus
 											data={order}
 											icon="CheckCircle2"
 											status="success"
 											text="Service Completed Successfully"
 										/>
-									)}
-
-									<DropdownMenuSeparator />
+									)} */}
+									{order.status !== 'delivered' && <DropdownMenuSeparator />}
 
 									{order.status !== 'cancel' && (
 										<VendorServiceOrderStatus
@@ -306,6 +306,69 @@ export function VendorServiceOrderView({
 					</div>
 				</CardContent>
 			</Card>
+			{/* Delivery Details */}
+			{order.orderdelivery?.length > 0 && (
+				<Card>
+					<CardHeader>
+						<CardTitle className="flex items-center gap-2">
+							<FileText className="h-5 w-5" />
+							Delivery Details
+						</CardTitle>
+					</CardHeader>
+					<CardContent className="space-y-4">
+						{order.orderdelivery?.length === 0 ? (
+							<p className="text-sm text-muted-foreground">
+								No delivery found.
+							</p>
+						) : (
+							<div className="space-y-2">
+								{order.orderdelivery.map((delivery) => (
+									<div key={delivery.id} className="border rounded-lg p-4">
+										<p className="text-sm mb-2">
+											Delivered on:{' '}
+											<span className="text-muted-foreground">
+												{timeFormat(delivery.created_at)}
+											</span>
+										</p>
+
+										<p className="text-sm"> {delivery.description}</p>
+
+										{delivery.deliveryfiles.length > 0 && (
+											<div className="mt-2">
+												<p className="text-sm text-muted-foreground mb-2">
+													Delivery Attachments:
+												</p>
+
+												<div className="flex flex-wrap gap-2">
+													{delivery.deliveryfiles.map((file) => (
+														<div
+															key={file.id}
+															className="border rounded-md p-2"
+														>
+															<Image
+																src={`${env.baseAPI}/${file.files}`}
+																alt={file.files}
+																width={100}
+																height={100}
+																unoptimized
+																className="rounded-sm"
+															/>
+														</div>
+													))}
+												</div>
+											</div>
+										)}
+									</div>
+								))}
+							</div>
+						)}
+					</CardContent>
+				</Card>
+			)}
+
+			{order.status === 'success' && order.servicerating && (
+				<ServiceRatingCard data={order} />
+			)}
 		</div>
 	);
 }

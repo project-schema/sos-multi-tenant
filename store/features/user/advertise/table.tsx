@@ -75,7 +75,7 @@ export function UserAdvertiseTable({
 							<TableCell className="py-2">
 								<Link
 									className="hover:underline hover:text-blue-500 transition"
-									href={`/advertise/${item.id}`}
+									href={`/user/advertise/${item.id}`}
 								>
 									{textCount(item.campaign_name, 20)}
 								</Link>
@@ -106,7 +106,7 @@ export function UserAdvertiseTable({
 								{timeFormat(item.created_at)}
 							</TableCell>
 							<TableCell className="py-2">
-								<Link href={`/advertise/${item.id}`}>
+								<Link href={`/user/advertise/${item.id}`}>
 									<Button variant="outline" size="icon">
 										<Eye className="size-4" />
 										<span className="sr-only">View</span>

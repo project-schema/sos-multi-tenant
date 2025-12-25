@@ -50,7 +50,7 @@ function Checkout({
 			status: 'pending',
 			tenant_type: session?.user?.tenant_type === 'user' ? 'user' : 'tenant',
 		};
-		
+
 		const formedDataL2 = level2SubmitFormat({
 			...level2Format(state.level2),
 			...level3Format(state.level3),
@@ -63,9 +63,15 @@ function Checkout({
 				if (response.message.result === 'true') {
 					window.location.href = `${response.message.payment_url}`;
 				} else {
-					router.push(`/advertise`);
+					router.push(
+						session?.user.tenant_type === 'user'
+							? `/user/advertise`
+							: `/dashboard/advertise`
+					);
 				}
 				toast.success('Created successfully');
+				// localStorage.removeItem('advertiseFormState');
+				// dispatch(resetForm());
 			} else {
 				toast.error(response.message || 'Something went wrong');
 			}

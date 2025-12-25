@@ -1,6 +1,6 @@
 import { DbHeader } from '@/components/dashboard';
 import { SessionProvider } from '@/provider';
-import { VendorServicesPurchasePage } from '@/store/features/vendor/services';
+import { VendorServicesPurchasePage } from '@/store/features/vendor/services-purchase/page';
 
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/dashboard' },

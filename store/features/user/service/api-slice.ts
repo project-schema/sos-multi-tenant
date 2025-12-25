@@ -107,7 +107,7 @@ const api = apiSlice.injectEndpoints({
 			}
 		>({
 			query: ({ service_order_id, rating, comment, vendor_service_id }) => ({
-				url: `/service/rating`,
+				url: `/service-rating`,
 				method: 'POST',
 				body: {
 					service_order_id,

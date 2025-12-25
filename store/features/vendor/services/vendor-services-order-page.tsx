@@ -90,7 +90,6 @@ export function VendorServicesOrderPage() {
 											Order Id
 										</TableHead>
 										<TableHead className="bg-stone-100">Service </TableHead>
-										<TableHead className="bg-stone-100">Seller Name </TableHead>
 										<TableHead className="bg-stone-100">User Name </TableHead>
 										<TableHead className="bg-stone-100">Amount </TableHead>
 										<TableHead className="bg-stone-100"> Details </TableHead>
@@ -132,14 +131,7 @@ export function VendorServicesOrderPage() {
 															'--'
 														)}
 													</TableCell>
-													<TableCell className="py-2">
-														<Link
-															className="hover:underline hover:text-blue-500 transition"
-															href={`/users/${item.id}`}
-														>
-															{item?.vendor?.name}
-														</Link>
-													</TableCell>
+
 													<TableCell className="py-2">
 														<Link
 															className="hover:underline hover:text-blue-500 transition"

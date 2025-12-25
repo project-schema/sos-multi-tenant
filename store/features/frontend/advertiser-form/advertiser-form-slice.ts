@@ -57,6 +57,7 @@ const advertiseForm = createSlice({
 			state.level3 = {};
 			state.cards = [];
 			state.paymethod = 'aamarpay';
+			state.step = 1;
 		},
 	},
 });

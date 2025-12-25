@@ -193,14 +193,23 @@ const api = apiSlice.injectEndpoints({
 				service_order_id: number | string;
 				description: string;
 				files: File[];
+				tenant_id?: number | string;
 			}
 		>({
 			query: (body) => {
-				console.log(body);
+				const formData = new FormData();
+				formData.append('service_order_id', String(body.service_order_id));
+				formData.append('description', body.description);
+				body.files.forEach((file) => {
+					formData.append('files[]', file);
+				});
+				if (body.tenant_id) {
+					formData.append('tenant_id', String(body.tenant_id));
+				}
 				return {
-					url: `/service/delivery-to-customer`,
+					url: `/tenant-service/delivery-to-customer`,
 					method: 'POST',
-					body,
+					body: formData,
 					formData: true,
 				};
 			},

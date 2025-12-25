@@ -34,7 +34,7 @@ const api = apiSlice.injectEndpoints({
 
 		// view
 		UserAdvertiseView: builder.query<any, { id: string }>({
-			query: ({ id }) => `/advertise/${id}`,
+			query: ({ id }) => `/user/advertise/${id}`,
 		}),
 	}),
 });
