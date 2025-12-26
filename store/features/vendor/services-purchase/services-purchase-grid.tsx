@@ -33,7 +33,7 @@ export function ServicesPurchaseGrid({
 					key={service.id}
 					className="gap-2 overflow-hidden hover:shadow-lg pt-0 transition-shadow duration-200"
 				>
-					<Link href={`/services/${service.id}/view`}>
+					<Link href={`/dashboard/services/purchase/${service.id}/view`}>
 						<div className="relative w-full h-48 bg-muted">
 							<Image
 								src={imageFormat(service.image)}
@@ -49,7 +49,7 @@ export function ServicesPurchaseGrid({
 					<CardHeader className="pb-0">
 						<div className="space-y-2">
 							{/* Title */}
-							<Link href={`/services/${service.id}/view`}>
+							<Link href={`/dashboard/services/purchase/${service.id}/view`}>
 								<h3 className="font-semibold text-sm line-clamp-2 hover:text-primary transition-colors">
 									{service.title}
 								</h3>
@@ -83,7 +83,9 @@ export function ServicesPurchaseGrid({
 
 					<CardFooter className="pt-0">
 						<Button asChild className="w-full" variant="default">
-							<Link href={`/services/${service.id}/view`}>View Details</Link>
+							<Link href={`/dashboard/services/purchase/${service.id}/view`}>
+								View Details
+							</Link>
 						</Button>
 					</CardFooter>
 				</Card>

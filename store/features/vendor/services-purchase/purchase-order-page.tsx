@@ -9,7 +9,6 @@ import { AdminAdvertiseFilter } from '@/store/features/admin/advertise';
 
 import { SlidersHorizontal } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useVendorServicesOrderQuery } from './vendor-services-api-slice';
 
 import {
 	Table,
@@ -31,8 +30,9 @@ import {
 } from '@/lib';
 
 import Link from 'next/link';
-import { VendorServicesOrderStatistics } from './vendor-services-order-statistics';
-export function VendorServicesOrderPage() {
+import { useVendorServicesPurchaseOrderQuery } from './api-slice';
+import { VendorServicesPurchaseOrderStatistics } from './order-statistics';
+export function VendorServicesPurchaseOrderPage() {
 	const [toggleFilter, setToggleFilter] = useState(true);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [page, setPage] = useState(1);
@@ -41,13 +41,16 @@ export function VendorServicesOrderPage() {
 	const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
 	const { data, isLoading, isError, isFetching } =
-		useVendorServicesOrderQuery();
+		useVendorServicesPurchaseOrderQuery({
+			page: page,
+			search: debouncedSearchTerm,
+		});
 
 	useEffect(() => {
 		setPage(1);
 	}, [debouncedSearchTerm]);
 
-	const services = data?.message;
+	const services = data?.data;
 
 	return (
 		<>
@@ -67,7 +70,7 @@ export function VendorServicesOrderPage() {
 								<SlidersHorizontal className="h-4 w-4" />
 							</Button>
 						</div>
-						{toggleFilter && <VendorServicesOrderStatistics />}
+						{toggleFilter && <VendorServicesPurchaseOrderStatistics />}
 					</>
 				}
 			>

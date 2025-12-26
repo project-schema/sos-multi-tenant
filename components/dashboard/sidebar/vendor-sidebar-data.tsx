@@ -333,9 +333,20 @@ const servicesAndAdvertise: sidebarItem[] = [
 				title: 'Service Order',
 				url: '/dashboard/services/order',
 			},
+		],
+	},
+	{
+		title: 'Services Purchase',
+		icon: DraftingCompass,
+		isActive: false,
+		items: [
+			{
+				title: 'All Services',
+				url: '/dashboard/services/purchase',
+			},
 			{
 				title: 'Purchase Service',
-				url: '/dashboard/services/purchase',
+				url: '/dashboard/services/purchase-order',
 			},
 		],
 	},

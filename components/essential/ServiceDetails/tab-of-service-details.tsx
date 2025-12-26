@@ -1,5 +1,6 @@
 'use client';
 import { motion } from 'motion/react';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import style from './style.module.css';
@@ -8,9 +9,12 @@ export default function TabOfSD({ packages = [] as any[] }) {
 	const [tab, setTab] = useState(0);
 
 	const servicePackages = useMemo(() => packages, [packages]);
+	const { data: session } = useSession();
+	const isUser = session?.user?.tenant_type === 'user';
 
-	console.log(servicePackages);
-	console.log(packages);
+	const isTenant =
+		session?.user?.tenant_type === 'dropshipper' ||
+		session?.user?.tenant_type === 'merchant';
 
 	return (
 		<div className={style.servicesDetailsTab}>
@@ -107,7 +111,11 @@ export default function TabOfSD({ packages = [] as any[] }) {
 								</motion.div>
 								<div className={style.tabfullBtnb}>
 									<Link
-										href={`/services/${e.vendor_service_id}/pay?package_id=${e.id}&price=${e.price}`}
+										href={
+											!isTenant
+												? `/services/${e.vendor_service_id}/pay?package_id=${e.id}&price=${e.price}`
+												: `/dashboard/services/purchase/${e.vendor_service_id}/pay?package_id=${e.id}&price=${e.price}`
+										}
 										className={style.tabBtn}
 										prefetch={false}
 									>

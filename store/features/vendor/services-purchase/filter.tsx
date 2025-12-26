@@ -34,7 +34,7 @@ export function ServicesPurchaseFilter({
 			<div className="relative w-full lg:w-80">
 				<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
 				<Input
-					placeholder="Search by id and email..."
+					placeholder="Search..."
 					value={searchTerm}
 					onChange={(e) => setSearchTerm(e.target.value)}
 					className={cn('pl-10 h-9')}
