@@ -751,16 +751,16 @@ export default function CartViewPageClient({
 									<h3 className="font-semibold text-lg">Variant {index + 1}</h3>
 									<div className="grid grid-cols-4 gap-4">
 										<div className="space-y-2">
-											<Label>Unit</Label>
-											<Input readOnly value={detail.unit?.name ?? ''} />
-										</div>
-										<div className="space-y-2">
 											<Label>Color</Label>
 											<Input readOnly value={detail.color?.name ?? ''} />
 										</div>
 										<div className="space-y-2">
 											<Label>Size</Label>
 											<Input readOnly value={detail.size?.name ?? ''} />
+										</div>
+										<div className="space-y-2">
+											<Label>Unit</Label>
+											<Input readOnly value={detail.unit?.unit_name ?? ''} />
 										</div>
 										<div className="space-y-2">
 											<Label>Quantity</Label>
@@ -968,7 +968,6 @@ export default function CartViewPageClient({
 															<TableHead>Color</TableHead>
 															<TableHead>Size</TableHead>
 															<TableHead>Qty</TableHead>
-															<TableHead>Price</TableHead>
 														</TableRow>
 													</TableHeader>
 													<TableBody>
@@ -985,9 +984,6 @@ export default function CartViewPageClient({
 																	{variant.size_name || '-'}
 																</TableCell>
 																<TableCell>{variant.qty}</TableCell>
-																<TableCell>
-																	{(variant.price * variant.qty).toFixed(2)} tk
-																</TableCell>
 															</TableRow>
 														))}
 													</TableBody>
@@ -1018,13 +1014,13 @@ export default function CartViewPageClient({
 								>
 									<div className="flex justify-between items-center">
 										<p className="text-xs">Variant {index + 1}</p>
-										<p>
+										{/* <p>
 											{item.variants.reduce(
 												(sum, v) => sum + v.price * v.qty,
 												0
 											)}{' '}
 											tk
-										</p>
+										</p> */}
 									</div>
 									<div className="flex justify-between items-center">
 										<p>Quantity</p>
@@ -1044,7 +1040,7 @@ export default function CartViewPageClient({
 									SUMMARY ({items.length} item{items.length !== 1 ? 's' : ''})
 								</span>
 							</div>
-							<div className="flex justify-between items-center">
+							{/* <div className="flex justify-between items-center">
 								<span className="text-muted-foreground">Base Price:</span>
 								<span className="font-medium">{price.toFixed(2)} tk</span>
 							</div>
@@ -1060,17 +1056,17 @@ export default function CartViewPageClient({
 								<span className="font-medium">
 									{discountedPrice.toFixed(2)} tk
 								</span>
-							</div>
+							</div> */}
 							<div className="flex justify-between items-center">
 								<span className="text-muted-foreground">Total Quantity:</span>
 								<span className="font-medium">{totals.totalQuantity}</span>
 							</div>
-							<div className="flex justify-between items-center">
+							{/* <div className="flex justify-between items-center">
 								<span className="text-muted-foreground">Product Subtotal:</span>
 								<span className="font-medium">
 									{totals.totalProductPrice.toFixed(2)} tk
 								</span>
-							</div>
+							</div> */}
 							<div className="flex justify-between items-center">
 								<span className="text-muted-foreground">Delivery Charges:</span>
 								<span className="font-medium">

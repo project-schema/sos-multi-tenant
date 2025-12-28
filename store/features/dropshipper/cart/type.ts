@@ -194,7 +194,7 @@ export type iDropShipperCartView = {
 			unit_id: number;
 			unit: {
 				id: number;
-				name: string;
+				unit_name: string;
 			};
 		}[];
 
