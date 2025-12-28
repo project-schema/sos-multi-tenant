@@ -103,10 +103,7 @@ export default function DropshipperProductActivePage({
 										<TableHead className="bg-stone-100">
 											Product Name{' '}
 										</TableHead>
-										<TableHead className="bg-stone-100">
-											Original Price{' '}
-										</TableHead>
-										<TableHead className="bg-stone-100">Sale Price </TableHead>
+
 										<TableHead className="bg-stone-100">Offer </TableHead>
 										<TableHead className="bg-stone-100">Date </TableHead>
 										<TableHead className="bg-stone-100">Status </TableHead>
@@ -117,7 +114,7 @@ export default function DropshipperProductActivePage({
 									{data?.products?.data?.length === 0 ? (
 										<TableRow>
 											<TableCell
-												colSpan={11}
+												colSpan={10}
 												className="text-center py-8 text-muted-foreground"
 											>
 												No items found matching your criteria
@@ -156,23 +153,10 @@ export default function DropshipperProductActivePage({
 														{textCount(item?.product?.name, 15)}
 													</Link>
 												</TableCell>
-												<TableCell className="py-2">
-													{item?.product?.selling_price ? (
-														<Badge variant="info">
-															{item?.product?.selling_price} {sign.tk}
-														</Badge>
-													) : (
-														'N/A'
-													)}
-												</TableCell>
+
 												<TableCell className="py-2">
 													<Badge variant="outline">
 														{item?.product?.selling_price} {sign.tk}
-													</Badge>
-												</TableCell>
-												<TableCell className="py-2">
-													<Badge variant="success">
-														{item?.product?.selling_price || '00'} {sign.tk}
 													</Badge>
 												</TableCell>
 

@@ -28,6 +28,7 @@ export function AdminProductStatusActive({ data }: { data: iMerchantProduct }) {
 						id: data.id,
 						status: 'active',
 						rejected_details: null,
+						tenant_id: data.tenant_id,
 					}).unwrap();
 					if (res.status === 200) {
 						toast.success(res.message || 'Status updated to active');

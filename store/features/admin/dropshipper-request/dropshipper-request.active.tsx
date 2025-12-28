@@ -31,6 +31,7 @@ export function AdminDropshipperAcceptRequest({
 					const res = await mutation({
 						id: data.id,
 						status: 1,
+						tenant_id: data.tenant_id,
 					}).unwrap();
 					if (res.status === 200) {
 						toast.success('Update successfully');

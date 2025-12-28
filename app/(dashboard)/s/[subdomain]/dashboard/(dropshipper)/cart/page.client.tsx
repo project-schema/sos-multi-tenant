@@ -34,9 +34,7 @@ export default function CartPageClient() {
 							<TableHead className="bg-stone-100">Sr. </TableHead>
 							<TableHead className="bg-stone-100">Product </TableHead>
 							<TableHead className="bg-stone-100">Price </TableHead>
-							<TableHead className="bg-stone-100">Per Commission </TableHead>
 							<TableHead className="bg-stone-100">Qty</TableHead>
-							<TableHead className="bg-stone-100">Income </TableHead>
 							<TableHead className="bg-stone-100">Date</TableHead>
 							<TableHead className="bg-stone-100 w-10">Action </TableHead>
 						</TableRow>
@@ -45,7 +43,7 @@ export default function CartPageClient() {
 						{data?.products?.length === 0 ? (
 							<TableRow>
 								<TableCell
-									colSpan={11}
+									colSpan={6}
 									className="text-center py-8 text-muted-foreground"
 								>
 									No users found matching your criteria
@@ -64,12 +62,9 @@ export default function CartPageClient() {
 										{product.selling_price}
 										{sign.tk}
 									</TableCell>
-									<TableCell className="py-2">
-										{product.advance_payment || 0}
-										{sign.tk}
-									</TableCell>
-									<TableCell className="py-2">{product.qty}</TableCell>
-									<TableCell className="py-2">{product.alert_qty}</TableCell>
+
+									<TableCell className="py-2">{product.cart_qty}</TableCell>
+
 									<TableCell className="py-2">
 										{dateFormat(product.created_at)} <br />
 										{timeFormat(product.created_at)}

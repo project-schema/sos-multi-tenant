@@ -12,7 +12,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { alertConfirm } from '@/lib';
+import { alertConfirm, sign } from '@/lib';
 import { iCompleteMerchantProduct } from '@/store/features/admin/merchant-product';
 import { ShoppingCart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -140,9 +140,15 @@ export const DropshipperProductAddToCart = ({
 							{product?.selling_details?.map((variant, index) => (
 								<TableRow key={index}>
 									<TableCell>{variant?.min_bulk_qty}</TableCell>
-									<TableCell>{variant?.min_bulk_price} BDT</TableCell>
-									<TableCell>{variant?.bulk_commission} BDT</TableCell>
-									<TableCell>{variant?.advance_payment}</TableCell>
+									<TableCell>
+										{variant?.min_bulk_price} {sign.tk}
+									</TableCell>
+									<TableCell>
+										{variant?.bulk_commission} {sign.tk}
+									</TableCell>
+									<TableCell>
+										{variant?.advance_payment} {sign.tk}
+									</TableCell>
 								</TableRow>
 							))}
 						</TableBody>
@@ -173,7 +179,7 @@ export const DropshipperProductAddToCart = ({
 										<TableCell>{variant?.unit?.unit_name}</TableCell>
 										<TableCell>{variant?.size?.name}</TableCell>
 										<TableCell>{variant?.color?.name}</TableCell>
-										<TableCell>{variant?.rate} BDT</TableCell>
+										<TableCell>{product.discount_price} BDT</TableCell>
 										<TableCell>{variant?.qty}</TableCell>
 										<TableCell>
 											<Input

@@ -11,10 +11,16 @@ const breadcrumbItems = [
 ];
 
 export default function Page() {
-	const { id } = useParams();
+	const params = useParams();
+	const id = params.id as string[];
+	const tenant_id = id?.[0] || '';
+	const product_id = id?.[1] || '';
+
+	console.log(tenant_id, product_id);
+
 	const { data, isLoading, isError } = useAdminGetSingleProductQuery(
-		{ id: id?.toString() || '' },
-		{ skip: !id }
+		{ id: product_id || '', tenant_id: tenant_id || '' },
+		{ skip: !product_id || !tenant_id }
 	);
 
 	return (

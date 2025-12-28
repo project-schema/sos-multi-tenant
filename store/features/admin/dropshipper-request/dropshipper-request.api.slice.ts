@@ -46,10 +46,10 @@ const api = apiSlice.injectEndpoints({
 		// delete
 		adminRequestProductStatus: builder.mutation<
 			{ status: 200; message: string },
-			{ id: string | number; reason?: string; status: 1 | 3 }
+			{ id: string | number; reason?: string; status: 1 | 3; tenant_id: string }
 		>({
 			query: (data) => ({
-				url: `/admin/request/product-update/${data.id}`,
+				url: `/admin/request/product-update/${data.tenant_id}/${data.id}`,
 				method: 'POST',
 				body: data,
 			}),

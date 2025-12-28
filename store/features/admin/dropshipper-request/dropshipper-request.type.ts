@@ -10,6 +10,7 @@ export type iDropShipReq = {
 	updated_at: string;
 	reason: null | string;
 	uniqid: string;
+	tenant_id: string;
 	vendor: {
 		id: number;
 		name: string;

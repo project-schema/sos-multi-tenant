@@ -459,16 +459,18 @@ export default function CartViewPageClient({
 			const itemCommission =
 				(cartItem?.total_affiliate_commission || 0) *
 				(itemQuantity / (cartItem?.product_qty || 1));
+
 			const itemAdvancePayment =
 				(cartItem?.advancepayment || 0) *
 				(itemQuantity / (cartItem?.product_qty || 1));
 
 			totalCommission += itemCommission;
-			totalAdvancePayment += itemAdvancePayment;
+			totalAdvancePayment = totalQuantity * (cartItem?.advancepayment || 0);
 		});
 
 		const totalProductPrice = discountedPrice * totalQuantity;
-		const totalWithDelivery = totalProductPrice + totalDeliveryCharge;
+		const totalWithDelivery =
+			totalProductPrice + totalDeliveryCharge + totalAdvancePayment;
 
 		return {
 			basePrice,
@@ -741,12 +743,12 @@ export default function CartViewPageClient({
 						</div>
 						{/* Variant Information */}
 						<div className="space-y-4">
-							{cartItem?.cart_details?.map((detail) => (
+							{cartItem?.cart_details?.map((detail, index) => (
 								<div
 									key={detail.id}
 									className="mt-6 space-y-4 border-t p-4  border rounded-lg"
 								>
-									<h3 className="font-semibold text-lg">Variant {detail.id}</h3>
+									<h3 className="font-semibold text-lg">Variant {index + 1}</h3>
 									<div className="grid grid-cols-4 gap-4">
 										<div className="space-y-2">
 											<Label>Unit</Label>

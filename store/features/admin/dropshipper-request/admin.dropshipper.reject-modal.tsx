@@ -102,6 +102,7 @@ const FORM = ({
 						reason: data?.reason,
 						id: editData.id,
 						status: 3,
+						tenant_id: editData.tenant_id,
 					}).unwrap();
 
 					if (response.status === 200) {

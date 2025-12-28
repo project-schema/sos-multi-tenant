@@ -34,7 +34,7 @@ export const DropshipperProductActiveView = ({
 							<p className="text-gray-700 text-lg leading-relaxed">
 								{product?.short_description || ''}
 							</p>
-							<div className="flex items-center space-x-2 hidden! ">
+							<div className="  items-center space-x-2 hidden! ">
 								<div className="flex">
 									{[1, 2, 3, 4, 5].map((star) => (
 										<Star

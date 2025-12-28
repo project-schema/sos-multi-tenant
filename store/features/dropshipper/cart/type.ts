@@ -11,6 +11,7 @@ export type iDropShipperCart = {
 	selling_price: string;
 	original_price: string;
 	qty: string;
+	cart_qty: number;
 	image: string;
 	status: string;
 	meta_title: null;

@@ -40,10 +40,10 @@ const api = apiSlice.injectEndpoints({
 		// get single api/edit-product/324
 		adminGetSingleProduct: builder.query<
 			iMerchantProductSingleResponse,
-			{ id: number | string }
+			{ id: number | string; tenant_id: string }
 		>({
-			query: ({ id }) => ({
-				url: `/edit-product/${id}`,
+			query: ({ id, tenant_id }) => ({
+				url: `/edit-product/${tenant_id}/${id}`,
 				method: 'GET',
 			}),
 			providesTags: ['AdminProduct'],
@@ -75,7 +75,12 @@ const api = apiSlice.injectEndpoints({
 		//  status  product
 		adminProductStatusUpdate: builder.mutation<
 			{ status: 200; message: string },
-			any
+			{
+				id: string | number;
+				tenant_id: string;
+				status: string;
+				rejected_details: string | null;
+			}
 		>({
 			query: (data) => {
 				const body = new FormData();
@@ -86,7 +91,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/admin-product-status-update/${data.id}`,
+					url: `/admin-product-status-update/${data.tenant_id}/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
