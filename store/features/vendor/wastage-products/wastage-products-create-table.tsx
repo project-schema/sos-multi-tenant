@@ -187,7 +187,7 @@ export function VendorWastageProductsCreateTable({
 												Purchase Qty
 											</TableHead>
 											<TableHead className="bg-stone-100">Rate</TableHead>
-											<TableHead className="bg-stone-100">Return Qty</TableHead>
+											<TableHead className="bg-stone-100">Qty</TableHead>
 											<TableHead className="bg-stone-100">
 												Return Subtotal
 											</TableHead>

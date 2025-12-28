@@ -2,7 +2,7 @@
 
 import { Container1 } from '@/components/dashboard';
 import { CardTitle } from '@/components/ui/card';
-import { timeFormat } from '@/lib';
+import { sign, timeFormat } from '@/lib';
 import { useParams } from 'next/navigation';
 import { useVendorPosSalesOrderShowQuery } from './vendor-pos-sales.api-slice';
 import { iVendorPosSalesOrderShow } from './vendor-pos-sales.type';
@@ -16,7 +16,11 @@ function VendorPosSalesInvoice({ data }: { data: iVendorPosSalesOrderShow }) {
 
 	// Calculate totals
 	const totalQty = saleData.total_qty || 0;
-	const totalPrice = parseFloat(saleData.total_price) || 0;
+	const totalPrice =
+		saleData?.sale_details?.reduce(
+			(sum, item) => sum + parseFloat(item.sub_total),
+			0
+		) || 0;
 	const discount = parseFloat(saleData.sale_discount) || 0;
 	const paidAmount = parseFloat(saleData.paid_amount) || 0;
 	const dueAmount = parseFloat(saleData.due_amount) || 0;
@@ -115,10 +119,10 @@ function VendorPosSalesInvoice({ data }: { data: iVendorPosSalesOrderShow }) {
 								</td>
 								<td className="border border-gray-300 px-3 py-2">{item.qty}</td>
 								<td className="border border-gray-300 px-3 py-2">
-									৳{parseFloat(item.rate).toFixed(2)}
+									{parseFloat(item.rate).toFixed(2)} {sign.tk}
 								</td>
 								<td className="border border-gray-300 px-3 py-2">
-									৳{parseFloat(item.sub_total).toFixed(2)}
+									{parseFloat(item.sub_total).toFixed(2)} {sign.tk}
 								</td>
 							</tr>
 						))}
@@ -143,12 +147,14 @@ function VendorPosSalesInvoice({ data }: { data: iVendorPosSalesOrderShow }) {
 					</div>
 					<div className="flex justify-between items-center">
 						<span className="font-medium text-gray-700">Total Price:</span>
-						<span className="font-semibold">৳{totalPrice.toFixed(2)}</span>
+						<span className="font-semibold">
+							{totalPrice.toFixed(2)} {sign.tk}
+						</span>
 					</div>
 					<div className="flex justify-between items-center">
 						<span className="font-medium text-gray-700">Discount:</span>
 						<span className="font-semibold text-green-600">
-							৳{discount.toFixed(2)}
+							{discount.toFixed(2)} {sign.percent}
 						</span>
 					</div>
 					<hr className="border-gray-300" />
@@ -157,21 +163,29 @@ function VendorPosSalesInvoice({ data }: { data: iVendorPosSalesOrderShow }) {
 							Grand Total:
 						</span>
 						<span className="text-lg font-bold text-blue-600">
-							৳{grandTotal.toFixed(2)}
+							{saleData?.total_price || 0} {sign.tk}
 						</span>
 					</div>
 					<div className="flex justify-between items-center">
 						<span className="font-medium text-gray-700">Paid:</span>
 						<span className="font-semibold text-green-600">
-							৳{paidAmount.toFixed(2)}
+							{paidAmount.toFixed(2)} {sign.tk}
 						</span>
 					</div>
 					<div className="flex justify-between items-center">
 						<span className="font-medium text-gray-700">Due Amount:</span>
 						<span className="font-semibold text-red-600">
-							৳{dueAmount.toFixed(2)}
+							{dueAmount.toFixed(2)} {sign.tk}
 						</span>
 					</div>
+					{saleData?.change_amount && (
+						<div className="flex justify-between items-center">
+							<span className="font-medium text-gray-700">Change Amount:</span>
+							<span className="font-semibold text-green-600">
+								{saleData?.change_amount || 0} {sign.tk}
+							</span>
+						</div>
+					)}
 				</div>
 			</div>
 

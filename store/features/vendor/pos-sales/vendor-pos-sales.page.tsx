@@ -16,6 +16,7 @@ import { useDebounce } from '@/hooks/use-debounce';
 import { sign, tableSrCount } from '@/lib';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { VendorPosCheckout } from './vendor-pos-checkout';
 import { useVendorPosSalesCreateDataQuery } from './vendor-pos-sales.api-slice';
 import { VendorPosSalesCard } from './vendor-pos-sales.card';
@@ -36,6 +37,10 @@ export function VendorPosSalesPage() {
 		category_id: filters.category_id,
 		search,
 	});
+
+	const clampQty = (qty: number, stock: number) => {
+		return Math.max(1, Math.min(qty, stock));
+	};
 
 	// Redux state and actions
 	const {
@@ -110,96 +115,116 @@ export function VendorPosSalesPage() {
 											</TableCell>
 										</TableRow>
 									) : (
-										cart?.map((item, index) => (
-											<TableRow
-												key={`${item.id}-${item.variant_id || 'default'}`}
-											>
-												<TableCell className="font-medium">
-													{tableSrCount(1, index)}
-												</TableCell>
-												<TableCell>
-													<div className="space-y-1">
-														<div className="font-medium">{item.name}</div>
+										cart?.map((item, index) => {
+											const remainingQty = item.stock - item.quantity;
 
-														<div className="text-xs text-muted-foreground capitalize">
-															{item.unit ? item.unit : ''}
-															{item.color ? `, ${item.color}` : ''}
-															{item.size ? `, ${item.size}` : ''}
+											return (
+												<TableRow
+													key={`${item.id}-${item.variant_id || 'default'}`}
+												>
+													<TableCell className="font-medium">
+														{tableSrCount(1, index)}
+													</TableCell>
+													<TableCell>
+														<div className="space-y-1">
+															<div className="font-medium">{item.name}</div>
+
+															<div className="text-xs text-muted-foreground capitalize">
+																{item.unit ? item.unit : ''}
+																{item.color ? `, ${item.color}` : ''}
+																{item.size ? `, ${item.size}` : ''}
+															</div>
 														</div>
-													</div>
-												</TableCell>
-												<TableCell>
-													{sign.tk} {item.selling_price}
-												</TableCell>
-												<TableCell>
-													{item.discount_percentage
-														? `${item.discount_percentage}%`
-														: '-'}
-												</TableCell>
-												<TableCell>
-													<div className="relative">
+													</TableCell>
+													<TableCell>
+														{sign.tk} {item.selling_price}
+													</TableCell>
+													<TableCell>
+														{item.discount_percentage
+															? `${item.discount_percentage}%`
+															: '-'}
+													</TableCell>
+													<TableCell>
+														<div className="relative">
+															<Button
+																variant="link"
+																size="icon"
+																className="h-8 w-8 absolute -bottom-1 right-0 z-10"
+																onClick={() => {
+																	updateCartItemQuantity({
+																		id: item.id,
+																		variant_id: item.variant_id,
+																		quantity: item.quantity - 1,
+																	});
+																}}
+															>
+																<Minus className="h-3 w-3" />
+															</Button>
+															<Input
+																type="number"
+																min={1}
+																max={item.stock}
+																value={item.quantity}
+																onChange={(e) => {
+																	const value = Number(e.target.value);
+
+																	if (Number.isNaN(value)) return;
+
+																	if (value > item.stock) {
+																		toast.error('Out of Stock');
+																		return;
+																	}
+
+																	updateCartItemQuantity({
+																		id: item.id,
+																		variant_id: item.variant_id,
+																		quantity: clampQty(value, item.stock),
+																	});
+																}}
+																className="pr-3 hide-number-input-arrow w-full"
+															/>
+
+															<Button
+																variant="link"
+																size="icon"
+																className="h-8 w-8 absolute -top-1 right-0 z-10"
+																disabled={item.quantity >= item.stock}
+																onClick={() => {
+																	updateCartItemQuantity({
+																		id: item.id,
+																		variant_id: item.variant_id,
+																		quantity: clampQty(
+																			item.quantity + 1,
+																			item.stock
+																		),
+																	});
+																}}
+															>
+																<Plus className="h-3 w-3" />
+															</Button>
+														</div>
+													</TableCell>
+													<TableCell className="relative overflow-hidden">
+														<span>
+															{sign.tk} {item.subtotal}
+														</span>
 														<Button
 															variant="link"
 															size="icon"
-															className="h-8 w-8 absolute -bottom-1 right-0 z-10"
+															className="absolute -top-2 -right-2"
 															onClick={() =>
-																updateCartItemQuantity({
+																removeFromCart({
 																	id: item.id,
 																	variant_id: item.variant_id,
-																	quantity: item.quantity - 1,
 																})
 															}
 														>
-															<Minus className="h-3 w-3" />
+															<Trash2 className="text-destructive  h-4 w-4" />
 														</Button>
-														<Input
-															type="number"
-															value={item.quantity}
-															onChange={(e) =>
-																updateCartItemQuantity({
-																	id: item.id,
-																	variant_id: item.variant_id,
-																	quantity: parseInt(e.target.value) || 0,
-																})
-															}
-															className="pr-3 hide-number-input-arrow w-full"
-														/>
-														<Button
-															variant="link"
-															size="icon"
-															className="h-8 w-8 absolute -top-1 right-0 z-10"
-															onClick={() =>
-																updateCartItemQuantity({
-																	id: item.id,
-																	variant_id: item.variant_id,
-																	quantity: item.quantity + 1,
-																})
-															}
-														>
-															<Plus className="h-3 w-3" />
-														</Button>
-													</div>
-												</TableCell>
-												<TableCell className="relative overflow-hidden">
-													<span>
-														{sign.tk} {item.subtotal}
-													</span>
-													<Button
-														variant="link"
-														size="icon"
-														className="absolute -top-2 -right-2"
-														onClick={() =>
-															removeFromCart({
-																id: item.id,
-																variant_id: item.variant_id,
-															})
-														}
-													>
-														<Trash2 className="text-destructive  h-4 w-4" />
-													</Button>
-												</TableCell>
-											</TableRow>
-										))
+													</TableCell>
+												</TableRow>
+											);
+										})
 									)}
 								</TableBody>
 							</Table>

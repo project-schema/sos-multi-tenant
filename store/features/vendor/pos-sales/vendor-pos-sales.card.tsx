@@ -129,7 +129,7 @@ const CardDetails = ({
 	const product = data.product;
 
 	// selected item in cart
-	const selectedItem = cart.find((item) => item.product_id === product.id);
+	const selectedItem = cart.filter((item) => item.product_id === product.id);
 
 	return (
 		<div className="space-y-4">
@@ -157,9 +157,19 @@ const CardDetails = ({
 					</tr>
 				</thead>
 				<tbody>
-					{product.product_variant.map((variant, i) => {
-						const isSelected = selectedItem?.variant_id === variant.id;
+					{product.product_variant?.map((variant, i) => {
+						const isSelected = selectedItem.some(
+							(item) => item.variant_id === variant.id
+						);
 						const isOutOfStock = variant?.qty === 0;
+
+						// selected item qty
+						const selectedItemQty = selectedItem.find(
+							(item) => item.variant_id === variant.id
+						)?.quantity;
+
+						// remaing qty
+						const remainingQty = variant.qty - (selectedItemQty || 0);
 						return (
 							<tr
 								className={cn(
@@ -167,7 +177,7 @@ const CardDetails = ({
 									'cursor-pointer'
 								)}
 								onClick={() => {
-									if (isOutOfStock) {
+									if (isOutOfStock || remainingQty <= 0) {
 										toast.error('Out of Stock');
 										return;
 									}
@@ -198,7 +208,7 @@ const CardDetails = ({
 								<td className="text-sm px-3 py-2">{variant?.color?.name}</td>
 								<td className="text-sm px-3 py-2">{variant?.size?.name}</td>
 								<td className="text-sm px-3 py-2">
-									{isOutOfStock ? 'Out of Stock' : variant?.qty}
+									{isOutOfStock ? 'Out of Stock' : remainingQty}
 								</td>
 								<td className="text-xs ">
 									<Button
@@ -207,7 +217,7 @@ const CardDetails = ({
 										className="w-8 h-8"
 										type="button"
 										onClick={(e) => {
-											if (isOutOfStock) {
+											if (isOutOfStock || remainingQty <= 0) {
 												toast.error('Out of Stock');
 												return;
 											}
