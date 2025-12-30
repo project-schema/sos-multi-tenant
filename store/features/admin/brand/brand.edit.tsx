@@ -34,7 +34,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { alertConfirm } from '@/lib';
+import { alertConfirm, env } from '@/lib';
 import { toast } from 'sonner';
 import { useAdminUpdateBrandMutation } from './brand.api.slice';
 import { iBrand } from './brand.type';
@@ -135,7 +135,9 @@ export function BrandEdit({ editData }: { editData: iBrand }) {
 										label="Brand Image"
 										value={field.value}
 										onChange={field.onChange}
-										defaultImage={null}
+										defaultImage={
+											editData.image ? `${env.baseAPI}/${editData.image}` : null
+										}
 									/>
 								</FormItem>
 							)}

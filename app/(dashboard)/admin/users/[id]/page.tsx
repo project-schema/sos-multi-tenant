@@ -4,9 +4,9 @@ import {
 	AdminUserPayments,
 	AdminUserService,
 	AdminUserServiceAdvertisement,
-	AdminUserSettings,
 	AdminUserSubscription,
 } from '@/store/features/admin/user';
+import { AdminUserProfileTab } from '@/store/features/admin/user/admin.user.profile.tab';
 import { useSearchParams } from 'next/navigation';
 
 export default function User() {
@@ -28,6 +28,6 @@ export default function User() {
 			return <AdminUserService />;
 
 		default:
-			return <AdminUserSettings />;
+			return <AdminUserProfileTab />;
 	}
 }

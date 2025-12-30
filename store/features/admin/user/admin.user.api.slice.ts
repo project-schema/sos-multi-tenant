@@ -25,7 +25,7 @@ const api = apiSlice.injectEndpoints({
 			{ id: string; page: number }
 		>({
 			query: ({ id, page }) => ({
-				url: `/admin/note/vendor/${id}?page=${page}`,
+				url: `/admin/note/tenant/${id}?page=${page}`,
 				method: 'GET',
 			}),
 		}),
@@ -42,12 +42,14 @@ const api = apiSlice.injectEndpoints({
 
 		adminUserProfileById: builder.query<
 			{ status: 200; user: iUser },
-			{ id: string }
+			{ id: string; is_tenant: boolean }
 		>({
-			query: ({ id }) => ({
-				url: `/edit-user/${id}`,
-				method: 'GET',
-			}),
+			query: ({ id, is_tenant }) => {
+				return {
+					url: `/edit-user/${id}?type=${is_tenant ? 'tenant' : 'user'}`,
+					method: 'GET',
+				};
+			},
 		}),
 
 		adminVendorProfileById: builder.query<iEditVendor, { id: string }>({
@@ -113,7 +115,7 @@ const api = apiSlice.injectEndpoints({
 				};
 
 				return {
-					url: `/update-${url()}${data.id}`,
+					url: `/update-user/${data.id}`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -167,13 +169,21 @@ const api = apiSlice.injectEndpoints({
 		*/
 		adminEditUserBalance: builder.mutation<
 			{ status: 200; message: string },
-			{ id: string | number; amount: string; type: 'add' | 'edit' | 'remove' }
+			{
+				id: string | number;
+				amount: string;
+				type: 'add' | 'edit' | 'remove';
+				is_tenant: boolean;
+			}
 		>({
 			query: (data) => {
 				return {
 					url: `/admin/${data.type}-user-balance/${data.id}`,
 					method: 'POST',
-					body: { amount: data.amount },
+					body: {
+						amount: data.amount,
+						type: data.is_tenant ? 'tenant' : 'user',
+					},
 				};
 			},
 			invalidatesTags: ['AdminAllUser'],
@@ -182,12 +192,16 @@ const api = apiSlice.injectEndpoints({
 		// user status
 		adminUserStatusUpdate: builder.mutation<
 			{ status: 200; message: string },
-			{ id: string | number; status: 'active' | 'pending' | 'blocked' }
+			{
+				id: string | number;
+				status: 'active' | 'pending' | 'blocked';
+				is_tenant: boolean;
+			}
 		>({
 			query: (data) => ({
 				url: `/user/status/update/${data.id}`,
 				method: 'POST',
-				body: { status: data.status },
+				body: { status: data.status, type: data.is_tenant ? 'tenant' : 'user' },
 			}),
 			invalidatesTags: ['AdminAllUser', 'AdminUserStatistics'],
 		}),

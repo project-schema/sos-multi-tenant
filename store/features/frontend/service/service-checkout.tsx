@@ -22,15 +22,18 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useState, type ChangeEvent } from 'react';
 import { toast } from 'sonner';
 import { iAdminService } from '../../admin/service';
-import { useFrontendServiceOrderMutation } from './api-slice';
 
 type Gateway = 'aamarpay' | 'my-wallet';
 type ValidationErrors = Partial<Record<'details' | 'files', string>>;
 
 export const ServiceOrderCheckout = ({
 	service,
+	mutate,
+	isLoading,
 }: {
 	service: iAdminService;
+	mutate: (data: FormData) => any;
+	isLoading: boolean;
 }) => {
 	const searchParams = useSearchParams();
 	const router = useRouter();
@@ -48,7 +51,6 @@ export const ServiceOrderCheckout = ({
 	const [files, setFiles] = useState<File[]>([]);
 	const [gateway, setGateway] = useState<Gateway>('aamarpay');
 	const [errors, setErrors] = useState<ValidationErrors>({});
-	const [mutate, { isLoading }] = useFrontendServiceOrderMutation();
 	const selectedPackage = useMemo(
 		() =>
 			service?.servicepackages?.find(

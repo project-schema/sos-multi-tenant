@@ -27,33 +27,34 @@ export default function Layout({ children }: LayoutProps) {
 	const params = useParams();
 	const searchParams = useSearchParams();
 	const activeTab = searchParams.get('tab') || 'profile';
+	const isTenant = searchParams.get('type');
 
 	// Tab config
 	const items = useMemo(
 		() => [
 			{
 				title: 'Profile',
-				url: `/admin/users/${params.id}?tab=profile`,
+				url: `/admin/users/${params.id}?tab=profile&type=${isTenant}`,
 				icon: Home,
 			},
 			{
 				title: 'Note',
-				url: `/admin/users/${params.id}?tab=note`,
+				url: `/admin/users/${params.id}?tab=note&type=${isTenant}`,
 				icon: ScrollText,
 			},
 			{
 				title: 'Payments',
-				url: `/admin/users/${params.id}?tab=payments`,
+				url: `/admin/users/${params.id}?tab=payments&type=${isTenant}`,
 				icon: DollarSign,
 			},
 			{
 				title: 'Subscriptions',
-				url: `/admin/users/${params.id}?tab=subscriptions`,
+				url: `/admin/users/${params.id}?tab=subscriptions&type=${isTenant}`,
 				icon: CreditCard,
 			},
 			{
 				title: 'Service',
-				url: `/admin/users/${params.id}?tab=service`,
+				url: `/admin/users/${params.id}?tab=service&type=${isTenant}`,
 				icon: FileBadge2,
 			},
 			{

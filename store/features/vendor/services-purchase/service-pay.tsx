@@ -4,11 +4,14 @@ import { Container1 } from '@/components/dashboard';
 import { CardTitle } from '@/components/ui/card';
 import { iAdminService } from '../../admin/service';
 import { ServiceOrderCheckout } from '../../frontend';
+import { useVendorServiceOrderMutation } from './api-slice';
 export function VendorServicePurchasePay({
 	service,
 }: {
 	service: iAdminService;
 }) {
+	const [mutate, { isLoading }] = useVendorServiceOrderMutation();
+
 	return (
 		<>
 			<Container1
@@ -22,7 +25,11 @@ export function VendorServicePurchasePay({
 			>
 				<section>
 					<div className="layout">
-						<ServiceOrderCheckout service={service} />
+						<ServiceOrderCheckout
+							service={service}
+							mutate={mutate}
+							isLoading={isLoading}
+						/>
 					</div>
 				</section>
 			</Container1>

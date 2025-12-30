@@ -69,7 +69,7 @@ export function MerchantProductTable({
 					</TableRow>
 				) : (
 					products?.map((item, i) => (
-						<TableRow key={item.id}>
+						<TableRow key={`${item.id}-${item.tenant_id}`}>
 							<TableCell className="py-2 pl-4">
 								{tableSrCount(data.current_page, i)}
 							</TableCell>

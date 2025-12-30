@@ -28,7 +28,7 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		VendorServicesPurchaseSingle: builder.query<iServiceType, { id: string }>({
-			query: ({ id }) => `/services-view/${id}`,
+			query: ({ id }) => `/tenant-service/myorders/${id}`,
 		}),
 
 		// service-buy-count
@@ -44,7 +44,7 @@ const api = apiSlice.injectEndpoints({
 			},
 			void
 		>({
-			query: () => '/service-buy-count',
+			query: () => '/tenant-service/buy-count',
 		}),
 
 		// service order lists
@@ -56,7 +56,7 @@ const api = apiSlice.injectEndpoints({
 			}
 		>({
 			query: ({ page, search }) =>
-				`/service/orders?page=${page}&search=${search}`,
+				`/tenant-service/order?page=${page}&search=${search}`,
 		}),
 
 		// /service-category
@@ -70,6 +70,20 @@ const api = apiSlice.injectEndpoints({
 		>({
 			query: () => '/service-category',
 		}),
+
+		VendorServiceOrder: builder.mutation<
+			{ errors: any; data: 'success'; message: string; status: number },
+			any
+		>({
+			query: (data) => {
+				return {
+					url: `/tenant-service/order`,
+					method: 'POST',
+					body: data,
+					formData: true,
+				};
+			},
+		}),
 	}),
 });
 
@@ -79,4 +93,5 @@ export const {
 	useVendorServicesPurchaseSingleQuery,
 	useVendorServicesPurchaseCountQuery,
 	useVendorServicesPurchaseOrderQuery,
+	useVendorServiceOrderMutation,
 } = api;

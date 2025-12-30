@@ -44,14 +44,15 @@ import {
 	UserStatusBlocked,
 	UserStatusPending,
 } from '@/store/features/admin/user';
+import { AdminTenantEditProfile } from '@/store/features/admin/user/admin.tenant.edit.profile';
 import { useAdminAllUserQuery } from '@/store/features/admin/user/admin.user.api.slice';
 import { AdminUserStatistics } from '@/store/features/admin/user/admin.user.statistics';
 import { statusType, userType } from '@/store/features/admin/user/type';
 import { Ellipsis, ExternalLink, SlidersHorizontal } from 'lucide-react';
 import Link from 'next/link';
 const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/user' },
-	{ name: 'User', path: '/user/profile' },
+	{ name: 'Dashboard', path: '/admin' },
+	{ name: 'User', path: '/user' },
 	{ name: 'Users' },
 ];
 
@@ -152,14 +153,18 @@ export default function Page() {
 											#{user.uniqid}
 										</TableCell>
 										<TableCell className="py-2">
-											<Link href={`/admin/users/${user.id}`}>
+											<Link
+												href={`/admin/users/${user.id}?type=${
+													user.is_tenant ? 'tenant' : 'user'
+												}`}
+											>
 												<Avatar className="h-12 w-12 rounded-xl">
 													<AvatarImage
-														src={env.baseAPI + '/' + user.image}
+														src={env.baseAPI + '/' + user?.image}
 														alt={user.name}
 													/>
 													<AvatarFallback className="rounded-xl bg-sky-100">
-														{user.name.charAt(0).toUpperCase()}
+														{user?.name?.charAt(0).toUpperCase()}
 													</AvatarFallback>
 												</Avatar>
 											</Link>
@@ -167,7 +172,9 @@ export default function Page() {
 										<TableCell className="py-2">
 											<Link
 												className="hover:underline hover:text-blue-500 transition"
-												href={`/admin/users/${user.id}`}
+												href={`/admin/users/${user.id}?type=${
+													user.is_tenant ? 'tenant' : 'user'
+												}`}
 											>
 												{textCount(user.name, 15)}
 											</Link>
@@ -211,7 +218,9 @@ export default function Page() {
 													<DropdownMenuItem>
 														<Link
 															className="flex items-center gap-2 w-full"
-															href={`/admin/users/${user.id}`}
+															href={`/admin/users/${user.id}?type=${
+																user.is_tenant ? 'tenant' : 'user'
+															}`}
 														>
 															<ExternalLink className="size-4" />
 															<span>View Profile</span>
@@ -219,7 +228,11 @@ export default function Page() {
 													</DropdownMenuItem>
 
 													{/* Edit Profile  */}
-													<UserEditProfile user={user} />
+													{user.is_tenant ? (
+														<AdminTenantEditProfile user={user} />
+													) : (
+														<UserEditProfile user={user} />
+													)}
 
 													{/* Add Balance  */}
 													<UserAddBalance user={user} />
@@ -246,7 +259,7 @@ export default function Page() {
 													)}
 
 													{/* Add Note  */}
-													<UserAddNote user={user} />
+													{user.is_tenant && <UserAddNote user={user} />}
 
 													<DropdownMenuSeparator />
 

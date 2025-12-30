@@ -60,7 +60,7 @@ export function DropshipperProductTable({
 					</TableRow>
 				) : (
 					products?.map((item, i) => (
-						<TableRow key={item.id}>
+						<TableRow key={`${item.id}-${i}`}>
 							<TableCell className="py-2 pl-4">
 								{tableSrCount(data.current_page, i)}
 							</TableCell>

@@ -73,7 +73,7 @@ export function AdminProductOrderTable({
 					products?.map((item, i) => {
 						const qtyTotal = item?.variants?.map((e) => parseInt(e.qty));
 						return (
-							<TableRow key={item.id}>
+							<TableRow key={`${item.id}-${item.order_id}`}>
 								<TableCell className="py-2 pl-4">
 									{tableSrCount(data.current_page, i)}
 								</TableCell>

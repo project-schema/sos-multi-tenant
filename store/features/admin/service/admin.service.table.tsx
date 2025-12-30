@@ -99,10 +99,13 @@ export function AdminServiceTable({
 							</TableCell>
 							<TableCell className="py-2">
 								<Link
-									className="hover:underline hover:text-blue-500 transition"
+									className="hover:underline capitalize hover:text-blue-500 transition"
 									href={`/admin/users/${item.tenant.id}`}
 								>
-									{textCount(item.tenant.name || '--', 15)}
+									{textCount(
+										item.tenant.name || item.tenant.company_name || '--',
+										15
+									)}
 								</Link>
 							</TableCell>
 

@@ -17,14 +17,17 @@ export type userType = 'all' | 'vendor' | 'affiliate' | 'user';
 export type iUser = {
 	id: number;
 	name: string;
+	company_name: string;
 	email: string;
 	email_verified_at: string;
 	role_as: string;
 	image: string;
+	owner_name: string;
 	number: string;
 	status: 'active' | 'blocked' | 'pending';
 	balance: number;
 	last_seen: string;
+	address: string;
 	created_at: string;
 	updated_at: string;
 	deleted_at: null;
@@ -34,6 +37,7 @@ export type iUser = {
 	verify_code_at: string;
 	is_employee: null;
 	vendor_id: null;
+	is_tenant: boolean;
 	usersubscription: iSubscription | null;
 };
 

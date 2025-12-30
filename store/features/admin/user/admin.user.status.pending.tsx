@@ -27,6 +27,7 @@ export function UserStatusPending({ user }: { user: iUser }) {
 					const res = await mutation({
 						id: user.id,
 						status: 'pending',
+						is_tenant: user.is_tenant,
 					}).unwrap();
 					if (res.status === 200) {
 						toast.success(res.message || 'User status updated to pending');

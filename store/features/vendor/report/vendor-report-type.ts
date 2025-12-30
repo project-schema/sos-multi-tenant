@@ -82,7 +82,7 @@ export type iVendorWarehouseReportResponse = {
 
 export type iVendorStockShortageReportResponse = {
 	status: number;
-	stock_shortage_report: iPagination<{
+	stockShort: iPagination<{
 		id: number;
 		name: string;
 		purchase_price: string;
@@ -112,6 +112,34 @@ export type iVendorDailySalesResponse = {
 	status: number;
 	variantSalesReport: iPagination<{
 		id: number;
+		pos_sales_id: number;
+		product_id: number;
+		unit_id: number;
+		size_id: number;
+		color_id: number;
+		qty: number;
+		rate: string;
+		sub_total: string;
+		deleted_at: null;
+		created_at: string;
+		updated_at: string;
+		status: string;
+		product: {
+			id: number;
+			name: string;
+		};
+		size: {
+			id: number;
+			name: string;
+		};
+		color: {
+			id: number;
+			name: string;
+		};
+		unit: {
+			id: number;
+			unit_name: string;
+		};
 	}>;
 };
 

@@ -66,6 +66,7 @@ export function UserRemoveBalance({ user }: { user: iUser }) {
 						id: user.id,
 						amount: values.amount,
 						type: 'remove', // can be changed to 'edit' or 'remove'
+						is_tenant: user.is_tenant,
 					}).unwrap();
 
 					if (response.status === 200) {

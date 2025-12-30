@@ -26,16 +26,19 @@ export function VendorReportFilter({
 	setFilters,
 	clearFilters,
 	select,
+	products,
 }: {
 	filters: {
 		searchTerm: string;
-		status: 'all' | 'answer' | 'close' | 'pending';
+		status: 'all' | 'paid' | 'due';
 		start_date: Date | undefined;
 		end_date: Date | undefined;
+		product_id?: string;
 	};
 	setFilters: any;
 	clearFilters: () => void;
-	select: ('searchTerm' | 'start_date' | 'end_date' | 'status')[];
+	select: ('searchTerm' | 'start_date' | 'end_date' | 'status' | 'products')[];
+	products?: { id: number; name: string }[];
 }) {
 	const [openFrom, setOpenFrom] = useState(false);
 	const [openTo, setOpenTo] = useState(false);
@@ -118,7 +121,7 @@ export function VendorReportFilter({
 					{item === 'status' && (
 						<Select
 							value={filters.status}
-							onValueChange={(value: 'all' | 'close' | 'answer' | 'pending') =>
+							onValueChange={(value: 'all' | 'paid' | 'due' | 'all') =>
 								setFilters((prev: any) => ({ ...prev, status: value }))
 							}
 						>
@@ -126,10 +129,28 @@ export function VendorReportFilter({
 								<SelectValue placeholder="Status" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="all">All Support</SelectItem>
-								<SelectItem value="close">Closed</SelectItem>
-								<SelectItem value="answer">Answered</SelectItem>
-								<SelectItem value="pending">Pending</SelectItem>
+								<SelectItem value="all">All</SelectItem>
+								<SelectItem value="paid">Paid</SelectItem>
+								<SelectItem value="due">Due</SelectItem>
+							</SelectContent>
+						</Select>
+					)}
+					{item === 'products' && (
+						<Select
+							value={filters.product_id}
+							onValueChange={(value: string) =>
+								setFilters((prev: any) => ({ ...prev, product_id: value }))
+							}
+						>
+							<SelectTrigger className="w-full h-11">
+								<SelectValue placeholder="Select Product" />
+							</SelectTrigger>
+							<SelectContent>
+								{products?.map((product) => (
+									<SelectItem key={product.id} value={product.id.toString()}>
+										{product.name}
+									</SelectItem>
+								))}
 							</SelectContent>
 						</Select>
 					)}

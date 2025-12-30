@@ -27,6 +27,7 @@ export function UserStatusActive({ user }: { user: iUser }) {
 					const res = await mutation({
 						id: user.id,
 						status: 'active',
+						is_tenant: user.is_tenant,
 					}).unwrap();
 					if (res.status === 200) {
 						toast.success(res.message || 'User status updated to active');

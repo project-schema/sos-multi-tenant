@@ -26,45 +26,52 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm, env } from '@/lib';
 import { useAdminUpdateUserProfileMutation } from './admin.user.api.slice';
 import { iUser } from './type';
 
 const profileSchema = z.object({
-	name: z.string().min(1, 'Name is required'),
+	company_name: z.string().min(1, 'Name is required'),
 	email: z.email('Invalid email address'),
 	image: z.any().optional(),
 	number: z.string().optional(),
 	balance: z.union([z.string(), z.number()]).optional(),
 	password: z.string().optional(),
 	status: z.enum(['active', 'pending', 'blocked']),
+	owner_name: z.string().min(1, 'Owner name is required'),
+	address: z.string().optional(),
 });
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
-export function AdminUserSettings({ data }: { data: { user: iUser } }) {
+export function AdminTenantProfile({ data }: { data: { user: iUser } }) {
 	const [update, { isLoading }] = useAdminUpdateUserProfileMutation();
 
 	const form = useForm<ProfileFormValues>({
 		resolver: zodResolver(profileSchema),
 		defaultValues: {
-			name: data?.user?.name || '',
+			company_name: data?.user?.company_name || '',
 			email: data?.user?.email || '',
 			image: null,
 			number: data?.user?.number || '',
 			balance: data?.user?.balance || '',
 			password: '',
 			status: data?.user?.status || 'active',
+			owner_name: data?.user?.owner_name || '',
+			address: data?.user?.address || '',
 		},
 	});
 
 	useEffect(() => {
 		if (data) {
-			form.setValue('name', data?.user?.name || '');
+			form.setValue('company_name', data?.user?.company_name || '');
 			form.setValue('email', data?.user?.email || '');
 			form.setValue('number', data?.user?.number || '');
 			form.setValue('balance', data?.user?.balance || '');
 			form.setValue('status', data?.user?.status || 'active');
+			form.setValue('owner_name', data?.user?.owner_name || '');
+			form.setValue('address', data?.user?.address || '');
 		}
 	}, [data]);
 
@@ -133,12 +140,27 @@ export function AdminUserSettings({ data }: { data: { user: iUser } }) {
 					{/* Name */}
 					<FormField
 						control={form.control}
-						name="name"
+						name="company_name"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Name</FormLabel>
+								<FormLabel>Company Name</FormLabel>
 								<FormControl>
-									<Input {...field} />
+									<Input {...field} placeholder="Enter company name..." />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					{/* Owner Name */}
+					<FormField
+						control={form.control}
+						name="owner_name"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Owner Name</FormLabel>
+								<FormControl>
+									<Input {...field} placeholder="Enter owner name..." />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -168,7 +190,11 @@ export function AdminUserSettings({ data }: { data: { user: iUser } }) {
 							<FormItem>
 								<FormLabel>Phone Number</FormLabel>
 								<FormControl>
-									<Input type="tel" {...field} />
+									<Input
+										type="tel"
+										{...field}
+										placeholder="Enter phone number..."
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -183,7 +209,12 @@ export function AdminUserSettings({ data }: { data: { user: iUser } }) {
 							<FormItem>
 								<FormLabel>Balance</FormLabel>
 								<FormControl>
-									<Input type="number" step="0.01" {...field} />
+									<Input
+										type="number"
+										step="0.01"
+										{...field}
+										placeholder="Enter balance..."
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -197,7 +228,26 @@ export function AdminUserSettings({ data }: { data: { user: iUser } }) {
 							<FormItem>
 								<FormLabel>New Password</FormLabel>
 								<FormControl>
-									<Input type="password" {...field} />
+									<Input
+										type="password"
+										{...field}
+										placeholder="Enter new password..."
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					{/* Address */}
+					<FormField
+						control={form.control}
+						name="address"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Address</FormLabel>
+								<FormControl>
+									<Textarea {...field} placeholder="Enter address..." />
 								</FormControl>
 								<FormMessage />
 							</FormItem>

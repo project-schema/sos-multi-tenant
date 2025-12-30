@@ -290,7 +290,7 @@ export function VendorServiceOrderView({
 					<div>
 						<p className="text-sm text-muted-foreground mb-2">Attachments:</p>
 						<div className="flex flex-wrap gap-2">
-							{order.files.map((file) => (
+							{order.files?.map((file) => (
 								<div key={file.id} className="border rounded-md p-2">
 									<Image
 										src={`${env.baseAPI}/${file.name}`}
@@ -322,7 +322,7 @@ export function VendorServiceOrderView({
 							</p>
 						) : (
 							<div className="space-y-2">
-								{order.orderdelivery.map((delivery) => (
+								{order.orderdelivery?.map((delivery) => (
 									<div key={delivery.id} className="border rounded-lg p-4">
 										<p className="text-sm mb-2">
 											Delivered on:{' '}
@@ -333,14 +333,14 @@ export function VendorServiceOrderView({
 
 										<p className="text-sm"> {delivery.description}</p>
 
-										{delivery.deliveryfiles.length > 0 && (
+										{delivery.deliveryfiles?.length > 0 && (
 											<div className="mt-2">
 												<p className="text-sm text-muted-foreground mb-2">
 													Delivery Attachments:
 												</p>
 
 												<div className="flex flex-wrap gap-2">
-													{delivery.deliveryfiles.map((file) => (
+													{delivery.deliveryfiles?.map((file) => (
 														<div
 															key={file.id}
 															className="border rounded-md p-2"

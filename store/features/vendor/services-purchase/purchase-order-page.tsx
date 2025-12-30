@@ -126,7 +126,7 @@ export function VendorServicesPurchaseOrderPage() {
 														{item?.servicedetails ? (
 															<Link
 																className="hover:underline hover:text-blue-500 transition"
-																href={`/dashboard/services/order/${item.id}`}
+																href={`/dashboard/services/purchase-order/${item.id}/order`}
 															>
 																{textCount(item?.servicedetails?.title, 20)}
 															</Link>

@@ -27,7 +27,7 @@ export function VendorStockReportPage() {
 	const [toggleFilter, setToggleFilter] = useState(true);
 	const [filters, setFilters] = useState({
 		searchTerm: '',
-		status: 'all' as 'answer' | 'close' | 'pending' | 'all',
+		status: 'all' as 'all' | 'paid' | 'due',
 		start_date: undefined as Date | undefined,
 		end_date: undefined as Date | undefined,
 	});
@@ -130,14 +130,12 @@ export function VendorStockReportPage() {
 												</TableCell>
 												<TableCell className="py-2">
 													<Badge className="capitalize" variant="default">
-														{sign.dollar}
-														{item.selling_price}
+														{item.selling_price} {sign.tk}
 													</Badge>
 												</TableCell>
 												<TableCell className="py-2">
 													<Badge className="capitalize" variant="secondary">
-														{sign.dollar}
-														{item.purchase_price}
+														{item.purchase_price} {sign.tk}
 													</Badge>
 												</TableCell>
 												<TableCell className="py-2">
@@ -154,12 +152,16 @@ export function VendorStockReportPage() {
 												</TableCell>
 												<TableCell className="py-2">
 													<Badge className="capitalize" variant="outline">
-														{item.pos_sale_details_sum_qty || 0}
+														{Number(item.pos_sale_details_sum_qty) *
+															Number(item.selling_price) || 0}{' '}
+														{sign.tk}
 													</Badge>
 												</TableCell>
 												<TableCell className="py-2">
 													<Badge className="capitalize" variant="outline">
-														{item.purchase_details_sum_qty || 0}
+														{Number(item.purchase_details_sum_qty) *
+															Number(item.purchase_price) || 0}{' '}
+														{sign.tk}
 													</Badge>
 												</TableCell>
 											</TableRow>

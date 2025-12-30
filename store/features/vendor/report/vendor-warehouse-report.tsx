@@ -27,7 +27,7 @@ export function VendorWarehouseReportPage() {
 	const [toggleFilter, setToggleFilter] = useState(true);
 	const [filters, setFilters] = useState({
 		searchTerm: '',
-		status: 'all' as 'answer' | 'close' | 'pending' | 'all',
+		status: 'all' as 'all' | 'paid' | 'due',
 		start_date: undefined as Date | undefined,
 		end_date: undefined as Date | undefined,
 	});
@@ -153,14 +153,12 @@ export function VendorWarehouseReportPage() {
 													</TableCell>
 													<TableCell className="py-2">
 														<Badge className="capitalize" variant="default">
-															{sign.dollar}
-															{totalStockValue.toFixed(2)}
+															{totalStockValue.toFixed(2)} {sign.tk}
 														</Badge>
 													</TableCell>
 													<TableCell className="py-2">
 														<Badge className="capitalize" variant="secondary">
-															{sign.dollar}
-															{totalPurchaseValue.toFixed(2)}
+															{totalPurchaseValue.toFixed(2)} {sign.tk}
 														</Badge>
 													</TableCell>
 												</TableRow>

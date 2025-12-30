@@ -39,7 +39,7 @@ export default function ReportPage() {
 				return <VendorWarehouseReportPage />;
 			case 'stock-shortage':
 				return <VendorStockShortageReportPage />;
-			case 'top-repeat-customer':
+			case 'top-repeat-customers':
 				return <VendorTopRepeatCustomerReportPage />;
 			case 'daily-sales':
 				return <VendorDailySalesReportPage />;

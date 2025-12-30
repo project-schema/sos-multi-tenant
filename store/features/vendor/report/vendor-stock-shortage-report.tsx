@@ -27,7 +27,7 @@ export function VendorStockShortageReportPage() {
 	const [toggleFilter, setToggleFilter] = useState(true);
 	const [filters, setFilters] = useState({
 		searchTerm: '',
-		status: 'all' as 'answer' | 'close' | 'pending' | 'all',
+		status: 'all' as 'all' | 'paid' | 'due',
 		start_date: undefined as Date | undefined,
 		end_date: undefined as Date | undefined,
 	});
@@ -86,7 +86,7 @@ export function VendorStockShortageReportPage() {
 						select={['start_date', 'end_date']}
 					/>
 				)}
-				{data?.stock_shortage_report && (
+				{data?.stockShort && (
 					<>
 						<div className="border rounded-lg relative">
 							{isFetching && <Loader8 />}
@@ -109,7 +109,7 @@ export function VendorStockShortageReportPage() {
 									</TableRow>
 								</TableHeader>
 								<TableBody>
-									{data.stock_shortage_report.data.length === 0 ? (
+									{data.stockShort.data.length === 0 ? (
 										<TableRow>
 											<TableCell
 												colSpan={7}
@@ -119,17 +119,14 @@ export function VendorStockShortageReportPage() {
 											</TableCell>
 										</TableRow>
 									) : (
-										data.stock_shortage_report.data?.map((item, i) => {
+										data.stockShort.data?.map((item, i) => {
 											const isShortage =
 												parseFloat(item.stock) <= item.alert_qty;
 
 											return (
 												<TableRow key={item.id}>
 													<TableCell className="py-2 pl-4">
-														{tableSrCount(
-															data.stock_shortage_report.current_page,
-															i
-														)}
+														{tableSrCount(data.stockShort.current_page, i)}
 													</TableCell>
 													<TableCell className="py-2">
 														{textCount(item.name, 30)}
@@ -151,14 +148,12 @@ export function VendorStockShortageReportPage() {
 													</TableCell>
 													<TableCell className="py-2">
 														<Badge className="capitalize" variant="default">
-															{sign.dollar}
-															{item.selling_price}
+															{item.selling_price} {sign.tk}
 														</Badge>
 													</TableCell>
 													<TableCell className="py-2">
 														<Badge className="capitalize" variant="secondary">
-															{sign.dollar}
-															{item.purchase_price}
+															{item.purchase_price} {sign.tk}
 														</Badge>
 													</TableCell>
 													<TableCell className="py-2">
@@ -176,10 +171,7 @@ export function VendorStockShortageReportPage() {
 								</TableBody>
 							</Table>
 						</div>
-						<Pagination1
-							pagination={data?.stock_shortage_report}
-							setPage={setPage}
-						/>
+						<Pagination1 pagination={data?.stockShort} setPage={setPage} />
 					</>
 				)}
 			</Container1>

@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
 	Card,
 	CardContent,
@@ -9,12 +10,20 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
-import { badgeFormat, env, timeFormat } from '@/lib';
-import { CreditCard, FileText, Package, User } from 'lucide-react';
+import { badgeFormat, dateFormat, env, timeFormat } from '@/lib';
+import { ChevronDown, CreditCard, FileText, Package, User } from 'lucide-react';
 import Image from 'next/image';
 import { iAdminServiceOrder } from '../../admin/service';
 import { ServiceRatingCard } from '../../user/service/service-ratting-card';
+import { VendorServiceDelivery } from './vendor-service-delevery';
+import { VendorServiceOrderStatus } from './vendor-service-order-status';
 
 export function VendorServicePurchaseView({
 	order,
@@ -42,6 +51,95 @@ export function VendorServicePurchaseView({
 									৳ {order.amount || '0.00'}
 								</p>
 							</div>
+						</div>
+						<div className="flex flex-col items-end gap-2">
+							<DropdownMenu>
+								<DropdownMenuTrigger asChild>
+									<Button
+										variant="outline"
+										className="data-[state=open]:bg-muted text-muted-foreground flex"
+									>
+										<span className="capitalize">{order.status}</span>
+										<ChevronDown className="size-4" />
+									</Button>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent align="end" className="w-56">
+									{/* {order.status !== 'revision' && (
+										<AdminServiceOrderCancelReq data={order} />
+									)} */}
+
+									{order.is_rejected === '1' && order.status !== 'canceled' && (
+										<>
+											{/* <VendorServiceOrderStatusAccept data={order} /> */}
+											{/* <VendorServiceOrderStatusCancel data={order} /> */}
+										</>
+									)}
+
+									{/* {order.status !== 'pending' && (
+										<VendorServiceOrderStatus
+											data={order}
+											icon="Clock"
+											status="pending"
+											text="Pending"
+										/>
+									)} */}
+
+									{order.status === 'pending' && (
+										<VendorServiceOrderStatus
+											data={order}
+											icon="Loader"
+											status="progress"
+											text="In Progress"
+										/>
+									)}
+
+									{(order.status === 'progress' ||
+										order.status === 'revision') && (
+										<VendorServiceDelivery order={order} />
+									)}
+
+									{/* {order.status !== 'revision' && (
+										<VendorServiceOrderStatus
+											data={order}
+											icon="RotateCcw"
+											status="revision"
+											text="Revision Requested"
+										/>
+									)} */}
+
+									{/* {order.status !== 'success' && (
+										<VendorServiceOrderStatus
+											data={order}
+											icon="CheckCircle2"
+											status="success"
+											text="Service Completed Successfully"
+										/>
+									)} */}
+									{order.status !== 'delivered' && <DropdownMenuSeparator />}
+
+									{order.status !== 'cancel' && (
+										<VendorServiceOrderStatus
+											data={order}
+											icon="XCircle"
+											status="cancel"
+											text="Service Cancelled"
+											type="destructive"
+										/>
+									)}
+								</DropdownMenuContent>
+							</DropdownMenu>
+							<div className="flex items-center gap-2">
+								<p className="font-medium">
+									{dateFormat(order.created_at)} at{' '}
+									{timeFormat(order.created_at)}
+								</p>
+							</div>
+
+							{order.is_rejected === '1' && (
+								<Badge variant="destructive" className="capitalize">
+									Rejected
+								</Badge>
+							)}
 						</div>
 					</div>
 				</CardHeader>

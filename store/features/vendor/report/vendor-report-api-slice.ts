@@ -123,7 +123,9 @@ const api = apiSlice.injectEndpoints({
 			}
 		>({
 			query: ({ start_date, end_date, product_id, page, status }) => ({
-				url: `/tenant-report/sales-report-daily-product-wise?start_date=${start_date}&end_date=${end_date}&product_id=${product_id}&page=${page}&status=${status}`,
+				url: `/tenant-report/sales-report-daily-product-wise?start_date=${start_date}&end_date=${end_date}&product_id=${product_id}&page=${page}&status=${
+					status === 'all' ? '' : status
+				}`,
 				method: 'GET',
 			}),
 		}),

@@ -27,7 +27,7 @@ export function VendorSalesReportPage() {
 	const [toggleFilter, setToggleFilter] = useState(true);
 	const [filters, setFilters] = useState({
 		searchTerm: '',
-		status: 'all' as 'answer' | 'close' | 'pending' | 'all',
+		status: 'all' as 'all' | 'paid' | 'due',
 		start_date: undefined as Date | undefined,
 		end_date: undefined as Date | undefined,
 	});
@@ -128,14 +128,12 @@ export function VendorSalesReportPage() {
 												</TableCell>
 												<TableCell className="py-2">
 													<Badge className="capitalize" variant="default">
-														{sign.dollar}
-														{item.total_price}
+														{item.total_price} {sign.tk}
 													</Badge>
 												</TableCell>
 												<TableCell className="py-2">
 													<Badge className="capitalize" variant="secondary">
-														{sign.dollar}
-														{item.paid_amount}
+														{item.paid_amount} {sign.tk}
 													</Badge>
 												</TableCell>
 												<TableCell className="py-2">
@@ -147,8 +145,7 @@ export function VendorSalesReportPage() {
 																: 'default'
 														}
 													>
-														{sign.dollar}
-														{item.due_amount}
+														{item.due_amount} {sign.tk}
 													</Badge>
 												</TableCell>
 											</TableRow>

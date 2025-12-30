@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/table';
 
 import { Badge } from '@/components/ui/badge';
-import { tableSrCount } from '@/lib';
+import { sign, tableSrCount } from '@/lib';
 
 import { format } from 'date-fns';
 import { SlidersHorizontal } from 'lucide-react';
@@ -30,7 +30,7 @@ export function VendorDailySalesReportPage() {
 	const [toggleFilter, setToggleFilter] = useState(true);
 	const [filters, setFilters] = useState({
 		searchTerm: '',
-		status: 'all' as 'answer' | 'close' | 'pending' | 'all',
+		status: 'all' as 'paid' | 'due' | 'all',
 		start_date: undefined as Date | undefined,
 		end_date: undefined as Date | undefined,
 		product_id: '',
@@ -94,7 +94,8 @@ export function VendorDailySalesReportPage() {
 							filters={filters}
 							setFilters={setFilters}
 							clearFilters={clearFilters}
-							select={['start_date', 'end_date']}
+							select={['start_date', 'end_date', 'status', 'products']}
+							products={productData?.products}
 						/>
 
 						{/* Product Selection */}
@@ -125,15 +126,22 @@ export function VendorDailySalesReportPage() {
 								<TableHeader>
 									<TableRow>
 										<TableHead className="bg-stone-100">Sr.</TableHead>
-										<TableHead className="bg-stone-100">ID</TableHead>
-										<TableHead className="bg-stone-100">Details</TableHead>
+										<TableHead className="bg-stone-100">Product Name</TableHead>
+										<TableHead className="bg-stone-100">Size</TableHead>
+										<TableHead className="bg-stone-100">Color</TableHead>
+										<TableHead className="bg-stone-100">Unit</TableHead>
+										<TableHead className="bg-stone-100">Quantity</TableHead>
+										<TableHead className="bg-stone-100">Rate</TableHead>
+										<TableHead className="bg-stone-100">Sub Total</TableHead>
+										<TableHead className="bg-stone-100">Sale Date</TableHead>
+										<TableHead className="bg-stone-100">Status</TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
 									{data.variantSalesReport.data.length === 0 ? (
 										<TableRow>
 											<TableCell
-												colSpan={3}
+												colSpan={10}
 												className="text-center py-8 text-muted-foreground"
 											>
 												No items found matching your criteria
@@ -149,10 +157,52 @@ export function VendorDailySalesReportPage() {
 													)}
 												</TableCell>
 												<TableCell className="py-2">
-													<Badge variant="outline">{item.id}</Badge>
+													{item.product?.name || 'N/A'}
 												</TableCell>
 												<TableCell className="py-2">
-													Daily sales data for product ID: {item.id}
+													<Badge variant="outline">
+														{item.size?.name || 'N/A'}
+													</Badge>
+												</TableCell>
+												<TableCell className="py-2">
+													<Badge variant="outline">
+														{item.color?.name || 'N/A'}
+													</Badge>
+												</TableCell>
+												<TableCell className="py-2">
+													<Badge variant="outline">
+														{item.unit?.unit_name || 'N/A'}
+													</Badge>
+												</TableCell>
+												<TableCell className="py-2">
+													<Badge variant="secondary">{item.qty}</Badge>
+												</TableCell>
+												<TableCell className="py-2">
+													<Badge className="capitalize" variant="default">
+														{item.rate} {sign.tk}
+													</Badge>
+												</TableCell>
+												<TableCell className="py-2">
+													<Badge className="capitalize" variant="default">
+														{item.sub_total} {sign.tk}
+													</Badge>
+												</TableCell>
+												<TableCell className="py-2">
+													{format(new Date(item.created_at), 'dd-MM-yyyy')}
+												</TableCell>
+												<TableCell className="py-2">
+													<Badge
+														className="capitalize"
+														variant={
+															item.status === 'paid'
+																? 'default'
+																: item.status === 'due'
+																? 'destructive'
+																: 'secondary'
+														}
+													>
+														{item.status}
+													</Badge>
 												</TableCell>
 											</TableRow>
 										))

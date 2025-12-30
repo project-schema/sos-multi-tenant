@@ -1,9 +1,9 @@
 import style from '@/components/essential/ServiceDetails/style.module.css';
 import { getApiData } from '@/lib';
 import { iAdminService } from '@/store/features/admin/service';
-import { ServiceOrderCheckout } from '@/store/features/frontend';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import PageClient from './page.client';
 export const metadata: Metadata = {
 	title: 'Service Payment - SOS',
 	description: 'Service Payment - SOS Management',
@@ -17,7 +17,6 @@ export default async function Page({
 	const [service] = await Promise.all([
 		getApiData<iAdminService>(`/services-view/${id}`),
 	]);
-	console.log(service);
 	if (!service) {
 		return notFound();
 	}
@@ -26,7 +25,7 @@ export default async function Page({
 		<>
 			<section className={style.servicesDetails}>
 				<div className="layout">
-					<ServiceOrderCheckout service={service} />
+					<PageClient service={service} />
 				</div>
 			</section>
 		</>
