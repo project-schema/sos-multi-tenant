@@ -47,6 +47,7 @@ import { VendorCategoryCreateModal } from '../category/vendor-category-create-mo
 import { VendorSubCategoryCreateModal } from '../sub-category/vendor-sub-category-create-modal';
 import { VendorSupplierCreateModal } from '../supplier/vendor-supplier-create-modal';
 import { VendorWarehouseCreateModal } from '../warehouse/vendor-warehouse-create-modal';
+import { MarketPlaceUtilities } from './market-place-utilities';
 import {
 	useVendorProductCreateDataQuery,
 	useVendorProductStoreMutation,
@@ -113,6 +114,10 @@ export const VendorProductCreate = () => {
 			discount_rate: 0,
 			advance_payment: 0,
 			single_advance_payment_type: 'flat',
+
+			market_place_brand_id: '',
+			market_place_category_id: '',
+			market_place_subcategory_id: '',
 		},
 	});
 
@@ -712,6 +717,7 @@ export const VendorProductCreate = () => {
 															)}
 														/>
 													</div>
+													{isAffiliate && <MarketPlaceUtilities form={form} />}
 													{isAffiliate && (
 														<>
 															<FormField
@@ -1171,6 +1177,7 @@ export const VendorProductCreate = () => {
 										</CardContent>
 									</Card>
 								)}
+
 								{form.formState.errors &&
 									Object.keys(form.formState.errors).length > 0 && (
 										<Alert className="border-amber-500/50 text-amber-500 dark:border-amber-500 [&>svg]:text-amber-500">

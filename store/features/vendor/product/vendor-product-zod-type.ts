@@ -48,6 +48,14 @@ const SellingDetailSchema = z.object({
 
 export const VendorProductCreateSchema = z
 	.object({
+		market_place_brand_id: z.string({ error: 'Brand is required' }).optional(),
+		market_place_category_id: z
+			.string({ error: 'Category is required' })
+			.optional(),
+		market_place_subcategory_id: z
+			.string({ error: 'Subcategory is required' })
+			.optional(),
+
 		image: z.instanceof(File).optional(),
 		images: z.array(z.instanceof(File)).optional(),
 		name: z
@@ -203,7 +211,7 @@ export const VendorProductCreateSchema = z
 export type VendorProductCreateZod = z.infer<typeof VendorProductCreateSchema>;
 
 export const VendorProductCreateData = (values: VendorProductCreateZod) => {
-	const data = {
+	let data = {
 		name: values.name,
 
 		brand_id: values.brand_id,
@@ -263,26 +271,38 @@ export const VendorProductCreateData = (values: VendorProductCreateZod) => {
 		is_connect_bulk_single: values.is_connect_bulk_single ? '0' : '1',
 	};
 
+	let market_place = {
+		market_place_brand_id: values.market_place_brand_id ?? undefined,
+		market_place_category_id: values.market_place_category_id ?? undefined,
+		market_place_subcategory_id:
+			values.market_place_subcategory_id ?? undefined,
+	};
+
 	if (data.pre_order.toString() === '1') {
 		return {
 			...data,
 		};
 	}
 
-	if (values.selling_type === 'both') {
-		return {
-			...data,
-			...both,
-		};
-	} else if (values.selling_type === 'bulk') {
-		return {
-			...data,
-			...bulk,
-		};
-	} else {
-		return {
-			...data,
-			...single,
-		};
+	if (data.is_affiliate.toString() === '1') {
+		if (values.selling_type === 'both') {
+			return {
+				...data,
+				...both,
+				...market_place,
+			};
+		} else if (values.selling_type === 'bulk') {
+			return {
+				...data,
+				...bulk,
+				...market_place,
+			};
+		} else {
+			return {
+				...data,
+				...single,
+				...market_place,
+			};
+		}
 	}
 };

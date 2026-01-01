@@ -1,5 +1,6 @@
 import { apiSlice } from '../../api/apiSlice';
 import {
+	iVendorMarketPlaceUtility,
 	iVendorProductCreateType,
 	iVendorProductResponse,
 	iVendorProductView,
@@ -232,6 +233,14 @@ const api = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: ['VendorProduct'],
 		}),
+
+		// market place
+		VendorMarketPlaceUtility: builder.query<iVendorMarketPlaceUtility, void>({
+			query: () => ({
+				url: `/tenant-marketplace/utilities`,
+				method: 'GET',
+			}),
+		}),
 	}),
 });
 
@@ -244,4 +253,5 @@ export const {
 	useVendorProductUpdateMutation,
 	useVendorProductCreateDataQuery,
 	useVendorProductImageDeleteMutation,
+	useVendorMarketPlaceUtilityQuery,
 } = api;

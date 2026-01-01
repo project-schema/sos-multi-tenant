@@ -1,4 +1,7 @@
 import { iPagination } from '@/types';
+import { iBrand } from '../../admin/brand';
+import { iCategory } from '../../admin/category';
+import { iSubCategory } from '../../admin/sub-category';
 
 export type iVendorProductCreateType = {
 	status: number;
@@ -146,30 +149,9 @@ export type iVendorProductView = {
 		name: string;
 		email: string;
 	};
-	brand: {
-		id: number;
-		user_id: number;
-		name: string;
-		slug: string;
-		description: null;
-		meta_title: null;
-		meta_keyword: null;
-		meta_description: null;
-		status: string;
-		image: string;
-		created_at: string;
-		updated_at: string;
-		deleted_at: null;
-		created_by: string;
-	};
-	category: {
-		id: number;
-		name: string;
-	};
-	subcategory: {
-		id: number;
-		name: string;
-	};
+	brand: iBrand;
+	category: iCategory;
+	subcategory: iSubCategory;
 	product_image: {
 		id: number;
 		product_id: number;
@@ -216,4 +198,14 @@ export type iVendorProductView = {
 export type iVendorProductResponse = {
 	status: number;
 	product: iPagination<iVendorProduct>;
+};
+
+export type iVendorMarketPlaceUtility = {
+	data: {
+		brands: iBrand[];
+		categories: iCategory[];
+		subcategories: iSubCategory[];
+	};
+	message: string;
+	status: number;
 };
