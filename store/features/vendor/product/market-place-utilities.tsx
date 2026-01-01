@@ -10,12 +10,15 @@ import { FormField } from '@/components/ui/form';
 import { useEffect, useMemo } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useVendorMarketPlaceUtilityQuery } from './vendor-product-api-slice';
+import { iVendorProductView } from './vendor-product-type';
 import { VendorProductCreateZod } from './vendor-product-zod-type';
 
 export const MarketPlaceUtilities = ({
 	form,
+	editData,
 }: {
 	form: UseFormReturn<VendorProductCreateZod>;
+	editData?: iVendorProductView;
 }) => {
 	const { data, isLoading } = useVendorMarketPlaceUtilityQuery();
 
@@ -36,6 +39,23 @@ export const MarketPlaceUtilities = ({
 			(sc) => sc.category_id.toString() === selectedCategoryId
 		);
 	}, [data?.data?.subcategories, selectedCategoryId]);
+
+	useEffect(() => {
+		if (editData) {
+			form.setValue(
+				'market_place_brand_id',
+				editData.market_place_brand_id.toString()
+			);
+			form.setValue(
+				'market_place_category_id',
+				editData.market_place_category_id.toString()
+			);
+			form.setValue(
+				'market_place_subcategory_id',
+				editData.market_place_subcategory_id.toString()
+			);
+		}
+	}, [editData, form]);
 
 	// Clear subcategory when category changes
 	useEffect(() => {

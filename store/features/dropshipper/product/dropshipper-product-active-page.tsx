@@ -32,6 +32,7 @@ import {
 import { Ellipsis, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { DropshipperCustomPrice } from './dropshipper-custom-price';
 import { useAllRequestProductQuery } from './dropshipper-product-api-slice';
 import { DropshipperRequestProductFilter } from './dropshipper-request-product-filter';
 
@@ -100,11 +101,14 @@ export default function DropshipperProductActivePage({
 										<TableHead className="bg-stone-100">Sr.</TableHead>
 										<TableHead className="bg-stone-100 w-10">ID</TableHead>
 										<TableHead className="bg-stone-100">Image</TableHead>
-										<TableHead className="bg-stone-100">
-											Product Name{' '}
-										</TableHead>
+										<TableHead className="bg-stone-100">Product Name</TableHead>
 
-										<TableHead className="bg-stone-100">Offer </TableHead>
+										<TableHead className="bg-stone-100">
+											Merchant Price
+										</TableHead>
+										<TableHead className="bg-stone-100">
+											Selling Price
+										</TableHead>
 										<TableHead className="bg-stone-100">Date </TableHead>
 										<TableHead className="bg-stone-100">Status </TableHead>
 										<TableHead className="bg-stone-100">Action </TableHead>
@@ -161,6 +165,14 @@ export default function DropshipperProductActivePage({
 												</TableCell>
 
 												<TableCell className="py-2">
+													<Badge variant="outline">
+														{Number(item?.product?.selling_price) +
+															Number(item?.profit_amount)}{' '}
+														{sign.tk}
+													</Badge>
+												</TableCell>
+
+												<TableCell className="py-2">
 													{dateFormat(item.created_at)}
 												</TableCell>
 												<TableCell className="py-2">
@@ -197,6 +209,7 @@ export default function DropshipperProductActivePage({
 																	<span>View Product</span>
 																</Link>
 															</DropdownMenuItem>
+															<DropshipperCustomPrice data={item} />
 														</DropdownMenuContent>
 													</DropdownMenu>
 												</TableCell>

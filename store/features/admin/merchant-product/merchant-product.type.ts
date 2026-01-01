@@ -200,9 +200,9 @@ export type iMerchantProductSingleResponse = {
 export type iMerchantProductMissing = {
 	productrating_avg_rating: null | number;
 	cat: iBrand;
-	category: iCategory;
-	subcategory: iSubCategory;
-	brand: iBrand;
+	marketplace_category: iCategory;
+	marketplace_subcategory: iSubCategory;
+	marketplace_brand: iBrand;
 	product_image: Array<{
 		id: number;
 		product_id: number;

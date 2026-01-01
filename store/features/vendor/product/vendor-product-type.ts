@@ -93,6 +93,9 @@ export type iVendorProductView = {
 	long_description: string;
 	selling_price: string;
 	original_price: string;
+	market_place_brand_id: string;
+	market_place_category_id: string;
+	market_place_subcategory_id: string;
 	qty: string;
 	image: string;
 	status: string;

@@ -98,6 +98,18 @@ const api = apiSlice.injectEndpoints({
 			}),
 			providesTags: ['DropShipperProduct'],
 		}),
+
+		// dropshipper custom price
+		DropshipperCustomPrice: builder.mutation<
+			{ status: 200; message: string },
+			{ id: string; profit_amount: string }
+		>({
+			query: ({ id, profit_amount }) => ({
+				url: `/tenant-dropshipper/single/product/add-profit/${id}`,
+				method: 'POST',
+				body: { profit_amount },
+			}),
+		}),
 	}),
 });
 
@@ -107,4 +119,5 @@ export const {
 	useRequestProductMutation,
 	useAddToCartMutation,
 	useAllRequestProductQuery,
+	useDropshipperCustomPriceMutation,
 } = api;

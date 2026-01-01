@@ -47,6 +47,7 @@ import { VendorCategoryCreateModal } from '../category/vendor-category-create-mo
 import { VendorSubCategoryCreateModal } from '../sub-category/vendor-sub-category-create-modal';
 import { VendorSupplierCreateModal } from '../supplier/vendor-supplier-create-modal';
 import { VendorWarehouseCreateModal } from '../warehouse/vendor-warehouse-create-modal';
+import { MarketPlaceUtilities } from './market-place-utilities';
 import {
 	useVendorProductCreateDataQuery,
 	useVendorProductUpdateMutation,
@@ -123,6 +124,11 @@ export const VendorProductEdit = ({
 			advance_payment: Number(editData.advance_payment),
 			single_advance_payment_type:
 				editData.single_advance_payment_type || 'flat',
+
+			market_place_brand_id: editData.market_place_brand_id.toString(),
+			market_place_category_id: editData.market_place_category_id.toString(),
+			market_place_subcategory_id:
+				editData.market_place_subcategory_id.toString(),
 		},
 	});
 
@@ -201,6 +207,11 @@ export const VendorProductEdit = ({
 				advance_payment: Number(selling.advance_payment) || 0,
 				advance_payment_type: selling.advance_payment_type,
 			})),
+
+			market_place_brand_id: editData.market_place_brand_id.toString(),
+			market_place_category_id: editData.market_place_category_id.toString(),
+			market_place_subcategory_id:
+				editData.market_place_subcategory_id.toString(),
 		});
 	}, [editData]);
 
@@ -852,6 +863,12 @@ export const VendorProductEdit = ({
 														</>
 													)}
 												</div>
+												{isAffiliate && (
+													<MarketPlaceUtilities
+														form={form}
+														editData={editData}
+													/>
+												)}
 
 												{isAffiliate && (
 													<>

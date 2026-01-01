@@ -21,52 +21,49 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 import { alertConfirm } from '@/lib';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderCircle, X } from 'lucide-react';
+import { LoaderCircle, Pencil } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { useAdminProductStatusUpdateMutation } from './merchant-product.api.slice';
-import { iMerchantProduct } from './merchant-product.type';
+import { iCompleteMerchantProduct } from '../../admin/merchant-product/merchant-product.type';
+import { useDropshipperCustomPriceMutation } from './dropshipper-product-api-slice';
+import { iDropShipperProduct } from './dropshipper-product-type';
 
 //  Zod Schema
 const couponSchema = z.object({
-	rejected_details: z
-		.string()
-		.trim()
-		.min(1, 'Reason is required')
-		.max(1000, 'Too long'),
+	profit_amount: z.number().min(1, 'Price is required'),
 });
 
 type ZodType = z.infer<typeof couponSchema>;
 
 //  Component
-export function AdminProductRejectModal({ data }: { data: iMerchantProduct }) {
+export function DropshipperCustomPrice({
+	data,
+}: {
+	data: iCompleteMerchantProduct;
+}) {
 	const [open, setOpen] = useState(false);
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
-			<DropdownMenuItem
-				variant="destructive"
-				asChild
-				onSelect={(e) => e.preventDefault()}
-			>
+			<DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
 				<DialogTrigger className="flex items-center gap-2 w-full">
 					<DropdownMenuShortcut className="ml-0">
-						<X className="size-4 text-destructive" />
+						<Pencil className="size-4  " />
 					</DropdownMenuShortcut>
-					{data.status === 'rejected' ? 'Reject Message' : 'Reject Product'}
+					Custom Price
 				</DialogTrigger>
 			</DropdownMenuItem>
 
 			<DialogContent className={cn('sm:max-w-xl w-full')}>
 				<DialogHeader>
-					<DialogTitle>Reject Product</DialogTitle>
-					<DialogDescription>{data.name || ''}</DialogDescription>
+					<DialogTitle>Custom Price</DialogTitle>
+					<DialogDescription>{data.product?.name || ''}</DialogDescription>
 				</DialogHeader>
 
 				<FORM setOpen={setOpen} editData={data} />
@@ -80,20 +77,20 @@ const FORM = ({
 	editData,
 }: {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	editData: iMerchantProduct;
+	editData: iDropShipperProduct;
 }) => {
-	const [update, { isLoading }] = useAdminProductStatusUpdateMutation();
+	const [update, { isLoading }] = useDropshipperCustomPriceMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(couponSchema),
 		defaultValues: {
-			rejected_details: editData?.rejected_details || '',
+			profit_amount: editData?.selling_price || '',
 		},
 	});
 
 	useEffect(() => {
 		form.reset({
-			rejected_details: editData?.rejected_details || '',
+			profit_amount: editData?.selling_price || '',
 		});
 	}, [editData]);
 
@@ -102,10 +99,8 @@ const FORM = ({
 			onOk: async () => {
 				try {
 					const response = await update({
-						...data,
 						id: editData.id,
-						status: 'rejected',
-						tenant_id: editData.tenant_id,
+						profit_amount: data.profit_amount.toString(),
 					}).unwrap();
 
 					if (response?.status === 200) {
@@ -146,12 +141,22 @@ const FORM = ({
 				{/* Message */}
 				<FormField
 					control={form.control}
-					name="rejected_details"
+					name="profit_amount"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Reject Reason</FormLabel>
+							<FormLabel>Price</FormLabel>
 							<FormControl>
-								<Textarea placeholder="Message..." {...field} />
+								<Input
+									type="number"
+									placeholder="Price..."
+									{...field}
+									onWheel={(e) => {
+										(e.target as HTMLInputElement).blur();
+									}}
+									onChange={(e) => {
+										field.onChange(e.target.valueAsNumber || '');
+									}}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
