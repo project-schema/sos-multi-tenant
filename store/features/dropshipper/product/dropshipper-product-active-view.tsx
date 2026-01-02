@@ -69,9 +69,21 @@ export const DropshipperProductActiveView = ({
 
 						{/* brand  */}
 						<div className="flex items-center gap-2">
-							<Badge variant="outline">{product?.brand?.name}</Badge>
-							<Badge variant="outline">{product?.category?.name}</Badge>{' '}
-							<Badge variant="outline">{product?.subcategory?.name}</Badge>
+							{product?.marketplace_brand?.name && (
+								<Badge variant="outline">
+									{product?.marketplace_brand?.name}
+								</Badge>
+							)}
+							{product?.marketplace_category?.name && (
+								<Badge variant="outline">
+									{product?.marketplace_category?.name}
+								</Badge>
+							)}
+							{product?.marketplace_subcategory?.name && (
+								<Badge variant="outline">
+									{product?.marketplace_subcategory?.name}
+								</Badge>
+							)}
 						</div>
 
 						<div>SKU: {product?.sku}</div>

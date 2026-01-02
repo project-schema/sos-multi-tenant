@@ -240,10 +240,12 @@ export type iRequestDropProduct = {
 	updated_at: string;
 	uniqid: string;
 	tenant_id: string;
+	profit_amount: number;
 	product: {
 		id: number;
 		name: string;
 		selling_price: string;
+		discount_price: string;
 		image: string;
 		product_image: {
 			id: number;

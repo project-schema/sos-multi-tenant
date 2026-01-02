@@ -1,6 +1,7 @@
 'use client';
 
 import { Container1 } from '@/components/dashboard';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,7 +24,7 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
-import { alertConfirm } from '@/lib';
+import { alertConfirm, productPrice, sign } from '@/lib';
 import {
 	useCartViewQuery,
 	useCheckoutCartMutation,
@@ -239,7 +240,7 @@ export default function CartViewPageClient({
 						variantQuantities[detail.id.toString()] ||
 						parseFloat(detail.qty || '0') ||
 						1,
-					unit_name: detail.unit?.name,
+					unit_name: detail.unit?.unit_name,
 					color_name: detail.color?.name,
 					size_name: detail.size?.name,
 					variant_id: detail.variant_id,
@@ -432,7 +433,7 @@ export default function CartViewPageClient({
 
 	// Calculate totals from created cart items
 	const calculateTotals = () => {
-		const basePrice = parseFloat(product?.selling_price || '0');
+		const basePrice = parseFloat(product?.discount_price || '0');
 		const discountRate = parseFloat(product?.discount_rate || '0');
 		const discount = (basePrice * discountRate) / 100;
 		const discountedPrice = basePrice - discount;
@@ -470,7 +471,9 @@ export default function CartViewPageClient({
 
 		const totalProductPrice = discountedPrice * totalQuantity;
 		const totalWithDelivery =
-			totalProductPrice + totalDeliveryCharge + totalAdvancePayment;
+			totalProductPrice +
+			totalDeliveryCharge +
+			(data?.profit_amount ?? 0) * totalQuantity;
 
 		return {
 			basePrice,
@@ -488,8 +491,6 @@ export default function CartViewPageClient({
 	// For backward compatibility, keep the old variables
 	const price = totals.basePrice;
 	const quantity = totals.totalQuantity;
-	const discount = (price * parseFloat(product?.discount_rate || '0')) / 100;
-	const discountedPrice = totals.discountedPrice;
 
 	const handleCheckout = () => {
 		// Transform cart items into the required API format
@@ -608,7 +609,7 @@ export default function CartViewPageClient({
 				<div className="flex items-center justify-between">
 					<CardTitle className="flex items-center gap-2">
 						<ShoppingCart className="size-5" />
-						Cart Details
+						Checkout
 					</CardTitle>
 				</div>
 			}
@@ -1004,10 +1005,35 @@ export default function CartViewPageClient({
 							<CardTitle className="xl:text-xl">Product Details</CardTitle>
 							<Badge variant="outline">{cartItem?.purchase_type}</Badge>
 						</div>
+
+						<p>{cartItem?.product?.name}</p>
+
+						<div className="flex justify-between items-center text-xs">
+							<span>Product Price:</span>
+							<span className="font-medium">
+								{productPrice({
+									selling_price: data?.data?.product_price,
+									discount_price: data?.data?.discount_price,
+								})}
+								{sign.tk}
+							</span>
+						</div>
+						<div className="flex justify-between items-center text-xs">
+							<span>Total Commission:</span>
+							<span className="font-medium">
+								{totals.totalCommission.toFixed(2)} tk
+							</span>
+						</div>
+						<div className="flex justify-between items-center text-xs border-b pb-1">
+							<span>Advance Amount:</span>
+							<span className="font-medium">
+								{totals.totalAdvancePayment.toFixed(2)} tk
+							</span>
+						</div>
 					</CardHeader>
 					<CardContent className="space-y-4">
 						<div>
-							{items.map((item, index) => (
+							{items?.map((item, index) => (
 								<div
 									key={item.id}
 									className="space-y-1 not-last:border-b pb-2 text-xs"
@@ -1033,100 +1059,96 @@ export default function CartViewPageClient({
 								</div>
 							))}
 						</div>
+						{items.length > 0 ? (
+							<>
+								<div className="space-y-3 border-t pt-4 text-xs ">
+									<div className="flex justify-between items-center">
+										<span className="font-medium">
+											SUMMARY ({items.length} item
+											{items.length !== 1 ? 's' : ''})
+										</span>
+									</div>
 
-						<div className="space-y-3 border-t pt-4 text-xs ">
-							<div className="flex justify-between items-center">
-								<span className="font-medium">
-									SUMMARY ({items.length} item{items.length !== 1 ? 's' : ''})
-								</span>
-							</div>
-							{/* <div className="flex justify-between items-center">
-								<span className="text-muted-foreground">Base Price:</span>
-								<span className="font-medium">{price.toFixed(2)} tk</span>
-							</div>
-							<div className="flex justify-between items-center">
-								<span className="text-muted-foreground">
-									Discount (
-									{parseFloat(product?.discount_rate || '0').toFixed(1)}%):
-								</span>
-								<span className="font-medium">-{discount.toFixed(2)} tk</span>
-							</div>
-							<div className="flex justify-between items-center">
-								<span className="text-muted-foreground">Unit Price:</span>
-								<span className="font-medium">
-									{discountedPrice.toFixed(2)} tk
-								</span>
-							</div> */}
-							<div className="flex justify-between items-center">
-								<span className="text-muted-foreground">Total Quantity:</span>
-								<span className="font-medium">{totals.totalQuantity}</span>
-							</div>
-							{/* <div className="flex justify-between items-center">
-								<span className="text-muted-foreground">Product Subtotal:</span>
-								<span className="font-medium">
-									{totals.totalProductPrice.toFixed(2)} tk
-								</span>
-							</div> */}
-							<div className="flex justify-between items-center">
-								<span className="text-muted-foreground">Delivery Charges:</span>
-								<span className="font-medium">
-									{totals.totalDeliveryCharge.toFixed(2)} tk
-								</span>
-							</div>
-							<div className="flex justify-between items-center">
-								<span className="text-muted-foreground">Total Commission:</span>
-								<span className="font-medium">
-									{totals.totalCommission.toFixed(2)} tk
-								</span>
-							</div>
-							<div className="flex justify-between items-center">
-								<span className="text-muted-foreground">Advance Amount:</span>
-								<span className="font-medium">
-									{totals.totalAdvancePayment.toFixed(2)} tk
-								</span>
-							</div>
-							<div className="flex justify-between items-center border-t pt-2">
-								<span className="font-semibold">Grand Total:</span>
-								<span className="font-semibold">
-									{totals.totalWithDelivery.toFixed(2)} tk
-								</span>
-							</div>
-						</div>
-						<div>
-							<fieldset className="flex flex-col gap-3">
-								<legend className="text-sm font-medium">Payment Method</legend>
-								<p className="text-muted-foreground text-sm">
-									Select your preferred payment method.
-								</p>
-								<RadioGroup
-									defaultValue={gateway}
-									className="grid grid-cols-1 md:grid-cols-2 gap-3"
-									onValueChange={(val) => setGateway(val as 'aamarpay')}
-								>
-									{plans.map((plan) => (
-										<Label
-											className="has-[[data-state=checked]]:border-ring has-[[data-state=checked]]:bg-primary/5 flex items-start gap-3 rounded-lg border p-3"
-											key={plan.id}
+									<div className="flex justify-between items-center">
+										<span className="text-muted-foreground">
+											Total Quantity:
+										</span>
+										<span className="font-medium">{totals.totalQuantity}</span>
+									</div>
+
+									<div className="flex justify-between items-center">
+										<span className="text-muted-foreground">
+											Total Profit:( {data?.profit_amount} tk per item)
+										</span>
+										<span className="font-medium">
+											{Number(data?.profit_amount ?? 0) * totals.totalQuantity}{' '}
+											tk
+										</span>
+									</div>
+									<div className="flex justify-between items-center">
+										<span className="text-muted-foreground">
+											Delivery Charges:
+										</span>
+										<span className="font-medium">
+											{totals.totalDeliveryCharge.toFixed(2)} tk
+										</span>
+									</div>
+
+									<div className="flex justify-between items-center border-t pt-2">
+										<span className="font-semibold">Grand Total:</span>
+										<span className="font-semibold">
+											{totals.totalWithDelivery.toFixed(2)} tk
+										</span>
+									</div>
+								</div>
+								<div>
+									<fieldset className="flex flex-col gap-3">
+										<legend className="text-sm font-medium">
+											Payment Method
+										</legend>
+										<p className="text-muted-foreground text-sm">
+											Select your preferred payment method.
+										</p>
+										<RadioGroup
+											defaultValue={gateway}
+											className="grid grid-cols-1 md:grid-cols-2 gap-3"
+											onValueChange={(val) => setGateway(val as 'aamarpay')}
 										>
-											<RadioGroupItem
-												value={plan.id}
-												id={plan.name}
-												className="data-[state=checked]:border-primary"
-											/>
-											<div className="grid gap-1 font-normal">
-												<div className="font-medium">{plan.name}</div>
-												<div className="text-muted-foreground pr-2 text-xs leading-snug text-balance">
-													{plan.description}
-												</div>
-											</div>
-										</Label>
-									))}
-								</RadioGroup>
-							</fieldset>
-						</div>
-						<div className="flex flex-col">
-							<Button onClick={handleCheckout}>Checkout</Button>
-						</div>
+											{plans.map((plan) => (
+												<Label
+													className="has-[[data-state=checked]]:border-ring has-[[data-state=checked]]:bg-primary/5 flex items-start gap-3 rounded-lg border p-3"
+													key={plan.id}
+												>
+													<RadioGroupItem
+														value={plan.id}
+														id={plan.name}
+														className="data-[state=checked]:border-primary"
+													/>
+													<div className="grid gap-1 font-normal">
+														<div className="font-medium">{plan.name}</div>
+														<div className="text-muted-foreground pr-2 text-xs leading-snug text-balance">
+															{plan.description}
+														</div>
+													</div>
+												</Label>
+											))}
+										</RadioGroup>
+									</fieldset>
+								</div>
+								<div className="flex flex-col">
+									<Button onClick={handleCheckout}>Checkout</Button>
+								</div>
+							</>
+						) : (
+							<div className="flex flex-col">
+								<Alert variant="default">
+									<AlertTitle>No items in the cart</AlertTitle>
+									<AlertDescription>
+										Please add items to the cart to checkout
+									</AlertDescription>
+								</Alert>
+							</div>
+						)}
 					</CardContent>
 				</Card>
 			</div>

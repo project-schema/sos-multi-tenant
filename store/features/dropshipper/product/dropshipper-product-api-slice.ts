@@ -109,6 +109,7 @@ const api = apiSlice.injectEndpoints({
 				method: 'POST',
 				body: { profit_amount },
 			}),
+			invalidatesTags: ['DropShipperProduct'],
 		}),
 	}),
 });

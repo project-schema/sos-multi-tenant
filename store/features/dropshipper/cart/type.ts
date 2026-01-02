@@ -221,4 +221,5 @@ export type iDropShipperCartView = {
 		area: string;
 		charge: string;
 	}[];
+	profit_amount: number;
 };

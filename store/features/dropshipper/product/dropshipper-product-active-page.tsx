@@ -25,6 +25,7 @@ import {
 	badgeFormat,
 	dateFormat,
 	env,
+	productPrice,
 	sign,
 	tableSrCount,
 	textCount,
@@ -160,14 +161,20 @@ export default function DropshipperProductActivePage({
 
 												<TableCell className="py-2">
 													<Badge variant="outline">
-														{item?.product?.selling_price} {sign.tk}
+														{productPrice({
+															selling_price: item?.product?.selling_price,
+															discount_price: item?.product?.discount_price,
+														})}{' '}
+														{sign.tk}
 													</Badge>
 												</TableCell>
 
 												<TableCell className="py-2">
 													<Badge variant="outline">
-														{Number(item?.product?.selling_price) +
-															Number(item?.profit_amount)}{' '}
+														{productPrice({
+															selling_price: item?.product?.selling_price,
+															discount_price: item?.product?.discount_price,
+														}) + Number(item?.profit_amount)}{' '}
 														{sign.tk}
 													</Badge>
 												</TableCell>
