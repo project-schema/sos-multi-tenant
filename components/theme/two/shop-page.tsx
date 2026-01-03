@@ -19,16 +19,6 @@ export default function ThemeTwoShopPage() {
 		<>
 			<Header02 />
 			<section className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
-				{/* Page Header */}
-				<div className="flex items-center justify-between mb-6">
-					<h1 className="text-2xl md:text-3xl font-bold text-gray-900">
-						Explore All Products
-					</h1>
-					<div className="text-sm text-gray-500">
-						Showing 1–12 of 129 results
-					</div>
-				</div>
-
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 					{/* Sidebar Filters */}
 					<aside className="lg:col-span-2 space-y-6">
@@ -93,6 +83,14 @@ export default function ThemeTwoShopPage() {
 
 					{/* Products Grid */}
 					<div className="lg:col-span-10">
+						{/* Page Header */}
+						<div className="flex items-center justify-between mb-4">
+							<h1 className="text-2xl font-semibold">Explore All Products</h1>
+							{/* <div className="text-sm text-gray-500">
+								Showing 1–12 of 129 results
+							</div> */}
+						</div>
+
 						<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
 							{dummyProducts.map((p) => (
 								<Card07 key={p.id} />
@@ -100,8 +98,11 @@ export default function ThemeTwoShopPage() {
 						</div>
 
 						{/* Pagination */}
-						<div className="mt-8">
-							<Pagination>
+						<div className="mt-8 flex items-center justify-between">
+							<div className="text-sm text-gray-500 whitespace-nowrap">
+								Showing 1–12 of 129 results
+							</div>
+							<Pagination className="justify-end">
 								<PaginationContent>
 									<PaginationItem>
 										<PaginationPrevious href="#" />

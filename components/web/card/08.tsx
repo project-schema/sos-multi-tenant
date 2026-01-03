@@ -24,13 +24,13 @@ export default function Card08({
 	// Generate star rating display
 	const renderStars = () => {
 		return Array.from({ length: 5 }).map((_, index) => (
-			<Star key={index} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+			<Star key={index} className="w-3 h-3 fill-orange-400 text-orange-400" />
 		));
 	};
 
 	return (
 		<div
-			className={`group relative bg-white rounded-xl duration-300 overflow-hidden flex flex-col sm:flex-row ${className}`}
+			className={`group p-2 gap-3 relative bg-white rounded-xl duration-300 overflow-hidden flex flex-col sm:flex-row ${className}`}
 		>
 			{/* Left Section - Image Area */}
 			<div className="relative w-full sm:w-2/5 aspect-square sm:aspect-auto sm:h-auto bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
@@ -59,17 +59,17 @@ export default function Card08({
 			</div>
 
 			{/* Right Section - Product Details */}
-			<div className="w-full sm:w-3/5 p-6 flex flex-col justify-between">
-				<div className="space-y-4">
+			<div className="w-full sm:w-3/5   flex flex-col justify-between">
+				<div className="space-y-1">
 					{/* Title */}
-					<h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
+					<h3 className="text-base font-medium text-[#27314B] line-clamp-2">
 						{title}
 					</h3>
 
 					{/* Rating */}
 					<div className="flex items-center gap-2">
 						<div className="flex items-center gap-0.5">{renderStars()}</div>
-						<span className="text-sm text-gray-600">
+						<span className="text-xs text-gray-600">
 							{reviewCount.toLocaleString()} Reviews
 						</span>
 					</div>
@@ -79,16 +79,16 @@ export default function Card08({
 				<div className="flex items-end justify-between pt-4 mt-auto">
 					{/* Pricing */}
 					<div className="flex flex-col gap-1">
-						<span className="text-sm text-gray-500 line-through">
+						<span className="text-xs text-gray-500 line-through">
 							{originalPrice}
 						</span>
-						<span className="text-2xl font-bold text-gray-900">
+						<span className="text-xl font-medium text-gray-900">
 							{currentPrice}
 						</span>
 					</div>
 
 					{/* Add to Cart Button */}
-					<button className="w-12 h-12 rounded-lg border-2 border-orange-500 bg-orange-50 hover:bg-orange-100 transition-colors duration-200 flex items-center justify-center group/btn flex-shrink-0">
+					<button className="w-8 h-8 rounded-sm border-1 border-orange-500 bg-orange-50 hover:bg-orange-100 transition-colors duration-200 flex items-center justify-center group/btn flex-shrink-0">
 						<ShoppingCart className="w-5 h-5 text-orange-500 group-hover/btn:scale-110 transition-transform duration-200" />
 					</button>
 				</div>

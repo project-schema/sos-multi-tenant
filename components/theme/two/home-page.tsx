@@ -8,6 +8,7 @@ import {
 	Header02,
 } from '@/components/web';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function ThemeTwoHomePage() {
 	const images = [
@@ -32,17 +33,57 @@ export default function ThemeTwoHomePage() {
 							alt="image"
 							width={1000}
 							height={1000}
+							className="w-full h-full object-cover rounded-[12px]"
 						/>
 					</div>
-					<div className="col-span-9 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-						<Card07 />
-						<Card07 />
-						<Card07 />
-						<Card07 />
-						<Card07 />
-						<Card07 />
-						<Card07 />
-						<Card07 />
+					<div className="col-span-9 ">
+						<div className="flex items-center justify-between mb-4">
+							<h2 className="text-2xl font-semibold">Trending Products</h2>
+							<ul className="flex gap-2">
+								<li>
+									<Link
+										className="text-xs text-black bg-stone-100 rounded-sm px-4 py-1.5 hover:bg-orange-500 hover:text-white transition-all inline-flex"
+										href="/products"
+									>
+										All
+									</Link>
+								</li>
+								<li>
+									<Link
+										className="text-xs text-black bg-stone-100 rounded-sm px-4 py-1.5 hover:bg-orange-500 hover:text-white transition-all inline-flex"
+										href="/product/2"
+									>
+										Phones
+									</Link>
+								</li>
+								<li>
+									<Link
+										className="text-xs text-black bg-stone-100 rounded-sm px-4 py-1.5 hover:bg-orange-500 hover:text-white transition-all inline-flex"
+										href="/product/3"
+									>
+										Cameras
+									</Link>
+								</li>
+								<li>
+									<Link
+										className="text-xs text-black bg-stone-100 rounded-sm px-4 py-1.5 hover:bg-orange-500 hover:text-white transition-all inline-flex"
+										href="/product/4"
+									>
+										Lights
+									</Link>
+								</li>
+							</ul>
+						</div>
+						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+							<Card07 />
+							<Card07 />
+							<Card07 />
+							<Card07 />
+							<Card07 />
+							<Card07 />
+							<Card07 />
+							<Card07 />
+						</div>
 					</div>
 				</div>
 
@@ -67,9 +108,11 @@ export default function ThemeTwoHomePage() {
 					/>
 				</div>
 
-				<div className="grid grid-cols-3 gap-6 max-w-[1720px] mx-auto ">
-					<div>
-						<h2>Best Selling Products</h2>
+				<div className="grid grid-cols-4 gap-6 max-w-[1720px] mx-auto ">
+					<div className="space-y-10">
+						<h2 className="text-2xl font-semibold border-b border-gray-200 pb-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0   after:h-[2px] after:bg-orange-500 after:w-1/3">
+							Best Selling Products
+						</h2>
 						<div className="space-y-6">
 							<Card08 />
 							<Card08 />
@@ -77,8 +120,10 @@ export default function ThemeTwoHomePage() {
 							<Card08 />
 						</div>
 					</div>
-					<div>
-						<h2>Best Selling Products</h2>
+					<div className="space-y-10">
+						<h2 className="text-2xl font-semibold border-b border-gray-200 pb-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0   after:h-[2px] after:bg-orange-500 after:w-1/3">
+							Best Selling Products
+						</h2>
 						<div className="space-y-6">
 							<Card08 />
 							<Card08 />
@@ -86,8 +131,22 @@ export default function ThemeTwoHomePage() {
 							<Card08 />
 						</div>
 					</div>
-					<div>
-						<h2>Best Selling Products</h2>
+					<div className="space-y-10">
+						<h2 className="text-2xl font-semibold border-b border-gray-200 pb-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0   after:h-[2px] after:bg-orange-500 after:w-1/3">
+							Best Selling Products
+						</h2>
+						<div className="space-y-6">
+							<Card08 />
+							<Card08 />
+							<Card08 />
+							<Card08 />
+						</div>
+					</div>
+
+					<div className="space-y-10">
+						<h2 className="text-2xl font-semibold border-b border-gray-200 pb-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0   after:h-[2px] after:bg-orange-500 after:w-1/3">
+							Best Selling Products
+						</h2>
 						<div className="space-y-6">
 							<Card08 />
 							<Card08 />
@@ -97,7 +156,7 @@ export default function ThemeTwoHomePage() {
 					</div>
 				</div>
 
-				<div className="flex gap-10 justify-between max-w-[1720px] mx-auto">
+				<div className="flex gap-10 justify-between max-w-[1720px] mx-auto border border-gray-200 rounded-lg p-4">
 					{images.map((image) => (
 						<Image
 							key={image}

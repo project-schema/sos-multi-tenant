@@ -101,7 +101,7 @@ const paymentMethods: PaymentMethod[] = [
 
 export default function Footer02() {
 	return (
-		<footer className="bg-gray-100 text-gray-800">
+		<footer className="bg-gray-100 text-gray-800 mt-24">
 			{/* Main Footer Content */}
 			<div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -126,28 +126,28 @@ export default function Footer02() {
 						<div className="flex space-x-3">
 							<Link
 								href="https://facebook.com"
-								className="w-10 h-10 bg-white border border-black rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
+								className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
 								aria-label="Facebook"
 							>
 								<Facebook className="w-5 h-5 text-black" />
 							</Link>
 							<Link
 								href="https://instagram.com"
-								className="w-10 h-10 bg-white border border-black rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
+								className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
 								aria-label="Instagram"
 							>
 								<Instagram className="w-5 h-5 text-black" />
 							</Link>
 							<Link
 								href="https://tiktok.com"
-								className="w-10 h-10 bg-white border border-black rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
+								className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
 								aria-label="TikTok"
 							>
 								<Music className="w-5 h-5 text-black" />
 							</Link>
 							<Link
 								href="https://x.com"
-								className="w-10 h-10 bg-white border border-black rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
+								className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
 								aria-label="X (Twitter)"
 							>
 								<Twitter className="w-5 h-5 text-black" />

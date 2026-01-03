@@ -3,7 +3,7 @@ import ThemeThreeHomePage from '@/components/theme/three/home-page';
 import ThemeTwoHomePage from '@/components/theme/two/home-page';
 
 export default function MySite() {
-	return <ThemeThreeHomePage />;
 	return <ThemeTwoHomePage />;
+	return <ThemeThreeHomePage />;
 	return <ThemeOneHomePage />;
 }

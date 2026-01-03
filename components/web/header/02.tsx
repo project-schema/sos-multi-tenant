@@ -16,9 +16,9 @@ export default function Header02() {
 	return (
 		<header className="w-full bg-white">
 			{/* Top Promotional Bar */}
-			<div className="bg-black text-white py-2.5">
+			<div className="bg-black text-white py-3">
 				<div className="w-full px-4 sm:px-6 lg:px-8">
-					<div className="flex items-center justify-between flex-wrap gap-3 text-xs sm:text-sm">
+					<div className="flex items-center justify-between flex-wrap gap-3 text-xs  ">
 						<span>10% discount on your first purchase for new members</span>
 						<span className="text-white">•</span>
 						<span>Get 10% off your first order — use code: WELCOME10</span>
@@ -47,7 +47,7 @@ export default function Header02() {
 
 						{/* Search Bar */}
 						<div className="flex-1 max-w-2xl mx-4 hidden md:flex">
-							<div className="flex w-full border border-amber-600 rounded-md overflow-hidden">
+							<div className="flex w-full border border-amber-600   overflow-hidden">
 								{/* Categories Dropdown */}
 								<button className="flex items-center gap-2 px-4 py-2.5 bg-white border-r border-amber-600 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
 									<span>All Categories</span>
@@ -60,7 +60,7 @@ export default function Header02() {
 									className="flex-1 px-4 py-2.5 outline-none text-sm text-gray-700 placeholder:text-gray-400"
 								/>
 								{/* Search Button */}
-								<button className="bg-orange-500 text-white px-6 py-2.5 hover:bg-orange-600 transition-colors flex items-center justify-center">
+								<button className="bg-orange-500 m-1 text-white w-10 h-10 hover:bg-orange-600 transition-colors flex items-center justify-center">
 									<Search className="w-5 h-5" />
 								</button>
 							</div>
@@ -70,14 +70,14 @@ export default function Header02() {
 						<div className="flex items-center gap-4 lg:gap-6 flex-shrink-0">
 							{/* Contact Info */}
 							<div className="hidden lg:flex items-center gap-2.5">
-								<div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
-									<Phone className="w-5 h-5 text-white" />
+								<div className="w-10 h-10 bg-white border border-[#DBDFE9] rounded-full flex items-center justify-center flex-shrink-0">
+									<Phone className="w-5 h-5 text-orange-500" />
 								</div>
-								<div className="flex flex-col">
-									<span className="text-xs text-gray-600 leading-tight">
+								<div className="flex flex-col gap-0.5">
+									<span className="text-xs text-orange-600 leading-tight">
 										Contact
 									</span>
-									<span className="text-sm font-bold text-black leading-tight">
+									<span className="text-sm font-bold text-black/70 leading-tight">
 										+880 124 36626
 									</span>
 								</div>
@@ -85,16 +85,16 @@ export default function Header02() {
 
 							{/* User Account */}
 							<div className="hidden lg:flex items-center gap-2.5">
-								<div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
-									<User className="w-5 h-5 text-white" />
+								<div className="w-10 h-10 bg-white border border-[#DBDFE9] rounded-full flex items-center justify-center flex-shrink-0">
+									<User className="w-5 h-5 text-orange-500" />
 								</div>
-								<div className="flex flex-col">
-									<span className="text-xs text-gray-600 leading-tight">
+								<div className="flex flex-col gap-0.5">
+									<span className="text-xs text-orange-600 leading-tight">
 										Welcome
 									</span>
 									<Link
 										href="/auth"
-										className="text-sm font-bold text-black hover:text-orange-500 transition-colors leading-tight"
+										className="text-sm font-bold text-black/70 hover:text-orange-500 transition-colors leading-tight"
 									>
 										Log In / Register
 									</Link>
@@ -113,10 +113,10 @@ export default function Header02() {
 			{/* Main Navigation Bar */}
 			<div className="bg-gray-100 border-b border-gray-200">
 				<div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="flex items-center justify-between py-3 gap-4">
+					<div className="flex items-center justify-between   gap-4">
 						<div className="flex items-center gap-4">
 							{/* Categories Button */}
-							<button className="flex items-center gap-2 bg-orange-500 text-white px-6 py-2.5 rounded-md hover:bg-orange-600 transition-colors font-medium whitespace-nowrap">
+							<button className="flex items-center gap-2 bg-orange-500 text-white px-6 py-3.5   hover:bg-orange-600 transition-colors font-medium whitespace-nowrap">
 								<Menu className="w-5 h-5" />
 								<span>All Categories</span>
 								<ChevronDown className="w-4 h-4" />
@@ -193,7 +193,7 @@ export default function Header02() {
 							{/* Wishlist Icon */}
 							<button className="relative w-10 h-10 flex items-center justify-center text-gray-700 hover:text-orange-500 transition-colors">
 								<Heart className="w-5 h-5" />
-								<span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
+								<span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
 									2
 								</span>
 							</button>
@@ -201,7 +201,7 @@ export default function Header02() {
 							{/* Shopping Cart Icon */}
 							<button className="relative w-10 h-10 flex items-center justify-center text-gray-700 hover:text-orange-500 transition-colors">
 								<ShoppingCart className="w-5 h-5" />
-								<span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
+								<span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
 									1
 								</span>
 							</button>

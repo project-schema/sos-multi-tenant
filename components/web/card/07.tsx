@@ -27,7 +27,7 @@ export default function Card07({
 	// Generate star rating display
 	const renderStars = () => {
 		return Array.from({ length: 5 }).map((_, index) => (
-			<Star key={index} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+			<Star key={index} className="w-3 h-3 fill-orange-400 text-orange-400" />
 		));
 	};
 
@@ -54,10 +54,10 @@ export default function Card07({
 			</div>
 
 			{/* Lower Section - Text/Detail Area */}
-			<div className="p-5 space-y-3">
+			<div className="p-5 space-y-1">
 				{/* Title */}
-				<Link href={`/shop/view`}>
-					<h3 className="text-base font-semibold text-gray-900 line-clamp-2">
+				<Link className="inline-block" href={`/shop/view`}>
+					<h3 className="text-base font-medium text-[#27314B] line-clamp-2">
 						{title}
 					</h3>
 				</Link>
@@ -65,7 +65,7 @@ export default function Card07({
 				{/* Rating */}
 				<div className="flex items-center gap-2">
 					<div className="flex items-center gap-0.5">{renderStars()}</div>
-					<span className="text-sm text-gray-600">
+					<span className="text-xs text-gray-600">
 						{reviewCount.toLocaleString()} Reviews
 					</span>
 				</div>
@@ -73,17 +73,17 @@ export default function Card07({
 				{/* Pricing and Add to Cart */}
 				<div className="flex items-center justify-between pt-2">
 					{/* Pricing */}
-					<div className="flex items-center gap-2">
+					<div className="flex flex-col">
 						<span className="text-sm text-gray-500 line-through">
 							{originalPrice}
 						</span>
-						<span className="text-xl font-bold text-gray-900">
+						<span className="text-xl font-medium text-gray-900">
 							{currentPrice}
 						</span>
 					</div>
 
 					{/* Add to Cart Button */}
-					<button className="w-12 h-12 rounded-lg border-2 border-orange-500 bg-orange-50 hover:bg-orange-100 transition-colors duration-200 flex items-center justify-center group/btn">
+					<button className="w-8 h-8 rounded-sm border-1 border-orange-500 bg-orange-50 hover:bg-orange-100 transition-colors duration-200 flex items-center justify-center group/btn">
 						<ShoppingCart className="w-5 h-5 text-orange-500 group-hover/btn:scale-110 transition-transform duration-200" />
 					</button>
 				</div>
