@@ -1,85 +1,24 @@
-import {
-	Pagination,
-	PaginationContent,
-	PaginationEllipsis,
-	PaginationItem,
-	PaginationLink,
-	PaginationNext,
-	PaginationPrevious,
-} from '@/components/ui/pagination';
+import { Pagination1 } from '@/components/dashboard/pagination';
 import { Card07, Footer02 } from '@/components/web';
 import Header02 from '@/components/web/header/02';
+import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
+import { iPagination } from '@/types';
+import CommonShopSidebar from '../common/shop-sidebar';
 
-const dummyProducts = Array.from({ length: 12 }).map((_, idx) => ({
-	id: idx + 1,
-}));
-
-export default function ThemeTwoShopPage() {
+export default function ThemeTwoShopPage({
+	data,
+}: {
+	data: iPagination<iVendorProduct>;
+}) {
 	return (
 		<>
 			<Header02 />
 			<section className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 					{/* Sidebar Filters */}
-					<aside className="lg:col-span-2 space-y-6">
-						<div className="border rounded-md p-4">
-							<h3 className="font-semibold mb-3">Category</h3>
-							<ul className="space-y-2 text-sm">
-								<li className="flex items-center justify-between">
-									<span>Men’s Fashion</span>
-									<span className="text-gray-500">110</span>
-								</li>
-								<li className="flex items-center justify-between">
-									<span>Women Fashion</span>
-									<span className="text-gray-500">125</span>
-								</li>
-							</ul>
-						</div>
-
-						<div className="border rounded-md p-4">
-							<h3 className="font-semibold mb-3">Price</h3>
-							<div className="grid grid-cols-2 gap-3">
-								<input
-									className="border rounded p-2 text-sm"
-									placeholder="From"
-								/>
-								<input
-									className="border rounded p-2 text-sm"
-									placeholder="To"
-								/>
-							</div>
-						</div>
-
-						<div className="border rounded-md p-4">
-							<h3 className="font-semibold mb-3">Size</h3>
-							<div className="flex flex-wrap gap-2">
-								{['S', 'M', 'L', 'XL'].map((s) => (
-									<button
-										key={s}
-										className="px-3 py-1 border rounded text-sm hover:bg-gray-50"
-									>
-										{s}
-									</button>
-								))}
-							</div>
-						</div>
-
-						<div className="border rounded-md p-4">
-							<h3 className="font-semibold mb-3">Color</h3>
-							<div className="flex items-center gap-3">
-								{['#111827', '#DC2626', '#2563EB', '#10B981', '#F59E0B'].map(
-									(c) => (
-										<button
-											key={c}
-											className="w-6 h-6 rounded-full border"
-											style={{ background: c }}
-											aria-label={c}
-										/>
-									)
-								)}
-							</div>
-						</div>
-					</aside>
+					<div className="lg:col-span-2">
+						<CommonShopSidebar />
+					</div>
 
 					{/* Products Grid */}
 					<div className="lg:col-span-10">
@@ -92,36 +31,14 @@ export default function ThemeTwoShopPage() {
 						</div>
 
 						<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
-							{dummyProducts.map((p) => (
-								<Card07 key={p.id} />
+							{data?.data?.map((p) => (
+								<Card07 key={p.id} product={p} />
 							))}
 						</div>
 
 						{/* Pagination */}
-						<div className="mt-8 flex items-center justify-between">
-							<div className="text-sm text-gray-500 whitespace-nowrap">
-								Showing 1–12 of 129 results
-							</div>
-							<Pagination className="justify-end">
-								<PaginationContent>
-									<PaginationItem>
-										<PaginationPrevious href="#" />
-									</PaginationItem>
-									{[1, 2, 3, 4, 5, 6].map((n) => (
-										<PaginationItem key={n}>
-											<PaginationLink href="#" isActive={n === 2}>
-												{n}
-											</PaginationLink>
-										</PaginationItem>
-									))}
-									<PaginationItem>
-										<PaginationEllipsis />
-									</PaginationItem>
-									<PaginationItem>
-										<PaginationNext href="#" />
-									</PaginationItem>
-								</PaginationContent>
-							</Pagination>
+						<div className="mt-8  ">
+							<Pagination1 pagination={data} />
 						</div>
 					</div>
 				</div>

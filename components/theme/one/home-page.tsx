@@ -14,7 +14,6 @@ export default function ThemeOneHomePage() {
 	return (
 		<>
 			<Header01 />
-
 			<Banner02 />
 
 			<div>
@@ -29,7 +28,7 @@ export default function ThemeOneHomePage() {
 			<div className="flex items-center justify-between max-w-[1320px] px-4 mx-auto py-10">
 				<h2 className="text-[40px] font-bold">PANJABI</h2>
 				<Link href="/shop">
-					<Button>View All</Button>
+					<Button variant="dark">View All</Button>
 				</Link>
 			</div>
 			<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-[1320px] px-4 mx-auto">
@@ -50,7 +49,7 @@ export default function ThemeOneHomePage() {
 			<div className="flex items-center justify-between max-w-[1320px] px-4 mx-auto py-10">
 				<h2 className="text-[40px] font-bold">Mens Fashion</h2>
 				<Link href="/shop">
-					<Button>View All</Button>
+					<Button variant="dark">View All</Button>
 				</Link>
 			</div>
 			<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-[1320px] px-4 mx-auto">

@@ -87,12 +87,14 @@ export default function Card01({
 			{/* Image Container */}
 			<div className="relative aspect-[4/5] overflow-hidden bg-gray-100">
 				{/* Product Image */}
-				<img
-					src={product.image}
-					alt={product.title}
-					className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-					loading="lazy"
-				/>
+				<Link href={`/shop/${product.id}`}>
+					<img
+						src={product.image}
+						alt={product.title}
+						className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+						loading="lazy"
+					/>
+				</Link>
 
 				{/* Badges */}
 				<div className="absolute top-3 left-3 flex flex-col gap-2">
@@ -188,10 +190,13 @@ export default function Card01({
 				</div>
 
 				{/* Add to Cart Button */}
-				<button className="w-full bg-black text-white py-2 px-4 rounded-md font-medium hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center space-x-2 group/btn">
+				<Link
+					href={`/shop/cart`}
+					className="w-full bg-black text-white py-2 px-4 rounded-md font-medium  transition-colors duration-200 flex items-center justify-center space-x-2 group/btn"
+				>
 					<ShoppingCart className="w-4 h-4 group-hover/btn:scale-110 transition-transform duration-200" />
 					<span className="hidden md:block">Order Now</span>
-				</button>
+				</Link>
 			</div>
 		</div>
 	);

@@ -37,6 +37,52 @@ export async function getApiData<T = any>(url: string): Promise<T | null> {
 			stack: error?.stack,
 		};
 
+		console.error('API Error:', structuredError);
+
+		return null;
+	}
+}
+
+export async function getApiDataWithSubdomain<T = any>(
+	url: string,
+	subdomain: string
+): Promise<T | null> {
+	try {
+		const base = new URL(env.baseAPI); // http://127.0.0.1:8000
+
+		// Replace host with subdomain.localhost
+		base.hostname = `${subdomain}.localhost`;
+
+		console.log(`${base.origin}/api${url}`);
+
+		const res = await fetch(
+			`http://borax.localhost:8000/api/tenant-frontend/products`,
+			{
+				cache: 'no-store',
+				headers: {
+					'Content-Type': 'application/json',
+					Host: `${subdomain}.localhost:8000`,
+					'X-Tenant-Subdomain': subdomain,
+				},
+			}
+		);
+
+		if (!res.ok) {
+			throw {
+				message: `API Error ${res.status}: ${res.statusText}`,
+				status: res.status,
+				url,
+			};
+		}
+
+		return await res.json();
+	} catch (error: any) {
+		console.error('API Error:', {
+			message: error?.message || 'Unexpected API Error',
+			status: error?.status,
+			url,
+			stack: error?.stack,
+		});
 		return null;
 	}
 }

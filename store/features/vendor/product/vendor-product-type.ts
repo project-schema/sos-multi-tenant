@@ -71,6 +71,7 @@ export type iVendorProduct = {
 	selling_price: string;
 	qty: string;
 	status: string;
+	slug: string;
 	created_at: string;
 	discount_type: string;
 	discount_rate: string;

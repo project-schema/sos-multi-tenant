@@ -1,14 +1,17 @@
-// import ThemeOneAccountPage from '@/components/theme/one/account-page';
-
+import ThemeOneAccountPage from '@/components/theme/one/account-page';
 import ThemeThreeAccountPage from '@/components/theme/three/account-page';
+import ThemeTwoAccountPage from '@/components/theme/two/account-page';
+import { env } from '@/lib';
 
-// import ThemeTwoAccountPage from '@/components/theme/two/account-page';
 export default function DashboardPage() {
-	return (
-		<>
-			{/* <ThemeOneAccountPage /> */}
-			{/* <ThemeTwoAccountPage /> */}
-			<ThemeThreeAccountPage />
-		</>
-	);
+	switch (env.theme) {
+		case 'one':
+			return <ThemeOneAccountPage />;
+		case 'two':
+			return <ThemeTwoAccountPage />;
+		case 'three':
+			return <ThemeThreeAccountPage />;
+		default:
+			return <ThemeOneAccountPage />;
+	}
 }
