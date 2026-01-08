@@ -5,16 +5,29 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import Footer01 from '@/components/web/footer/01';
 import Header01 from '@/components/web/header/01';
-import { TenantUserLogin } from '@/store/features/auth';
-import { useState } from 'react';
+import { TenantAndUserLogin } from '@/store/features/auth/tenants-and-user-login';
+import { TenantUserRegistration } from '@/store/features/auth/tenants-user-registration';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function ThemeOneAuthPage() {
 	const [mode, setMode] = useState<'login' | 'register'>('login');
+	const searchParams = useSearchParams();
+	const tab = searchParams.get('tab');
+
+	useEffect(() => {
+		if (tab) {
+			setMode(tab as 'login' | 'register');
+		} else {
+			setMode('login');
+		}
+	}, [tab]);
 
 	return (
 		<>
 			<Header01 />
-			<TenantUserLogin />;
+			{/* <TenantUserLogin />; */}
 			<section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 				<h1 className="text-3xl font-bold mb-6 capitalize">{mode}</h1>
 				<div className="border rounded-xl p-6 md:p-8 bg-white">
@@ -23,7 +36,7 @@ export default function ThemeOneAuthPage() {
 					</h2>
 
 					{/* Google */}
-					<button className="w-full border rounded-md h-11 flex items-center justify-center gap-2 bg-gray-50">
+					{/* <button className="w-full border rounded-md h-11 flex items-center justify-center gap-2 bg-gray-50">
 						<GoogleIcon />
 						<span>Google</span>
 					</button>
@@ -31,30 +44,34 @@ export default function ThemeOneAuthPage() {
 						<div className="h-px bg-gray-200 flex-1" />
 						<span className="text-sm text-gray-500">or</span>
 						<div className="h-px bg-gray-200 flex-1" />
-					</div>
+					</div> */}
 
-					{mode === 'login' ? <LoginForm /> : <RegisterForm />}
+					{mode === 'login' ? (
+						<TenantAndUserLogin />
+					) : (
+						<TenantUserRegistration />
+					)}
 
 					<div className="mt-6 text-sm text-gray-600">
 						{mode === 'login' ? (
 							<p>
 								Don't have an account?{' '}
-								<button
+								<Link
+									href="/auth?tab=register"
 									className="text-black font-semibold"
-									onClick={() => setMode('register')}
 								>
 									Register Now
-								</button>
+								</Link>
 							</p>
 						) : (
 							<p>
 								Already Have an Account?{' '}
-								<button
+								<Link
 									className="text-black font-semibold"
-									onClick={() => setMode('login')}
+									href="/auth?tab=login"
 								>
 									Login
-								</button>
+								</Link>
 							</p>
 						)}
 					</div>

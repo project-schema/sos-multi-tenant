@@ -64,12 +64,17 @@ export default function Card07({
 				<div className="flex items-center justify-between pt-2">
 					{/* Pricing */}
 					<div className="flex flex-col">
-						<span className="text-sm text-gray-500 line-through">
-							{product?.original_price}
-						</span>
-						<span className="text-xl font-medium text-gray-900">
-							{product?.selling_price}
-						</span>
+						{product?.selling_price && (
+							<span className="text-sm text-gray-500 line-through">
+								{product?.selling_price}
+							</span>
+						)}
+
+						{product?.discount_price && (
+							<span className="text-xl font-medium text-gray-900">
+								{product?.discount_price}
+							</span>
+						)}
 					</div>
 
 					{/* Add to Cart Button */}

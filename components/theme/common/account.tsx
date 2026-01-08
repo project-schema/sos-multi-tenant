@@ -4,10 +4,18 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Package } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function CommonAccount() {
 	const [view, setView] = useState<'home' | 'profile' | 'orders'>('home');
+	const searchParams = useSearchParams();
+	useEffect(() => {
+		const view = searchParams.get('view');
+		if (view) {
+			setView(view as 'home' | 'profile' | 'orders');
+		}
+	}, [searchParams]);
 
 	return (
 		<section>

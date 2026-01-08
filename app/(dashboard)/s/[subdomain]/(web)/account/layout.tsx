@@ -1,7 +1,9 @@
-export default function DashboardLayout({
+import { AccountProvider } from '@/provider';
+
+export default function AccountLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
-	return children;
+	return <AccountProvider>{children}</AccountProvider>;
 }

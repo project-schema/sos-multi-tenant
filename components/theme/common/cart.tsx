@@ -2,57 +2,148 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Minus, Plus, X } from 'lucide-react';
-import Image from 'next/image';
+import { Skeleton } from '@/components/ui/skeleton';
+import { imageFormat } from '@/lib';
+import {
+	useDeleteFromCartMutation,
+	useGetCartQuery,
+} from '@/store/features/frontend/cart';
+import { Loader2, Minus, Plus, ShoppingCart, X } from 'lucide-react';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-
-type CartItem = {
-	id: number;
-	title: string;
-	price: number;
-	compareAt?: number;
-	image: string;
-	qty: number;
-};
-
-const initialItems: CartItem[] = [1, 2, 3].map((i) => ({
-	id: i,
-	title: 'Premium 100% Cotton Panjabi – Navy Blue',
-	price: 1242,
-	compareAt: 1775,
-	image:
-		'https://images.unsplash.com/photo-1542060748-10c28b62716f?q=80&w=800&auto=format&fit=crop',
-	qty: 5,
-}));
+import { toast } from 'sonner';
 
 export default function CommonCart() {
-	const [items, setItems] = useState<CartItem[]>(initialItems);
+	const { data, isLoading, isError } = useGetCartQuery();
+	const [deleteFromCart, { isLoading: isDeleting }] =
+		useDeleteFromCartMutation();
+	const [deletingId, setDeletingId] = useState<number | null>(null);
+
 	const [coupon, setCoupon] = useState('');
-	const [shipping, setShipping] = useState(80);
-	const [discount, setDiscount] = useState(50);
+	const [shipping] = useState(80);
+	const [discount] = useState(0);
+
+	const items = data?.cart || [];
 
 	const subtotal = useMemo(
-		() => items.reduce((sum, it) => sum + it.price * it.qty, 0),
+		() =>
+			items.reduce((sum, item) => sum + Number(item.totalproductprice || 0), 0),
 		[items]
 	);
+
 	const total = subtotal - discount + shipping;
 
-	const updateQty = (id: number, delta: number) => {
-		setItems((prev) =>
-			prev.map((it) =>
-				it.id === id ? { ...it, qty: Math.max(1, it.qty + delta) } : it
-			)
-		);
+	const handleRemoveItem = async (id: number) => {
+		setDeletingId(id);
+		try {
+			const result = await deleteFromCart({ id }).unwrap();
+			if (result.success) {
+				toast.success(result.message || 'Item removed from cart');
+			}
+		} catch (error: any) {
+			toast.error(error?.data?.message || 'Failed to remove item');
+		} finally {
+			setDeletingId(null);
+		}
 	};
 
-	const removeItem = (id: number) => {
-		setItems((prev) => prev.filter((it) => it.id !== id));
-	};
+	// Loading state
+	if (isLoading) {
+		return (
+			<section className="max-w-[1420px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+				<h1 className="text-3xl font-bold mb-6">Shopping Cart</h1>
+				<div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+					<div className="lg:col-span-8">
+						<div className="hidden md:grid grid-cols-12 text-xs font-semibold text-gray-500 px-4 py-3 border-b">
+							<div className="col-span-6">Product</div>
+							<div className="col-span-2 text-center">Price</div>
+							<div className="col-span-2 text-center">Quantity</div>
+							<div className="col-span-2 text-right">Subtotal</div>
+						</div>
+						<div className="divide-y">
+							{[1, 2, 3].map((i) => (
+								<div
+									key={i}
+									className="grid grid-cols-12 items-center gap-4 p-4"
+								>
+									<div className="col-span-12 md:col-span-6 flex items-center gap-4">
+										<Skeleton className="w-5 h-5" />
+										<Skeleton className="w-20 h-20 rounded" />
+										<div className="space-y-2">
+											<Skeleton className="h-4 w-48" />
+											<Skeleton className="h-3 w-20" />
+										</div>
+									</div>
+									<div className="col-span-6 md:col-span-2">
+										<Skeleton className="h-5 w-16 mx-auto" />
+									</div>
+									<div className="col-span-6 md:col-span-2">
+										<Skeleton className="h-10 w-24 mx-auto" />
+									</div>
+									<div className="col-span-12 md:col-span-2">
+										<Skeleton className="h-5 w-20 ml-auto" />
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+					<aside className="lg:col-span-4">
+						<div className="border rounded-md p-5">
+							<Skeleton className="h-6 w-32 mb-4" />
+							<div className="space-y-3">
+								<Skeleton className="h-4 w-full" />
+								<Skeleton className="h-4 w-full" />
+								<Skeleton className="h-4 w-full" />
+								<Skeleton className="h-11 w-full mt-4" />
+							</div>
+						</div>
+					</aside>
+				</div>
+			</section>
+		);
+	}
+
+	// Error state
+	if (isError) {
+		return (
+			<section className="max-w-[1420px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+				<h1 className="text-3xl font-bold mb-6">Shopping Cart</h1>
+				<div className="rounded-md border p-8 text-center">
+					<p className="text-red-500 mb-4">
+						Failed to load cart. Please try again.
+					</p>
+					<Button onClick={() => window.location.reload()}>Retry</Button>
+				</div>
+			</section>
+		);
+	}
+
+	// Empty state
+	if (items.length === 0) {
+		return (
+			<section className="max-w-[1420px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+				<h1 className="text-3xl font-bold mb-6">Shopping Cart</h1>
+				<div className="rounded-md border p-12 text-center">
+					<ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+					<h2 className="text-xl font-semibold text-gray-700 mb-2">
+						Your cart is empty
+					</h2>
+					<p className="text-gray-500 mb-6">
+						Looks like you haven&apos;t added any items to your cart yet
+					</p>
+					<Link href="/shop">
+						<Button className="bg-black text-white">Continue Shopping</Button>
+					</Link>
+				</div>
+			</section>
+		);
+	}
 
 	return (
 		<section className="max-w-[1420px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
-			<h1 className="text-3xl font-bold mb-6">Shopping Cart</h1>
+			<h1 className="text-3xl font-bold mb-6">
+				Shopping Cart ({items.length} {items.length === 1 ? 'item' : 'items'})
+			</h1>
 
 			<div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 				{/* Cart Table */}
@@ -65,66 +156,87 @@ export default function CommonCart() {
 					</div>
 
 					<div className="divide-y">
-						{items.map((it) => (
-							<div
-								key={it.id}
-								className="grid grid-cols-12 items-center gap-4 p-4"
-							>
-								{/* product */}
-								<div className="col-span-12 md:col-span-6 flex items-center gap-4">
-									<button
-										onClick={() => removeItem(it.id)}
-										className="text-gray-400 hover:text-black"
-									>
-										<X className="w-5 h-5" />
-									</button>
-									<div className="relative w-20 h-20 rounded overflow-hidden flex-shrink-0">
-										<Image
-											src={it.image}
-											alt={it.title}
-											fill
-											className="object-cover"
-										/>
-									</div>
-									<div>
-										<p className="text-sm font-medium">{it.title}</p>
-										<div className="text-xs text-gray-400 line-through">
-											{it.compareAt?.toLocaleString()}৳
+						{items.map((item) => {
+							const product = item.product;
+							const isItemDeleting = deletingId === item.id;
+
+							return (
+								<div
+									key={item.id}
+									className="grid grid-cols-12 items-center gap-4 p-4"
+								>
+									{/* product */}
+									<div className="col-span-12 md:col-span-6 flex items-center gap-4">
+										<button
+											onClick={() => handleRemoveItem(item.id)}
+											disabled={isDeleting}
+											className="text-gray-400 hover:text-red-500 transition-colors disabled:opacity-50"
+										>
+											{isItemDeleting ? (
+												<Loader2 className="w-5 h-5 animate-spin" />
+											) : (
+												<X className="w-5 h-5" />
+											)}
+										</button>
+										<Link
+											href={`/shop/product/${product?.slug || ''}`}
+											className="relative w-20 h-20 rounded overflow-hidden flex-shrink-0"
+										>
+											<img
+												src={imageFormat(product?.image)}
+												alt={product?.name || 'Product'}
+												className="object-cover"
+											/>
+										</Link>
+										<div>
+											<Link
+												href={`/shop/product/${product?.slug || ''}`}
+												className="text-sm font-medium hover:text-orange-500 transition-colors"
+											>
+												{product?.name || 'Product'}
+											</Link>
+											{product?.discount_price &&
+												Number(product.discount_price) <
+													Number(product.selling_price) && (
+													<div className="text-xs text-gray-400 line-through">
+														{Number(product.selling_price).toLocaleString()}৳
+													</div>
+												)}
+											<div className="text-xs text-gray-500 mt-1">
+												Type: {item.purchase_type}
+											</div>
 										</div>
 									</div>
-								</div>
 
-								{/* price */}
-								<div className="col-span-6 md:col-span-2 text-center md:text-center">
-									<span className="font-semibold">
-										{it.price.toLocaleString()}৳
-									</span>
-								</div>
-
-								{/* quantity */}
-								<div className="col-span-6 md:col-span-2 flex justify-center">
-									<div className="inline-flex items-center border rounded">
-										<button
-											className="p-2"
-											onClick={() => updateQty(it.id, -1)}
-										>
-											<Minus className="w-4 h-4" />
-										</button>
-										<span className="w-10 text-center select-none">
-											{it.qty.toString().padStart(2, '0')}
+									{/* price */}
+									<div className="col-span-6 md:col-span-2 text-center md:text-center">
+										<span className="font-semibold">
+											{Number(item.product_price).toLocaleString()}৳
 										</span>
-										<button className="p-2" onClick={() => updateQty(it.id, 1)}>
-											<Plus className="w-4 h-4" />
-										</button>
+									</div>
+
+									{/* quantity */}
+									<div className="col-span-6 md:col-span-2 flex justify-center">
+										<div className="inline-flex items-center border rounded">
+											<button className="p-2 opacity-50 cursor-not-allowed">
+												<Minus className="w-4 h-4" />
+											</button>
+											<span className="w-10 text-center select-none">
+												{String(item.product_qty).padStart(2, '0')}
+											</span>
+											<button className="p-2 opacity-50 cursor-not-allowed">
+												<Plus className="w-4 h-4" />
+											</button>
+										</div>
+									</div>
+
+									{/* subtotal */}
+									<div className="col-span-12 md:col-span-2 text-right font-semibold">
+										{Number(item.totalproductprice).toLocaleString()}৳
 									</div>
 								</div>
-
-								{/* subtotal */}
-								<div className="col-span-12 md:col-span-2 text-right font-semibold">
-									{(it.price * it.qty).toLocaleString()}৳
-								</div>
-							</div>
-						))}
+							);
+						})}
 					</div>
 
 					{/* Coupon */}
@@ -132,9 +244,13 @@ export default function CommonCart() {
 						<Input
 							placeholder="Coupon Code"
 							value={coupon}
-							onChange={(e) => setCoupon(e.target.value)}
+							onChange={(e) => setCoupon(e.target.value.toUpperCase())}
 						/>
-						<Button size="lg" className="bg-black text-white w-full sm:w-auto">
+						<Button
+							size="lg"
+							className="bg-black text-white w-full sm:w-auto"
+							onClick={() => toast.info('Coupon functionality coming soon!')}
+						>
 							Apply Coupon
 						</Button>
 					</div>
@@ -151,10 +267,14 @@ export default function CommonCart() {
 									{subtotal.toLocaleString()}৳
 								</span>
 							</div>
-							<div className="flex items-center justify-between">
-								<span className="text-gray-600">Discount</span>
-								<span className="font-semibold">{discount}৳</span>
-							</div>
+							{discount > 0 && (
+								<div className="flex items-center justify-between">
+									<span className="text-gray-600">Discount</span>
+									<span className="font-semibold text-green-600">
+										-{discount}৳
+									</span>
+								</div>
+							)}
 							<div className="flex items-start justify-between">
 								<span className="text-gray-600">Shipping</span>
 								<div className="text-right">

@@ -1,4 +1,6 @@
 import { DefaultSession } from 'next-auth';
+import 'next-auth/jwt';
+import { TenantType } from './auth-type';
 
 declare module 'next-auth' {
 	/**
@@ -8,18 +10,17 @@ declare module 'next-auth' {
 		expires: Date;
 		accessToken: string;
 		tenant_id: string;
-		tenant_type: 'admin' | 'merchant' | 'dropshipper' | 'user';
+		tenant_type: TenantType;
 		user: {
 			id: number;
 			name: string;
 			email: string;
 			last_seen: string;
-			tenant_type: 'admin' | 'merchant' | 'dropshipper' | 'user';
+			tenant_type: TenantType;
+			roleType: 'tenant_user' | 'admin';
 		} & DefaultSession['user'];
 	}
 }
-
-import 'next-auth/jwt';
 
 declare module 'next-auth/jwt' {
 	/** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
@@ -27,13 +28,13 @@ declare module 'next-auth/jwt' {
 		accessToken?: string;
 		refreshToken?: string;
 		tenant_id?: string;
-		tenant_type?: 'admin' | 'merchant' | 'dropshipper' | 'user';
+		tenant_type?: TenantType;
 		user?: {
 			id: number;
 			name: string;
 			email: string;
 			last_seen: string;
-			tenant_type: 'admin' | 'merchant' | 'dropshipper' | 'user';
+			tenant_type: TenantType;
 		};
 		iat?: number;
 		exp?: number;

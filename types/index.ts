@@ -1,3 +1,4 @@
+export * from './auth-type';
 export * from './companions.type';
 export * from './contact-page-data.type';
 export * from './faqs.type';

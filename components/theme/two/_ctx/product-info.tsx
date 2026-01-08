@@ -2,14 +2,13 @@ import { sign } from '@/lib';
 import { iVendorProductView } from '@/store/features/vendor/product/vendor-product-type';
 import {
 	Facebook,
-	Heart,
 	Instagram,
 	MessageCirclePlus,
-	ShoppingCart,
 	Star,
 	Twitter,
 } from 'lucide-react';
 import Link from 'next/link';
+import { CartAction } from './cart-action';
 export function ProductInfo({ product }: { product: iVendorProductView }) {
 	return (
 		<>
@@ -55,49 +54,8 @@ export function ProductInfo({ product }: { product: iVendorProductView }) {
 				</div>
 			</div>
 
-			{/* Color */}
-			<div>
-				<h4 className="text-sm font-semibold	">Select Color:</h4>
-				<div className="flex items-center gap-2">
-					{product?.product_variant?.map((c) => (
-						<button key={c.id} className="w-7 h-7 rounded border">
-							{c.color?.name}
-						</button>
-					))}
-				</div>
-			</div>
-			{/* Size */}
-			<div>
-				<h4 className="text-sm font-semibold mb-2">Select Size:</h4>
-				<div className="flex items-center gap-2">
-					{product?.product_variant?.map((s) => (
-						<button key={s.id} className="px-3 py-1 border rounded text-sm">
-							{s.size?.name}
-						</button>
-					))}
-				</div>
-			</div>
-			{/* Quantity & Actions */}
-			<div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 border-b border-gray-200 pb-4">
-				<div className="flex items-center border rounded">
-					<button className="px-3 py-2">-</button>
-					<input
-						className="w-12 text-center py-2 outline-none"
-						defaultValue={1}
-					/>
-					<button className="px-3 py-2">+</button>
-				</div>
-				<button className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-black text-white px-5 py-3 rounded-md">
-					<ShoppingCart className="w-4 h-4" />
-					Add To Cart
-				</button>
-				<button className="inline-flex items-center justify-center gap-2 border px-5 py-3 rounded-md">
-					Buy Now
-				</button>
-				<button className="inline-flex items-center justify-center gap-2 border px-4 py-3 rounded-md">
-					<Heart className="w-4 h-4" />
-				</button>
-			</div>
+			{/* Color & Size & Quantity & Actions */}
+			<CartAction product={product} />
 
 			<div className="space-y-2">
 				<h4 className="text-sm font-semibold">Have any question? Call Now.</h4>

@@ -134,5 +134,8 @@ export const apiSlice = createApi({
 
 		'UserSupport',
 		'Advertise',
+
+		'Wishlist',
+		'Cart',
 	],
 });

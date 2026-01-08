@@ -88,6 +88,7 @@ export type iVendorProductView = {
 	subcategory_id: number;
 	brand_id: number;
 	user_id: number;
+	unit_id: number;
 	slug: string;
 	name: string;
 	short_description: string;
@@ -187,7 +188,10 @@ export type iVendorProductView = {
 			sku: string;
 			selling_price: string;
 		};
-		color: null;
+		color: {
+			id: number;
+			name: string;
+		};
 		size: {
 			id: number;
 			name: string;

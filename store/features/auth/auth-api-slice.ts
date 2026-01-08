@@ -8,8 +8,8 @@ import {
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
-		// register tenant
-		tenantRegister: builder.mutation<iTenantRegisterResponse, any>({
+		// register tenant and user
+		TenantRegister: builder.mutation<iTenantRegisterResponse, any>({
 			query: (data) => {
 				const isUser = data.type === 'user';
 
@@ -33,7 +33,7 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		// auth/register
-		authRegister: builder.mutation<iAuthRegisterResponse, iAuthRegister>({
+		AuthRegister: builder.mutation<iAuthRegisterResponse, iAuthRegister>({
 			query: (data) => ({
 				url: `/auth/register`,
 				method: 'POST',
@@ -42,7 +42,7 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		// auth/login
-		authLogin: builder.mutation<iAuthLoginResponse, any>({
+		AuthLogin: builder.mutation<iAuthLoginResponse, any>({
 			query: (data) => ({
 				url: `/auth/login`,
 				method: 'POST',

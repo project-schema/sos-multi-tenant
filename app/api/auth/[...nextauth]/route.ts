@@ -1,3 +1,4 @@
+import { TenantType } from '@/types';
 import NextAuth, { User as NextAuthUser } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -15,11 +16,11 @@ type TokenResponse = {
 	user: UserType;
 	token: string;
 	tenant_id: string;
-	tenant_type: 'admin' | 'merchant' | 'dropshipper' | 'user';
+	tenant_type: TenantType;
 };
 
 type TokenUser = UserType & {
-	tenant_type: 'admin' | 'merchant' | 'dropshipper' | 'user';
+	tenant_type: TenantType;
 };
 
 // Define the extended user type
@@ -28,7 +29,7 @@ interface CustomUser extends NextAuthUser {
 	refreshToken?: string;
 	user: UserType;
 	tenant_id: string;
-	tenant_type: 'admin' | 'merchant' | 'dropshipper' | 'user';
+	tenant_type: TenantType;
 }
 
 const handler = NextAuth({
@@ -110,11 +111,7 @@ const handler = NextAuth({
 					...(session.user as UserType),
 					tenant_type:
 						(token.user as TokenUser | undefined)?.tenant_type ??
-						(token.tenant_type as
-							| 'admin'
-							| 'merchant'
-							| 'dropshipper'
-							| 'user'),
+						(token.tenant_type as TenantType),
 				};
 
 				return {
@@ -150,11 +147,7 @@ const handler = NextAuth({
 				...token.user,
 			} as any;
 			session.tenant_id = token.tenant_id as string;
-			session.tenant_type = token.tenant_type as
-				| 'admin'
-				| 'merchant'
-				| 'dropshipper'
-				| 'user';
+			session.tenant_type = token.tenant_type as TenantType;
 
 			return session;
 		},

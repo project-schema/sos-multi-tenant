@@ -189,7 +189,16 @@ const settings: sidebarItem[] = [
 		title: 'Coupons',
 		icon: Percent,
 		isActive: false,
-		url: '/dashboard/coupon',
+		items: [
+			{
+				title: 'Generate Coupons',
+				url: '/dashboard/coupon/generate',
+			},
+			{
+				title: 'Request Coupons',
+				url: '/dashboard/coupon',
+			},
+		],
 	},
 	{
 		title: 'Membership',
