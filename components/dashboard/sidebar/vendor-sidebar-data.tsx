@@ -4,6 +4,7 @@ import {
 	BarChart3,
 	Crown,
 	DraftingCompass,
+	FileText,
 	Headset,
 	LandPlot,
 	Megaphone,
@@ -20,7 +21,6 @@ import {
 	Users,
 	Wallet,
 } from 'lucide-react';
-
 import { sidebarItem } from './sidebar.type';
 
 const products: sidebarItem[] = [
@@ -179,6 +179,24 @@ const pos: sidebarItem[] = [
 			{
 				title: 'All Wastage',
 				url: '/dashboard/wastage-products',
+			},
+		],
+	},
+];
+
+const cms: sidebarItem[] = [
+	{
+		title: 'CMS',
+		icon: FileText,
+		isActive: false,
+		items: [
+			{
+				title: 'System',
+				url: '/dashboard/cms/system',
+			},
+			{
+				title: 'Home Page',
+				url: '/dashboard/cms/home-page',
 			},
 		],
 	},
@@ -407,4 +425,5 @@ export const vendorSidebarData = {
 	reports,
 	servicesAndAdvertise,
 	support,
+	cms,
 };

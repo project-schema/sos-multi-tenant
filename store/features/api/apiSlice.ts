@@ -137,5 +137,7 @@ export const apiSlice = createApi({
 
 		'Wishlist',
 		'Cart',
+
+		'TenantBanner',
 	],
 });

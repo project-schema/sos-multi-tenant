@@ -31,7 +31,7 @@ export function AppSidebarForVendor({
 		searchQuery
 	);
 	const filteredSupport = filterItems(vendorSidebarData.support, searchQuery);
-
+	const filteredCms = filterItems(vendorSidebarData.cms, searchQuery);
 	return (
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader className="mb-4 relative">
@@ -68,6 +68,7 @@ export function AppSidebarForVendor({
 				<NavMain items={filteredServices} groupLabel="Services & Advertise" />
 				<NavMain items={filteredSupport} groupLabel="Support" />
 				<NavMain items={filteredReports} groupLabel="Reports" />
+				<NavMain items={filteredCms} groupLabel="CMS" />
 				<NavMain items={filteredSettings} groupLabel="Settings" />
 			</SidebarContent>
 		</Sidebar>
