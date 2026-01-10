@@ -77,7 +77,7 @@ export function ServiceUpdate({ editData }: { editData: iService }) {
 						...data,
 						id: editData.id,
 					}).unwrap();
-					if (response.status === 200) {
+					if (response.status === 'success') {
 						toast.success(response.message || 'Service updated successfully');
 						setOpen(false);
 					} else {
@@ -121,7 +121,7 @@ export function ServiceUpdate({ editData }: { editData: iService }) {
 				</Button>
 			</DialogTrigger>
 
-			<DialogContent className="sm:max-w-[600px]">
+			<DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
 				<DialogHeader>
 					<DialogTitle>Update Service</DialogTitle>
 					<DialogDescription>Edit the service details.</DialogDescription>

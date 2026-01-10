@@ -12,8 +12,9 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
+import { ImageUpload } from '@/components/ui/image-upload';
 import { Input } from '@/components/ui/input';
-import { alertConfirm, ErrorAlert } from '@/lib';
+import { alertConfirm, ErrorAlert, imageFormat } from '@/lib';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle } from 'lucide-react';
 import { useEffect } from 'react';
@@ -27,6 +28,10 @@ const schema = z.object({
 	app_name: z.string().min(1, 'App Name is required'),
 	home_page_title: z.string().min(1, 'Home Page Title is required'),
 	color_primary: z.string().min(1, 'Color Primary is required'),
+	logo: z
+		.instanceof(File)
+		.refine((file) => file.size > 0, { message: 'Image is required' })
+		.optional(),
 });
 
 type ZodType = z.infer<typeof schema>;
@@ -41,6 +46,7 @@ export function BasicInfo() {
 			app_name: data?.data?.app_name || '',
 			home_page_title: data?.data?.home_page_title || '',
 			color_primary: data?.data?.color_primary || '',
+			logo: undefined,
 		},
 	});
 
@@ -51,6 +57,7 @@ export function BasicInfo() {
 				app_name: data?.data?.app_name || '',
 				home_page_title: data?.data?.home_page_title || '',
 				color_primary: data?.data?.color_primary || '',
+				logo: undefined,
 			});
 		}
 	}, [data, form]);
@@ -112,6 +119,25 @@ export function BasicInfo() {
 			<CardContent>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+						{/* logo */}
+						<FormField
+							control={form.control}
+							name="logo"
+							render={({ field }) => (
+								<FormItem>
+									<FormControl>
+										<ImageUpload
+											label="Logo"
+											value={field.value as File}
+											onChange={field.onChange}
+											defaultImage={imageFormat(data?.data?.logo ?? null)}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
 						{/* app_name */}
 						<FormField
 							control={form.control}

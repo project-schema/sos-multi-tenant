@@ -13,7 +13,7 @@ export default function Page() {
 	const tab = searchParams.get('tab') || 'home';
 
 	switch (tab) {
-		case 'home-banner':
+		case 'home-slider':
 			return <HomeBanner />;
 
 		case 'home-service':

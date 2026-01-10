@@ -3,6 +3,7 @@
 import {
 	Crown,
 	DraftingCompass,
+	FileText,
 	Headset,
 	Megaphone,
 	Package,
@@ -156,9 +157,28 @@ const support: sidebarItem[] = [
 	// },
 ];
 
+const cms: sidebarItem[] = [
+	{
+		title: 'CMS',
+		icon: FileText,
+		isActive: false,
+		items: [
+			{
+				title: 'System',
+				url: '/dashboard/cms/system',
+			},
+			{
+				title: 'Home Page',
+				url: '/dashboard/cms/home-page',
+			},
+		],
+	},
+];
+
 export const affiliateSidebarData = {
 	products,
 	settings,
 	servicesAndAdvertise,
 	support,
+	cms,
 };

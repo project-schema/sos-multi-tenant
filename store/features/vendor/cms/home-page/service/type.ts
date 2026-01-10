@@ -1,5 +1,3 @@
-import { iPagination } from '@/types';
-
 export type iService = {
 	id: number;
 	title: string;
@@ -12,10 +10,7 @@ export type iService = {
 	deleted_at: string | null;
 };
 
-export type iServiceResponse = {
-	status: number;
-	services: iPagination<iService>;
-};
+export type iServiceResponse = iService[];
 
 export type iServiceSingleResponse = {
 	status: number;

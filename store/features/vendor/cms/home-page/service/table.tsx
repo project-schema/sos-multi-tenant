@@ -115,7 +115,7 @@ export function ServiceTable() {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{services?.services?.data?.length === 0 ? (
+						{services?.length === 0 ? (
 							<TableRow>
 								<TableCell
 									colSpan={7}
@@ -125,10 +125,10 @@ export function ServiceTable() {
 								</TableCell>
 							</TableRow>
 						) : (
-							services?.services.data?.map((service, i) => (
+							services?.map((service, i) => (
 								<TableRow key={service.id}>
 									<TableCell className="py-2 pl-4">
-										{tableSrCount(services?.services.current_page, i)}
+										{tableSrCount(page, i)}
 									</TableCell>
 									<TableCell className="py-2">
 										<Avatar className="h-10 w-10 rounded-lg">

@@ -1,4 +1,7 @@
+'use client';
+
 import { Banner03, Card06, Footer02, Header02 } from '@/components/web';
+import { useFrontendHomePageDataQuery } from '@/store/features/frontend/frontend-api-slice';
 import { BestSellingGrid } from './_ctx/best-selling-grid';
 import { BrandLogos } from './_ctx/brand-logos';
 import { ImageGrid } from './_ctx/image-grid';
@@ -7,6 +10,7 @@ import { PromoBanner } from './_ctx/promo-banner';
 import { TrendingProducts } from './_ctx/trending-products';
 
 export default function ThemeTwoHomePage() {
+	const { data: homePageData } = useFrontendHomePageDataQuery();
 	const brandImages = [
 		'https://i.ibb.co.com/yBVfbRmv/Rectangle-20.png',
 		'https://i.ibb.co.com/Ldpz4nbW/Rectangle-21.png',

@@ -1,4 +1,7 @@
 import { apiSlice } from '../api/apiSlice';
+import { iService } from '../vendor/cms/home-page';
+import { iBanner } from '../vendor/cms/home-page/banner';
+import { iSystem } from '../vendor/cms/system/type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
@@ -35,6 +38,21 @@ const api = apiSlice.injectEndpoints({
 				body: data,
 			}),
 		}),
+
+		// get home page data
+		FrontendHomePageData: builder.query<
+			{
+				content_services: iService[];
+				content_banners: iBanner[];
+				cms: iSystem;
+			},
+			void
+		>({
+			query: () => ({
+				url: `/tenant-frontend/cms`,
+				method: 'GET',
+			}),
+		}),
 	}),
 });
 
@@ -42,4 +60,5 @@ export const {
 	useFrontendEmailSubscribeMutation,
 	useFrontendContactStoreMutation,
 	useFrontendGetDollarRateQuery,
+	useFrontendHomePageDataQuery,
 } = api;

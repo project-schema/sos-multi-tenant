@@ -74,7 +74,7 @@ export function ServiceCreate() {
 					const response = await store({
 						...data,
 					}).unwrap();
-					if (response.status === 200) {
+					if (response.status === 'success') {
 						toast.success(response.message || 'Service created successfully');
 						form.reset();
 						setOpen(false);
@@ -119,7 +119,7 @@ export function ServiceCreate() {
 				</Button>
 			</DialogTrigger>
 
-			<DialogContent className="sm:max-w-[600px]">
+			<DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
 				<DialogHeader>
 					<DialogTitle>Create Service</DialogTitle>
 					<DialogDescription>

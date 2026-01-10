@@ -4,38 +4,19 @@ import { iServiceResponse } from './type';
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all services
-		tenantViewService: builder.query<iServiceResponse, { page: number | string }>(
-			{
-				query: ({ page }) => ({
-					url: `/tenant/cms/services?page=${page}`,
-					method: 'GET',
-				}),
-				providesTags: ['TenantService'],
-			}
-		),
-
-		// store service
-		tenantStoreService: builder.mutation<{ status: 200; message: string }, any>({
-			query: (data) => {
-				const body = new FormData();
-				Object.entries(data).forEach(([key, value]) => {
-					if (value !== undefined && value !== null) {
-						body.append(key, value as string);
-					}
-				});
-
-				return {
-					url: `/tenant/cms/services`,
-					method: 'POST',
-					body,
-					formData: true,
-				};
-			},
-			invalidatesTags: ['TenantService'],
+		tenantViewService: builder.query<
+			iServiceResponse,
+			{ page: number | string }
+		>({
+			query: ({ page }) => ({
+				url: `/tenant/content-service?page=${page}`,
+				method: 'GET',
+			}),
+			providesTags: ['AdminService'],
 		}),
 
-		// update service
-		tenantUpdateService: builder.mutation<{ status: 200; message: string }, any>(
+		// store service
+		tenantStoreService: builder.mutation<{ status: 200; message: string }, any>(
 			{
 				query: (data) => {
 					const body = new FormData();
@@ -46,15 +27,38 @@ const api = apiSlice.injectEndpoints({
 					});
 
 					return {
-						url: `/tenant/cms/services/${data.id}`,
+						url: `/tenant/content-service`,
 						method: 'POST',
 						body,
 						formData: true,
 					};
 				},
-				invalidatesTags: ['TenantService'],
+				invalidatesTags: ['AdminService'],
 			}
 		),
+
+		// update service
+		tenantUpdateService: builder.mutation<
+			{ status: 200; message: string },
+			any
+		>({
+			query: (data) => {
+				const body = new FormData();
+				Object.entries(data).forEach(([key, value]) => {
+					if (value !== undefined && value !== null) {
+						body.append(key, value as string);
+					}
+				});
+
+				return {
+					url: `/tenant/content-service/${data.id}`,
+					method: 'POST',
+					body,
+					formData: true,
+				};
+			},
+			invalidatesTags: ['AdminService'],
+		}),
 
 		// delete service
 		tenantDeleteService: builder.mutation<
@@ -62,10 +66,10 @@ const api = apiSlice.injectEndpoints({
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/tenant/cms/services/${data.id}`,
+				url: `/tenant/content-service/${data.id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['TenantService'],
+			invalidatesTags: ['AdminService'],
 		}),
 	}),
 });

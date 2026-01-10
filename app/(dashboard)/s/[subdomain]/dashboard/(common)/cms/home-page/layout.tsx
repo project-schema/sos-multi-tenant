@@ -24,9 +24,9 @@ export default function Layout({ children }: LayoutProps) {
 	const items = useMemo(
 		() => [
 			{
-				title: 'Home Banner',
-				tab: 'home-banner',
-				url: `/dashboard/cms/home-page?tab=home-banner`,
+				title: 'Home Slider',
+				tab: 'home-slider',
+				url: `/dashboard/cms/home-page?tab=home-slider`,
 				icon: Home,
 			},
 			{

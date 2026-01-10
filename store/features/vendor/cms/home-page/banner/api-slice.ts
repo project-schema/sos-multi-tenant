@@ -7,7 +7,7 @@ const api = apiSlice.injectEndpoints({
 		tenantViewBanner: builder.query<iBannerResponse, { page: number | string }>(
 			{
 				query: ({ page }) => ({
-					url: `/tenant/cms/banners?page=${page}`,
+					url: `/tenant/banner?page=${page}`,
 					method: 'GET',
 				}),
 				providesTags: ['TenantBanner'],
@@ -25,7 +25,7 @@ const api = apiSlice.injectEndpoints({
 				});
 
 				return {
-					url: `/tenant/cms/banners`,
+					url: `/tenant/banner`,
 					method: 'POST',
 					body,
 					formData: true,
@@ -46,7 +46,7 @@ const api = apiSlice.injectEndpoints({
 					});
 
 					return {
-						url: `/tenant/cms/banners/${data.id}`,
+						url: `/tenant/banner/${data.id}`,
 						method: 'POST',
 						body,
 						formData: true,
@@ -62,7 +62,7 @@ const api = apiSlice.injectEndpoints({
 			{ id: string | number }
 		>({
 			query: (data) => ({
-				url: `/tenant/cms/banners/${data.id}`,
+				url: `/tenant/banner/${data.id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['TenantBanner'],

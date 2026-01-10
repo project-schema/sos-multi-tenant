@@ -1,5 +1,3 @@
-import { iPagination } from '@/types';
-
 export type iBanner = {
 	id: number;
 	title: string;
@@ -13,10 +11,7 @@ export type iBanner = {
 	deleted_at: string | null;
 };
 
-export type iBannerResponse = {
-	status: number;
-	banners: iPagination<iBanner>;
-};
+export type iBannerResponse = iBanner[];
 
 export type iBannerSingleResponse = {
 	status: number;

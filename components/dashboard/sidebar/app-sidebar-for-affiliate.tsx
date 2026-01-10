@@ -38,6 +38,8 @@ export function AppSidebarForAffiliate({
 		searchQuery
 	);
 
+	const filteredCms = filterItems(affiliateSidebarData.cms, searchQuery);
+
 	return (
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader className="mb-4">
@@ -63,6 +65,7 @@ export function AppSidebarForAffiliate({
 				<NavMain items={filteredProducts} groupLabel="Products" />
 				<NavMain items={filteredServices} groupLabel="Services & Advertise" />
 				<NavMain items={filteredSupport} groupLabel="Support" />
+				<NavMain items={filteredCms} groupLabel="CMS" />
 				<NavMain items={filteredSettings} groupLabel="Settings" />
 			</SidebarContent>
 		</Sidebar>

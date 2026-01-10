@@ -35,7 +35,7 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { alertConfirm } from '@/lib';
+import { alertConfirm, imageFormat } from '@/lib';
 import { toast } from 'sonner';
 import { useTenantUpdateBannerMutation } from './api-slice';
 import { iBanner } from './type';
@@ -79,8 +79,8 @@ export function BannerUpdate({ editData }: { editData: iBanner }) {
 						...data,
 						id: editData.id,
 					}).unwrap();
-					if (response.status === 200) {
-						toast.success(response.message || 'Banner updated successfully');
+					if (response.status === 'success') {
+						toast.success(response.message || 'Slider updated successfully');
 						setOpen(false);
 					} else {
 						const errorResponse = response as any;
@@ -123,10 +123,10 @@ export function BannerUpdate({ editData }: { editData: iBanner }) {
 				</Button>
 			</DialogTrigger>
 
-			<DialogContent className="sm:max-w-[600px]">
+			<DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
 				<DialogHeader>
-					<DialogTitle>Edit Banner</DialogTitle>
-					<DialogDescription>Update the banner information.</DialogDescription>
+					<DialogTitle>Edit Slider</DialogTitle>
+					<DialogDescription>Update the slider information.</DialogDescription>
 				</DialogHeader>
 
 				<Form {...form}>
@@ -138,10 +138,10 @@ export function BannerUpdate({ editData }: { editData: iBanner }) {
 							render={({ field }) => (
 								<FormItem>
 									<ImageUpload
-										label="Banner Image"
+										label="Slider Image"
 										value={field.value}
 										onChange={field.onChange}
-										defaultImage={editData.image}
+										defaultImage={imageFormat(editData.image)}
 									/>
 								</FormItem>
 							)}
@@ -155,7 +155,7 @@ export function BannerUpdate({ editData }: { editData: iBanner }) {
 								<FormItem>
 									<FormLabel>Title</FormLabel>
 									<FormControl>
-										<Input {...field} placeholder="Enter banner title..." />
+										<Input {...field} placeholder="Enter slider title..." />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -172,7 +172,7 @@ export function BannerUpdate({ editData }: { editData: iBanner }) {
 									<FormControl>
 										<Textarea
 											{...field}
-											placeholder="Enter banner subtitle..."
+											placeholder="Enter slider subtitle..."
 											rows={2}
 										/>
 									</FormControl>
@@ -244,7 +244,7 @@ export function BannerUpdate({ editData }: { editData: iBanner }) {
 								{isLoading && (
 									<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 								)}
-								{isLoading ? 'Updating...' : 'Update Banner'}
+								{isLoading ? 'Updating...' : 'Update Slider'}
 							</Button>
 						</DialogFooter>
 					</form>

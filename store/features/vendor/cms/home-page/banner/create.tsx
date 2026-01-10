@@ -76,7 +76,7 @@ export function BannerCreate() {
 					const response = await store({
 						...data,
 					}).unwrap();
-					if (response.status === 200) {
+					if (response.status === 'success') {
 						toast.success(response.message || 'Banner created successfully');
 						form.reset();
 						setOpen(false);
@@ -117,15 +117,15 @@ export function BannerCreate() {
 			<DialogTrigger asChild>
 				<Button>
 					<Plus className="mr-2 h-4 w-4" />
-					Add Banner
+					Add Slider
 				</Button>
 			</DialogTrigger>
 
-			<DialogContent className="sm:max-w-[600px]">
+			<DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
 				<DialogHeader>
-					<DialogTitle>Create Banner</DialogTitle>
+					<DialogTitle>Create Slider</DialogTitle>
 					<DialogDescription>
-						Add a new banner to display on the homepage.
+						Add a new slider to display on the homepage.
 					</DialogDescription>
 				</DialogHeader>
 
@@ -138,7 +138,7 @@ export function BannerCreate() {
 							render={({ field }) => (
 								<FormItem>
 									<ImageUpload
-										label="Banner Image"
+										label="Slider Image"
 										value={field.value}
 										onChange={field.onChange}
 										defaultImage={null}
@@ -155,7 +155,7 @@ export function BannerCreate() {
 								<FormItem>
 									<FormLabel>Title</FormLabel>
 									<FormControl>
-										<Input {...field} placeholder="Enter banner title..." />
+										<Input {...field} placeholder="Enter slider title..." />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -172,7 +172,7 @@ export function BannerCreate() {
 									<FormControl>
 										<Textarea
 											{...field}
-											placeholder="Enter banner subtitle..."
+											placeholder="Enter slider subtitle..."
 											rows={2}
 										/>
 									</FormControl>
@@ -244,7 +244,7 @@ export function BannerCreate() {
 								{isLoading && (
 									<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 								)}
-								{isLoading ? 'Creating...' : 'Create Banner'}
+								{isLoading ? 'Creating...' : 'Create Slider'}
 							</Button>
 						</DialogFooter>
 					</form>

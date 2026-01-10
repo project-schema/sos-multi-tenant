@@ -15,7 +15,7 @@ import {
 import { ImageUpload } from '@/components/ui/image-upload';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { alertConfirm, ErrorAlert } from '@/lib';
+import { alertConfirm, ErrorAlert, imageFormat } from '@/lib';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle } from 'lucide-react';
 import { useEffect } from 'react';
@@ -152,7 +152,7 @@ export function CMSFooter() {
 										label="Footer Logo"
 										value={field.value}
 										onChange={field.onChange}
-										defaultImage={data?.data?.footer_logo || null}
+										defaultImage={imageFormat(data?.data?.footer_logo ?? null)}
 									/>
 								</FormItem>
 							)}
@@ -280,7 +280,9 @@ export function CMSFooter() {
 										label="Footer Payment Methods"
 										value={field.value}
 										onChange={field.onChange}
-										defaultImage={data?.data?.footer_payment_methods || null}
+										defaultImage={imageFormat(
+											data?.data?.footer_payment_methods ?? null
+										)}
 									/>
 								</FormItem>
 							)}

@@ -1,7 +1,6 @@
 'use client';
 
 import { Loader5, Loader8 } from '@/components/dashboard';
-import { Pagination1 } from '@/components/dashboard/pagination';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -115,7 +114,7 @@ export function BannerTable() {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{banners?.banners?.data?.length === 0 ? (
+						{banners?.length === 0 ? (
 							<TableRow>
 								<TableCell
 									colSpan={7}
@@ -125,10 +124,10 @@ export function BannerTable() {
 								</TableCell>
 							</TableRow>
 						) : (
-							banners?.banners.data?.map((banner, i) => (
+							banners?.map((banner, i) => (
 								<TableRow key={banner.id}>
 									<TableCell className="py-2 pl-4">
-										{tableSrCount(banners?.banners.current_page, i)}
+										{tableSrCount(page, i)}
 									</TableCell>
 									<TableCell className="py-2">
 										<Avatar className="h-16 w-24 rounded-lg">
@@ -167,9 +166,6 @@ export function BannerTable() {
 					</TableBody>
 				</Table>
 			</div>
-			{banners?.banners && (
-				<Pagination1 pagination={banners?.banners} setPage={setPage} />
-			)}
 		</>
 	);
 }
