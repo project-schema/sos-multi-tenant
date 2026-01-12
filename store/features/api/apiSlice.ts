@@ -2,10 +2,13 @@ import { env } from '@/lib';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getSession } from 'next-auth/react';
 
-export const getApiBaseUrl = () => {
-	if (typeof window === 'undefined') return `${env.baseAPI}/api`; // fallback for SSR
+export const getApiBaseUrl1 = () => {
+	if (typeof window === 'undefined') return `${env.baseAPI}/api`;
+	console.log(env.baseAPI);
+	console.log(window);
 
 	const { hostname } = window.location;
+	console.log({ hostname });
 
 	// Check if the hostname is a subdomain of localhost (e.g., testcompany.localhost)
 	const parts = hostname.split('.');
@@ -21,7 +24,47 @@ export const getApiBaseUrl = () => {
 		apiHost = 'localhost';
 	}
 
+	if (!env.baseAPI.includes('localhost')) {
+		const domain = env.baseAPI.split('//')[1];
+		console.log(env.baseAPI.split('//')[1]);
+		apiHost = `${parts[0]}.${domain}`;
+	}
+
 	return `http://${apiHost}:8000/api`;
+};
+
+export const getApiBaseUrl = () => {
+	// SSR
+	if (typeof window === 'undefined') {
+		return `${env.baseAPI}/api`;
+	}
+
+	const { hostname } = window.location;
+	const parts = hostname.split('.'); // [subdomain, domain, tld]
+
+	// ─────────────────────────────
+	// LOCALHOST MODE
+	// ─────────────────────────────
+	if (env.baseAPI.includes('localhost')) {
+		// two.localhost → http://two.localhost:8000/api
+		if (parts.length === 2 && parts[1] === 'localhost') {
+			return `http://${hostname}:8000/api`;
+		}
+
+		// localhost → http://localhost:8000/api
+		return 'http://localhost:8000/api';
+	}
+
+	// ─────────────────────────────
+	// PRODUCTION MODE
+	// env.baseAPI = https://storeeb.com
+	// frontend = two.storeeb.com
+	// result   = https://two.storeeb.com/api
+	// ─────────────────────────────
+	const apiDomain = env.baseAPI.replace(/^https?:\/\//, ''); // storeeb.com
+	const subdomain = parts[0]; // two
+
+	return `https://${subdomain}.${apiDomain}/api`;
 };
 
 const baseQuery = fetchBaseQuery({

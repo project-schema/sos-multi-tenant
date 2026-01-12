@@ -1,7 +1,8 @@
-'use client';
-
 import { Banner03, Card06, Footer02, Header02 } from '@/components/web';
-import { useFrontendHomePageDataQuery } from '@/store/features/frontend/frontend-api-slice';
+import { getApiDataWithSubdomain } from '@/lib';
+import { iService } from '@/store/features/vendor/cms/home-page';
+import { iBanner } from '@/store/features/vendor/cms/home-page/banner';
+import { iSystem } from '@/store/features/vendor/cms/system/type';
 import { BestSellingGrid } from './_ctx/best-selling-grid';
 import { BrandLogos } from './_ctx/brand-logos';
 import { ImageGrid } from './_ctx/image-grid';
@@ -9,8 +10,12 @@ import { ProductSection } from './_ctx/product-section';
 import { PromoBanner } from './_ctx/promo-banner';
 import { TrendingProducts } from './_ctx/trending-products';
 
-export default function ThemeTwoHomePage() {
-	const { data: homePageData } = useFrontendHomePageDataQuery();
+export default async function ThemeTwoHomePage() {
+	const settings = await getApiDataWithSubdomain<{
+		content_services: iService[];
+		content_banners: iBanner[];
+		cms: iSystem;
+	}>('/tenant-frontend/cms');
 	const brandImages = [
 		'https://i.ibb.co.com/yBVfbRmv/Rectangle-20.png',
 		'https://i.ibb.co.com/Ldpz4nbW/Rectangle-21.png',
@@ -39,10 +44,10 @@ export default function ThemeTwoHomePage() {
 
 	return (
 		<>
-			<Header02 />
+			<Header02 cms={settings?.cms ?? null} />
 			<div className="space-y-10 ">
-				<Banner03 />
-				<Card06 />
+				<Banner03 banners={settings?.content_banners ?? []} />
+				<Card06 services={settings?.content_services ?? []} />
 				<TrendingProducts />
 				<ImageGrid images={promoImages} columns={3} />
 				<BestSellingGrid columns={4} />

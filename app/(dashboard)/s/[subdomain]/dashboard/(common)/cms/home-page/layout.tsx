@@ -36,9 +36,9 @@ export default function Layout({ children }: LayoutProps) {
 				icon: Palette,
 			},
 			{
-				title: 'Home Category',
-				tab: 'home-category',
-				url: `/dashboard/cms/home-page?tab=home-category`,
+				title: 'Popular Category',
+				tab: 'popular-category',
+				url: `/dashboard/cms/home-page?tab=popular-category`,
 				icon: Search,
 			},
 		],

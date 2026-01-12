@@ -2,8 +2,8 @@
 
 import {
 	HomeBanner,
-	HomeCategory,
 	HomeService,
+	PopularCategory,
 } from '@/store/features/vendor/cms/home-page';
 import { BasicInfo } from '@/store/features/vendor/cms/system';
 import { useSearchParams } from 'next/navigation';
@@ -19,8 +19,8 @@ export default function Page() {
 		case 'home-service':
 			return <HomeService />;
 
-		case 'home-category':
-			return <HomeCategory />;
+		case 'popular-category':
+			return <PopularCategory />;
 
 		default:
 			return <BasicInfo />;

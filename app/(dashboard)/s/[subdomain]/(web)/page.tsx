@@ -3,7 +3,7 @@ import ThemeThreeHomePage from '@/components/theme/three/home-page';
 import ThemeTwoHomePage from '@/components/theme/two/home-page';
 import { env } from '@/lib';
 
-export default function MySite() {
+export default async function MySite() {
 	switch (env.theme) {
 		case 'one':
 			return <ThemeOneHomePage />;

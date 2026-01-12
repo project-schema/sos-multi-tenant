@@ -1,12 +1,6 @@
-'use client';
-
-import {
-	Facebook,
-	Instagram,
-	Music,
-	ShoppingCart,
-	Twitter,
-} from 'lucide-react';
+import { getApiDataWithSubdomain, imageFormat } from '@/lib';
+import { iSystem } from '@/store/features/vendor/cms/system/type';
+import { Facebook, Instagram, Music, Twitter } from 'lucide-react';
 import Link from 'next/link';
 
 interface Category {
@@ -48,19 +42,6 @@ const brands: Brand[] = [
 	{ label: 'Veloura' },
 ];
 
-const stores: Store[] = [
-	{
-		name: 'Store One',
-		address:
-			'Yeni Mahallesi Öğretmenler Boulevard 87071. Street No: 5 Ground Floor No: 96 Seyhan/Adana',
-	},
-	{
-		name: 'Store Two',
-		address:
-			'Yeni Mahallesi Öğretmenler Boulevard 87071. Street No: 5 Ground Floor No: 96 Seyhan/Adana',
-	},
-];
-
 const paymentMethods: PaymentMethod[] = [
 	{
 		name: 'Google Pay',
@@ -99,7 +80,10 @@ const paymentMethods: PaymentMethod[] = [
 	},
 ];
 
-export default function Footer02() {
+export default async function Footer02() {
+	const settings = await getApiDataWithSubdomain<{
+		cms: iSystem;
+	}>('/tenant-frontend/cms');
 	return (
 		<footer className="bg-gray-100 text-gray-800 mt-24">
 			{/* Main Footer Content */}
@@ -109,17 +93,15 @@ export default function Footer02() {
 					<div className="space-y-6">
 						{/* Logo */}
 						<div className="flex items-center space-x-2">
-							<div className="w-10 h-10 bg-orange-500 rounded flex items-center justify-center">
-								<ShoppingCart className="w-6 h-6 text-white" />
-							</div>
-							<span className="text-2xl font-bold text-black">SOSComrz</span>
+							<img
+								src={imageFormat(settings?.cms?.footer_logo ?? null)}
+								alt={settings?.cms?.footer_logo ?? ''}
+							/>
 						</div>
 
 						{/* Description */}
 						<p className="text-gray-500 leading-relaxed text-sm">
-							With its half-century history, Seyidoğlu has introduced many
-							innovations in areas such as halva, jam, tahini-molasses and cocoa
-							cream, and is one of the leading brands.
+							{settings?.cms?.footer_description ?? ''}
 						</p>
 
 						{/* Social Media Icons */}
@@ -193,14 +175,28 @@ export default function Footer02() {
 					<div className="space-y-4">
 						<h3 className="text-lg font-bold text-black">Stores</h3>
 						<div className="space-y-4">
-							{stores.map((store, index) => (
-								<div key={index} className="space-y-2">
-									<h4 className="font-bold text-black text-sm">{store.name}</h4>
+							<div className="space-y-2">
+								<h4 className="font-bold text-black text-sm">Store One</h4>
+								<div>
 									<p className="text-gray-500 text-sm leading-relaxed">
-										{store.address}
+										{settings?.cms?.footer_contact_address_one}
+									</p>
+									<p className="text-gray-500 text-sm leading-relaxed">
+										{settings?.cms?.footer_contact_number_one}
 									</p>
 								</div>
-							))}
+							</div>
+							<div className="space-y-2">
+								<h4 className="font-bold text-black text-sm">Store Two</h4>
+								<div>
+									<p className="text-gray-500 text-sm leading-relaxed">
+										{settings?.cms?.footer_contact_address_two}
+									</p>
+									<p className="text-gray-500 text-sm leading-relaxed">
+										{settings?.cms?.footer_contact_number_two}
+									</p>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -212,8 +208,12 @@ export default function Footer02() {
 					<div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
 						{/* Copyright */}
 						<div className="text-gray-500 text-sm">
-							©2025 Copywrite Belongs to{' '}
-							<span className="text-orange-500 font-semibold">SOS Comerz</span>
+							{new Date().getFullYear()}{' '}
+							{settings?.cms?.footer_copyright_text ?? ''}
+							<span className="text-orange-500 font-semibold">
+								{' '}
+								{settings?.cms?.app_name ?? ''}
+							</span>
 						</div>
 
 						{/* Payment Methods */}

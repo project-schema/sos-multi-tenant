@@ -1,4 +1,5 @@
 import { getToken } from 'next-auth/jwt';
+import { headers } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
 // import { rootDomain } from '@/lib/utils';
 const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'localhost:3000';
@@ -104,7 +105,14 @@ export async function proxy(request: NextRequest) {
 		const url = request.nextUrl.clone();
 		url.pathname = newPathname;
 
-		return NextResponse.rewrite(url);
+		const requestHeaders = new Headers(request.headers);
+		requestHeaders.set('x-tenant-subdomain', subdomain);
+
+		return NextResponse.rewrite(url, {
+			request: {
+				headers: requestHeaders,
+			},
+		});
 	}
 
 	// Protect /admin and /user routes on root domain
@@ -145,6 +153,11 @@ export async function proxy(request: NextRequest) {
 
 	// Proceed normally on root domain or other paths
 	return NextResponse.next();
+}
+
+export async function getTenantSubdomain(): Promise<string | null> {
+	const h = await headers();
+	return h.get('x-tenant-subdomain');
 }
 
 export const config = {

@@ -1,5 +1,6 @@
 'use client';
 
+import { iSystem } from '@/store/features/vendor/cms/system/type';
 import * as React from 'react';
 import { ContactInfo } from './_ctx/contact-info';
 import { Logo } from './_ctx/logo';
@@ -10,7 +11,7 @@ import { SearchBar } from './_ctx/search-bar';
 import { TopPromotionalBar } from './_ctx/top-promotional-bar';
 import { UserAccount } from './_ctx/user-account';
 
-export default function Header02() {
+export default function Header02({ cms }: { cms: iSystem | null }) {
 	const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 	const [mobileSearchOpen, setMobileSearchOpen] = React.useState(false);
 
@@ -24,7 +25,7 @@ export default function Header02() {
 				<div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex items-center justify-between gap-4 py-4">
 						{/* Logo */}
-						<Logo />
+						<Logo logo={cms?.logo ?? ''} />
 
 						{/* Search Bar - Desktop */}
 						<div className="flex-1 max-w-2xl mx-4 hidden md:flex">

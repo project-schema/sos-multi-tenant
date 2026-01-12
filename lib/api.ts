@@ -1,5 +1,7 @@
-// lib/api.ts
+'use server';
 
+// lib/api.ts
+import { headers } from 'next/headers';
 import { env } from './env';
 
 interface ApiError {
@@ -44,38 +46,35 @@ export async function getApiData<T = any>(url: string): Promise<T | null> {
 }
 
 export async function getApiDataWithSubdomain<T = any>(
-	url: string,
-	subdomain: string
+	url: string
 ): Promise<T | null> {
 	try {
-		const base = new URL(env.baseAPI); // http://127.0.0.1:8000
+		const h = await headers();
+		const subdomain = h.get('x-tenant-subdomain');
 
-		// Replace host with subdomain.localhost
-		base.hostname = `${subdomain}.localhost`;
+		if (!subdomain) {
+			throw new Error('Tenant subdomain not found');
+		}
 
-		console.log(`${base.origin}/api${url}`);
+		const apiDomain = env.baseAPI.replace(/^https?:\/\//, '');
+		const apiUrl = `https://${subdomain}.${apiDomain}/api${url}`;
 
-		const res = await fetch(
-			`http://borax.localhost:8000/api/tenant-frontend/products`,
-			{
-				cache: 'no-store',
-				headers: {
-					'Content-Type': 'application/json',
-					Host: `${subdomain}.localhost:8000`,
-					'X-Tenant-Subdomain': subdomain,
-				},
-			}
-		);
+		const res = await fetch(apiUrl, {
+			cache: 'no-store',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
 
 		if (!res.ok) {
 			throw {
 				message: `API Error ${res.status}: ${res.statusText}`,
 				status: res.status,
-				url,
+				url: apiUrl,
 			};
 		}
 
-		return await res.json();
+		return (await res.json()) as T;
 	} catch (error: any) {
 		console.error('API Error:', {
 			message: error?.message || 'Unexpected API Error',
