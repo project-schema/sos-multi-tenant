@@ -92,10 +92,11 @@ export default async function Footer02() {
 					{/* Leftmost Section - Logo and About */}
 					<div className="space-y-6">
 						{/* Logo */}
-						<div className="flex items-center space-x-2">
+						<div className="h-[34px] flex space-x-2">
 							<img
 								src={imageFormat(settings?.cms?.footer_logo ?? null)}
 								alt={settings?.cms?.footer_logo ?? ''}
+								className="  h-full object-contain"
 							/>
 						</div>
 

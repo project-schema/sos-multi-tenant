@@ -1,26 +1,16 @@
 'use client';
 
+import { imageFormat } from '@/lib';
+import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
 import { ShoppingCart, Star } from 'lucide-react';
-import Image from 'next/image';
+import Link from 'next/link';
 
-interface ProductCard08Props {
-	title?: string;
-	rating?: number;
-	reviewCount?: number;
-	originalPrice?: string;
-	currentPrice?: string;
-	image?: string;
-	className?: string;
-}
 export default function Card08({
-	title = "Fanmis Men's Luxury Analog Quartz Gold Wrist Watches",
-	rating = 5,
-	reviewCount = 6570,
-	originalPrice = '$566',
-	currentPrice = '$126',
-	image = 'https://i.ibb.co.com/B5tJJ2Cg/image-1.png',
-	className = '',
-}: ProductCard08Props) {
+	product,
+}: {
+	product: iVendorProduct;
+	className?: string;
+}) {
 	// Generate star rating display
 	const renderStars = () => {
 		return Array.from({ length: 5 }).map((_, index) => (
@@ -30,7 +20,7 @@ export default function Card08({
 
 	return (
 		<div
-			className={`group p-2 gap-3 relative bg-white rounded-xl duration-300 overflow-hidden flex flex-col sm:flex-row ${className}`}
+			className={`group p-2 gap-3 relative bg-white rounded-xl duration-300 overflow-hidden flex flex-col sm:flex-row  `}
 		>
 			{/* Left Section - Image Area */}
 			<div className="relative w-full sm:w-2/5 aspect-square sm:aspect-auto sm:h-auto bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
@@ -50,27 +40,32 @@ export default function Card08({
 					/>
 				</div>
 
-				<Image
-					src={image}
-					alt={title}
-					fill
-					className="object-cover object-center rounded-xl relative z-10"
-				/>
+				<Link href={`/shop/${product?.slug}`} className="block w-full h-full">
+					<img
+						src={imageFormat(product?.image)}
+						alt={product?.name}
+						className="object-cover object-center rounded-xl relative z-10"
+						width={1000}
+						height={1000}
+					/>
+				</Link>
 			</div>
 
 			{/* Right Section - Product Details */}
 			<div className="w-full sm:w-3/5   flex flex-col justify-between">
 				<div className="space-y-1">
 					{/* Title */}
-					<h3 className="text-base font-medium text-[#27314B] line-clamp-2">
-						{title}
-					</h3>
+					<Link href={`/shop/${product?.slug}`} className="block w-full h-full">
+						<h3 className="text-base font-medium text-[#27314B] line-clamp-2">
+							{product?.name}
+						</h3>
+					</Link>
 
 					{/* Rating */}
 					<div className="flex items-center gap-2">
 						<div className="flex items-center gap-0.5">{renderStars()}</div>
 						<span className="text-xs text-gray-600">
-							{reviewCount.toLocaleString()} Reviews
+							{/* {product?.productrating_avg_rating?.toLocaleString()} Reviews */}
 						</span>
 					</div>
 				</div>
@@ -80,10 +75,10 @@ export default function Card08({
 					{/* Pricing */}
 					<div className="flex flex-col gap-1">
 						<span className="text-xs text-gray-500 line-through">
-							{originalPrice}
+							{product?.original_price}
 						</span>
 						<span className="text-xl font-medium text-gray-900">
-							{currentPrice}
+							{product?.selling_price}
 						</span>
 					</div>
 

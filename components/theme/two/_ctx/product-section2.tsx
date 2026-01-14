@@ -7,16 +7,16 @@ import Link from 'next/link';
 interface ProductSectionProps {
 	title: string;
 	buttons?: { label: string; value: string }[];
-	feature?: string;
+	include?: string;
 }
 
-export async function ProductSection({
+export async function ProductSection2({
 	title,
 	buttons,
-	feature,
+	include,
 }: ProductSectionProps) {
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
-		`/tenant-frontend/products/${feature || buttons?.[0]?.value}`
+		`/tenant-frontend/products/${include || buttons?.[0]?.value}`
 	);
 
 	console.log({ products });
@@ -29,7 +29,7 @@ export async function ProductSection({
 						{buttons.map((button, index) => {
 							if (!button.value) return null;
 							return (
-								<Link href={`/?feature=${button.value}`} key={index}>
+								<Link href={`/?include=${button.value}`} key={index}>
 									<Button variant="outline">{button.label}</Button>
 								</Link>
 							);

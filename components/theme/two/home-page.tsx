@@ -1,72 +1,76 @@
 import { Banner03, Card06, Footer02, Header02 } from '@/components/web';
 import { getApiDataWithSubdomain } from '@/lib';
-import { iService } from '@/store/features/vendor/cms/home-page';
-import { iBanner } from '@/store/features/vendor/cms/home-page/banner';
-import { iSystem } from '@/store/features/vendor/cms/system/type';
+import { iTenantFrontend } from '@/types/tenant-frontend';
 import { BestSellingGrid } from './_ctx/best-selling-grid';
 import { BrandLogos } from './_ctx/brand-logos';
 import { ImageGrid } from './_ctx/image-grid';
 import { ProductSection } from './_ctx/product-section';
+import { ProductSection2 } from './_ctx/product-section2';
 import { PromoBanner } from './_ctx/promo-banner';
 import { TrendingProducts } from './_ctx/trending-products';
 
-export default async function ThemeTwoHomePage() {
-	const settings = await getApiDataWithSubdomain<{
-		content_services: iService[];
-		content_banners: iBanner[];
-		cms: iSystem;
-	}>('/tenant-frontend/cms');
-	const brandImages = [
-		'https://i.ibb.co.com/yBVfbRmv/Rectangle-20.png',
-		'https://i.ibb.co.com/Ldpz4nbW/Rectangle-21.png',
-		'https://i.ibb.co.com/d44bJc54/Rectangle-22.png',
-		'https://i.ibb.co.com/Jw45chsf/Rectangle-23.png',
-		'https://i.ibb.co.com/FLprrpYy/Rectangle-18.png',
-		'https://i.ibb.co.com/d07h0BJY/Rectangle-19.png',
-	];
+export default async function ThemeTwoHomePage({
+	searchParams,
+}: {
+	searchParams: {
+		trend: string;
+		search: string;
+		feature: string;
+		include: string;
+	};
+}) {
+	const { trend, search, feature, include } = await searchParams;
+	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
+		'/tenant-frontend/cms'
+	);
 
-	const promoImages = [
-		'https://i.ibb.co.com/LXx3nKLZ/Rectangle-15.jpg',
-		'https://i.ibb.co.com/fVnBqM2D/Rectangle-16.jpg',
-		'https://i.ibb.co.com/n8fjJWCs/Rectangle-17.jpg',
-	];
-
-	const bannerImages = [
-		{
-			src: 'https://i.ibb.co.com/r1gtwG2/Group-1000003063-2.png',
-			alt: 'Promotional banner 1',
-		},
-		{
-			src: 'https://i.ibb.co.com/h1JxDBcf/Rectangle-24.png',
-			alt: 'Promotional banner 2',
-		},
-	];
+	const brands = await getApiDataWithSubdomain<
+		{ name: string; image: string; id: number }[]
+	>('/tenant-frontend/brands');
 
 	return (
 		<>
-			<Header02 cms={settings?.cms ?? null} />
+			<Header02 />
 			<div className="space-y-10 ">
-				<Banner03 banners={settings?.content_banners ?? []} />
+				<Banner03 settings={settings ?? null} />
 				<Card06 services={settings?.content_services ?? []} />
-				<TrendingProducts />
-				<ImageGrid images={promoImages} columns={3} />
-				<BestSellingGrid columns={4} />
-				<BrandLogos images={brandImages} />
-				<ProductSection
-					title="Best Selling Product"
+				<TrendingProducts settings={settings ?? null} trend={trend} />
+				<ImageGrid settings={settings} />
+				<BestSellingGrid settings={settings} />
+				<BrandLogos brands={brands} />
+				<ProductSection2
+					include={include}
+					title={settings?.cms.best_section_title ?? ''}
 					buttons={[
-						{ label: 'Trending' },
-						{ label: 'Phones' },
-						{ label: 'Cameras' },
-						{ label: 'Lights' },
+						{
+							label: settings?.best_setting_category_id_1?.name ?? '',
+							value: settings?.cms?.best_setting_sub_category_id_1 ?? '',
+						},
+						{
+							label: settings?.best_setting_category_id_2?.name ?? '',
+							value: settings?.cms?.best_setting_sub_category_id_2 ?? '',
+						},
+						{
+							label: settings?.best_setting_category_id_3?.name ?? '',
+							value: settings?.cms?.best_setting_sub_category_id_3 ?? '',
+						},
+						{
+							label: settings?.best_setting_category_id_4?.name ?? '',
+							value: settings?.cms?.best_setting_sub_category_id_4 ?? '',
+						},
 					]}
-					productCount={10}
 				/>
-				<PromoBanner images={bannerImages} />
+				<PromoBanner settings={settings} />
+
 				<ProductSection
-					title="Best Headphones"
-					buttons={[{ label: 'Check All' }]}
-					productCount={10}
+					title={settings?.cms.best_section_title ?? ''}
+					feature={feature}
+					buttons={[
+						{
+							label: settings?.best_setting_category_id_1?.name ?? '',
+							value: settings?.cms?.best_setting_sub_category_id_1 ?? '',
+						},
+					]}
 				/>
 			</div>
 

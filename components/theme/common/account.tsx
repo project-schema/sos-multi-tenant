@@ -2,7 +2,10 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Package } from 'lucide-react';
+import {
+	OrderDashboardCards,
+	OrdersTable,
+} from '@/store/features/account/order';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -70,38 +73,12 @@ export default function CommonAccount() {
 
 				{/* Content */}
 				<div className="lg:col-span-9">
-					{view === 'home' && <DashboardCards />}
+					{view === 'home' && <OrderDashboardCards />}
 					{view === 'profile' && <ProfileForm />}
 					{view === 'orders' && <OrdersTable />}
 				</div>
 			</div>
 		</section>
-	);
-}
-
-function StatCard({ title, count }: { title: string; count: number }) {
-	return (
-		<div className="flex items-center gap-4 border rounded-xl p-5 bg-white">
-			<div className="w-12 h-12 rounded-lg bg-black text-white flex items-center justify-center">
-				<Package className="w-6 h-6" />
-			</div>
-			<div>
-				<p className="text-sm text-gray-600">{title}</p>
-				<p className="text-2xl font-bold">{count}</p>
-			</div>
-		</div>
-	);
-}
-
-function DashboardCards() {
-	return (
-		<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-			<StatCard title="All Orders" count={60} />
-			<StatCard title="All Orders" count={60} />
-			<StatCard title="Completed Order" count={60} />
-			<StatCard title="Canceled Order" count={60} />
-			<StatCard title="Pending Order" count={60} />
-		</div>
 	);
 }
 
@@ -131,71 +108,6 @@ function ProfileForm() {
 					<Input type="password" placeholder="Enter Password" />
 				</div>
 				<Button className="bg-black text-white">Save</Button>
-			</div>
-		</div>
-	);
-}
-
-function OrdersTable() {
-	const rows = Array.from({ length: 7 }).map((_, i) => ({
-		id: `ORD-20250712-${257 + i}`,
-		total: 302,
-		orderStatus: i === 0 ? 'Pending' : 'Delivered',
-		payment: i === 0 ? 'Unpaid' : 'Paid',
-		date: '2025-07-12',
-	}));
-
-	return (
-		<div className="border rounded-md overflow-hidden">
-			<div className="overflow-x-auto">
-				<table className="w-full text-sm text-left">
-					<thead className="bg-gray-50 text-gray-700 font-semibold">
-						<tr>
-							<th className="px-4 py-3 whitespace-nowrap">ORDER #</th>
-							<th className="px-4 py-3">TOTAL</th>
-							<th className="px-4 py-3 whitespace-nowrap">ORDER STATUS</th>
-							<th className="px-4 py-3 whitespace-nowrap">PAYMENT STATUS</th>
-							<th className="px-4 py-3 whitespace-nowrap">DATE</th>
-							<th className="px-4 py-3 text-right">ACTIONS</th>
-						</tr>
-					</thead>
-					<tbody className="divide-y">
-						{rows.map((r) => (
-							<tr key={r.id} className="hover:bg-gray-50">
-								<td className="px-4 py-3 whitespace-nowrap">{r.id}</td>
-								<td className="px-4 py-3">{r.total}৳</td>
-								<td className="px-4 py-3">
-									<span
-										className={`px-2 py-1 rounded text-xs ${
-											r.orderStatus === 'Pending'
-												? 'bg-blue-100 text-blue-700'
-												: 'bg-green-100 text-green-700'
-										}`}
-									>
-										{r.orderStatus}
-									</span>
-								</td>
-								<td className="px-4 py-3">
-									<span
-										className={`px-2 py-1 rounded text-xs ${
-											r.payment === 'Unpaid'
-												? 'bg-red-100 text-red-700'
-												: 'bg-green-100 text-green-700'
-										}`}
-									>
-										{r.payment}
-									</span>
-								</td>
-								<td className="px-4 py-3 whitespace-nowrap">{r.date}</td>
-								<td className="px-4 py-3 text-right">
-									<button className="border rounded px-3 py-1 text-sm">
-										Details
-									</button>
-								</td>
-							</tr>
-						))}
-					</tbody>
-				</table>
 			</div>
 		</div>
 	);

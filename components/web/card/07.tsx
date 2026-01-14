@@ -25,7 +25,7 @@ export default function Card07({
 		>
 			{/* Upper Section - Image Area */}
 			<div className="relative h-56  overflow-hidden">
-				<div className="w-full h-full">
+				<Link href={`/shop/${product?.slug}`} className="block w-full h-full">
 					<img
 						src={imageFormat(product?.image)}
 						alt={product?.name}
@@ -33,7 +33,7 @@ export default function Card07({
 						width={1000}
 						height={1000}
 					/>
-				</div>
+				</Link>
 
 				{/* Discount Badge */}
 				<div className="absolute top-3 left-3">
@@ -78,9 +78,11 @@ export default function Card07({
 					</div>
 
 					{/* Add to Cart Button */}
-					<button className="w-8 h-8 rounded-sm border-1 border-orange-500 bg-orange-50 hover:bg-orange-100 transition-colors duration-200 flex items-center justify-center group/btn">
-						<ShoppingCart className="w-5 h-5 text-orange-500 group-hover/btn:scale-110 transition-transform duration-200" />
-					</button>
+					<Link href={`/shop/${product?.slug}`}>
+						<button className="w-8 h-8 rounded-sm border-1 border-orange-500 bg-orange-50 hover:bg-orange-100 transition-colors duration-200 flex items-center justify-center group/btn">
+							<ShoppingCart className="w-5 h-5 text-orange-500 group-hover/btn:scale-110 transition-transform duration-200" />
+						</button>
+					</Link>
 				</div>
 			</div>
 		</div>

@@ -3,12 +3,17 @@ import ThemeThreeProductDetailsPage from '@/components/theme/three/product-detai
 import ThemeTwoProductDetailsPage from '@/components/theme/two/product-details';
 import { env } from '@/lib';
 
-export default function ProductDetailsPage() {
+export default async function ProductDetailsPage({
+	params,
+}: {
+	searchParams: { slug: string };
+}) {
+	const { slug } = await params;
 	switch (env.theme) {
 		case 'one':
 			return <ThemeOneProductDetailsPage />;
 		case 'two':
-			return <ThemeTwoProductDetailsPage />;
+			return <ThemeTwoProductDetailsPage params={{ slug }} />;
 		case 'three':
 			return <ThemeThreeProductDetailsPage />;
 		default:

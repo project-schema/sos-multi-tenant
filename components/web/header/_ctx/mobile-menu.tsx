@@ -15,17 +15,14 @@ import {
 } from '@/components/ui/sheet';
 import { ChevronDown, Menu } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
 import { SearchBar } from './search-bar';
 import { UtilityIcons } from './utility-icons';
 
-interface MobileMenuProps {
-	open: boolean;
-	onOpenChange: (open: boolean) => void;
-}
-
-export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
+export function MobileMenu() {
+	const [open, setOpen] = useState(false);
 	return (
-		<Sheet open={open} onOpenChange={onOpenChange}>
+		<Sheet open={open} onOpenChange={setOpen}>
 			<SheetTrigger asChild>
 				<button className="lg:hidden w-10 h-10 flex items-center justify-center">
 					<Menu className="w-6 h-6 text-black" />
@@ -38,9 +35,7 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
 				<div className="mt-6 flex flex-col gap-4 p-4">
 					{/* Mobile Search */}
 					<div className="flex flex-col gap-2">
-						<label className="text-sm font-medium text-gray-700">
-							Search
-						</label>
+						<label className="text-sm font-medium text-gray-700">Search</label>
 						<SearchBar variant="mobile" />
 					</div>
 
@@ -49,28 +44,28 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
 						<Link
 							href="/clothes"
 							className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors py-2"
-							onClick={() => onOpenChange(false)}
+							onClick={() => setOpen(false)}
 						>
 							Clothes
 						</Link>
 						<Link
 							href="/new-arrivals"
 							className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors py-2"
-							onClick={() => onOpenChange(false)}
+							onClick={() => setOpen(false)}
 						>
 							New Arrivals
 						</Link>
 						<Link
 							href="/best-sellers"
 							className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors py-2"
-							onClick={() => onOpenChange(false)}
+							onClick={() => setOpen(false)}
 						>
 							Best Sellers
 						</Link>
 						<Link
 							href="/blog"
 							className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors py-2"
-							onClick={() => onOpenChange(false)}
+							onClick={() => setOpen(false)}
 						>
 							Blog
 						</Link>
@@ -83,26 +78,17 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="start" className="w-48">
 								<DropdownMenuItem asChild>
-									<Link
-										href="/pages/about"
-										onClick={() => onOpenChange(false)}
-									>
+									<Link href="/pages/about" onClick={() => setOpen(false)}>
 										About Us
 									</Link>
 								</DropdownMenuItem>
 								<DropdownMenuItem asChild>
-									<Link
-										href="/pages/contact"
-										onClick={() => onOpenChange(false)}
-									>
+									<Link href="/pages/contact" onClick={() => setOpen(false)}>
 										Contact
 									</Link>
 								</DropdownMenuItem>
 								<DropdownMenuItem asChild>
-									<Link
-										href="/pages/faq"
-										onClick={() => onOpenChange(false)}
-									>
+									<Link href="/pages/faq" onClick={() => setOpen(false)}>
 										FAQ
 									</Link>
 								</DropdownMenuItem>
@@ -115,7 +101,7 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
 						<Link
 							href="/auth"
 							className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors py-2"
-							onClick={() => onOpenChange(false)}
+							onClick={() => setOpen(false)}
 						>
 							Log In / Register
 						</Link>

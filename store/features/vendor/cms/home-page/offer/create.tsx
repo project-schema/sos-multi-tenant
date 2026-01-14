@@ -9,7 +9,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { LoaderCircle, Pen } from 'lucide-react';
+import { LoaderCircle, Plus } from 'lucide-react';
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,42 +19,31 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import {
 	Form,
-	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '@/components/ui/select';
 import { alertConfirm } from '@/lib';
 import { toast } from 'sonner';
-import { useTenantUpdateHomePageCategoryMutation } from './api-slice';
-import { iHomePageCategory } from './type';
+import { useTenantStoreHomeOfferMutation } from './api-slice';
 
 // --- Zod Schema ---
 const schema = z.object({
-	status: z.enum(['active', 'inactive']),
-	order: z.coerce.number().min(0, 'Order must be a positive number'),
+	title: z.string().min(1, 'Title is required'),
 });
 
 type ZodType = z.infer<typeof schema>;
 
-export function CategoryUpdate({ editData }: { editData: iHomePageCategory }) {
+export function OfferCreate() {
 	const [open, setOpen] = useState(false);
-	const [updateCategory, { isLoading }] = useTenantUpdateHomePageCategoryMutation();
+	const [store, { isLoading }] = useTenantStoreHomeOfferMutation();
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
 		defaultValues: {
-			status: editData.status || 'active',
-			order: editData.order || 0,
+			title: '',
 		},
 	});
 
@@ -62,19 +51,16 @@ export function CategoryUpdate({ editData }: { editData: iHomePageCategory }) {
 		alertConfirm({
 			onOk: async () => {
 				try {
-					const response = await updateCategory({
+					const response = await store({
 						...data,
-						id: editData.id,
 					}).unwrap();
-					if (response.status === 200) {
-						toast.success(response.message || 'Category updated successfully');
+					if (response.success) {
+						toast.success(response.message || 'Offer created successfully');
+						form.reset();
 						setOpen(false);
 					} else {
 						const errorResponse = response as any;
-						if (
-							response.status === 422 &&
-							typeof errorResponse.errors === 'object'
-						) {
+						if (!response.success && typeof errorResponse.errors === 'object') {
 							Object.entries(errorResponse.errors).forEach(([field, value]) => {
 								form.setError(field as keyof ZodType, {
 									type: 'server',
@@ -86,7 +72,7 @@ export function CategoryUpdate({ editData }: { editData: iHomePageCategory }) {
 						}
 					}
 				} catch (error: any) {
-					if (error?.status === 422 && typeof error.message === 'object') {
+					if (!error.success && typeof error.message === 'object') {
 						Object.entries(error.message).forEach(([field, value]) => {
 							form.setError(field as keyof ZodType, {
 								type: 'server',
@@ -104,59 +90,31 @@ export function CategoryUpdate({ editData }: { editData: iHomePageCategory }) {
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button variant="outline" size="icon">
-					<Pen className="size-4" />
-					<span className="sr-only">Edit</span>
+				<Button>
+					<Plus className="mr-2 h-4 w-4" />
+					Create Offer
 				</Button>
 			</DialogTrigger>
 
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
-					<DialogTitle>Update Home Page Category</DialogTitle>
+					<DialogTitle>Create Offer</DialogTitle>
 					<DialogDescription>
-						Edit the display settings for {editData.category.name}.
+						Create a new offer to display on the home page.
 					</DialogDescription>
 				</DialogHeader>
 
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 						<div className="grid grid-cols-2 gap-4">
-							{/* Status */}
+							{/* Title */}
 							<FormField
 								control={form.control}
-								name="status"
+								name="title"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Status</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
-											<FormControl>
-												<SelectTrigger className="w-full">
-													<SelectValue placeholder="Select status" />
-												</SelectTrigger>
-											</FormControl>
-											<SelectContent>
-												<SelectItem value="active">Active</SelectItem>
-												<SelectItem value="inactive">Inactive</SelectItem>
-											</SelectContent>
-										</Select>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-
-							{/* Order */}
-							<FormField
-								control={form.control}
-								name="order"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Display Order</FormLabel>
-										<FormControl>
-											<Input {...field} type="number" min={0} placeholder="0" />
-										</FormControl>
+										<FormLabel>Title</FormLabel>
+										<Input {...field} placeholder="Enter title" />
 										<FormMessage />
 									</FormItem>
 								)}
@@ -168,7 +126,7 @@ export function CategoryUpdate({ editData }: { editData: iHomePageCategory }) {
 								{isLoading && (
 									<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 								)}
-								{isLoading ? 'Updating...' : 'Update Category'}
+								{isLoading ? 'Creating...' : 'Create Offer'}
 							</Button>
 						</DialogFooter>
 					</form>

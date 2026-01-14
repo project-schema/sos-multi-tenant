@@ -180,7 +180,9 @@ export const apiSlice = createApi({
 
 		'Wishlist',
 		'Cart',
+		'AccountOrders',
 
 		'TenantBanner',
+		'HomeOffer',
 	],
 });

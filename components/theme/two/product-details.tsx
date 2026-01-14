@@ -1,19 +1,25 @@
-'use client';
 import Footer02 from '@/components/web/footer/02';
 import Header02 from '@/components/web/header/02';
-import { useTenantFrontendProductBySlugQuery } from '@/store/features/frontend/product/api-slice';
-import { useParams } from 'next/navigation';
+import { getApiDataWithSubdomain } from '@/lib';
+import {
+	iVendorProduct,
+	iVendorProductView,
+} from '@/store/features/vendor/product/vendor-product-type';
 import { ProductDescription } from './_ctx/product-description';
 import { ProductGallery } from './_ctx/product-gallery';
 import { ProductInfo } from './_ctx/product-info';
 import { RelatedProduct } from './_ctx/related-product';
 
-export default function ThemeTwoProductDetailsPage() {
-	const { slug } = useParams();
-	const { data } = useTenantFrontendProductBySlugQuery(
-		{ slug: slug?.toString() || '' },
-		{ skip: !slug }
-	);
+export default async function ThemeTwoProductDetailsPage({
+	params,
+}: {
+	params: { slug: string };
+}) {
+	const { slug } = await params;
+	const data = await getApiDataWithSubdomain<{
+		product: iVendorProductView;
+		related_products: iVendorProduct[];
+	}>(`/tenant-frontend/product/${slug}`);
 
 	return (
 		<>
@@ -23,20 +29,20 @@ export default function ThemeTwoProductDetailsPage() {
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 					{/* Gallery */}
 					<div className="lg:col-span-6">
-						{data?.product && <ProductGallery product={data?.product} />}
+						{data && <ProductGallery product={data?.product ?? null} />}
 					</div>
 
 					{/* Info */}
 					<div className="lg:col-span-6 space-y-5">
-						{data?.product && <ProductInfo product={data?.product} />}
+						{data && <ProductInfo product={data?.product ?? null} />}
 					</div>
 				</div>
 
 				{/* Tabs-like content */}
-				{data?.product && <ProductDescription product={data?.product} />}
+				{data && <ProductDescription product={data?.product ?? null} />}
 
 				{/* Related products */}
-				{data?.product && <RelatedProduct product={data?.related_products} />}
+				{data && <RelatedProduct product={data?.related_products ?? null} />}
 			</section>
 			<Footer02 />
 		</>

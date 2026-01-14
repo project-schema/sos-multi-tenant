@@ -1,12 +1,20 @@
-'use client';
 import ThemeOneShopPage from '@/components/theme/one/shop-page';
 import ThemeThreeShopPage from '@/components/theme/three/shop-page';
 import ThemeTwoShopPage from '@/components/theme/two/shop-page';
-import { env } from '@/lib';
-import { useTenantFrontendProductsQuery } from '@/store/features/frontend/product/api-slice';
+import { env, getApiDataWithSubdomain } from '@/lib';
+import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
+import { iPagination } from '@/types';
+import { notFound } from 'next/navigation';
 
-export default function ShopPage() {
-	const { data: products } = useTenantFrontendProductsQuery(undefined);
+export default async function ShopPage() {
+	const products =
+		await getApiDataWithSubdomain<iPagination<iVendorProduct> | null>(
+			`/tenant-frontend/products`
+		);
+
+	if (!products) {
+		return notFound();
+	}
 
 	switch (env.theme) {
 		case 'one':
@@ -16,6 +24,6 @@ export default function ShopPage() {
 		case 'three':
 			return <ThemeThreeShopPage />;
 		default:
-			return <ThemeOneShopPage />;
+			return <ThemeOneShopPage data={products} />;
 	}
 }

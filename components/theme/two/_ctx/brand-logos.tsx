@@ -5,16 +5,15 @@ import {
 	CarouselContent,
 	CarouselItem,
 } from '@/components/ui/carousel';
+import { imageFormat } from '@/lib';
 import Autoplay from 'embla-carousel-autoplay';
-import Image from 'next/image';
 import * as React from 'react';
 
-interface BrandLogosProps {
-	images: string[];
-	className?: string;
-}
-
-export function BrandLogos({ images, className }: BrandLogosProps) {
+export function BrandLogos({
+	brands,
+}: {
+	brands: { name: string; image: string; id: number }[] | null;
+}) {
 	const autoplayPlugin = React.useMemo(
 		() =>
 			Autoplay({
@@ -28,7 +27,7 @@ export function BrandLogos({ images, className }: BrandLogosProps) {
 
 	return (
 		<div className="max-w-[1720px] mx-auto px-4 lg:px-8">
-			<div className={` border border-gray-200 rounded-lg p-4 ${className}`}>
+			<div className={` border border-gray-200 rounded-lg p-4  `}>
 				<Carousel
 					plugins={[autoplayPlugin]}
 					opts={{
@@ -40,11 +39,11 @@ export function BrandLogos({ images, className }: BrandLogosProps) {
 					className="w-full"
 				>
 					<CarouselContent className="-ml-2 md:-ml-4">
-						{images.map((image, index) => (
+						{brands?.map((brand, index) => (
 							<CarouselItem key={index} className="pl-2 md:pl-4 basis-auto">
 								<div className="flex items-center justify-center h-16 sm:h-20 md:h-24 px-4 sm:px-6 md:px-8">
-									<Image
-										src={image}
+									<img
+										src={imageFormat(brand.image)}
 										alt={`Brand logo ${index + 1}`}
 										width={120}
 										height={60}

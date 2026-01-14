@@ -7,7 +7,15 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Home, Palette, Search } from 'lucide-react';
+import {
+	Home,
+	Image,
+	Megaphone,
+	Package,
+	Palette,
+	Search,
+	ShoppingCart,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
@@ -30,6 +38,12 @@ export default function Layout({ children }: LayoutProps) {
 				icon: Home,
 			},
 			{
+				title: 'Home Banner Image',
+				tab: 'home-banner-image',
+				url: `/dashboard/cms/home-page?tab=home-banner-image`,
+				icon: Image,
+			},
+			{
 				title: 'Home Service',
 				tab: 'home-service',
 				url: `/dashboard/cms/home-page?tab=home-service`,
@@ -40,6 +54,36 @@ export default function Layout({ children }: LayoutProps) {
 				tab: 'popular-category',
 				url: `/dashboard/cms/home-page?tab=popular-category`,
 				icon: Search,
+			},
+			{
+				title: 'Best Selling Product',
+				tab: 'best-selling-product',
+				url: `/dashboard/cms/home-page?tab=best-selling-product`,
+				icon: ShoppingCart,
+			},
+			{
+				title: 'Best Selling Category',
+				tab: 'best-selling-category',
+				url: `/dashboard/cms/home-page?tab=best-selling-category`,
+				icon: Package,
+			},
+			{
+				title: 'Recommended Category',
+				tab: 'recommended-category',
+				url: `/dashboard/cms/home-page?tab=recommended-category`,
+				icon: Package,
+			},
+			{
+				title: 'Home Offer',
+				tab: 'home-offer',
+				url: `/dashboard/cms/home-page?tab=home-offer`,
+				icon: ShoppingCart,
+			},
+			{
+				title: 'Advertise Banner',
+				tab: 'advertise-banner',
+				url: `/dashboard/cms/home-page?tab=advertise-banner`,
+				icon: Megaphone,
 			},
 		],
 		[]
@@ -67,7 +111,7 @@ export default function Layout({ children }: LayoutProps) {
 			<Container1
 				isLoading={false}
 				isError={false}
-				header={<CardTitle>System - {currentItem.title}</CardTitle>}
+				header={<CardTitle>Home - {currentItem.title}</CardTitle>}
 			>
 				<div className="flex gap-4 flex-col lg:flex-row">
 					<SidebarMenu className="flex flex-row lg:flex-col w-full lg:max-w-3xs flex-wrap">

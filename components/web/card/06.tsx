@@ -17,6 +17,7 @@ export default function Card06({ services }: { services: iService[] }) {
 										<img
 											src={imageFormat(service?.icon ?? null)}
 											alt={service?.title ?? ''}
+											className="w-10 h-10 object-cover"
 										/>
 									</div>
 									<div className="flex flex-col">

@@ -42,6 +42,48 @@ export type iSystem = {
 	populer_section_subcategory_id_3: string;
 	populer_section_category_id_4: string;
 	populer_section_subcategory_id_4: string;
+
+	banner_1: string;
+	banner_1_url: string;
+	banner_2: string;
+	banner_2_url: string;
+	banner_3: string;
+	banner_3_url: string;
+
+	three_column_banner_1: string;
+	three_column_banner_1_url: string;
+	three_column_banner_2: string;
+	three_column_banner_2_url: string;
+	three_column_banner_3: string;
+	three_column_banner_3_url: string;
+
+	two_column_banner_1: string;
+	two_column_banner_1_url: string;
+	two_column_banner_2: string;
+	two_column_banner_2_url: string;
+
+	recomended_category_id_1: string;
+	recomended_sub_category_id_1: string;
+	recomended_category_id_2: string;
+	recomended_sub_category_id_2: string;
+	recomended_category_id_3: string;
+	recomended_sub_category_id_3: string;
+	recomended_category_id_4: string;
+	recomended_sub_category_id_4: string;
+
+	best_setting_title: string;
+	best_setting_category_id_1: string;
+	best_setting_sub_category_id_1: string;
+	best_setting_category_id_2: string;
+	best_setting_sub_category_id_2: string;
+	best_setting_category_id_3: string;
+	best_setting_sub_category_id_3: string;
+	best_setting_category_id_4: string;
+	best_setting_sub_category_id_4: string;
+
+	best_section_title: string;
+	best_category_id: string;
+	best_sub_category_id: string;
 };
 
 export type iSystemResponse = {
