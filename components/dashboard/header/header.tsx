@@ -12,7 +12,7 @@ export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
 	const { data: session } = useSession();
 
 	return (
-		<header className="fixed w-full top-0 left-0 md:pl-[var(--sidebar-width)] z-10 bg-white  border-b flex h-16   shrink-0 items-center gap-2 transition-[width,height,padding] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12   group-has-data-[collapsible=icon]/sidebar-wrapper:pl-10">
+		<header className="print:hidden fixed w-full top-0 left-0 md:pl-[var(--sidebar-width)] z-10 bg-white  border-b flex h-16   shrink-0 items-center gap-2 transition-[width,height,padding] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12   group-has-data-[collapsible=icon]/sidebar-wrapper:pl-10">
 			<div className="flex items-center gap-2 px-4">
 				<SidebarTrigger className="-ml-1" />
 				<Separator

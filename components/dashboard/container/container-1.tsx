@@ -56,9 +56,13 @@ export function Container1({
 					ease: [0, 0.71, 0.2, 1.01],
 				}}
 			>
-				<Card className={cn('gap-0 py-3 lg:py-6')}>
+				<Card
+					className={cn(
+						'gap-0 py-3 lg:py-6 print:border-none print:shadow-none'
+					)}
+				>
 					{header && (
-						<CardHeader className={cn('pb-0')}>
+						<CardHeader className={cn('pb-0 print:hidden')}>
 							<Motion>{header}</Motion>
 						</CardHeader>
 					)}
