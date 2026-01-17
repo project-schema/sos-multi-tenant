@@ -7,6 +7,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { SessionProvider } from '@/provider';
 import { Home, ScrollText, Store } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
@@ -61,7 +62,7 @@ export default function Layout({ children }: LayoutProps) {
 	}, [currentItem]);
 
 	return (
-		<>
+		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
 			<Container1 header={<CardTitle>{currentItem.title}</CardTitle>}>
 				<div className="flex gap-4 flex-col lg:flex-row">
@@ -94,6 +95,6 @@ export default function Layout({ children }: LayoutProps) {
 					</Card>
 				</div>
 			</Container1>
-		</>
+		</SessionProvider>
 	);
 }

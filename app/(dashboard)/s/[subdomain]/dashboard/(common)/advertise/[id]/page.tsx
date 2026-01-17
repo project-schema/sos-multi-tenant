@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { badgeFormat, env } from '@/lib';
+import { SessionProvider } from '@/provider';
 import { useVendorAdvertiseViewQuery } from '@/store/features/vendor/advertise';
 import {
 	AlertCircleIcon,
@@ -78,7 +79,7 @@ export default function Page() {
 		}
 	}
 	return (
-		<>
+		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
 			<Container1
 				isError={isError}
@@ -567,6 +568,6 @@ export default function Page() {
 					</Card>
 				</div>
 			</Container1>
-		</>
+		</SessionProvider>
 	);
 }

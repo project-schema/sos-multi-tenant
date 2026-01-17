@@ -72,7 +72,7 @@ const couponSchema = z.object({
 			message: 'Limitation must be a number',
 		}),
 	expire_date: z.date({ error: 'Expire Date is required' }),
-	user_id: z.string().min(1, 'User is required'),
+	tenant_id: z.string().min(1, 'User is required'),
 });
 
 type ZodType = z.infer<typeof couponSchema>;
@@ -120,7 +120,7 @@ const FORM = ({
 			type: 'flat',
 			limitation: 1,
 			expire_date: new Date(),
-			user_id: '',
+			tenant_id: '',
 		},
 	});
 
@@ -130,7 +130,7 @@ const FORM = ({
 				try {
 					const response = await store({
 						...data,
-						user_id: Number(data.user_id),
+						// tenant_id: Number(data.tenant_id),
 					}).unwrap();
 
 					if (response.success || response.status === 200) {
@@ -335,7 +335,7 @@ const FORM = ({
 					{/* User ID   */}
 					<FormField
 						control={form.control}
-						name="user_id"
+						name="tenant_id"
 						render={({ field }) => (
 							<SearchableSelect
 								field={field}

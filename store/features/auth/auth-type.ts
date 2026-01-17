@@ -36,13 +36,23 @@ export interface iAuthLoginResponse {
 	success: boolean;
 	message: string;
 	data: {
-		user: {
-			id: number;
-			name: string;
-			email: string;
-			last_seen: string;
-		};
+		user: iAuthUser;
 		token: string;
 		tenant_id: string;
+	};
+}
+
+export interface iAuthUser {
+	id: number;
+	name: string;
+	email: string;
+	roleType: 'tenant_user' | 'admin';
+	last_seen: string;
+	usersubscription?: {
+		id: number;
+		subscription: {
+			id: number;
+			card_heading: string;
+		};
 	};
 }

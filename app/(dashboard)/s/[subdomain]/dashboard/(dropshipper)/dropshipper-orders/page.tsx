@@ -5,11 +5,11 @@ import { Pagination1 } from '@/components/dashboard/pagination';
 import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
+import { SessionProvider } from '@/provider';
 import {
 	DropshipperProductOrderTable,
 	useDropshipperProductOrderQuery,
 } from '@/store/features/dropshipper/product-order';
-
 import { SlidersHorizontal } from 'lucide-react';
 import { useEffect, useState } from 'react';
 const breadcrumbItems = [
@@ -38,7 +38,7 @@ export default function Page() {
 	}, [statusFilter, debouncedSearchTerm]);
 
 	return (
-		<>
+		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
 			<Container1
 				isError={isError}
@@ -71,6 +71,6 @@ export default function Page() {
 					</>
 				)}
 			</Container1>
-		</>
+		</SessionProvider>
 	);
 }

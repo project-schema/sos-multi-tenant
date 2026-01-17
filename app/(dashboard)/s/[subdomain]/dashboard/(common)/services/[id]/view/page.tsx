@@ -1,6 +1,7 @@
 'use client';
 import { Container1, DbHeader } from '@/components/dashboard';
 import { CardTitle } from '@/components/ui/card';
+import { SessionProvider } from '@/provider';
 import { VendorServiceView } from '@/store/features/vendor/services/vendor-service-view';
 import { useVendorServicesSingleQuery } from '@/store/features/vendor/services/vendor-services-api-slice';
 import { useParams } from 'next/navigation';
@@ -19,7 +20,7 @@ export default function Page() {
 	);
 
 	return (
-		<>
+		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
 			<Container1
 				isError={isError}
@@ -28,6 +29,6 @@ export default function Page() {
 			>
 				{data && <VendorServiceView service={data.message} />}
 			</Container1>
-		</>
+		</SessionProvider>
 	);
 }

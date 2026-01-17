@@ -7,6 +7,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { SessionProvider } from '@/provider';
 import {
 	Home,
 	Image,
@@ -106,7 +107,7 @@ export default function Layout({ children }: LayoutProps) {
 	}, [currentItem]);
 
 	return (
-		<>
+		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
 			<Container1
 				isLoading={false}
@@ -140,6 +141,6 @@ export default function Layout({ children }: LayoutProps) {
 					<div className="w-full">{children}</div>
 				</div>
 			</Container1>
-		</>
+		</SessionProvider>
 	);
 }

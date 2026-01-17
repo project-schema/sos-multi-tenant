@@ -1,33 +1,29 @@
+import { iAuthUser } from '@/store/features/auth';
 import { TenantType } from '@/types';
 import NextAuth, { User as NextAuthUser } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 // Define the user type based on the API response
-type UserType = {
-	id: number;
-	name: string;
-	email: string;
-	last_seen: string;
-};
 
 // Define the token response type matching iAuthLoginResponse
 type TokenResponse = {
-	user: UserType;
+	user: iAuthUser;
 	token: string;
 	tenant_id: string;
 	tenant_type: TenantType;
 };
 
-type TokenUser = UserType & {
+type TokenUser = iAuthUser & {
 	tenant_type: TenantType;
 };
 
 // Define the extended user type
 interface CustomUser extends NextAuthUser {
+	is_subscription: number | null;
 	accessToken?: string;
 	refreshToken?: string;
-	user: UserType;
+	user: iAuthUser;
 	tenant_id: string;
 	tenant_type: TenantType;
 }
@@ -47,7 +43,6 @@ const handler = NextAuth({
 				try {
 					const parsedToken: TokenResponse = JSON.parse(credentials.token);
 
-					console.log(parsedToken);
 					// Validate the token structure
 					if (
 						!parsedToken.user ||
@@ -95,7 +90,6 @@ const handler = NextAuth({
 					refreshToken: customUser.refreshToken,
 					user: {
 						...customUser.user,
-						tenant_type: customUser.tenant_type,
 					},
 					tenant_id: customUser.tenant_id,
 					tenant_type: customUser.tenant_type,
@@ -108,7 +102,7 @@ const handler = NextAuth({
 			if (trigger === 'update' && session?.user) {
 				const updatedUser = {
 					...(token.user as TokenUser | undefined),
-					...(session.user as UserType),
+					...(session.user as iAuthUser),
 					tenant_type:
 						(token.user as TokenUser | undefined)?.tenant_type ??
 						(token.tenant_type as TenantType),
@@ -116,7 +110,9 @@ const handler = NextAuth({
 
 				return {
 					...token,
-					user: updatedUser,
+					user: {
+						...updatedUser,
+					},
 					iat: Math.floor(Date.now() / 1000),
 					exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60, // 24 hours
 				};

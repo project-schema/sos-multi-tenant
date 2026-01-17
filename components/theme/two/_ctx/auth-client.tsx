@@ -2,14 +2,23 @@
 
 import { TenantAndUserLogin } from '@/store/features/auth/tenants-and-user-login';
 import { TenantUserRegistration } from '@/store/features/auth/tenants-user-registration';
+import { iSubscriptionsType } from '@/types';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export default function AuthClient() {
+export default function AuthClient({
+	subscriptions,
+}: {
+	subscriptions: iSubscriptionsType;
+}) {
 	const [mode, setMode] = useState<'login' | 'register'>('login');
 	const searchParams = useSearchParams();
 	const tab = searchParams.get('tab');
+	const { data: session } = useSession();
+
+	console.log(tab, mode, session?.user?.usersubscription);
 
 	useEffect(() => {
 		if (tab) {

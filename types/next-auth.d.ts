@@ -1,3 +1,4 @@
+import { iAuthUser } from '@/store/features/auth';
 import { DefaultSession } from 'next-auth';
 import 'next-auth/jwt';
 import { TenantType } from './auth-type';
@@ -11,14 +12,7 @@ declare module 'next-auth' {
 		accessToken: string;
 		tenant_id: string;
 		tenant_type: TenantType;
-		user: {
-			id: number;
-			name: string;
-			email: string;
-			last_seen: string;
-			tenant_type: TenantType;
-			roleType: 'tenant_user' | 'admin';
-		} & DefaultSession['user'];
+		user: iAuthUser & DefaultSession['user'];
 	}
 }
 
@@ -29,13 +23,7 @@ declare module 'next-auth/jwt' {
 		refreshToken?: string;
 		tenant_id?: string;
 		tenant_type?: TenantType;
-		user?: {
-			id: number;
-			name: string;
-			email: string;
-			last_seen: string;
-			tenant_type: TenantType;
-		};
+		user?: iAuthUser & DefaultSession['user'];
 		iat?: number;
 		exp?: number;
 		error?: string;

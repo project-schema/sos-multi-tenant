@@ -1,11 +1,27 @@
 'use client';
+import SubscriptionBuyModal from '@/store/features/frontend/pricing/subscription-buy-modal';
 import { motion } from 'motion/react';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 import shape from './card-active-bg-shape.svg';
 import style from './PricingCard.module.css';
 
 function PricingCard({ data, user, i }: any) {
-	const handleSwith = () => {
+	const { data: session } = useSession();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
+	const tab = searchParams.get('tab');
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	const isAuthPage = pathname === '/auth';
+	const isPricingTab = tab === 'pricing';
+	const isSubscription = session?.user?.is_subscription;
+
+	const isFrontendPay = isAuthPage && isPricingTab && !isSubscription;
+	const handleSwitch = () => {
+		setIsModalOpen(true);
 	};
 	/*
 	const hanldeSubscription = async (id: number, amount: string) => {
@@ -125,11 +141,17 @@ function PricingCard({ data, user, i }: any) {
 
 			<button
 				// onClick={() => hanldeSubscription(data?.id, data?.subscription_amount)}
-				onClick={handleSwith}
+				onClick={handleSwitch}
 				className={`${style.buyNow} ${data.suggest && 'mb-5'}`}
 			>
 				{data?.subscription_amount === '0' ? 'Get Free' : 'Buy Now'}
 			</button>
+
+			<SubscriptionBuyModal
+				open={isModalOpen}
+				onOpenChange={setIsModalOpen}
+				subscription={data}
+			/>
 		</motion.div>
 	);
 }

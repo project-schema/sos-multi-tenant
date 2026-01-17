@@ -29,11 +29,9 @@ export default async function Page({
 	}
 
 	return (
-		<>
-			<SessionProvider>
-				<DbHeader breadcrumb={breadcrumbItems} />
-				<VendorServicePurchasePay service={service} />
-			</SessionProvider>
-		</>
+		<SessionProvider>
+			<DbHeader breadcrumb={breadcrumbItems} />
+			<VendorServicePurchasePay service={service} />
+		</SessionProvider>
 	);
 }

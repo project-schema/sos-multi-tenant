@@ -1,5 +1,6 @@
 import { Container1, DbHeader } from '@/components/dashboard';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { SessionProvider } from '@/provider';
 import {
 	VendorSubCategoryCreate,
 	VendorSubCategoryTable,
@@ -12,7 +13,7 @@ const breadcrumbItems = [
 
 export default function Page() {
 	return (
-		<>
+		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
 			<Container1 header={<CardTitle>Sub Category</CardTitle>}>
 				<div className="grid lg:grid-cols-3 gap-4">
@@ -28,6 +29,6 @@ export default function Page() {
 					</Card>
 				</div>
 			</Container1>
-		</>
+		</SessionProvider>
 	);
 }

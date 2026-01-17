@@ -36,16 +36,16 @@ export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
 			{/* Right side elements */}
 			<div className="flex items-center gap-2 ml-auto px-4">
 				{/* Balance Toggle */}
-				{session?.user?.tenant_type !== 'admin' ? <BalanceToggle /> : null}
+				{session?.tenant_type !== 'admin' ? <BalanceToggle /> : null}
 
 				{/* Notifications Dropdown */}
 				<Notification />
 
 				{/* User Profile Dropdown */}
-				{session?.user?.tenant_type === 'user' ? <UserDropdown /> : null}
-				{session?.user?.tenant_type === 'admin' ? <UserDropdown /> : null}
-				{session?.user?.tenant_type === 'merchant' ||
-				session?.user?.tenant_type === 'dropshipper' ? (
+				{session?.tenant_type === 'user' ? <UserDropdown /> : null}
+				{session?.tenant_type === 'admin' ? <UserDropdown /> : null}
+				{session?.tenant_type === 'merchant' ||
+				session?.tenant_type === 'dropshipper' ? (
 					<TenantDropdown />
 				) : null}
 			</div>

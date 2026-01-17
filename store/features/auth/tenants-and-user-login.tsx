@@ -60,7 +60,16 @@ export function TenantAndUserLogin({ settings }: { settings?: iSettingsType }) {
 				if (signInResult?.ok) {
 					toast.success('Login successful!');
 					form.reset();
-					router.push('/account');
+					if (result.data.user?.usersubscription) {
+						router.push('/dashboard');
+						return;
+					}
+
+					if (!result.data.user?.usersubscription) {
+						router.push('/dashboard/membership');
+					} else {
+						router.push('/account');
+					}
 				} else {
 					toast.error('Authentication failed. Please try again.');
 				}

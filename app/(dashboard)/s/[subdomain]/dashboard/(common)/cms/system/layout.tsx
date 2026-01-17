@@ -7,6 +7,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { SessionProvider } from '@/provider';
 import { Code, Home, Palette, Search, Text } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -74,7 +75,7 @@ export default function Layout({ children }: LayoutProps) {
 	}, [currentItem]);
 
 	return (
-		<>
+		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
 			<Container1
 				isLoading={false}
@@ -108,6 +109,6 @@ export default function Layout({ children }: LayoutProps) {
 					<div className="w-full">{children}</div>
 				</div>
 			</Container1>
-		</>
+		</SessionProvider>
 	);
 }

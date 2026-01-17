@@ -2,23 +2,33 @@
 
 import { Loader9 } from '@/components/dashboard';
 import { useSession } from 'next-auth/react';
-import { notFound, redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 	const { data: session, status } = useSession();
+	const router = useRouter();
+
+	useEffect(() => {
+		if (status === 'unauthenticated') {
+			router.replace('/auth');
+		}
+
+		if (
+			status === 'authenticated' &&
+			!session?.user?.usersubscription &&
+			(session?.tenant_type === 'dropshipper' ||
+				session?.tenant_type === 'merchant')
+		) {
+			router.replace('/dashboard/membership');
+		}
+	}, [status, session, router]);
+
 	if (status === 'loading') {
 		return <Loader9 />;
 	}
 
-	if (status === 'unauthenticated') {
-		return redirect('/auth');
-	}
-
-	if (session) {
-		return children;
-	} else {
-		return notFound();
-	}
+	return <>{children}</>;
 };
 
 export default SessionProvider;

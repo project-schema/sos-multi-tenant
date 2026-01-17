@@ -1,6 +1,7 @@
 'use client';
 import { Container1, DbHeader } from '@/components/dashboard';
 import { CardTitle } from '@/components/ui/card';
+import { SessionProvider } from '@/provider';
 import { useVendorProductByIdQuery } from '@/store/features/vendor/product/vendor-product-api-slice';
 import { VendorProductView } from '@/store/features/vendor/product/vendor-product-preview';
 import { useParams } from 'next/navigation';
@@ -19,7 +20,7 @@ export default function Page() {
 	);
 
 	return (
-		<>
+		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
 			<Container1
 				isError={isError}
@@ -28,6 +29,6 @@ export default function Page() {
 			>
 				{data?.product && <VendorProductView product={data.product} />}
 			</Container1>
-		</>
+		</SessionProvider>
 	);
 }
