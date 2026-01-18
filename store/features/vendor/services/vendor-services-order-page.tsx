@@ -160,7 +160,7 @@ export function VendorServicesOrderPage() {
 														>
 															{item.status}
 														</Badge>
-														{item.is_rejected === '1' && (
+														{(item as any).is_rejected === '1' && (
 															<>
 																<br />
 																<Badge

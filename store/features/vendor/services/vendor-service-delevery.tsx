@@ -80,7 +80,7 @@ export function VendorServiceDelivery({
 						service_order_id: order.id,
 						description: values.description,
 						files: values.files,
-						tenant_id: order.tenant_id,
+						tenant_id: (order as any).tenant_id,
 					}).unwrap();
 
 					if (response.status === 200) {

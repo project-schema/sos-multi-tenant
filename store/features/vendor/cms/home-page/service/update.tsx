@@ -49,7 +49,7 @@ const schema = z.object({
 	title: z.string().min(1, 'Title is required'),
 	description: z.string().min(1, 'Description is required'),
 	status: z.enum(['active', 'inactive']),
-	order: z.coerce.number().min(0, 'Order must be a positive number'),
+	order: z.number().min(0, 'Order must be a positive number'),
 });
 
 type ZodType = z.infer<typeof schema>;
@@ -73,7 +73,7 @@ export function ServiceUpdate({ editData }: { editData: iService }) {
 		alertConfirm({
 			onOk: async () => {
 				try {
-					const response = await updateService({
+					const response: any = await updateService({
 						...data,
 						id: editData.id,
 					}).unwrap();
@@ -97,7 +97,7 @@ export function ServiceUpdate({ editData }: { editData: iService }) {
 						}
 					}
 				} catch (error: any) {
-					if (error?.status === 422 && typeof error.message === 'object') {
+					if (error?.status === 'error' && typeof error.message === 'object') {
 						Object.entries(error.message).forEach(([field, value]) => {
 							form.setError(field as keyof ZodType, {
 								type: 'server',

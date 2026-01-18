@@ -144,9 +144,9 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 				purchase_type: 'single',
 				tenant_id: 'borax',
 				qty: [quantity],
-				size_id: [selectedSize],
-				color_id: [selectedColor],
-				unit_id: [product.unit_id],
+				size_id: [selectedSize] as any,
+				color_id: [selectedColor] as any,
+				unit_id: [product.unit_id] as any,
 				frontend_purchase: 'yes',
 				cartItems: [
 					{

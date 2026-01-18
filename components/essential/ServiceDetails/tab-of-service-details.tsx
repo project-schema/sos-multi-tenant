@@ -10,11 +10,11 @@ export default function TabOfSD({ packages = [] as any[] }) {
 
 	const servicePackages = useMemo(() => packages, [packages]);
 	const { data: session } = useSession();
-	const isUser = session?.user?.tenant_type === 'user';
+	const isUser = session?.tenant_type === 'user';
 
 	const isTenant =
-		session?.user?.tenant_type === 'dropshipper' ||
-		session?.user?.tenant_type === 'merchant';
+		session?.tenant_type === 'dropshipper' ||
+		session?.tenant_type === 'merchant';
 
 	return (
 		<div className={style.servicesDetailsTab}>

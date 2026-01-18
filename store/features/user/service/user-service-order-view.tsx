@@ -12,13 +12,12 @@ import {
 import { badgeFormat, dateFormat, env, timeFormat } from '@/lib';
 import { CreditCard, FileText, Package, Store } from 'lucide-react';
 import Image from 'next/image';
-import { iAdminServiceOrder } from '../../admin/service';
 import { ServiceRatingCard } from './service-ratting-card';
 import { ServiceRatingForm } from './service-ratting-form';
 import { UserDeliverySuccess } from './user-delivery-success';
 import { UserRevisionSend } from './user-revision-send';
 
-export function UserServiceOrderView({ order }: { order: iAdminServiceOrder }) {
+export function UserServiceOrderView({ order }: { order: any }) {
 	return (
 		<div className="space-y-6 max-w-5xl mx-auto">
 			{/* Order Overview */}
@@ -158,7 +157,7 @@ export function UserServiceOrderView({ order }: { order: iAdminServiceOrder }) {
 							</p>
 						) : (
 							<div className="space-y-2">
-								{order.orderdelivery.map((delivery) => (
+								{order.orderdelivery.map((delivery: any) => (
 									<div key={delivery.id} className="border rounded-lg p-4">
 										<p className="text-sm mb-2">
 											Delivered on:{' '}
@@ -174,7 +173,7 @@ export function UserServiceOrderView({ order }: { order: iAdminServiceOrder }) {
 												</p>
 
 												<div className="flex flex-wrap gap-2">
-													{delivery.deliveryfiles.map((file) => (
+													{delivery.deliveryfiles?.map((file: any) => (
 														<div
 															key={file.id}
 															className="border rounded-md p-2"

@@ -121,6 +121,15 @@ export type iAdminServiceOrder = {
 		id: number;
 		name: string;
 		email: string;
+		number: string;
+		uniqid: string;
+		role_as: string;
+		status: string;
+		image: string;
+		created_at: string;
+		updated_at: string;
+		deleted_at: string;
+		number2: null;
 	};
 	servicedetails: {
 		id: number;

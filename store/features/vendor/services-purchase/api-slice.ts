@@ -1,6 +1,7 @@
 import { iPagination } from '@/types/pagination.type';
 import { iServiceType } from '@/types/services.type';
 import { apiSlice } from '../../api/apiSlice';
+import { iVendorServicesPurchaseOrder } from './type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
@@ -49,7 +50,7 @@ const api = apiSlice.injectEndpoints({
 
 		// service order lists
 		VendorServicesPurchaseOrder: builder.query<
-			iPagination<iServiceType>,
+			{ data: iPagination<iVendorServicesPurchaseOrder>; message: string },
 			{
 				page: number | string;
 				search: string;

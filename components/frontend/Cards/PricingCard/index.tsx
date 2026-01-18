@@ -17,7 +17,7 @@ function PricingCard({ data, user, i }: any) {
 
 	const isAuthPage = pathname === '/auth';
 	const isPricingTab = tab === 'pricing';
-	const isSubscription = session?.user?.is_subscription;
+	const isSubscription = session?.user?.usersubscription;
 
 	const isFrontendPay = isAuthPage && isPricingTab && !isSubscription;
 	const handleSwitch = () => {

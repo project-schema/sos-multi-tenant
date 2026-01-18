@@ -55,7 +55,7 @@ export type iAddToCartRequest = {
 		color?: string | null;
 		size?: string | null;
 		variant_id?: number | null;
-		unit?: number | null;
+		unit?: any;
 	}[];
 };
 
@@ -149,7 +149,7 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		// Add to cart
-		addToCart: builder.mutation<iAddToCartResponse, iAddToCartRequest>({
+		addToCart: builder.mutation<iAddToCartResponse, any>({
 			query: (data) => ({
 				url: `/tenant-frontend/add-to-cart`,
 				method: 'POST',

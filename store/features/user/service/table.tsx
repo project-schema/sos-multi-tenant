@@ -106,7 +106,7 @@ export function UserServiceTable({
 									>
 										{item.status}
 									</Badge>
-									{item.is_rejected === '1' && (
+									{(item as any).is_rejected === '1' && (
 										<>
 											<br />
 											<Badge className="capitalize" variant="destructive">

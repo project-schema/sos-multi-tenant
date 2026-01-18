@@ -16,7 +16,7 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		// store service
-		tenantStoreService: builder.mutation<{ status: 200; message: string }, any>(
+		tenantStoreService: builder.mutation<{ status: string; message: string }, any>(
 			{
 				query: (data) => {
 					const body = new FormData();
@@ -39,7 +39,7 @@ const api = apiSlice.injectEndpoints({
 
 		// update service
 		tenantUpdateService: builder.mutation<
-			{ status: 200; message: string },
+			{ status: string; message: string },
 			any
 		>({
 			query: (data) => {
@@ -62,7 +62,7 @@ const api = apiSlice.injectEndpoints({
 
 		// delete service
 		tenantDeleteService: builder.mutation<
-			{ status: 200; message: string },
+			{ status: string; message: string },
 			{ id: string | number }
 		>({
 			query: (data) => ({

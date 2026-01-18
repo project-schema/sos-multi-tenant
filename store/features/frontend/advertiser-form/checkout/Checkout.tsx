@@ -48,7 +48,7 @@ function Checkout({
 			paymethod: state.paymethod,
 			audience: 'no data',
 			status: 'pending',
-			tenant_type: session?.user?.tenant_type === 'user' ? 'user' : 'tenant',
+			tenant_type: session?.tenant_type === 'user' ? 'user' : 'tenant',
 		};
 
 		const formedDataL2 = level2SubmitFormat({
@@ -64,7 +64,7 @@ function Checkout({
 					window.location.href = `${response.message.payment_url}`;
 				} else {
 					router.push(
-						session?.user.tenant_type === 'user'
+						session?.tenant_type === 'user'
 							? `/user/advertise`
 							: `/dashboard/advertise`
 					);

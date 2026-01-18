@@ -68,11 +68,11 @@ function Nav({ settings }: { settings: iSettingsType }) {
 										<DropdownMenuItem
 											className="capitalize mb-1"
 											onClick={() => {
-												profileLink(session.user.tenant_type);
+												profileLink(session.tenant_type);
 											}}
 											asChild
 										>
-											<Link href={profileLink(session.user.tenant_type)}>
+											<Link href={profileLink(session.tenant_type)}>
 												Profile
 											</Link>
 										</DropdownMenuItem>
@@ -80,10 +80,10 @@ function Nav({ settings }: { settings: iSettingsType }) {
 											className="capitalize mb-1"
 											asChild
 											onClick={() => {
-												dashboardLink(session.user.tenant_type);
+												dashboardLink(session.tenant_type);
 											}}
 										>
-											<Link href={dashboardLink(session.user.tenant_type)}>
+											<Link href={dashboardLink(session.tenant_type)}>
 												Dashboard
 											</Link>
 										</DropdownMenuItem>

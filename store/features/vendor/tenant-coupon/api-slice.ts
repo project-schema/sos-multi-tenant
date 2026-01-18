@@ -1,5 +1,5 @@
 import { apiSlice } from '../../api/apiSlice';
-import { iTenantCoupon, iTenantCouponResponse } from './type';
+import { iTenantCouponResponse } from './type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
@@ -42,7 +42,7 @@ const api = apiSlice.injectEndpoints({
 		// store
 		TenantStoreCoupon: builder.mutation<
 			{ status: 200; message: string; success: boolean },
-			Partial<iTenantCoupon>
+			any
 		>({
 			query: (data) => ({
 				url: `/tenant-coupon/store`,
@@ -55,7 +55,7 @@ const api = apiSlice.injectEndpoints({
 		// update
 		TenantUpdateCoupon: builder.mutation<
 			{ status: 200; message: string; success: boolean },
-			Partial<iTenantCoupon>
+			any
 		>({
 			query: (data) => ({
 				url: `/tenant-coupon/update/${data.id}`,

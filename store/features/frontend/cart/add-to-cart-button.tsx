@@ -69,9 +69,9 @@ export function AddToCartButton({
 				product_id: productId,
 				purchase_type: 'single',
 				tenant_id: session?.tenant_id,
-				color_id: [color || null],
-				size_id: [size || null],
-				unit_id: [unit || null],
+				color_id: [color || null] as any,
+				size_id: [size || null] as any,
+				unit_id: [unit || null] as any,
 				qty: [qty],
 				cartItems: [
 					{

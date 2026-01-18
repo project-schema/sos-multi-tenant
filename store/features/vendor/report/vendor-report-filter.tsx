@@ -30,7 +30,7 @@ export function VendorReportFilter({
 }: {
 	filters: {
 		searchTerm: string;
-		status: 'all' | 'paid' | 'due';
+		status: any;
 		start_date: Date | undefined;
 		end_date: Date | undefined;
 		product_id?: string;

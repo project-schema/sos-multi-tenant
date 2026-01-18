@@ -30,9 +30,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { iCompleteMerchantProduct } from '../../admin/merchant-product/merchant-product.type';
 import { useDropshipperCustomPriceMutation } from './dropshipper-product-api-slice';
-import { iDropShipperProduct } from './dropshipper-product-type';
 
 //  Zod Schema
 const couponSchema = z.object({
@@ -42,11 +40,7 @@ const couponSchema = z.object({
 type ZodType = z.infer<typeof couponSchema>;
 
 //  Component
-export function DropshipperCustomPrice({
-	data,
-}: {
-	data: iCompleteMerchantProduct;
-}) {
+export function DropshipperCustomPrice({ data }: { data: any }) {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -77,7 +71,7 @@ const FORM = ({
 	editData,
 }: {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	editData: iDropShipperProduct;
+	editData: any;
 }) => {
 	const [update, { isLoading }] = useDropshipperCustomPriceMutation();
 

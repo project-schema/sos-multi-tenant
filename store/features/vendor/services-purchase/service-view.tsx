@@ -13,14 +13,9 @@ import { Separator } from '@/components/ui/separator';
 import { badgeFormat, env, timeFormat } from '@/lib';
 import { CreditCard, FileText, Package, User } from 'lucide-react';
 import Image from 'next/image';
-import { iAdminServiceOrder } from '../../admin/service';
 import { ServiceRatingCard } from '../../user/service/service-ratting-card';
 
-export function VendorServicePurchaseView({
-	order,
-}: {
-	order: iAdminServiceOrder;
-}) {
+export function VendorServicePurchaseView({ order }: { order: any }) {
 	return (
 		<div className="space-y-6 max-w-5xl mx-auto">
 			{/* Order Overview */}
@@ -136,7 +131,7 @@ export function VendorServicePurchaseView({
 									Service ID:
 								</span>
 								<span className="text-sm font-medium">
-									{order.vendor_service_id || 'N/A'}
+									{(order as any).vendor_service_id || 'N/A'}
 								</span>
 							</div>
 							<div className="flex justify-between">
@@ -144,7 +139,7 @@ export function VendorServicePurchaseView({
 									Package ID:
 								</span>
 								<span className="text-sm font-medium">
-									{order.service_package_id || 'N/A'}
+									{(order as any).service_package_id || 'N/A'}
 								</span>
 							</div>
 							<div className="flex justify-between">
@@ -152,7 +147,7 @@ export function VendorServicePurchaseView({
 									Commission Type:
 								</span>
 								<Badge variant="outline" className="capitalize">
-									{order.commission_type || 'N/A'}
+									{(order as any).commission_type || 'N/A'}
 								</Badge>
 							</div>
 							<div className="flex justify-between">
@@ -160,7 +155,7 @@ export function VendorServicePurchaseView({
 									Commission Amount:
 								</span>
 								<span className="text-sm font-medium">
-									৳ {order.commission_amount || '0.00'}
+									৳ {(order as any).commission_amount || '0.00'}
 								</span>
 							</div>
 						</div>
@@ -192,7 +187,7 @@ export function VendorServicePurchaseView({
 					<div>
 						<p className="text-sm text-muted-foreground mb-2">Attachments:</p>
 						<div className="flex flex-wrap gap-2">
-							{order.files?.map((file) => (
+							{order.files?.map((file: any) => (
 								<div key={file.id} className="border rounded-md p-2">
 									<Image
 										src={`${env.baseAPI}/${file.name}`}
@@ -224,7 +219,7 @@ export function VendorServicePurchaseView({
 							</p>
 						) : (
 							<div className="space-y-2">
-								{order.orderdelivery?.map((delivery) => (
+								{order.orderdelivery?.map((delivery: any) => (
 									<div key={delivery.id} className="border rounded-lg p-4">
 										<p className="text-sm mb-2">
 											Delivered on:{' '}
@@ -242,7 +237,7 @@ export function VendorServicePurchaseView({
 												</p>
 
 												<div className="flex flex-wrap gap-2">
-													{delivery.deliveryfiles?.map((file) => (
+													{delivery.deliveryfiles?.map((file: any) => (
 														<div
 															key={file.id}
 															className="border rounded-md p-2"

@@ -81,7 +81,7 @@ export function VendorPurchaseReportPage() {
 				{/* Filter */}
 				{toggleFilter && (
 					<VendorReportFilter
-						filters={filters}
+						filters={filters as any}
 						setFilters={setFilters}
 						clearFilters={clearFilters}
 						select={['start_date', 'end_date']}

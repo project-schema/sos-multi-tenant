@@ -27,7 +27,7 @@ export default async function Page({
 	return (
 		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<VendorServicePurchaseView service={service} />
+			<VendorServicePurchaseView order={service } />
 		</SessionProvider>
 	);
 }

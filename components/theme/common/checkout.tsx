@@ -379,7 +379,7 @@ export default function Checkout() {
 
 								{/* Order Items */}
 								<div className="divide-y max-h-64 overflow-y-auto">
-									{items.map((item) => (
+									{items.map((item: any) => (
 										<div key={item.id} className="py-3 flex items-start gap-3">
 											<div className="w-14 h-14 rounded overflow-hidden flex-shrink-0">
 												<img

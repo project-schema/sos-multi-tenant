@@ -13,7 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { badgeFormat, dateFormat, sign, tableSrCount } from '@/lib';
 
 import { ClickToCopy } from '@/hooks/use-copy';
-import { AdminActiveCouponDelete } from './coupon-delete';
+import { TenantCouponDelete } from './coupon-delete';
 import { EditCouponModal } from './edit-modal';
 import { iTenantCoupon } from './type';
 
@@ -90,7 +90,7 @@ export function AdminCouponTable({ data }: { data: iTenantCoupon[] }) {
 							</TableCell>
 							<TableCell className="py-2 space-x-2">
 								<EditCouponModal data={item} />
-								<AdminActiveCouponDelete data={item} />
+								<TenantCouponDelete data={item} />
 							</TableCell>
 						</TableRow>
 					))

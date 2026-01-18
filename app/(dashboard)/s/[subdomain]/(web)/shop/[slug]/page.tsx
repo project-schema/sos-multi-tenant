@@ -6,7 +6,7 @@ import { env } from '@/lib';
 export default async function ProductDetailsPage({
 	params,
 }: {
-	searchParams: { slug: string };
+	params: { slug: string };
 }) {
 	const { slug } = await params;
 	switch (env.theme) {

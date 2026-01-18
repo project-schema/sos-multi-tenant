@@ -15,7 +15,10 @@ const api = apiSlice.injectEndpoints({
 		),
 
 		// store banner
-		tenantStoreBanner: builder.mutation<{ status: 200; message: string }, any>({
+		tenantStoreBanner: builder.mutation<
+			{ status: string; message: string },
+			any
+		>({
 			query: (data) => {
 				const body = new FormData();
 				Object.entries(data).forEach(([key, value]) => {
@@ -35,30 +38,31 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		// update banner
-		tenantUpdateBanner: builder.mutation<{ status: 200; message: string }, any>(
-			{
-				query: (data) => {
-					const body = new FormData();
-					Object.entries(data).forEach(([key, value]) => {
-						if (value !== undefined && value !== null) {
-							body.append(key, value as string);
-						}
-					});
+		tenantUpdateBanner: builder.mutation<
+			{ status: string; message: string },
+			any
+		>({
+			query: (data) => {
+				const body = new FormData();
+				Object.entries(data).forEach(([key, value]) => {
+					if (value !== undefined && value !== null) {
+						body.append(key, value as string);
+					}
+				});
 
-					return {
-						url: `/tenant/banner/${data.id}`,
-						method: 'POST',
-						body,
-						formData: true,
-					};
-				},
-				invalidatesTags: ['TenantBanner'],
-			}
-		),
+				return {
+					url: `/tenant/banner/${data.id}`,
+					method: 'POST',
+					body,
+					formData: true,
+				};
+			},
+			invalidatesTags: ['TenantBanner'],
+		}),
 
 		// delete banner
 		tenantDeleteBanner: builder.mutation<
-			{ status: 200; message: string },
+			{ status: string | number; message: string },
 			{ id: string | number }
 		>({
 			query: (data) => ({

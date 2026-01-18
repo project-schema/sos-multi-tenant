@@ -47,7 +47,7 @@ const schema = z.object({
 	title: z.string().min(1, 'Title is required'),
 	description: z.string().min(1, 'Description is required'),
 	status: z.enum(['active', 'inactive']),
-	order: z.coerce.number().min(0, 'Order must be a positive number'),
+	order: z.number().min(0, 'Order must be a positive number'),
 });
 
 type ZodType = z.infer<typeof schema>;
@@ -81,7 +81,7 @@ export function ServiceCreate() {
 					} else {
 						const errorResponse = response as any;
 						if (
-							response.status === 422 &&
+							response.status === 'error' &&
 							typeof errorResponse.errors === 'object'
 						) {
 							Object.entries(errorResponse.errors).forEach(([field, value]) => {
@@ -95,7 +95,7 @@ export function ServiceCreate() {
 						}
 					}
 				} catch (error: any) {
-					if (error?.status === 422 && typeof error.message === 'object') {
+					if (error?.status === 'error' && typeof error.message === 'object') {
 						Object.entries(error.message).forEach(([field, value]) => {
 							form.setError(field as keyof ZodType, {
 								type: 'server',

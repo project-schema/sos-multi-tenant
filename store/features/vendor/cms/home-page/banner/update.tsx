@@ -48,9 +48,9 @@ const schema = z.object({
 		.optional(),
 	title: z.string().min(1, 'Title is required'),
 	subtitle: z.string().optional(),
-	link: z.string().url('Please enter a valid URL').optional().or(z.literal('')),
+	link: z.string().optional(),
 	status: z.enum(['active', 'inactive']),
-	order: z.coerce.number().min(0, 'Order must be a positive number'),
+	order: z.number().min(0, 'Order must be a positive number'),
 });
 
 type ZodType = z.infer<typeof schema>;
@@ -67,7 +67,7 @@ export function BannerUpdate({ editData }: { editData: iBanner }) {
 			subtitle: editData.subtitle || '',
 			link: editData.link || '',
 			status: editData.status || 'active',
-			order: editData.order || 0,
+			order: Number(editData.order) || 0,
 		},
 	});
 
@@ -79,13 +79,13 @@ export function BannerUpdate({ editData }: { editData: iBanner }) {
 						...data,
 						id: editData.id,
 					}).unwrap();
-					if (response.status === 'success') {
+					if ((response as any).status === 200) {
 						toast.success(response.message || 'Slider updated successfully');
 						setOpen(false);
 					} else {
 						const errorResponse = response as any;
 						if (
-							response.status === 422 &&
+							response.status === 'error' &&
 							typeof errorResponse.errors === 'object'
 						) {
 							Object.entries(errorResponse.errors).forEach(([field, value]) => {

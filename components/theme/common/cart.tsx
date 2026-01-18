@@ -183,7 +183,7 @@ export default function CommonCart() {
 											className="relative w-20 h-20 rounded overflow-hidden flex-shrink-0"
 										>
 											<img
-												src={imageFormat(product?.image)}
+												src={imageFormat(product?.image || null)}
 												alt={product?.name || 'Product'}
 												className="object-cover"
 											/>

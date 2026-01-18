@@ -6,9 +6,9 @@ import { LoaderCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useTenantDeleteCouponMutation } from './api-slice';
-import { iAdminCoupon } from './type';
+import { iTenantCoupon } from './type';
 
-export function AdminActiveCouponDelete({ data }: { data: iAdminCoupon }) {
+export function TenantCouponDelete({ data }: { data: iTenantCoupon }) {
 	const [clicked, setClicked] = useState(false);
 	const [mutation, { isLoading }] = useTenantDeleteCouponMutation();
 

@@ -46,9 +46,9 @@ const schema = z.object({
 		.refine((file) => file.size > 0, { message: 'Image is required' }),
 	title: z.string().min(1, 'Title is required'),
 	subtitle: z.string().optional(),
-	link: z.string().url('Please enter a valid URL').optional().or(z.literal('')),
+	link: z.string().optional(),
 	status: z.enum(['active', 'inactive']),
-	order: z.coerce.number().min(0, 'Order must be a positive number'),
+	order: z.number().min(0, 'Order must be a positive number'),
 });
 
 type ZodType = z.infer<typeof schema>;
@@ -83,7 +83,7 @@ export function BannerCreate() {
 					} else {
 						const errorResponse = response as any;
 						if (
-							response.status === 422 &&
+							(response as any).status === 422 &&
 							typeof errorResponse.errors === 'object'
 						) {
 							Object.entries(errorResponse.errors).forEach(([field, value]) => {

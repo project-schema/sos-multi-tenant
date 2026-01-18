@@ -62,9 +62,9 @@ export const ProductInfo = ({
 
 			{/* brand  */}
 			<div className="flex items-center gap-2">
-				<Badge variant="outline">{product?.brand?.name}</Badge>
-				<Badge variant="outline">{product?.category?.name}</Badge>{' '}
-				<Badge variant="outline">{product?.subcategory?.name}</Badge>
+				<Badge variant="outline">{(product as any)?.brand?.name}</Badge>
+				<Badge variant="outline">{(product as any)?.category?.name}</Badge>{' '}
+				<Badge variant="outline">{(product as any)?.subcategory?.name}</Badge>
 			</div>
 
 			<div>SKU: {product?.sku}</div>

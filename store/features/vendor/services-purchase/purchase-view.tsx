@@ -22,8 +22,8 @@ import { ChevronDown, CreditCard, FileText, Package, User } from 'lucide-react';
 import Image from 'next/image';
 import { iAdminServiceOrder } from '../../admin/service';
 import { ServiceRatingCard } from '../../user/service/service-ratting-card';
-import { VendorServiceDelivery } from './vendor-service-delevery';
-import { VendorServiceOrderStatus } from './vendor-service-order-status';
+import { VendorServiceDelivery } from '../services/vendor-service-delevery';
+import { VendorServiceOrderStatus } from '../services/vendor-service-order-status';
 
 export function VendorServicePurchaseView({
 	order,
@@ -68,12 +68,13 @@ export function VendorServicePurchaseView({
 										<AdminServiceOrderCancelReq data={order} />
 									)} */}
 
-									{order.is_rejected === '1' && order.status !== 'canceled' && (
-										<>
-											{/* <VendorServiceOrderStatusAccept data={order} /> */}
-											{/* <VendorServiceOrderStatusCancel data={order} /> */}
-										</>
-									)}
+									{(order as any).is_rejected === '1' &&
+										order.status !== 'canceled' && (
+											<>
+												{/* <VendorServiceOrderStatusAccept data={order} /> */}
+												{/* <VendorServiceOrderStatusCancel data={order} /> */}
+											</>
+										)}
 
 									{/* {order.status !== 'pending' && (
 										<VendorServiceOrderStatus
@@ -135,7 +136,7 @@ export function VendorServicePurchaseView({
 								</p>
 							</div>
 
-							{order.is_rejected === '1' && (
+							{(order as any).is_rejected === '1' && (
 								<Badge variant="destructive" className="capitalize">
 									Rejected
 								</Badge>
@@ -234,7 +235,7 @@ export function VendorServicePurchaseView({
 									Service ID:
 								</span>
 								<span className="text-sm font-medium">
-									{order.vendor_service_id || 'N/A'}
+									{(order as any).vendor_service_id || 'N/A'}
 								</span>
 							</div>
 							<div className="flex justify-between">
@@ -242,7 +243,7 @@ export function VendorServicePurchaseView({
 									Package ID:
 								</span>
 								<span className="text-sm font-medium">
-									{order.service_package_id || 'N/A'}
+									{(order as any).service_package_id || 'N/A'}
 								</span>
 							</div>
 							<div className="flex justify-between">
@@ -250,7 +251,7 @@ export function VendorServicePurchaseView({
 									Commission Type:
 								</span>
 								<Badge variant="outline" className="capitalize">
-									{order.commission_type || 'N/A'}
+									{(order as any).commission_type || 'N/A'}
 								</Badge>
 							</div>
 							<div className="flex justify-between">
@@ -258,7 +259,7 @@ export function VendorServicePurchaseView({
 									Commission Amount:
 								</span>
 								<span className="text-sm font-medium">
-									৳ {order.commission_amount || '0.00'}
+									৳ {(order as any).commission_amount || '0.00'}
 								</span>
 							</div>
 						</div>

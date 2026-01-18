@@ -1,5 +1,5 @@
 import { Session } from 'next-auth';
-export const profileLink = (role: Session['user']['tenant_type']) => {
+export const profileLink = (role: Session['tenant_type']) => {
 	if (role === 'admin') {
 		return '/admin/profile';
 	}

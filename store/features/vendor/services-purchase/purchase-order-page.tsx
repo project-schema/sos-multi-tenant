@@ -136,12 +136,12 @@ export function VendorServicesPurchaseOrderPage() {
 													</TableCell>
 
 													<TableCell className="py-2">
-														<Link
+														{/* <Link
 															className="hover:underline hover:text-blue-500 transition"
 															href={`/admin/users/${item.id}`}
 														>
 															{item?.customerdetails?.name}
-														</Link>
+														</Link> */}
 													</TableCell>
 
 													<TableCell className="py-2">
@@ -183,7 +183,7 @@ export function VendorServicesPurchaseOrderPage() {
 								</TableBody>
 							</Table>
 						</div>
-						<Pagination1 pagination={data?.message} setPage={setPage} />
+						<Pagination1 pagination={data?.data} setPage={setPage} />
 					</>
 				)}
 			</Container1>

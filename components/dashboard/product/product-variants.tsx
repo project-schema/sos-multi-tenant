@@ -20,7 +20,7 @@ export const ProductVariants = ({
 	const { data: session } = useSession();
 	return (
 		<>
-			{session?.user?.tenant_type === 'dropshipper' && (
+			{session?.tenant_type === 'dropshipper' && (
 				<DropshipperProductAddToCart product={product} />
 			)}
 		</>

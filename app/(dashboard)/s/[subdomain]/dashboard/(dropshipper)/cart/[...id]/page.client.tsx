@@ -1012,8 +1012,8 @@ export default function CartViewPageClient({
 							<span>Product Price:</span>
 							<span className="font-medium">
 								{productPrice({
-									selling_price: data?.data?.product_price,
-									discount_price: data?.data?.discount_price,
+									selling_price: data?.data?.product_price || 0,
+									discount_price: (data?.data as any)?.discount_price || 0,
 								})}
 								{sign.tk}
 							</span>

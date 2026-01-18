@@ -5,7 +5,7 @@ import ContactPage from '@/store/features/frontend/contact/contact';
 export default function ThemeTwoContactPage() {
 	return (
 		<>
-			<Header02 cms={null} />
+			<Header02 />
 			<ContactPage />
 			<Footer02 />
 		</>

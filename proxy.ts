@@ -132,7 +132,7 @@ export async function proxy(request: NextRequest) {
 		}
 
 		// Check tenant_type for route access
-		const tenantType = token.tenant_type || token.user?.tenant_type;
+		const tenantType = token.tenant_type;
 
 		// Protect /admin routes - only allow 'admin' tenant_type
 		if (pathname.startsWith('/admin')) {

@@ -55,29 +55,29 @@ const couponSchema = z
 			.min(1, 'Coupon code is required')
 			.max(255, 'Code is too long'),
 		discount_type: z.enum(['flat', 'percentage'], {
-			required_error: 'Discount type is required',
+			error: 'Discount type is required',
 		}),
 		discount_value: z
-			.number({ required_error: 'Discount value is required' })
+			.number({ error: 'Discount value is required' })
 			.min(0, 'Discount value must be at least 0'),
 		min_order_amount: z
-			.number({ required_error: 'Minimum order amount is required' })
+			.number({ error: 'Minimum order amount is required' })
 			.min(0, 'Minimum order amount must be at least 0'),
 		max_discount_amount: z
-			.number({ required_error: 'Maximum discount amount is required' })
+			.number({ error: 'Maximum discount amount is required' })
 			.min(0, 'Maximum discount amount must be at least 0'),
 		usage_limit: z
-			.number({ required_error: 'Usage limit is required' })
+			.number({ error: 'Usage limit is required' })
 			.int('Usage limit must be an integer')
 			.min(1, 'Usage limit must be at least 1'),
 		usage_limit_per_user: z
-			.number({ required_error: 'Usage limit per user is required' })
+			.number({ error: 'Usage limit per user is required' })
 			.int('Usage limit per user must be an integer')
 			.min(1, 'Usage limit per user must be at least 1'),
-		valid_from: z.date({ required_error: 'Valid from date is required' }),
-		valid_to: z.date({ required_error: 'Valid to date is required' }),
+		valid_from: z.date({ error: 'Valid from date is required' }),
+		valid_to: z.date({ error: 'Valid to date is required' }),
 		status: z.enum(['active', 'inactive'], {
-			required_error: 'Status is required',
+			error: 'Status is required',
 		}),
 	})
 	.refine((data) => data.valid_to >= data.valid_from, {

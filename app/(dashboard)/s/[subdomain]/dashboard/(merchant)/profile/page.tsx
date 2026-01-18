@@ -10,7 +10,7 @@ import { useSearchParams } from 'next/navigation';
 export default function User() {
 	const { data: session } = useSession();
 	const searchParams = useSearchParams().get('tab');
-	const isDropshipper = session?.user?.tenant_type === 'dropshipper';
+	const isDropshipper = session?.tenant_type === 'dropshipper';
 	switch (searchParams) {
 		case 'note':
 			return <VendorProfileNote />;

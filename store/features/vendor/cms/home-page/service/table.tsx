@@ -44,7 +44,7 @@ function ServiceDelete({ data }: { data: iService }) {
 		alertConfirm({
 			onOk: async () => {
 				try {
-					const res = await mutation({
+					const res: any = await mutation({
 						id: data.id,
 					}).unwrap();
 					if (res.status === 200) {
@@ -167,8 +167,11 @@ export function ServiceTable() {
 					</TableBody>
 				</Table>
 			</div>
-			{services?.services && (
-				<Pagination1 pagination={services?.services} setPage={setPage} />
+			{(services as any)?.services && (
+				<Pagination1
+					pagination={(services as any)?.services}
+					setPage={setPage}
+				/>
 			)}
 		</>
 	);

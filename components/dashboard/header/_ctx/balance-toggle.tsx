@@ -24,7 +24,7 @@ export function BalanceToggle() {
 	} = useProfileDataQuery(undefined, {
 		refetchOnFocus: false,
 		refetchOnMountOrArgChange: false,
-		skip: session?.user?.tenant_type !== 'user',
+		skip: session?.tenant_type !== 'user',
 	});
 	const [showBalance, setShowBalance] = useState(false);
 	const [isBalanceLoading, setIsBalanceLoading] = useState(false);
@@ -74,9 +74,7 @@ export function BalanceToggle() {
 			variant="ghost"
 			size="sm"
 			onClick={
-				session?.user?.tenant_type === 'user'
-					? userToggleBalance
-					: toggleBalance
+				session?.tenant_type === 'user' ? userToggleBalance : toggleBalance
 			}
 			className="flex items-center gap-2 cursor-pointer"
 		>
@@ -88,7 +86,7 @@ export function BalanceToggle() {
 			) : showBalance ? (
 				<span className="font-medium">
 					{sign.tk}{' '}
-					{session?.user?.tenant_type === 'user'
+					{session?.tenant_type === 'user'
 						? userData?.user?.balance?.toFixed(2)
 						: data?.shop_info?.balance
 						? data?.shop_info?.balance

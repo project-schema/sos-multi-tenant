@@ -99,7 +99,7 @@ export const ServiceOrderCheckout = ({
 			onOk: async () => {
 				try {
 					const tenant_type =
-						session?.user?.tenant_type === 'user' ? 'user' : 'tenant';
+						session?.tenant_type === 'user' ? 'user' : 'tenant';
 					const formData = new FormData();
 					formData.append('payment_type', gateway);
 					formData.append('service_package_id', packageId);

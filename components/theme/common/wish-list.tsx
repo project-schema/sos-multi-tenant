@@ -117,7 +117,7 @@ export default function CommonWishList() {
 				{/* Rows */}
 				<div className="divide-y">
 					{items.map((item) => {
-						const product = item?.product;
+						const product = (item as any)?.product;
 						const hasDiscount =
 							product?.discount_price &&
 							Number(product?.discount_price) < Number(product?.selling_price);
