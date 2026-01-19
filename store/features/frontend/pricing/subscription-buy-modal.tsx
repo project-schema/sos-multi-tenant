@@ -70,10 +70,11 @@ export default function SubscriptionBuyModal({
 					coupon_id: appliedCoupon?.data?.id || null,
 				};
 
-				const result = await buySubscriptionPay(paymentData).unwrap();
+				const result: any = await buySubscriptionPay(paymentData).unwrap();
+				console.log(result);
 				// Handle payment redirect or success
-				if (result.data?.payment_url) {
-					window.location.href = result.data.payment_url;
+				if (result?.payment_url) {
+					window.location.href = result.payment_url;
 				}
 			}
 		} catch (error) {
