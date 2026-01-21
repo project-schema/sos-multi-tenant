@@ -1,12 +1,18 @@
 'use client';
 
 import { Loader9 } from '@/components/dashboard';
+import { useVendorProfileInfoQuery } from '@/store/features/vendor/profile';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 	const { data: session, status } = useSession();
+	const { data, isLoading, isError } = useVendorProfileInfoQuery(undefined, {
+		skip:
+			session?.tenant_type !== 'merchant' &&
+			session?.tenant_type !== 'dropshipper',
+	});
 	const router = useRouter();
 
 	useEffect(() => {
@@ -16,15 +22,16 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 
 		if (
 			status === 'authenticated' &&
-			!session?.user?.usersubscription &&
+			data &&
+			!data.usersubscription &&
 			(session?.tenant_type === 'dropshipper' ||
 				session?.tenant_type === 'merchant')
 		) {
 			router.replace('/dashboard/membership');
 		}
-	}, [status, session, router]);
+	}, [status, session, data, router]);
 
-	if (status === 'loading') {
+	if (status === 'loading' || isLoading) {
 		return <Loader9 />;
 	}
 

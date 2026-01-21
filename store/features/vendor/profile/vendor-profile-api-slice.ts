@@ -2,6 +2,7 @@ import { iPagination } from '@/types';
 import { apiSlice } from '../../api/apiSlice';
 import {
 	iNote,
+	iSubscription,
 	iUser,
 	iVendorProfile,
 	iVendorShopInfo,
@@ -10,7 +11,11 @@ import {
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		VendorProfileInfo: builder.query<
-			{ status: 200; user: iVendorProfile },
+			{
+				status: 200;
+				user: iVendorProfile;
+				usersubscription: iSubscription | null;
+			},
 			undefined
 		>({
 			query: () => ({

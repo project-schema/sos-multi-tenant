@@ -31,16 +31,18 @@ export default function SubscriptionBuyModal({
 	const { data: session } = useSession();
 	const [couponCode, setCouponCode] = useState('');
 	const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
-	const [isProcessing, setIsProcessing] = useState(false);
+	console.log(appliedCoupon);
 
-	const [buySubscription] = useFrontendBuySubscriptionMutation();
-	const [applyCoupon] = useFrontendApplyCouponMutation();
-	const [buySubscriptionPay] = useFrontendBuySubscriptionPayMutation();
+	const [buySubscription, { isLoading: isBuyingSubscription }] =
+		useFrontendBuySubscriptionMutation();
+	const [applyCoupon, { isLoading: isApplyingCoupon }] =
+		useFrontendApplyCouponMutation();
+	const [buySubscriptionPay, { isLoading: isBuyingSubscriptionPay }] =
+		useFrontendBuySubscriptionPayMutation();
 
 	const handleApplyCoupon = async () => {
 		if (!couponCode.trim()) return;
 
-		setIsProcessing(true);
 		try {
 			const result = await applyCoupon({ name: couponCode }).unwrap();
 			setAppliedCoupon(result);
@@ -48,13 +50,10 @@ export default function SubscriptionBuyModal({
 		} catch (error) {
 			console.error('Failed to apply coupon:', error);
 			// Handle error (show toast or alert)
-		} finally {
-			setIsProcessing(false);
 		}
 	};
 
 	const handlePurchase = async () => {
-		setIsProcessing(true);
 		try {
 			if (subscription.subscription_amount === '0') {
 				// Free subscription
@@ -68,6 +67,7 @@ export default function SubscriptionBuyModal({
 					subscription_id: subscription.id.toString(),
 					payment_type: 'aamarpay' as const,
 					coupon_id: appliedCoupon?.data?.id || null,
+					tenant_id: session?.tenant_id || '',
 				};
 
 				const result: any = await buySubscriptionPay(paymentData).unwrap();
@@ -80,8 +80,6 @@ export default function SubscriptionBuyModal({
 		} catch (error) {
 			console.error('Purchase failed:', error);
 			// Handle error (show toast or alert)
-		} finally {
-			setIsProcessing(false);
 		}
 	};
 
@@ -162,18 +160,32 @@ export default function SubscriptionBuyModal({
 									placeholder="Enter coupon code"
 									value={couponCode}
 									onChange={(e) => setCouponCode(e.target.value)}
-									disabled={isProcessing}
+									disabled={
+										isApplyingCoupon ||
+										isBuyingSubscription ||
+										isBuyingSubscriptionPay
+									}
 									className="flex-1"
 								/>
 								<Button
 									onClick={handleApplyCoupon}
-									disabled={!couponCode.trim() || isProcessing}
+									disabled={
+										!couponCode.trim() ||
+										isApplyingCoupon ||
+										isBuyingSubscription ||
+										isBuyingSubscriptionPay
+									}
 									variant="default"
 								>
 									Apply
 								</Button>
 							</div>
-							{appliedCoupon && (
+							{!appliedCoupon?.success && appliedCoupon?.data?.name && (
+								<div className="text-red-500 text-sm mt-2">
+									{appliedCoupon?.data?.name}
+								</div>
+							)}
+							{appliedCoupon && appliedCoupon?.success && (
 								<div className="mt-3 p-2 bg-green-100 text-green-800 rounded-md text-sm">
 									Coupon applied: {appliedCoupon.data?.code} (
 									{appliedCoupon.data?.discount_value}
@@ -191,16 +203,24 @@ export default function SubscriptionBuyModal({
 					<Button
 						variant="outline"
 						onClick={() => onOpenChange(false)}
-						disabled={isProcessing}
+						disabled={
+							isApplyingCoupon ||
+							isBuyingSubscription ||
+							isBuyingSubscriptionPay
+						}
 					>
 						Cancel
 					</Button>
 					<Button
 						onClick={handlePurchase}
-						disabled={isProcessing}
+						disabled={
+							isApplyingCoupon ||
+							isBuyingSubscription ||
+							isBuyingSubscriptionPay
+						}
 						className="bg-green-600 hover:bg-green-700"
 					>
-						{isProcessing
+						{isBuyingSubscription || isBuyingSubscriptionPay
 							? 'Processing...'
 							: subscription.subscription_amount === '0'
 							? 'Get Free'

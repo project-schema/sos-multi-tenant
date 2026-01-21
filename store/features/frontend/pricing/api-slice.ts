@@ -33,12 +33,13 @@ const api = apiSlice.injectEndpoints({
 				subscription_id: string;
 				payment_type: 'aamarpay';
 				coupon_id: string | null;
+				tenant_id: string;
 			}
 		>({
-			query: ({ subscription_id, payment_type, coupon_id }) => ({
+			query: ({ subscription_id, payment_type, coupon_id, tenant_id }) => ({
 				url: `/tenant-subscription/buy-subscription`,
 				method: 'POST',
-				body: { subscription_id, payment_type, coupon_id },
+				body: { subscription_id, payment_type, coupon_id, tenant_id },
 			}),
 		}),
 	}),
