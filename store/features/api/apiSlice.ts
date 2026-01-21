@@ -4,11 +4,8 @@ import { getSession } from 'next-auth/react';
 
 export const getApiBaseUrl1 = () => {
 	if (typeof window === 'undefined') return `${env.baseAPI}/api`;
-	console.log(env.baseAPI);
-	console.log(window);
 
 	const { hostname } = window.location;
-	console.log({ hostname });
 
 	// Check if the hostname is a subdomain of localhost (e.g., testcompany.localhost)
 	const parts = hostname.split('.');
@@ -26,7 +23,6 @@ export const getApiBaseUrl1 = () => {
 
 	if (!env.baseAPI.includes('localhost')) {
 		const domain = env.baseAPI.split('//')[1];
-		console.log(env.baseAPI.split('//')[1]);
 		apiHost = `${parts[0]}.${domain}`;
 	}
 
@@ -64,7 +60,10 @@ export const getApiBaseUrl = () => {
 	const apiDomain = env.baseAPI.replace(/^https?:\/\//, ''); // storeeb.com
 	const subdomain = parts[0]; // two
 
-	return `https://${subdomain}.${apiDomain}/api`;
+	if (parts.length === 2 && subdomain) {
+		return `https://${subdomain}.${apiDomain}/api`;
+	}
+	return `https://${apiDomain}/api`;
 };
 
 const baseQuery = fetchBaseQuery({
