@@ -8,10 +8,13 @@ export default async function Header02() {
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
 		'/tenant-frontend/cms'
 	);
+	console.log({ settings });
 	return (
 		<header className="w-full bg-white">
 			{/* Top Promotional Bar */}
-			<TopPromotionalBar />
+			{settings?.offers?.length && settings?.offers?.length > 0 && (
+				<TopPromotionalBar offers={settings?.offers ?? []} />
+			)}
 
 			{/* Main Header Section */}
 			<MainHeader cms={settings?.cms ?? null} />

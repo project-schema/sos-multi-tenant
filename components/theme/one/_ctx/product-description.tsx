@@ -1,10 +1,15 @@
 'use client';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { iVendorProductView } from '@/store/features/vendor/product/vendor-product-type';
 import { Star } from 'lucide-react';
 import * as React from 'react';
 
-export function ProductDescription() {
+export function ProductDescription({
+	product,
+}: {
+	product: iVendorProductView;
+}) {
 	const [openFaqIndex, setOpenFaqIndex] = React.useState<number | null>(0);
 
 	const faqs = [
@@ -99,24 +104,11 @@ export function ProductDescription() {
 
 				{/* Description Tab */}
 				<TabsContent value="description" className="mt-6 space-y-8  ">
-					<div>
-						<h2 className="text-lg font-semibold mb-3">Description</h2>
-						<p className="text-gray-700">
-							The model is wearing a white blouse from our stylist's collection.
-							Fabric is artificial silk manufactured by synthetic fibres like
-							rayon. It's light in weight and soft on the skin for comfort in
-							summers.
-						</p>
-					</div>
-
-					<div>
-						<h2 className="text-lg font-semibold mb-3">Material & Care</h2>
-						<ul className="list-disc pl-5 text-gray-700 space-y-1">
-							<li>Top fabric: pure cotton</li>
-							<li>Bottom fabric: pure cotton</li>
-							<li>Hand-wash</li>
-						</ul>
-					</div>
+					<div
+						dangerouslySetInnerHTML={{
+							__html: product?.long_description || '',
+						}}
+					></div>
 
 					<div>
 						<h2 className="text-lg font-semibold mb-3">Size Chart (inches)</h2>
@@ -166,7 +158,7 @@ export function ProductDescription() {
 				{/* FAQ Tab */}
 				<TabsContent value="faq" className="mt-6">
 					<div className="space-y-4">
-						{faqs.map((faq, index) => (
+						{product?.specifications?.map((faq, index) => (
 							<div
 								key={index}
 								className="border border-gray-200 rounded-lg overflow-hidden"
@@ -178,7 +170,7 @@ export function ProductDescription() {
 									className="w-full text-left px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
 								>
 									<span className="font-semibold text-gray-900">
-										{faq.question}
+										{faq.specification}
 									</span>
 									<span className="text-gray-500 text-xl">
 										{openFaqIndex === index ? '−' : '+'}
@@ -186,7 +178,7 @@ export function ProductDescription() {
 								</button>
 								{openFaqIndex === index && (
 									<div className="px-4 pb-3 text-gray-700 border-t border-gray-200 bg-gray-50">
-										<p className="pt-3">{faq.answer}</p>
+										<p className="pt-3">{faq.specification_ans}</p>
 									</div>
 								)}
 							</div>

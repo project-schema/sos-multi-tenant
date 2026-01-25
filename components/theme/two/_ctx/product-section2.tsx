@@ -19,7 +19,6 @@ export async function ProductSection2({
 		`/tenant-frontend/products/${include || buttons?.[0]?.value}`
 	);
 
-	console.log({ products });
 	return (
 		<div className="max-w-[1720px] mx-auto px-4 lg:px-8">
 			<div className="flex items-center flex-wrap gap-4 justify-between mb-6">

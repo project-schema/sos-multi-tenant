@@ -1,15 +1,13 @@
-import Image from 'next/image';
+import { imageFormat } from '@/lib';
+import { iTenantFrontend } from '@/types/tenant-frontend';
 
-export default function Card05() {
+export default function Card05({ settings }: { settings: iTenantFrontend }) {
 	return (
 		<div className="relative aspect-[16/5] w-full overflow-hidden rounded-xl">
-			<Image
-				src="https://i.ibb.co.com/gZvXSq2t/ads-3.png"
-				alt="EID Specials & Discounts"
-				fill
+			<img
+				src={imageFormat(settings?.cms?.three_column_banner_1 ?? null)}
+				alt={settings?.cms?.three_column_banner_1 ?? ''}
 				className="object-cover"
-				priority
-				sizes="(min-width: 1024px) 640px, 100vw"
 			/>
 			<div className="pointer-events-none absolute inset-0 ring-1 ring-black/5" />
 		</div>

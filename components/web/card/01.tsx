@@ -1,61 +1,13 @@
 'use client';
 
+import { imageFormat } from '@/lib';
+import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
 import { Eye, Heart, Share2, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
-interface ProductCardProps {
-	id: number;
-	title: string;
-	subtitle?: string;
-	price: string;
-	originalPrice?: string;
-	discount?: string;
-	image: string;
-	rating: number;
-	reviewCount: number;
-	badge?: string;
-	isNew?: boolean;
-	isOnSale?: boolean;
-	colors?: string[];
-	sizes?: string[];
-	href?: string;
-}
-
-const defaultProduct: ProductCardProps = {
-	id: 1,
-	title: 'Premium Koti Collection',
-	subtitle: 'Traditional Waistcoat',
-	price: '৳2,499',
-	originalPrice: '৳3,999',
-	discount: '37% OFF',
-	image: 'https://i.ibb.co.com/MyvjK6sT/product-1.png',
-	rating: 4.8,
-	reviewCount: 124,
-	badge: 'Best Seller',
-	isNew: false,
-	isOnSale: true,
-	colors: ['#3B82F6', '#EF4444', '#10B981', '#F59E0B'],
-	sizes: ['S', 'M', 'L', 'XL'],
-	href: '/shop/koti-collection',
-};
-
-export default function Card01({
-	product = defaultProduct,
-	showQuickActions = true,
-	showColors = true,
-	showSizes = true,
-	className = '',
-}: {
-	product?: ProductCardProps;
-	showQuickActions?: boolean;
-	showColors?: boolean;
-	showSizes?: boolean;
-	className?: string;
-}) {
+export default function Card01({ product }: { product?: iVendorProduct }) {
 	const [isWishlisted, setIsWishlisted] = useState(false);
-	const [selectedColor, setSelectedColor] = useState(product.colors?.[0]);
-	const [selectedSize, setSelectedSize] = useState(product.sizes?.[0]);
 	const [isHovered, setIsHovered] = useState(false);
 
 	const handleWishlist = (e: React.MouseEvent) => {
@@ -68,29 +20,29 @@ export default function Card01({
 		e.preventDefault();
 		e.stopPropagation();
 		// Handle quick view functionality
-		console.log('Quick view:', product.id);
+		console.log('Quick view:', product?.id);
 	};
 
 	const handleShare = (e: React.MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
 		// Handle share functionality
-		console.log('Share:', product.id);
+		console.log('Share:', product?.id);
 	};
 
 	return (
 		<div
-			className={`group relative bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden ${className}`}
+			className={`group relative bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden`}
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 		>
 			{/* Image Container */}
 			<div className="relative aspect-[4/5] overflow-hidden bg-gray-100">
 				{/* Product Image */}
-				<Link href={`/shop/${product.id}`}>
+				<Link href={`/shop/${product?.id}`}>
 					<img
-						src={product.image}
-						alt={product.title}
+						src={imageFormat(product?.image ?? null)}
+						alt={product?.name}
 						className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
 						loading="lazy"
 					/>
@@ -98,7 +50,7 @@ export default function Card01({
 
 				{/* Badges */}
 				<div className="absolute top-3 left-3 flex flex-col gap-2">
-					{product.badge && (
+					{/* {product?.badge && (
 						<span className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
 							{product.badge}
 						</span>
@@ -112,11 +64,11 @@ export default function Card01({
 						<span className="bg-purple-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
 							SALE
 						</span>
-					)}
+					)} */}
 				</div>
 
 				{/* Quick Actions */}
-				{showQuickActions && (
+				{isHovered && (
 					<div
 						className={`absolute top-3 right-3 flex flex-col gap-2 transition-all duration-300 ${
 							isHovered
@@ -152,10 +104,10 @@ export default function Card01({
 				)}
 
 				{/* Discount Badge */}
-				{product.discount && (
+				{product?.discount_price && (
 					<div className="absolute bottom-3 left-3">
 						<span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
-							{product.discount}
+							{product?.discount_price}
 						</span>
 					</div>
 				)}
@@ -166,11 +118,11 @@ export default function Card01({
 				{/* Title & Subtitle */}
 				<div>
 					<Link
-						href={product.href || `/shop/${product.id}`}
+						href={`/shop/${product?.slug}`}
 						className="block group-hover:text-blue-600 transition-colors duration-200"
 					>
 						<h3 className="font-semibold text-gray-900 text-sm line-clamp-1">
-							{product.title}
+							{product?.name}
 						</h3>
 					</Link>
 				</div>
@@ -179,11 +131,11 @@ export default function Card01({
 				<div className="flex items-center justify-between">
 					<div className="flex items-center space-x-2">
 						<span className="text-lg font-bold text-gray-900">
-							{product.price}
+							{product?.selling_price}
 						</span>
-						{product.originalPrice && (
+						{product?.original_price && (
 							<span className="text-sm text-gray-500 line-through">
-								{product.originalPrice}
+								{product?.original_price}
 							</span>
 						)}
 					</div>

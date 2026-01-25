@@ -86,7 +86,7 @@ const api = apiSlice.injectEndpoints({
 			{
 				query: (data) => {
 					const body = new FormData();
-					Object.entries(data as any).forEach(([key, value]) => {
+					Object?.entries(data as any)?.forEach(([key, value]) => {
 						if (key === 'images') {
 							(value as any[])?.forEach((item: any, index: number) => {
 								body.append(`images[${index}]`, item);

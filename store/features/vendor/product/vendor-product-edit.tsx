@@ -116,7 +116,7 @@ export const VendorProductEdit = ({
 			is_feature: editData.is_feature,
 			pre_order: editData.pre_order === '1' ? 1 : 0,
 			is_affiliate: editData.is_affiliate === 1 ? true : false,
-			selling_type: editData.selling_type,
+			selling_type: editData.selling_type || 'single',
 			is_connect_bulk_single:
 				editData.is_connect_bulk_single === '1' ? true : false,
 			discount_type: editData.discount_type || 'flat',
@@ -125,10 +125,11 @@ export const VendorProductEdit = ({
 			single_advance_payment_type:
 				editData.single_advance_payment_type || 'flat',
 
-			market_place_brand_id: editData.market_place_brand_id.toString(),
-			market_place_category_id: editData.market_place_category_id.toString(),
+			market_place_brand_id: editData.market_place_brand_id?.toString() ?? '',
+			market_place_category_id:
+				editData.market_place_category_id?.toString() ?? '',
 			market_place_subcategory_id:
-				editData.market_place_subcategory_id.toString(),
+				editData.market_place_subcategory_id?.toString() ?? '',
 		},
 	});
 
@@ -187,7 +188,7 @@ export const VendorProductEdit = ({
 			is_feature: editData.is_feature,
 			pre_order: editData.pre_order === '1' ? 1 : 0,
 			is_affiliate: editData.is_affiliate === 1 ? true : false,
-			selling_type: editData.selling_type,
+			selling_type: editData.selling_type || 'single',
 			is_connect_bulk_single:
 				editData.is_connect_bulk_single === '1' ? true : false,
 			discount_type: editData.discount_type || 'flat',
@@ -208,10 +209,11 @@ export const VendorProductEdit = ({
 				advance_payment_type: selling.advance_payment_type,
 			})),
 
-			market_place_brand_id: editData.market_place_brand_id.toString(),
-			market_place_category_id: editData.market_place_category_id.toString(),
+			market_place_brand_id: editData.market_place_brand_id?.toString() ?? '',
+			market_place_category_id:
+				editData.market_place_category_id?.toString() ?? '',
 			market_place_subcategory_id:
-				editData.market_place_subcategory_id.toString(),
+				editData.market_place_subcategory_id?.toString() ?? '',
 		});
 	}, [editData]);
 

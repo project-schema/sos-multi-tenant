@@ -439,3 +439,20 @@ a {
 /* theme 3 home page  */
 .THEME-3 {
 }
+
+/* barcode print page  */
+.A4 {
+	max-width: 210mm;
+}
+
+.LABEL75_100 {
+	width: 75mm;
+}
+
+.LABEL38_25 {
+	width: 38mm;
+}
+
+.LABEL38_15 {
+	width: 38mm;
+}

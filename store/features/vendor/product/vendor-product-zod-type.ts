@@ -20,6 +20,7 @@ const SellingDetailSchema = z.object({
 		.optional(),
 	min_bulk_price: z
 		.number({ error: 'Min bulk price is required' })
+
 		.min(0, { message: 'Min bulk price must be at least 0' })
 		.max(10000000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
@@ -304,5 +305,7 @@ export const VendorProductCreateData = (values: VendorProductCreateZod) => {
 				...market_place,
 			};
 		}
+	} else {
+		return data;
 	}
 };

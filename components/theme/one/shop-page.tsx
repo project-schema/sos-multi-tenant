@@ -1,4 +1,3 @@
-import { Pagination1 } from '@/components/dashboard/pagination';
 import { Card01 } from '@/components/web';
 import Footer01 from '@/components/web/footer/01';
 import Header01 from '@/components/web/header/01';
@@ -33,13 +32,13 @@ export default function ThemeOneShopPage({
 					<div className="lg:col-span-9">
 						<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
 							{data?.data?.map((p) => (
-								<Card01 key={p.id} />
+								<Card01 key={p.id} product={p} />
 							))}
 						</div>
 
 						{/* Pagination */}
 						<div className="mt-8">
-							<Pagination1 pagination={data} setPage={() => {}} />
+							{/* <Pagination1 pagination={data} setPage={() => {}} /> */}
 						</div>
 					</div>
 				</div>

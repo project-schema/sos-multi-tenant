@@ -6,26 +6,31 @@ import {
 	CarouselItem,
 	type CarouselApi,
 } from '@/components/ui/carousel';
-import Image from 'next/image';
+import { imageFormat } from '@/lib';
+import { iVendorProductView } from '@/store/features/vendor/product/vendor-product-type';
 import * as React from 'react';
 
-export function ProductGallery() {
+export function ProductGallery({ product }: { product?: iVendorProductView }) {
 	const [api, setApi] = React.useState<CarouselApi>();
 	const [current, setCurrent] = React.useState(0);
 	const [thumbApi, setThumbApi] = React.useState<CarouselApi>();
-
 	const images = [
-		'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070&auto=format&fit=crop',
-		'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop',
-		'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=2070&auto=format&fit=crop',
-		'https://images.unsplash.com/photo-1516826957135-700dedea698c?q=80&w=2069&auto=format&fit=crop',
-		'https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=2069&auto=format&fit=crop',
-		'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070&auto=format&fit=crop',
-		'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop',
-		'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=2070&auto=format&fit=crop',
-		'https://images.unsplash.com/photo-1516826957135-700dedea698c?q=80&w=2069&auto=format&fit=crop',
-		'https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=2069&auto=format&fit=crop',
+		imageFormat(product?.image ?? null),
+		...(product?.product_image?.map((p) => imageFormat(p.image ?? null)) ?? []),
 	];
+
+	// const images = [
+	// 	'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070&auto=format&fit=crop',
+	// 	'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop',
+	// 	'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=2070&auto=format&fit=crop',
+	// 	'https://images.unsplash.com/photo-1516826957135-700dedea698c?q=80&w=2069&auto=format&fit=crop',
+	// 	'https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=2069&auto=format&fit=crop',
+	// 	'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070&auto=format&fit=crop',
+	// 	'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop',
+	// 	'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=2070&auto=format&fit=crop',
+	// 	'https://images.unsplash.com/photo-1516826957135-700dedea698c?q=80&w=2069&auto=format&fit=crop',
+	// 	'https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=2069&auto=format&fit=crop',
+	// ];
 
 	React.useEffect(() => {
 		if (!api) {
@@ -55,12 +60,12 @@ export function ProductGallery() {
 					{images.map((src, index) => (
 						<CarouselItem key={`main-${index}`}>
 							<div className="w-full h-[350px] md:h-[380px] 2xl:h-[430px] bg-gray-100 rounded-md overflow-hidden relative">
-								<Image
-									src={src}
+								<img
+									src={src ?? null}
 									alt={`Product image ${index + 1}`}
-									fill
 									className="object-cover"
-									sizes="(max-width: 768px) 100vw, 50vw"
+									width={1000}
+									height={1000}
 								/>
 							</div>
 						</CarouselItem>
@@ -95,7 +100,7 @@ export function ProductGallery() {
 										}
 									`}
 								>
-									<Image
+									<img
 										src={src}
 										alt={`Thumbnail ${index + 1}`}
 										width={76}

@@ -11,12 +11,12 @@ export default async function ProductDetailsPage({
 	const { slug } = await params;
 	switch (env.theme) {
 		case 'one':
-			return <ThemeOneProductDetailsPage />;
+			return <ThemeOneProductDetailsPage params={{ slug }} />;
 		case 'two':
 			return <ThemeTwoProductDetailsPage params={{ slug }} />;
 		case 'three':
 			return <ThemeThreeProductDetailsPage />;
 		default:
-			return <ThemeOneProductDetailsPage />;
+			return <ThemeOneProductDetailsPage params={{ slug }} />;
 	}
 }

@@ -3,7 +3,11 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Card03 } from '../card';
 
-export function Category01() {
+export function Category01({
+	categories,
+}: {
+	categories: { name: string; image: string; id: number }[] | null;
+}) {
 	return (
 		<div>
 			<Swiper
@@ -38,30 +42,11 @@ export function Category01() {
 				}}
 				modules={[Autoplay, Pagination]}
 			>
-				<SwiperSlide>
-					<Card03 />
-				</SwiperSlide>
-				<SwiperSlide>
-					<Card03 />
-				</SwiperSlide>
-				<SwiperSlide>
-					<Card03 />
-				</SwiperSlide>
-				<SwiperSlide>
-					<Card03 />
-				</SwiperSlide>
-				<SwiperSlide>
-					<Card03 />
-				</SwiperSlide>
-				<SwiperSlide>
-					<Card03 />
-				</SwiperSlide>
-				<SwiperSlide>
-					<Card03 />
-				</SwiperSlide>
-				<SwiperSlide>
-					<Card03 />
-				</SwiperSlide>
+				{categories?.map((category) => (
+					<SwiperSlide key={category.id}>
+						<Card03 category={category} />
+					</SwiperSlide>
+				))}
 			</Swiper>
 		</div>
 	);

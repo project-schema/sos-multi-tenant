@@ -57,7 +57,11 @@ export async function getApiDataWithSubdomain<T = any>(
 		}
 
 		const apiDomain = env.baseAPI.replace(/^https?:\/\//, '');
-		const apiUrl = `https://${subdomain}.${apiDomain}/api${url}`;
+		const isLocalhost = env.baseAPI.includes('localhost');
+
+		const apiUrl = !isLocalhost
+			? `https://${subdomain}.${apiDomain}/api${url}`
+			: `http://${subdomain}.localhost:8000/api${url}`;
 		console.log({ apiUrl });
 
 		const res = await fetch(apiUrl, {

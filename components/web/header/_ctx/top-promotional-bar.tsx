@@ -5,21 +5,11 @@ import {
 	CarouselContent,
 	CarouselItem,
 } from '@/components/ui/carousel';
+import { iHomeOffer } from '@/store/features/vendor/cms/home-page/offer/type';
 import Autoplay from 'embla-carousel-autoplay';
 import * as React from 'react';
 
-const promotionalMessages = [
-	'10% discount on your first purchase for new members',
-	'Get 10% off your first order — use code: WELCOME10',
-	'New Season Collection | Shop Now',
-	'Free Returns Within 30 Days 4',
-	'10% discount on your first purchase for new members 1',
-	'Get 10% off your first order — use code: WELCOME10 2',
-	'New Season Collection | Shop Now 3',
-	'Free Returns Within 30 Days',
-];
-
-export const TopPromotionalBar = () => {
+export const TopPromotionalBar = ({ offers }: { offers: iHomeOffer[] }) => {
 	const autoplayPlugin = React.useMemo(
 		() =>
 			Autoplay({
@@ -44,11 +34,11 @@ export const TopPromotionalBar = () => {
 					className="w-full"
 				>
 					<CarouselContent className="-ml-0">
-						{promotionalMessages.map((message, index) => (
+						{offers.map((offer, index) => (
 							<CarouselItem key={index} className="pl-0 basis-auto pr-6">
 								<div className="flex items-center gap-3 text-xs whitespace-nowrap">
-									<span>{message}</span>
-									{index < promotionalMessages.length - 1 && (
+									<span>{offer.title}</span>
+									{index < offers.length - 1 && (
 										<span className="text-white">•</span>
 									)}
 								</div>
