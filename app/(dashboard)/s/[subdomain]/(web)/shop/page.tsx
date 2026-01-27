@@ -22,7 +22,7 @@ export default async function ShopPage() {
 		case 'two':
 			return <ThemeTwoShopPage data={products} />;
 		case 'three':
-			return <ThemeThreeShopPage />;
+			return <ThemeThreeShopPage data={products} />;
 		default:
 			return <ThemeOneShopPage data={products} />;
 	}

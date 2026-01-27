@@ -4,7 +4,7 @@ import { Loader9 } from '@/components/dashboard';
 import { useVendorProfileInfoQuery } from '@/store/features/vendor/profile';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 
 const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 	const { data: session, status } = useSession();
@@ -15,21 +15,21 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 	});
 	const router = useRouter();
 
-	useEffect(() => {
-		if (status === 'unauthenticated') {
-			router.replace('/auth');
-		}
+	// useEffect(() => {
+	// 	if (status === 'unauthenticated') {
+	// 		router.replace('/auth');
+	// 	}
 
-		if (
-			status === 'authenticated' &&
-			data &&
-			!data.usersubscription &&
-			(session?.tenant_type === 'dropshipper' ||
-				session?.tenant_type === 'merchant')
-		) {
-			router.replace('/dashboard/membership');
-		}
-	}, [status, session, data, router]);
+	// 	if (
+	// 		status === 'authenticated' &&
+	// 		data &&
+	// 		!data.usersubscription &&
+	// 		(session?.tenant_type === 'dropshipper' ||
+	// 			session?.tenant_type === 'merchant')
+	// 	) {
+	// 		router.replace('/dashboard/membership');
+	// 	}
+	// }, [status, session, data, router]);
 
 	if (status === 'loading' || isLoading) {
 		return <Loader9 />;

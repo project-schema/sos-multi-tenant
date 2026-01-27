@@ -1,4 +1,5 @@
 import ThemeOneAuthPage from '@/components/theme/one/auth-page';
+import ThemeThreeAuthPage from '@/components/theme/three/auth-page';
 import ThemeTwoAuthPage from '@/components/theme/two/auth-page';
 import { env } from '@/lib';
 
@@ -9,7 +10,7 @@ export default function AuthPage() {
 		case 'two':
 			return <ThemeTwoAuthPage />;
 		case 'three':
-			return <ThemeOneAuthPage />;
+			return <ThemeThreeAuthPage />;
 		default:
 			return <ThemeOneAuthPage />;
 	}

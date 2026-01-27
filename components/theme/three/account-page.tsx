@@ -5,7 +5,9 @@ export default function ThemeThreeAccountPage() {
 	return (
 		<>
 			<Header03 />
-			<CommonAccount />
+			<div className="max-w-[1420px] mx-auto py-10">
+				<CommonAccount />
+			</div>
 			<Footer03 />
 		</>
 	);

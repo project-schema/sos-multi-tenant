@@ -15,7 +15,7 @@ export default async function ProductDetailsPage({
 		case 'two':
 			return <ThemeTwoProductDetailsPage params={{ slug }} />;
 		case 'three':
-			return <ThemeThreeProductDetailsPage />;
+			return <ThemeThreeProductDetailsPage params={{ slug }} />;
 		default:
 			return <ThemeOneProductDetailsPage params={{ slug }} />;
 	}

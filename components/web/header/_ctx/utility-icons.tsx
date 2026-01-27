@@ -2,7 +2,7 @@
 
 import { useGetCartQuery } from '@/store/features/frontend/cart';
 import { useGetWishlistQuery } from '@/store/features/frontend/wish-list';
-import { GitCompare, Heart, ShoppingCart } from 'lucide-react';
+import { Heart, ShoppingCart } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
@@ -28,13 +28,10 @@ export function UtilityIcons({ variant = 'desktop' }: UtilityIconsProps) {
 
 	return (
 		<div
-			className={`flex items-center gap-4 ${
+			className={`flex items-center ${
 				variant === 'mobile' ? '' : 'hidden md:flex'
 			}`}
 		>
-			<button className="w-10 h-10 flex items-center justify-center text-gray-700 hover:text-orange-500 transition-colors">
-				<GitCompare className="w-5 h-5" />
-			</button>
 			<Link
 				href="/shop/wish-list"
 				className="relative w-10 h-10 flex items-center justify-center text-gray-700 hover:text-orange-500 transition-colors"

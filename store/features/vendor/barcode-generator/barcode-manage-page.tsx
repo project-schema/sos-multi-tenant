@@ -50,14 +50,16 @@ export function VendorBarcodeManagePage({
 					<>
 						<div className="pb-2 lg:pb-3 flex items-center justify-between">
 							<CardTitle>Barcode Manage</CardTitle>
-							<Button
-								className="ml-auto"
-								variant="outline"
-								onClick={() => setPrintBarcodes(true)}
-							>
-								<Barcode className="h-4 w-4" />
-								Generate Barcode
-							</Button>
+							{selectedBarcodes.bar_qty.length > 0 && (
+								<Button
+									className="ml-auto"
+									variant="outline"
+									onClick={() => setPrintBarcodes(true)}
+								>
+									<Barcode className="h-4 w-4" />
+									Generate Barcode
+								</Button>
+							)}
 						</div>
 						<VendorBarcodeManageFilter
 							searchTerm={searchTerm}

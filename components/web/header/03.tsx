@@ -1,5 +1,5 @@
-'use client';
-
+import { getApiDataWithSubdomain, imageFormat } from '@/lib';
+import { iTenantFrontend } from '@/types/tenant-frontend';
 import {
 	ChevronDown,
 	Facebook,
@@ -8,13 +8,17 @@ import {
 	Music,
 	Phone,
 	Search,
-	ShoppingCart,
 	Twitter,
-	User,
 } from 'lucide-react';
 import Link from 'next/link';
+import { UserAccount } from './_ctx/user-account';
+import { UtilityIcons } from './_ctx/utility-icons';
 
-export default function Header03() {
+export default async function Header03() {
+	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
+		'/tenant-frontend/cms'
+	);
+	console.log({ settings });
 	const menuItems = [
 		{
 			label: 'New',
@@ -154,39 +158,28 @@ export default function Header03() {
 							href="/"
 							className="flex flex-col items-center justify-center flex-shrink-0"
 						>
+							<img
+								className="h-10"
+								src={imageFormat(settings?.cms.logo || null)}
+								alt="logo"
+							/>
+						</Link>
+						{/* <Link
+							href="/"
+							className="flex flex-col items-center justify-center flex-shrink-0"
+						>
 							<span className="text-[#800020] text-base sm:text-lg font-serif leading-none">
 								SOS
 							</span>
 							<span className="text-black text-xl sm:text-2xl lg:text-3xl font-serif font-semibold leading-none">
 								Comerz
 							</span>
-						</Link>
+						</Link> */}
 
 						{/* Account and Cart - Right */}
-						<div className="flex items-center gap-4 sm:gap-6">
-							<Link
-								href="/account"
-								className="flex items-center gap-2 text-[#800020] hover:opacity-80 transition-opacity"
-							>
-								<User className="w-5 h-5" />
-								<span className="hidden sm:inline text-sm font-medium">
-									Account
-								</span>
-							</Link>
-							<Link
-								href="/cart"
-								className="flex items-center gap-2 text-[#800020] hover:opacity-80 transition-opacity"
-							>
-								<div className="relative">
-									<ShoppingCart className="w-5 h-5" />
-									<span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
-										1
-									</span>
-								</div>
-								<span className="hidden sm:inline text-sm font-medium">
-									Cart
-								</span>
-							</Link>
+						<div className="flex items-center gap-4">
+							<UtilityIcons variant="desktop" />
+							<UserAccount />
 						</div>
 					</div>
 				</div>

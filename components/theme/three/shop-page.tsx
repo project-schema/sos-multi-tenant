@@ -8,12 +8,19 @@ import {
 	PaginationPrevious,
 } from '@/components/ui/pagination';
 import { Card10, Footer03, Header03 } from '@/components/web';
+import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
+import { iPagination } from '@/types';
 
 const dummyProducts = Array.from({ length: 12 }).map((_, idx) => ({
 	id: idx + 1,
 }));
 
-export default function ThemeThreeShopPage() {
+export default function ThemeThreeShopPage({
+	data,
+}: {
+	data: iPagination<iVendorProduct>;
+}) {
+	console.log(data);
 	return (
 		<>
 			<Header03 />
@@ -94,8 +101,8 @@ export default function ThemeThreeShopPage() {
 						{/* Products Grid */}
 						<div className="lg:col-span-10">
 							<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-								{dummyProducts.map((p) => (
-									<Card10 key={p.id} className="h-[380px]" />
+								{data?.data?.map((p) => (
+									<Card10 key={p.id} data={p} />
 								))}
 							</div>
 

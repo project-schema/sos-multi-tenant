@@ -1,101 +1,14 @@
-'use client';
-
-import { env } from '@/lib';
+import { env, getApiDataWithSubdomain, imageFormat } from '@/lib';
+import { iTenantFrontend } from '@/types/tenant-frontend';
 import { ArrowUp, Facebook, Instagram, Music, Twitter } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-interface Category {
-	label: string;
-	href?: string;
-}
+export default async function Footer03() {
+	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
+		'/tenant-frontend/cms'
+	);
 
-interface Brand {
-	label: string;
-	href?: string;
-}
-
-interface Store {
-	name: string;
-	address: string;
-}
-
-interface PaymentMethod {
-	name: string;
-	logo: string;
-	alt: string;
-}
-
-const categories: Category[] = [
-	{ label: "Man's Fashion" },
-	{ label: "Women's Fashion" },
-	{ label: 'Kids' },
-	{ label: 'Summer' },
-	{ label: 'Winter' },
-	{ label: 'Christmas' },
-];
-
-const brands: Brand[] = [
-	{ label: 'Elysian Glow' },
-	{ label: 'Clara Skin' },
-	{ label: 'Serenne' },
-	{ label: 'Veloura' },
-	{ label: 'Lustra' },
-	{ label: 'Veloura' },
-];
-
-const stores: Store[] = [
-	{
-		name: 'Store One',
-		address:
-			'Yeni Mahallesi Öğretmenler Boulevard 87071. Street No: 5 Ground Floor No: 96 Seyhan/Adana',
-	},
-	{
-		name: 'Store Two',
-		address:
-			'Yeni Mahallesi Öğretmenler Boulevard 87071. Street No: 5 Ground Floor No: 96 Seyhan/Adana',
-	},
-];
-
-const paymentMethods: PaymentMethod[] = [
-	{
-		name: 'Google Pay',
-		logo: 'https://via.placeholder.com/60x30/4285F4/FFFFFF?text=G+Pay',
-		alt: 'Google Pay',
-	},
-	{
-		name: 'Stripe',
-		logo: 'https://via.placeholder.com/60x30/635BFF/FFFFFF?text=Stripe',
-		alt: 'Stripe',
-	},
-	{
-		name: 'Apple Pay',
-		logo: 'https://via.placeholder.com/60x30/000000/FFFFFF?text=Apple+Pay',
-		alt: 'Apple Pay',
-	},
-	{
-		name: 'VISA',
-		logo: 'https://via.placeholder.com/60x30/1A1F71/FFFFFF?text=VISA',
-		alt: 'VISA',
-	},
-	{
-		name: 'Samsung Pay',
-		logo: 'https://via.placeholder.com/60x30/1428A0/FFFFFF?text=Samsung',
-		alt: 'Samsung Pay',
-	},
-	{
-		name: 'Western Union',
-		logo: 'https://via.placeholder.com/60x30/FFCC00/000000?text=WU',
-		alt: 'Western Union',
-	},
-	{
-		name: 'Payoneer',
-		logo: 'https://via.placeholder.com/60x30/FF4800/FFFFFF?text=Payoneer',
-		alt: 'Payoneer',
-	},
-];
-
-export default function Footer03() {
 	return (
 		<>
 			<div className="bg-[#F6F3E9] py-24">
@@ -145,8 +58,8 @@ export default function Footer03() {
 						<div className="space-y-6">
 							{/* Logo */}
 							<div className="flex  flex-col">
-								<Image
-									src={'https://i.ibb.co.com/DPgT9ZVV/Logo-Three.png'}
+								<img
+									src={imageFormat(settings?.cms.footer_logo || null)}
 									alt="image"
 									width={200}
 									height={100}
@@ -155,10 +68,11 @@ export default function Footer03() {
 							</div>
 
 							{/* Description */}
-							<p className="text-black/75 leading-relaxed text-sm">
-								Lorem ipsum dolor sit amet, consectetur adipiscingelit, sed do
-								eiusmod tempor incididunt ut labore et
-							</p>
+							{settings?.cms.footer_description && (
+								<p className="text-black/75 leading-relaxed text-sm">
+									{settings?.cms.footer_description}
+								</p>
+							)}
 
 							{/* Social Media Icons */}
 							<div className="flex space-x-3">

@@ -1,29 +1,23 @@
-'use client';
+import { imageFormat } from '@/lib';
+import { iVendorBrand } from '@/store/features';
 
-import { env } from '@/lib';
-import Image from 'next/image';
-
-interface Props {
-	image?: string;
-	title?: string;
-	description?: string;
-}
-export default function Card09({ image, title, description }: Props) {
+export default function Card09({ data }: { data: iVendorBrand }) {
 	return (
 		<div className="flex items-center gap-6">
 			<div className="max-w-[150px] w-full h-[150px] relative">
-				<Image
-					src={image || env.placeholderImage}
+				<img
+					src={imageFormat(data.image)}
 					alt="image"
-					fill
 					className="object-cover rounded-full object-center bg-gray-200"
 				/>
 			</div>
 			<div>
 				<h3 className="fs-28 text-primary3 mb-3 font-medium font-montserrat">
-					{title}
+					{data.name}
 				</h3>
-				<p className="fs-14 text-gray-500  ">{description}</p>
+				{data.description && (
+					<p className="fs-14 text-gray-500  ">{data.description}</p>
+				)}
 			</div>
 		</div>
 	);
