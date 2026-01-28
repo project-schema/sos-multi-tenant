@@ -6,6 +6,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { iCategory } from '@/store/features/admin/category';
 import { ChevronDown, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { UtilityIcons } from './utility-icons';
@@ -19,7 +20,7 @@ const categories = [
 	'Toys',
 ];
 
-function CategoriesDropdownButton() {
+function CategoriesDropdownButton({ categories }: { categories: iCategory[] }) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -31,11 +32,9 @@ function CategoriesDropdownButton() {
 				</button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="start" className="w-48">
-				{categories.map((category) => (
-					<DropdownMenuItem key={category} asChild>
-						<Link href={`/category/${category.toLowerCase()}`}>
-							{category}
-						</Link>
+				{categories?.map((category) => (
+					<DropdownMenuItem key={category.id} asChild>
+						<Link href={`/category/${category.id}`}>{category?.name}</Link>
 					</DropdownMenuItem>
 				))}
 			</DropdownMenuContent>
@@ -43,14 +42,18 @@ function CategoriesDropdownButton() {
 	);
 }
 
-export function MainNavigation() {
+export function MainNavigation({
+	categories,
+}: {
+	categories: iCategory[] | null;
+}) {
 	return (
 		<div className="md:block hidden bg-gray-100 border-b border-gray-200">
 			<div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex items-center justify-between gap-4 py-3">
 					<div className="flex items-center gap-2 sm:gap-4 overflow-x-auto">
 						{/* Categories Button */}
-						<CategoriesDropdownButton />
+						{categories && <CategoriesDropdownButton categories={categories} />}
 
 						{/* Navigation Links - Desktop */}
 						<nav className="hidden md:flex items-center gap-6">

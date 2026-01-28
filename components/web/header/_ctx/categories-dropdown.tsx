@@ -6,6 +6,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { iCategory } from '@/store/features/admin/category';
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 
@@ -21,11 +22,13 @@ const categories = [
 interface CategoriesDropdownProps {
 	variant?: 'default' | 'compact';
 	className?: string;
+	categories: iCategory[];
 }
 
 export function CategoriesDropdown({
 	variant = 'default',
 	className,
+	categories,
 }: CategoriesDropdownProps) {
 	return (
 		<DropdownMenu>
@@ -43,11 +46,9 @@ export function CategoriesDropdown({
 				</button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="start" className="w-48">
-				{categories.map((category) => (
-					<DropdownMenuItem key={category} asChild>
-						<Link href={`/category/${category.toLowerCase()}`}>
-							{category}
-						</Link>
+				{categories?.map((category) => (
+					<DropdownMenuItem key={category.id} asChild>
+						<Link href={`/category/${category?.id}`}>{category?.name}</Link>
 					</DropdownMenuItem>
 				))}
 			</DropdownMenuContent>

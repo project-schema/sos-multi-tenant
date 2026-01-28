@@ -1,4 +1,5 @@
 'use client';
+import { iCategory } from '@/store/features/admin/category';
 import { iSystem } from '@/store/features/vendor/cms/system/type';
 import { useState } from 'react';
 import { ContactInfo } from './contact-info';
@@ -8,7 +9,13 @@ import { MobileSearch } from './mobile-search';
 import { SearchBar } from './search-bar';
 import { UserAccount } from './user-account';
 
-export function MainHeader({ cms }: { cms: iSystem | null }) {
+export function MainHeader({
+	cms,
+	categories,
+}: {
+	cms: iSystem | null;
+	categories: iCategory[] | null;
+}) {
 	const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 	return (
 		<div className="bg-white border-b border-gray-200">
@@ -19,7 +26,9 @@ export function MainHeader({ cms }: { cms: iSystem | null }) {
 
 					{/* Search Bar - Desktop */}
 					<div className="flex-1 max-w-2xl mx-4 hidden md:flex">
-						<SearchBar variant="desktop" />
+						{categories && (
+							<SearchBar variant="desktop" categories={categories} />
+						)}
 					</div>
 
 					{/* Mobile Search */}
@@ -38,7 +47,9 @@ export function MainHeader({ cms }: { cms: iSystem | null }) {
 				{/* Mobile Search Bar */}
 				{mobileSearchOpen && (
 					<div className="md:hidden pb-4">
-						<SearchBar variant="desktop" />
+						{categories && (
+							<SearchBar variant="desktop" categories={categories} />
+						)}
 					</div>
 				)}
 			</div>

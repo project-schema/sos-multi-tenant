@@ -35,7 +35,7 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
-			invalidatesTags: ['VendorCustomer'],
+			invalidatesTags: ['VendorCustomer', 'VendorPosSales'],
 		}),
 
 		// update

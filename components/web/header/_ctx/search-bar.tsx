@@ -1,17 +1,25 @@
 'use client';
 
+import { iCategory } from '@/store/features/admin/category';
 import { Search } from 'lucide-react';
 import { CategoriesDropdown } from './categories-dropdown';
 
 interface SearchBarProps {
 	variant?: 'desktop' | 'mobile';
 	className?: string;
+	categories: iCategory[];
 }
 
-export function SearchBar({ variant = 'desktop', className }: SearchBarProps) {
+export function SearchBar({
+	variant = 'desktop',
+	className,
+	categories,
+}: SearchBarProps) {
 	if (variant === 'mobile') {
 		return (
-			<div className={`flex w-full border border-gray-300 overflow-hidden rounded-md ${className}`}>
+			<div
+				className={`flex w-full border border-gray-300 overflow-hidden rounded-md ${className}`}
+			>
 				<input
 					type="text"
 					placeholder="Search for products"
@@ -25,8 +33,10 @@ export function SearchBar({ variant = 'desktop', className }: SearchBarProps) {
 	}
 
 	return (
-		<div className={`flex w-full border border-amber-600 overflow-hidden rounded-md ${className}`}>
-			<CategoriesDropdown />
+		<div
+			className={`flex w-full border border-amber-600 overflow-hidden rounded-md ${className}`}
+		>
+			<CategoriesDropdown categories={categories} />
 			<input
 				type="text"
 				placeholder="Search for products"

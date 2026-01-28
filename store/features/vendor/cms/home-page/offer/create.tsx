@@ -106,20 +106,18 @@ export function OfferCreate() {
 
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-						<div className="grid grid-cols-2 gap-4">
-							{/* Title */}
-							<FormField
-								control={form.control}
-								name="title"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Title</FormLabel>
-										<Input {...field} placeholder="Enter title" />
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-						</div>
+						{/* Title */}
+						<FormField
+							control={form.control}
+							name="title"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Title</FormLabel>
+									<Input {...field} placeholder="Enter title" />
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 
 						<DialogFooter>
 							<Button type="submit" disabled={isLoading}>

@@ -32,10 +32,10 @@ export default async function ThemeTwoHomePage({
 		<>
 			<Header02 />
 			<div className="space-y-10 ">
-				{settings?.banners?.length && settings?.banners?.length > 0 && (
+				{settings?.banners && settings?.banners?.length > 0 && (
 					<Banner03 settings={settings ?? null} />
 				)}
-				{settings?.content_services?.length &&
+				{settings?.content_services &&
 					settings?.content_services?.length > 0 && (
 						<Card06 services={settings?.content_services ?? []} />
 					)}
@@ -61,7 +61,7 @@ export default async function ThemeTwoHomePage({
 					<BestSellingGrid settings={settings} />
 				)}
 
-				{brands?.length && brands?.length > 0 && <BrandLogos brands={brands} />}
+				{brands && brands?.length > 0 && <BrandLogos brands={brands} />}
 
 				{settings?.cms.best_section_title && (
 					<ProductSection2

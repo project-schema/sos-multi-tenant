@@ -38,7 +38,7 @@ export default function ThemeTwoShopPage({
 
 						{/* Pagination */}
 						<div className="mt-8  ">
-							<Pagination1 pagination={data} setPage={() => {}} />
+							<Pagination1 pagination={data} />
 						</div>
 					</div>
 				</div>

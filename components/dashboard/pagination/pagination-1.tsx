@@ -10,7 +10,7 @@ import { iPagination } from '@/types';
 
 interface Props {
 	pagination: iPagination<any>;
-	setPage: (page: number) => void;
+	setPage?: (page: number) => void;
 }
 
 export function Pagination1({ pagination, setPage }: Props) {
@@ -22,7 +22,7 @@ export function Pagination1({ pagination, setPage }: Props) {
 		const match = url.match(/page=(\d+)/);
 		if (match) {
 			const pageNum = parseInt(match[1]);
-			if (!isNaN(pageNum)) setPage(pageNum);
+			if (!isNaN(pageNum) && setPage) setPage(pageNum);
 		}
 	};
 

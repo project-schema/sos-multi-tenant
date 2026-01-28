@@ -29,6 +29,7 @@ const api = apiSlice.injectEndpoints({
 				url: `/tenant-product-pos-sales/create?brand_id=${brand_id}&category_id=${category_id}&search=${search}`,
 				method: 'GET',
 			}),
+			providesTags: ['VendorPosSales'],
 		}),
 
 		// Get product details

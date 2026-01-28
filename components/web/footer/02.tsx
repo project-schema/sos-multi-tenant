@@ -1,89 +1,20 @@
 import { getApiDataWithSubdomain, imageFormat } from '@/lib';
+import { iBrand } from '@/store/features/admin/brand';
+import { iCategory } from '@/store/features/admin/category';
 import { iSystem } from '@/store/features/vendor/cms/system/type';
 import { Facebook, Instagram, Music, Twitter } from 'lucide-react';
 import Link from 'next/link';
-
-interface Category {
-	label: string;
-	href?: string;
-}
-
-interface Brand {
-	label: string;
-	href?: string;
-}
-
-interface Store {
-	name: string;
-	address: string;
-}
-
-interface PaymentMethod {
-	name: string;
-	logo: string;
-	alt: string;
-}
-
-const categories: Category[] = [
-	{ label: "Man's Fashion" },
-	{ label: "Women's Fashion" },
-	{ label: 'Kids' },
-	{ label: 'Summer' },
-	{ label: 'Winter' },
-	{ label: 'Christmas' },
-];
-
-const brands: Brand[] = [
-	{ label: 'Elysian Glow' },
-	{ label: 'Clara Skin' },
-	{ label: 'Serenne' },
-	{ label: 'Veloura' },
-	{ label: 'Lustra' },
-	{ label: 'Veloura' },
-];
-
-const paymentMethods: PaymentMethod[] = [
-	{
-		name: 'Google Pay',
-		logo: 'https://via.placeholder.com/60x30/4285F4/FFFFFF?text=G+Pay',
-		alt: 'Google Pay',
-	},
-	{
-		name: 'Stripe',
-		logo: 'https://via.placeholder.com/60x30/635BFF/FFFFFF?text=Stripe',
-		alt: 'Stripe',
-	},
-	{
-		name: 'Apple Pay',
-		logo: 'https://via.placeholder.com/60x30/000000/FFFFFF?text=Apple+Pay',
-		alt: 'Apple Pay',
-	},
-	{
-		name: 'VISA',
-		logo: 'https://via.placeholder.com/60x30/1A1F71/FFFFFF?text=VISA',
-		alt: 'VISA',
-	},
-	{
-		name: 'Samsung Pay',
-		logo: 'https://via.placeholder.com/60x30/1428A0/FFFFFF?text=Samsung',
-		alt: 'Samsung Pay',
-	},
-	{
-		name: 'Western Union',
-		logo: 'https://via.placeholder.com/60x30/FFCC00/000000?text=WU',
-		alt: 'Western Union',
-	},
-	{
-		name: 'Payoneer',
-		logo: 'https://via.placeholder.com/60x30/FF4800/FFFFFF?text=Payoneer',
-		alt: 'Payoneer',
-	},
-];
 
 export default async function Footer02() {
 	const settings = await getApiDataWithSubdomain<{
 		cms: iSystem;
 	}>('/tenant-frontend/cms');
+	const categories = await getApiDataWithSubdomain<iCategory[]>(
+		'/tenant-frontend/categories'
+	);
+	const brands = await getApiDataWithSubdomain<iBrand[]>(
+		'/tenant-frontend/brands'
+	);
 	return (
 		<footer className="bg-gray-100 text-gray-800 mt-24">
 			{/* Main Footer Content */}
@@ -142,13 +73,13 @@ export default async function Footer02() {
 					<div className="space-y-4">
 						<h3 className="text-lg font-bold text-black">Category</h3>
 						<ul className="space-y-2">
-							{categories.map((category, index) => (
+							{categories?.slice(0, 5).map((category, index) => (
 								<li key={index}>
 									<Link
-										href={category.href || '#'}
+										href={category?.id?.toString() || '#'}
 										className="text-gray-500 hover:text-gray-700 transition-colors duration-200 text-sm"
 									>
-										{category.label}
+										{category.name}
 									</Link>
 								</li>
 							))}
@@ -159,13 +90,13 @@ export default async function Footer02() {
 					<div className="space-y-4">
 						<h3 className="text-lg font-bold text-black">Brands</h3>
 						<ul className="space-y-2">
-							{brands.map((brand, index) => (
+							{brands?.slice(0, 5).map((brand, index) => (
 								<li key={index}>
 									<Link
-										href={brand.href || '#'}
+										href={brand?.id?.toString() || '#'}
 										className="text-gray-500 hover:text-gray-700 transition-colors duration-200 text-sm"
 									>
-										{brand.label}
+										{brand.name}
 									</Link>
 								</li>
 							))}
@@ -219,16 +150,16 @@ export default async function Footer02() {
 
 						{/* Payment Methods */}
 						<div className="flex items-center space-x-2 flex-wrap justify-center">
-							{paymentMethods.map((method, index) => (
-								<div key={index} className="relative">
-									<img
-										src={method.logo}
-										alt={method.alt}
-										className="h-8 w-auto rounded"
-										loading="lazy"
-									/>
-								</div>
-							))}
+							<div className="relative">
+								<img
+									src={imageFormat(
+										settings?.cms.footer_payment_methods || null
+									)}
+									alt={'payment logo'}
+									className="h-8 w-auto rounded"
+									loading="lazy"
+								/>
+							</div>
 						</div>
 					</div>
 				</div>

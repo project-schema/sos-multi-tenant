@@ -21,11 +21,11 @@ export default async function ThemeOneHomePage() {
 	return (
 		<>
 			<Header01 />
-			{settings?.banners?.length && settings?.banners?.length > 0 && (
+			{settings?.banners  && settings?.banners?.length > 0 && (
 				<Banner02 banners={settings?.banners ?? null} />
 			)}
 
-			{brands?.length && brands?.length > 0 && (
+			{brands  && brands?.length > 0 && (
 				<div>
 					<div className="py-10">
 						<h2 className="text-[40px] font-bold text-center">Brands</h2>

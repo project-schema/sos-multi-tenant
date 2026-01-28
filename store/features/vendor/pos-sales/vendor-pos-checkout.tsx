@@ -10,6 +10,9 @@ import { sign } from '@/lib';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { VendorCustomerCreateModal } from '../customer/vendor-customer-create-modal';
+import { VendorOrderSourceCreateModal } from '../order-source';
+import { VendorPaymentMethodsCreateModal } from '../payment-methods';
 import { useCreateSaleMutation } from './vendor-pos-sales.api-slice';
 import { usePosSales } from './vendor-pos-sales.hook';
 import { iVendorPosSalesResponse } from './vendor-pos-sales.type';
@@ -164,7 +167,7 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 	return (
 		<div className="fixed inset-0 bg-black/75 bg-opacity-50 flex items-center justify-center z-50">
 			<Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-				<CardContent className="p-6 space-y-6">
+				<CardContent className="p-6 space-y-2">
 					<div className="flex justify-between items-center">
 						<CardTitle>Checkout</CardTitle>
 						<Button
@@ -176,6 +179,11 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 						>
 							Close
 						</Button>
+					</div>
+					<div className="flex gap-3 mb-6">
+						<VendorPaymentMethodsCreateModal />
+						<VendorOrderSourceCreateModal />
+						<VendorCustomerCreateModal />
 					</div>
 
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">

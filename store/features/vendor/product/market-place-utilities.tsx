@@ -44,15 +44,15 @@ export const MarketPlaceUtilities = ({
 		if (editData) {
 			form.setValue(
 				'market_place_brand_id',
-				editData.market_place_brand_id.toString()
+				editData.market_place_brand_id?.toString()
 			);
 			form.setValue(
 				'market_place_category_id',
-				editData.market_place_category_id.toString()
+				editData.market_place_category_id?.toString()
 			);
 			form.setValue(
 				'market_place_subcategory_id',
-				editData.market_place_subcategory_id.toString()
+				editData.market_place_subcategory_id?.toString()
 			);
 		}
 	}, [editData, form]);

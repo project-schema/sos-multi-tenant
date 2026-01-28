@@ -38,6 +38,7 @@ const api = apiSlice.injectEndpoints({
 			invalidatesTags: [
 				'VendorPaymentMethods',
 				'VendorProductPurchaseCreateData',
+				'VendorPosSales',
 			],
 		}),
 
