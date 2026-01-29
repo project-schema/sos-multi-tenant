@@ -153,7 +153,7 @@ export default async function Footer02() {
 							<div className="relative">
 								<img
 									src={imageFormat(
-										settings?.cms.footer_payment_methods || null
+										settings?.cms?.footer_payment_methods || null
 									)}
 									alt={'payment logo'}
 									className="h-8 w-auto rounded"

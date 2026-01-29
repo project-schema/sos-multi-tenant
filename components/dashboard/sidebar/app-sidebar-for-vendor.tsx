@@ -65,8 +65,8 @@ export function AppSidebarForVendor({
 				<AppRoot />
 				<NavMain items={filteredProducts} groupLabel="Products" />
 				<NavMain items={filteredPos} groupLabel="POS & Purchase" />
-				<NavMain items={filteredServices} groupLabel="Services & Advertise" />
-				<NavMain items={filteredSupport} groupLabel="Support" />
+				{/* <NavMain items={filteredServices} groupLabel="Services & Advertise" /> */}
+				{/* <NavMain items={filteredSupport} groupLabel="Support" /> */}
 				<NavMain items={filteredReports} groupLabel="Reports" />
 				<NavMain items={filteredCms} groupLabel="CMS" />
 				<NavMain items={filteredSettings} groupLabel="Settings" />

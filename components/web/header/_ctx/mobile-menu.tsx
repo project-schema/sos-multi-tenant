@@ -36,7 +36,7 @@ export function MobileMenu() {
 					{/* Mobile Search */}
 					<div className="flex flex-col gap-2">
 						<label className="text-sm font-medium text-gray-700">Search</label>
-						<SearchBar variant="mobile" />
+						<SearchBar variant="mobile" categories={[]} />
 					</div>
 
 					{/* Mobile Navigation */}

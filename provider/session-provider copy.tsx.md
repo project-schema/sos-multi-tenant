@@ -29,10 +29,6 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 		) {
 			router.replace('/dashboard/membership');
 		}
-
-		if (session?.user.roleType === 'tenant_user') {
-			router.replace('/account');
-		}
 	}, [status, session, data, router]);
 
 	if (status === 'loading' || isLoading) {

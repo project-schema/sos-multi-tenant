@@ -31,9 +31,9 @@ const api = apiSlice.injectEndpoints({
 			{ status: 200; message: string; data: any },
 			{
 				subscription_id: string;
-				payment_type: 'aamarpay';
-				coupon_id: string | null;
-				tenant_id: string;
+				payment_type: 'aamarpay' | 'free';
+				coupon_id?: string | null;
+				tenant_id?: string;
 			}
 		>({
 			query: ({ subscription_id, payment_type, coupon_id, tenant_id }) => ({

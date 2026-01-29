@@ -63,10 +63,10 @@ export default async function ThemeTwoHomePage({
 
 				{brands && brands?.length > 0 && <BrandLogos brands={brands} />}
 
-				{settings?.cms.best_section_title && (
+				{settings?.cms?.best_section_title && (
 					<ProductSection2
 						include={include}
-						title={settings?.cms.best_section_title ?? ''}
+						title={settings?.cms?.best_section_title ?? ''}
 						buttons={[
 							{
 								label: settings?.best_setting_category_id_1?.name ?? '',
@@ -93,9 +93,9 @@ export default async function ThemeTwoHomePage({
 						<PromoBanner settings={settings} />
 					))}
 
-				{settings?.cms.best_section_title && (
+				{settings?.cms?.best_section_title && (
 					<ProductSection
-						title={settings?.cms.best_section_title ?? ''}
+						title={settings?.cms?.best_section_title ?? ''}
 						feature={feature}
 						buttons={[
 							{

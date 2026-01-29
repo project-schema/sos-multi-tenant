@@ -142,7 +142,8 @@
 .userItemsBox {
 	border-radius: 5px;
 	background: #041438;
-	max-width: 448px;
+	max-width: 270px;
+	/* max-width: 448px; */
 	padding: 10px;
 	display: flex;
 	gap: 5px;

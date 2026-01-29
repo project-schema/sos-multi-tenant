@@ -10,7 +10,9 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import {
 	useFrontendApplyCouponMutation,
 	useFrontendBuySubscriptionMutation,
@@ -31,7 +33,7 @@ export default function SubscriptionBuyModal({
 	const { data: session } = useSession();
 	const [couponCode, setCouponCode] = useState('');
 	const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
-	console.log(appliedCoupon);
+	const router = useRouter();
 
 	const [buySubscription, { isLoading: isBuyingSubscription }] =
 		useFrontendBuySubscriptionMutation();
@@ -56,11 +58,23 @@ export default function SubscriptionBuyModal({
 	const handlePurchase = async () => {
 		try {
 			if (subscription.subscription_amount === '0') {
+				const paymentData = {
+					subscription_id: subscription.id.toString(),
+					payment_type: 'free' as const,
+				};
+
 				// Free subscription
-				await buySubscription({ id: subscription.id.toString() });
-				onOpenChange(false);
+				const result: any = await buySubscriptionPay(paymentData).unwrap();
+
+				if (result.data === 'success') {
+					toast.success(result?.message || 'Successfully Active');
+					onOpenChange(false);
+					router.push('/dashboard');
+				} else {
+					toast.error(result?.message || 'Something is wrong');
+				}
+
 				// Redirect or show success message
-				window.location.href = '/dashboard'; // or wherever appropriate
 			} else {
 				// Paid subscription
 				const paymentData = {
