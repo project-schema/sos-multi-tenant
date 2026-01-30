@@ -62,7 +62,7 @@ export const getApiBaseUrl = () => {
 
 	console.log({ apiDomain, subdomain, parts });
 
-	if (parts.length === 2 && subdomain) {
+	if (parts.length === 3 && subdomain) {
 		return `https://${subdomain}.${apiDomain}/api`;
 	}
 	return `https://${apiDomain}/api`;
