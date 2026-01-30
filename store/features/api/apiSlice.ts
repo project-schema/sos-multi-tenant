@@ -60,6 +60,8 @@ export const getApiBaseUrl = () => {
 	const apiDomain = env.baseAPI.replace(/^https?:\/\//, ''); // storeeb.com
 	const subdomain = parts[0]; // two
 
+	console.log({ apiDomain, subdomain, parts });
+
 	if (parts.length === 2 && subdomain) {
 		return `https://${subdomain}.${apiDomain}/api`;
 	}
