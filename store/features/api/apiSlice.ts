@@ -39,7 +39,7 @@ export const getApiBaseUrl = () => {
 	const parts = hostname.split('.'); // [subdomain, domain, tld]
 
 	// ─────────────────────────────
-	// LOCALHOST MODE
+	// API LOCALHOST MODE
 	// ─────────────────────────────
 	if (env.baseAPI.includes('localhost')) {
 		// two.localhost → http://two.localhost:8000/api
@@ -52,15 +52,26 @@ export const getApiBaseUrl = () => {
 	}
 
 	// ─────────────────────────────
+	// API LIVE MODE AND FRONTEND LoCAL
+	// ─────────────────────────────
+
+	const apiDomain = env.baseAPI.replace(/^https?:\/\//, ''); // storeeb.com
+	const subdomain = parts[0]; // two
+	console.log({ apiDomain, subdomain, parts, hostname });
+
+	if (!env.baseAPI.includes('localhost') && hostname.includes('localhost')) {
+		if (parts.length === 2 && subdomain) {
+			return `https://${subdomain}.${apiDomain}/api`;
+		}
+		return `https://${apiDomain}/api`;
+	}
+
+	// ─────────────────────────────
 	// PRODUCTION MODE
 	// env.baseAPI = https://storeeb.com
 	// frontend = two.storeeb.com
 	// result   = https://two.storeeb.com/api
 	// ─────────────────────────────
-	const apiDomain = env.baseAPI.replace(/^https?:\/\//, ''); // storeeb.com
-	const subdomain = parts[0]; // two
-
-	console.log({ apiDomain, subdomain, parts });
 
 	if (parts.length === 3 && subdomain) {
 		return `https://${subdomain}.${apiDomain}/api`;

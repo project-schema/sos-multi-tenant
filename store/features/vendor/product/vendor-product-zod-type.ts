@@ -178,22 +178,22 @@ export const VendorProductCreateSchema = z
 			path: ['selling_price'],
 		}
 	)
-	.refine(
-		(data) => {
-			if (data.discount_price !== undefined && data.discount_price !== null) {
-				return (
-					data.discount_price >= data.original_price &&
-					data.discount_price <= data.selling_price
-				);
-			}
-			return true;
-		},
-		{
-			message:
-				'Discount price must be between original price and selling price',
-			path: ['discount_price'],
-		}
-	)
+	// .refine(
+	// 	(data) => {
+	// 		if (data.discount_price !== undefined && data.discount_price !== null) {
+	// 			return (
+	// 				data.discount_price >= data.original_price &&
+	// 				data.discount_price <= data.selling_price
+	// 			);
+	// 		}
+	// 		return true;
+	// 	},
+	// 	{
+	// 		message:
+	// 			'Discount price must be between original price and selling price',
+	// 		path: ['discount_price'],
+	// 	}
+	// )
 
 	.refine(
 		(data) => {
@@ -221,7 +221,7 @@ export const VendorProductCreateData = (values: VendorProductCreateZod) => {
 
 		selling_price: values.selling_price,
 		original_price: values.original_price,
-		discount_price: values.discount_price,
+		discount_price: values.discount_price || null,
 
 		alert_qty: values.alert_qty,
 		supplier_id: values.supplier_id,

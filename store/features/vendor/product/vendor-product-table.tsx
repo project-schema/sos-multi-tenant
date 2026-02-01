@@ -48,7 +48,7 @@ export function VendorProductTable({
 					<TableHead className="bg-stone-100">Product Name </TableHead>
 					<TableHead className="bg-stone-100">Original Price </TableHead>
 					<TableHead className="bg-stone-100">Sale Price </TableHead>
-					<TableHead className="bg-stone-100">Offer </TableHead>
+					<TableHead className="bg-stone-100">Discount Price </TableHead>
 					<TableHead className="bg-stone-100">Stock </TableHead>
 					<TableHead className="bg-stone-100">Date </TableHead>
 					<TableHead className="bg-stone-100">Status </TableHead>
@@ -116,7 +116,7 @@ export function VendorProductTable({
 							</TableCell>
 							<TableCell className="py-2">
 								<Badge variant="success">
-									{item.discount_price || '00'} {sign.tk}
+									{item.discount_price || '--'} {sign.tk}
 								</Badge>
 							</TableCell>
 

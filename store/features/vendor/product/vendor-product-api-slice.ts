@@ -127,6 +127,10 @@ const api = apiSlice.injectEndpoints({
 									item.min_bulk_price
 								);
 							});
+						} else if (key === 'discount_price') {
+							if (value) {
+								body.append(key, value as string);
+							}
 						} else {
 							body.append(key, value as string);
 						}

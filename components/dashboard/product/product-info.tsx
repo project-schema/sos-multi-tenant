@@ -45,17 +45,15 @@ export const ProductInfo = ({
 			</div>
 
 			<div className="flex items-center gap-4">
-				{product?.discount_price && (
-					<p className="text-2xl font-semibold">৳ {product?.discount_price}</p>
+				{product?.original_price && (
+					<p className="text-2xl font-semibold">৳ {product?.original_price}</p>
 				)}
-				{!product?.discount_price && (
+				{(product?.discount_price || product?.selling_price) && (
 					<p className="text-lg line-through text-gray-500">
-						৳ {product?.selling_price}
-					</p>
-				)}
-				{product?.selling_price && (
-					<p className="text-lg line-through text-gray-500">
-						৳ {product?.selling_price}
+						৳
+						{product?.discount_price
+							? product?.discount_price
+							: product?.selling_price}
 					</p>
 				)}
 			</div>

@@ -775,7 +775,7 @@ export const VendorProductEdit = ({
 
 								{/* Drop Shipper Sales Type */}
 								{!preOrder && (
-									<Card className={isAffiliate ? 'bg-blue-50' : ''}>
+									<Card className={isAffiliate ? 'bg-blue-50' : 'hidden'}>
 										<CardContent>
 											<div className="space-y-6">
 												<div className="space-y-4">
