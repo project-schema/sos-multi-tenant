@@ -135,7 +135,7 @@ const schema = z.object({
 		['Expanded Inventory', 'Moderate Inventory', 'Limited Inventory'],
 		{
 			message: 'Inventory is required',
-		}
+		},
 	),
 
 	detail_targeting: z
@@ -148,14 +148,14 @@ const schema = z.object({
 		.array(
 			z
 				.instanceof(File)
-				.refine((file) => file.size > 0, { message: 'Empty file detected' })
+				.refine((file) => file.size > 0, { message: 'Empty file detected' }),
 		)
 		.min(1, { message: 'At least one image is required' }),
 	advertise_audience_files: z
 		.array(
 			z
 				.instanceof(File)
-				.refine((file) => file.size > 0, { message: 'Empty file detected' })
+				.refine((file) => file.size > 0, { message: 'Empty file detected' }),
 		)
 		.min(1, { message: 'At least one image is required' }),
 });
@@ -172,7 +172,6 @@ export function AdvertiserFormTab2({
 	const { data: dollarRate } = useFrontendGetDollarRateQuery(undefined);
 	const dispatch = useAppDispatch();
 	const level2 = useAppSelector((state) => state.advertiseForm.level2);
-	console.log('level2', level2);
 
 	const [country, setCountry] = useState<string>('');
 	const selected = useAppSelector((state) => state.advertiseForm.level1?.id);
@@ -189,7 +188,7 @@ export function AdvertiserFormTab2({
 		{
 			skip: !country,
 			refetchOnFocus: false,
-		}
+		},
 	);
 
 	const { data: AudData, isLoading: loadAud } = useFrontendAdvDyDataQuery(
@@ -200,7 +199,7 @@ export function AdvertiserFormTab2({
 			refetchOnFocus: false,
 			refetchOnMountOrArgChange: false,
 			refetchOnReconnect: false,
-		}
+		},
 	);
 
 	const { data: devData, isLoading: loadDev } = useFrontendAdvDyDataQuery(
@@ -211,7 +210,7 @@ export function AdvertiserFormTab2({
 			refetchOnFocus: false,
 			refetchOnMountOrArgChange: false,
 			refetchOnReconnect: false,
-		}
+		},
 	);
 
 	const { data: platData, isLoading: loadPlat } = useFrontendAdvDyDataQuery(
@@ -222,7 +221,7 @@ export function AdvertiserFormTab2({
 			refetchOnFocus: false,
 			refetchOnMountOrArgChange: false,
 			refetchOnReconnect: false,
-		}
+		},
 	);
 
 	const { data: ageToData, isLoading: loadAgeTo } = useFrontendAdvDyDataQuery(
@@ -233,7 +232,7 @@ export function AdvertiserFormTab2({
 			refetchOnFocus: false,
 			refetchOnMountOrArgChange: false,
 			refetchOnReconnect: false,
-		}
+		},
 	);
 
 	const { data: feedData, isLoading: feedLoad } = useFrontendAdvDyDataQuery(
@@ -244,7 +243,7 @@ export function AdvertiserFormTab2({
 			refetchOnFocus: false,
 			refetchOnMountOrArgChange: false,
 			refetchOnReconnect: false,
-		}
+		},
 	);
 
 	const { data: storyData, isLoading: storyLoad } = useFrontendAdvDyDataQuery(
@@ -255,7 +254,7 @@ export function AdvertiserFormTab2({
 			refetchOnFocus: false,
 			refetchOnMountOrArgChange: false,
 			refetchOnReconnect: false,
-		}
+		},
 	);
 	const { data: vidData, isLoading: vidLoad } = useFrontendAdvDyDataQuery(
 		{
@@ -265,7 +264,7 @@ export function AdvertiserFormTab2({
 			refetchOnFocus: false,
 			refetchOnMountOrArgChange: false,
 			refetchOnReconnect: false,
-		}
+		},
 	);
 
 	const { data: searData, isLoading: searLoad } = useFrontendAdvDyDataQuery(
@@ -276,7 +275,7 @@ export function AdvertiserFormTab2({
 			refetchOnFocus: false,
 			refetchOnMountOrArgChange: false,
 			refetchOnReconnect: false,
-		}
+		},
 	);
 
 	const { data: mesData, isLoading: mesLoad } = useFrontendAdvDyDataQuery(
@@ -287,7 +286,7 @@ export function AdvertiserFormTab2({
 			refetchOnFocus: false,
 			refetchOnMountOrArgChange: false,
 			refetchOnReconnect: false,
-		}
+		},
 	);
 
 	const { data: appData, isLoading: loadApp } = useFrontendAdvDyDataQuery(
@@ -298,7 +297,7 @@ export function AdvertiserFormTab2({
 			refetchOnFocus: false,
 			refetchOnMountOrArgChange: false,
 			refetchOnReconnect: false,
-		}
+		},
 	);
 
 	const { data: performanceGoals, isLoading: loadingGoals } =
@@ -309,7 +308,7 @@ export function AdvertiserFormTab2({
 				refetchOnFocus: false,
 				refetchOnMountOrArgChange: false,
 				refetchOnReconnect: false,
-			}
+			},
 		);
 
 	const { data: conversionLocations, isLoading: loadingConversions } =
@@ -320,7 +319,7 @@ export function AdvertiserFormTab2({
 				refetchOnFocus: false,
 				refetchOnMountOrArgChange: false,
 				refetchOnReconnect: false,
-			}
+			},
 		);
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
@@ -363,7 +362,7 @@ export function AdvertiserFormTab2({
 		) {
 			form.setValue(
 				'conversion_location',
-				conversionLocations?.message[0]?.name
+				conversionLocations?.message[0]?.name,
 			);
 		}
 
@@ -395,7 +394,7 @@ export function AdvertiserFormTab2({
 		const formedData = level2Format(data);
 		try {
 			const response = await createAdvertise(
-				level2SubmitFormat(formedData)
+				level2SubmitFormat(formedData),
 			).unwrap();
 			if (response?.message === 'Validation errors') {
 				Object.entries(response?.data).forEach(([field, value]) => {
@@ -413,7 +412,7 @@ export function AdvertiserFormTab2({
 					...data,
 					start_date: formValue?.start_date?.toLocaleDateString(),
 					end_date: formValue?.end_date?.toLocaleDateString(),
-				})
+				}),
 			);
 			dispatch(nextStep());
 		} catch (error: any) {
@@ -466,7 +465,7 @@ export function AdvertiserFormTab2({
 												<Label
 													key={item.id}
 													className={cn(
-														'hover:bg-accent/50 flex items-start gap-3 rounded-lg border p-3 data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-50 dark:data-[state=checked]:border-blue-900 dark:data-[state=checked]:bg-blue-950 mt-0'
+														'hover:bg-accent/50 flex items-start gap-3 rounded-lg border p-3 data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-50 dark:data-[state=checked]:border-blue-900 dark:data-[state=checked]:bg-blue-950 mt-0',
 													)}
 												>
 													<RadioGroupItem
@@ -598,7 +597,7 @@ export function AdvertiserFormTab2({
 													variant="outline"
 													className={cn(
 														'w-full pl-3 justify-start text-left font-normal',
-														!field.value && 'text-muted-foreground'
+														!field.value && 'text-muted-foreground',
 													)}
 												>
 													<CalendarIcon className="mr-2 h-4 w-4" />
@@ -633,7 +632,7 @@ export function AdvertiserFormTab2({
 													variant="outline"
 													className={cn(
 														'w-full pl-3 justify-start text-left font-normal',
-														!field.value && 'text-muted-foreground'
+														!field.value && 'text-muted-foreground',
 													)}
 												>
 													<CalendarIcon className="mr-2 h-4 w-4" />
@@ -697,7 +696,7 @@ export function AdvertiserFormTab2({
 																	{item?.audience_age}
 																</SelectItem>
 															);
-														}
+														},
 													)}
 											</SelectContent>
 										</Select>
@@ -735,7 +734,7 @@ export function AdvertiserFormTab2({
 																	{item?.audience_age_to}
 																</SelectItem>
 															);
-														}
+														},
 													)}
 											</SelectContent>
 										</Select>
@@ -1187,7 +1186,7 @@ export function AdvertiserFormTab2({
 										...formValue,
 										start_date: formValue?.start_date?.toLocaleDateString(),
 										end_date: formValue?.end_date?.toLocaleDateString(),
-									})
+									}),
 								);
 								dispatch(prevStep());
 

@@ -71,7 +71,7 @@ export const VendorProductEdit = ({
 		{
 			refetchOnFocus: false,
 			refetchOnMountOrArgChange: false,
-		}
+		},
 	);
 	const [updateProduct, { isLoading: isSaving }] =
 		useVendorProductUpdateMutation();
@@ -248,8 +248,6 @@ export const VendorProductEdit = ({
 			},
 		});
 	};
-
-	console.log(form.formState.errors);
 
 	return (
 		<Container1
@@ -470,7 +468,7 @@ export const VendorProductEdit = ({
 														onChange={(e) => {
 															const value = e.target.value;
 															field.onChange(
-																value === '' ? undefined : Number(value)
+																value === '' ? undefined : Number(value),
 															);
 														}}
 														className="pr-3"
@@ -589,7 +587,7 @@ export const VendorProductEdit = ({
 																variant="outline"
 																className={cn(
 																	'w-full pl-3 justify-start text-left font-normal',
-																	!field.value && 'text-muted-foreground'
+																	!field.value && 'text-muted-foreground',
 																)}
 															>
 																<CalendarIcon className="mr-2 h-4 w-4" />
@@ -902,7 +900,7 @@ export const VendorProductEdit = ({
 																									onChange={(e) =>
 																										field.onChange(
 																											e.target.valueAsNumber ||
-																												''
+																												'',
 																										)
 																									}
 																									className="pr-3"
@@ -933,7 +931,7 @@ export const VendorProductEdit = ({
 																									onChange={(e) =>
 																										field.onChange(
 																											e.target.valueAsNumber ||
-																												''
+																												'',
 																										)
 																									}
 																									className="pr-3"
@@ -1001,7 +999,7 @@ export const VendorProductEdit = ({
 																										onChange={(e) =>
 																											field.onChange(
 																												e.target
-																													.valueAsNumber || ''
+																													.valueAsNumber || '',
 																											)
 																										}
 																										className="pr-3"
@@ -1069,7 +1067,7 @@ export const VendorProductEdit = ({
 																										onChange={(e) =>
 																											field.onChange(
 																												e.target
-																													.valueAsNumber || ''
+																													.valueAsNumber || '',
 																											)
 																										}
 																										className="pr-3"
@@ -1180,7 +1178,7 @@ export const VendorProductEdit = ({
 																						}}
 																						onChange={(e) =>
 																							field.onChange(
-																								e.target.valueAsNumber || ''
+																								e.target.valueAsNumber || '',
 																							)
 																						}
 																						className="pr-3"
@@ -1245,7 +1243,7 @@ export const VendorProductEdit = ({
 																						}}
 																						onChange={(e) =>
 																							field.onChange(
-																								e.target.valueAsNumber || ''
+																								e.target.valueAsNumber || '',
 																							)
 																						}
 																						className="pr-3"
@@ -1293,7 +1291,7 @@ export const VendorProductEdit = ({
 																			);
 																		}
 																		return null;
-																	}
+																	},
 																);
 															});
 														}
@@ -1320,7 +1318,7 @@ export const VendorProductEdit = ({
 																		);
 																	}
 																	return null;
-																}
+																},
 															);
 														}
 
@@ -1349,7 +1347,7 @@ export const VendorProductEdit = ({
 														}
 
 														return null;
-													}
+													},
 												)}
 											</AlertDescription>
 										</Alert>

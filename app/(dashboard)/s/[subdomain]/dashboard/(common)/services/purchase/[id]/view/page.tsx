@@ -20,14 +20,13 @@ export default async function Page({
 	const [service] = await Promise.all([
 		getApiData<iAdminService>(`/services-view/${id}`),
 	]);
-	console.log(service);
 	if (!service) {
 		return notFound();
 	}
 	return (
 		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<VendorServicePurchaseView order={service } />
+			<VendorServicePurchaseView order={service} />
 		</SessionProvider>
 	);
 }

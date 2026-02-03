@@ -19,8 +19,6 @@ export function Category01({
 					disableOnInteraction: false,
 				}}
 				speed={1000}
-				onSlideChange={() => console.log('slide change')}
-				onSwiper={(swiper) => console.log(swiper)}
 				className="w-full h-full"
 				breakpoints={{
 					0: {

@@ -104,7 +104,6 @@ export function VendorPOSalesSellExchange({
 		clearCart,
 		setDiscount,
 	} = usePosSalesExchange();
-	console.log(cart);
 	const { logo, data: showData } = data;
 	const [submitReturn, { isLoading }] = useVendorPosSellReturnMutation();
 	const form = useForm<ReturnFormData>({
@@ -208,7 +207,7 @@ export function VendorPOSalesSellExchange({
 												form.watch(`return_items.${index}.rate`) || '0';
 											const returnSubtotal = calculateReturnSubtotal(
 												returnQty,
-												rate
+												rate,
 											);
 
 											return (
@@ -245,7 +244,7 @@ export function VendorPOSalesSellExchange({
 																				const max = f_field?.purchase_qty || 0;
 																				if (value > max) {
 																					toast.error(
-																						`Return Qty must be less than or equal to ${max}`
+																						`Return Qty must be less than or equal to ${max}`,
 																					);
 																					return;
 																				}

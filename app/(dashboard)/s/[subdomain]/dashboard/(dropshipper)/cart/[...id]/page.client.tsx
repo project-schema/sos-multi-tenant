@@ -91,7 +91,7 @@ export default function CartViewPageClient({
 	const [gateway, setGateway] = useState<'aamarpay'>('aamarpay');
 	const { data, isLoading, isError, isFetching } = useCartViewQuery(
 		{ cartId: cartId[1] || '', tenantId: cartId[0] || '' },
-		{ skip: !cartId[1] || !cartId[0] }
+		{ skip: !cartId[1] || !cartId[0] },
 	);
 	const [checkoutCart, { isLoading: isCheckoutLoading }] =
 		useCheckoutCartMutation();
@@ -99,7 +99,6 @@ export default function CartViewPageClient({
 	const product = cartItem?.product;
 	const router = useRouter();
 	const [items, setItems] = useState<CartItem[]>([]);
-	console.log(items);
 
 	const [editingItemId, setEditingItemId] = useState<string | null>(null);
 	const [form, setForm] = useState<any>({
@@ -128,7 +127,7 @@ export default function CartViewPageClient({
 
 	// State to track total quantities used per variant across all cart items
 	const [usedQuantities, setUsedQuantities] = useState<Record<string, number>>(
-		{}
+		{},
 	);
 
 	// Initialize variant quantities with remaining quantities available
@@ -143,12 +142,12 @@ export default function CartViewPageClient({
 					fallbackQuantity;
 				const remaining = getRemainingQuantity(
 					detail.id.toString(),
-					originalMax
+					originalMax,
 				);
 				// Set default to remaining quantity, but at least 1 if available
 				initialQuantities[detail.id.toString()] = Math.min(
 					remaining,
-					remaining > 0 ? 1 : 0
+					remaining > 0 ? 1 : 0,
 				);
 			});
 			setVariantQuantities(initialQuantities);
@@ -194,7 +193,7 @@ export default function CartViewPageClient({
 				// Set default to remaining quantity, but at least 1 if available
 				resetQuantities[detail.id.toString()] = Math.min(
 					remaining,
-					remaining > 0 ? 1 : 0
+					remaining > 0 ? 1 : 0,
 				);
 			});
 			setVariantQuantities(resetQuantities);
@@ -228,8 +227,8 @@ export default function CartViewPageClient({
 			delivery_type: form.delivery_area_id
 				? 'area'
 				: form.courier_id
-				? 'courier'
-				: undefined,
+					? 'courier'
+					: undefined,
 			variants:
 				cartItem?.cart_details?.map((detail) => ({
 					id: `variant-${detail.id}`,
@@ -295,7 +294,7 @@ export default function CartViewPageClient({
 					const detailId = variant.id.replace('variant-', '');
 					updated[detailId] = Math.max(
 						0,
-						(updated[detailId] || 0) - variant.qty
+						(updated[detailId] || 0) - variant.qty,
 					);
 				});
 				return updated;
@@ -331,14 +330,14 @@ export default function CartViewPageClient({
 			delivery_type: (form.delivery_area_id
 				? 'area'
 				: form.courier_id
-				? 'courier'
-				: undefined) as 'area' | 'courier' | undefined,
+					? 'courier'
+					: undefined) as 'area' | 'courier' | undefined,
 			variants: items
 				.find((item) => item.id === editingItemId)!
 				.variants.map((variant) => {
 					// Find the corresponding cart detail to get the current quantity
 					const detail = cartItem?.cart_details?.find(
-						(d) => `variant-${d.id}` === variant.id
+						(d) => `variant-${d.id}` === variant.id,
 					);
 					if (detail) {
 						return {
@@ -351,7 +350,7 @@ export default function CartViewPageClient({
 		};
 
 		setItems(
-			items.map((item) => (item.id === editingItemId ? updatedItem : item))
+			items.map((item) => (item.id === editingItemId ? updatedItem : item)),
 		);
 
 		// Add back the new quantities to used tracking
@@ -404,7 +403,7 @@ export default function CartViewPageClient({
 					const detailId = variant.id.replace('variant-', '');
 					updated[detailId] = Math.max(
 						0,
-						(updated[detailId] || 0) - variant.qty
+						(updated[detailId] || 0) - variant.qty,
 					);
 				});
 				return updated;
@@ -418,13 +417,13 @@ export default function CartViewPageClient({
 	const getDeliveryCharge = (item: CartItem) => {
 		if (item.delivery_type === 'area' && item.delivery_area_id) {
 			const area = data?.deliveryArea?.find(
-				(a) => a.id.toString() === item.delivery_area_id
+				(a) => a.id.toString() === item.delivery_area_id,
 			);
 			return area ? parseFloat(area.charge) : 0;
 		}
 		if (item.delivery_type === 'courier' && item.courier_id) {
 			const courier = data?.data?.courier?.find(
-				(c) => c.id.toString() === item.courier_id
+				(c) => c.id.toString() === item.courier_id,
 			);
 			return courier ? parseFloat(courier.charge) : 0;
 		}
@@ -448,7 +447,7 @@ export default function CartViewPageClient({
 			// Sum quantities across all variants
 			const itemQuantity = item.variants.reduce(
 				(sum, variant) => sum + variant.qty,
-				0
+				0,
 			);
 			totalQuantity += itemQuantity;
 
@@ -498,14 +497,14 @@ export default function CartViewPageClient({
 			// Get delivery area name
 			const deliveryArea = item.delivery_area_id
 				? data?.deliveryArea?.find(
-						(area) => area.id.toString() === item.delivery_area_id
-				  )
+						(area) => area.id.toString() === item.delivery_area_id,
+					)
 				: null;
 
 			// Calculate total quantity for this item
 			const itemQuantity = item.variants.reduce(
 				(sum, variant) => sum + variant.qty,
-				0
+				0,
 			);
 
 			// Get delivery type (map to required format)
@@ -529,19 +528,19 @@ export default function CartViewPageClient({
 						? {
 								id: variant.size_id,
 								name: variant.size_name || '',
-						  }
+							}
 						: undefined,
 					color: variant.color_id
 						? {
 								id: variant.color_id,
 								name: variant.color_name || '',
-						  }
+							}
 						: undefined,
 					variant_id: variant.variant_id || '',
 					previousQty:
 						cartItem?.cart_details?.find(
 							(detail) =>
-								detail.id.toString() === variant.id.replace('variant-', '')
+								detail.id.toString() === variant.id.replace('variant-', ''),
 						)?.qty || '0',
 				}))
 				.filter((variant) => variant.id); // Remove any invalid variants
@@ -580,13 +579,12 @@ export default function CartViewPageClient({
 						payment_type: gateway,
 						tenant_type: 'tenant',
 					});
-					console.log('Response:', response);
 					if (response?.data?.payment_url) {
 						window.location.href = response?.data?.payment_url;
 					} else {
 						if (response?.data?.status === 200) {
 							toast.success(
-								response?.data?.message || 'Order placed successfully'
+								response?.data?.message || 'Order placed successfully',
 							);
 							router.push('/dashboard/dropshipper-orders');
 						} else {
@@ -594,7 +592,6 @@ export default function CartViewPageClient({
 						}
 					}
 				} catch (error: any) {
-					console.log('Error:', error);
 					toast.error('Failed to place order');
 				}
 			},
@@ -770,9 +767,9 @@ export default function CartViewPageClient({
 													detail.id.toString(),
 													parseFloat(detail.qty?.toString() || '0') ||
 														parseFloat(
-															cartItem?.product_qty?.toString() || '0'
+															cartItem?.product_qty?.toString() || '0',
 														) ||
-														quantity
+														quantity,
 												);
 
 												if (remainingQty === 0) {
@@ -824,7 +821,7 @@ export default function CartViewPageClient({
 																	const value = parseInt(e.target.value) || 1;
 																	const clampedValue = Math.max(
 																		1,
-																		Math.min(value, remainingQty)
+																		Math.min(value, remainingQty),
 																	);
 																	setVariantQuantities((prev) => ({
 																		...prev,
@@ -860,7 +857,7 @@ export default function CartViewPageClient({
 															Remaining: {remainingQty} (Max:{' '}
 															{parseFloat(detail.qty?.toString() || '0') ||
 																parseFloat(
-																	cartItem?.product_qty?.toString() || '0'
+																	cartItem?.product_qty?.toString() || '0',
 																) ||
 																quantity}
 															)
@@ -937,7 +934,7 @@ export default function CartViewPageClient({
 															{
 																data?.deliveryArea?.find(
 																	(a) =>
-																		a.id.toString() === item.delivery_area_id
+																		a.id.toString() === item.delivery_area_id,
 																)?.area
 															}{' '}
 															({getDeliveryCharge(item).toFixed(2)} tk)
@@ -949,7 +946,7 @@ export default function CartViewPageClient({
 															Courier:{' '}
 															{
 																data?.data?.courier?.find(
-																	(c) => c.id.toString() === item.courier_id
+																	(c) => c.id.toString() === item.courier_id,
 																)?.name
 															}{' '}
 															({getDeliveryCharge(item).toFixed(2)} tk)

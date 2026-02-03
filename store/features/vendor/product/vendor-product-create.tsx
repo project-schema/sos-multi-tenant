@@ -65,7 +65,7 @@ export const VendorProductCreate = () => {
 		{
 			refetchOnFocus: false,
 			refetchOnMountOrArgChange: false,
-		}
+		},
 	);
 	const [storeProduct, { isLoading: isSaving }] =
 		useVendorProductStoreMutation();
@@ -153,9 +153,6 @@ export const VendorProductCreate = () => {
 			form.setValue('sku', data?.barcode ?? '');
 		}
 	}, [data]);
-
-	console.log(form.formState.errors);
-	console.log(form.getValues());
 
 	const onSubmit = async (values: VendorProductCreateZod) => {
 		const data = VendorProductCreateData(values);
@@ -388,7 +385,7 @@ export const VendorProductCreate = () => {
 														onChange={(e) => {
 															const value = e.target.value;
 															field.onChange(
-																value === '' ? undefined : Number(value)
+																value === '' ? undefined : Number(value),
 															);
 														}}
 														className="pr-3"
@@ -507,7 +504,7 @@ export const VendorProductCreate = () => {
 																variant="outline"
 																className={cn(
 																	'w-full pl-3 justify-start text-left font-normal',
-																	!field.value && 'text-muted-foreground'
+																	!field.value && 'text-muted-foreground',
 																)}
 															>
 																<CalendarIcon className="mr-2 h-4 w-4" />
@@ -818,7 +815,7 @@ export const VendorProductCreate = () => {
 																									onChange={(e) =>
 																										field.onChange(
 																											e.target.valueAsNumber ||
-																												''
+																												'',
 																										)
 																									}
 																									className="pr-3"
@@ -849,7 +846,7 @@ export const VendorProductCreate = () => {
 																									onChange={(e) =>
 																										field.onChange(
 																											e.target.valueAsNumber ||
-																												''
+																												'',
 																										)
 																									}
 																									className="pr-3"
@@ -917,7 +914,7 @@ export const VendorProductCreate = () => {
 																										onChange={(e) =>
 																											field.onChange(
 																												e.target
-																													.valueAsNumber || ''
+																													.valueAsNumber || '',
 																											)
 																										}
 																										className="pr-3"
@@ -985,7 +982,7 @@ export const VendorProductCreate = () => {
 																										onChange={(e) =>
 																											field.onChange(
 																												e.target
-																													.valueAsNumber || ''
+																													.valueAsNumber || '',
 																											)
 																										}
 																										className="pr-3"
@@ -1096,7 +1093,7 @@ export const VendorProductCreate = () => {
 																						}}
 																						onChange={(e) =>
 																							field.onChange(
-																								e.target.valueAsNumber || ''
+																								e.target.valueAsNumber || '',
 																							)
 																						}
 																						className="pr-3"
@@ -1161,7 +1158,7 @@ export const VendorProductCreate = () => {
 																						}}
 																						onChange={(e) =>
 																							field.onChange(
-																								e.target.valueAsNumber || ''
+																								e.target.valueAsNumber || '',
 																							)
 																						}
 																						className="pr-3"
@@ -1210,7 +1207,7 @@ export const VendorProductCreate = () => {
 																			);
 																		}
 																		return null;
-																	}
+																	},
 																);
 															});
 														}
@@ -1237,7 +1234,7 @@ export const VendorProductCreate = () => {
 																		);
 																	}
 																	return null;
-																}
+																},
 															);
 														}
 
@@ -1266,7 +1263,7 @@ export const VendorProductCreate = () => {
 														}
 
 														return null;
-													}
+													},
 												)}
 											</AlertDescription>
 										</Alert>

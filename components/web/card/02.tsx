@@ -69,14 +69,12 @@ export default function Card01({
 		e.preventDefault();
 		e.stopPropagation();
 		// Handle quick view functionality
-		console.log('Quick view:', product.id);
 	};
 
 	const handleShare = (e: React.MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
 		// Handle share functionality
-		console.log('Share:', product.id);
 	};
 
 	return (

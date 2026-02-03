@@ -22,8 +22,6 @@ export default async function Page({
 		getApiData<any>(`/services-view/${id}`),
 	]);
 
-	console.log(service);
-
 	if (settings?.status !== 200 || !service) {
 		return notFound();
 	}

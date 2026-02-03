@@ -16,10 +16,9 @@ export async function ProductSection({
 	feature,
 }: ProductSectionProps) {
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
-		`/tenant-frontend/products/${feature || buttons?.[0]?.value}`
+		`/tenant-frontend/products/${feature || buttons?.[0]?.value}`,
 	);
 
-	console.log({ products });
 	return (
 		<div className="max-w-[1720px] mx-auto px-4 lg:px-8">
 			<div className="flex items-center flex-wrap gap-4 justify-between mb-6">

@@ -62,7 +62,6 @@ export async function getApiDataWithSubdomain<T = any>(
 		const apiUrl = !isLocalhost
 			? `https://${subdomain}.${apiDomain}/api${url}`
 			: `http://${subdomain}.localhost:8000/api${url}`;
-		console.log({ apiUrl });
 
 		const res = await fetch(apiUrl, {
 			next: { revalidate: 60 },

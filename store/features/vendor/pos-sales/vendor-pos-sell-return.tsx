@@ -92,7 +92,6 @@ export function VendorPOSalesSellReturn({
 	});
 
 	const onSubmit = async (formData: ReturnFormData) => {
-		console.log(formData);
 		alertConfirm({
 			onOk: async () => {
 				try {
@@ -100,7 +99,7 @@ export function VendorPOSalesSellReturn({
 					const returnData = formData.return_items.map((item) => {
 						const correctedQty = Math.min(
 							item.return_qty,
-							item?.purchase_qty || 0
+							item?.purchase_qty || 0,
 						);
 						return {
 							...item,
@@ -218,7 +217,7 @@ export function VendorPOSalesSellReturn({
 												form.watch(`return_items.${index}.rate`) || '0';
 											const returnSubtotal = calculateReturnSubtotal(
 												returnQty,
-												rate
+												rate,
 											);
 
 											return (
@@ -255,7 +254,7 @@ export function VendorPOSalesSellReturn({
 																				const max = f_field?.purchase_qty || 0;
 																				if (value > max) {
 																					toast.error(
-																						`Return Qty must be less than or equal to ${max}`
+																						`Return Qty must be less than or equal to ${max}`,
 																					);
 																					return;
 																				}
@@ -326,7 +325,7 @@ export function VendorPOSalesSellReturn({
 													.watch('return_items')
 													.reduce(
 														(sum, item) => sum + (item?.return_qty || 0),
-														0
+														0,
 													)}
 											</span>
 										</div>

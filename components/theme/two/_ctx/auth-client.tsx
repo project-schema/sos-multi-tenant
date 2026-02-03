@@ -18,8 +18,6 @@ export default function AuthClient({
 	const tab = searchParams.get('tab');
 	const { data: session } = useSession();
 
-	console.log(tab, mode, session?.user?.usersubscription);
-
 	useEffect(() => {
 		if (tab) {
 			setMode(tab as 'login' | 'register');

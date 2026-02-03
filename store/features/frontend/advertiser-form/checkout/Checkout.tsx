@@ -30,7 +30,6 @@ function Checkout({
 }) {
 	const { data: session } = useSession();
 	const state = useAppSelector((state) => state.advertiseForm);
-	console.log(state);
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const { data, isLoading: isLoadingDollarRate } =
@@ -66,7 +65,7 @@ function Checkout({
 					router.push(
 						session?.tenant_type === 'user'
 							? `/user/advertise`
-							: `/dashboard/advertise`
+							: `/dashboard/advertise`,
 					);
 				}
 				toast.success('Created successfully');
@@ -109,7 +108,7 @@ function Checkout({
 						pp={
 							(timeDifference2(
 								state.level2.start_date,
-								state.level2.end_date
+								state.level2.end_date,
 							)?.toString() || '0') + ' Days'
 						}
 						text={{ h: 'Total Date' }}

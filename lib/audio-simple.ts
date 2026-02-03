@@ -12,8 +12,9 @@ class AudioManager {
 
 	private initAudioContext() {
 		try {
-			this.audioContext = new (window.AudioContext ||
-				(window as any).webkitAudioContext)();
+			this.audioContext = new (
+				window.AudioContext || (window as any).webkitAudioContext
+			)();
 		} catch (error) {
 			console.warn('Audio context not supported');
 		}
@@ -23,7 +24,7 @@ class AudioManager {
 	playBeep(
 		frequency: number = 800,
 		duration: number = 100,
-		type: OscillatorType = 'sine'
+		type: OscillatorType = 'sine',
 	) {
 		if (!this.audioContext) {
 			this.initAudioContext();
@@ -40,7 +41,7 @@ class AudioManager {
 
 			oscillator.frequency.setValueAtTime(
 				frequency,
-				this.audioContext.currentTime
+				this.audioContext.currentTime,
 			);
 			oscillator.type = type;
 
@@ -48,11 +49,11 @@ class AudioManager {
 			gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
 			gainNode.gain.linearRampToValueAtTime(
 				0.3,
-				this.audioContext.currentTime + 0.01
+				this.audioContext.currentTime + 0.01,
 			);
 			gainNode.gain.exponentialRampToValueAtTime(
 				0.01,
-				this.audioContext.currentTime + duration / 1000
+				this.audioContext.currentTime + duration / 1000,
 			);
 
 			oscillator.start(this.audioContext.currentTime);
@@ -113,6 +114,5 @@ export const playSound = (type: 'add' | 'remove' | 'error' | 'success') => {
 	audio.volume = 0.3; // 30% volume
 	audio.play().catch(() => {
 		// Fallback to beep if audio file fails
-		console.log('Audio file not found, using fallback');
 	});
 };

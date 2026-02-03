@@ -122,8 +122,6 @@ export async function proxy(request: NextRequest) {
 			secret: process.env.NEXTAUTH_SECRET,
 		});
 
-		console.log({ token });
-
 		// Check if user is authenticated
 		if (!token || !token.accessToken) {
 			const signInUrl = new URL('/auth', request.url);

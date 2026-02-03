@@ -20,7 +20,6 @@ export default function ThemeThreeShopPage({
 }: {
 	data: iPagination<iVendorProduct>;
 }) {
-	console.log(data);
 	return (
 		<>
 			<Header03 />
@@ -92,7 +91,7 @@ export default function ThemeThreeShopPage({
 												style={{ background: c }}
 												aria-label={c}
 											/>
-										)
+										),
 									)}
 								</div>
 							</div>

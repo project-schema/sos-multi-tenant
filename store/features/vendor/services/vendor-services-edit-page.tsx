@@ -119,8 +119,6 @@ export function VendorServicesEdit({
 		isLoading: isLoadingCategoryAndSubCategory,
 	} = useVendorServiceCategoryAndSubCategoryQuery();
 
-	console.log(editData);
-
 	const p1 = editData.servicepackages?.[0];
 	const p2 = editData.servicepackages?.[1];
 	const p3 = editData.servicepackages?.[2];
@@ -348,7 +346,7 @@ export function VendorServicesEdit({
 														value={field.value ?? []}
 														onChange={field.onChange}
 														defaultImages={(editData.serviceimages || []).map(
-															(img) => `${env.baseAPI}/${img.images}`
+															(img) => `${env.baseAPI}/${img.images}`,
 														)}
 													/>
 													<FormMessage />
@@ -374,7 +372,7 @@ export function VendorServicesEdit({
 																	(item) => ({
 																		label: item.name,
 																		value: item.id.toString(),
-																	})
+																	}),
 																)) ??
 															[]
 														}
@@ -396,7 +394,7 @@ export function VendorServicesEdit({
 																	?.find(
 																		(item) =>
 																			item.id.toString() ===
-																			categoryId?.toString()
+																			categoryId?.toString(),
 																	)
 																	?.servicesub_categories?.map((subItem) => ({
 																		label: subItem.name,

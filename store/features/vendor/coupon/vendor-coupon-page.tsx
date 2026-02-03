@@ -26,8 +26,6 @@ export function VendorCouponPage() {
 		isError: requestError,
 	} = useVendorCouponRequestQuery(undefined);
 
-	console.log(data);
-
 	return (
 		<Container1
 			isLoading={isLoading || requestLoading}

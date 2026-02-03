@@ -15,7 +15,6 @@ import { iDropShipReq } from './dropshipper-request.type';
 export function DropshipperAcceptRequest({ data }: { data: iDropShipReq }) {
 	const [mutation, { isLoading }] = useVendorRequestProductStatusMutation();
 	const [clicked, setClicked] = useState(false);
-	console.log(data);
 
 	const handleClick = async () => {
 		if (clicked || isLoading) return;

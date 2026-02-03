@@ -16,9 +16,8 @@ import { UtilityIcons } from './_ctx/utility-icons';
 
 export default async function Header03() {
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
-		'/tenant-frontend/cms'
+		'/tenant-frontend/cms',
 	);
-	console.log({ settings });
 	const menuItems = [
 		{
 			label: 'New',

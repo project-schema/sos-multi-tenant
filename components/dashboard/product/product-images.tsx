@@ -28,15 +28,12 @@ export const ProductImages = ({
 		...product?.product_image,
 	];
 
-	console.log(`image : ${env.baseAPI}/${images[currentIndex]?.image}`);
-
-	console.log(images);
 	const changeImage = (direction: 1 | -1) => {
 		if (images.length === 0) return;
 		setIsFading(true);
 		setTimeout(() => {
 			setCurrentIndex(
-				(prev) => (prev + direction + images.length) % images.length
+				(prev) => (prev + direction + images.length) % images.length,
 			);
 			setIsFading(false);
 		}, 150);

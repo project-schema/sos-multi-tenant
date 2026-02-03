@@ -92,7 +92,7 @@ export function VendorSupportCreatePage() {
 			refetchOnMountOrArgChange: false,
 			refetchOnFocus: false,
 			refetchOnReconnect: false,
-		}
+		},
 	);
 	const handleSubmit = (data: ZodType) => {
 		alertConfirm({
@@ -104,10 +104,9 @@ export function VendorSupportCreatePage() {
 						tenant_type: 'tenant',
 					}).unwrap();
 					if (response.message === 'Validation errors') {
-						console.log(response.data, 'test');
 						handleValidationError(
 							{ ...response, errors: response.data },
-							form.setError
+							form.setError,
 						);
 					}
 					if (response.status === 200) {

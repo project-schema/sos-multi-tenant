@@ -61,7 +61,6 @@ export function VendorServiceDelivery({
 }) {
 	const [open, setOpen] = useState(false);
 	const [mutation, { isLoading }] = useVendorServiceOrderDeliveryMutation();
-	console.log(order);
 	const form = useForm<NoteFormValues>({
 		resolver: zodResolver(noteSchema),
 		defaultValues: {

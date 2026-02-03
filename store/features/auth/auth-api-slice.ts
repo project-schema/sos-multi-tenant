@@ -13,7 +13,6 @@ const api = apiSlice.injectEndpoints({
 			query: (data) => {
 				const isUser = data.type === 'user';
 
-				console.log(data);
 				const userData = {
 					role: 4,
 					email: data.email,

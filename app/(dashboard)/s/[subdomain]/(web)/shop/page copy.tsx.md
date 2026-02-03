@@ -10,13 +10,11 @@ export default async function ShopPage({
 	params: { subdomain: string };
 }) {
 	const { subdomain } = await params;
-	console.log({ subdomain });
 	try {
 		const products = await getApiDataWithSubdomain<iVendorProduct[]>(
 			`/tenant-frontend/products`,
 			subdomain
 		);
-		console.log({ products });
 
 		switch (env.theme) {
 			case 'one':

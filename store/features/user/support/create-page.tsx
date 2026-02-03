@@ -92,7 +92,7 @@ export function UserSupportCreatePage() {
 			refetchOnMountOrArgChange: false,
 			refetchOnFocus: false,
 			refetchOnReconnect: false,
-		}
+		},
 	);
 	const handleSubmit = (data: ZodType) => {
 		alertConfirm({
@@ -104,10 +104,9 @@ export function UserSupportCreatePage() {
 						tenant_type: 'user',
 					}).unwrap();
 					if (response.message === 'Validation errors') {
-						console.log(response.data, 'test');
 						handleValidationError(
 							{ ...response, errors: response.data },
-							form.setError
+							form.setError,
 						);
 					}
 					if (response.status === 200) {

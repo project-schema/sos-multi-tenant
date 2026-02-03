@@ -116,7 +116,6 @@ export const TenantsRegisterForm = ({
 		},
 	});
 
-	console.log(form.formState.errors);
 	const typeIsUser = form.watch('type') === 'user';
 
 	const onSubmit = async (data: ZodType) => {
@@ -150,8 +149,8 @@ export const TenantsRegisterForm = ({
 						const firstMessage = Object.values(validationErrors)?.[0];
 						toast.error(
 							String(
-								Array.isArray(firstMessage) ? firstMessage[0] : firstMessage
-							)
+								Array.isArray(firstMessage) ? firstMessage[0] : firstMessage,
+							),
 						);
 						return;
 					}
@@ -205,8 +204,8 @@ export const TenantsRegisterForm = ({
 						const firstMessage = Object.values(validationErrors)?.[0];
 						toast.error(
 							String(
-								Array.isArray(firstMessage) ? firstMessage[0] : firstMessage
-							)
+								Array.isArray(firstMessage) ? firstMessage[0] : firstMessage,
+							),
 						);
 						return;
 					}

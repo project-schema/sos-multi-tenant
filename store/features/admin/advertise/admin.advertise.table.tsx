@@ -43,7 +43,6 @@ export function AdminAdvertiseTable({
 }) {
 	const advertises = data.data;
 	const { data: session } = useSession();
-	console.log({ session });
 	return (
 		<Table>
 			<TableHeader>

@@ -25,7 +25,6 @@ const AllServices = ({
 	};
 }) => {
 	const data = services?.data || [];
-	console.log(data);
 	return (
 		<section className={style.servicesSection}>
 			<div className="layout">

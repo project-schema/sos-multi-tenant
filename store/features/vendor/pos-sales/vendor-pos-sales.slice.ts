@@ -76,7 +76,7 @@ const initialState: PosSalesState = {
 const calculateTotals = (
 	cart: CartItem[],
 	discount: number = 0,
-	tax: number = 0
+	tax: number = 0,
 ) => {
 	const subtotal = cart.reduce((sum, item) => sum + item.subtotal, 0);
 	const discountAmount = (subtotal * discount) / 100;
@@ -95,7 +95,7 @@ const posSalesSlice = createSlice({
 			const existingItem = state.cart.find(
 				(item) =>
 					item.id === action.payload.id &&
-					item.variant_id === action.payload.variant_id
+					item.variant_id === action.payload.variant_id,
 			);
 
 			if (existingItem) {
@@ -119,11 +119,11 @@ const posSalesSlice = createSlice({
 				id: number;
 				variant_id?: number;
 				quantity: number;
-			}>
+			}>,
 		) => {
 			const { id, variant_id, quantity } = action.payload;
 			const item = state.cart.find(
-				(item) => item.id === id && item.variant_id === variant_id
+				(item) => item.id === id && item.variant_id === variant_id,
 			);
 
 			if (item) {
@@ -134,7 +134,7 @@ const posSalesSlice = createSlice({
 				if (item.quantity === 0) {
 					state.cart = state.cart.filter(
 						(cartItem) =>
-							!(cartItem.id === id && cartItem.variant_id === variant_id)
+							!(cartItem.id === id && cartItem.variant_id === variant_id),
 					);
 				}
 
@@ -146,12 +146,11 @@ const posSalesSlice = createSlice({
 
 		removeFromCart: (
 			state,
-			action: PayloadAction<{ id: number; variant_id?: number }>
+			action: PayloadAction<{ id: number; variant_id?: number }>,
 		) => {
 			const { id, variant_id } = action.payload;
-			console.log({ id, variant_id });
 			state.cart = state.cart.filter(
-				(item) => !(item.id === id && item.variant_id === variant_id)
+				(item) => !(item.id === id && item.variant_id === variant_id),
 			);
 
 			const totals = calculateTotals(state.cart, state.discount, state.tax);

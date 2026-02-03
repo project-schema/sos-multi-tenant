@@ -78,7 +78,7 @@ const api = apiSlice.injectEndpoints({
 					method: 'GET',
 				}),
 				providesTags: ['VendorProductCreateData'],
-			}
+			},
 		),
 
 		// store
@@ -101,30 +101,29 @@ const api = apiSlice.injectEndpoints({
 							});
 						} else if (key === 'selling_details') {
 							(value as any[])?.forEach((item: any, index: number) => {
-								console.log(item);
 								body.append(
 									`selling_details[${index}][advance_payment]`,
-									item.advance_payment
+									item.advance_payment,
 								);
 								body.append(
 									`selling_details[${index}][advance_payment_type]`,
-									item.advance_payment_type
+									item.advance_payment_type,
 								);
 								body.append(
 									`selling_details[${index}][bulk_commission]`,
-									item.bulk_commission
+									item.bulk_commission,
 								);
 								body.append(
 									`selling_details[${index}][bulk_commission_type]`,
-									item.bulk_commission_type
+									item.bulk_commission_type,
 								);
 								body.append(
 									`selling_details[${index}][min_bulk_qty]`,
-									item.min_bulk_qty
+									item.min_bulk_qty,
 								);
 								body.append(
 									`selling_details[${index}][min_bulk_price]`,
-									item.min_bulk_price
+									item.min_bulk_price,
 								);
 							});
 						} else if (key === 'discount_price') {
@@ -144,7 +143,7 @@ const api = apiSlice.injectEndpoints({
 					};
 				},
 				invalidatesTags: ['VendorProduct'],
-			}
+			},
 		),
 
 		// update
@@ -171,30 +170,29 @@ const api = apiSlice.injectEndpoints({
 						});
 					} else if (key === 'selling_details') {
 						(value as any[])?.forEach((item: any, index: number) => {
-							console.log(item);
 							body.append(
 								`selling_details[${index}][advance_payment]`,
-								item.advance_payment
+								item.advance_payment,
 							);
 							body.append(
 								`selling_details[${index}][advance_payment_type]`,
-								item.advance_payment_type
+								item.advance_payment_type,
 							);
 							body.append(
 								`selling_details[${index}][bulk_commission]`,
-								item.bulk_commission
+								item.bulk_commission,
 							);
 							body.append(
 								`selling_details[${index}][bulk_commission_type]`,
-								item.bulk_commission_type
+								item.bulk_commission_type,
 							);
 							body.append(
 								`selling_details[${index}][min_bulk_qty]`,
-								item.min_bulk_qty
+								item.min_bulk_qty,
 							);
 							body.append(
 								`selling_details[${index}][min_bulk_price]`,
-								item.min_bulk_price
+								item.min_bulk_price,
 							);
 						});
 					} else {

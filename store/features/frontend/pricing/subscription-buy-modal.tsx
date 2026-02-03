@@ -85,7 +85,6 @@ export default function SubscriptionBuyModal({
 				};
 
 				const result: any = await buySubscriptionPay(paymentData).unwrap();
-				console.log(result);
 				// Handle payment redirect or success
 				if (result?.payment_url) {
 					window.location.href = result.payment_url;
@@ -237,8 +236,8 @@ export default function SubscriptionBuyModal({
 						{isBuyingSubscription || isBuyingSubscriptionPay
 							? 'Processing...'
 							: subscription.subscription_amount === '0'
-							? 'Get Free'
-							: 'Buy Now'}
+								? 'Get Free'
+								: 'Buy Now'}
 					</Button>
 				</DialogFooter>
 			</DialogContent>

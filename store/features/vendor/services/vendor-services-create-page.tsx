@@ -150,7 +150,6 @@ export function VendorServicesCreate() {
 		data: categoryAndSubCategory,
 		isLoading: isLoadingCategoryAndSubCategory,
 	} = useVendorServiceCategoryAndSubCategoryQuery();
-	console.log(categoryAndSubCategory);
 	const form = useForm<FormType>({
 		defaultValues,
 		resolver: zodResolver(FormSchema),
@@ -189,7 +188,6 @@ export function VendorServicesCreate() {
 	const prevStep = () => setStep(1);
 
 	const onSubmit = async (data: FormType) => {
-		console.log(data);
 		alertConfirm({
 			onOk: async () => {
 				try {
@@ -334,7 +332,7 @@ export function VendorServicesCreate() {
 																	(item) => ({
 																		label: item.name,
 																		value: item.id.toString(),
-																	})
+																	}),
 																)) ??
 															[]
 														}
@@ -356,7 +354,7 @@ export function VendorServicesCreate() {
 																	?.find(
 																		(item) =>
 																			item.id.toString() ===
-																			categoryId.toString()
+																			categoryId.toString(),
 																	)
 																	?.servicesub_categories?.map((subItem) => ({
 																		label: subItem.name,

@@ -1,10 +1,11 @@
+import { Loader9 } from '@/components/dashboard';
 import { logout } from '@/lib';
 import { DASHBOARD_URL } from '@/lib/env';
 import { IMenu } from '@/types/Ui-Types';
 import { motion } from 'motion/react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import BtnLink from '../../BtnLink';
 import style from './style.module.css';
 
@@ -17,9 +18,13 @@ function MobileNav({
 	open: boolean;
 	setOpen: Function;
 }) {
-	const router = useRouter();
 	const pathname = usePathname();
-	const { data: session } = useSession();
+	const { data: session, status } = useSession();
+
+	if (status === 'loading') {
+		return <Loader9 />;
+	}
+
 	return (
 		<motion.div
 			initial={{ x: 100, opacity: 0, display: 'none' }}
@@ -47,7 +52,7 @@ function MobileNav({
 					</Link>
 				))}
 				<div className={style.buttonBox}>
-					{session?.user.name ? (
+					{session?.user?.name ? (
 						<div className="flex items-center gap-2 flex-col">
 							<Link
 								onClick={() => setOpen(false)}
@@ -58,7 +63,7 @@ function MobileNav({
 								Dashboard
 							</Link>
 
-							<p className="text-white">{session.user.name}</p>
+							<p className="text-white">{session?.user?.name}</p>
 							<button
 								onClick={() => {
 									logout();

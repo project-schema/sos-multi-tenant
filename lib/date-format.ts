@@ -13,7 +13,6 @@ export const timeFormat = (date: string) => {
 	return format(parsedDate, 'hh:mm a');
 };
 export const timeDifference = (date1: Date | null, date2: Date | null) => {
-	console.log({ date1, date2 });
 	if (date1 && date2) {
 		const diffTime = Math.abs(date2.getTime() - date1.getTime());
 		var daysDifference = diffTime / (1000 * 3600 * 24);
@@ -66,15 +65,15 @@ export const calculateBudgetWidthTimeDifference = ({
 			if (type === 'Daily Budget') {
 				const budgetIs = difference * parsedBudget * parseDollarRate;
 				return `${Math.round(
-					difference
+					difference,
 				)} Days x $${parsedBudget} x Rate ${parseDollarRate} = Tk ${Math.round(
-					budgetIs
+					budgetIs,
 				)}`;
 			} else {
 				const budgetIs = parsedBudget * parseDollarRate;
 
 				return `$${parsedBudget} x Rate ${parseDollarRate} = Tk ${Math.round(
-					budgetIs
+					budgetIs,
 				)}`;
 			}
 		}

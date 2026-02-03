@@ -9,9 +9,8 @@ type ServerErrorResponse = {
 
 export function handleValidationError<T extends FieldValues>(
 	response: ServerErrorResponse,
-	setError: UseFormSetError<T>
+	setError: UseFormSetError<T>,
 ) {
-	console.log({ response });
 	if (typeof response.errors === 'object') {
 		Object.entries(response.errors).forEach(([field, messages]) => {
 			setError(field as any, {

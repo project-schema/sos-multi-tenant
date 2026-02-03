@@ -19,7 +19,7 @@ const api = apiSlice.injectEndpoints({
 						val.forEach((tag) => body.append('tags[]', tag));
 					} else if (key === 'images' && Array.isArray(val)) {
 						val.forEach(
-							(file) => file && body.append('images[]', file as File)
+							(file) => file && body.append('images[]', file as File),
 						);
 					} else if (key === 'image' && val) {
 						body.append('image', val as File);
@@ -27,15 +27,15 @@ const api = apiSlice.injectEndpoints({
 						val.forEach((time) => body.append('time[]', time));
 					} else if (key === 'revision_max_time' && Array.isArray(val)) {
 						val.forEach((revision_max_time) =>
-							body.append('revision_max_time[]', revision_max_time)
+							body.append('revision_max_time[]', revision_max_time),
 						);
 					} else if (key === 'package_description' && Array.isArray(val)) {
 						val.forEach((package_description) =>
-							body.append('package_description[]', package_description)
+							body.append('package_description[]', package_description),
 						);
 					} else if (key === 'package_title' && Array.isArray(val)) {
 						val.forEach((package_title) =>
-							body.append('package_title[]', package_title)
+							body.append('package_title[]', package_title),
 						);
 					} else if (key === 'price' && Array.isArray(val)) {
 						val.forEach((price) => body.append('price[]', price));
@@ -64,7 +64,7 @@ const api = apiSlice.injectEndpoints({
 						val.forEach((tag) => body.append('tags[]', tag));
 					} else if (key === 'images' && Array.isArray(val)) {
 						val.forEach(
-							(file) => file && body.append('images[]', file as File)
+							(file) => file && body.append('images[]', file as File),
 						);
 					} else if (key === 'image' && val) {
 						body.append('image', val as File);
@@ -72,15 +72,15 @@ const api = apiSlice.injectEndpoints({
 						val.forEach((time) => body.append('time[]', time));
 					} else if (key === 'revision_max_time' && Array.isArray(val)) {
 						val.forEach((revision_max_time) =>
-							body.append('revision_max_time[]', revision_max_time)
+							body.append('revision_max_time[]', revision_max_time),
 						);
 					} else if (key === 'package_description' && Array.isArray(val)) {
 						val.forEach((package_description) =>
-							body.append('package_description[]', package_description)
+							body.append('package_description[]', package_description),
 						);
 					} else if (key === 'package_title' && Array.isArray(val)) {
 						val.forEach((package_title) =>
-							body.append('package_title[]', package_title)
+							body.append('package_title[]', package_title),
 						);
 					} else if (key === 'price' && Array.isArray(val)) {
 						val.forEach((price) => body.append('price[]', price));
@@ -177,7 +177,6 @@ const api = apiSlice.injectEndpoints({
 			}
 		>({
 			query: (body) => {
-				console.log(body);
 				return {
 					url: `/tenant-service/status`,
 					method: 'POST',

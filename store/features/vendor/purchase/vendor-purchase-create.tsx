@@ -130,7 +130,7 @@ export const VendorPurchaseCreate = () => {
 		{
 			refetchOnFocus: false,
 			refetchOnMountOrArgChange: false,
-		}
+		},
 	);
 
 	const form = useForm<ZodType>({
@@ -172,7 +172,7 @@ export const VendorPurchaseCreate = () => {
 			{ supplier_id: form.watch('supplier_id') },
 			{
 				skip: !form.watch('supplier_id'),
-			}
+			},
 		);
 
 	// Add useEffect for automatic calculations
@@ -184,7 +184,6 @@ export const VendorPurchaseCreate = () => {
 	const paidAmount = useWatch({ control: form.control, name: 'paid_amount' });
 
 	useEffect(() => {
-		console.log('fire');
 		const productsTotal = watchedProducts.reduce((acc, item) => {
 			const subTotal = Number(item?.sub_total || 0);
 			return acc + subTotal;
@@ -192,7 +191,7 @@ export const VendorPurchaseCreate = () => {
 
 		const grandTotal = Math.max(
 			0,
-			productsTotal - Number(purchaseDiscount || 0)
+			productsTotal - Number(purchaseDiscount || 0),
 		);
 		const dueAmount = Math.max(0, grandTotal - Number(paidAmount || 0));
 
@@ -316,7 +315,7 @@ export const VendorPurchaseCreate = () => {
 														variant="outline"
 														className={cn(
 															'w-full pl-3 justify-start text-left font-normal py-5',
-															!field.value && 'text-muted-foreground'
+															!field.value && 'text-muted-foreground',
 														)}
 													>
 														<CalendarIcon className="mr-2 h-4 w-4" />
@@ -434,7 +433,7 @@ export const VendorPurchaseCreate = () => {
 															}
 															onSelectorClick={(selectedOption) => {
 																const price = parseFloat(
-																	selectedOption?.others?.original_price ?? '0'
+																	selectedOption?.others?.original_price ?? '0',
 																);
 
 																// Set rate
@@ -447,7 +446,7 @@ export const VendorPurchaseCreate = () => {
 																// Set sub_total
 																form.setValue(
 																	`products.${index}.sub_total`,
-																	price * qty
+																	price * qty,
 																);
 															}}
 														/>
@@ -537,11 +536,11 @@ export const VendorPurchaseCreate = () => {
 																		// Get current rate
 																		const rate =
 																			form.getValues(
-																				`products.${index}.rate`
+																				`products.${index}.rate`,
 																			) || 0;
 																		form.setValue(
 																			`products.${index}.sub_total`,
-																			qty * rate
+																			qty * rate,
 																		);
 																	}}
 																/>
@@ -576,7 +575,7 @@ export const VendorPurchaseCreate = () => {
 																			0;
 																		form.setValue(
 																			`products.${index}.sub_total`,
-																			qty * rate
+																			qty * rate,
 																		);
 																	}}
 																/>

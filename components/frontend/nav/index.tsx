@@ -1,5 +1,6 @@
 'use client';
 
+import { Loader9 } from '@/components/dashboard';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -18,12 +19,16 @@ import Link from 'next/link';
 import { useState } from 'react';
 import BtnLink from '../BtnLink';
 import DesktopNav from './desktop-nav/DesktopNav';
-import MobileNav from './mobile-nav/MobileNav';
+// import MobileNav from './mobile-nav/MobileNav';
 import style from './nav-style.module.css';
 
 function Nav({ settings }: { settings: iSettingsType }) {
 	const [open, setOpen] = useState(false);
-	const { data: session } = useSession();
+	const { data: session, status } = useSession();
+
+	if (status === 'loading') {
+		return <Loader9 />;
+	}
 
 	return (
 		<>
@@ -45,7 +50,7 @@ function Nav({ settings }: { settings: iSettingsType }) {
 					<DesktopNav data={menuData} />
 
 					<div className={style.buttonBox}>
-						{session?.user.name ? (
+						{session?.user?.name ? (
 							<div className="flex items-center gap-2">
 								<DropdownMenu>
 									<DropdownMenuTrigger asChild>
@@ -55,24 +60,24 @@ function Nav({ settings }: { settings: iSettingsType }) {
 										>
 											<div className="bg-[#004da3] text-white rounded-full w-16 h-16 flex items-center justify-center">
 												<span className="text-xl capitalize">
-													{session.user.name?.slice(0, 2) || '--'}
+													{session?.user?.name?.slice(0, 2) || '--'}
 												</span>
 											</div>
 										</button>
 									</DropdownMenuTrigger>
 									<DropdownMenuContent align="end" className="w-52">
 										<DropdownMenuLabel className="capitalize">
-											{session.user.name}
+											{session?.user?.name}
 										</DropdownMenuLabel>
 										<DropdownMenuSeparator />
 										<DropdownMenuItem
 											className="capitalize mb-1"
 											onClick={() => {
-												profileLink(session.tenant_type);
+												profileLink(session?.tenant_type);
 											}}
 											asChild
 										>
-											<Link href={profileLink(session.tenant_type)}>
+											<Link href={profileLink(session?.tenant_type)}>
 												Profile
 											</Link>
 										</DropdownMenuItem>
@@ -80,10 +85,10 @@ function Nav({ settings }: { settings: iSettingsType }) {
 											className="capitalize mb-1"
 											asChild
 											onClick={() => {
-												dashboardLink(session.tenant_type);
+												dashboardLink(session?.tenant_type);
 											}}
 										>
-											<Link href={dashboardLink(session.tenant_type)}>
+											<Link href={dashboardLink(session?.tenant_type)}>
 												Dashboard
 											</Link>
 										</DropdownMenuItem>
@@ -112,7 +117,7 @@ function Nav({ settings }: { settings: iSettingsType }) {
 					</div>
 				</div>
 
-				<MobileNav data={menuData} open={open} setOpen={setOpen} />
+				{/* <MobileNav data={menuData} open={open} setOpen={setOpen} /> */}
 			</nav>
 		</>
 	);

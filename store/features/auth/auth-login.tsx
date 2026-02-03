@@ -67,7 +67,6 @@ export const AuthLogin = ({ settings }: { settings: iSettingsType }) => {
 					redirect: false,
 				});
 
-				console.log(signInResult);
 				if (signInResult?.ok) {
 					toast.success('Login successful!');
 					reset();

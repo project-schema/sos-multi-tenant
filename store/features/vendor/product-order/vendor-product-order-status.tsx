@@ -41,21 +41,19 @@ export function VendorProductOrderStatus({
 						status,
 					}).unwrap();
 					const errorResponse = res as any;
-					console.log(errorResponse);
-					console.log(errorResponse?.message);
 					if (res.status === 200) {
 						toast.success(res.message || 'Status updated');
 					} else {
 						if (errorResponse?.message === 'Validation errors') {
 							toast.error(
 								errorResponse.data.status.toString() ||
-									'Failed to update status'
+									'Failed to update status',
 							);
 						}
 						if (errorResponse.data.delivery_id) {
 							toast.error(
 								errorResponse.data.delivery_id.toString() ||
-									'Failed to update status'
+									'Failed to update status',
 							);
 						} else {
 							toast.error(res.message || 'Failed to update status');
