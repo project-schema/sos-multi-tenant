@@ -1,21 +1,23 @@
+import { getApiData } from '@/lib';
+import { iSettingsType } from '@/types';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import style from '../../../store/features/auth/sign-in.module.css';
 import PageClient from './page-client';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
 	title: 'Service - SOS',
 	description: 'Service - SOS Management',
 };
 
-import { getApiData } from '@/lib';
-import { iSettingsType } from '@/types';
-import { notFound } from 'next/navigation';
-
 export default async function HomePage() {
 	let settings: iSettingsType | null = null;
 
 	try {
-		[settings] = await Promise.all([getApiData<iSettingsType>('/settings')]);
+		settings = await getApiData<iSettingsType>('/settings');
 	} catch (error) {
 		console.error('Error loading homepage data:', error);
 	}
@@ -25,14 +27,14 @@ export default async function HomePage() {
 	}
 
 	return (
-		<>
-			<div className={style.loginBg}>
-				<div className="layout">
-					<div className="max-w-2xl mx-auto  ">
-						{settings?.status === 200 && <PageClient settings={settings} />}
-					</div>
+		<div className={style.loginBg}>
+			<div className="layout">
+				<div className="max-w-2xl mx-auto">
+					<Suspense fallback={null}>
+						<PageClient settings={settings} />
+					</Suspense>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }

@@ -14,7 +14,7 @@ interface ApiError {
 export async function getApiData<T = any>(url: string): Promise<T | null> {
 	try {
 		const res = await fetch(env.baseAPI + '/api' + url, {
-			cache: 'no-store',
+			next: { revalidate: 60 },
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -46,7 +46,7 @@ export async function getApiData<T = any>(url: string): Promise<T | null> {
 }
 
 export async function getApiDataWithSubdomain<T = any>(
-	url: string
+	url: string,
 ): Promise<T | null> {
 	try {
 		const h = await headers();
@@ -65,7 +65,7 @@ export async function getApiDataWithSubdomain<T = any>(
 		console.log({ apiUrl });
 
 		const res = await fetch(apiUrl, {
-			cache: 'no-store',
+			next: { revalidate: 60 },
 			headers: {
 				'Content-Type': 'application/json',
 			},
