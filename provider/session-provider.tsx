@@ -30,7 +30,7 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 			router.replace('/dashboard/membership');
 		}
 
-		if (session?.user.roleType === 'tenant_user') {
+		if (session?.user.role_type === 'tenant_user') {
 			router.replace('/account');
 		}
 	}, [status, session, data, router]);

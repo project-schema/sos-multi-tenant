@@ -19,9 +19,9 @@ export default async function Footer02() {
 		<footer className="bg-gray-100 text-gray-800 mt-24">
 			{/* Main Footer Content */}
 			<div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-10 gap-8">
 					{/* Leftmost Section - Logo and About */}
-					<div className="space-y-6">
+					<div className="space-y-6 lg:col-span-4 lg:mr-10 2xl:mr-24">
 						{/* Logo */}
 						<div className="h-[34px] flex space-x-2">
 							<img
@@ -70,7 +70,7 @@ export default async function Footer02() {
 					</div>
 
 					{/* Middle-Left Section - Category */}
-					<div className="space-y-4">
+					<div className="space-y-4 lg:col-span-2">
 						<h3 className="text-lg font-bold text-black">Category</h3>
 						<ul className="space-y-2">
 							{categories?.slice(0, 5).map((category, index) => (
@@ -87,7 +87,7 @@ export default async function Footer02() {
 					</div>
 
 					{/* Middle-Right Section - Brands */}
-					<div className="space-y-4">
+					<div className="space-y-4 lg:col-span-2">
 						<h3 className="text-lg font-bold text-black">Brands</h3>
 						<ul className="space-y-2">
 							{brands?.slice(0, 5).map((brand, index) => (
@@ -104,7 +104,7 @@ export default async function Footer02() {
 					</div>
 
 					{/* Rightmost Section - Stores */}
-					<div className="space-y-4">
+					<div className="space-y-4 lg:col-span-2">
 						<h3 className="text-lg font-bold text-black">Stores</h3>
 						<div className="space-y-4">
 							<div className="space-y-2">

@@ -58,22 +58,16 @@ export function MainNavigation({
 						{/* Navigation Links - Desktop */}
 						<nav className="hidden md:flex items-center gap-6">
 							<Link
-								href="/clothes"
+								href="/"
 								className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors whitespace-nowrap"
 							>
-								Clothes
+								Home
 							</Link>
 							<Link
-								href="/new-arrivals"
+								href="/shop"
 								className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors whitespace-nowrap"
 							>
-								New Arrivals
-							</Link>
-							<Link
-								href="/best-sellers"
-								className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors whitespace-nowrap"
-							>
-								Best Sellers
+								Shop
 							</Link>
 							<Link
 								href="/blog"
@@ -81,25 +75,12 @@ export function MainNavigation({
 							>
 								Blog
 							</Link>
-							<DropdownMenu>
-								<DropdownMenuTrigger asChild>
-									<button className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors whitespace-nowrap">
-										<span>Pages</span>
-										<ChevronDown className="w-4 h-4" />
-									</button>
-								</DropdownMenuTrigger>
-								<DropdownMenuContent align="start" className="w-48">
-									<DropdownMenuItem asChild>
-										<Link href="/pages/about">About Us</Link>
-									</DropdownMenuItem>
-									<DropdownMenuItem asChild>
-										<Link href="/pages/contact">Contact</Link>
-									</DropdownMenuItem>
-									<DropdownMenuItem asChild>
-										<Link href="/pages/faq">FAQ</Link>
-									</DropdownMenuItem>
-								</DropdownMenuContent>
-							</DropdownMenu>
+							<Link
+								href="/contact"
+								className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors whitespace-nowrap"
+							>
+								Contact
+							</Link>
 						</nav>
 					</div>
 

@@ -116,7 +116,9 @@ export function OfferTable() {
 									<TableCell className="py-2 pl-4">
 										{tableSrCount(page, i)}
 									</TableCell>
-									<TableCell className="py-2">{homeOffer.title}</TableCell>
+									<TableCell className="py-2 max-w-full whitespace-pre-wrap">
+										{homeOffer.title}
+									</TableCell>
 									<TableCell className="py-2 space-x-2">
 										<OfferUpdate editData={homeOffer} />
 										<OfferDelete data={homeOffer} />

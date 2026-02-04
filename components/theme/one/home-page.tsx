@@ -18,14 +18,16 @@ export default async function ThemeOneHomePage() {
 	const brands = await getApiDataWithSubdomain<
 		{ name: string; image: string; id: number }[]
 	>('/tenant-frontend/brands');
+
+	console.log('settings', settings);
 	return (
 		<>
 			<Header01 />
-			{settings?.banners  && settings?.banners?.length > 0 && (
+			{settings?.banners && settings?.banners?.length > 0 && (
 				<Banner02 banners={settings?.banners ?? null} />
 			)}
 
-			{brands  && brands?.length > 0 && (
+			{brands && brands?.length > 0 && (
 				<div>
 					<div className="py-10">
 						<h2 className="text-[40px] font-bold text-center">Brands</h2>

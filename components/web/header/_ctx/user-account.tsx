@@ -8,6 +8,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { logout } from '@/lib';
+import { accountLink } from '@/lib/links/account';
 import {
 	LayoutDashboard,
 	LogOut,
@@ -59,19 +60,33 @@ export function UserAccount() {
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end" className="w-48">
 						<DropdownMenuItem asChild>
-							<Link href="/account" className="cursor-pointer">
+							<Link href={accountLink(session)} className="cursor-pointer">
 								<LayoutDashboard className="mr-2 h-4 w-4" />
 								Dashboard
 							</Link>
 						</DropdownMenuItem>
 						<DropdownMenuItem asChild>
-							<Link href="/account?view=orders" className="cursor-pointer">
+							<Link
+								href={
+									session.user.role_type === 'admin'
+										? '/dashboard/product-order'
+										: '/account?view=orders'
+								}
+								className="cursor-pointer"
+							>
 								<ShoppingBag className="mr-2 h-4 w-4" />
 								My Orders
 							</Link>
 						</DropdownMenuItem>
 						<DropdownMenuItem asChild>
-							<Link href="/account?view=profile" className="cursor-pointer">
+							<Link
+								href={
+									session.user.role_type === 'admin'
+										? '/dashboard/profile'
+										: '/account?view=profile'
+								}
+								className="cursor-pointer"
+							>
 								<Settings className="mr-2 h-4 w-4" />
 								Profile Settings
 							</Link>

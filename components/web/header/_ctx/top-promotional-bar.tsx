@@ -14,9 +14,9 @@ export const TopPromotionalBar = ({ offers }: { offers: iHomeOffer[] }) => {
 		() =>
 			Autoplay({
 				delay: 3000,
-				stopOnInteraction: false,
 				stopOnMouseEnter: false,
 				stopOnFocusIn: false,
+				playOnInit: true,
 			}),
 		[]
 	);

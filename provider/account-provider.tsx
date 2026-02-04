@@ -18,7 +18,7 @@ export const AccountProvider = ({
 		return redirect('/auth');
 	}
 
-	if (session?.user?.roleType === 'tenant_user') {
+	if (session?.user?.role_type === 'tenant_user') {
 		return children;
 	}
 	return <>{children}</>;

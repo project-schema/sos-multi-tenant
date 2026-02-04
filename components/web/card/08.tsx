@@ -23,7 +23,7 @@ export default function Card08({
 			className={`group p-2 gap-3 relative bg-white rounded-xl duration-300 overflow-hidden flex flex-col sm:flex-row  `}
 		>
 			{/* Left Section - Image Area */}
-			<div className="relative w-full sm:w-2/5 aspect-square sm:aspect-auto sm:h-auto bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+			<div className="relative w-full sm:w-2/5 aspect-square sm:aspect-auto sm:h-[110px] bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
 				{/* Textured background pattern */}
 				<div className="absolute inset-0 opacity-30">
 					<div
@@ -44,7 +44,7 @@ export default function Card08({
 					<img
 						src={imageFormat(product?.image)}
 						alt={product?.name}
-						className="object-cover object-center rounded-xl relative z-10"
+						className="object-cover object-center rounded-xl relative z-10 w-full h-full"
 						width={1000}
 						height={1000}
 					/>
@@ -83,9 +83,12 @@ export default function Card08({
 					</div>
 
 					{/* Add to Cart Button */}
-					<button className="w-8 h-8 rounded-sm border-1 border-orange-500 bg-orange-50 hover:bg-orange-100 transition-colors duration-200 flex items-center justify-center group/btn flex-shrink-0">
+					<Link
+						href={`/shop/${product?.slug}`}
+						className="w-8 h-8 rounded-sm border-1 border-orange-500 bg-orange-50 hover:bg-orange-100 transition-colors duration-200 flex items-center justify-center group/btn flex-shrink-0"
+					>
 						<ShoppingCart className="w-5 h-5 text-orange-500 group-hover/btn:scale-110 transition-transform duration-200" />
-					</button>
+					</Link>
 				</div>
 			</div>
 		</div>

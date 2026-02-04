@@ -1,19 +1,13 @@
 'use client';
 
 import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
 	Sheet,
 	SheetContent,
 	SheetHeader,
 	SheetTitle,
 	SheetTrigger,
 } from '@/components/ui/sheet';
-import { ChevronDown, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { SearchBar } from './search-bar';
@@ -42,25 +36,18 @@ export function MobileMenu() {
 					{/* Mobile Navigation */}
 					<nav className="flex flex-col gap-2">
 						<Link
-							href="/clothes"
+							href="/"
 							className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors py-2"
 							onClick={() => setOpen(false)}
 						>
-							Clothes
+							Home
 						</Link>
 						<Link
-							href="/new-arrivals"
+							href="/shop"
 							className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors py-2"
 							onClick={() => setOpen(false)}
 						>
-							New Arrivals
-						</Link>
-						<Link
-							href="/best-sellers"
-							className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors py-2"
-							onClick={() => setOpen(false)}
-						>
-							Best Sellers
+							Shop
 						</Link>
 						<Link
 							href="/blog"
@@ -69,31 +56,13 @@ export function MobileMenu() {
 						>
 							Blog
 						</Link>
-						<DropdownMenu>
-							<DropdownMenuTrigger asChild>
-								<button className="flex items-center justify-between w-full text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors py-2">
-									<span>Pages</span>
-									<ChevronDown className="w-4 h-4" />
-								</button>
-							</DropdownMenuTrigger>
-							<DropdownMenuContent align="start" className="w-48">
-								<DropdownMenuItem asChild>
-									<Link href="/pages/about" onClick={() => setOpen(false)}>
-										About Us
-									</Link>
-								</DropdownMenuItem>
-								<DropdownMenuItem asChild>
-									<Link href="/pages/contact" onClick={() => setOpen(false)}>
-										Contact
-									</Link>
-								</DropdownMenuItem>
-								<DropdownMenuItem asChild>
-									<Link href="/pages/faq" onClick={() => setOpen(false)}>
-										FAQ
-									</Link>
-								</DropdownMenuItem>
-							</DropdownMenuContent>
-						</DropdownMenu>
+						<Link
+							href="/contact"
+							className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors py-2"
+							onClick={() => setOpen(false)}
+						>
+							Contact
+						</Link>
 					</nav>
 
 					{/* Mobile User Actions */}

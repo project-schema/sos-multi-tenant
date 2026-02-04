@@ -15,6 +15,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 export default function Banner02({ banners }: { banners: iBanner[] | null }) {
+	console.log('banners', banners);
 	const [activeIndex, setActiveIndex] = useState(0);
 	const swiperRef = useRef<any>(null);
 

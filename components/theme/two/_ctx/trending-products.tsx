@@ -16,6 +16,10 @@ export async function TrendingProducts({
 			trend || settings?.cms?.populer_section_subcategory_id_1
 		}`
 	);
+
+	const activeSubcategory =
+		trend || settings?.cms?.populer_section_subcategory_id_1;
+
 	const categoryLinks = [
 		{
 			label: settings?.populer_section_category_id_1?.name,
@@ -52,16 +56,28 @@ export async function TrendingProducts({
 						{settings?.cms?.populer_section_title}
 					</h2>
 					<ul className="flex gap-2">
-						{categoryLinks.map((link) => (
-							<li key={link.subcategory_id}>
-								<Link
-									href={`/?trend=${link.subcategory_id}`}
-									className="text-xs text-black bg-stone-100 rounded-sm px-4 py-1.5 hover:bg-orange-500 hover:text-white transition-all inline-flex"
-								>
-									{link.label}
-								</Link>
-							</li>
-						))}
+						{categoryLinks.map((link) => {
+							const isActive = link.subcategory_id === activeSubcategory;
+
+							return (
+								<li key={link.subcategory_id}>
+									<Link
+										scroll={false}
+										href={`?trend=${link.subcategory_id}`}
+										aria-current={isActive ? 'true' : undefined}
+										className={`text-xs rounded-sm px-4 py-1.5 transition-all inline-flex
+						${
+							isActive
+								? 'bg-orange-500 text-white'
+								: 'text-black bg-stone-100 hover:bg-orange-500 hover:text-white'
+						}
+					`}
+									>
+										{link.label}
+									</Link>
+								</li>
+							);
+						})}
 					</ul>
 				</div>
 				<div className="grid  grid-cols-1 sm:grid-cols-2  md:grid-cols-3 2xl:grid-cols-4  gap-3 md:gap-6">

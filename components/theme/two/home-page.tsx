@@ -31,10 +31,11 @@ export default async function ThemeTwoHomePage({
 	return (
 		<>
 			<Header02 />
-			<div className="space-y-10 ">
-				{settings?.banners && settings?.banners?.length > 0 && (
-					<Banner03 settings={settings ?? null} />
-				)}
+			<div className="space-y-10 mt-10">
+				{(settings?.cms?.banner_1 ||
+					settings?.cms?.banner_2 ||
+					settings?.cms?.banner_3) && <Banner03 settings={settings ?? null} />}
+
 				{settings?.content_services &&
 					settings?.content_services?.length > 0 && (
 						<Card06 services={settings?.content_services ?? []} />
@@ -88,10 +89,10 @@ export default async function ThemeTwoHomePage({
 					/>
 				)}
 
-				{settings?.cms?.two_column_banner_1 ||
-					(settings?.cms?.two_column_banner_2 && (
-						<PromoBanner settings={settings} />
-					))}
+				{(settings?.cms?.two_column_banner_1 ||
+					settings?.cms?.two_column_banner_2) && (
+					<PromoBanner settings={settings} />
+				)}
 
 				{settings?.cms?.best_section_title && (
 					<ProductSection

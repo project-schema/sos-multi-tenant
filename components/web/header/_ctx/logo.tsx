@@ -5,7 +5,7 @@ export function Logo({ logo }: { logo: string }) {
 	return (
 		<Link
 			href="/"
-			className="flex items-center space-x-2 flex-shrink-0 max-w-[120px] h-14"
+			className="flex items-center space-x-2 flex-shrink-0 max-w-max h-14"
 		>
 			<img
 				src={imageFormat(logo ?? null)}

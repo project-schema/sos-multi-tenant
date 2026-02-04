@@ -48,6 +48,29 @@ const api = apiSlice.injectEndpoints({
 			}),
 		}),
 
+		// search Product
+		FrontendSearch: builder.query<
+			iVendorProduct[],
+			{ search: string; category_id: string }
+		>({
+			query: ({
+				search,
+				category_id,
+			}: {
+				search: string;
+				category_id: string;
+			}) => {
+				let url = `/tenant-frontend/search/item/${search}`;
+				if (category_id) {
+					url += `/${category_id}`;
+				}
+				return {
+					url,
+					method: 'GET',
+				};
+			},
+		}),
+
 		// categories
 		FrontendCategories: builder.query<iVendorCategory[], void>({
 			query: () => ({
@@ -63,5 +86,6 @@ export const {
 	useFrontendBrandsQuery,
 	useFrontendSubcategoriesQuery,
 	useFrontendCategoriesQuery,
+	useFrontendSearchQuery,
 	useTenantFrontendProductBySlugQuery,
 } = api;

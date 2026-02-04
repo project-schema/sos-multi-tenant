@@ -19,6 +19,8 @@ export function PromoBanner({
 			href: settings?.cms?.two_column_banner_2_url ?? '',
 		},
 	];
+
+	console.log(images);
 	return (
 		<div
 			className={`grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-10 2 justify-between max-w-[1720px] mx-auto px-4 lg:px-8 `}

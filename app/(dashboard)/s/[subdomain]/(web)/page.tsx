@@ -1,7 +1,8 @@
 import ThemeOneHomePage from '@/components/theme/one/home-page';
 import ThemeThreeHomePage from '@/components/theme/three/home-page';
 import ThemeTwoHomePage from '@/components/theme/two/home-page';
-import { env } from '@/lib';
+import { getApiDataWithSubdomain } from '@/lib';
+import { iTenantFrontend } from '@/types/tenant-frontend';
 
 export default async function MySite({
 	searchParams,
@@ -14,7 +15,11 @@ export default async function MySite({
 	}>;
 }) {
 	const { trend, search, feature, include } = await searchParams;
-	switch (env.theme) {
+
+	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
+		'/tenant-frontend/cms'
+	);
+	switch (settings?.cms?.theme || 'two') {
 		case 'one':
 			return <ThemeOneHomePage />;
 		case 'two':
