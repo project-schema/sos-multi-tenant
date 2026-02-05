@@ -1,8 +1,10 @@
 import { iPagination } from '@/types';
+import { iSize } from '../../admin/merchant-product';
 import { iSubCategory } from '../../admin/sub-category';
 import { apiSlice } from '../../api/apiSlice';
 import { iVendorBrand } from '../../vendor/brand';
 import { iVendorCategory } from '../../vendor/category/vendor-category-type';
+import { iVendorColor } from '../../vendor/color';
 import {
 	iVendorProduct,
 	iVendorProductView,
@@ -78,6 +80,22 @@ const api = apiSlice.injectEndpoints({
 				method: 'GET',
 			}),
 		}),
+
+		// colors
+		FrontendColors: builder.query<iVendorColor[], void>({
+			query: () => ({
+				url: `/tenant-frontend/colors`,
+				method: 'GET',
+			}),
+		}),
+
+		// size
+		FrontendSizes: builder.query<iSize[], void>({
+			query: () => ({
+				url: `/tenant-frontend/size`,
+				method: 'GET',
+			}),
+		}),
 	}),
 });
 
@@ -88,4 +106,6 @@ export const {
 	useFrontendCategoriesQuery,
 	useFrontendSearchQuery,
 	useTenantFrontendProductBySlugQuery,
+	useFrontendColorsQuery,
+	useFrontendSizesQuery,
 } = api;

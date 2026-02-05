@@ -20,7 +20,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
 export function CartAction({ product }: { product: iVendorProductView }) {
-	const { status } = useSession();
+	const { status, data: session } = useSession();
 	const router = useRouter();
 	const isAuthenticated = status === 'authenticated';
 
@@ -142,7 +142,7 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 			const cartData: iAddToCartRequest = {
 				product_id: product.id,
 				purchase_type: 'single',
-				tenant_id: 'borax',
+				tenant_id: session?.tenant_id,
 				qty: [quantity],
 				size_id: [selectedSize] as any,
 				color_id: [selectedColor] as any,

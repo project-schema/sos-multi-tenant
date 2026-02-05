@@ -24,12 +24,14 @@ export default function ThemeOneShopPage({
 					</div>
 				</div>
 
-				<div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+				<div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
 					{/* Sidebar Filters */}
-					<CommonShopSidebar />
+					<div className="lg:col-span-2">
+						<CommonShopSidebar />
+					</div>
 
 					{/* Products Grid */}
-					<div className="lg:col-span-9">
+					<div className="lg:col-span-8">
 						<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
 							{data?.data?.map((p) => (
 								<Card01 key={p.id} product={p} />

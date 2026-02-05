@@ -42,7 +42,9 @@ export default async function ThemeTwoProductDetailsPage({
 				{data && <ProductDescription product={data?.product ?? null} />}
 
 				{/* Related products */}
-				{data && <RelatedProduct product={data?.related_products ?? null} />}
+				{data?.related_products && data?.related_products?.length > 0 && (
+					<RelatedProduct product={data?.related_products ?? null} />
+				)}
 			</section>
 			<Footer02 />
 		</>

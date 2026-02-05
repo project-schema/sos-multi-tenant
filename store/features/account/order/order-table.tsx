@@ -28,7 +28,7 @@ export function OrdersTable() {
 	const orders = data?.orders || [];
 
 	const getStatusColor = (status: string) => {
-		switch (status.toLowerCase()) {
+		switch (status?.toLowerCase()) {
 			case 'pending':
 				return 'bg-yellow-100 text-yellow-700';
 			case 'processing':
@@ -43,7 +43,7 @@ export function OrdersTable() {
 	};
 
 	const getPaymentStatusColor = (status: string) => {
-		switch (status.toLowerCase()) {
+		switch (status?.toLowerCase()) {
 			case 'paid':
 				return 'bg-green-100 text-green-700';
 			case 'unpaid':
@@ -64,7 +64,7 @@ export function OrdersTable() {
 	};
 
 	const capitalizeFirst = (str: string) => {
-		return str.charAt(0).toUpperCase() + str.slice(1);
+		return str?.charAt(0).toUpperCase() + str?.slice(1);
 	};
 
 	return (

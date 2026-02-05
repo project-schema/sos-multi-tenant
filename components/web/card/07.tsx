@@ -19,6 +19,22 @@ export default function Card07({
 		));
 	};
 
+	// Calculate discount percentage
+	const calculateDiscountPercentage = () => {
+		if (!product?.discount_price || !product?.selling_price) return null;
+
+		const sellingPrice = parseFloat(product.selling_price);
+		const discountPrice = parseFloat(product.discount_price);
+
+		if (sellingPrice <= 0 || discountPrice >= sellingPrice) return null;
+
+		const discount = ((sellingPrice - discountPrice) / sellingPrice) * 100;
+		return Math.round(discount);
+	};
+
+	const discountPercentage = calculateDiscountPercentage();
+	const hasDiscount = product?.discount_price && discountPercentage;
+
 	return (
 		<div
 			className={`group relative border bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden ${className}`}
@@ -36,11 +52,13 @@ export default function Card07({
 				</Link>
 
 				{/* Discount Badge */}
-				<div className="absolute top-3 left-3">
-					<span className="bg-blue-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm">
-						{product?.discount_price || '00'} {sign.tk}
-					</span>
-				</div>
+				{hasDiscount && (
+					<div className="absolute top-3 left-3 z-10">
+						<span className="bg-red-500 text-white text-xs font-bold px-2.5 py-1.5 rounded-lg shadow-sm">
+							-{discountPercentage}%
+						</span>
+					</div>
+				)}
 			</div>
 
 			{/* Lower Section - Text/Detail Area */}
@@ -64,15 +82,21 @@ export default function Card07({
 				<div className="flex items-center justify-between pt-2">
 					{/* Pricing */}
 					<div className="flex flex-col">
-						{product?.selling_price && (
+						{product?.discount_price && (
 							<span className="text-sm text-gray-500 line-through">
-								{product?.selling_price}
+								{product?.selling_price} {sign.tk}
 							</span>
 						)}
 
 						{product?.discount_price && (
 							<span className="text-xl font-medium text-gray-900">
-								{product?.discount_price}
+								{product?.discount_price} {sign.tk}
+							</span>
+						)}
+
+						{!product?.discount_price && (
+							<span className="text-xl font-medium text-gray-900">
+								{product?.selling_price} {sign.tk}
 							</span>
 						)}
 					</div>

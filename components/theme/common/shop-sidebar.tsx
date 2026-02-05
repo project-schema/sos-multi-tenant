@@ -2,17 +2,17 @@
 
 import { Checkbox } from '@/components/ui/checkbox';
 import {
-	useFrontendBrandsQuery,
 	useFrontendCategoriesQuery,
-	useFrontendSubcategoriesQuery,
+	useFrontendColorsQuery,
+	useFrontendSizesQuery,
 } from '@/store/features/frontend/product/api-slice';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
 
 export default function CommonShopSidebar() {
 	const { data: categories } = useFrontendCategoriesQuery(undefined);
-	const { data: subcategories } = useFrontendSubcategoriesQuery(undefined);
-	const { data: brands } = useFrontendBrandsQuery(undefined);
+	const { data: colors } = useFrontendColorsQuery(undefined);
+	const { data: sizes } = useFrontendSizesQuery(undefined);
 
 	const searchParams = useSearchParams();
 	const router = useRouter();
@@ -129,7 +129,7 @@ export default function CommonShopSidebar() {
 							/>
 							<p className="flex items-center gap-2">
 								{category.name}
-								<span className="text-gray-500">{categories?.length}</span>
+								{/* <span className="text-gray-500">{categories?.length}</span> */}
 							</p>
 						</li>
 					))}
@@ -167,18 +167,17 @@ export default function CommonShopSidebar() {
 			<div>
 				<h3 className="mb-3 font-semibold">Size</h3>
 				<div className="flex flex-wrap gap-2">
-					{['S', 'M', 'L', 'XL'].map((s, index) => {
-						const id = index + 1; // map to numeric size_id for API
-						const active = selectedSizeId === id;
+					{sizes?.map((s) => {
+						const active = selectedSizeId === s.id;
 						return (
 							<button
-								key={s}
-								onClick={() => handleSizeSelect(id)}
+								key={s.id}
+								onClick={() => handleSizeSelect(s.id)}
 								className={`rounded border px-3 py-1 text-sm hover:bg-gray-50 ${
 									active ? 'border-amber-600 bg-amber-50 text-amber-700' : ''
 								}`}
 							>
-								{s}
+								{s.name}
 							</button>
 						);
 					})}
@@ -187,24 +186,22 @@ export default function CommonShopSidebar() {
 
 			<div>
 				<h3 className="mb-3 font-semibold">Color</h3>
-				<div className="flex items-center gap-3">
-					{['#111827', '#DC2626', '#2563EB', '#10B981', '#F59E0B'].map(
-						(c, index) => {
-							const id = index + 1; // map to numeric color_id for API
-							const active = selectedColorId === id;
-							return (
-								<button
-									key={c}
-									onClick={() => handleColorSelect(id)}
-									className={`h-6 w-6 rounded-full border ${
-										active ? 'ring-2 ring-amber-500 ring-offset-2' : ''
-									}`}
-									style={{ background: c }}
-									aria-label={c}
-								/>
-							);
-						}
-					)}
+				<div className="flex items-center flex-wrap gap-3">
+					{colors?.map((c, index) => {
+						const id = c.id;
+						const active = selectedColorId === c.id;
+						return (
+							<button
+								key={c.id}
+								onClick={() => handleColorSelect(c.id)}
+								className={`rounded border px-3 py-1 text-sm hover:bg-gray-50 ${
+									active ? 'border-amber-600 bg-amber-50 text-amber-700' : ''
+								}`}
+							>
+								{c.name}
+							</button>
+						);
+					})}
 				</div>
 			</div>
 		</aside>

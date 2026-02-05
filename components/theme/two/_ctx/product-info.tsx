@@ -36,7 +36,12 @@ export function ProductInfo({ product }: { product: iVendorProductView }) {
 					<span className="font-medium">6,570 Reviews</span>
 				</div>
 
-				<p className="text-sm text-green-500">In Stock</p>
+				{Number(product.qty) > 0 && (
+					<p className="text-sm text-green-500">In Stock</p>
+				)}
+				{Number(product.qty) <= 0 && (
+					<p className="text-sm text-red-500">Out of Stock</p>
+				)}
 
 				{/* Short description */}
 				<p className="text-gray-700 leading-relaxed">
@@ -55,9 +60,9 @@ export function ProductInfo({ product }: { product: iVendorProductView }) {
 			</div>
 
 			{/* Color & Size & Quantity & Actions */}
-			<CartAction product={product} />
+			{Number(product.qty) > 0 && <CartAction product={product} />}
 
-			<div className="space-y-2">
+			<div className="space-y-2  !hidden">
 				<h4 className="text-sm font-semibold">Have any question? Call Now.</h4>
 				<p className="text-gray-700 leading-relaxed flex items-center gap-2">
 					<MessageCirclePlus className="w-4 h-4" />
@@ -69,7 +74,7 @@ export function ProductInfo({ product }: { product: iVendorProductView }) {
 				</p>
 			</div>
 
-			<div className="flex items-center gap-2">
+			<div className="flex items-center gap-2  !hidden">
 				<h4 className="text-sm font-semibold">Share:</h4>
 				<div className="flex items-center gap-2">
 					<Link

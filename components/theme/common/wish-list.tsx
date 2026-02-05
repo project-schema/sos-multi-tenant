@@ -169,6 +169,7 @@ export default function CommonWishList() {
 										productId={product.id}
 										variant="button"
 										className="w-full md:w-auto"
+										wishId={item.id}
 									/>
 								</div>
 							</div>

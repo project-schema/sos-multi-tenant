@@ -86,16 +86,18 @@ export default async function ThemeOneProductDetailsPage({
 				{data?.product && <ProductDescription product={data?.product} />}
 
 				{/* Related products */}
-				<div className="mt-12">
-					<div className="flex items-center justify-between mb-5">
-						<h2 className="text-2xl font-bold">You Might Also Like</h2>
+				{data?.related_products && data?.related_products?.length > 0 && (
+					<div className="mt-12">
+						<div className="flex items-center justify-between mb-5">
+							<h2 className="text-2xl font-bold">You Might Also Like</h2>
+						</div>
+						<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+							{data?.related_products?.map((p) => (
+								<Card01 key={p.id} product={p} />
+							))}
+						</div>
 					</div>
-					<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
-						{data?.related_products?.map((p) => (
-							<Card01 key={p.id} product={p} />
-						))}
-					</div>
-				</div>
+				)}
 			</section>
 			<Footer01 />
 		</>

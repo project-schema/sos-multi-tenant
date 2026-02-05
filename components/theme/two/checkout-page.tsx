@@ -1,5 +1,3 @@
-'use client';
-
 import { Footer02, Header02 } from '@/components/web';
 import Checkout from '../common/checkout';
 

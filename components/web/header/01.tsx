@@ -1,17 +1,16 @@
-'use client';
-
 import { Button } from '@/components/ui/button';
-import {
-	ChevronDown,
-	Heart,
-	Menu,
-	Search,
-	ShoppingCart,
-	User,
-} from 'lucide-react';
+import { getApiDataWithSubdomain } from '@/lib';
+import { iTenantFrontend } from '@/types/tenant-frontend';
+import { Menu, Search } from 'lucide-react';
 import Link from 'next/link';
+import { Logo } from './_ctx/logo';
+import { UserAccount1 } from './_ctx/user-account-1';
+import { UtilityIcons1 } from './_ctx/utility-icons-1';
+export default async function Header01() {
+	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
+		'/tenant-frontend/cms'
+	);
 
-export default function Header01() {
 	return (
 		<header className="w-full bg-white shadow-sm">
 			{/* Top Bar */}
@@ -19,16 +18,7 @@ export default function Header01() {
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex items-center justify-between h-16">
 						{/* Logo */}
-						<div className="flex items-center">
-							<Link href="/" className="flex items-center space-x-2">
-								<div className="w-8 h-8 border-2 border-black rounded flex items-center justify-center">
-									<ShoppingCart className="w-5 h-5 text-black" />
-								</div>
-								<span className="text-xl font-semibold text-black">
-									SOSCommerce
-								</span>
-							</Link>
-						</div>
+						<Logo logo={settings?.cms?.logo ?? ''} className="py-2" />
 
 						{/* Search Bar */}
 						<div className="flex-1 max-w-lg mx-8 hidden md:block">
@@ -46,51 +36,10 @@ export default function Header01() {
 
 						{/* Right Side Actions */}
 						<div className="  items-center space-x-6 hidden md:flex">
-							{/* Wishlist */}
-							<div className="flex items-center space-x-2">
-								<div className="relative">
-									<button className="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors">
-										<Heart className="w-5 h-5 text-black" />
-									</button>
-									<span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-										5
-									</span>
-								</div>
-							</div>
-
-							{/* Shopping Cart */}
-							<div className="flex items-center space-x-2">
-								<div className="relative">
-									<button className="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors">
-										<ShoppingCart className="w-5 h-5 text-black" />
-									</button>
-									<span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-										5
-									</span>
-								</div>
-								<div className="flex flex-col">
-									<span className="text-sm text-black font-medium">cart</span>
-									<span className="text-sm text-black font-semibold">
-										৳1,689.00
-									</span>
-								</div>
-							</div>
+							<UtilityIcons1 />
 
 							{/* User Account */}
-							<div className="flex items-center space-x-2">
-								<button className="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors">
-									<User className="w-5 h-5 text-black" />
-								</button>
-								<div className="flex flex-col">
-									<span className="text-sm text-black">Hi,</span>
-									<Link
-										href="/auth"
-										className="text-sm text-gray-600 hover:text-black transition-colors"
-									>
-										Log In / Register
-									</Link>
-								</div>
-							</div>
+							<UserAccount1 />
 						</div>
 						<div className="md:hidden">
 							<Button variant="ghost" size="icon">
@@ -108,37 +57,36 @@ export default function Header01() {
 						<ul className="flex items-center space-x-8 whitespace-nowrap flex-wrap">
 							<li>
 								<Link
-									href="/category/t-shirts"
+									href="/"
 									className="text-white uppercase text-sm font-medium hover:text-gray-300 transition-colors"
 								>
-									T-Shirts
+									Home
 								</Link>
 							</li>
 							<li>
 								<Link
-									href="/category/shirts"
+									href="/shop"
 									className="text-white uppercase text-sm font-medium hover:text-gray-300 transition-colors"
 								>
-									Shirts
+									Shop
 								</Link>
 							</li>
 							<li>
 								<Link
-									href="/category/polo-shirts"
+									href="/blog"
 									className="text-white uppercase text-sm font-medium hover:text-gray-300 transition-colors"
 								>
-									Polo Shirts
+									Blog
 								</Link>
 							</li>
-							<li className="relative group">
+							{/* <li className="relative group">
 								<Link
-									href="/category/panjabi"
+									href="/about"
 									className="flex items-center space-x-1 text-white uppercase text-sm font-medium hover:text-gray-300 transition-colors"
 								>
-									<span>Panjabi</span>
+									<span>About</span>
 									<ChevronDown className="w-4 h-4" />
 								</Link>
-								{/* Dropdown Menu */}
 								<div className="absolute top-full left-0 mt-1 w-48 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
 									<div className="py-2">
 										<Link
@@ -161,29 +109,13 @@ export default function Header01() {
 										</Link>
 									</div>
 								</div>
-							</li>
+							</li> */}
 							<li>
 								<Link
-									href="/category/pants"
+									href="/contact"
 									className="text-white uppercase text-sm font-medium hover:text-gray-300 transition-colors"
 								>
-									Pants
-								</Link>
-							</li>
-							<li>
-								<Link
-									href="/category/trousers"
-									className="text-white uppercase text-sm font-medium hover:text-gray-300 transition-colors"
-								>
-									Trousers
-								</Link>
-							</li>
-							<li>
-								<Link
-									href="/category/jeans"
-									className="text-white uppercase text-sm font-medium hover:text-gray-300 transition-colors"
-								>
-									Jeans
+									Contact
 								</Link>
 							</li>
 						</ul>

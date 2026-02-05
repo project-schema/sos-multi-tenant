@@ -10,10 +10,7 @@ import {
 import { Card10, Footer03, Header03 } from '@/components/web';
 import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
 import { iPagination } from '@/types';
-
-const dummyProducts = Array.from({ length: 12 }).map((_, idx) => ({
-	id: idx + 1,
-}));
+import CommonShopSidebar from '../common/shop-sidebar';
 
 export default function ThemeThreeShopPage({
 	data,
@@ -36,8 +33,11 @@ export default function ThemeThreeShopPage({
 					</div>
 
 					<div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+						<aside className="lg:col-span-2">
+							<CommonShopSidebar />
+						</aside>
 						{/* Sidebar Filters */}
-						<aside className="lg:col-span-2 space-y-6">
+						<aside className="hidden lg:col-span-2 space-y-6">
 							<div className="border rounded-md p-4">
 								<h3 className="font-semibold mb-3">Category</h3>
 								<ul className="space-y-2 text-sm">
@@ -91,7 +91,7 @@ export default function ThemeThreeShopPage({
 												style={{ background: c }}
 												aria-label={c}
 											/>
-										),
+										)
 									)}
 								</div>
 							</div>

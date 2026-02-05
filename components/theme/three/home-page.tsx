@@ -1,15 +1,25 @@
 import { Banner04, Card09, Footer03, Header03 } from '@/components/web';
-import { env, getApiDataWithSubdomain, imageFormat } from '@/lib';
+import { getApiDataWithSubdomain, imageFormat } from '@/lib';
 import { iVendorBrand } from '@/store/features';
 import { iTenantFrontend } from '@/types/tenant-frontend';
-import Image from 'next/image';
-import Link from 'next/link';
 import { PopularProducts } from './ctx/popular-products';
+import { RecommendedProducts } from './ctx/rec';
 
-export default async function ThemeThreeHomePage() {
+export default async function ThemeThreeHomePage({
+	searchParams,
+}: {
+	searchParams: {
+		trend: string;
+		search: string;
+		feature: string;
+		include: string;
+	};
+}) {
+	const { trend, search, feature, include } = await searchParams;
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
 		'/tenant-frontend/cms'
 	);
+	console.log('settings', settings);
 
 	const brands = await getApiDataWithSubdomain<iVendorBrand[]>(
 		'/tenant-frontend/brands'
@@ -91,41 +101,10 @@ export default async function ThemeThreeHomePage() {
 					</div>
 				)}
 
-				<div className="max-w-[1720px] mx-auto">
-					<div className="sp-60 mb-sp flex items-center gap-2 justify-center">
-						{['Women Blazer', 'Classy', 'Mad Saree', 'Kanjivaram Silk'].map(
-							(item) => (
-								<Link
-									key={item}
-									href="/shop"
-									className="flex items-center gap-2 border border-primary3 rounded-full p-2 pe-4 group hover:bg-primary3 hover:text-white transition-all duration-300"
-								>
-									<Image
-										src={env.placeholderImage}
-										alt="image"
-										width={50}
-										height={50}
-										className="w-12  rounded-full h-12 object-cover block"
-									/>
-									<span className="fs-22 font-medium font-kalnia text-primary3 group-hover:text-white transition-all duration-300">
-										{item}
-									</span>
-								</Link>
-							)
-						)}
-					</div>
-					{settings?.recomended_category_id_1.name &&
-						settings?.recomended_sub_category_id_1.id && (
-							<PopularProducts
-								buttons={[
-									{
-										label: settings?.recomended_category_id_1.name,
-										value: settings?.recomended_sub_category_id_1.id.toString(),
-									},
-								]}
-							/>
-						)}
-				</div>
+				{settings?.recomended_category_id_1.name &&
+					settings?.recomended_sub_category_id_1.id && (
+						<RecommendedProducts settings={settings} include={include} />
+					)}
 			</main>
 			<Footer03 />
 		</>

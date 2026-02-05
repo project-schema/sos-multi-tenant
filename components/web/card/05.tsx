@@ -7,7 +7,7 @@ export default function Card05({ settings }: { settings: iTenantFrontend }) {
 			<img
 				src={imageFormat(settings?.cms?.three_column_banner_1 ?? null)}
 				alt={settings?.cms?.three_column_banner_1 ?? ''}
-				className="object-cover"
+				className="object-cover w-full h-full"
 			/>
 			<div className="pointer-events-none absolute inset-0 ring-1 ring-black/5" />
 		</div>

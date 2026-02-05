@@ -4,19 +4,19 @@ import { getApiDataWithSubdomain } from '@/lib/api';
 import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
 import Link from 'next/link';
 
-export async function PopularItems({
+export async function PopularItems2({
 	buttons,
 	title,
-	trend,
+	include,
 }: {
 	buttons: { label: string; value: string }[];
 	title: string;
-	trend?: string;
+	include?: string;
 }) {
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
-		`/tenant-frontend/products/${trend || buttons?.[0]?.value || ''}`
+		`/tenant-frontend/products/${include || buttons?.[0]?.value || ''}`
 	);
-	const active = trend || buttons?.[0]?.value;
+	const active = include || buttons?.[0]?.value;
 
 	return (
 		<div className="space-y-8">
@@ -28,7 +28,7 @@ export async function PopularItems({
 							const isActive = button.value === active;
 							return (
 								<Link
-									href={`?trend=${button.value}`}
+									href={`?include=${button.value}`}
 									key={button.value}
 									scroll={false}
 								>

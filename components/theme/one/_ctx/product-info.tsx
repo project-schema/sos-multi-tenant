@@ -31,16 +31,19 @@ export function ProductInfo({ product }: { product?: iVendorProductView }) {
 					</span>
 				</div>
 
-				<p className="inline-flex items-center gap-1 text-green-500 px-4 py-1.5 rounded-full bg-green-50 text-sm">
-					{product?.qty} in stock
-				</p>
+				{Number(product?.qty) > 0 && (
+					<p className="text-sm text-green-500">In Stock</p>
+				)}
+				{Number(product?.qty) <= 0 && (
+					<p className="text-sm text-red-500">Out of Stock</p>
+				)}
 			</div>
 
 			{/* Short description */}
 			<p className="text-gray-700 leading-relaxed">
 				{product?.short_description}
 			</p>
-			{product && <CartAction product={product} />}
+			{product && Number(product?.qty) > 0 && <CartAction product={product} />}
 
 			<div className="flex items-center gap-2">
 				<h2 className="text-base font-semibold">Share:</h2>

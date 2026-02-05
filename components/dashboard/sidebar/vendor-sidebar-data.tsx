@@ -243,10 +243,10 @@ const settings: sidebarItem[] = [
 			// 	title: 'Delivery Area',
 			// 	url: '/dashboard/delivery-area',
 			// },
-			// {
-			// 	title: 'Delivery Charge',
-			// 	url: '/dashboard/delivery-charge',
-			// },
+			{
+				title: 'Delivery Charge',
+				url: '/dashboard/delivery-charge',
+			},
 			// {
 			// 	title: 'Woo Commerce',
 			// 	url: '/dashboard/woo-commerce',

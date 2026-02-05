@@ -12,34 +12,6 @@ export function ProductDescription({
 }) {
 	const [openFaqIndex, setOpenFaqIndex] = React.useState<number | null>(0);
 
-	const faqs = [
-		{
-			question: 'What is the return policy?',
-			answer:
-				'You can return items within 30 days of purchase. Items must be unworn, unwashed, and with original tags attached. Please contact customer service to initiate a return.',
-		},
-		{
-			question: 'How long does shipping take?',
-			answer:
-				'Standard shipping takes 5-7 business days. Express shipping (for orders over $100) takes 2-3 business days. You will receive a tracking number once your order ships.',
-		},
-		{
-			question: 'What payment methods do you accept?',
-			answer:
-				'We accept all major credit cards, debit cards, PayPal, and bank transfers. All payments are processed securely through our encrypted payment gateway.',
-		},
-		{
-			question: 'Do you offer international shipping?',
-			answer:
-				'Yes, we ship to most countries worldwide. International shipping times vary by location (typically 10-20 business days). Additional customs fees may apply.',
-		},
-		{
-			question: 'How do I care for this product?',
-			answer:
-				'Please follow the care instructions on the label. Most items can be machine washed on gentle cycle with cold water. Avoid bleach and tumble dry on low heat or air dry.',
-		},
-	];
-
 	const ratings = [
 		{
 			id: 1,
@@ -109,50 +81,6 @@ export function ProductDescription({
 							__html: product?.long_description || '',
 						}}
 					></div>
-
-					<div>
-						<h2 className="text-lg font-semibold mb-3">Size Chart (inches)</h2>
-						<div className="overflow-x-auto">
-							<table className="w-full text-left border">
-								<thead className="bg-gray-50">
-									<tr>
-										<th className="p-3 border">Item</th>
-										<th className="p-3 border">S</th>
-										<th className="p-3 border">M</th>
-										<th className="p-3 border">L</th>
-										<th className="p-3 border">XL</th>
-										<th className="p-3 border">XXL</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td className="p-3 border">Item</td>
-										<td className="p-3 border">20.00</td>
-										<td className="p-3 border">20.50</td>
-										<td className="p-3 border">21.00</td>
-										<td className="p-3 border">22.00</td>
-										<td className="p-3 border">23.00</td>
-									</tr>
-									<tr className="bg-gray-50">
-										<td className="p-3 border">Length</td>
-										<td className="p-3 border">28.00</td>
-										<td className="p-3 border">28.50</td>
-										<td className="p-3 border">29.50</td>
-										<td className="p-3 border">30.00</td>
-										<td className="p-3 border">31.00</td>
-									</tr>
-									<tr>
-										<td className="p-3 border">Sleeve Length</td>
-										<td className="p-3 border">8.00</td>
-										<td className="p-3 border">8.50</td>
-										<td className="p-3 border">9.00</td>
-										<td className="p-3 border">9.00</td>
-										<td className="p-3 border">9.50</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
 				</TabsContent>
 
 				{/* FAQ Tab */}

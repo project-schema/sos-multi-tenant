@@ -4,6 +4,7 @@ import ThemeTwoShopPage from '@/components/theme/two/shop-page';
 import { env, getApiDataWithSubdomain } from '@/lib';
 import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
 import { iPagination } from '@/types';
+import { iTenantFrontend } from '@/types/tenant-frontend';
 import { notFound } from 'next/navigation';
 
 type ShopSearchParams = {
@@ -42,7 +43,10 @@ export default async function ShopPage({
 		return notFound();
 	}
 
-	switch (env.theme) {
+	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
+		`/tenant-frontend/cms`
+	);
+	switch (settings?.cms?.theme || env.theme) {
 		case 'one':
 			return <ThemeOneShopPage data={products} />;
 		case 'two':

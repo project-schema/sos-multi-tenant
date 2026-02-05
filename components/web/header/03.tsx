@@ -1,10 +1,9 @@
 import { getApiDataWithSubdomain, imageFormat } from '@/lib';
 import { iTenantFrontend } from '@/types/tenant-frontend';
 import {
-	ChevronDown,
 	Facebook,
 	Instagram,
-	MessageCircle,
+	Map,
 	Music,
 	Phone,
 	Search,
@@ -16,76 +15,99 @@ import { UtilityIcons } from './_ctx/utility-icons';
 
 export default async function Header03() {
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
-		'/tenant-frontend/cms',
+		'/tenant-frontend/cms'
 	);
 	const menuItems = [
 		{
-			label: 'New',
+			label: 'Home',
 			href: '/',
 			badge: '',
-			subItems: [
-				{
-					label: 'New Sarees',
-					href: '/new-sarees',
-				},
-			],
 		},
 		{
-			label: 'Sarees',
-			href: '/',
-			badge: 'Best',
-			subItems: [],
-		},
-		{
-			label: 'Lehengas',
-			href: '/',
+			label: 'Shop',
+			href: '/shop',
 			badge: '',
-			subItems: [
-				{
-					label: 'Best Lehengas',
-					href: '/best-lehengas',
-				},
-				{
-					label: 'Best Salwar Kameez',
-					href: '/best-salwar-kameez',
-				},
-				{
-					label: 'Best Kurtis',
-					href: '/best-kurtis',
-				},
-			],
 		},
 		{
-			label: 'Salwar Kameez',
-			href: '/',
+			label: 'Blog',
+			href: '/blog',
 			badge: '',
-			subItems: [],
 		},
+
 		{
-			label: 'Kurtis',
-			href: '/',
+			label: 'Contact',
+			href: '/contact',
 			badge: '',
-			subItems: [],
-		},
-		{
-			label: 'Jewellery',
-			href: '/',
-			badge: '',
-			subItems: [],
-		},
-		{
-			label: 'Luxery',
-			href: '/',
-			badge: 'New',
-			subItems: [],
-		},
-		{
-			label: 'Fashion',
-			href: '/',
-			badge: '',
-			subItems: [],
 		},
 	];
+	// const menuItems = [
+	// 	{
+	// 		label: 'New',
+	// 		href: '/',
+	// 		badge: '',
+	// 		subItems: [
+	// 			{
+	// 				label: 'New Sarees',
+	// 				href: '/new-sarees',
+	// 			},
+	// 		],
+	// 	},
+	// 	{
+	// 		label: 'Sarees',
+	// 		href: '/',
+	// 		badge: 'Best',
+	// 		subItems: [],
+	// 	},
+	// 	{
+	// 		label: 'Lehengas',
+	// 		href: '/',
+	// 		badge: '',
+	// 		subItems: [
+	// 			{
+	// 				label: 'Best Lehengas',
+	// 				href: '/best-lehengas',
+	// 			},
+	// 			{
+	// 				label: 'Best Salwar Kameez',
+	// 				href: '/best-salwar-kameez',
+	// 			},
+	// 			{
+	// 				label: 'Best Kurtis',
+	// 				href: '/best-kurtis',
+	// 			},
+	// 		],
+	// 	},
+	// 	{
+	// 		label: 'Salwar Kameez',
+	// 		href: '/',
+	// 		badge: '',
+	// 		subItems: [],
+	// 	},
+	// 	{
+	// 		label: 'Kurtis',
+	// 		href: '/',
+	// 		badge: '',
+	// 		subItems: [],
+	// 	},
+	// 	{
+	// 		label: 'Jewellery',
+	// 		href: '/',
+	// 		badge: '',
+	// 		subItems: [],
+	// 	},
+	// 	{
+	// 		label: 'Luxery',
+	// 		href: '/',
+	// 		badge: 'New',
+	// 		subItems: [],
+	// 	},
+	// 	{
+	// 		label: 'Fashion',
+	// 		href: '/',
+	// 		badge: '',
+	// 		subItems: [],
+	// 	},
+	// ];
 	return (
 		<header className="w-full bg-white">
 			{/* Top Bar - Maroon Background */}
@@ -128,12 +150,12 @@ export default async function Header03() {
 						<div className="flex items-center gap-3">
 							<div className="flex items-center gap-2">
 								<Phone className="w-4 h-4" />
-								<span>+881 32 13 122323</span>
+								<span>{settings?.cms.footer_contact_number_one}</span>
 							</div>
 							<div className="h-4 w-px bg-white/50" />
 							<div className="flex items-center gap-2">
-								<MessageCircle className="w-4 h-4" />
-								<span>admin@subscriber.com</span>
+								<Map className="w-4 h-4" />
+								<span>{settings?.cms.footer_contact_address_one}</span>
 							</div>
 						</div>
 					</div>
@@ -155,7 +177,7 @@ export default async function Header03() {
 						{/* Logo - Center */}
 						<Link
 							href="/"
-							className="flex flex-col items-center justify-center flex-shrink-0"
+							className="flex flex-col items-center justify-center flex-shrink-0 absolute left-1/2 transform -translate-x-1/2"
 						>
 							<img
 								className="h-10"
@@ -200,9 +222,9 @@ export default async function Header03() {
 									className="text-sm font-semibold font-montserrat flex items-center gap-2"
 								>
 									{item.label}
-									{item.subItems.length > 0 && (
+									{/* {item?.subItems?.length > 0 && (
 										<ChevronDown className="w-6 h-6" />
-									)}
+									)} */}
 								</Link>
 								{item.badge && (
 									<span className="text-sm font-semibold font-montserrat absolute -top-3 -right-4 bg-[#800020] text-[8px] text-white px-2 py-0.5 rounded-full">
@@ -210,9 +232,9 @@ export default async function Header03() {
 									</span>
 								)}
 
-								{item.subItems.length > 0 && (
+								{/* {item?.subItems?.length > 0 && (
 									<div className="absolute top-full left-0 mt-1 w-48 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-										{item.subItems.map((subItem) => (
+										{item?.subItems?.map((subItem) => (
 											<Link
 												className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
 												key={subItem.label}
@@ -222,7 +244,7 @@ export default async function Header03() {
 											</Link>
 										))}
 									</div>
-								)}
+								)} */}
 							</div>
 						))}
 					</nav>

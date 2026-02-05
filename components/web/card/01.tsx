@@ -2,7 +2,7 @@
 
 import { imageFormat } from '@/lib';
 import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
-import { Eye, Heart, Share2, ShoppingCart } from 'lucide-react';
+import { Eye, Heart, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -37,7 +37,7 @@ export default function Card01({ product }: { product?: iVendorProduct }) {
 			{/* Image Container */}
 			<div className="relative aspect-[4/5] overflow-hidden bg-gray-100">
 				{/* Product Image */}
-				<Link href={`/shop/${product?.id}`}>
+				<Link href={`/shop/${product?.slug}`}>
 					<img
 						src={imageFormat(product?.image ?? null)}
 						alt={product?.name}
@@ -86,18 +86,12 @@ export default function Card01({ product }: { product?: iVendorProduct }) {
 								className={`w-4 h-4 ${isWishlisted ? 'fill-current' : ''}`}
 							/>
 						</button>
-						<button
-							onClick={handleQuickView}
+						<Link
+							href={`/shop/${product?.slug}`}
 							className="w-8 h-8 bg-white text-gray-600 rounded-full flex items-center justify-center hover:bg-blue-50 hover:text-blue-500 transition-all duration-200"
 						>
 							<Eye className="w-4 h-4" />
-						</button>
-						<button
-							onClick={handleShare}
-							className="w-8 h-8 bg-white text-gray-600 rounded-full flex items-center justify-center hover:bg-green-50 hover:text-green-500 transition-all duration-200"
-						>
-							<Share2 className="w-4 h-4" />
-						</button>
+						</Link>
 					</div>
 				)}
 
@@ -141,7 +135,7 @@ export default function Card01({ product }: { product?: iVendorProduct }) {
 
 				{/* Add to Cart Button */}
 				<Link
-					href={`/shop/cart`}
+					href={`/shop/${product?.slug}`}
 					className="w-full bg-black text-white py-2 px-4 rounded-md font-medium  transition-colors duration-200 flex items-center justify-center space-x-2 group/btn"
 				>
 					<ShoppingCart className="w-4 h-4 group-hover/btn:scale-110 transition-transform duration-200" />

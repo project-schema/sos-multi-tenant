@@ -41,9 +41,12 @@ const checkoutSchema = z.object({
 	name: z.string().min(1, 'Full name is required').max(255),
 	phone: z
 		.string()
-		.min(1, 'Phone number is required')
+		.min(10, 'Phone number must be at least 10 characters')
 		.regex(/^[0-9+\-\s()]+$/, 'Invalid phone number'),
-	address: z.string().min(1, 'Address is required').max(500),
+	address: z
+		.string()
+		.min(10, 'Address must be at least 10 characters')
+		.max(500),
 	notes: z.string().max(1000).optional(),
 	payment_method: z.enum(['cod']),
 	agree: z.boolean().refine((val) => val === true, {
@@ -147,7 +150,7 @@ export default function Checkout() {
 				],
 			}).unwrap();
 
-			if (result.success || result.status === 201) {
+			if (result.success || result.status === 200) {
 				setOrderSuccess({
 					orderNumber: result.data?.order_number || `ORD-${Date.now()}`,
 				});
@@ -156,6 +159,38 @@ export default function Checkout() {
 				toast.error(result.message || 'Failed to place order');
 			}
 		} catch (error: any) {
+			// Handle validation errors from API
+			const validationErrors = error?.data?.data || error?.data?.errors;
+
+			if (validationErrors && typeof validationErrors === 'object') {
+				// Map API field names to form field names
+				const fieldMapping: Record<string, keyof CheckoutFormData> = {
+					'datas.0.phone': 'phone',
+					'datas.0.address': 'address',
+					'datas.0.name': 'name',
+				};
+
+				Object.entries(validationErrors).forEach(([field, messages]) => {
+					const formField = fieldMapping[field] || field;
+					const message = Array.isArray(messages) ? messages[0] : messages;
+
+					if (message && formField in form.getValues()) {
+						form.setError(formField as any, {
+							type: 'server',
+							message: String(message),
+						});
+					}
+				});
+
+				// Show first error as toast
+				const firstError = Object.values(validationErrors)?.[0];
+				const errorMessage = Array.isArray(firstError)
+					? firstError[0]
+					: firstError;
+				toast.error(String(errorMessage || 'Validation failed'));
+				return;
+			}
+
 			toast.error(error?.data?.message || 'Something went wrong');
 		}
 	};
@@ -302,7 +337,7 @@ export default function Checkout() {
 										name="delivery_charge"
 										render={({ field }) => (
 											<FormItem>
-												<FormLabel>Delivery Charge *</FormLabel>
+												<FormLabel>Select Delivery area*</FormLabel>
 												<FormControl>
 													<Select
 														onValueChange={(value) =>

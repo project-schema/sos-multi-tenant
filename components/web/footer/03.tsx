@@ -1,12 +1,22 @@
 import { env, getApiDataWithSubdomain, imageFormat } from '@/lib';
+import { iBrand } from '@/store/features/admin/brand';
+import { iCategory } from '@/store/features/admin/category';
 import { iTenantFrontend } from '@/types/tenant-frontend';
-import { ArrowUp, Facebook, Instagram, Music, Twitter } from 'lucide-react';
+import { Facebook, Instagram, Map, Music, Phone, Twitter } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { MoveToTop } from './ctx/move-to-top';
 
 export default async function Footer03() {
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
 		'/tenant-frontend/cms'
+	);
+
+	const categories = await getApiDataWithSubdomain<iCategory[]>(
+		'/tenant-frontend/categories'
+	);
+	const brands = await getApiDataWithSubdomain<iBrand[]>(
+		'/tenant-frontend/brands'
 	);
 
 	return (
@@ -110,22 +120,16 @@ export default async function Footer03() {
 						{/* Middle-Left Section - Category */}
 						<div className="space-y-4">
 							<h3 className="text-base font-montserrat font-semibold text-black">
-								CATALOG
+								CATEGORY
 							</h3>
 							<ul className="space-y-2">
-								{[
-									'Necklaces',
-									'hoodies',
-									'Jewelry Box',
-									't-shirt',
-									'jacket',
-								].map((category, index) => (
+								{categories?.slice(0, 5).map((category, index) => (
 									<li key={index}>
 										<Link
 											href={'#'}
 											className="text-black/85 hover:text-gray-700 transition-colors duration-200 text-sm"
 										>
-											{category}
+											{category.name}
 										</Link>
 									</li>
 								))}
@@ -135,22 +139,16 @@ export default async function Footer03() {
 						{/* Middle-Right Section - Brands */}
 						<div className="space-y-4">
 							<h3 className="text-base font-montserrat font-semibold text-black">
-								ABOUT US
+								BRANDS
 							</h3>
 							<ul className="space-y-2">
-								{[
-									'Our Producers',
-									'Sitemap',
-									'FAQ',
-									'About Us',
-									'Terms & Conditions',
-								].map((item, index) => (
+								{brands?.slice(0, 5).map((brand, index) => (
 									<li key={index}>
 										<Link
 											href={'#'}
 											className="text-black/85 hover:text-gray-700 transition-colors duration-200 text-sm"
 										>
-											{item}
+											{brand.name}
 										</Link>
 									</li>
 								))}
@@ -160,25 +158,34 @@ export default async function Footer03() {
 						{/* Rightmost Section - Stores */}
 						<div className="space-y-4">
 							<h3 className="text-base font-montserrat font-semibold text-black">
-								CUSTOMER SERVICES
+								CONTACT US
 							</h3>
 							<ul className="space-y-2">
-								{[
-									'Contact Us',
-									'Track Your Order',
-									'Product Care & Repair',
-									'Book an Appointment',
-									'Shipping & Returns',
-								].map((brand, index) => (
-									<li key={index}>
-										<Link
-											href={'#'}
-											className="text-black/85 hover:text-gray-700 transition-colors duration-200 text-sm"
-										>
-											{brand}
-										</Link>
+								{settings?.cms.footer_contact_number_one && (
+									<li className="flex items-center gap-2">
+										<Phone className="size-5 inline-flex" />
+										<span>{settings?.cms.footer_contact_number_one}</span>
 									</li>
-								))}
+								)}
+								{settings?.cms.footer_contact_address_one && (
+									<li className="flex items-center gap-2  ">
+										<Map className="size-5 inline-flex" />
+										<span>{settings?.cms.footer_contact_address_one}</span>
+									</li>
+								)}
+
+								{settings?.cms.footer_contact_number_two && (
+									<li className="flex items-center gap-2 mt-6">
+										<Phone className="size-5 inline-flex" />
+										<span>{settings?.cms.footer_contact_number_two}</span>
+									</li>
+								)}
+								{settings?.cms.footer_contact_address_two && (
+									<li className="flex items-center gap-2">
+										<Map className="size-5 inline-flex" />
+										<span>{settings?.cms.footer_contact_address_two}</span>
+									</li>
+								)}
 							</ul>
 						</div>
 					</div>
@@ -190,26 +197,23 @@ export default async function Footer03() {
 						<div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
 							{/* Copyright */}
 							<div className="text-white/80 text-sm">
-								©2025 Copywrite Belongs to{' '}
-								<span className="text-white font-semibold">SOS Comerz</span>
+								<span className="text-white font-semibold">
+									{settings?.cms?.footer_copyright_text}
+								</span>
 							</div>
 							<div>
 								<Image
-									src="https://i.ibb.co.com/N6n264pY/icons-payment-1.png"
-									alt="image"
+									src={imageFormat(
+										settings?.cms?.footer_payment_methods || null
+									)}
+									alt={settings?.cms?.footer_payment_methods || ''}
 									width={1000}
 									height={1000}
-									className="block  h-[24px] w-full"
+									className="block h-[24px] w-full object-contain"
 								/>
 							</div>
 							<div>
-								<Link
-									href="#"
-									className="flex text-white/85 items-center gap-1 py-3"
-								>
-									<span>Scroll to Top</span>
-									<ArrowUp className="size-5 inline-flex" />
-								</Link>
+								<MoveToTop />
 							</div>
 						</div>
 					</div>

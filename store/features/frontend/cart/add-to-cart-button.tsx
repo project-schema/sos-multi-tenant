@@ -6,6 +6,7 @@ import { Loader2, ShoppingCart } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { useDeleteFromWishlistMutation } from '../wish-list';
 import { useAddToCartMutation, useGetCartQuery } from './api-slice';
 
 interface AddToCartButtonProps {
@@ -19,6 +20,7 @@ interface AddToCartButtonProps {
 	variant?: 'icon' | 'button' | 'full';
 	className?: string;
 	disabled?: boolean;
+	wishId?: number;
 }
 
 export function AddToCartButton({
@@ -32,6 +34,7 @@ export function AddToCartButton({
 	variant = 'button',
 	className,
 	disabled = false,
+	wishId,
 }: AddToCartButtonProps) {
 	const { status, data: session } = useSession();
 	const router = useRouter();
@@ -42,6 +45,7 @@ export function AddToCartButton({
 	});
 
 	const [addToCart, { isLoading }] = useAddToCartMutation();
+	const [deleteFromWishlist] = useDeleteFromWishlistMutation();
 
 	// Check if product is already in cart
 	const isInCart = cartData?.cart?.some(
@@ -73,6 +77,7 @@ export function AddToCartButton({
 				size_id: [size || null] as any,
 				unit_id: [unit || null] as any,
 				qty: [qty],
+				frontend_purchase: 'yes',
 				cartItems: [
 					{
 						qty,
@@ -86,6 +91,9 @@ export function AddToCartButton({
 
 			if (result.status === 201) {
 				toast.success(result.message || 'Added to cart');
+				if (wishId) {
+					await deleteFromWishlist({ id: wishId as number }).unwrap();
+				}
 			} else if (result.status === 409) {
 				toast.info(result.message || 'Product already in cart');
 			} else {
