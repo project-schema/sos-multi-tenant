@@ -76,7 +76,6 @@ export function OrdersTable() {
 							<th className="px-4 py-3 whitespace-nowrap">ORDER #</th>
 							<th className="px-4 py-3">TOTAL</th>
 							<th className="px-4 py-3 whitespace-nowrap">ORDER STATUS</th>
-							<th className="px-4 py-3 whitespace-nowrap">PAYMENT STATUS</th>
 							<th className="px-4 py-3 whitespace-nowrap">DATE</th>
 							<th className="px-4 py-3 text-right">ACTIONS</th>
 						</tr>
@@ -94,7 +93,7 @@ export function OrdersTable() {
 									<td className="px-4 py-3 whitespace-nowrap">
 										{order.order_id}
 									</td>
-									<td className="px-4 py-3">{order.total}৳</td>
+									<td className="px-4 py-3">{order.due_amount}৳</td>
 									<td className="px-4 py-3">
 										<span
 											className={`px-2 py-1 rounded text-xs font-medium ${getStatusColor(
@@ -104,15 +103,7 @@ export function OrdersTable() {
 											{capitalizeFirst(order.status)}
 										</span>
 									</td>
-									<td className="px-4 py-3">
-										<span
-											className={`px-2 py-1 rounded text-xs font-medium ${getPaymentStatusColor(
-												order.payment_status
-											)}`}
-										>
-											{capitalizeFirst(order.payment_status)}
-										</span>
-									</td>
+
 									<td className="px-4 py-3 whitespace-nowrap">
 										{formatDate(order.created_at)}
 									</td>

@@ -103,6 +103,7 @@ export const apiSlice = createApi({
 		'AdminCategory',
 		'AdminSubCategory',
 		'AdminBrand',
+		'AdminBlog',
 		'AdminProduct',
 		'AdminProductRequest',
 		'AdminProductOrder',

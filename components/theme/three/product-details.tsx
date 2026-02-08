@@ -83,7 +83,7 @@ export default async function ThemeThreeProductDetailsPage({
 									{data?.product?.selling_price}
 								</p>
 								<p className="text-gray-500 line-through">
-									{data?.product.discount_price}
+									{data?.product?.discount_price}
 								</p>
 							</div>
 
@@ -94,7 +94,11 @@ export default async function ThemeThreeProductDetailsPage({
 								</p>
 							)}
 
-							{data?.product && <CartAction product={data?.product} />}
+							{data?.product &&
+								data?.product.qty &&
+								Number(data?.product.qty) > 0 && (
+									<CartAction product={data?.product} />
+								)}
 
 							{/* <div>
 								<h4 className="text-sm font-semibold mb-2">Select Color:</h4>
@@ -154,13 +158,21 @@ export default async function ThemeThreeProductDetailsPage({
 							<h3 className="font-kalnia fs-32 font-medium text-primary3 mb-7">
 								Top Selling Product
 							</h3>
+
+							{data?.related_products &&
+								data?.related_products?.length === 0 && (
+									<div className="space-y-4   py-2">
+										<p className="text-gray-500">No related products found</p>
+									</div>
+								)}
+
 							<div className="space-y-4">
 								{data?.related_products?.map((e) => (
 									<div key={e.id} className="flex items-center gap-6">
 										<div className="max-w-[160px] w-full">
-											<Link href={`shop/${e.slug}`} className="block">
+											<Link href={`/shop/${e?.slug}`} className="block">
 												<img
-													src={imageFormat(e.image || null)}
+													src={imageFormat(e?.image || null)}
 													alt="product"
 													width={500}
 													className="block w-full h-full object-cover max-h-[130px] rounded-xl"
@@ -169,15 +181,15 @@ export default async function ThemeThreeProductDetailsPage({
 											</Link>
 										</div>
 										<div>
-											<Link href="/shop/product-details">
+											<Link href={`/shop/${e.slug}`}>
 												<h3 className="fs-20 font-montserrat font-medium text-gray-800 mb-2">
-													{e.name}
+													{e?.name}
 												</h3>
 											</Link>
 											<p className="fs-24 font-montserrat font-semibold text-gray-800 mb-2">
-												{e.discount_price}৳{' '}
+												{e?.discount_price}৳{' '}
 												<span className="text-gray-500 line-through">
-													{e.selling_price}৳
+													{e?.selling_price}৳
 												</span>
 											</p>
 										</div>

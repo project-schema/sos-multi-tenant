@@ -208,12 +208,12 @@ export default function Checkout() {
 				<p className="text-gray-600 mb-4">
 					Thank you for your purchase! Your order has been placed successfully.
 				</p>
-				<p className="text-gray-800 mb-6">
+				{/* <p className="text-gray-800 mb-6">
 					Order Number:{' '}
 					<span className="font-bold text-orange-500">
 						#{orderSuccess.orderNumber}
 					</span>
-				</p>
+				</p> */}
 				<p className="text-sm text-gray-500 mb-8">
 					We&apos;ll send you an update when your order is on its way.
 				</p>

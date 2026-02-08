@@ -21,14 +21,6 @@ export default async function ThemeOneProductDetailsPage({
 		product: iVendorProductView;
 		related_products: iVendorProduct[];
 	}>(`/tenant-frontend/product/${slug}`);
-	// Static mock data for UI only
-	// const images = [
-	// 	'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070&auto=format&fit=crop',
-	// 	'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop',
-	// 	'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=2070&auto=format&fit=crop',
-	// 	'https://images.unsplash.com/photo-1516826957135-700dedea698c?q=80&w=2069&auto=format&fit=crop',
-	// 	'https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=2069&auto=format&fit=crop',
-	// ];
 
 	return (
 		<>
@@ -45,7 +37,7 @@ export default async function ThemeOneProductDetailsPage({
 					<ProductInfo product={data?.product} />
 
 					<div className="lg:col-span-3">
-						<div className="border rounded-md p-3 space-y-3">
+						<div className="border hidden rounded-md p-3 space-y-3">
 							<div className="space-y-2 border-b border-gray-200 pb-3">
 								<h2 className="text-base font-semibold">Delivery Options</h2>
 								<div className="text-sm space-y-2">

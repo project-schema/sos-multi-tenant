@@ -38,34 +38,51 @@ export default async function Footer02() {
 
 						{/* Social Media Icons */}
 						<div className="flex space-x-3">
-							<Link
-								href="https://facebook.com"
-								className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
-								aria-label="Facebook"
-							>
-								<Facebook className="w-5 h-5 text-black" />
-							</Link>
-							<Link
-								href="https://instagram.com"
-								className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
-								aria-label="Instagram"
-							>
-								<Instagram className="w-5 h-5 text-black" />
-							</Link>
-							<Link
-								href="https://tiktok.com"
-								className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
-								aria-label="TikTok"
-							>
-								<Music className="w-5 h-5 text-black" />
-							</Link>
-							<Link
-								href="https://x.com"
-								className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
-								aria-label="X (Twitter)"
-							>
-								<Twitter className="w-5 h-5 text-black" />
-							</Link>
+							{settings?.cms?.fb_url && (
+								<Link
+									href={settings?.cms?.fb_url}
+									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
+									aria-label="Facebook"
+								>
+									<Facebook className="w-5 h-5 text-black" />
+								</Link>
+							)}
+							{settings?.cms?.instagram_url && (
+								<Link
+									href={settings?.cms?.instagram_url}
+									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
+									aria-label="Instagram"
+								>
+									<Instagram className="w-5 h-5 text-black" />
+								</Link>
+							)}
+							{settings?.cms?.tiktok_url && (
+								<Link
+									href={settings?.cms?.tiktok_url}
+									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
+									aria-label="TikTok"
+								>
+									<Music className="w-5 h-5 text-black" />
+								</Link>
+							)}
+							{settings?.cms?.x_url && (
+								<Link
+									href={settings?.cms?.x_url}
+									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
+									aria-label="X (Twitter)"
+								>
+									<Twitter className="w-5 h-5 text-black" />
+								</Link>
+							)}
+							{settings?.cms?.youtube_url && (
+								<Link
+									href={settings?.cms?.youtube_url}
+									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
+									aria-label="YouTube"
+								>
+									<Music className="w-5 h-5 text-black" />
+								</Link>
+							)}
 						</div>
 					</div>
 
@@ -76,7 +93,7 @@ export default async function Footer02() {
 							{categories?.slice(0, 5).map((category, index) => (
 								<li key={index}>
 									<Link
-										href={category?.id?.toString() || '#'}
+										href={`/shop?category_id=${category?.id}`}
 										className="text-gray-500 hover:text-gray-700 transition-colors duration-200 text-sm"
 									>
 										{category.name}

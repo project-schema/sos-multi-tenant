@@ -196,6 +196,14 @@ const cms: sidebarItem[] = [
 				title: 'Home Page',
 				url: '/dashboard/cms/home-page',
 			},
+			{
+				title: 'Blog',
+				url: '/dashboard/cms/blog',
+			},
+			{
+				title: 'Blog Category',
+				url: '/dashboard/cms/blog-category',
+			},
 		],
 	},
 ];

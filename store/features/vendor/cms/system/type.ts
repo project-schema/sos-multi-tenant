@@ -84,6 +84,14 @@ export type iSystem = {
 	best_section_title: string;
 	best_category_id: string;
 	best_sub_category_id: string;
+
+	fb_url: string;
+	x_url: string;
+	instagram_url: string;
+	youtube_url: string;
+	tiktok_url: string;
+	telegram_url: string;
+	whatsapp_url: string;
 };
 
 export type iSystemResponse = {

@@ -31,7 +31,12 @@ export default async function ThemeOneHomePage({
 		{ name: string; image: string; id: number }[]
 	>('/tenant-frontend/brands');
 
-	console.log('settings', settings);
+	let finalBrands = brands ?? [];
+
+	while (finalBrands.length > 0 && finalBrands.length <= 5) {
+		finalBrands = finalBrands.concat(brands ?? []);
+	}
+
 	return (
 		<>
 			<Header01 />
@@ -40,12 +45,12 @@ export default async function ThemeOneHomePage({
 					<Banner02 banners={settings?.banners ?? null} />
 				)}
 
-				{brands && brands?.length > 0 && (
+				{finalBrands && finalBrands?.length > 0 && (
 					<div className="space-y-8">
 						<div>
 							<h2 className="text-[40px] font-bold text-center">Brands</h2>
 						</div>
-						<Category01 categories={brands} />
+						<Category01 categories={finalBrands} />
 					</div>
 				)}
 

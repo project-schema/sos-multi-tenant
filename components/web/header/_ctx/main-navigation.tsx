@@ -11,15 +11,6 @@ import { ChevronDown, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { UtilityIcons } from './utility-icons';
 
-const categories = [
-	'Electronics',
-	'Clothing',
-	'Home & Garden',
-	'Sports',
-	'Books',
-	'Toys',
-];
-
 function CategoriesDropdownButton({ categories }: { categories: iCategory[] }) {
 	return (
 		<DropdownMenu>
@@ -34,7 +25,9 @@ function CategoriesDropdownButton({ categories }: { categories: iCategory[] }) {
 			<DropdownMenuContent align="start" className="w-48">
 				{categories?.map((category) => (
 					<DropdownMenuItem key={category.id} asChild>
-						<Link href={`/category/${category.id}`}>{category?.name}</Link>
+						<Link href={`/shop?category_id=${category.id}`}>
+							{category?.name}
+						</Link>
 					</DropdownMenuItem>
 				))}
 			</DropdownMenuContent>

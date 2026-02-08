@@ -179,7 +179,7 @@ export default function CommonCart() {
 											)}
 										</button>
 										<Link
-											href={`/shop/product/${product?.slug || ''}`}
+											href={`/shop/${product?.slug || ''}`}
 											className="relative w-20 h-20 rounded overflow-hidden flex-shrink-0"
 										>
 											<img
@@ -190,7 +190,7 @@ export default function CommonCart() {
 										</Link>
 										<div>
 											<Link
-												href={`/shop/product/${product?.slug || ''}`}
+												href={`/shop/${product?.slug || ''}`}
 												className="text-sm font-medium hover:text-orange-500 transition-colors"
 											>
 												{product?.name || 'Product'}

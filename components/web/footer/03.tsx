@@ -1,4 +1,4 @@
-import { env, getApiDataWithSubdomain, imageFormat } from '@/lib';
+import { getApiDataWithSubdomain, imageFormat } from '@/lib';
 import { iBrand } from '@/store/features/admin/brand';
 import { iCategory } from '@/store/features/admin/category';
 import { iTenantFrontend } from '@/types/tenant-frontend';
@@ -22,34 +22,17 @@ export default async function Footer03() {
 	return (
 		<>
 			<div className="bg-[#F6F3E9] py-24">
-				<div className="max-w-[1425px] mx-auto  sp-60 px-sp grid grid-cols-4 gap-6">
-					{[
-						{
-							title: '24/7 Support',
-							icon: 'https://i.ibb.co.com/cSm3rH3D/icon-box-1.png',
-						},
-						{
-							title: 'Secure Payment',
-							icon: 'https://i.ibb.co.com/Jj5HPMtN/icon-box-2.png',
-						},
-						{
-							title: '30 Days Return',
-							icon: 'https://i.ibb.co.com/jkJ6sVPY/icon-box-3.png',
-						},
-						{
-							title: 'High quality',
-							icon: 'https://i.ibb.co.com/rG8vx9cq/icon-box.png',
-						},
-					].map((item) => (
+				<div className="max-w-[1425px] mx-auto  sp-60 px-sp flex flex-wrap justify-center items-center grid-cols-4   gap-6">
+					{settings?.content_services?.map((item) => (
 						<div
 							key={item.title}
 							className="flex flex-col items-center justify-center border border-primary3/25 rounded-lg p-7"
 						>
 							<Image
-								src={item.icon || env.placeholderImage}
+								src={imageFormat(item.icon || null)}
 								alt="image"
-								width={80}
-								height={80}
+								width={1000}
+								height={1000}
 								className="w-20 h-20 object-cover block mb-2"
 							/>
 							<p className="fs-24 font-montserrat font-semibold text-center">
@@ -126,7 +109,7 @@ export default async function Footer03() {
 								{categories?.slice(0, 5).map((category, index) => (
 									<li key={index}>
 										<Link
-											href={'#'}
+											href={`/shop?category_id=${category?.id}`}
 											className="text-black/85 hover:text-gray-700 transition-colors duration-200 text-sm"
 										>
 											{category.name}

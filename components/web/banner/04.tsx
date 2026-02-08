@@ -30,7 +30,7 @@ export default function Banner04({ banners }: { banners?: iBanner[] }) {
 							alt="Group-94"
 							width={1000}
 							height={1000}
-							className=" relative z-10 rounded-ss-[160px] rounded-br-[160px] max-h-[585px] h-full w-full object-cover block"
+							className=" relative z-10 rounded-ss-[160px] rounded-br-[160px] h-[585px] w-full object-cover block"
 						/>
 					</div>
 				</div>

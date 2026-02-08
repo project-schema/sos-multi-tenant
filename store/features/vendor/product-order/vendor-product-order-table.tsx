@@ -17,7 +17,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { badgeFormat, dateFormat, sign, tableSrCount } from '@/lib';
+import { badgeFormat, dateFormat, sign, tableSrCount, timeFormat } from '@/lib';
 
 import { iPagination } from '@/types';
 import { Ellipsis, ExternalLink } from 'lucide-react';
@@ -88,8 +88,9 @@ export function VendorProductOrderTable({
 									{Number((item as any).afi_amount) || 0} {sign.tk}
 								</Badge>
 							</TableCell>
-							<TableCell className="py-2">
-								{dateFormat(item.created_at)}
+							<TableCell className="py-0">
+								{dateFormat(item.created_at)} <br />
+								{timeFormat(item.created_at)}
 							</TableCell>
 							<TableCell className="py-2">
 								<Badge

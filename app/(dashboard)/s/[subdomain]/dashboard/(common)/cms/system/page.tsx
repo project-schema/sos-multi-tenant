@@ -6,6 +6,7 @@ import {
 	CMSScripts,
 	CMSSeo,
 	CMSTheme,
+	Cmssocial,
 } from '@/store/features/vendor/cms/system';
 import { useSearchParams } from 'next/navigation';
 
@@ -25,6 +26,9 @@ export default function Page() {
 
 		case 'scripts':
 			return <CMSScripts />;
+
+		case 'social':
+			return <Cmssocial />;
 
 		case 'footer':
 			return <CMSFooter />;

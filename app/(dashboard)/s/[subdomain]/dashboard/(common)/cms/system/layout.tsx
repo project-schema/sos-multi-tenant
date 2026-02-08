@@ -8,7 +8,7 @@ import {
 	SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { SessionProvider } from '@/provider';
-import { Code, Home, Palette, Search, Text } from 'lucide-react';
+import { Code, Home, Palette, Search, Share2, Text } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
@@ -47,6 +47,12 @@ export default function Layout({ children }: LayoutProps) {
 				tab: 'scripts',
 				url: `/dashboard/cms/system?tab=scripts`,
 				icon: Code,
+			},
+			{
+				title: 'Social',
+				tab: 'social',
+				url: `/dashboard/cms/system?tab=social`,
+				icon: Share2,
 			},
 			{
 				title: 'Footer',

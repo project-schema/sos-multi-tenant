@@ -79,7 +79,7 @@ export function BannerUpdate({ editData }: { editData: iBanner }) {
 						...data,
 						id: editData.id,
 					}).unwrap();
-					if ((response as any).status === 200) {
+					if ((response as any).status === 'success') {
 						toast.success(response.message || 'Slider updated successfully');
 						setOpen(false);
 					} else {
@@ -231,7 +231,15 @@ export function BannerUpdate({ editData }: { editData: iBanner }) {
 									<FormItem>
 										<FormLabel>Display Order</FormLabel>
 										<FormControl>
-											<Input {...field} type="number" min={0} placeholder="0" />
+											<Input
+												{...field}
+												onChange={(e) =>
+													field.onChange(e.target.valueAsNumber || 0)
+												}
+												type="number"
+												min={0}
+												placeholder="0"
+											/>
 										</FormControl>
 										<FormMessage />
 									</FormItem>

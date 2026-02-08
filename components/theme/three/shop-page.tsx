@@ -28,7 +28,7 @@ export default function ThemeThreeShopPage({
 							Explore All Products
 						</h1>
 						<div className="text-sm text-gray-500">
-							Showing 1–12 of 129 results
+							Showing 1-12 of 129 results
 						</div>
 					</div>
 
@@ -106,7 +106,7 @@ export default function ThemeThreeShopPage({
 							</div>
 
 							{/* Pagination */}
-							<div className="mt-10">
+							<div className="mt-10 hidden">
 								<Pagination>
 									<PaginationContent>
 										<PaginationItem>

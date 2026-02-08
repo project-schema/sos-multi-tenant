@@ -9,13 +9,15 @@ export function ProductInfo({ product }: { product?: iVendorProductView }) {
 				<h1 className="text-2xl md:text-3xl font-bold text-gray-900">
 					{product?.name}
 				</h1>
-				{/* Price */}
+				{/* if discount price is available, show the discount price else show the selling price */}
 				<div className="flex items-end gap-3">
-					<p className="text-red-500 line-through text-2xl">
-						{product?.original_price}
-					</p>
+					{product?.discount_price && (
+						<p className="text-red-500 line-through text-2xl">
+							{product?.selling_price}
+						</p>
+					)}
 					<p className="text-2xl font-semibold text-gray-900">
-						{product?.selling_price}
+						{product?.discount_price || product?.selling_price}
 					</p>
 				</div>
 
@@ -45,7 +47,7 @@ export function ProductInfo({ product }: { product?: iVendorProductView }) {
 			</p>
 			{product && Number(product?.qty) > 0 && <CartAction product={product} />}
 
-			<div className="flex items-center gap-2">
+			<div className="items-center gap-2 hidden">
 				<h2 className="text-base font-semibold">Share:</h2>
 				<div className="flex items-center gap-2">
 					<Facebook className="w-6 h-6 text-gray-500" />

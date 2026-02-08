@@ -40,8 +40,8 @@ export function Category01({
 				}}
 				modules={[Autoplay, Pagination]}
 			>
-				{categories?.map((category) => (
-					<SwiperSlide key={category.id}>
+				{categories?.map((category, index) => (
+					<SwiperSlide key={index}>
 						<Card03 category={category} />
 					</SwiperSlide>
 				))}

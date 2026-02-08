@@ -131,7 +131,7 @@ export default function CommonWishList() {
 								<div className="col-span-12 md:col-span-7 flex items-center gap-4">
 									<DeleteWishlistButton id={item.id} />
 									<Link
-										href={`/shop/product/${product.slug}`}
+										href={`/shop/${product.slug}`}
 										className="relative w-20 h-20 rounded overflow-hidden flex-shrink-0"
 									>
 										<img
@@ -141,7 +141,7 @@ export default function CommonWishList() {
 										/>
 									</Link>
 									<Link
-										href={`/shop/product/${product.slug}`}
+										href={`/shop/${product.slug}`}
 										className="text-sm font-medium hover:text-orange-500 transition-colors"
 									>
 										{product.name}
@@ -165,12 +165,18 @@ export default function CommonWishList() {
 
 								{/* Actions */}
 								<div className="col-span-6 md:col-span-2 flex md:justify-end">
-									<AddToCartButton
-										productId={product.id}
-										variant="button"
-										className="w-full md:w-auto"
-										wishId={item.id}
-									/>
+									{product.qty > 0 ? (
+										<AddToCartButton
+											productId={product.id}
+											variant="button"
+											className="w-full md:w-auto"
+											wishId={item.id}
+										/>
+									) : (
+										<Button variant="secondary" disabled>
+											Out of Stock
+										</Button>
+									)}
 								</div>
 							</div>
 						);

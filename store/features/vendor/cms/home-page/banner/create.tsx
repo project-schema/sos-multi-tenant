@@ -231,7 +231,15 @@ export function BannerCreate() {
 									<FormItem>
 										<FormLabel>Display Order</FormLabel>
 										<FormControl>
-											<Input {...field} type="number" min={0} placeholder="0" />
+											<Input
+												{...field}
+												type="number"
+												min={0}
+												placeholder="0"
+												onChange={(e) =>
+													field.onChange(e.target.valueAsNumber || 0)
+												}
+											/>
 										</FormControl>
 										<FormMessage />
 									</FormItem>

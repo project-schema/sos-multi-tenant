@@ -1,15 +1,8 @@
 import { getApiDataWithSubdomain, imageFormat } from '@/lib';
 import { iTenantFrontend } from '@/types/tenant-frontend';
-import {
-	Facebook,
-	Instagram,
-	Map,
-	Music,
-	Phone,
-	Search,
-	Twitter,
-} from 'lucide-react';
+import { Facebook, Instagram, Map, Music, Phone, Twitter } from 'lucide-react';
 import Link from 'next/link';
+import SearchPopup from './_ctx/search-popup';
 import { UserAccount } from './_ctx/user-account';
 import { UtilityIcons } from './_ctx/utility-icons';
 
@@ -167,12 +160,7 @@ export default async function Header03() {
 				<div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex items-center justify-between gap-4 py-4">
 						{/* Search Icon */}
-						<button
-							className="flex items-center justify-center text-[#800020] hover:opacity-80 transition-opacity"
-							aria-label="Search"
-						>
-							<Search className="w-6 h-6" />
-						</button>
+						<SearchPopup />
 
 						{/* Logo - Center */}
 						<Link

@@ -50,7 +50,7 @@ function extractSubdomain(request: NextRequest): string | null {
 }
 
 // List of web routes that should NOT have /dashboard prefix
-const WEB_ROUTES = ['/shop', '/account', '/contact', '/auth'];
+const WEB_ROUTES = ['/shop', '/account', '/contact', '/auth', '/blog'];
 
 // Check if a pathname is a dashboard route
 function isDashboardRoute(pathname: string): boolean {
