@@ -48,6 +48,10 @@ export function AdminSubscriptionCards({ item }: { item: iAdminSubscription }) {
 					<GetA title="Service Create" value={item?.service_create} />
 					<GetA title="Pos Sell Qty" value={item?.pos_sale_qty} />
 					<GetA title="Chat Access" value={item?.chat_access ? 'Yes' : 'No'} />
+
+					<GetA title="Has Website" value={item?.has_website ? 'Yes' : 'No'} />
+					<GetA title="Website Visits" value={item?.website_visits} />
+
 					{item?.subscription_user_type === 'vendor' && (
 						<GetA
 							title="Employee Create"

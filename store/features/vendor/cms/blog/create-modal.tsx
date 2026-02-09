@@ -244,7 +244,7 @@ const Forms = ({
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
-										{categoryData?.categories?.data?.map((category) => (
+										{categoryData?.categories?.map((category) => (
 											<SelectItem key={category.id} value={String(category.id)}>
 												{category.name}
 											</SelectItem>

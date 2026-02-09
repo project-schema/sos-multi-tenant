@@ -17,6 +17,7 @@ import {
 	useFrontendApplyCouponMutation,
 	useFrontendBuySubscriptionMutation,
 	useFrontendBuySubscriptionPayMutation,
+	useFrontendRenewSubscriptionPayMutation,
 } from './api-slice';
 
 interface SubscriptionBuyModalProps {
@@ -37,6 +38,8 @@ export default function SubscriptionBuyModal({
 
 	const [buySubscription, { isLoading: isBuyingSubscription }] =
 		useFrontendBuySubscriptionMutation();
+	const [renewSubscriptionPay, { isLoading: isRenewingSubscriptionPay }] =
+		useFrontendRenewSubscriptionPayMutation();
 	const [applyCoupon, { isLoading: isApplyingCoupon }] =
 		useFrontendApplyCouponMutation();
 	const [buySubscriptionPay, { isLoading: isBuyingSubscriptionPay }] =
@@ -89,6 +92,24 @@ export default function SubscriptionBuyModal({
 				if (result?.payment_url) {
 					window.location.href = result.payment_url;
 				}
+			}
+		} catch (error) {
+			console.error('Purchase failed:', error);
+			// Handle error (show toast or alert)
+		}
+	};
+	const handleRenewPurchase = async () => {
+		console.log('handleRenewPurchase');
+		try {
+			const paymentData = {
+				package_id: subscription.id.toString(),
+				payment_method: 'aamarpay' as const,
+			};
+
+			const result: any = await renewSubscriptionPay(paymentData).unwrap();
+			// Handle payment redirect or success
+			if (result?.payment_url) {
+				window.location.href = result.payment_url;
 			}
 		} catch (error) {
 			console.error('Purchase failed:', error);
@@ -224,21 +245,34 @@ export default function SubscriptionBuyModal({
 					>
 						Cancel
 					</Button>
-					<Button
-						onClick={handlePurchase}
-						disabled={
-							isApplyingCoupon ||
-							isBuyingSubscription ||
-							isBuyingSubscriptionPay
-						}
-						className="bg-green-600 hover:bg-green-700"
-					>
-						{isBuyingSubscription || isBuyingSubscriptionPay
-							? 'Processing...'
-							: subscription.subscription_amount === '0'
+					{/* if user have not subscription then show buy button */}
+					{!session?.user?.usersubscription && (
+						<Button
+							onClick={handlePurchase}
+							disabled={
+								isApplyingCoupon ||
+								isBuyingSubscription ||
+								isBuyingSubscriptionPay
+							}
+							className="bg-green-600 hover:bg-green-700"
+						>
+							{isBuyingSubscription || isBuyingSubscriptionPay
+								? 'Processing...'
+								: subscription.subscription_amount === '0'
 								? 'Get Free'
 								: 'Buy Now'}
-					</Button>
+						</Button>
+					)}
+
+					{/* if user have already subscription then show renew button */}
+					{session?.user?.usersubscription && (
+						<Button
+							onClick={handleRenewPurchase}
+							className="bg-green-600 hover:bg-green-700"
+						>
+							Renew
+						</Button>
+					)}
 				</DialogFooter>
 			</DialogContent>
 		</Dialog>

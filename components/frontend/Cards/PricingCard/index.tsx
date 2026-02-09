@@ -1,4 +1,5 @@
 'use client';
+import { Badge } from '@/components/ui/badge';
 import SubscriptionBuyModal from '@/store/features/frontend/pricing/subscription-buy-modal';
 import { motion } from 'motion/react';
 import { useSession } from 'next-auth/react';
@@ -138,11 +139,18 @@ function PricingCard({ data, user, i }: any) {
 					</div>
 				))}
 			</div>
+			{session?.user?.usersubscription?.subscription?.id === data.id && (
+				<Badge className="bg-green-500 text-white absolute top-2 left-2">
+					Active
+				</Badge>
+			)}
 
 			<button
-				// onClick={() => hanldeSubscription(data?.id, data?.subscription_amount)}
 				onClick={handleSwitch}
-				className={`${style.buyNow} ${data.suggest && 'mb-5'}`}
+				className={`${style.buyNow} ${data.suggest && 'mb-5'} ${
+					session?.user?.usersubscription?.subscription?.id === data.id &&
+					'!hidden'
+				}`}
 			>
 				{data?.subscription_amount === '0' ? 'Get Free' : 'Buy Now'}
 			</button>

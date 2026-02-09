@@ -110,7 +110,7 @@ export default async function Footer02() {
 							{brands?.slice(0, 5).map((brand, index) => (
 								<li key={index}>
 									<Link
-										href={brand?.id?.toString() || '#'}
+										href={'#'}
 										className="text-gray-500 hover:text-gray-700 transition-colors duration-200 text-sm"
 									>
 										{brand.name}

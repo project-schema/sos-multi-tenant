@@ -75,7 +75,7 @@ export function CmsBlogFilter({
 				</SelectTrigger>
 				<SelectContent>
 					<SelectItem value="all">All Categories</SelectItem>
-					{categoryData?.categories?.data?.map((category) => (
+					{categoryData?.categories?.map((category) => (
 						<SelectItem key={category.id} value={String(category.id)}>
 							{category.name}
 						</SelectItem>

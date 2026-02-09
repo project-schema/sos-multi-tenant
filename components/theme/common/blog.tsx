@@ -33,15 +33,15 @@ export default async function CommonBlog() {
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					{news.news.map((item) => {
 						const imageUrl = item.image
-							? item.image.startsWith('http')
-								? item.image
-								: `${env.baseAPI}/${item.image}`
+							? item.image
+								? `${env.baseAPI}/${item.image}`
+								: null
 							: null;
 
 						const tags = parseTags(item.tags);
 
 						return (
-							<Link key={item.id} href={`/blog/${item.id}`} className="group">
+							<Link key={item.id} href={`/blog/${item.slug}`} className="group">
 								<article className="h-full bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
 									{/* Image */}
 									{imageUrl ? (

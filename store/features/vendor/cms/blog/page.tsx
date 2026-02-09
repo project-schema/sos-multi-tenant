@@ -6,7 +6,6 @@ import { useDebounce } from '@/hooks/use-debounce';
 import { useEffect, useState } from 'react';
 import { useCmsBlogQuery } from './api-slice';
 import { CmsBlogCreateModal } from './create-modal';
-import { CmsBlogFilter } from './filter';
 import { CmsBlogTable } from './table';
 
 export function CmsBlogPage() {
@@ -53,17 +52,17 @@ export function CmsBlogPage() {
 			}
 		>
 			{/* Filter */}
-			<CmsBlogFilter
+			{/* <CmsBlogFilter
 				filters={filters}
 				setFilters={setFilters}
 				clearFilters={clearFilters}
-			/>
+			/> */}
 
-			{data?.message && (
+			{data && (
 				<>
 					<div className="border rounded-lg relative">
 						{isFetching && <Loader8 />}
-						<CmsBlogTable data={data?.news || []} />
+						<CmsBlogTable data={data || []} />
 					</div>
 					{/* <Pagination1 pagination={data?.news} setPage={setPage} /> */}
 				</>

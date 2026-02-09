@@ -13,6 +13,7 @@ export type iCmsBlog = {
 	deleted_at: null;
 	created_at: string;
 	updated_at: string;
+	slug: string;
 };
 
 export type iCmsBlogResponse = {

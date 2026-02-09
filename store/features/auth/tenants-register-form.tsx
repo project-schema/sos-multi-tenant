@@ -67,6 +67,16 @@ export const schema = z
 			}
 		}
 
+
+		// ❗ Domain already exists check
+		if (data.domain === 'main') {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Domain name already exists',
+				path: ['domain'],
+			});
+		}
+		
 		if (data.password !== data.password_confirmation) {
 			ctx.addIssue({
 				code: z.ZodIssueCode.custom,
@@ -149,8 +159,8 @@ export const TenantsRegisterForm = ({
 						const firstMessage = Object.values(validationErrors)?.[0];
 						toast.error(
 							String(
-								Array.isArray(firstMessage) ? firstMessage[0] : firstMessage,
-							),
+								Array.isArray(firstMessage) ? firstMessage[0] : firstMessage
+							)
 						);
 						return;
 					}
@@ -171,7 +181,7 @@ export const TenantsRegisterForm = ({
 						const currentDomain = host.replace(/^.*?\./, '');
 
 						// Construct tenant URL based on current host
-						const tenantURL = `${protocol}//${tenantSubdomain}.${currentDomain}`;
+						const tenantURL = `${protocol}//${tenantSubdomain}.${currentDomain}/auth?tab=login`;
 
 						// Redirect to tenant's subdomain
 						window.location.href = tenantURL;
@@ -204,8 +214,8 @@ export const TenantsRegisterForm = ({
 						const firstMessage = Object.values(validationErrors)?.[0];
 						toast.error(
 							String(
-								Array.isArray(firstMessage) ? firstMessage[0] : firstMessage,
-							),
+								Array.isArray(firstMessage) ? firstMessage[0] : firstMessage
+							)
 						);
 						return;
 					}

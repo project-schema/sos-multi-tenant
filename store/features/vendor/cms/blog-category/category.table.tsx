@@ -1,6 +1,5 @@
 'use client';
 import { Loader5, Loader8 } from '@/components/dashboard';
-import { Pagination1 } from '@/components/dashboard/pagination';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -12,7 +11,6 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 import { badgeFormat, env, ErrorAlert, tableSrCount, textCount } from '@/lib';
-import Link from 'next/link';
 import { useState } from 'react';
 import { useCmsViewCategoryQuery } from './category.api.slice';
 import { CmsBlogCategoryDelete } from './category.delete';
@@ -56,7 +54,7 @@ export function CmsBlogCategoryTable() {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{categories?.category?.data?.length === 0 ? (
+						{categories?.categories?.length === 0 ? (
 							<TableRow>
 								<TableCell
 									colSpan={6}
@@ -66,23 +64,21 @@ export function CmsBlogCategoryTable() {
 								</TableCell>
 							</TableRow>
 						) : (
-							categories?.category.data?.map((category, i) => (
+							categories?.categories?.map((category, i) => (
 								<TableRow key={category.id}>
 									<TableCell className="py-2 pl-4">
-										{tableSrCount(categories?.category.current_page, i)}
+										{tableSrCount(1, i)}
 									</TableCell>
 									<TableCell className="py-2">
-										<Link href={`/admin/users/${category.id}`}>
-											<Avatar className="h-12 w-12 rounded-xl">
-												<AvatarImage
-													src={env.baseAPI + '/' + category.image}
-													alt={category.name}
-												/>
-												<AvatarFallback className="rounded-xl bg-sky-100">
-													{category.name.charAt(0).toUpperCase()}
-												</AvatarFallback>
-											</Avatar>
-										</Link>
+										<Avatar className="h-12 w-12 rounded-xl">
+											<AvatarImage
+												src={env.baseAPI + '/' + category.image}
+												alt={category.name}
+											/>
+											<AvatarFallback className="rounded-xl bg-sky-100">
+												{category.name.charAt(0).toUpperCase()}
+											</AvatarFallback>
+										</Avatar>
 									</TableCell>
 
 									<TableCell className="py-2">
@@ -107,9 +103,9 @@ export function CmsBlogCategoryTable() {
 					</TableBody>
 				</Table>
 			</div>
-			{categories?.category && (
-				<Pagination1 pagination={categories?.category} setPage={setPage} />
-			)}
+			{/* {categories?.categories && (
+				<Pagination1 pagination={categories?.categories} setPage={setPage} />
+			)} */}
 		</>
 	);
 }

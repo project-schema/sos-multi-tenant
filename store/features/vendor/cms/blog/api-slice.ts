@@ -1,11 +1,11 @@
 import { apiSlice } from '@/store/features/api/apiSlice';
-import { iCmsBlogResponse } from './type';
+import { iCmsBlog } from './type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
 		CmsBlog: builder.query<
-			iCmsBlogResponse,
+			iCmsBlog[],
 			{
 				page: number | string;
 				search: string;

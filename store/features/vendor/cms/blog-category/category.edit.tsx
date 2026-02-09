@@ -34,7 +34,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { alertConfirm } from '@/lib';
+import { alertConfirm, env } from '@/lib';
 import { toast } from 'sonner';
 import { useCmsUpdateCategoryMutation } from './category.api.slice';
 import { iCategory } from './category.type';
@@ -135,7 +135,9 @@ export function CmsBlogCateEdit({ editData }: { editData: iCategory }) {
 										label="Category Image"
 										value={field.value}
 										onChange={field.onChange}
-										defaultImage={null}
+										defaultImage={
+											editData.image ? `${env.baseAPI}/${editData.image}` : null
+										}
 									/>
 								</FormItem>
 							)}

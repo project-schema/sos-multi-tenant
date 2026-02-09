@@ -42,6 +42,20 @@ const api = apiSlice.injectEndpoints({
 				body: { subscription_id, payment_type, coupon_id, tenant_id },
 			}),
 		}),
+		// tenant-subscription/buy-subscription
+		FrontendRenewSubscriptionPay: builder.mutation<
+			{ status: 200; message: string; data: any },
+			{
+				package_id: string;
+				payment_method: 'aamarpay' | 'free';
+			}
+		>({
+			query: ({ package_id, payment_method }) => ({
+				url: `/tenant-subscription/renew-subscription`,
+				method: 'POST',
+				body: { package_id, payment_method },
+			}),
+		}),
 	}),
 });
 
@@ -49,4 +63,5 @@ export const {
 	useFrontendBuySubscriptionMutation,
 	useFrontendApplyCouponMutation,
 	useFrontendBuySubscriptionPayMutation,
+	useFrontendRenewSubscriptionPayMutation,
 } = api;

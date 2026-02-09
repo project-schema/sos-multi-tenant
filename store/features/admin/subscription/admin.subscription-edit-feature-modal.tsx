@@ -65,7 +65,15 @@ const vSchema = z.object({
 			message: 'Product Qty must be a number',
 		}),
 	chat_access: z.union([z.literal('yes'), z.null()]),
-	employee_create: z.union([z.literal('yes'), z.null()]),
+	employee_create: z.union([z.literal('yes'), z.literal('no'), z.null()]),
+	has_website: z.union([z.literal('yes'), z.literal('no'), z.null()]),
+	website_visits: z
+		.number({ error: 'Website Visits is required' })
+		.min(0, { message: 'Website Visits must be at least 0' })
+		.max(1000000, { message: 'Too long' })
+		.refine((val) => !isNaN(val), {
+			message: 'Website Visits must be a number',
+		}),
 });
 
 type ZodType = z.infer<typeof vSchema>;
@@ -132,6 +140,8 @@ const FORMVendor = ({
 			product_qty: editData.product_qty || 0,
 			chat_access: editData.chat_access || null,
 			employee_create: editData.employee_create || null,
+			has_website: editData.has_website === 'yes' ? 'yes' : 'no',
+			website_visits: editData.website_visits || 0,
 		},
 	});
 
@@ -143,6 +153,8 @@ const FORMVendor = ({
 			product_qty: editData.product_qty || 0,
 			chat_access: editData.chat_access || null,
 			employee_create: editData.employee_create || null,
+			has_website: editData.has_website === 'yes' ? 'yes' : 'no',
+			website_visits: editData.website_visits || 0,
 		});
 	}, [editData]);
 
@@ -275,6 +287,51 @@ const FORMVendor = ({
 							</FormItem>
 						)}
 					/>
+					{/* Has Website Checkbox */}
+					<FormField
+						control={form.control}
+						name="has_website"
+						render={({ field }) => (
+							<Label className="hover:bg-accent/50 flex items-start gap-3 rounded-lg border p-3 has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950">
+								<Checkbox
+									checked={field.value === 'yes'}
+									onCheckedChange={(checked) =>
+										field.onChange(checked ? 'yes' : 'no')
+									}
+									className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
+								/>
+								<div className="grid gap-1.5 font-normal">
+									<p className="text-sm leading-none font-medium">
+										Has Website
+									</p>
+									<p className="text-muted-foreground text-sm">
+										Allow this user to have a website.
+									</p>
+								</div>
+							</Label>
+						)}
+					/>
+					{/* Website Visits */}
+					<FormField
+						control={form.control}
+						name="website_visits"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Website Visits</FormLabel>
+								<FormControl>
+									<Input
+										type="number"
+										{...field}
+										onChange={(e) =>
+											field.onChange(e.target.valueAsNumber || '')
+										}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
 					{/* Chat Access */}
 					<FormField
 						control={form.control}
@@ -363,7 +420,15 @@ const ASchema = z.object({
 		.refine((val) => !isNaN(val), {
 			message: 'Product Request must be a number',
 		}),
-	chat_access: z.union([z.literal('yes'), z.null()]),
+	chat_access: z.union([z.literal('yes'), z.literal('no'), z.null()]),
+	has_website: z.union([z.literal('yes'), z.literal('no'), z.null()]),
+	website_visits: z
+		.number({ error: 'Website Visits is required' })
+		.min(0, { message: 'Website Visits must be at least 0' })
+		.max(1000000, { message: 'Too long' })
+		.refine((val) => !isNaN(val), {
+			message: 'Website Visits must be a number',
+		}),
 });
 
 type AZodType = z.infer<typeof ASchema>;
@@ -383,6 +448,8 @@ const FORMAffiliate = ({
 			product_approve: editData.product_approve || 0,
 			product_request: editData.product_request || 0,
 			chat_access: editData.chat_access || null,
+			has_website: editData.has_website === 'yes' ? 'yes' : 'no',
+			website_visits: editData.website_visits || 0,
 		},
 	});
 
@@ -392,6 +459,8 @@ const FORMAffiliate = ({
 			product_approve: editData.product_approve || 0,
 			product_request: editData.product_request || 0,
 			chat_access: editData.chat_access || null,
+			has_website: editData.has_website === 'yes' ? 'yes' : 'no',
+			website_visits: editData.website_visits || 0,
 		});
 	}, [editData]);
 
@@ -500,6 +569,53 @@ const FORMAffiliate = ({
 							</FormItem>
 						)}
 					/>
+
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+						{/* Has Website Checkbox */}
+						<FormField
+							control={form.control}
+							name="has_website"
+							render={({ field }) => (
+								<Label className="hover:bg-accent/50 flex items-start gap-3 rounded-lg border p-3 has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950">
+									<Checkbox
+										checked={field.value === 'yes'}
+										onCheckedChange={(checked) =>
+											field.onChange(checked ? 'yes' : 'no')
+										}
+										className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
+									/>
+									<div className="grid gap-1.5 font-normal">
+										<p className="text-sm leading-none font-medium">
+											Has Website
+										</p>
+										<p className="text-muted-foreground text-sm">
+											Allow this user to have a website.
+										</p>
+									</div>
+								</Label>
+							)}
+						/>
+						{/* Website Visits */}
+						<FormField
+							control={form.control}
+							name="website_visits"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Website Visits</FormLabel>
+									<FormControl>
+										<Input
+											type="number"
+											{...field}
+											onChange={(e) =>
+												field.onChange(e.target.valueAsNumber || '')
+											}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</div>
 
 					{/* Chat Access Checkbox */}
 					<FormField

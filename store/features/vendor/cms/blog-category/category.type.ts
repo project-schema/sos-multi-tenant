@@ -1,5 +1,3 @@
-import { iPagination } from '@/types';
-
 export type iCategory = {
 	id: number;
 	name: string;
@@ -17,5 +15,5 @@ export type iCategory = {
 };
 export type iCategoryResponse = {
 	status: number;
-	categories: iPagination<iCategory>;
+	categories: iCategory[];
 };

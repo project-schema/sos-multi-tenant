@@ -25,6 +25,8 @@ export type iAdminSubscription = {
 	suggest: null | string;
 	chat_access: null;
 	pos_sale_qty: number;
+	has_website: 'yes' | 'no';
+	website_visits: number;
 	employee_create: null;
 };
 
