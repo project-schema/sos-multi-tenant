@@ -3,6 +3,7 @@ import ThemeThreeHomePage from '@/components/theme/three/home-page';
 import ThemeTwoHomePage from '@/components/theme/two/home-page';
 import { env, getApiDataWithSubdomain } from '@/lib';
 import { iTenantFrontend } from '@/types/tenant-frontend';
+import { redirect } from 'next/navigation';
 
 export default async function MySite({
 	searchParams,
@@ -19,6 +20,11 @@ export default async function MySite({
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
 		'/tenant-frontend/cms'
 	);
+
+	if (!settings?.cms?.theme) {
+		redirect('/auth?tab=login');
+	}
+
 	switch (settings?.cms?.theme || env.theme) {
 		case 'one':
 			return (

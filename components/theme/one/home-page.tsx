@@ -7,6 +7,7 @@ import {
 } from '@/components/web';
 import Banner02 from '@/components/web/banner/02';
 import { getApiDataWithSubdomain } from '@/lib';
+import { FrontendPageVisit } from '@/store/features/frontend';
 import { iTenantFrontend } from '@/types/tenant-frontend';
 import { PopularItems } from './_ctx/popular-items';
 import { PopularItems2 } from './_ctx/popular-items-2';
@@ -39,6 +40,7 @@ export default async function ThemeOneHomePage({
 
 	return (
 		<>
+			<FrontendPageVisit />
 			<Header01 />
 			<div className="space-y-24 pb-24">
 				{settings?.banners && settings?.banners?.length > 0 && (

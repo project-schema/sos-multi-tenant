@@ -1,8 +1,9 @@
 import ThemeOneBlogDetailPage from '@/components/theme/one/blog-detail';
 import ThemeThreeBlogDetailPage from '@/components/theme/three/blog-detail';
 import ThemeTwoBlogDetailPage from '@/components/theme/two/blog-detail';
-import { env, getApiDataWithSubdomain } from '@/lib';
+import { getApiDataWithSubdomain } from '@/lib';
 import { iTenantFrontend } from '@/types/tenant-frontend';
+import { redirect } from 'next/navigation';
 
 export default async function BlogDetailPage({
 	params,
@@ -13,7 +14,10 @@ export default async function BlogDetailPage({
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
 		`/tenant-frontend/cms`
 	);
-	switch (settings?.cms?.theme || env.theme) {
+	if (!settings?.cms?.theme) {
+		redirect('/auth?tab=login');
+	}
+	switch (settings?.cms?.theme) {
 		case 'one':
 			return <ThemeOneBlogDetailPage params={{ slug }} />;
 		case 'two':

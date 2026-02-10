@@ -1,11 +1,11 @@
 import ThemeOneShopPage from '@/components/theme/one/shop-page';
 import ThemeThreeShopPage from '@/components/theme/three/shop-page';
 import ThemeTwoShopPage from '@/components/theme/two/shop-page';
-import { env, getApiDataWithSubdomain } from '@/lib';
+import { getApiDataWithSubdomain } from '@/lib';
 import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
 import { iPagination } from '@/types';
 import { iTenantFrontend } from '@/types/tenant-frontend';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 type ShopSearchParams = {
 	category_id?: string;
@@ -46,7 +46,11 @@ export default async function ShopPage({
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
 		`/tenant-frontend/cms`
 	);
-	switch (settings?.cms?.theme || env.theme) {
+
+	if (!settings?.cms?.theme) {
+		redirect('/auth?tab=login');
+	}
+	switch (settings?.cms?.theme) {
 		case 'one':
 			return <ThemeOneShopPage data={products} />;
 		case 'two':

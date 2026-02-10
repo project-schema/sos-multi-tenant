@@ -57,7 +57,7 @@ export function CMSTheme() {
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
 		defaultValues: {
-			theme: data?.data?.theme || 'one',
+			theme: data?.data?.theme,
 		},
 	});
 
@@ -65,7 +65,7 @@ export function CMSTheme() {
 	useEffect(() => {
 		if (data?.data) {
 			form.reset({
-				theme: data?.data?.theme || 'one',
+				theme: data?.data?.theme,
 			});
 		}
 	}, [data, form]);

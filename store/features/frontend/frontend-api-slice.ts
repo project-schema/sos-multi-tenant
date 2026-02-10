@@ -53,6 +53,15 @@ const api = apiSlice.injectEndpoints({
 				method: 'GET',
 			}),
 		}),
+
+		FrontendVisitPage: builder.mutation<{ status: 200; message: string }, void>(
+			{
+				query: () => ({
+					url: `/website-visit`,
+					method: 'GET',
+				}),
+			}
+		),
 	}),
 });
 
@@ -61,4 +70,5 @@ export const {
 	useFrontendContactStoreMutation,
 	useFrontendGetDollarRateQuery,
 	useFrontendHomePageDataQuery,
+	useFrontendVisitPageMutation,
 } = api;

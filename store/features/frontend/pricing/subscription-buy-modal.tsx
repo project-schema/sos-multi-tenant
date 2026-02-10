@@ -13,6 +13,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { useVendorProfileInfoQuery } from '../../vendor/profile';
 import {
 	useFrontendApplyCouponMutation,
 	useFrontendBuySubscriptionMutation,
@@ -31,6 +32,9 @@ export default function SubscriptionBuyModal({
 	onOpenChange,
 	subscription,
 }: SubscriptionBuyModalProps) {
+	const { data: profileData } = useVendorProfileInfoQuery(undefined, {
+		skip: !open,
+	});
 	const { data: session } = useSession();
 	const [couponCode, setCouponCode] = useState('');
 	const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
@@ -185,52 +189,53 @@ export default function SubscriptionBuyModal({
 					</div>
 
 					{/* Coupon Section */}
-					{subscription.subscription_amount !== '0' && (
-						<div className="p-5 bg-muted rounded-lg">
-							<h3 className="text-lg font-semibold mb-3">Have a coupon?</h3>
-							<div className="flex gap-3">
-								<Input
-									type="text"
-									placeholder="Enter coupon code"
-									value={couponCode}
-									onChange={(e) => setCouponCode(e.target.value)}
-									disabled={
-										isApplyingCoupon ||
-										isBuyingSubscription ||
-										isBuyingSubscriptionPay
-									}
-									className="flex-1"
-								/>
-								<Button
-									onClick={handleApplyCoupon}
-									disabled={
-										!couponCode.trim() ||
-										isApplyingCoupon ||
-										isBuyingSubscription ||
-										isBuyingSubscriptionPay
-									}
-									variant="default"
-								>
-									Apply
-								</Button>
+					{subscription.subscription_amount !== '0' &&
+						!profileData?.usersubscription && (
+							<div className="p-5 bg-muted rounded-lg">
+								<h3 className="text-lg font-semibold mb-3">Have a coupon?</h3>
+								<div className="flex gap-3">
+									<Input
+										type="text"
+										placeholder="Enter coupon code"
+										value={couponCode}
+										onChange={(e) => setCouponCode(e.target.value)}
+										disabled={
+											isApplyingCoupon ||
+											isBuyingSubscription ||
+											isBuyingSubscriptionPay
+										}
+										className="flex-1"
+									/>
+									<Button
+										onClick={handleApplyCoupon}
+										disabled={
+											!couponCode.trim() ||
+											isApplyingCoupon ||
+											isBuyingSubscription ||
+											isBuyingSubscriptionPay
+										}
+										variant="default"
+									>
+										Apply
+									</Button>
+								</div>
+								{!appliedCoupon?.success && appliedCoupon?.data?.name && (
+									<div className="text-red-500 text-sm mt-2">
+										{appliedCoupon?.data?.name}
+									</div>
+								)}
+								{appliedCoupon && appliedCoupon?.success && (
+									<div className="mt-3 p-2 bg-green-100 text-green-800 rounded-md text-sm">
+										Coupon applied: {appliedCoupon.data?.code} (
+										{appliedCoupon.data?.discount_value}
+										{appliedCoupon.data?.discount_type === 'percentage'
+											? '%'
+											: '৳'}{' '}
+										off)
+									</div>
+								)}
 							</div>
-							{!appliedCoupon?.success && appliedCoupon?.data?.name && (
-								<div className="text-red-500 text-sm mt-2">
-									{appliedCoupon?.data?.name}
-								</div>
-							)}
-							{appliedCoupon && appliedCoupon?.success && (
-								<div className="mt-3 p-2 bg-green-100 text-green-800 rounded-md text-sm">
-									Coupon applied: {appliedCoupon.data?.code} (
-									{appliedCoupon.data?.discount_value}
-									{appliedCoupon.data?.discount_type === 'percentage'
-										? '%'
-										: '৳'}{' '}
-									off)
-								</div>
-							)}
-						</div>
-					)}
+						)}
 				</div>
 
 				<DialogFooter>
@@ -246,7 +251,7 @@ export default function SubscriptionBuyModal({
 						Cancel
 					</Button>
 					{/* if user have not subscription then show buy button */}
-					{!session?.user?.usersubscription && (
+					{!profileData?.usersubscription && (
 						<Button
 							onClick={handlePurchase}
 							disabled={
@@ -265,12 +270,13 @@ export default function SubscriptionBuyModal({
 					)}
 
 					{/* if user have already subscription then show renew button */}
-					{session?.user?.usersubscription && (
+					{profileData?.usersubscription && (
 						<Button
 							onClick={handleRenewPurchase}
 							className="bg-green-600 hover:bg-green-700"
+							disabled={isRenewingSubscriptionPay}
 						>
-							Renew
+							{isRenewingSubscriptionPay ? 'Processing...' : 'Renew'}
 						</Button>
 					)}
 				</DialogFooter>

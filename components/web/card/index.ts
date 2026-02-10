@@ -8,3 +8,4 @@ export { default as Card07 } from './07';
 export { default as Card08 } from './08';
 export { default as Card09 } from './09';
 export { default as Card10 } from './10';
+export { BlogCard1 } from './11';

@@ -1,8 +1,9 @@
 import ThemeOneProductDetailsPage from '@/components/theme/one/product-details';
 import ThemeThreeProductDetailsPage from '@/components/theme/three/product-details';
 import ThemeTwoProductDetailsPage from '@/components/theme/two/product-details';
-import { env, getApiDataWithSubdomain } from '@/lib';
+import { getApiDataWithSubdomain } from '@/lib';
 import { iTenantFrontend } from '@/types/tenant-frontend';
+import { redirect } from 'next/navigation';
 
 export default async function ProductDetailsPage({
 	params,
@@ -13,7 +14,10 @@ export default async function ProductDetailsPage({
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
 		`/tenant-frontend/cms`
 	);
-	switch (settings?.cms?.theme || env.theme) {
+	if (!settings?.cms?.theme) {
+		redirect('/auth?tab=login');
+	}
+	switch (settings?.cms?.theme) {
 		case 'one':
 			return <ThemeOneProductDetailsPage params={{ slug }} />;
 		case 'two':

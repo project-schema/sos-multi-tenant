@@ -145,7 +145,7 @@ function PricingCard({ data, user, i }: any) {
 				</Badge>
 			)}
 
-			<button
+			{/* <button
 				onClick={handleSwitch}
 				className={`${style.buyNow} ${data.suggest && 'mb-5'} ${
 					session?.user?.usersubscription?.subscription?.id === data.id &&
@@ -153,7 +153,32 @@ function PricingCard({ data, user, i }: any) {
 				}`}
 			>
 				{data?.subscription_amount === '0' ? 'Get Free' : 'Buy Now'}
-			</button>
+			</button> */}
+
+			{!session?.user?.usersubscription && (
+				<button
+					onClick={handleSwitch}
+					className={`${style.buyNow} ${data.suggest && 'mb-5'} ${
+						session?.user?.usersubscription?.subscription?.id === data.id &&
+						'!hidden'
+					}`}
+				>
+					{data?.subscription_amount === '0' ? 'Get Free' : 'Buy Now'}
+				</button>
+			)}
+
+			{/* if user have already subscription then show renew button */}
+			{session?.user?.usersubscription && data.subscription_amount !== '0' && (
+				<button
+					onClick={handleSwitch}
+					className={`${style.buyNow} ${data.suggest && 'mb-5'} ${
+						session?.user?.usersubscription?.subscription?.id === data.id &&
+						'!hidden'
+					}`}
+				>
+					Renew
+				</button>
+			)}
 
 			<SubscriptionBuyModal
 				open={isModalOpen}

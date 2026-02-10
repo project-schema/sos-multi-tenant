@@ -1,4 +1,5 @@
 import { getApiData } from '@/lib';
+import { FrontendPageVisit } from '@/store/features/frontend';
 import { notFound } from 'next/navigation';
 
 interface TenantCheckResponse {
@@ -31,5 +32,10 @@ export default async function MySiteLayout({
 		notFound();
 	}
 
-	return children;
+	return (
+		<>
+			<FrontendPageVisit />
+			{children}
+		</>
+	);
 }
