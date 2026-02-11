@@ -6,6 +6,7 @@ export interface iOrder {
 	payment_status: 'paid' | 'unpaid' | 'partial';
 	created_at: string;
 	updated_at: string;
+	due_amount: number;
 	// Add other order fields as needed
 }
 
