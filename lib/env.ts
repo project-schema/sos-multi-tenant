@@ -1,6 +1,7 @@
 export const env = {
 	production: process.env.NEXT_PUBLIC_NODE_ENV === 'production',
 	development: process.env.NEXT_PUBLIC_NODE_ENV === 'development',
+	rootDomain: process.env.NEXT_PUBLIC_ROOT_DOMAIN as string,
 	baseAPI: process.env.NEXT_PUBLIC_BACKEND_API as string,
 	next_auth_url: process.env.NEXTAUTH_URL,
 	token: process.env.NEXT_PUBLIC_TOKEN,

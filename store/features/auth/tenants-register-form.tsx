@@ -67,7 +67,6 @@ export const schema = z
 			}
 		}
 
-
 		// ❗ Domain already exists check
 		if (data.domain === 'main') {
 			ctx.addIssue({
@@ -76,7 +75,7 @@ export const schema = z
 				path: ['domain'],
 			});
 		}
-		
+
 		if (data.password !== data.password_confirmation) {
 			ctx.addIssue({
 				code: z.ZodIssueCode.custom,
@@ -180,9 +179,14 @@ export const TenantsRegisterForm = ({
 						const { protocol, host } = window.location;
 						const currentDomain = host.replace(/^.*?\./, '');
 
-						// Construct tenant URL based on current host
-						const tenantURL = `${protocol}//${tenantSubdomain}.${currentDomain}/auth?tab=login`;
+						let tenantURL = '';
 
+						// Construct tenant URL based on current host
+						if (env.rootDomain.includes('localhost')) {
+							tenantURL = `${protocol}//${tenantSubdomain}.${currentDomain}/auth?tab=login`;
+						} else {
+							tenantURL = `${protocol}//${tenantSubdomain}.${env.rootDomain}/auth?tab=login`;
+						}
 						// Redirect to tenant's subdomain
 						window.location.href = tenantURL;
 					} else {
