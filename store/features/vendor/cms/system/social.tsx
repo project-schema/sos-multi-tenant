@@ -24,13 +24,13 @@ import { useSystemQuery, useUpdateSystemMutation } from './api-slice';
 
 // --- Zod Schema ---
 const schema = z.object({
-	fb_url: z.string().min(1, 'Facebook URL is required'),
-	x_url: z.string().min(1, 'X URL is required'),
-	instagram_url: z.string().min(1, 'Instagram URL is required'),
-	youtube_url: z.string().min(1, 'YouTube URL is required'),
-	tiktok_url: z.string().min(1, 'TikTok URL is required'),
-	telegram_url: z.string().min(1, 'Telegram URL is required'),
-	whatsapp_url: z.string().min(1, 'WhatsApp URL is required'),
+	fb_url: z.string().optional(),
+	x_url: z.string().optional(),
+	instagram_url: z.string().optional(),
+	youtube_url: z.string().optional(),
+	tiktok_url: z.string().optional(),
+	telegram_url: z.string().optional(),
+	whatsapp_url: z.string().optional(),
 });
 
 type ZodType = z.infer<typeof schema>;

@@ -20,6 +20,7 @@ import { alertConfirm } from '@/lib';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -73,7 +74,7 @@ const FORM = ({
 	productId: string;
 }) => {
 	const [update, { isLoading }] = useRequestProductMutation();
-
+	const router = useRouter();
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
 		defaultValues: {
@@ -95,6 +96,7 @@ const FORM = ({
 						toast.success(response.message || 'Request successfully');
 						form.reset();
 						setOpen(false);
+						router.push(`/dashboard/dropshipper-products/pending`);
 					} else {
 						const errorResponse = response as any;
 						if (typeof errorResponse.data === 'object') {

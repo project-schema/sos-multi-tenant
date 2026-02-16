@@ -8,6 +8,7 @@ import {
 	SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { SessionProvider } from '@/provider';
+import { useSystemQuery } from '@/store/features/vendor/cms/system/api-slice';
 import {
 	Home,
 	Image,
@@ -28,6 +29,7 @@ type LayoutProps = {
 export default function Layout({ children }: LayoutProps) {
 	const searchParams = useSearchParams();
 	const activeTab = searchParams.get('tab') || 'home';
+	const { data, isLoading: loading, isError, refetch } = useSystemQuery();
 
 	// Tab config
 	const items = useMemo(
@@ -118,6 +120,19 @@ export default function Layout({ children }: LayoutProps) {
 					<SidebarMenu className="flex flex-row lg:flex-col w-full lg:max-w-3xs flex-wrap">
 						{items.map((item) => {
 							const isActive = item.tab === activeTab;
+							// need hide home slider if theme is two
+							if (data?.data?.theme === 'two' && item.tab === 'home-slider') {
+								return null;
+							}
+
+							// need hide home banner image if theme is three and one
+							if (
+								data?.data.theme === 'two' &&
+								item.tab === 'home-banner-image'
+							) {
+								return null;
+							}
+
 							return (
 								<SidebarMenuItem key={item.title}>
 									<SidebarMenuButton asChild>

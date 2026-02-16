@@ -18,4 +18,5 @@ export * from './product';
 export * from './role.format';
 export * from './table-sr-count';
 export * from './text.count';
+export * from './theme-color-variable';
 export * from './utils';

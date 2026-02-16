@@ -2,7 +2,16 @@ import { getApiDataWithSubdomain, imageFormat } from '@/lib';
 import { iBrand } from '@/store/features/admin/brand';
 import { iCategory } from '@/store/features/admin/category';
 import { iTenantFrontend } from '@/types/tenant-frontend';
-import { Facebook, Instagram, Map, Music, Phone, Twitter } from 'lucide-react';
+import {
+	Facebook,
+	Instagram,
+	Map,
+	Music,
+	Phone,
+	Send,
+	X,
+	Youtube,
+} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { MoveToTop } from './ctx/move-to-top';
@@ -52,7 +61,7 @@ export default async function Footer03() {
 							{/* Logo */}
 							<div className="flex  flex-col">
 								<img
-									src={imageFormat(settings?.cms.footer_logo || null)}
+									src={imageFormat(settings?.cms?.footer_logo || null)}
 									alt="image"
 									width={200}
 									height={100}
@@ -69,34 +78,69 @@ export default async function Footer03() {
 
 							{/* Social Media Icons */}
 							<div className="flex space-x-3">
-								<Link
-									href="https://facebook.com"
-									className="size-7 text-primary3"
-									aria-label="Facebook"
-								>
-									<Facebook className="" />
-								</Link>
-								<Link
-									href="https://instagram.com"
-									className="size-7 text-primary3"
-									aria-label="Instagram"
-								>
-									<Instagram className="" />
-								</Link>
-								<Link
-									href="https://tiktok.com"
-									className="size-7 text-primary3"
-									aria-label="TikTok"
-								>
-									<Music className="" />
-								</Link>
-								<Link
-									href="https://x.com"
-									className="size-7 text-primary3"
-									aria-label="X (Twitter)"
-								>
-									<Twitter className="" />
-								</Link>
+								{settings?.cms?.fb_url && (
+									<Link
+										href={settings?.cms?.fb_url}
+										className="size-7 text-primary3"
+										aria-label="Facebook"
+									>
+										<Facebook className="" />
+									</Link>
+								)}
+								{settings?.cms?.x_url && (
+									<Link
+										href={settings?.cms?.x_url}
+										className="size-7 text-primary3"
+										aria-label="X (Twitter)"
+									>
+										<X className="" />
+									</Link>
+								)}
+								{settings?.cms?.instagram_url && (
+									<Link
+										href={settings?.cms?.instagram_url}
+										className="size-7 text-primary3"
+										aria-label="Instagram"
+									>
+										<Instagram className="" />
+									</Link>
+								)}
+								{settings?.cms?.youtube_url && (
+									<Link
+										href={settings?.cms?.youtube_url}
+										className="size-7 text-primary3"
+										aria-label="YouTube"
+									>
+										<Youtube />
+									</Link>
+								)}
+								{settings?.cms?.tiktok_url && (
+									<Link
+										href={settings?.cms?.tiktok_url}
+										className="size-7 text-primary3"
+										aria-label="TikTok"
+									>
+										<Music className="" />
+									</Link>
+								)}
+								{settings?.cms?.telegram_url && (
+									<Link
+										href={settings?.cms?.telegram_url}
+										className="size-7 text-primary3"
+										aria-label="Telegram"
+									>
+										<Send className="" />
+									</Link>
+								)}
+								{settings?.cms?.whatsapp_url && (
+									<Link
+										href={settings?.cms?.whatsapp_url}
+										className="size-7 text-primary3"
+										aria-label="WhatsApp"
+									>
+										<Phone className="" />
+									</Link>
+								)}
 							</div>
 						</div>
 
@@ -184,7 +228,7 @@ export default async function Footer03() {
 									{settings?.cms?.footer_copyright_text}
 								</span>
 							</div>
-							<div>
+							<div className="max-w-[200px]">
 								<Image
 									src={imageFormat(
 										settings?.cms?.footer_payment_methods || null

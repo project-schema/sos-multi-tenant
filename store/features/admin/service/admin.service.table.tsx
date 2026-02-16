@@ -100,10 +100,10 @@ export function AdminServiceTable({
 							<TableCell className="py-2">
 								<Link
 									className="hover:underline capitalize hover:text-blue-500 transition"
-									href={`/admin/users/${item.tenant.id}`}
+									href={`/admin/users/${item?.tenant?.id}`}
 								>
 									{textCount(
-										item.tenant.name || item.tenant.company_name || '--',
+										item?.tenant?.name || item?.tenant?.company_name || '--',
 										15
 									)}
 								</Link>

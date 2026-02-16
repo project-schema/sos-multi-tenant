@@ -1,5 +1,7 @@
 export const env = {
 	production: process.env.NEXT_PUBLIC_NODE_ENV === 'production',
+	color_primary: '#000000',
+	color_secondary: '#000000',
 	development: process.env.NEXT_PUBLIC_NODE_ENV === 'development',
 	rootDomain: process.env.NEXT_PUBLIC_ROOT_DOMAIN as string,
 	baseAPI: process.env.NEXT_PUBLIC_BACKEND_API as string,

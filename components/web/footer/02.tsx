@@ -2,7 +2,7 @@ import { getApiDataWithSubdomain, imageFormat } from '@/lib';
 import { iBrand } from '@/store/features/admin/brand';
 import { iCategory } from '@/store/features/admin/category';
 import { iSystem } from '@/store/features/vendor/cms/system/type';
-import { Facebook, Instagram, Music, Twitter } from 'lucide-react';
+import { Facebook, Instagram, Music, Phone, Send, X } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function Footer02() {
@@ -47,6 +47,15 @@ export default async function Footer02() {
 									<Facebook className="w-5 h-5 text-black" />
 								</Link>
 							)}
+							{settings?.cms?.x_url && (
+								<Link
+									href={settings?.cms?.x_url}
+									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
+									aria-label="X (Twitter)"
+								>
+									<X className="w-5 h-5 text-black" />
+								</Link>
+							)}
 							{settings?.cms?.instagram_url && (
 								<Link
 									href={settings?.cms?.instagram_url}
@@ -65,15 +74,6 @@ export default async function Footer02() {
 									<Music className="w-5 h-5 text-black" />
 								</Link>
 							)}
-							{settings?.cms?.x_url && (
-								<Link
-									href={settings?.cms?.x_url}
-									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
-									aria-label="X (Twitter)"
-								>
-									<Twitter className="w-5 h-5 text-black" />
-								</Link>
-							)}
 							{settings?.cms?.youtube_url && (
 								<Link
 									href={settings?.cms?.youtube_url}
@@ -81,6 +81,25 @@ export default async function Footer02() {
 									aria-label="YouTube"
 								>
 									<Music className="w-5 h-5 text-black" />
+								</Link>
+							)}
+
+							{settings?.cms?.telegram_url && (
+								<Link
+									href={settings?.cms?.telegram_url}
+									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
+									aria-label="Telegram"
+								>
+									<Send className="w-5 h-5 text-black" />
+								</Link>
+							)}
+							{settings?.cms?.whatsapp_url && (
+								<Link
+									href={settings?.cms?.whatsapp_url}
+									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
+									aria-label="WhatsApp"
+								>
+									<Phone className="w-5 h-5 text-black" />
 								</Link>
 							)}
 						</div>
@@ -167,7 +186,7 @@ export default async function Footer02() {
 
 						{/* Payment Methods */}
 						<div className="flex items-center space-x-2 flex-wrap justify-center">
-							<div className="relative">
+							<div className="relative max-w-[200px]">
 								<img
 									src={imageFormat(
 										settings?.cms?.footer_payment_methods || null

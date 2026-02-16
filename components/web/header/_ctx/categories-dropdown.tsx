@@ -6,7 +6,9 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { env } from '@/lib';
 import { iCategory } from '@/store/features/admin/category';
+import { iSystem } from '@/store/features/vendor/cms/system/type';
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 
@@ -25,6 +27,7 @@ interface CategoriesDropdownProps {
 	categories: iCategory[];
 	selectedCategoryId?: number | null;
 	onCategorySelect?: (categoryId: number | null) => void;
+	cms: iSystem | null;
 }
 
 export function CategoriesDropdown({
@@ -33,6 +36,7 @@ export function CategoriesDropdown({
 	categories,
 	selectedCategoryId,
 	onCategorySelect,
+	cms,
 }: CategoriesDropdownProps) {
 	const selectedCategory = categories?.find(
 		(cat) => cat.id === selectedCategoryId
@@ -49,7 +53,8 @@ export function CategoriesDropdown({
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<button
-					className={`flex items-center gap-2 px-4 py-2.5 bg-white border-r border-amber-600 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors ${className}`}
+					className={`flex items-center gap-2 px-4 py-2.5 bg-white border-r   text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors ${className}`}
+					style={{ borderColor: cms?.color_primary || env.color_primary }}
 				>
 					<span className={variant === 'compact' ? 'hidden sm:inline' : ''}>
 						{selectedCategory ? selectedCategory.name : 'All Categories'}

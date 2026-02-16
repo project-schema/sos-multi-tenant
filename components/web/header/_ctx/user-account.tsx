@@ -7,8 +7,9 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { logout } from '@/lib';
+import { env, logout } from '@/lib';
 import { accountLink } from '@/lib/links/account';
+import { iSystem } from '@/store/features/vendor/cms/system/type';
 import {
 	LayoutDashboard,
 	LogOut,
@@ -19,7 +20,7 @@ import {
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
-export function UserAccount() {
+export function UserAccount({ cms }: { cms: iSystem | null }) {
 	const { data: session, status } = useSession();
 
 	const isLoading = status === 'loading';
@@ -46,10 +47,16 @@ export function UserAccount() {
 					<DropdownMenuTrigger asChild>
 						<button className="flex items-center gap-2.5 outline-none">
 							<div className="w-10 h-10 bg-orange-100 border border-orange-200 rounded-full flex items-center justify-center flex-shrink-0">
-								<User className="w-5 h-5 text-orange-500" />
+								<User
+									className="w-5 h-5  "
+									style={{ color: cms?.color_primary || env.color_primary }}
+								/>
 							</div>
 							<div className="flex flex-col gap-0.5 text-left">
-								<span className="text-xs text-orange-600 leading-tight">
+								<span
+									className="text-xs text-orange-600 leading-tight"
+									style={{ color: cms?.color_primary || env.color_primary }}
+								>
 									Welcome back
 								</span>
 								<span className="text-sm font-bold text-black/70 leading-tight truncate max-w-[120px]">
@@ -109,10 +116,18 @@ export function UserAccount() {
 	return (
 		<div className="hidden lg:flex items-center gap-2.5">
 			<div className="w-10 h-10 bg-white border border-[#DBDFE9] rounded-full flex items-center justify-center flex-shrink-0">
-				<User className="w-5 h-5 text-orange-500" />
+				<User
+					className="w-5 h-5  "
+					style={{ color: cms?.color_primary || env.color_primary }}
+				/>
 			</div>
 			<div className="flex flex-col gap-0.5">
-				<span className="text-xs text-orange-600 leading-tight">Welcome</span>
+				<span
+					className="text-xs  leading-tight"
+					style={{ color: cms?.color_primary || env.color_primary }}
+				>
+					Welcome
+				</span>
 				<div className="flex items-center gap-1">
 					<Link
 						href="/auth?tab=login"

@@ -1,6 +1,7 @@
 'use client';
 
 import { Loader5 } from '@/components/dashboard';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { DialogFooter } from '@/components/ui/dialog';
@@ -17,6 +18,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { alertConfirm, ErrorAlert } from '@/lib';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle } from 'lucide-react';
+import Image from 'next/image';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -37,16 +39,19 @@ const themes = [
 		id: 'one',
 		name: 'Theme One',
 		description: 'Classic and clean design layout',
+		image: '/theme/01.jpg',
 	},
 	{
 		id: 'two',
 		name: 'Theme Two',
 		description: 'Modern and minimalist design',
+		image: '/theme/02.jpg',
 	},
 	{
 		id: 'three',
 		name: 'Theme Three',
 		description: 'Bold and vibrant design',
+		image: '/theme/03.jpg',
 	},
 ] as const;
 
@@ -121,7 +126,7 @@ export function CMSTheme() {
 	};
 
 	return (
-		<Card className="w-full max-w-2xl">
+		<Card className="w-full">
 			<CardContent>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -141,17 +146,35 @@ export function CMSTheme() {
 											{themes.map((theme) => (
 												<Label
 													key={theme.id}
-													className="has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:bg-primary/5 flex flex-col items-center gap-3 rounded-lg border p-4 cursor-pointer hover:bg-accent transition-colors"
+													className="has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:bg-primary/5 flex flex-col items-center gap-3 rounded-lg border p-4 cursor-pointer hover:bg-accent transition-colors relative"
 												>
+													{theme.id === data?.data?.theme && (
+														<Badge
+															className="absolute top-2 right-2"
+															variant="success"
+														>
+															Active
+														</Badge>
+													)}
+
 													<RadioGroupItem
 														value={theme.id}
 														id={theme.id}
 														className="sr-only"
 													/>
-													<div className="text-center">
+													<div className="text-center w-full">
 														<div className="font-medium">{theme.name}</div>
 														<div className="text-muted-foreground text-xs mt-1">
 															{theme.description}
+														</div>
+														<div className="mt-10">
+															<Image
+																width={1000}
+																height={1000}
+																src={theme.image}
+																alt={theme.name}
+																className="w-full max-w-full h-full max- block object-cover"
+															/>
 														</div>
 													</div>
 												</Label>

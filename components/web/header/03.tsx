@@ -160,7 +160,7 @@ export default async function Header03() {
 				<div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex items-center justify-between gap-4 py-4">
 						{/* Search Icon */}
-						<SearchPopup />
+						<SearchPopup cms={settings?.cms || null} />
 
 						{/* Logo - Center */}
 						<Link

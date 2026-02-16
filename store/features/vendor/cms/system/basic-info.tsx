@@ -3,6 +3,7 @@
 import { Loader5 } from '@/components/dashboard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { ColorPicker } from '@/components/ui/color-picker';
 import { DialogFooter } from '@/components/ui/dialog';
 import {
 	Form,
@@ -27,7 +28,7 @@ import { useSystemQuery, useUpdateSystemMutation } from './api-slice';
 const schema = z.object({
 	app_name: z.string().min(1, 'App Name is required'),
 	home_page_title: z.string().min(1, 'Home Page Title is required'),
-	color_primary: z.string().min(1, 'Color Primary is required'),
+	color_primary: z.string().optional(),
 	logo: z
 		.instanceof(File)
 		.refine((file) => file.size > 0, { message: 'Image is required' })
@@ -176,7 +177,11 @@ export function BasicInfo() {
 								<FormItem>
 									<FormLabel>Color Primary</FormLabel>
 									<FormControl>
-										<Input {...field} placeholder="Enter color primary..." />
+										<ColorPicker
+											onChange={(e) => field.onChange(e)}
+											value={field.value || '#FFF'}
+											className="w-fit"
+										/>
 									</FormControl>
 									<FormMessage />
 								</FormItem>

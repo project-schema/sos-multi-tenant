@@ -28,31 +28,31 @@ const schema = z.object({
 		.instanceof(File)
 		.refine((file) => file.size > 0, { message: 'Image is required' })
 		.optional(),
-	two_column_banner_1_url: z.url('Please enter a valid URL'),
+	two_column_banner_1_url: z.string().optional(),
 
 	two_column_banner_2: z
 		.instanceof(File)
 		.refine((file) => file.size > 0, { message: 'Image is required' })
 		.optional(),
-	two_column_banner_2_url: z.url('Please enter a valid URL'),
+	two_column_banner_2_url: z.string().optional(),
 
 	three_column_banner_1: z
 		.instanceof(File)
 		.refine((file) => file.size > 0, { message: 'Image is required' })
 		.optional(),
-	three_column_banner_1_url: z.url('Please enter a valid URL'),
+	three_column_banner_1_url: z.string().optional(),
 
 	three_column_banner_2: z
 		.instanceof(File)
 		.refine((file) => file.size > 0, { message: 'Image is required' })
 		.optional(),
-	three_column_banner_2_url: z.url('Please enter a valid URL'),
+	three_column_banner_2_url: z.string().optional(),
 
 	three_column_banner_3: z
 		.instanceof(File)
 		.refine((file) => file.size > 0, { message: 'Image is required' })
 		.optional(),
-	three_column_banner_3_url: z.url('Please enter a valid URL'),
+	three_column_banner_3_url: z.string().optional(),
 });
 
 type ZodType = z.infer<typeof schema>;

@@ -9,10 +9,11 @@ import {
 } from '@/components/ui/dialog';
 import { iCategory } from '@/store/features/admin/category';
 import { useFrontendCategoriesQuery } from '@/store/features/frontend/product/api-slice';
+import { iSystem } from '@/store/features/vendor/cms/system/type';
 import { Search } from 'lucide-react';
 import { SearchBar } from './search-bar';
 
-export default function SearchPopup() {
+export default function SearchPopup({ cms }: { cms: iSystem | null }) {
 	const { data: categories = [] } = useFrontendCategoriesQuery();
 
 	return (
@@ -36,6 +37,7 @@ export default function SearchPopup() {
 					<SearchBar
 						variant="desktop"
 						categories={(categories as iCategory[]) || []}
+						cms={cms}
 					/>
 				</div>
 			</DialogContent>

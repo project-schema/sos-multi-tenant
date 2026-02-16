@@ -2,8 +2,10 @@
 
 import { useDebounce } from '@/hooks/use-debounce';
 import { imageFormat, sign } from '@/lib';
-import { iCategory } from '@/store/features/admin/category';
-import { useFrontendCategoriesQuery, useFrontendSearchQuery } from '@/store/features/frontend/product/api-slice';
+import {
+	useFrontendCategoriesQuery,
+	useFrontendSearchQuery,
+} from '@/store/features/frontend/product/api-slice';
 import { Search } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';

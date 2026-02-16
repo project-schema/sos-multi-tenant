@@ -45,9 +45,9 @@ const schema = z.object({
 		.instanceof(File)
 		.refine((file) => file.size > 0, { message: 'Icon is required' }),
 	title: z.string().min(1, 'Title is required'),
-	description: z.string().min(1, 'Description is required'),
+	description: z.string().optional(),
 	status: z.enum(['active', 'inactive']),
-	order: z.number().min(0, 'Order must be a positive number'),
+	order: z.number().optional(),
 });
 
 type ZodType = z.infer<typeof schema>;

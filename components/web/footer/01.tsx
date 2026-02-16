@@ -1,5 +1,4 @@
 import { getApiDataWithSubdomain, imageFormat } from '@/lib';
-import { iBrand } from '@/store/features/admin/brand';
 import { iCategory } from '@/store/features/admin/category';
 import { iService } from '@/store/features/vendor/cms/home-page';
 import { iSystem } from '@/store/features/vendor/cms/system/type';
@@ -10,10 +9,11 @@ import {
 	MessageCircle,
 	Music,
 	Phone,
+	Send,
 	Shield,
 	Star,
 	Truck,
-	Twitter,
+	X,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -54,9 +54,6 @@ export default async function Footer01() {
 	}>('/tenant-frontend/cms');
 	const categories = await getApiDataWithSubdomain<iCategory[]>(
 		'/tenant-frontend/categories'
-	);
-	const brands = await getApiDataWithSubdomain<iBrand[]>(
-		'/tenant-frontend/brands'
 	);
 
 	return (
@@ -129,6 +126,15 @@ export default async function Footer01() {
 									<Facebook className="w-5 h-5" />
 								</Link>
 							)}
+							{settings?.cms?.x_url && (
+								<Link
+									href={settings.cms.x_url}
+									className="w-10 h-10 border border-white rounded-full flex items-center justify-center hover:bg-white hover:text-gray-900 transition-all duration-200"
+									aria-label="X (Twitter)"
+								>
+									<X className="w-5 h-5" />
+								</Link>
+							)}
 							{settings?.cms?.instagram_url && (
 								<Link
 									href={settings.cms.instagram_url}
@@ -156,13 +162,22 @@ export default async function Footer01() {
 									<Music className="w-5 h-5" />
 								</Link>
 							)}
-							{settings?.cms?.x_url && (
+							{settings?.cms?.whatsapp_url && (
 								<Link
-									href={settings.cms.x_url}
+									href={settings.cms.whatsapp_url}
 									className="w-10 h-10 border border-white rounded-full flex items-center justify-center hover:bg-white hover:text-gray-900 transition-all duration-200"
-									aria-label="X (Twitter)"
+									aria-label="WhatsApp"
 								>
-									<Twitter className="w-5 h-5" />
+									<Phone className="w-5 h-5" />
+								</Link>
+							)}
+							{settings?.cms?.telegram_url && (
+								<Link
+									href={settings.cms.telegram_url}
+									className="w-10 h-10 border border-white rounded-full flex items-center justify-center hover:bg-white hover:text-gray-900 transition-all duration-200"
+									aria-label="Telegram"
+								>
+									<Send className="w-5 h-5" />
 								</Link>
 							)}
 						</div>
@@ -241,7 +256,7 @@ export default async function Footer01() {
 
 						{/* Payment Methods */}
 						{settings?.cms?.footer_payment_methods && (
-							<div className="flex items-center space-x-4">
+							<div className="flex items-center space-x-4 max-w-[200px]">
 								<span className="text-gray-300 text-sm mr-4">
 									Payment Methods:
 								</span>

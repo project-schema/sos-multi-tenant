@@ -7,13 +7,14 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from '@/components/ui/sheet';
+import { iSystem } from '@/store/features/vendor/cms/system/type';
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { SearchBar } from './search-bar';
 import { UtilityIcons } from './utility-icons';
 
-export function MobileMenu() {
+export function MobileMenu({ cms }: { cms: iSystem | null }) {
 	const [open, setOpen] = useState(false);
 	return (
 		<Sheet open={open} onOpenChange={setOpen}>
@@ -30,7 +31,7 @@ export function MobileMenu() {
 					{/* Mobile Search */}
 					<div className="flex flex-col gap-2">
 						<label className="text-sm font-medium text-gray-700">Search</label>
-						<SearchBar variant="mobile" categories={[]} />
+						<SearchBar variant="mobile" categories={[]} cms={cms} />
 					</div>
 
 					{/* Mobile Navigation */}

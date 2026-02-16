@@ -39,7 +39,7 @@ export default async function Header01() {
 							</div>
 							{/* Mobile Menu */}
 							<div className="md:hidden">
-								<MobileMenu1 />
+								<MobileMenu1 cms={settings?.cms ?? null} />
 							</div>
 						</div>
 					</div>

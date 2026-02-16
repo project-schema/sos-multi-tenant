@@ -1,9 +1,10 @@
 'use client';
 
 import { useDebounce } from '@/hooks/use-debounce';
-import { imageFormat, sign } from '@/lib';
+import { env, imageFormat, sign } from '@/lib';
 import { iCategory } from '@/store/features/admin/category';
 import { useFrontendSearchQuery } from '@/store/features/frontend/product/api-slice';
+import { iSystem } from '@/store/features/vendor/cms/system/type';
 import { Search } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -13,11 +14,13 @@ interface SearchBarProps {
 	variant?: 'desktop' | 'mobile';
 	className?: string;
 	categories: iCategory[];
+	cms: iSystem | null;
 }
 
 export function SearchBar({
 	variant = 'desktop',
 	className,
+	cms,
 	categories,
 }: SearchBarProps) {
 	const [searchTerm, setSearchTerm] = useState('');
@@ -72,7 +75,10 @@ export function SearchBar({
 										<span className="line-clamp-1 text-gray-700">
 											{product.name}
 										</span>
-										<span className="ml-auto text-xs font-medium text-orange-500">
+										<span
+											className={`ml-auto text-xs font-medium  `}
+											style={{ color: cms?.color_primary || env.color_primary }}
+										>
 											{product.selling_price} {sign.tk}
 										</span>
 									</div>
@@ -96,7 +102,12 @@ export function SearchBar({
 						placeholder="Search for products"
 						className="flex-1 px-4 py-2.5 text-sm text-gray-700 outline-none placeholder:text-gray-400"
 					/>
-					<button className="flex h-10 w-10 items-center justify-center bg-orange-500 text-white transition-colors hover:bg-orange-600">
+					<button
+						className={`flex h-10 w-10 items-center justify-center   text-white transition-colors hover:bg-${
+							cms?.color_secondary || env.color_secondary
+						}`}
+						style={{ backgroundColor: cms?.color_primary || env.color_primary }}
+					>
 						<Search className="h-5 w-5" />
 					</button>
 				</div>
@@ -107,11 +118,15 @@ export function SearchBar({
 
 	return (
 		<div className={`relative w-full ${className}`}>
-			<div className="flex w-full overflow-hidden rounded-md border border-amber-600">
+			<div
+				className="flex w-full overflow-hidden rounded-md border  "
+				style={{ borderColor: cms?.color_primary || env.color_primary }}
+			>
 				<CategoriesDropdown
 					categories={categories}
 					selectedCategoryId={selectedCategoryId}
 					onCategorySelect={setSelectedCategoryId}
+					cms={cms ?? null}
 				/>
 				<input
 					type="text"
@@ -120,7 +135,12 @@ export function SearchBar({
 					placeholder="Search for products"
 					className="flex-1 px-4 py-2.5 text-sm text-gray-700 outline-none placeholder:text-gray-400"
 				/>
-				<button className="m-1 flex h-10 w-10 items-center justify-center rounded bg-orange-500 text-white transition-colors hover:bg-orange-600">
+				<button
+					className={`m-1 flex h-10 w-10 items-center justify-center rounded   text-white transition-colors hover:bg-${
+						cms?.color_secondary || env.color_secondary
+					}`}
+					style={{ backgroundColor: cms?.color_primary || env.color_primary }}
+				>
 					<Search className="h-5 w-5" />
 				</button>
 			</div>

@@ -20,6 +20,7 @@ import { iCategory } from '@/store/features/admin/category';
 import { useGetCartQuery } from '@/store/features/frontend/cart';
 import { useFrontendCategoriesQuery } from '@/store/features/frontend/product/api-slice';
 import { useGetWishlistQuery } from '@/store/features/frontend/wish-list';
+import { iSystem } from '@/store/features/vendor/cms/system/type';
 import {
 	Heart,
 	LayoutDashboard,
@@ -35,7 +36,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { SearchBar } from './search-bar';
 
-export function MobileMenu1() {
+export function MobileMenu1({ cms }: { cms: iSystem | null }) {
 	const [open, setOpen] = useState(false);
 	const { data: categories = [] } = useFrontendCategoriesQuery();
 	const { data: session, status } = useSession();
@@ -74,6 +75,7 @@ export function MobileMenu1() {
 						<SearchBar
 							variant="mobile"
 							categories={(categories as iCategory[]) || []}
+							cms={cms}
 						/>
 					</div>
 

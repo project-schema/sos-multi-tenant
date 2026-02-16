@@ -29,7 +29,7 @@ import {
 	tableSrCount,
 	textCount,
 } from '@/lib';
-import { Ellipsis, ExternalLink, Pencil } from 'lucide-react';
+import { Ellipsis, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useAllRequestProductQuery } from './dropshipper-product-api-slice';
@@ -129,7 +129,9 @@ export default function DropshipperProductRejectPage() {
 													<span>#{item.uniqid}</span>
 												</TableCell>
 												<TableCell className="py-2">
-													<Link href={`/product/${item.id}/view`}>
+													<Link
+														href={`/dashboard/dropshipper-products/rejected/${item.tenant_id}/${item.id}`}
+													>
 														<Avatar className="h-12 w-12 rounded-xl">
 															<AvatarImage
 																src={env.baseAPI + '/' + item?.product?.image}
@@ -145,7 +147,7 @@ export default function DropshipperProductRejectPage() {
 												<TableCell className="py-2">
 													<Link
 														className="hover:underline hover:text-blue-500 transition"
-														href={`/product/${item.id}/view`}
+														href={`/dashboard/dropshipper-products/rejected/${item.tenant_id}/${item.id}`}
 													>
 														{textCount(item?.product?.name, 15)}
 													</Link>
@@ -201,19 +203,10 @@ export default function DropshipperProductRejectPage() {
 															<DropdownMenuItem>
 																<Link
 																	className="flex items-center gap-2 w-full"
-																	href={`/product/${item.id}/view`}
+																	href={`/dashboard/dropshipper-products/rejected/${item.tenant_id}/${item.id}`}
 																>
 																	<ExternalLink className="size-4" />
 																	<span>View Product</span>
-																</Link>
-															</DropdownMenuItem>
-															<DropdownMenuItem>
-																<Link
-																	className="flex items-center gap-2 w-full"
-																	href={`/product/${item.id}/edit`}
-																>
-																	<Pencil className="size-4" />
-																	<span>Edit Product</span>
 																</Link>
 															</DropdownMenuItem>
 														</DropdownMenuContent>

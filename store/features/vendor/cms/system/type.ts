@@ -3,6 +3,7 @@ export type iSystem = {
 	app_name: string;
 	home_page_title: string;
 	color_primary: string;
+	color_secondary: string;
 	logo: string;
 	deleted_at: null;
 	created_at: null;
