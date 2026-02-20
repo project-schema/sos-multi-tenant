@@ -173,7 +173,7 @@ export function CMSTheme() {
 																height={1000}
 																src={theme.image}
 																alt={theme.name}
-																className="w-full max-w-full h-full max- block object-cover"
+																className="w-full max-w-full h-full max- block object-cover rounded-md shadow"
 															/>
 														</div>
 													</div>

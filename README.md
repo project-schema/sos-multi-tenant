@@ -1,2 +1,7 @@
-Kaj kora baki
-- product edited by admin approve;
+hidden for logic
+- vendor product create
+    - line: 696
+
+- tenants register form
+    - dropshipper hide 
+    - line: 268

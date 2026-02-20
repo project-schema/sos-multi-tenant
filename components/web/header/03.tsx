@@ -188,7 +188,7 @@ export default async function Header03() {
 						{/* Account and Cart - Right */}
 						<div className="flex items-center gap-4">
 							<UtilityIcons variant="desktop" />
-							<UserAccount />
+							<UserAccount cms={settings?.cms ?? null} />
 						</div>
 					</div>
 				</div>

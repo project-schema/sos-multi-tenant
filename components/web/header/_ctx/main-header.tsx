@@ -40,7 +40,7 @@ export function MainHeader({
 					{/* Right Side Actions */}
 					<div className="flex items-center gap-2 sm:gap-4 lg:gap-6 flex-shrink-0">
 						<ContactInfo settings={cms ?? null} />
-						<UserAccount />
+						<UserAccount cms={cms ?? null} />
 						<MobileMenu cms={cms ?? null} />
 					</div>
 				</div>

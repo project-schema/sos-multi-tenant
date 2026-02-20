@@ -265,7 +265,7 @@ export const TenantsRegisterForm = ({
 												<div className={style.userItemsBox}>
 													{[
 														{ value: 'merchant', label: 'Merchant' },
-														{ value: 'dropshipper', label: 'Drop Shipper' },
+														// { value: 'dropshipper', label: 'Drop Shipper' },
 														{ value: 'user', label: 'User' },
 													].map((option) => (
 														<button
