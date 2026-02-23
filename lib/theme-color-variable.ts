@@ -10,6 +10,10 @@ export const themeVariable = (cms: iSystem) => {
           --color-orange-600: ${cms.color_primary || env.color_primary};
           --secondary-color: ${cms.color_secondary || '#ffffff'};
         }
+        ::selection {
+          background: ${cms.color_primary || env.color_primary};
+          color: #ffffff;
+        }
       `;
 	} else if (cms.theme && cms.theme === 'one') {
 		return `

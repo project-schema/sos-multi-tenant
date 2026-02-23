@@ -28,14 +28,14 @@ export default function CommonShopSidebar() {
 				.split(',')
 				.map((id) => Number(id))
 				.filter((id) => !Number.isNaN(id));
-		}
+		},
 	);
 
 	const [selectedColorId, setSelectedColorId] = useState<number | null>(
-		searchParams.get('color_id') ? Number(searchParams.get('color_id')) : null
+		searchParams.get('color_id') ? Number(searchParams.get('color_id')) : null,
 	);
 	const [selectedSizeId, setSelectedSizeId] = useState<number | null>(
-		searchParams.get('size_id') ? Number(searchParams.get('size_id')) : null
+		searchParams.get('size_id') ? Number(searchParams.get('size_id')) : null,
 	);
 
 	const updateUrl = useCallback(
@@ -90,7 +90,7 @@ export default function CommonShopSidebar() {
 
 			router.push(`${pathname}?${params.toString()}`);
 		},
-		[pathname, router, searchParams]
+		[pathname, router, searchParams],
 	);
 
 	const handleCategoryToggle = (id: number) => {
@@ -123,7 +123,7 @@ export default function CommonShopSidebar() {
 					{categories?.map((category) => (
 						<li key={category.id} className="flex items-center gap-2">
 							<Checkbox
-								className="size-5"
+								className="size-5 data-[state=checked]:bg-orange-600 data-[state=checked]:border-orange-600"
 								checked={selectedCategoryIds.includes(category.id)}
 								onCheckedChange={() => handleCategoryToggle(category.id)}
 							/>
@@ -173,8 +173,10 @@ export default function CommonShopSidebar() {
 							<button
 								key={s.id}
 								onClick={() => handleSizeSelect(s.id)}
-								className={`rounded border px-3 py-1 text-sm hover:bg-gray-50 ${
-									active ? 'border-amber-600 bg-amber-50 text-amber-700' : ''
+								className={`rounded border px-3 py-1 text-sm hover:bg-orange-500/5 ${
+									active
+										? 'border-orange-600 bg-orange-500/5 text-orange-600'
+										: ''
 								}`}
 							>
 								{s.name}
@@ -194,8 +196,10 @@ export default function CommonShopSidebar() {
 							<button
 								key={c.id}
 								onClick={() => handleColorSelect(c.id)}
-								className={`rounded border px-3 py-1 text-sm hover:bg-gray-50 ${
-									active ? 'border-amber-600 bg-amber-50 text-amber-700' : ''
+								className={`rounded border px-3 py-1 text-sm hover:bg-orange-500/5 ${
+									active
+										? 'border-orange-600 bg-orange-500/5 text-orange-600'
+										: ''
 								}`}
 							>
 								{c.name}

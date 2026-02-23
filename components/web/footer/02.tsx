@@ -16,6 +16,44 @@ export default async function Footer02() {
 	const brands = await getApiDataWithSubdomain<iBrand[]>(
 		'/tenant-frontend/brands',
 	);
+
+	const socialLinks = [
+		{
+			key: 'fb_url',
+			label: 'Facebook',
+			icon: socialIcons.fb,
+		},
+		{
+			key: 'x_url',
+			label: 'X (Twitter)',
+			icon: socialIcons.x,
+		},
+		{
+			key: 'instagram_url',
+			label: 'Instagram',
+			icon: socialIcons.ins,
+		},
+		{
+			key: 'tiktok_url',
+			label: 'TikTok',
+			icon: socialIcons.tiktok,
+		},
+		{
+			key: 'youtube_url',
+			label: 'YouTube',
+			icon: socialIcons.youtube,
+		},
+		{
+			key: 'telegram_url',
+			label: 'Telegram',
+			icon: socialIcons.telegram,
+		},
+		{
+			key: 'whatsapp_url',
+			label: 'WhatsApp',
+			icon: socialIcons.whatsAPP,
+		},
+	];
 	return (
 		<footer className="bg-gray-100 text-gray-800 mt-24">
 			{/* Main Footer Content */}
@@ -39,112 +77,28 @@ export default async function Footer02() {
 
 						{/* Social Media Icons */}
 						<div className="flex space-x-3">
-							{settings?.cms?.fb_url && (
-								<Link
-									href={settings?.cms?.fb_url}
-									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
-									aria-label="Facebook"
-								>
-									<Image
-										src={socialIcons.fb}
-										width={1000}
-										height={1000}
-										alt="whatsapp"
-										className="w-6 h-6"
-									/>
-								</Link>
-							)}
-							{settings?.cms?.x_url && (
-								<Link
-									href={settings?.cms?.x_url}
-									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
-									aria-label="X (Twitter)"
-								>
-									<Image
-										src={socialIcons.x}
-										width={1000}
-										height={1000}
-										alt="whatsapp"
-										className="w-6 h-6"
-									/>
-								</Link>
-							)}
-							{settings?.cms?.instagram_url && (
-								<Link
-									href={settings?.cms?.instagram_url}
-									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
-									aria-label="Instagram"
-								>
-									<Image
-										src={socialIcons.ins}
-										width={1000}
-										height={1000}
-										alt="whatsapp"
-										className="w-6 h-6"
-									/>
-								</Link>
-							)}
-							{settings?.cms?.tiktok_url && (
-								<Link
-									href={settings?.cms?.tiktok_url}
-									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
-									aria-label="TikTok"
-								>
-									<Image
-										src={socialIcons.tiktok}
-										width={1000}
-										height={1000}
-										alt="whatsapp"
-										className="w-6 h-6"
-									/>
-								</Link>
-							)}
-							{settings?.cms?.youtube_url && (
-								<Link
-									href={settings?.cms?.youtube_url}
-									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
-									aria-label="YouTube"
-								>
-									<Image
-										src={socialIcons.youtube}
-										width={1000}
-										height={1000}
-										alt="whatsapp"
-										className="w-6 h-6"
-									/>
-								</Link>
-							)}
+							{socialLinks?.map((social) => {
+								const url = settings?.cms?.[social.key as keyof iSystem];
 
-							{settings?.cms?.telegram_url && (
-								<Link
-									href={settings?.cms?.telegram_url}
-									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
-									aria-label="Telegram"
-								>
-									<Image
-										src={socialIcons.telegram}
-										width={1000}
-										height={1000}
-										alt="whatsapp"
-										className="w-6 h-6"
-									/>
-								</Link>
-							)}
-							{settings?.cms?.whatsapp_url && (
-								<Link
-									href={settings?.cms?.whatsapp_url}
-									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
-									aria-label="WhatsApp"
-								>
-									<Image
-										src={socialIcons.whatsAPP}
-										width={1000}
-										height={1000}
-										alt="whatsapp"
-										className="w-6 h-6"
-									/>
-								</Link>
-							)}
+								if (!url) return null;
+
+								return (
+									<Link
+										key={social.key}
+										href={url as string}
+										className="w-10 h-10 bg-white border border-orange-500/10 rounded-full flex items-center justify-center hover:bg-orange-500/5 transition-all duration-200"
+										aria-label={social.label}
+									>
+										<Image
+											src={social.icon}
+											width={1000}
+											height={1000}
+											alt={social.label}
+											className="w-6 h-6"
+										/>
+									</Link>
+								);
+							})}
 						</div>
 					</div>
 
@@ -156,7 +110,7 @@ export default async function Footer02() {
 								<li key={index}>
 									<Link
 										href={`/shop?category_id=${category?.id}`}
-										className="text-gray-500 hover:text-gray-700 transition-colors duration-200 text-sm"
+										className="text-gray-500 hover:text-orange-500 transition-colors duration-200 text-sm"
 									>
 										{category.name}
 									</Link>
@@ -173,7 +127,7 @@ export default async function Footer02() {
 								<li key={index}>
 									<Link
 										href={'#'}
-										className="text-gray-500 hover:text-gray-700 transition-colors duration-200 text-sm"
+										className="text-gray-500 hover:text-orange-500 transition-colors duration-200 text-sm"
 									>
 										{brand.name}
 									</Link>
@@ -219,8 +173,7 @@ export default async function Footer02() {
 					<div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
 						{/* Copyright */}
 						<div className="text-gray-500 text-sm">
-							{new Date().getFullYear()}
-							{settings?.cms?.footer_copyright_text ?? ''}
+							{settings?.cms?.footer_copyright_text ?? ''}{' '}
 							<span className="text-orange-500 font-semibold">
 								{settings?.cms?.app_name ?? ''}
 							</span>

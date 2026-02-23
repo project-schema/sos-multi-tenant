@@ -54,7 +54,7 @@ export default function Card07({
 				{/* Discount Badge */}
 				{hasDiscount && (
 					<div className="absolute top-3 left-3 z-10">
-						<span className="bg-red-500 text-white text-xs font-bold px-2.5 py-1.5 rounded-lg shadow-sm">
+						<span className="bg-orange-500 text-white text-xs font-bold px-2.5 py-1.5 rounded-lg shadow-sm">
 							-{discountPercentage}%
 						</span>
 					</div>
@@ -103,7 +103,7 @@ export default function Card07({
 
 					{/* Add to Cart Button */}
 					<Link href={`/shop/${product?.slug}`}>
-						<button className="w-8 h-8 rounded-sm border-1 border-orange-500 bg-orange-50 hover:bg-orange-100 transition-colors duration-200 flex items-center justify-center group/btn">
+						<button className="w-8 h-8 rounded-sm border-1 border-orange-500 bg-orange-500/5 hover:bg-orange-500/10 transition-colors duration-200 flex items-center justify-center group/btn">
 							<ShoppingCart className="w-5 h-5 text-orange-500 group-hover/btn:scale-110 transition-transform duration-200" />
 						</button>
 					</Link>
