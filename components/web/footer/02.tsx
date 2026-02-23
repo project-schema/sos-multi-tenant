@@ -228,7 +228,7 @@ export default async function Footer02() {
 
 						{/* Payment Methods */}
 						<div className="flex items-center space-x-2 flex-wrap justify-center">
-							<div className="relative max-w-auto">
+							<div className="relative max-w-5xl">
 								<img
 									src={imageFormat(
 										settings?.cms?.footer_payment_methods || null,

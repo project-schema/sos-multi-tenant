@@ -1,7 +1,9 @@
+import { Loader9 } from '@/components/dashboard';
 import { Banner03, Card06 } from '@/components/web';
 import { getApiDataWithSubdomain } from '@/lib';
 import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import { iTenantFrontend } from '@/types/tenant-frontend';
+import { Suspense } from 'react';
 import { BestSellingGrid } from './_ctx/best-selling-grid';
 import { BrandLogos } from './_ctx/brand-logos';
 import { ImageGrid } from './_ctx/image-grid';
@@ -52,7 +54,9 @@ export default async function ThemeTwoHomePageSuspense({
 					settings?.cms?.populer_section_subcategory_id_2 ||
 					settings?.cms?.populer_section_subcategory_id_3 ||
 					settings?.cms?.populer_section_subcategory_id_4) && (
-					<TrendingProducts settings={settings ?? null} trend={trend} />
+					<Suspense fallback={<Loader9 />}>
+						<TrendingProducts settings={settings ?? null} trend={trend} />
+					</Suspense>
 				)}
 
 				{(settings?.cms?.three_column_banner_1 ||
@@ -66,7 +70,9 @@ export default async function ThemeTwoHomePageSuspense({
 					settings?.recomended_category_id_3 ||
 					settings?.recomended_category_id_4) && (
 					<MotionFadeIn>
-						<BestSellingGrid settings={settings} />
+						<Suspense fallback={<Loader9 />}>
+							<BestSellingGrid settings={settings} />
+						</Suspense>
 					</MotionFadeIn>
 				)}
 
@@ -78,28 +84,30 @@ export default async function ThemeTwoHomePageSuspense({
 
 				{settings?.cms?.best_section_title && (
 					<MotionFadeIn>
-						<ProductSection2
-							include={include}
-							title={settings?.cms?.best_section_title ?? ''}
-							buttons={[
-								{
-									label: settings?.best_setting_category_id_1?.name ?? '',
-									value: settings?.cms?.best_setting_sub_category_id_1 ?? '',
-								},
-								{
-									label: settings?.best_setting_category_id_2?.name ?? '',
-									value: settings?.cms?.best_setting_sub_category_id_2 ?? '',
-								},
-								{
-									label: settings?.best_setting_category_id_3?.name ?? '',
-									value: settings?.cms?.best_setting_sub_category_id_3 ?? '',
-								},
-								{
-									label: settings?.best_setting_category_id_4?.name ?? '',
-									value: settings?.cms?.best_setting_sub_category_id_4 ?? '',
-								},
-							]}
-						/>
+						<Suspense fallback={<Loader9 />}>
+							<ProductSection2
+								include={include}
+								title={settings?.cms?.best_section_title ?? ''}
+								buttons={[
+									{
+										label: settings?.best_setting_category_id_1?.name ?? '',
+										value: settings?.cms?.best_setting_sub_category_id_1 ?? '',
+									},
+									{
+										label: settings?.best_setting_category_id_2?.name ?? '',
+										value: settings?.cms?.best_setting_sub_category_id_2 ?? '',
+									},
+									{
+										label: settings?.best_setting_category_id_3?.name ?? '',
+										value: settings?.cms?.best_setting_sub_category_id_3 ?? '',
+									},
+									{
+										label: settings?.best_setting_category_id_4?.name ?? '',
+										value: settings?.cms?.best_setting_sub_category_id_4 ?? '',
+									},
+								]}
+							/>
+						</Suspense>
 					</MotionFadeIn>
 				)}
 
@@ -112,16 +120,18 @@ export default async function ThemeTwoHomePageSuspense({
 
 				{settings?.cms?.best_section_title && (
 					<MotionFadeIn>
-						<ProductSection
-							title={settings?.cms?.best_section_title ?? ''}
-							feature={feature}
-							buttons={[
-								{
-									label: settings?.best_setting_category_id_1?.name ?? '',
-									value: settings?.cms?.best_setting_sub_category_id_1 ?? '',
-								},
-							]}
-						/>
+						<Suspense fallback={<Loader9 />}>
+							<ProductSection
+								title={settings?.cms?.best_section_title ?? ''}
+								feature={feature}
+								buttons={[
+									{
+										label: settings?.best_setting_category_id_1?.name ?? '',
+										value: settings?.cms?.best_setting_sub_category_id_1 ?? '',
+									},
+								]}
+							/>
+						</Suspense>
 					</MotionFadeIn>
 				)}
 			</div>

@@ -21,7 +21,7 @@ export const TopPromotionalBar = ({ offers }: { offers: iHomeOffer[] }) => {
 	);
 
 	return (
-		<div className="bg-black text-white py-3 overflow-hidden">
+		<div className="bg-orange-500 text-white py-3 overflow-hidden">
 			<div className="w-full px-4 sm:px-6 lg:px-8">
 				<Carousel
 					plugins={[autoScroll]}
