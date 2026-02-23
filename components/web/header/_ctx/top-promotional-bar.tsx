@@ -6,26 +6,25 @@ import {
 	CarouselItem,
 } from '@/components/ui/carousel';
 import { iHomeOffer } from '@/store/features/vendor/cms/home-page/offer/type';
-import Autoplay from 'embla-carousel-autoplay';
+import AutoScroll from 'embla-carousel-auto-scroll';
 import * as React from 'react';
 
 export const TopPromotionalBar = ({ offers }: { offers: iHomeOffer[] }) => {
-	const autoplayPlugin = React.useMemo(
+	const autoScroll = React.useMemo(
 		() =>
-			Autoplay({
-				delay: 3000,
+			AutoScroll({
+				speed: 1, // lower = slower smooth marquee
 				stopOnMouseEnter: false,
-				stopOnFocusIn: false,
-				playOnInit: true,
+				stopOnInteraction: false,
 			}),
-		[]
+		[],
 	);
 
 	return (
-		<div className="bg-black text-white py-3">
+		<div className="bg-black text-white py-3 overflow-hidden">
 			<div className="w-full px-4 sm:px-6 lg:px-8">
 				<Carousel
-					plugins={[autoplayPlugin]}
+					plugins={[autoScroll]}
 					opts={{
 						align: 'start',
 						loop: true,
@@ -33,10 +32,10 @@ export const TopPromotionalBar = ({ offers }: { offers: iHomeOffer[] }) => {
 					}}
 					className="w-full"
 				>
-					<CarouselContent className="-ml-0">
+					<CarouselContent className="-ml-0 gap-16">
 						{offers.map((offer, index) => (
-							<CarouselItem key={index} className="pl-0 basis-auto pr-6">
-								<div className="flex items-center gap-3 text-xs whitespace-nowrap">
+							<CarouselItem key={index} className="basis-auto">
+								<div className="flex items-center gap-16 text-xs whitespace-nowrap">
 									<span>{offer.title}</span>
 									{index < offers.length - 1 && (
 										<span className="text-white">•</span>

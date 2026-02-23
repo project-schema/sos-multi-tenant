@@ -1,6 +1,7 @@
 import { env } from '@/lib';
 import { iSystem } from '@/store/features/vendor/cms/system/type';
 import { Phone } from 'lucide-react';
+import Link from 'next/link';
 
 export function ContactInfo({ settings }: { settings: iSystem | null }) {
 	const contactInfo = settings?.footer_contact_number_one;
@@ -15,7 +16,7 @@ export function ContactInfo({ settings }: { settings: iSystem | null }) {
 					style={{ color: settings.color_primary || env.color_primary }}
 				/>
 			</div>
-			<div className="flex flex-col gap-0.5">
+			<Link href={`tel:${contactInfo}`} className="flex flex-col gap-0.5">
 				<span
 					className="text-xs  leading-tight"
 					style={{ color: settings.color_primary || env.color_primary }}
@@ -25,7 +26,7 @@ export function ContactInfo({ settings }: { settings: iSystem | null }) {
 				<span className="text-sm font-bold text-black/70 leading-tight">
 					{contactInfo}
 				</span>
-			</div>
+			</Link>
 		</div>
 	);
 }

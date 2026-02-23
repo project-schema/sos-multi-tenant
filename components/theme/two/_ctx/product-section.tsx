@@ -1,5 +1,6 @@
 import { Card07 } from '@/components/web';
 import { getApiDataWithSubdomain } from '@/lib/api';
+import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
 import Link from 'next/link';
 
@@ -15,7 +16,7 @@ export async function ProductSection({
 	feature,
 }: ProductSectionProps) {
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
-		`/tenant-frontend/products/${feature || buttons?.[0]?.value}`
+		`/tenant-frontend/products/${feature || buttons?.[0]?.value}`,
 	);
 
 	const activeFeature = feature || buttons?.[0]?.value;
@@ -53,7 +54,9 @@ export async function ProductSection({
 				className={`grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 2xl:grid-cols-5  gap-3 md:gap-6`}
 			>
 				{products?.map((product, index) => (
-					<Card07 key={index} product={product} />
+					<MotionFadeIn key={product.id} delay={index * 0.03}>
+						<Card07 product={product} />
+					</MotionFadeIn>
 				))}
 			</div>
 		</div>

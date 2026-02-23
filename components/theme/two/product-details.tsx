@@ -1,3 +1,4 @@
+import { Loader8 } from '@/components/dashboard';
 import Footer02 from '@/components/web/footer/02';
 import Header02 from '@/components/web/header/02';
 import { getApiDataWithSubdomain } from '@/lib';
@@ -5,6 +6,7 @@ import {
 	iVendorProduct,
 	iVendorProductView,
 } from '@/store/features/vendor/product/vendor-product-type';
+import { Suspense } from 'react';
 import { ProductDescription } from './_ctx/product-description';
 import { ProductGallery } from './_ctx/product-gallery';
 import { ProductInfo } from './_ctx/product-info';
@@ -24,28 +26,30 @@ export default async function ThemeTwoProductDetailsPage({
 	return (
 		<>
 			<Header02 />
-			<section className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
-				{/* Top section: Gallery + Info */}
-				<div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-					{/* Gallery */}
-					<div className="lg:col-span-6">
-						{data && <ProductGallery product={data?.product ?? null} />}
+			<Suspense fallback={<Loader8 />}>
+				<section className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+					{/* Top section: Gallery + Info */}
+					<div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+						{/* Gallery */}
+						<div className="lg:col-span-6">
+							{data && <ProductGallery product={data?.product ?? null} />}
+						</div>
+
+						{/* Info */}
+						<div className="lg:col-span-6 space-y-5">
+							{data && <ProductInfo product={data?.product ?? null} />}
+						</div>
 					</div>
 
-					{/* Info */}
-					<div className="lg:col-span-6 space-y-5">
-						{data && <ProductInfo product={data?.product ?? null} />}
-					</div>
-				</div>
+					{/* Tabs-like content */}
+					{data && <ProductDescription product={data?.product ?? null} />}
 
-				{/* Tabs-like content */}
-				{data && <ProductDescription product={data?.product ?? null} />}
-
-				{/* Related products */}
-				{data?.related_products && data?.related_products?.length > 0 && (
-					<RelatedProduct product={data?.related_products ?? null} />
-				)}
-			</section>
+					{/* Related products */}
+					{data?.related_products && data?.related_products?.length > 0 && (
+						<RelatedProduct product={data?.related_products ?? null} />
+					)}
+				</section>
+			</Suspense>
 			<Footer02 />
 		</>
 	);

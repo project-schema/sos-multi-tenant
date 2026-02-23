@@ -5,7 +5,7 @@ import { env, getApiDataWithSubdomain } from '@/lib';
 import { iTenantFrontend } from '@/types/tenant-frontend';
 import { redirect } from 'next/navigation';
 
-export default async function MySite({
+export default async function Page({
 	searchParams,
 }: {
 	searchParams: Promise<{
@@ -18,7 +18,7 @@ export default async function MySite({
 	const { trend, search, feature, include } = await searchParams;
 
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
-		'/tenant-frontend/cms'
+		'/tenant-frontend/cms',
 	);
 
 	if (!settings?.cms?.theme) {

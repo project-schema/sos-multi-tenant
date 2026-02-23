@@ -89,7 +89,7 @@ export default function Layout({ children }: LayoutProps) {
 				icon: Megaphone,
 			},
 		],
-		[]
+		[],
 	);
 
 	// Find current tab item
@@ -127,7 +127,7 @@ export default function Layout({ children }: LayoutProps) {
 
 							// need hide home banner image if theme is three and one
 							if (
-								data?.data.theme === 'two' &&
+								data?.data.theme !== 'two' &&
 								item.tab === 'home-banner-image'
 							) {
 								return null;

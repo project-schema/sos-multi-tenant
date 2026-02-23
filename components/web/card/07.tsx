@@ -37,7 +37,7 @@ export default function Card07({
 
 	return (
 		<div
-			className={`group relative border bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden ${className}`}
+			className={`group h-full relative border bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden ${className}`}
 		>
 			{/* Upper Section - Image Area */}
 			<div className="relative h-56  overflow-hidden">

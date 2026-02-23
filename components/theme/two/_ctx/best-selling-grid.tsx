@@ -8,7 +8,7 @@ export function BestSellingGrid({
 }) {
 	return (
 		<div
-			className={`grid  grid-cols-2  2xl:grid-cols-4 gap-3 lg:gap-6 max-w-[1720px] mx-auto px-4 lg:px-8`}
+			className={`grid grid-cols-2 2xl:grid-cols-4 gap-3 lg:gap-6 max-w-[1720px] mx-auto px-4 lg:px-8`}
 		>
 			<BestSellingProducts
 				title={settings?.recomended_category_id_1?.name ?? ''}

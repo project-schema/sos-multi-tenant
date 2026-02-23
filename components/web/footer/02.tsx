@@ -1,8 +1,9 @@
 import { getApiDataWithSubdomain, imageFormat } from '@/lib';
+import { socialIcons } from '@/lib/icon/social-icon';
 import { iBrand } from '@/store/features/admin/brand';
 import { iCategory } from '@/store/features/admin/category';
 import { iSystem } from '@/store/features/vendor/cms/system/type';
-import { Facebook, Instagram, Music, Phone, Send, X } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default async function Footer02() {
@@ -10,10 +11,10 @@ export default async function Footer02() {
 		cms: iSystem;
 	}>('/tenant-frontend/cms');
 	const categories = await getApiDataWithSubdomain<iCategory[]>(
-		'/tenant-frontend/categories'
+		'/tenant-frontend/categories',
 	);
 	const brands = await getApiDataWithSubdomain<iBrand[]>(
-		'/tenant-frontend/brands'
+		'/tenant-frontend/brands',
 	);
 	return (
 		<footer className="bg-gray-100 text-gray-800 mt-24">
@@ -44,7 +45,13 @@ export default async function Footer02() {
 									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
 									aria-label="Facebook"
 								>
-									<Facebook className="w-5 h-5 text-black" />
+									<Image
+										src={socialIcons.fb}
+										width={1000}
+										height={1000}
+										alt="whatsapp"
+										className="w-6 h-6"
+									/>
 								</Link>
 							)}
 							{settings?.cms?.x_url && (
@@ -53,7 +60,13 @@ export default async function Footer02() {
 									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
 									aria-label="X (Twitter)"
 								>
-									<X className="w-5 h-5 text-black" />
+									<Image
+										src={socialIcons.x}
+										width={1000}
+										height={1000}
+										alt="whatsapp"
+										className="w-6 h-6"
+									/>
 								</Link>
 							)}
 							{settings?.cms?.instagram_url && (
@@ -62,7 +75,13 @@ export default async function Footer02() {
 									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
 									aria-label="Instagram"
 								>
-									<Instagram className="w-5 h-5 text-black" />
+									<Image
+										src={socialIcons.ins}
+										width={1000}
+										height={1000}
+										alt="whatsapp"
+										className="w-6 h-6"
+									/>
 								</Link>
 							)}
 							{settings?.cms?.tiktok_url && (
@@ -71,7 +90,13 @@ export default async function Footer02() {
 									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
 									aria-label="TikTok"
 								>
-									<Music className="w-5 h-5 text-black" />
+									<Image
+										src={socialIcons.tiktok}
+										width={1000}
+										height={1000}
+										alt="whatsapp"
+										className="w-6 h-6"
+									/>
 								</Link>
 							)}
 							{settings?.cms?.youtube_url && (
@@ -80,7 +105,13 @@ export default async function Footer02() {
 									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
 									aria-label="YouTube"
 								>
-									<Music className="w-5 h-5 text-black" />
+									<Image
+										src={socialIcons.youtube}
+										width={1000}
+										height={1000}
+										alt="whatsapp"
+										className="w-6 h-6"
+									/>
 								</Link>
 							)}
 
@@ -90,7 +121,13 @@ export default async function Footer02() {
 									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
 									aria-label="Telegram"
 								>
-									<Send className="w-5 h-5 text-black" />
+									<Image
+										src={socialIcons.telegram}
+										width={1000}
+										height={1000}
+										alt="whatsapp"
+										className="w-6 h-6"
+									/>
 								</Link>
 							)}
 							{settings?.cms?.whatsapp_url && (
@@ -99,7 +136,13 @@ export default async function Footer02() {
 									className="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all duration-200"
 									aria-label="WhatsApp"
 								>
-									<Phone className="w-5 h-5 text-black" />
+									<Image
+										src={socialIcons.whatsAPP}
+										width={1000}
+										height={1000}
+										alt="whatsapp"
+										className="w-6 h-6"
+									/>
 								</Link>
 							)}
 						</div>
@@ -176,23 +219,22 @@ export default async function Footer02() {
 					<div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
 						{/* Copyright */}
 						<div className="text-gray-500 text-sm">
-							{new Date().getFullYear()}{' '}
+							{new Date().getFullYear()}
 							{settings?.cms?.footer_copyright_text ?? ''}
 							<span className="text-orange-500 font-semibold">
-								{' '}
 								{settings?.cms?.app_name ?? ''}
 							</span>
 						</div>
 
 						{/* Payment Methods */}
 						<div className="flex items-center space-x-2 flex-wrap justify-center">
-							<div className="relative max-w-[200px]">
+							<div className="relative max-w-auto">
 								<img
 									src={imageFormat(
-										settings?.cms?.footer_payment_methods || null
+										settings?.cms?.footer_payment_methods || null,
 									)}
 									alt={'payment logo'}
-									className="h-8 w-auto rounded"
+									className="h-8 w-auto object-contain"
 									loading="lazy"
 								/>
 							</div>

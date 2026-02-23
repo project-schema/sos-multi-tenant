@@ -25,7 +25,7 @@ export function SearchBar({
 }: SearchBarProps) {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
-		null
+		null,
 	);
 	const debouncedSearch = useDebounce(searchTerm, 500);
 
@@ -36,7 +36,7 @@ export function SearchBar({
 		},
 		{
 			skip: !debouncedSearch,
-		}
+		},
 	);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,7 +119,7 @@ export function SearchBar({
 	return (
 		<div className={`relative w-full ${className}`}>
 			<div
-				className="flex w-full overflow-hidden rounded-md border  "
+				className="flex w-full overflow-hidden rounded-none border  "
 				style={{ borderColor: cms?.color_primary || env.color_primary }}
 			>
 				<CategoriesDropdown
@@ -136,7 +136,7 @@ export function SearchBar({
 					className="flex-1 px-4 py-2.5 text-sm text-gray-700 outline-none placeholder:text-gray-400"
 				/>
 				<button
-					className={`m-1 flex h-10 w-10 items-center justify-center rounded   text-white transition-colors hover:bg-${
+					className={`m-1 flex h-10 w-10 items-center justify-center rounded-none   text-white transition-colors hover:bg-${
 						cms?.color_secondary || env.color_secondary
 					}`}
 					style={{ backgroundColor: cms?.color_primary || env.color_primary }}

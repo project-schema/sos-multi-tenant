@@ -1,5 +1,6 @@
 import { Card07 } from '@/components/web';
 import { getApiDataWithSubdomain, imageFormat } from '@/lib';
+import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
 import { iTenantFrontend } from '@/types/tenant-frontend';
 import Link from 'next/link';
@@ -14,7 +15,7 @@ export async function TrendingProducts({
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
 		`/tenant-frontend/products/${
 			trend || settings?.cms?.populer_section_subcategory_id_1
-		}`
+		}`,
 	);
 
 	const activeSubcategory =
@@ -42,13 +43,15 @@ export async function TrendingProducts({
 	return (
 		<div className="max-w-[1720px] mx-auto grid grid-cols-12 gap-6 px-4 lg:px-8">
 			<div className="hidden xl:block xl:col-span-3">
-				<img
-					src={imageFormat(settings?.cms?.populer_section_banner ?? null)}
-					alt="Trending products banner"
-					width={1000}
-					height={1000}
-					className="w-full h-full object-cover rounded-[12px]"
-				/>
+				<MotionFadeIn>
+					<img
+						src={imageFormat(settings?.cms?.populer_section_banner ?? null)}
+						alt="Trending products banner"
+						width={1000}
+						height={1000}
+						className="w-full h-full object-cover rounded-[12px]"
+					/>
+				</MotionFadeIn>
 			</div>
 			<div className="col-span-12 xl:col-span-9">
 				<div className="flex items-center justify-between mb-4 flex-wrap gap-4">
@@ -82,7 +85,9 @@ export async function TrendingProducts({
 				</div>
 				<div className="grid  grid-cols-1 sm:grid-cols-2  md:grid-cols-3 2xl:grid-cols-4  gap-3 md:gap-6">
 					{products?.map((product, index) => (
-						<Card07 key={index} product={product} />
+						<MotionFadeIn key={product.id} delay={index * 0.03}>
+							<Card07 product={product} />
+						</MotionFadeIn>
 					))}
 				</div>
 			</div>

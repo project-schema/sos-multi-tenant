@@ -30,6 +30,7 @@ export default async function MySiteLayout({
 
 	// Check if tenant exists
 	const tenantExists = await checkTenantExists(subdomain);
+	console.log({ tenantExists, subdomain });
 
 	if (!tenantExists) {
 		notFound();

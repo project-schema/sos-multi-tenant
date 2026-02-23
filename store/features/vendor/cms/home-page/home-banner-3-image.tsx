@@ -160,7 +160,7 @@ export function HomeBanner3Image() {
 														value={field.value as File}
 														onChange={field.onChange}
 														defaultImage={imageFormat(
-															data?.data?.banner_1 ?? null
+															data?.data?.banner_1 ?? null,
 														)}
 													/>
 												</FormControl>
@@ -175,11 +175,7 @@ export function HomeBanner3Image() {
 											<FormItem>
 												<FormLabel className="text-sm">Banner URL</FormLabel>
 												<FormControl>
-													<Input
-														{...field}
-														placeholder="https://example.com"
-														type="url"
-													/>
+													<Input {...field} placeholder="https://example.com" />
 												</FormControl>
 												<FormMessage />
 											</FormItem>
@@ -205,7 +201,7 @@ export function HomeBanner3Image() {
 														value={field.value as File}
 														onChange={field.onChange}
 														defaultImage={imageFormat(
-															data?.data?.banner_2 ?? null
+															data?.data?.banner_2 ?? null,
 														)}
 													/>
 												</FormControl>
@@ -220,11 +216,7 @@ export function HomeBanner3Image() {
 											<FormItem>
 												<FormLabel className="text-sm">Banner URL</FormLabel>
 												<FormControl>
-													<Input
-														{...field}
-														placeholder="https://example.com"
-														type="url"
-													/>
+													<Input {...field} placeholder="https://example.com" />
 												</FormControl>
 												<FormMessage />
 											</FormItem>
@@ -250,7 +242,7 @@ export function HomeBanner3Image() {
 														value={field.value as File}
 														onChange={field.onChange}
 														defaultImage={imageFormat(
-															data?.data?.banner_3 ?? null
+															data?.data?.banner_3 ?? null,
 														)}
 													/>
 												</FormControl>
@@ -265,11 +257,7 @@ export function HomeBanner3Image() {
 											<FormItem>
 												<FormLabel className="text-sm">Banner URL</FormLabel>
 												<FormControl>
-													<Input
-														{...field}
-														placeholder="https://example.com"
-														type="url"
-													/>
+													<Input {...field} placeholder="https://example.com" />
 												</FormControl>
 												<FormMessage />
 											</FormItem>

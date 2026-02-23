@@ -1,7 +1,7 @@
 import { Card08 } from '@/components/web';
 import { getApiDataWithSubdomain } from '@/lib';
+import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
-import { iTenantFrontend } from '@/types/tenant-frontend';
 
 interface BestSellingProductsProps {
 	title?: string;
@@ -12,11 +12,8 @@ export async function BestSellingProducts({
 	title,
 	id,
 }: BestSellingProductsProps) {
-	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
-		'/tenant-frontend/cms'
-	);
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
-		`/tenant-frontend/products/${id}`
+		`/tenant-frontend/products/${id}`,
 	);
 	return (
 		<div className="space-y-10">
@@ -24,9 +21,13 @@ export async function BestSellingProducts({
 				{title}
 			</h2>
 			<div className="space-y-6">
-				{products?.map((product, index) => (
-					<Card08 key={index} product={product} />
-				))}
+				<div className="space-y-6">
+					{products?.slice(0, 4).map((product, index) => (
+						<MotionFadeIn key={product.id ?? index} delay={index * 0.03}>
+							<Card08 product={product} />
+						</MotionFadeIn>
+					))}
+				</div>
 			</div>
 		</div>
 	);
