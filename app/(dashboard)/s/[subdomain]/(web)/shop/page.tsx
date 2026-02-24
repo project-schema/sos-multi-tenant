@@ -26,3 +26,7 @@ export default async function ShopPage({
 		// return <ThemeOneShopPage data={products} />;
 	}
 }
+
+export const metadata = {
+	title: 'Shop',
+};

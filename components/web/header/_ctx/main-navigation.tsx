@@ -22,7 +22,7 @@ function CategoriesDropdownButton({ categories }: { categories: iCategory[] }) {
 					<ChevronDown className="w-4 h-4" />
 				</button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent align="start" className="w-48">
+			<DropdownMenuContent align="start" className="w-48 h-full max-h-[450px]">
 				{categories?.map((category) => (
 					<DropdownMenuItem key={category.id} asChild>
 						<Link href={`/shop?category_id=${category.id}`}>

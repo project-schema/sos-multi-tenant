@@ -6,13 +6,19 @@ import {
 	useFrontendColorsQuery,
 	useFrontendSizesQuery,
 } from '@/store/features/frontend/product/api-slice';
+import { Loader2 } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export default function CommonShopSidebar() {
-	const { data: categories } = useFrontendCategoriesQuery(undefined);
-	const { data: colors } = useFrontendColorsQuery(undefined);
-	const { data: sizes } = useFrontendSizesQuery(undefined);
+	const { data: categories, isLoading: categoryLoading } =
+		useFrontendCategoriesQuery(undefined);
+
+	const { data: colors, isLoading: colorLoading } =
+		useFrontendColorsQuery(undefined);
+
+	const { data: sizes, isLoading: sizeLoading } =
+		useFrontendSizesQuery(undefined);
 
 	const searchParams = useSearchParams();
 	const router = useRouter();
@@ -47,6 +53,7 @@ export default function CommonShopSidebar() {
 			sizeId?: number | null;
 		}) => {
 			const params = new URLSearchParams(searchParams.toString());
+			console.log({ params: params.toString() });
 
 			if (next.categoryIds) {
 				if (next.categoryIds.length) {
@@ -115,25 +122,50 @@ export default function CommonShopSidebar() {
 		updateUrl({ sizeId: next });
 	};
 
+	useEffect(() => {
+		const categoryParam = searchParams.get('category_id');
+		setSelectedCategoryIds(
+			categoryParam
+				? categoryParam
+						.split(',')
+						.map((id) => Number(id))
+						.filter((id) => !Number.isNaN(id))
+				: [],
+		);
+
+		const colorParam = searchParams.get('color_id');
+		setSelectedColorId(colorParam ? Number(colorParam) : null);
+
+		const sizeParam = searchParams.get('size_id');
+		setSelectedSizeId(sizeParam ? Number(sizeParam) : null);
+
+		setMinPrice(searchParams.get('min_price') ?? '');
+		setMaxPrice(searchParams.get('max_price') ?? '');
+	}, [searchParams]);
+
 	return (
 		<aside className="space-y-6">
 			<div>
 				<h3 className="mb-3 font-semibold">Category</h3>
-				<ul className="space-y-2 text-sm">
-					{categories?.map((category) => (
-						<li key={category.id} className="flex items-center gap-2">
-							<Checkbox
-								className="size-5 data-[state=checked]:bg-orange-600 data-[state=checked]:border-orange-600"
-								checked={selectedCategoryIds.includes(category.id)}
-								onCheckedChange={() => handleCategoryToggle(category.id)}
-							/>
-							<p className="flex items-center gap-2">
-								{category.name}
-								{/* <span className="text-gray-500">{categories?.length}</span> */}
-							</p>
-						</li>
-					))}
-				</ul>
+				{categoryLoading ? (
+					<div className="flex items-center gap-2 text-sm text-muted-foreground">
+						<Loader2 className="h-4 w-4 animate-spin" />
+						Loading categories...
+					</div>
+				) : (
+					<ul className="space-y-2 text-sm">
+						{categories?.map((category) => (
+							<li key={category.id} className="flex items-center gap-2">
+								<Checkbox
+									className="size-5 data-[state=checked]:bg-orange-600 data-[state=checked]:border-orange-600"
+									checked={selectedCategoryIds.includes(category.id)}
+									onCheckedChange={() => handleCategoryToggle(category.id)}
+								/>
+								<p>{category.name}</p>
+							</li>
+						))}
+					</ul>
+				)}
 			</div>
 
 			<div>
@@ -167,45 +199,62 @@ export default function CommonShopSidebar() {
 			<div>
 				<h3 className="mb-3 font-semibold">Size</h3>
 				<div className="flex flex-wrap gap-2">
-					{sizes?.map((s) => {
-						const active = selectedSizeId === s.id;
-						return (
-							<button
-								key={s.id}
-								onClick={() => handleSizeSelect(s.id)}
-								className={`rounded border px-3 py-1 text-sm hover:bg-orange-500/5 ${
-									active
-										? 'border-orange-600 bg-orange-500/5 text-orange-600'
-										: ''
-								}`}
-							>
-								{s.name}
-							</button>
-						);
-					})}
+					{sizeLoading ? (
+						<div className="flex items-center gap-2 text-sm text-muted-foreground">
+							<Loader2 className="h-4 w-4 animate-spin" />
+							Loading sizes...
+						</div>
+					) : (
+						<div className="flex flex-wrap gap-2">
+							{sizes?.map((s) => {
+								const active = selectedSizeId === s.id;
+								return (
+									<button
+										key={s.id}
+										onClick={() => handleSizeSelect(s.id)}
+										className={`rounded border px-3 py-1 text-sm hover:bg-orange-500/5 ${
+											active
+												? 'border-orange-600 bg-orange-500/5 text-orange-600'
+												: ''
+										}`}
+									>
+										{s.name}
+									</button>
+								);
+							})}
+						</div>
+					)}
 				</div>
 			</div>
 
 			<div>
 				<h3 className="mb-3 font-semibold">Color</h3>
 				<div className="flex items-center flex-wrap gap-3">
-					{colors?.map((c, index) => {
-						const id = c.id;
-						const active = selectedColorId === c.id;
-						return (
-							<button
-								key={c.id}
-								onClick={() => handleColorSelect(c.id)}
-								className={`rounded border px-3 py-1 text-sm hover:bg-orange-500/5 ${
-									active
-										? 'border-orange-600 bg-orange-500/5 text-orange-600'
-										: ''
-								}`}
-							>
-								{c.name}
-							</button>
-						);
-					})}
+					{colorLoading ? (
+						<div className="flex items-center gap-2 text-sm text-muted-foreground">
+							<Loader2 className="h-4 w-4 animate-spin" />
+							Loading colors...
+						</div>
+					) : (
+						<div className="flex items-center flex-wrap gap-3">
+							{colors?.map((c) => {
+								const active = selectedColorId === c.id;
+								return (
+									<button
+										key={c.id}
+										onClick={() => handleColorSelect(c.id)}
+										className={`rounded border px-3 py-1 text-sm hover:bg-orange-500/5 ${
+											active
+												? 'border-orange-600 bg-orange-500/5 text-orange-600'
+												: ''
+										}`}
+									>
+										{c.name}
+									</button>
+								);
+							})}
+						</div>
+					)}
 				</div>
 			</div>
 		</aside>

@@ -53,7 +53,7 @@ export function ProductDescription({
 	return (
 		<div className="mt-10">
 			<Tabs defaultValue="description" className="w-full">
-				<TabsList className="w-full justify-start border-b rounded-none bg-transparent p-0 h-auto">
+				<TabsList className="w-full justify-start flex-wrap border-b rounded-none bg-transparent p-0 h-auto">
 					<TabsTrigger
 						value="description"
 						className="text-base font-semibold border-0 data-[state=active]:border-b-2 data-[state=active]:border-orange-500 data-[state=active]:text-orange-500 rounded-none border-b border-transparent px-4 py-3"

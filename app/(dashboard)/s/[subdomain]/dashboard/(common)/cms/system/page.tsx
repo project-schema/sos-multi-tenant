@@ -12,7 +12,7 @@ import { useSearchParams } from 'next/navigation';
 
 export default function Page() {
 	const searchParams = useSearchParams();
-	const tab = searchParams.get('tab') || 'home';
+	const tab = searchParams.get('tab') || 'basic-info';
 
 	switch (tab) {
 		case 'basic-info':
@@ -33,6 +33,7 @@ export default function Page() {
 		case 'footer':
 			return <CMSFooter />;
 
+		case 'basic-info':
 		default:
 			return <BasicInfo />;
 	}

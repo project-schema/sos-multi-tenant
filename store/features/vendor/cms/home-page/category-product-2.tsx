@@ -18,7 +18,7 @@ import { alertConfirm, ErrorAlert } from '@/lib';
 import { useVendorMarketPlaceUtilityQuery } from '@/store/features/vendor/product/vendor-product-api-slice';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle } from 'lucide-react';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -38,7 +38,7 @@ export function CategoryProduct2() {
 		useVendorMarketPlaceUtilityQuery();
 	const [store, { isLoading }] = useUpdateSystemMutation();
 	const { data, isLoading: loading, isError, refetch } = useSystemQuery();
-
+	const [isInitialized, setIsInitialized] = useState(false);
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
 		defaultValues: {
@@ -57,7 +57,7 @@ export function CategoryProduct2() {
 		if (!marketPlaceData?.data?.subcategories) return [];
 		if (!categoryId) return [];
 		return marketPlaceData.data.subcategories.filter(
-			(sc) => sc.category_id.toString() === categoryId
+			(sc) => sc.category_id.toString() === categoryId,
 		);
 	}, [marketPlaceData?.data?.subcategories, categoryId]);
 
@@ -69,14 +69,16 @@ export function CategoryProduct2() {
 				best_category_id: data?.data?.best_category_id || '',
 				best_sub_category_id: data?.data?.best_sub_category_id || '',
 			});
+			setIsInitialized(true);
 		}
 	}, [data, form]);
 
 	// Clear subcategories when categories change
 	useEffect(() => {
+		if (!isInitialized) return;
 		if (categoryId && subcategoryId) {
 			const isValid = filteredSubcategories1.some(
-				(sc) => sc.id.toString() === subcategoryId
+				(sc) => sc.id.toString() === subcategoryId,
 			);
 			if (!isValid) {
 				form.setValue('best_sub_category_id', '');
@@ -178,7 +180,7 @@ export function CategoryProduct2() {
 											(category) => ({
 												label: category.name,
 												value: category.id.toString(),
-											})
+											}),
 										)}
 										placeholder={
 											marketPlaceLoading ? 'Loading...' : 'Select category'
@@ -202,10 +204,10 @@ export function CategoryProduct2() {
 											marketPlaceLoading
 												? 'Loading...'
 												: !categoryId
-												? 'Select category first'
-												: filteredSubcategories1.length === 0
-												? 'No subcategories available'
-												: 'Select subcategory'
+													? 'Select category first'
+													: filteredSubcategories1.length === 0
+														? 'No subcategories available'
+														: 'Select subcategory'
 										}
 									/>
 								)}

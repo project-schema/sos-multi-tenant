@@ -1,7 +1,8 @@
 import { Loader8 } from '@/components/dashboard';
 import Footer02 from '@/components/web/footer/02';
 import Header02 from '@/components/web/header/02';
-import { getApiDataWithSubdomain } from '@/lib';
+import { getApiDataWithSubdomain, MotionShow } from '@/lib';
+import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import {
 	iVendorProduct,
 	iVendorProductView,
@@ -32,21 +33,35 @@ export default async function ThemeTwoProductDetailsPage({
 					<div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 						{/* Gallery */}
 						<div className="lg:col-span-6">
-							{data && <ProductGallery product={data?.product ?? null} />}
+							{data && (
+								<MotionShow>
+									<ProductGallery product={data?.product ?? null} />
+								</MotionShow>
+							)}
 						</div>
 
 						{/* Info */}
 						<div className="lg:col-span-6 space-y-5">
-							{data && <ProductInfo product={data?.product ?? null} />}
+							{data && (
+								<MotionFadeIn>
+									<ProductInfo product={data?.product ?? null} />
+								</MotionFadeIn>
+							)}
 						</div>
 					</div>
 
 					{/* Tabs-like content */}
-					{data && <ProductDescription product={data?.product ?? null} />}
+					{data && (
+						<MotionFadeIn>
+							<ProductDescription product={data?.product ?? null} />
+						</MotionFadeIn>
+					)}
 
 					{/* Related products */}
 					{data?.related_products && data?.related_products?.length > 0 && (
-						<RelatedProduct product={data?.related_products ?? null} />
+						<MotionFadeIn>
+							<RelatedProduct product={data?.related_products ?? null} />
+						</MotionFadeIn>
 					)}
 				</section>
 			</Suspense>

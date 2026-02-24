@@ -28,12 +28,18 @@ type LayoutProps = {
 
 export default function Layout({ children }: LayoutProps) {
 	const searchParams = useSearchParams();
-	const activeTab = searchParams.get('tab') || 'home';
+	const activeTab = searchParams.get('tab') || 'home-offer';
 	const { data, isLoading: loading, isError, refetch } = useSystemQuery();
 
 	// Tab config
 	const items = useMemo(
 		() => [
+			{
+				title: 'Home Offer',
+				tab: 'home-offer',
+				url: `/dashboard/cms/home-page?tab=home-offer`,
+				icon: ShoppingCart,
+			},
 			{
 				title: 'Home Slider',
 				tab: 'home-slider',
@@ -76,12 +82,7 @@ export default function Layout({ children }: LayoutProps) {
 				url: `/dashboard/cms/home-page?tab=recommended-category`,
 				icon: Package,
 			},
-			{
-				title: 'Home Offer',
-				tab: 'home-offer',
-				url: `/dashboard/cms/home-page?tab=home-offer`,
-				icon: ShoppingCart,
-			},
+
 			{
 				title: 'Advertise Banner',
 				tab: 'advertise-banner',

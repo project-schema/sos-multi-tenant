@@ -10,7 +10,7 @@ import { alertConfirm, ErrorAlert } from '@/lib';
 import { useVendorMarketPlaceUtilityQuery } from '@/store/features/vendor/product/vendor-product-api-slice';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle } from 'lucide-react';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -35,7 +35,7 @@ export function RecommendedCategory() {
 		useVendorMarketPlaceUtilityQuery();
 	const [store, { isLoading }] = useUpdateSystemMutation();
 	const { data, isLoading: loading, isError, refetch } = useSystemQuery();
-
+	const [isInitialized, setIsInitialized] = useState(false);
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
 		defaultValues: {
@@ -70,7 +70,7 @@ export function RecommendedCategory() {
 		if (!marketPlaceData?.data?.subcategories) return [];
 		if (!categoryId1) return [];
 		return marketPlaceData.data.subcategories.filter(
-			(sc) => sc.category_id.toString() === categoryId1
+			(sc) => sc.category_id.toString() === categoryId1,
 		);
 	}, [marketPlaceData?.data?.subcategories, categoryId1]);
 
@@ -78,7 +78,7 @@ export function RecommendedCategory() {
 		if (!marketPlaceData?.data?.subcategories) return [];
 		if (!categoryId2) return [];
 		return marketPlaceData.data.subcategories.filter(
-			(sc) => sc.category_id.toString() === categoryId2
+			(sc) => sc.category_id.toString() === categoryId2,
 		);
 	}, [marketPlaceData?.data?.subcategories, categoryId2]);
 
@@ -86,7 +86,7 @@ export function RecommendedCategory() {
 		if (!marketPlaceData?.data?.subcategories) return [];
 		if (!categoryId3) return [];
 		return marketPlaceData.data.subcategories.filter(
-			(sc) => sc.category_id.toString() === categoryId3
+			(sc) => sc.category_id.toString() === categoryId3,
 		);
 	}, [marketPlaceData?.data?.subcategories, categoryId3]);
 
@@ -94,7 +94,7 @@ export function RecommendedCategory() {
 		if (!marketPlaceData?.data?.subcategories) return [];
 		if (!categoryId4) return [];
 		return marketPlaceData.data.subcategories.filter(
-			(sc) => sc.category_id.toString() === categoryId4
+			(sc) => sc.category_id.toString() === categoryId4,
 		);
 	}, [marketPlaceData?.data?.subcategories, categoryId4]);
 
@@ -112,14 +112,16 @@ export function RecommendedCategory() {
 				recomended_sub_category_id_3:
 					data?.data?.recomended_sub_category_id_3 || '',
 			});
+			setIsInitialized(true);
 		}
 	}, [data, form]);
 
 	// Clear subcategories when categories change
 	useEffect(() => {
+		if (!isInitialized) return;
 		if (categoryId1 && subcategoryId1) {
 			const isValid = filteredSubcategories1.some(
-				(sc) => sc.id.toString() === subcategoryId1
+				(sc) => sc.id.toString() === subcategoryId1,
 			);
 			if (!isValid) {
 				form.setValue('recomended_sub_category_id_1', '');
@@ -130,9 +132,10 @@ export function RecommendedCategory() {
 	}, [categoryId1, subcategoryId1, filteredSubcategories1, form]);
 
 	useEffect(() => {
+		if (!isInitialized) return;
 		if (categoryId2 && subcategoryId2) {
 			const isValid = filteredSubcategories2.some(
-				(sc) => sc.id.toString() === subcategoryId2
+				(sc) => sc.id.toString() === subcategoryId2,
 			);
 			if (!isValid) {
 				form.setValue('recomended_sub_category_id_2', '');
@@ -143,9 +146,10 @@ export function RecommendedCategory() {
 	}, [categoryId2, subcategoryId2, filteredSubcategories2, form]);
 
 	useEffect(() => {
+		if (!isInitialized) return;
 		if (categoryId3 && subcategoryId3) {
 			const isValid = filteredSubcategories3.some(
-				(sc) => sc.id.toString() === subcategoryId3
+				(sc) => sc.id.toString() === subcategoryId3,
 			);
 			if (!isValid) {
 				form.setValue('recomended_sub_category_id_3', '');
@@ -156,9 +160,10 @@ export function RecommendedCategory() {
 	}, [categoryId3, subcategoryId3, filteredSubcategories3, form]);
 
 	useEffect(() => {
+		if (!isInitialized) return;
 		if (categoryId4 && subcategoryId4) {
 			const isValid = filteredSubcategories4.some(
-				(sc) => sc.id.toString() === subcategoryId4
+				(sc) => sc.id.toString() === subcategoryId4,
 			);
 			if (!isValid) {
 				form.setValue('recomended_sub_category_id_4', '');
@@ -238,7 +243,7 @@ export function RecommendedCategory() {
 											(category) => ({
 												label: category.name,
 												value: category.id.toString(),
-											})
+											}),
 										)}
 										placeholder={
 											marketPlaceLoading ? 'Loading...' : 'Select category'
@@ -262,10 +267,10 @@ export function RecommendedCategory() {
 											marketPlaceLoading
 												? 'Loading...'
 												: !categoryId1
-												? 'Select category first'
-												: filteredSubcategories1.length === 0
-												? 'No subcategories available'
-												: 'Select subcategory'
+													? 'Select category first'
+													: filteredSubcategories1.length === 0
+														? 'No subcategories available'
+														: 'Select subcategory'
 										}
 									/>
 								)}
@@ -285,7 +290,7 @@ export function RecommendedCategory() {
 											(category) => ({
 												label: category.name,
 												value: category.id.toString(),
-											})
+											}),
 										)}
 										placeholder={
 											marketPlaceLoading ? 'Loading...' : 'Select category'
@@ -309,10 +314,10 @@ export function RecommendedCategory() {
 											marketPlaceLoading
 												? 'Loading...'
 												: !categoryId2
-												? 'Select category first'
-												: filteredSubcategories2.length === 0
-												? 'No subcategories available'
-												: 'Select subcategory'
+													? 'Select category first'
+													: filteredSubcategories2.length === 0
+														? 'No subcategories available'
+														: 'Select subcategory'
 										}
 									/>
 								)}
@@ -332,7 +337,7 @@ export function RecommendedCategory() {
 											(category) => ({
 												label: category.name,
 												value: category.id.toString(),
-											})
+											}),
 										)}
 										placeholder={
 											marketPlaceLoading ? 'Loading...' : 'Select category'
@@ -356,10 +361,10 @@ export function RecommendedCategory() {
 											marketPlaceLoading
 												? 'Loading...'
 												: !categoryId3
-												? 'Select category first'
-												: filteredSubcategories3.length === 0
-												? 'No subcategories available'
-												: 'Select subcategory'
+													? 'Select category first'
+													: filteredSubcategories3.length === 0
+														? 'No subcategories available'
+														: 'Select subcategory'
 										}
 									/>
 								)}
@@ -379,7 +384,7 @@ export function RecommendedCategory() {
 											(category) => ({
 												label: category.name,
 												value: category.id.toString(),
-											})
+											}),
 										)}
 										placeholder={
 											marketPlaceLoading ? 'Loading...' : 'Select category'
@@ -403,10 +408,10 @@ export function RecommendedCategory() {
 											marketPlaceLoading
 												? 'Loading...'
 												: !categoryId4
-												? 'Select category first'
-												: filteredSubcategories4.length === 0
-												? 'No subcategories available'
-												: 'Select subcategory'
+													? 'Select category first'
+													: filteredSubcategories4.length === 0
+														? 'No subcategories available'
+														: 'Select subcategory'
 										}
 									/>
 								)}

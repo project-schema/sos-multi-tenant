@@ -172,7 +172,7 @@ export default async function Footer02() {
 				<div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
 					<div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
 						{/* Copyright */}
-						<div className="text-gray-500 text-sm">
+						<div className="text-gray-500 text-sm text-center sm:text-left">
 							{settings?.cms?.footer_copyright_text ?? ''}{' '}
 							<span className="text-orange-500 font-semibold">
 								{settings?.cms?.app_name ?? ''}
@@ -181,7 +181,7 @@ export default async function Footer02() {
 
 						{/* Payment Methods */}
 						<div className="flex items-center space-x-2 flex-wrap justify-center">
-							<div className="relative max-w-5xl">
+							<div className="relative max-w-5xl text-center sm:text-right">
 								<img
 									src={imageFormat(
 										settings?.cms?.footer_payment_methods || null,

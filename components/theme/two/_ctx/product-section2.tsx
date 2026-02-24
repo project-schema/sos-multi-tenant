@@ -1,4 +1,4 @@
-import { Card07 } from '@/components/web';
+import { Card07, NotFoundCard12 } from '@/components/web';
 import { getApiDataWithSubdomain } from '@/lib/api';
 import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
@@ -50,15 +50,19 @@ export async function ProductSection2({
 					</div>
 				)}
 			</div>
-			<div
-				className={`grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 2xl:grid-cols-5  gap-3 md:gap-6`}
-			>
-				{products?.map((product, index) => (
-					<MotionFadeIn key={product.id} delay={index * 0.03}>
-						<Card07 product={product} />
-					</MotionFadeIn>
-				))}
-			</div>
+			{products?.length === 0 ? (
+				<NotFoundCard12
+					title={buttons?.find((b) => b.value === activeFeature)?.label}
+				/>
+			) : (
+				<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6">
+					{products?.map((product, index) => (
+						<MotionFadeIn key={product.id} delay={index * 0.03}>
+							<Card07 product={product} />
+						</MotionFadeIn>
+					))}
+				</div>
+			)}
 		</div>
 	);
 }

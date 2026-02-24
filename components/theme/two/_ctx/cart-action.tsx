@@ -29,7 +29,7 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 	const [selectedColor, setSelectedColor] = useState<string | null>(null);
 	const [selectedSize, setSelectedSize] = useState<string | null>(null);
 	const [selectedVariantId, setSelectedVariantId] = useState<number | null>(
-		null
+		null,
 	);
 
 	// Get unique colors and sizes from variants
@@ -74,10 +74,10 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 
 	// Check if product is in cart or wishlist
 	const isInCart = cartData?.cart?.some(
-		(item) => item.product_id === product.id
+		(item) => item.product_id === product.id,
 	);
 	const wishlistItem = wishlistData?.wishlist?.find(
-		(item) => item.product_id === product.id
+		(item) => item.product_id === product.id,
 	);
 	const isInWishlist = !!wishlistItem;
 
@@ -92,7 +92,7 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 		setSelectedColor(colorName === selectedColor ? null : colorName);
 		// Find variant with this color
 		const variant = product?.product_variant?.find(
-			(v) => v.color?.name === colorName
+			(v) => v.color?.name === colorName,
 		);
 		if (variant) {
 			setSelectedVariantId(variant.id);
@@ -106,7 +106,7 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 		const variant = product?.product_variant?.find(
 			(v) =>
 				v.size?.name === sizeName &&
-				(!selectedColor || v.color?.name === selectedColor)
+				(!selectedColor || v.color?.name === selectedColor),
 		);
 		if (variant) {
 			setSelectedVariantId(variant.id);
@@ -237,8 +237,8 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 								className={cn(
 									'px-3 py-1.5 border rounded text-sm transition-all',
 									selectedColor === c.name
-										? 'border-orange-500 bg-orange-50 text-orange-600'
-										: 'border-gray-300 hover:border-gray-400'
+										? 'border-orange-500 bg-orange-500/5 text-orange-600'
+										: 'border-orange-500/20 hover:bg-orange-500/5',
 								)}
 							>
 								{c.name}
@@ -260,8 +260,8 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 								className={cn(
 									'px-3 py-1.5 border rounded text-sm transition-all',
 									selectedSize === s.name
-										? 'border-orange-500 bg-orange-50 text-orange-600'
-										: 'border-gray-300 hover:border-gray-400'
+										? 'border-orange-500 bg-orange-500/5 text-orange-600'
+										: 'border-orange-500/20 hover:bg-orange-500/5',
 								)}
 							>
 								{s.name}
@@ -272,7 +272,7 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 			)}
 
 			{/* Quantity & Actions */}
-			<div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 border-b border-gray-200 pb-4">
+			<div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 border-b border-orange-500/10 pb-4">
 				{/* Quantity Selector */}
 				<div className="flex items-center border rounded">
 					<button
@@ -303,7 +303,7 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 				<Button
 					onClick={handleAddToCart}
 					disabled={isAddingToCart}
-					className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-black text-white px-5 py-3 rounded-md hover:bg-black/90"
+					className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-orange-500 text-white px-5 py-3 rounded-md hover:bg-black/90"
 				>
 					{isAddingToCart ? (
 						<Loader2 className="w-4 h-4 animate-spin" />
@@ -334,7 +334,7 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 					variant="outline"
 					className={cn(
 						'inline-flex items-center justify-center gap-2 px-4 py-3 rounded-md',
-						isInWishlist && 'text-red-500 border-red-200 hover:bg-red-50'
+						isInWishlist && 'text-red-500 border-red-200 hover:bg-red-50',
 					)}
 				>
 					{isWishlistLoading ? (

@@ -12,7 +12,7 @@ interface TenantCheckResponse {
 
 async function checkTenantExists(subdomain: string): Promise<boolean> {
 	const response = await getApiData<TenantCheckResponse>(
-		`/have/tenant/${subdomain}`
+		`/have/tenant/${subdomain}`,
 	);
 
 	// If no response (404 or other error) or success is false, tenant doesn't exist
@@ -36,7 +36,7 @@ export default async function MySiteLayout({
 		notFound();
 	}
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
-		'/tenant-frontend/cms'
+		'/tenant-frontend/cms',
 	);
 	return (
 		<>
@@ -141,7 +141,7 @@ export async function generateMetadata({
 	const { subdomain } = await params;
 	const tenantExists = await checkTenantExists(subdomain);
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
-		'/tenant-frontend/cms'
+		'/tenant-frontend/cms',
 	);
 	if (!tenantExists) {
 		return {
@@ -149,7 +149,10 @@ export async function generateMetadata({
 		};
 	}
 	return {
-		title: settings?.cms?.app_name || 'SOS',
+		title: {
+			default: settings?.cms?.app_name || 'SOS',
+			template: `%s - ${settings?.cms?.app_name || 'SOS'}`,
+		},
 		description: settings?.cms?.seo_meta_description || 'SOS Management',
 		keywords: settings?.cms?.seo_meta_keywords || 'SOS, Management, Dashboard',
 		authors: [{ name: settings?.cms?.seo_meta_title || 'SOS' }],

@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/carousel';
 import { imageFormat } from '@/lib';
 import { iVendorProductView } from '@/store/features/vendor/product/vendor-product-type';
+import Image from 'next/image';
 import * as React from 'react';
 
 export function ProductGallery({ product }: { product: iVendorProductView }) {
@@ -37,7 +38,7 @@ export function ProductGallery({ product }: { product: iVendorProductView }) {
 		(index: number) => {
 			api?.scrollTo(index);
 		},
-		[api]
+		[api],
 	);
 
 	return (
@@ -47,14 +48,21 @@ export function ProductGallery({ product }: { product: iVendorProductView }) {
 				<CarouselContent>
 					{images?.map((src, index) => (
 						<CarouselItem key={`main-${index}`}>
-							<div className="w-full h-[300px] md:h-[400px] 2xl:h-[560px] bg-gray-100 rounded-md overflow-hidden relative">
-								<img
+							<div
+								className="relative w-full bg-gray-100 rounded-md overflow-hidden
+                aspect-square
+                md:aspect-[4/5]
+                max-h-[500px] lg:max-h-[550px] 2xl:max-h-[600px]"
+							>
+								<Image
 									src={imageFormat(src)}
 									alt={`Product image ${index + 1}`}
-									className="object-cover w-full h-full"
-									sizes="(max-width: 768px) 100vw, 50vw"
-									width={1000}
-									height={1000}
+									fill
+									sizes="(max-width: 768px) 100vw,
+           (max-width: 1280px) 50vw,
+           600px"
+									className="object-contain"
+									priority={index === 0}
 								/>
 							</div>
 						</CarouselItem>
@@ -89,13 +97,15 @@ export function ProductGallery({ product }: { product: iVendorProductView }) {
 										}
 									`}
 								>
-									<img
-										src={imageFormat(src)}
-										alt={`Thumbnail ${index + 1}`}
-										width={80}
-										height={80}
-										className="w-full h-full object-cover"
-									/>
+									<div className="relative w-full h-full">
+										<Image
+											src={imageFormat(src)}
+											alt={`Thumbnail ${index + 1}`}
+											fill
+											sizes="80px"
+											className="object-cover"
+										/>
+									</div>
 								</button>
 							</CarouselItem>
 						))}

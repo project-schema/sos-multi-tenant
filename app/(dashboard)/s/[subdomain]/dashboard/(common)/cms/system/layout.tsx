@@ -19,7 +19,7 @@ type LayoutProps = {
 
 export default function Layout({ children }: LayoutProps) {
 	const searchParams = useSearchParams();
-	const activeTab = searchParams.get('tab') || 'home';
+	const activeTab = searchParams.get('tab') || 'basic-info';
 
 	// Tab config
 	const items = useMemo(
@@ -61,7 +61,7 @@ export default function Layout({ children }: LayoutProps) {
 				icon: Text,
 			},
 		],
-		[]
+		[],
 	);
 
 	// Find current tab item

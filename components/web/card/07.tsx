@@ -3,6 +3,7 @@
 import { imageFormat, sign } from '@/lib';
 import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
 import { ShoppingCart, Star } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Card07({
@@ -40,14 +41,19 @@ export default function Card07({
 			className={`group h-full relative border bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden ${className}`}
 		>
 			{/* Upper Section - Image Area */}
-			<div className="relative h-56  overflow-hidden">
+			{/* Upper Section - Image Area */}
+			<div className="relative w-full aspect-square overflow-hidden">
 				<Link href={`/shop/${product?.slug}`} className="block w-full h-full">
-					<img
+					<Image
 						src={imageFormat(product?.image)}
 						alt={product?.name}
-						className="object-cover object-center p-2 block w-full h-full rounded-xl"
-						width={1000}
-						height={1000}
+						fill
+						sizes="(max-width: 640px) 100vw,
+             (max-width: 1024px) 50vw,
+             (max-width: 1536px) 33vw,
+             25vw"
+						className="object-cover p-2 rounded-xl"
+						priority={false}
 					/>
 				</Link>
 
@@ -62,10 +68,10 @@ export default function Card07({
 			</div>
 
 			{/* Lower Section - Text/Detail Area */}
-			<div className="p-5 space-y-1">
+			<div className="p-3 xl:p-5 space-y-1">
 				{/* Title */}
 				<Link className="inline-block" href={`/shop/${product?.slug}`}>
-					<h3 className="text-base font-medium text-[#27314B] line-clamp-2">
+					<h3 className="text-sm sm:text-base font-medium text-[#27314B] line-clamp-2">
 						{product?.name}
 					</h3>
 				</Link>
@@ -83,19 +89,19 @@ export default function Card07({
 					{/* Pricing */}
 					<div className="flex flex-col">
 						{product?.discount_price && (
-							<span className="text-sm text-gray-500 line-through">
+							<span className="text-xs md:text-sm text-gray-500 line-through">
 								{product?.selling_price} {sign.tk}
 							</span>
 						)}
 
 						{product?.discount_price && (
-							<span className="text-xl font-medium text-gray-900">
+							<span className="text-base md:text-xl font-medium text-gray-900">
 								{product?.discount_price} {sign.tk}
 							</span>
 						)}
 
 						{!product?.discount_price && (
-							<span className="text-xl font-medium text-gray-900">
+							<span className="text-base md:text-xl font-medium text-gray-900">
 								{product?.selling_price} {sign.tk}
 							</span>
 						)}

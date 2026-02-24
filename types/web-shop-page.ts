@@ -4,4 +4,5 @@ export type ShopSearchParams = {
 	max_price?: string;
 	color_id?: string;
 	size_id?: string;
+	page?: string;
 };

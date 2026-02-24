@@ -55,7 +55,7 @@ export default function Card08({
 			<div className="w-full sm:w-3/5   flex flex-col justify-between">
 				<div className="space-y-1">
 					{/* Title */}
-					<Link href={`/shop/${product?.slug}`} className="block w-full h-full">
+					<Link href={`/shop/${product?.slug}`} className="block w-full ">
 						<h3 className="text-base font-medium text-[#27314B] line-clamp-2">
 							{product?.name}
 						</h3>
@@ -71,7 +71,7 @@ export default function Card08({
 				</div>
 
 				{/* Pricing and Add to Cart */}
-				<div className="flex items-end justify-between pt-4 mt-auto">
+				<div className="flex items-end justify-between   mt-auto">
 					{/* Pricing */}
 					<div className="flex flex-col gap-1">
 						<span className="text-xs text-gray-500 line-through">
@@ -85,7 +85,7 @@ export default function Card08({
 					{/* Add to Cart Button */}
 					<Link
 						href={`/shop/${product?.slug}`}
-						className="w-8 h-8 rounded-sm border-1 border-orange-500 bg-orange-50 hover:bg-orange-100 transition-colors duration-200 flex items-center justify-center group/btn flex-shrink-0"
+						className="w-8 h-8 rounded-sm border-1 border-orange-500 bg-orange-500/5 hover:bg-orange-500/10 transition-colors duration-200 flex items-center justify-center group/btn flex-shrink-0"
 					>
 						<ShoppingCart className="w-5 h-5 text-orange-500 group-hover/btn:scale-110 transition-transform duration-200" />
 					</Link>

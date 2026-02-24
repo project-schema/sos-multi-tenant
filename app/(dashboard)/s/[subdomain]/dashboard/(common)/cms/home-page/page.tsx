@@ -11,14 +11,16 @@ import {
 } from '@/store/features/vendor/cms/home-page';
 import { HomeAdvertiseBanner } from '@/store/features/vendor/cms/home-page/home-advertise-banner';
 import { HomeOffer } from '@/store/features/vendor/cms/home-page/home-offer';
-import { BasicInfo } from '@/store/features/vendor/cms/system';
 import { useSearchParams } from 'next/navigation';
 
 export default function Page() {
 	const searchParams = useSearchParams();
-	const tab = searchParams.get('tab') || 'home';
+	const tab = searchParams.get('tab') || 'home-offer';
 
 	switch (tab) {
+		case 'home-offer':
+			return <HomeOffer />;
+
 		case 'home-slider':
 			return <HomeBanner />;
 
@@ -40,13 +42,11 @@ export default function Page() {
 		case 'recommended-category':
 			return <RecommendedCategory />;
 
-		case 'home-offer':
-			return <HomeOffer />;
-
 		case 'advertise-banner':
 			return <HomeAdvertiseBanner />;
 
+		case 'home-offer':
 		default:
-			return <BasicInfo />;
+			return <HomeOffer />;
 	}
 }

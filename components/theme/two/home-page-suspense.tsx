@@ -33,7 +33,7 @@ export default async function ThemeTwoHomePageSuspense({
 
 	return (
 		<>
-			<div className="space-y-10 mt-10">
+			<div className="space-y-10 lg:space-y-14 2xl:space-y-20 mt-10">
 				{(settings?.cms?.banner_1 ||
 					settings?.cms?.banner_2 ||
 					settings?.cms?.banner_3) && (
@@ -82,12 +82,12 @@ export default async function ThemeTwoHomePageSuspense({
 					</MotionFadeIn>
 				)}
 
-				{settings?.cms?.best_section_title && (
+				{settings?.cms?.best_setting_title && (
 					<MotionFadeIn>
 						<Suspense fallback={<Loader9 />}>
 							<ProductSection2
 								include={include}
-								title={settings?.cms?.best_section_title ?? ''}
+								title={settings?.cms?.best_setting_title ?? ''}
 								buttons={[
 									{
 										label: settings?.best_setting_category_id_1?.name ?? '',
@@ -126,7 +126,7 @@ export default async function ThemeTwoHomePageSuspense({
 								feature={feature}
 								buttons={[
 									{
-										label: settings?.best_setting_category_id_1?.name ?? '',
+										label: settings?.cms?.best_category_id ?? '',
 										value: settings?.cms?.best_setting_sub_category_id_1 ?? '',
 									},
 								]}

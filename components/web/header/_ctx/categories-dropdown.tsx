@@ -39,7 +39,7 @@ export function CategoriesDropdown({
 	cms,
 }: CategoriesDropdownProps) {
 	const selectedCategory = categories?.find(
-		(cat) => cat.id === selectedCategoryId
+		(cat) => cat.id === selectedCategoryId,
 	);
 
 	const handleCategoryClick = (categoryId: number) => {
@@ -56,7 +56,13 @@ export function CategoriesDropdown({
 					className={`flex items-center gap-2 px-4 py-2.5 bg-white border-r   text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors ${className}`}
 					style={{ borderColor: cms?.color_primary || env.color_primary }}
 				>
-					<span className={variant === 'compact' ? 'hidden sm:inline' : ''}>
+					<span
+						className={
+							variant === 'compact'
+								? 'hidden sm:inline line-clamp-1'
+								: 'line-clamp-1'
+						}
+					>
 						{selectedCategory ? selectedCategory.name : 'All Categories'}
 					</span>
 					{variant === 'compact' && (
@@ -67,7 +73,7 @@ export function CategoriesDropdown({
 					<ChevronDown className="w-4 h-4" />
 				</button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent align="start" className="w-48">
+			<DropdownMenuContent align="start" className="w-48 max-h-96">
 				{onCategorySelect && (
 					<DropdownMenuItem
 						onClick={() => onCategorySelect(null)}
@@ -91,7 +97,7 @@ export function CategoriesDropdown({
 						<DropdownMenuItem key={category.id} asChild>
 							<Link href={`/category/${category?.id}`}>{category?.name}</Link>
 						</DropdownMenuItem>
-					)
+					),
 				)}
 			</DropdownMenuContent>
 		</DropdownMenu>

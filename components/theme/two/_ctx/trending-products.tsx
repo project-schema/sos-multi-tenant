@@ -1,4 +1,4 @@
-import { Card07 } from '@/components/web';
+import { Card07, NotFoundCard12 } from '@/components/web';
 import { getApiDataWithSubdomain, imageFormat } from '@/lib';
 import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
@@ -54,42 +54,54 @@ export async function TrendingProducts({
 				</MotionFadeIn>
 			</div>
 			<div className="col-span-12 xl:col-span-9">
-				<div className="flex items-center justify-between mb-4 flex-wrap gap-4">
-					<h2 className="text-2xl font-semibold">
-						{settings?.cms?.populer_section_title}
-					</h2>
-					<ul className="flex gap-2">
-						{categoryLinks.map((link) => {
-							const isActive = link.subcategory_id === activeSubcategory;
+				<MotionFadeIn>
+					<div className="flex items-center justify-between mb-4 flex-wrap gap-4">
+						<h2 className="text-2xl font-semibold">
+							{settings?.cms?.populer_section_title}
+						</h2>
+						<ul className="flex gap-2">
+							{categoryLinks.map((link) => {
+								const isActive = link.subcategory_id === activeSubcategory;
 
-							return (
-								<li key={link.subcategory_id}>
-									<Link
-										scroll={false}
-										href={`?trend=${link.subcategory_id}`}
-										aria-current={isActive ? 'true' : undefined}
-										className={`text-xs rounded-sm px-4 py-1.5 transition-all inline-flex
+								return (
+									<li key={link.subcategory_id} className="line-clamp-2">
+										<Link
+											scroll={false}
+											href={`?trend=${link.subcategory_id}`}
+											aria-current={isActive ? 'true' : undefined}
+											className={`text-xs line-clamp-2  rounded-sm px-4 py-1.5 transition-all inline-flex
 						${
 							isActive
 								? 'bg-orange-500 text-white'
 								: 'text-black bg-stone-100 hover:bg-orange-500 hover:text-white'
 						}
 					`}
-									>
-										{link.label}
-									</Link>
-								</li>
-							);
-						})}
-					</ul>
-				</div>
-				<div className="grid  grid-cols-1 sm:grid-cols-2  md:grid-cols-3 2xl:grid-cols-4  gap-3 md:gap-6">
-					{products?.map((product, index) => (
-						<MotionFadeIn key={product.id} delay={index * 0.03}>
-							<Card07 product={product} />
-						</MotionFadeIn>
-					))}
-				</div>
+										>
+											{link.label}
+										</Link>
+									</li>
+								);
+							})}
+						</ul>
+					</div>
+				</MotionFadeIn>
+
+				{products?.length === 0 ? (
+					<NotFoundCard12
+						title={
+							categoryLinks?.find((e) => e.subcategory_id === activeSubcategory)
+								?.label
+						}
+					/>
+				) : (
+					<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 gap-3 md:gap-6">
+						{products?.map((product, index) => (
+							<MotionFadeIn key={product.id} delay={index * 0.03}>
+								<Card07 product={product} />
+							</MotionFadeIn>
+						))}
+					</div>
+				)}
 			</div>
 		</div>
 	);

@@ -28,9 +28,9 @@ export function ProductInfo({ product }: { product: iVendorProductView }) {
 					</span>
 				</div>
 				<div className="mt-2 flex items-center gap-4 text-sm text-gray-600">
-					<span className="flex items-center gap-1 text-yellow-500">
+					<span className="flex items-center gap-1 text-orange-500">
 						{Array.from({ length: 5 }).map((_, i) => (
-							<Star key={i} className="w-4 h-4 fill-yellow-400" />
+							<Star key={i} className="w-4 h-4 fill-orange-500" />
 						))}
 					</span>
 					<span className="font-medium">6,570 Reviews</span>
