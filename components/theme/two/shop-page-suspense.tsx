@@ -46,7 +46,7 @@ export default async function ThemeTwoShopPageSuspense({
 			<section className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 					{/* Desktop Sidebar */}
-					<div className="hidden lg:block lg:col-span-2">
+					<div className="hidden lg:block lg:col-span-2  ">
 						<MotionFadeIn>
 							<CommonShopSidebar />
 						</MotionFadeIn>

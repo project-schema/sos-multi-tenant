@@ -76,7 +76,7 @@ export function TenantAndUserLogin({ settings }: { settings?: iSettingsType }) {
 			}
 		} catch (error: any) {
 			toast.error(
-				error?.data?.message || 'Login failed. Please check your credentials.'
+				error?.data?.message || 'Login failed. Please check your credentials.',
 			);
 		}
 	};
@@ -148,7 +148,7 @@ export function TenantAndUserLogin({ settings }: { settings?: iSettingsType }) {
 
 				<Button
 					type="submit"
-					className="w-full h-11 bg-black text-white hover:bg-black/90"
+					className="w-full h-11 bg-orange-500 text-white hover:bg-orange-500/90"
 					disabled={isLoading}
 				>
 					{isLoading ? (

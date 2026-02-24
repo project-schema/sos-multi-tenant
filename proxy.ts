@@ -85,6 +85,17 @@ export async function proxy(request: NextRequest) {
 			return NextResponse.redirect(new URL('/', request.url));
 		}
 
+		const token = await getToken({
+			req: request,
+			secret: process.env.NEXTAUTH_SECRET,
+		});
+
+		// Handle tenant authentication
+		// If user is logged in on tenant subdomain and trying to access auth page, redirect to tenant home
+		if (token && token.accessToken && pathname.startsWith('/auth')) {
+			return NextResponse.redirect(new URL('/', request.url));
+		}
+
 		// Determine the correct rewrite path
 		let newPathname: string;
 

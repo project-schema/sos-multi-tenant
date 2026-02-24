@@ -144,7 +144,7 @@ export default function CommonShopSidebar() {
 	}, [searchParams]);
 
 	return (
-		<aside className="space-y-6">
+		<aside className="space-y-6 ">
 			<div>
 				<h3 className="mb-3 font-semibold">Category</h3>
 				{categoryLoading ? (
@@ -153,7 +153,7 @@ export default function CommonShopSidebar() {
 						Loading categories...
 					</div>
 				) : (
-					<ul className="space-y-2 text-sm">
+					<ul className="space-y-2 text-sm max-h-[300px] overflow-y-auto">
 						{categories?.map((category) => (
 							<li key={category.id} className="flex items-center gap-2">
 								<Checkbox

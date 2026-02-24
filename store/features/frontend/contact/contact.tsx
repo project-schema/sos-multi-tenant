@@ -80,7 +80,7 @@ const ContactPage = () => {
 						initial={{ opacity: 0, x: -50 }}
 						whileInView={{ opacity: 1, x: 0 }}
 						transition={{ duration: 0.6 }}
-						className="  rounded-xl overflow-hidden shadow-xl   "
+						className="  rounded-xl overflow-hidden  "
 					>
 						<GoogleMap />
 					</motion.div>
@@ -92,7 +92,7 @@ const ContactPage = () => {
 						transition={{ duration: 0.6 }}
 						className="flex justify-center items-center"
 					>
-						<Card className="w-full max-w-md border-none shadow-xl md:max-w-none">
+						<Card className="w-full max-w-md border-none shadow md:max-w-none">
 							<CardHeader>
 								<CardTitle className="text-base">Got Any Questions?</CardTitle>
 							</CardHeader>
@@ -173,7 +173,7 @@ const ContactPage = () => {
 
 										<Button
 											type="submit"
-											className="w-auto"
+											className="w-auto bg-orange-500"
 											disabled={isLoading}
 										>
 											{isLoading && (

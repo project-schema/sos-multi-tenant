@@ -103,7 +103,7 @@ export function UserAccount({ cms }: { cms: iSystem | null }) {
 							onClick={() => logout()}
 							className="cursor-pointer text-red-600 focus:text-red-600"
 						>
-							<LogOut className="mr-2 h-4 w-4" />
+							<LogOut className="mr-2 h-4 w-4 text-red-600" />
 							Log Out
 						</DropdownMenuItem>
 					</DropdownMenuContent>

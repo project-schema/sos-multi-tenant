@@ -49,7 +49,7 @@ const NotFoundCard12 = ({
 						)}
 					</div>
 					{(size === 'lg' || size === 'md') && (
-						<Button asChild className="bg-orange-500">
+						<Button asChild className="bg-orange-500 hover:bg-orange-500/80">
 							<Link href="/shop">Browse Others Products</Link>
 						</Button>
 					)}

@@ -1,21 +1,21 @@
-import Footer01 from '@/components/web/footer/01';
-import Header02 from '@/components/web/header/02';
-import { getApiData } from '@/lib';
-import { iSubscriptionsType } from '@/types';
+import { getApiDataWithSubdomain } from '@/lib';
+import { iTenantFrontend } from '@/types/tenant-frontend';
 import { notFound } from 'next/navigation';
 import AuthClient from './_ctx/auth-client';
 
 export default async function ThemeTwoAuthPage() {
-	const subscriptions = await getApiData<iSubscriptionsType>('/subscriptions');
+	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
+		'/tenant-frontend/cms',
+	);
 
-	if (subscriptions?.status !== 200) {
+	if (!settings) {
 		return notFound();
 	}
 	return (
 		<>
-			<Header02 />
-			<AuthClient subscriptions={subscriptions} />
-			<Footer01 />
+			{/* <Header02 /> */}
+			<AuthClient settings={settings} />
+			{/* <Footer02 /> */}
 		</>
 	);
 }
