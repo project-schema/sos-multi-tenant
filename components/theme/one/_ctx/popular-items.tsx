@@ -1,42 +1,39 @@
 import { Button } from '@/components/ui/button';
-import { Card01 } from '@/components/web';
+import { Card01, NotFoundCard12 } from '@/components/web';
 import { getApiDataWithSubdomain } from '@/lib/api';
+import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
 import Link from 'next/link';
 
 export async function PopularItems({
 	buttons,
 	title,
-	trend,
 }: {
 	buttons: { label: string; value: string }[];
 	title: string;
-	trend?: string;
 }) {
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
-		`/tenant-frontend/products/${trend || buttons?.[0]?.value || ''}`
+		`/tenant-frontend/products/${buttons?.[0]?.value || ''}`,
 	);
-	const active = trend || buttons?.[0]?.value;
 
 	return (
 		<div className="space-y-8">
 			<div className="flex items-center justify-between max-w-[1320px] px-4 mx-auto ">
-				{title && <h2 className="text-[40px] font-bold">{title}</h2>}
+				{title && (
+					<h2 className="text-lg sm:text-xl lg:text-2xl 2xl:text-[40px] font-bold">
+						{title}
+					</h2>
+				)}
 				{buttons && buttons.length > 0 && (
 					<div className="flex gap-2">
 						{buttons.map((button) => {
-							const isActive = button.value === active;
 							return (
 								<Link
-									href={`?trend=${button.value}`}
+									href={`/shop?category_id=${button.label}`}
 									key={button.value}
-									scroll={false}
 								>
-									<Button
-										variant={isActive ? 'default' : 'outline'}
-										className={isActive ? 'bg-black text-white' : ''}
-									>
-										{button.label}
+									<Button className="bg-black hover:bg-white hover:text-black border-black border text-white hover:border-black">
+										View All
 									</Button>
 								</Link>
 							);
@@ -44,11 +41,20 @@ export async function PopularItems({
 					</div>
 				)}
 			</div>
-			<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-[1320px] px-4 mx-auto">
-				{products?.map((product) => (
-					<Card01 key={product.id} product={product} />
-				))}
-			</div>
+
+			{products?.length === 0 ? (
+				<div className="max-w-[1320px] px-4 mx-auto">
+					<NotFoundCard12 title={title} />
+				</div>
+			) : (
+				<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-6 max-w-[1320px] px-4 mx-auto">
+					{products?.map((product, index) => (
+						<MotionFadeIn key={product.id} delay={index * 0.03}>
+							<Card01 key={product.id} product={product} />
+						</MotionFadeIn>
+					))}
+				</div>
+			)}
 		</div>
 	);
 }

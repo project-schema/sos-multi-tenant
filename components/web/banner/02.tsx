@@ -1,103 +1,126 @@
 'use client';
 
+import { imageFormat } from '@/lib';
+import { iBanner } from '@/store/features/vendor/cms/home-page/banner';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 import { useRef, useState } from 'react';
+import 'swiper/css';
+import 'swiper/css/effect-fade'; // Add this import
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/thumbs';
 import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-// Import Swiper styles
-import { imageFormat } from '@/lib';
-import { iBanner } from '@/store/features/vendor/cms/home-page/banner';
-import Link from 'next/link';
-import 'swiper/css';
-import 'swiper/css/effect-fade';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-
 export default function Banner02({ banners }: { banners: iBanner[] | null }) {
-	console.log('banners', banners);
 	const [activeIndex, setActiveIndex] = useState(0);
 	const swiperRef = useRef<any>(null);
+	const prevRef = useRef<HTMLButtonElement>(null);
+	const nextRef = useRef<HTMLButtonElement>(null);
 
 	const handleSlideChange = (swiper: any) => {
 		setActiveIndex(swiper.realIndex);
 	};
 
 	const goToSlide = (index: number) => {
-		if (swiperRef.current?.swiper) {
-			swiperRef.current.swiper.slideTo(index);
-		}
+		swiperRef.current?.slideTo(index);
 	};
 
 	const goPrev = () => {
-		if (swiperRef.current?.swiper) {
-			swiperRef.current.swiper.slidePrev();
-		}
+		swiperRef.current?.slidePrev();
 	};
 
 	const goNext = () => {
-		if (swiperRef.current?.swiper) {
-			swiperRef.current.swiper.slideNext();
-		}
+		swiperRef.current?.slideNext();
 	};
 
+	if (!banners || banners.length === 0) {
+		return null; // or a placeholder
+	}
+
 	return (
-		<div className="relative w-full max-h-[700px] overflow-hidden bg-gray-100">
+		<div className="relative w-full overflow-hidden bg-gray-100">
 			<Swiper
-				ref={swiperRef}
+				onSwiper={(swiper) => {
+					swiperRef.current = swiper;
+				}}
 				modules={[Navigation, Pagination, Autoplay, EffectFade]}
-				spaceBetween={0}
 				slidesPerView={1}
 				loop={true}
+				effect="fade"
+				fadeEffect={{ crossFade: true }}
+				speed={700}
+				watchSlidesProgress={true}
+				grabCursor={true}
 				autoplay={{
 					delay: 4000,
 					disableOnInteraction: false,
+					pauseOnMouseEnter: true,
 				}}
-				effect="fade"
-				fadeEffect={{
-					crossFade: true,
-				}}
-				speed={1200}
 				onSlideChange={handleSlideChange}
-				className="w-full h-full max-h-[700px]"
+				navigation={{
+					prevEl: prevRef.current,
+					nextEl: nextRef.current,
+				}}
+				onBeforeInit={(swiper) => {
+					// Initialize navigation elements
+					if (
+						swiper.params.navigation &&
+						typeof swiper.params.navigation !== 'boolean'
+					) {
+						swiper.params.navigation.prevEl = prevRef.current;
+						swiper.params.navigation.nextEl = nextRef.current;
+					}
+				}}
 			>
 				{banners?.map((slide) => (
 					<SwiperSlide key={slide.id}>
-						<Link
-							href={slide.link ?? ''}
-							className="block relative w-full h-full max-h-[700px]"
-						>
+						<Link href={slide.link ?? '#'} className="block relative w-full">
 							<img
 								src={imageFormat(slide.image ?? '')}
 								alt={slide.title ?? ''}
-								className="w-full h-[700px] object-cover"
+								className="w-full object-cover 
+                                h-[220px] 
+                                sm:h-[320px] 
+                                md:h-[450px] 
+                                lg:h-[600px] 
+                                xl:h-[700px]"
 								loading="lazy"
 							/>
-							{/* Subtle overlay for better navigation visibility */}
 						</Link>
 					</SwiperSlide>
 				))}
 			</Swiper>
 
-			{/* Navigation Arrows */}
+			{/* Arrows */}
 			<button
+				ref={prevRef}
 				onClick={goPrev}
-				className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 w-10 h-10 bg-white bg-opacity-80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-800 hover:bg-opacity-100 hover:scale-110 transition-all duration-300 shadow-lg"
-				aria-label="Previous slide"
+				className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 
+                w-8 h-8 md:w-10 md:h-10 
+                bg-white/80 backdrop-blur-sm rounded-full 
+                flex items-center justify-center shadow-lg
+                hover:bg-white transition-colors"
 			>
-				<ChevronLeft className="w-5 h-5" />
+				<ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
 			</button>
 
 			<button
+				ref={nextRef}
 				onClick={goNext}
-				className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 w-10 h-10 bg-white bg-opacity-80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-800 hover:bg-opacity-100 hover:scale-110 transition-all duration-300 shadow-lg"
-				aria-label="Next slide"
+				className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 
+                w-8 h-8 md:w-10 md:h-10 
+                bg-white/80 backdrop-blur-sm rounded-full 
+                flex items-center justify-center shadow-lg
+                hover:bg-white transition-colors"
 			>
-				<ChevronRight className="w-5 h-5" />
+				<ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
 			</button>
 
-			{/* Pagination Dots */}
-			<div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20">
+			{/* Custom Pagination */}
+			<div className="absolute bottom-3 md:bottom-6 left-1/2 -translate-x-1/2 z-20">
 				<div className="flex space-x-2">
 					{banners?.map((_, index) => (
 						<button
@@ -105,8 +128,8 @@ export default function Banner02({ banners }: { banners: iBanner[] | null }) {
 							onClick={() => goToSlide(index)}
 							className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
 								activeIndex === index
-									? 'bg-white scale-125 shadow-lg'
-									: 'bg-white bg-opacity-60 hover:bg-opacity-80'
+									? 'bg-white scale-125'
+									: 'bg-white/60 hover:bg-white/80'
 							}`}
 							aria-label={`Go to slide ${index + 1}`}
 						/>
@@ -114,9 +137,9 @@ export default function Banner02({ banners }: { banners: iBanner[] | null }) {
 				</div>
 			</div>
 
-			{/* Slide Counter */}
-			<div className="absolute bottom-6 right-6 z-20">
-				<div className="bg-black bg-opacity-50 backdrop-blur-sm rounded-full px-3 py-1.5 text-white text-xs font-medium">
+			{/* Counter */}
+			<div className="absolute bottom-3 md:bottom-6 right-3 md:right-6 z-20">
+				<div className="bg-black/50 backdrop-blur-sm rounded-full px-3 py-1 text-white text-xs">
 					{activeIndex + 1} / {banners?.length}
 				</div>
 			</div>

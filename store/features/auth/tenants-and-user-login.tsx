@@ -126,6 +126,7 @@ export function TenantAndUserLogin({ settings }: { settings?: iSettingsType }) {
 									<Checkbox
 										checked={field.value}
 										onCheckedChange={field.onChange}
+										className="data-[state=checked]:bg-orange-600 data-[state=checked]:border-orange-600"
 									/>
 								</FormControl>
 								<FormLabel className="text-sm font-normal cursor-pointer">

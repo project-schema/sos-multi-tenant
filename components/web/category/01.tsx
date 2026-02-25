@@ -14,20 +14,21 @@ export function Category01({
 				spaceBetween={15}
 				slidesPerView={6}
 				loop={true}
-				autoplay={{
-					delay: 5000,
-					disableOnInteraction: false,
-				}}
+				// autoplay={{
+				// 	delay: 5000,
+				// 	disableOnInteraction: false,
+				// }}
+				autoplay={false}
 				speed={1000}
 				className="w-full h-full"
 				breakpoints={{
 					0: {
 						slidesPerView: 3,
-						spaceBetween: 15,
+						spaceBetween: 8,
 					},
 					640: {
 						slidesPerView: 4,
-						spaceBetween: 15,
+						spaceBetween: 10,
 					},
 					1024: {
 						slidesPerView: 5,

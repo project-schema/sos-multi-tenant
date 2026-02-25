@@ -7,7 +7,6 @@ export default function ThemeOneCartPage() {
 		<>
 			<Header01 />
 			<CommonCart />
-
 			<Footer01 />
 		</>
 	);

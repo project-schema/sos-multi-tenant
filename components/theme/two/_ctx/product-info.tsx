@@ -50,12 +50,17 @@ export function ProductInfo({ product }: { product: iVendorProductView }) {
 
 				{/* Price */}
 				<div className="flex items-center gap-3">
+					{/* show as main price discount or selling  */}
 					<p className=" text-xl lg:text-3xl font-bold text-orange-500">
-						{product?.discount_price} {sign.tk}
+						{product?.discount_price || product?.selling_price} {sign.tk}
 					</p>
-					<p className="text-gray-500 line-through text-xl  ">
-						{product?.selling_price} {sign.tk}
-					</p>
+
+					{/* if have discount then show selling price  */}
+					{product?.discount_price && (
+						<p className="text-gray-500 line-through text-xl">
+							{product?.selling_price} {sign.tk}
+						</p>
+					)}
 				</div>
 			</div>
 

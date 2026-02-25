@@ -6,20 +6,23 @@ import { iTenantFrontend } from '@/types/tenant-frontend';
 import { redirect } from 'next/navigation';
 
 export default async function ContactPage() {
-	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
-		`/tenant-frontend/cms`
-	);
+	const settings =
+		await getApiDataWithSubdomain<iTenantFrontend>(`/tenant-frontend/cms`);
 	if (!settings?.cms?.theme) {
 		redirect('/auth?tab=login');
 	}
 	switch (settings?.cms?.theme) {
 		case 'one':
-			return <ThemeOneContactPage />;
+			return <ThemeOneContactPage cms={settings?.cms} />;
 		case 'two':
 			return <ThemeTwoContactPage />;
 		case 'three':
 			return <ThemeThreeContactPage />;
 		default:
-			return <ThemeOneContactPage />;
+			return <ThemeOneContactPage cms={settings?.cms} />;
 	}
 }
+
+export const metadata = {
+	title: 'Contact',
+};

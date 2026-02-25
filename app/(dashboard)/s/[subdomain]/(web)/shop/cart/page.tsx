@@ -6,9 +6,8 @@ import { iTenantFrontend } from '@/types/tenant-frontend';
 import { redirect } from 'next/navigation';
 
 export default async function CartPage() {
-	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
-		`/tenant-frontend/cms`
-	);
+	const settings =
+		await getApiDataWithSubdomain<iTenantFrontend>(`/tenant-frontend/cms`);
 	if (!settings?.cms?.theme) {
 		redirect('/auth?tab=login');
 	}
@@ -23,3 +22,7 @@ export default async function CartPage() {
 			return <ThemeOneCartPage />;
 	}
 }
+
+export const metadata = {
+	title: 'Cart',
+};

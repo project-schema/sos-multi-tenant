@@ -541,6 +541,7 @@ export default function Checkout() {
 													<Checkbox
 														checked={field.value}
 														onCheckedChange={field.onChange}
+														className="data-[state=checked]:bg-orange-600 data-[state=checked]:border-orange-600"
 													/>
 												</FormControl>
 												<div className="space-y-1 leading-none">

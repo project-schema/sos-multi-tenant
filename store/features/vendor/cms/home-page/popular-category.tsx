@@ -279,25 +279,27 @@ export function PopularCategory() {
 						/>
 
 						{/* Popular Section Banner */}
-						<FormField
-							control={form.control}
-							name="populer_section_banner"
-							render={({ field }) => (
-								<FormItem>
-									<FormControl>
-										<ImageUpload
-											label="Popular Section Banner"
-											value={field.value as File}
-											onChange={field.onChange}
-											defaultImage={imageFormat(
-												data?.data?.populer_section_banner ?? null,
-											)}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+						{data?.data.theme === 'two' && (
+							<FormField
+								control={form.control}
+								name="populer_section_banner"
+								render={({ field }) => (
+									<FormItem>
+										<FormControl>
+											<ImageUpload
+												label="Popular Section Banner"
+												value={field.value as File}
+												onChange={field.onChange}
+												defaultImage={imageFormat(
+													data?.data?.populer_section_banner ?? null,
+												)}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						)}
 
 						{/* Category 1 */}
 						<div className="grid grid-cols-2 gap-4">
@@ -346,146 +348,150 @@ export function PopularCategory() {
 							/>
 						</div>
 
-						{/* Category 2 */}
-						<div className="grid grid-cols-2 gap-4">
-							<FormField
-								control={form.control}
-								name="populer_section_category_id_2"
-								render={({ field }) => (
-									<SearchableSelect
-										field={field}
-										label="Category 2"
-										options={(marketPlaceData?.data?.categories ?? []).map(
-											(category) => ({
-												label: category.name,
-												value: category.id.toString(),
-											}),
+						{data?.data?.theme === 'two' && (
+							<>
+								{/* Category 2 */}
+								<div className="grid grid-cols-2 gap-4">
+									<FormField
+										control={form.control}
+										name="populer_section_category_id_2"
+										render={({ field }) => (
+											<SearchableSelect
+												field={field}
+												label="Category 2"
+												options={(marketPlaceData?.data?.categories ?? []).map(
+													(category) => ({
+														label: category.name,
+														value: category.id.toString(),
+													}),
+												)}
+												placeholder={
+													marketPlaceLoading ? 'Loading...' : 'Select category'
+												}
+											/>
 										)}
-										placeholder={
-											marketPlaceLoading ? 'Loading...' : 'Select category'
-										}
 									/>
-								)}
-							/>
 
-							<FormField
-								control={form.control}
-								name="populer_section_subcategory_id_2"
-								render={({ field }) => (
-									<SearchableSelect
-										field={field}
-										label="Subcategory 2"
-										options={filteredSubcategories2.map((subcategory) => ({
-											label: subcategory.name,
-											value: subcategory.id.toString(),
-										}))}
-										placeholder={
-											marketPlaceLoading
-												? 'Loading...'
-												: !categoryId2
-													? 'Select category first'
-													: filteredSubcategories2.length === 0
-														? 'No subcategories available'
-														: 'Select subcategory'
-										}
-									/>
-								)}
-							/>
-						</div>
-
-						{/* Category 3 */}
-						<div className="grid grid-cols-2 gap-4">
-							<FormField
-								control={form.control}
-								name="populer_section_category_id_3"
-								render={({ field }) => (
-									<SearchableSelect
-										field={field}
-										label="Category 3"
-										options={(marketPlaceData?.data?.categories ?? []).map(
-											(category) => ({
-												label: category.name,
-												value: category.id.toString(),
-											}),
+									<FormField
+										control={form.control}
+										name="populer_section_subcategory_id_2"
+										render={({ field }) => (
+											<SearchableSelect
+												field={field}
+												label="Subcategory 2"
+												options={filteredSubcategories2.map((subcategory) => ({
+													label: subcategory.name,
+													value: subcategory.id.toString(),
+												}))}
+												placeholder={
+													marketPlaceLoading
+														? 'Loading...'
+														: !categoryId2
+															? 'Select category first'
+															: filteredSubcategories2.length === 0
+																? 'No subcategories available'
+																: 'Select subcategory'
+												}
+											/>
 										)}
-										placeholder={
-											marketPlaceLoading ? 'Loading...' : 'Select category'
-										}
 									/>
-								)}
-							/>
+								</div>
 
-							<FormField
-								control={form.control}
-								name="populer_section_subcategory_id_3"
-								render={({ field }) => (
-									<SearchableSelect
-										field={field}
-										label="Subcategory 3"
-										options={filteredSubcategories3.map((subcategory) => ({
-											label: subcategory.name,
-											value: subcategory.id.toString(),
-										}))}
-										placeholder={
-											marketPlaceLoading
-												? 'Loading...'
-												: !categoryId3
-													? 'Select category first'
-													: filteredSubcategories3.length === 0
-														? 'No subcategories available'
-														: 'Select subcategory'
-										}
-									/>
-								)}
-							/>
-						</div>
-
-						{/* Category 4 */}
-						<div className="grid grid-cols-2 gap-4">
-							<FormField
-								control={form.control}
-								name="populer_section_category_id_4"
-								render={({ field }) => (
-									<SearchableSelect
-										field={field}
-										label="Category 4"
-										options={(marketPlaceData?.data?.categories ?? []).map(
-											(category) => ({
-												label: category.name,
-												value: category.id.toString(),
-											}),
+								{/* Category 3 */}
+								<div className="grid grid-cols-2 gap-4">
+									<FormField
+										control={form.control}
+										name="populer_section_category_id_3"
+										render={({ field }) => (
+											<SearchableSelect
+												field={field}
+												label="Category 3"
+												options={(marketPlaceData?.data?.categories ?? []).map(
+													(category) => ({
+														label: category.name,
+														value: category.id.toString(),
+													}),
+												)}
+												placeholder={
+													marketPlaceLoading ? 'Loading...' : 'Select category'
+												}
+											/>
 										)}
-										placeholder={
-											marketPlaceLoading ? 'Loading...' : 'Select category'
-										}
 									/>
-								)}
-							/>
 
-							<FormField
-								control={form.control}
-								name="populer_section_subcategory_id_4"
-								render={({ field }) => (
-									<SearchableSelect
-										field={field}
-										label="Subcategory 4"
-										options={filteredSubcategories4.map((subcategory) => ({
-											label: subcategory.name,
-											value: subcategory.id.toString(),
-										}))}
-										placeholder={
-											marketPlaceLoading
-												? 'Loading...'
-												: !categoryId4
-													? 'Select category first'
-													: filteredSubcategories4.length === 0
-														? 'No subcategories available'
-														: 'Select subcategory'
-										}
+									<FormField
+										control={form.control}
+										name="populer_section_subcategory_id_3"
+										render={({ field }) => (
+											<SearchableSelect
+												field={field}
+												label="Subcategory 3"
+												options={filteredSubcategories3.map((subcategory) => ({
+													label: subcategory.name,
+													value: subcategory.id.toString(),
+												}))}
+												placeholder={
+													marketPlaceLoading
+														? 'Loading...'
+														: !categoryId3
+															? 'Select category first'
+															: filteredSubcategories3.length === 0
+																? 'No subcategories available'
+																: 'Select subcategory'
+												}
+											/>
+										)}
 									/>
-								)}
-							/>
-						</div>
+								</div>
+
+								{/* Category 4 */}
+								<div className="grid grid-cols-2 gap-4">
+									<FormField
+										control={form.control}
+										name="populer_section_category_id_4"
+										render={({ field }) => (
+											<SearchableSelect
+												field={field}
+												label="Category 4"
+												options={(marketPlaceData?.data?.categories ?? []).map(
+													(category) => ({
+														label: category.name,
+														value: category.id.toString(),
+													}),
+												)}
+												placeholder={
+													marketPlaceLoading ? 'Loading...' : 'Select category'
+												}
+											/>
+										)}
+									/>
+
+									<FormField
+										control={form.control}
+										name="populer_section_subcategory_id_4"
+										render={({ field }) => (
+											<SearchableSelect
+												field={field}
+												label="Subcategory 4"
+												options={filteredSubcategories4.map((subcategory) => ({
+													label: subcategory.name,
+													value: subcategory.id.toString(),
+												}))}
+												placeholder={
+													marketPlaceLoading
+														? 'Loading...'
+														: !categoryId4
+															? 'Select category first'
+															: filteredSubcategories4.length === 0
+																? 'No subcategories available'
+																: 'Select subcategory'
+												}
+											/>
+										)}
+									/>
+								</div>
+							</>
+						)}
 
 						<DialogFooter>
 							<Button type="submit" disabled={isLoading}>

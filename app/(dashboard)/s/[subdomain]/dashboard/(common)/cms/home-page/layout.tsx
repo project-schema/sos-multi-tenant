@@ -126,6 +126,14 @@ export default function Layout({ children }: LayoutProps) {
 								return null;
 							}
 
+							// need hide recommended category if theme is one
+							if (
+								data?.data?.theme === 'one' &&
+								item.tab === 'recommended-category'
+							) {
+								return null;
+							}
+
 							// need hide home banner image if theme is three and one
 							if (
 								data?.data.theme !== 'two' &&

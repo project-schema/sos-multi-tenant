@@ -1,10 +1,13 @@
 import { imageFormat } from '@/lib';
 import { iTenantFrontend } from '@/types/tenant-frontend';
+import Image from 'next/image';
 
 export default function Card05({ settings }: { settings: iTenantFrontend }) {
 	return (
 		<div className="relative aspect-[16/5] w-full overflow-hidden rounded-xl">
-			<img
+			<Image
+				width={1000}
+				height={1000}
 				src={imageFormat(settings?.cms?.three_column_banner_1 ?? null)}
 				alt={settings?.cms?.three_column_banner_1 ?? ''}
 				className="object-cover w-full h-full"

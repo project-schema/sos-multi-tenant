@@ -13,7 +13,6 @@ export default async function AuthPage() {
 	switch (settings?.cms?.theme) {
 		case 'one':
 			return <ThemeOneAuthPage />;
-		// return <ThemeTwoAuthPage />;
 		case 'three':
 			return <ThemeThreeAuthPage />;
 
@@ -22,3 +21,7 @@ export default async function AuthPage() {
 			return subscriptions ? <AuthClient settings={settings} /> : null;
 	}
 }
+
+export const metadata = {
+	title: 'Auth',
+};

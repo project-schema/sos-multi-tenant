@@ -19,6 +19,12 @@ export const themeVariable = (cms: iSystem) => {
 		return `
         :root {
           --color-black: ${cms.color_primary || env.color_primary};
+          --color-orange-500: ${cms.color_primary || env.color_primary};
+          --color-orange-600: ${cms.color_primary || env.color_primary};
+        }
+        ::selection {
+          background: ${cms.color_primary || env.color_primary};
+          color: #ffffff;
         }
       `;
 	} else if (cms.theme && cms.theme === 'three') {

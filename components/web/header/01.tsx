@@ -9,7 +9,7 @@ import { UserAccount1 } from './_ctx/user-account-1';
 import { UtilityIcons1 } from './_ctx/utility-icons-1';
 export default async function Header01() {
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
-		'/tenant-frontend/cms'
+		'/tenant-frontend/cms',
 	);
 
 	return (
@@ -20,7 +20,7 @@ export default async function Header01() {
 				)}
 				{/* Top Bar */}
 				<div className="bg-white border-b border-gray-200">
-					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+					<div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
 						<div className="flex items-center justify-between h-16">
 							{/* Logo */}
 							<Logo logo={settings?.cms?.logo ?? ''} className="py-2" />
@@ -47,7 +47,7 @@ export default async function Header01() {
 
 				{/* Navigation Bar */}
 				<div className="bg-black md:block hidden">
-					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+					<div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
 						<nav className="flex items-center justify-center">
 							<ul className="flex items-center space-x-8 whitespace-nowrap flex-wrap">
 								<li>

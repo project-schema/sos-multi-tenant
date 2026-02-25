@@ -5,9 +5,8 @@ import { env, getApiDataWithSubdomain } from '@/lib';
 import { iTenantFrontend } from '@/types/tenant-frontend';
 
 export default async function AccountPage() {
-	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
-		`/tenant-frontend/cms`
-	);
+	const settings =
+		await getApiDataWithSubdomain<iTenantFrontend>(`/tenant-frontend/cms`);
 	switch (settings?.cms?.theme || env.theme) {
 		case 'one':
 			return <ThemeOneAccountPage />;
@@ -19,3 +18,7 @@ export default async function AccountPage() {
 			return <ThemeOneAccountPage />;
 	}
 }
+
+export const metadata = {
+	title: 'Account',
+};

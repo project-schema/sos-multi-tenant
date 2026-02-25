@@ -1,3 +1,4 @@
+import ThemeOneShopPage from '@/components/theme/one/shop-page';
 import ThemeTwoShopPage from '@/components/theme/two/shop-page';
 import { getApiDataWithSubdomain } from '@/lib';
 import { iTenantFrontend } from '@/types/tenant-frontend';
@@ -17,7 +18,7 @@ export default async function ShopPage({
 	}
 	switch (settings?.cms?.theme) {
 		case 'one':
-		// return <ThemeOneShopPage data={products} />;
+			return <ThemeOneShopPage searchParams={searchParams} />;
 		case 'two':
 			return <ThemeTwoShopPage searchParams={searchParams} />;
 		case 'three':

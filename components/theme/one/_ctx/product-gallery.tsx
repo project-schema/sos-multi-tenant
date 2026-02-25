@@ -49,7 +49,7 @@ export function ProductGallery({ product }: { product?: iVendorProductView }) {
 		(index: number) => {
 			api?.scrollTo(index);
 		},
-		[api]
+		[api],
 	);
 
 	return (
@@ -95,7 +95,7 @@ export function ProductGallery({ product }: { product?: iVendorProductView }) {
 										aspect-square rounded-md overflow-hidden bg-gray-100 border-2 transition-all h-full
 										${
 											current === index + 1
-												? 'border-orange-500 ring-2 ring-orange-200'
+												? 'border-orange-500 ring-2 ring-orange-500/20'
 												: 'border-gray-200 hover:border-gray-300'
 										}
 									`}

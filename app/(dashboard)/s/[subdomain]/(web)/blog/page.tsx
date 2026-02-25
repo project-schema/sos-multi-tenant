@@ -6,9 +6,8 @@ import { iTenantFrontend } from '@/types/tenant-frontend';
 import { redirect } from 'next/navigation';
 
 export default async function BlogPage() {
-	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
-		`/tenant-frontend/cms`
-	);
+	const settings =
+		await getApiDataWithSubdomain<iTenantFrontend>(`/tenant-frontend/cms`);
 	if (!settings?.cms?.theme) {
 		redirect('/auth?tab=login');
 	}
@@ -23,3 +22,7 @@ export default async function BlogPage() {
 			return <ThemeOneBlogPage />;
 	}
 }
+
+export const metadata = {
+	title: 'Blog',
+};

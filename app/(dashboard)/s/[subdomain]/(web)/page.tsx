@@ -27,9 +27,7 @@ export default async function Page({
 
 	switch (settings?.cms?.theme || env.theme) {
 		case 'one':
-			return (
-				<ThemeOneHomePage searchParams={{ trend, search, feature, include }} />
-			);
+			return <ThemeOneHomePage />;
 		case 'two':
 			return (
 				<ThemeTwoHomePage searchParams={{ trend, search, feature, include }} />
@@ -41,8 +39,6 @@ export default async function Page({
 				/>
 			);
 		default:
-			return (
-				<ThemeOneHomePage searchParams={{ trend, search, feature, include }} />
-			);
+			return <ThemeOneHomePage />;
 	}
 }

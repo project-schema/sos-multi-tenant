@@ -5,8 +5,8 @@ import 'react-quill-new/dist/quill.snow.css';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
-
 import './globals.css';
 
 const poppins = Poppins({

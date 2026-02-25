@@ -282,7 +282,7 @@ export default function CommonCart() {
 									<span className="font-bold">{total.toLocaleString()}৳</span>
 								</div>
 								<Link href="/shop/checkout">
-									<Button className="w-full mt-4 bg-orange-500 text-white h-11">
+									<Button className="w-full mt-4 bg-orange-500 hover:bg-orange-500/80 text-white h-11">
 										Proceed To Checkout
 									</Button>
 								</Link>

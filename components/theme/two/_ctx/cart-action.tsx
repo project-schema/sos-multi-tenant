@@ -318,7 +318,7 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 					onClick={handleBuyNow}
 					disabled={isAddingToCart}
 					variant="outline"
-					className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-md"
+					className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-md hover:bg-orange-500 hover:text-white"
 				>
 					{isAddingToCart ? (
 						<Loader2 className="w-4 h-4 animate-spin" />
@@ -333,8 +333,9 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 					disabled={isWishlistLoading}
 					variant="outline"
 					className={cn(
-						'inline-flex items-center justify-center gap-2 px-4 py-3 rounded-md',
-						isInWishlist && 'text-red-500 border-red-200 hover:bg-red-50',
+						'inline-flex items-center justify-center gap-2 px-4 py-3 rounded-md hover:bg-orange-500 hover:text-white',
+						isInWishlist &&
+							'  bg-orange-500 text-white border-orange-500/50 hover:bg-orange-500 hover:text-white',
 					)}
 				>
 					{isWishlistLoading ? (
