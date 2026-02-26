@@ -2,13 +2,14 @@ import { getApiDataWithSubdomain, imageFormat } from '@/lib';
 import { iTenantFrontend } from '@/types/tenant-frontend';
 import { Facebook, Instagram, Map, Music, Phone, Twitter } from 'lucide-react';
 import Link from 'next/link';
+import { MobileMenu } from './_ctx/mobile-menu';
 import SearchPopup from './_ctx/search-popup';
 import { UserAccount } from './_ctx/user-account';
 import { UtilityIcons } from './_ctx/utility-icons';
 
-export default async function Header03() {
+export default async function MainHeader() {
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
-		'/tenant-frontend/cms'
+		'/tenant-frontend/cms',
 	);
 	const menuItems = [
 		{
@@ -103,8 +104,13 @@ export default async function Header03() {
 	// ];
 	return (
 		<header className="w-full bg-white">
+			{/* Top Promotional Bar */}
+			{/* {settings?.offers && settings?.offers?.length > 0 && (
+				<TopPromotionalBar offers={settings?.offers ?? []} />
+			)} */}
+
 			{/* Top Bar - Maroon Background */}
-			<div className="bg-[#800020] text-white py-2.5">
+			<div className="bg-primary3 text-white py-2.5 hidden lg:block">
 				<div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex items-center justify-between flex-wrap gap-4 text-xs sm:text-sm">
 						{/* Social Media Icons */}
@@ -189,6 +195,7 @@ export default async function Header03() {
 						<div className="flex items-center gap-4">
 							<UtilityIcons variant="desktop" />
 							<UserAccount cms={settings?.cms ?? null} />
+							<MobileMenu cms={settings?.cms ?? null} />
 						</div>
 					</div>
 				</div>
@@ -207,7 +214,7 @@ export default async function Header03() {
 							>
 								<Link
 									href={item.href}
-									className="text-sm font-semibold font-montserrat flex items-center gap-2"
+									className="text-sm font-semibold font-montserrat flex items-center gap-2 hover:text-primary3"
 								>
 									{item.label}
 									{/* {item?.subItems?.length > 0 && (
@@ -215,7 +222,7 @@ export default async function Header03() {
 									)} */}
 								</Link>
 								{item.badge && (
-									<span className="text-sm font-semibold font-montserrat absolute -top-3 -right-4 bg-[#800020] text-[8px] text-white px-2 py-0.5 rounded-full">
+									<span className="text-sm font-semibold font-montserrat absolute -top-3 -right-4 bg-primary3 text-[8px] text-white px-2 py-0.5 rounded-full">
 										{item.badge}
 									</span>
 								)}

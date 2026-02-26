@@ -456,3 +456,9 @@ a {
 .LABEL38_15 {
 	width: 38mm;
 }
+
+.theme-3-product-slider {
+	.swiper-slide-thumb-active {
+		border: 2px solid var(--primary3);
+	}
+}

@@ -103,7 +103,7 @@ export function SearchBar({
 						className="flex-1 px-4 py-2.5 text-sm text-gray-700 outline-none placeholder:text-gray-400"
 					/>
 					<button
-						className={`flex h-10 w-10 items-center justify-center   text-white transition-colors hover:bg-${
+						className={`flex h-11 sm:h-12 md:h-10 w-10 items-center justify-center   text-white transition-colors hover:bg-${
 							cms?.color_secondary || env.color_secondary
 						}`}
 						style={{ backgroundColor: cms?.color_primary || env.color_primary }}

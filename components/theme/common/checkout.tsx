@@ -292,7 +292,9 @@ export default function Checkout() {
 						Add some items to your cart before checkout
 					</p>
 					<Link href="/shop">
-						<Button className="bg-black text-white">Browse Products</Button>
+						<Button className="bg-orange-500 hover:bg-orange-500/80 text-white">
+							Browse Products
+						</Button>
 					</Link>
 				</div>
 			</section>
@@ -564,7 +566,7 @@ export default function Checkout() {
 									<Button
 										type="submit"
 										disabled={isPlacingOrder}
-										className="w-full h-11 bg-orange-500 text-white hover:bg-black/90"
+										className="w-full h-11 text-white bg-orange-500 hover:bg-orange-500/80"
 									>
 										{isPlacingOrder ? (
 											<>

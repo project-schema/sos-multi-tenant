@@ -26,6 +26,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm } from '@/lib';
 import { toast } from 'sonner';
 import { useVendorCategoryStoreMutation } from './vendor-category-api-slice';
@@ -37,7 +38,7 @@ const schema = z.object({
 		.refine((file) => file.size > 0, { message: 'Image is required' })
 		.optional(),
 	name: z.string().min(1, 'Name is required'),
-
+	description: z.string().optional(),
 	status: z.enum(['active', 'pending']),
 });
 
@@ -51,6 +52,7 @@ export function VendorCategoryCreate() {
 		defaultValues: {
 			image: undefined,
 			name: '',
+			description: '',
 			status: 'active',
 		},
 	});
@@ -125,6 +127,20 @@ export function VendorCategoryCreate() {
 							<FormLabel>Name</FormLabel>
 							<FormControl>
 								<Input {...field} placeholder="Type category name..." />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				{/* Name */}
+				<FormField
+					control={form.control}
+					name="description"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Description</FormLabel>
+							<FormControl>
+								<Textarea {...field} placeholder="Type description..." />
 							</FormControl>
 							<FormMessage />
 						</FormItem>

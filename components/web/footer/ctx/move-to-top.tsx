@@ -5,7 +5,7 @@ import { ArrowUp } from 'lucide-react';
 export const MoveToTop = () => {
 	return (
 		<button
-			className="flex text-white/85 items-center gap-1 py-3"
+			className="flex text-white/85 items-center gap-1 whitespace-nowrap "
 			onClick={() => {
 				window.scrollTo({
 					top: 0,

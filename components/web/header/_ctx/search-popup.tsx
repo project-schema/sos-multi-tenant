@@ -20,7 +20,7 @@ export default function SearchPopup({ cms }: { cms: iSystem | null }) {
 		<Dialog>
 			<DialogTrigger asChild>
 				<button
-					className="flex items-center justify-center text-[#800020] hover:opacity-80 transition-opacity"
+					className="flex items-center justify-center text-primary3 hover:opacity-80 transition-opacity"
 					aria-label="Search"
 				>
 					<Search className="w-6 h-6" />

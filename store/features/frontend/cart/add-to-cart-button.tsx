@@ -49,7 +49,7 @@ export function AddToCartButton({
 
 	// Check if product is already in cart
 	const isInCart = cartData?.cart?.some(
-		(item) => item.product_id === productId
+		(item) => item.product_id === productId,
 	);
 
 	const handleClick = async (e: React.MouseEvent) => {
@@ -111,8 +111,8 @@ export function AddToCartButton({
 				disabled={isLoading || disabled}
 				className={cn(
 					'w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md transition-all hover:scale-110 disabled:opacity-50',
-					isInCart && 'bg-black text-white',
-					className
+					isInCart && 'bg-orange-500 hover:bg-orange-500/80 text-white',
+					className,
 				)}
 			>
 				{isLoading ? (
@@ -130,8 +130,8 @@ export function AddToCartButton({
 				onClick={handleClick}
 				disabled={isLoading || disabled}
 				className={cn(
-					'w-full gap-2 bg-black text-white hover:bg-black/90',
-					className
+					'w-full gap-2   text-white bg-orange-500 hover:bg-orange-500/80',
+					className,
 				)}
 			>
 				{isLoading ? (
@@ -148,7 +148,10 @@ export function AddToCartButton({
 		<Button
 			onClick={handleClick}
 			disabled={isLoading || disabled}
-			className={cn('gap-2 bg-black text-white hover:bg-black/90', className)}
+			className={cn(
+				'gap-2   text-white bg-orange-500 hover:bg-orange-500/80',
+				className,
+			)}
 		>
 			{isLoading ? (
 				<Loader2 className="w-4 h-4 animate-spin" />

@@ -303,7 +303,7 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 				<Button
 					onClick={handleAddToCart}
 					disabled={isAddingToCart}
-					className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-orange-500 text-white px-5 py-3 rounded-md hover:bg-black/90"
+					className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-500/80 text-white px-5 py-3 rounded-md  "
 				>
 					{isAddingToCart ? (
 						<Loader2 className="w-4 h-4 animate-spin" />

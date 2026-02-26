@@ -30,6 +30,9 @@ export default async function ThemeTwoShopPageSuspense({
 	if (color_id) params.set('color_id', color_id);
 	if (size_id) params.set('size_id', size_id);
 	params.set('page', page);
+	if (category_id || min_price || max_price || color_id || size_id) {
+		params.delete('page');
+	}
 	const queryString = params.toString();
 	const url = `/tenant-frontend/products${
 		queryString ? `?${queryString}` : ''

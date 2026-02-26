@@ -1,5 +1,6 @@
-import { Card10 } from '@/components/web';
-import { env, getApiDataWithSubdomain } from '@/lib';
+import { Card10, NotFoundCard12 } from '@/components/web';
+import { getApiDataWithSubdomain, imageFormat } from '@/lib';
+import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import { iVendorProduct } from '@/store/features/vendor/product/vendor-product-type';
 import { iTenantFrontend } from '@/types/tenant-frontend';
 import Image from 'next/image';
@@ -15,31 +16,35 @@ export const RecommendedProducts = async ({
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
 		`/tenant-frontend/products/${
 			include || settings?.recomended_sub_category_id_1.id || ''
-		}`
+		}`,
 	);
 	const isActive = include || settings?.recomended_sub_category_id_1.id;
 	return (
-		<div className="max-w-[1720px] mx-auto">
-			<div className="sp-60 mb-sp flex items-center gap-2 justify-center">
+		<div className="max-w-[1740px] px-5 mx-auto">
+			<div className="sp-60 mb-sp flex items-center gap-2 justify-center flex-wrap">
 				{[
 					{
 						value: settings?.recomended_sub_category_id_1.id.toString(),
 						label: settings?.recomended_category_id_1.name,
+						image: settings?.recomended_category_id_1.image,
 					},
 					{
 						value: settings?.recomended_sub_category_id_2.id.toString(),
 						label: settings?.recomended_category_id_2.name,
+						image: settings?.recomended_category_id_2.image,
 					},
 					{
 						value: settings?.recomended_sub_category_id_3.id.toString(),
 						label: settings?.recomended_category_id_3.name,
+						image: settings?.recomended_category_id_3.image,
 					},
 					{
 						value: settings?.recomended_sub_category_id_4.id.toString(),
 						label: settings?.recomended_category_id_4.name,
+						image: settings?.recomended_category_id_4.image,
 					},
 				].map((item) => {
-					const activeItem = item.value === isActive;
+					const activeItem = item.value.toString() === isActive.toString();
 					return (
 						<Link
 							key={item.value}
@@ -50,7 +55,7 @@ export const RecommendedProducts = async ({
 							}`}
 						>
 							<Image
-								src={env.placeholderImage}
+								src={imageFormat(item.image)}
 								alt="image"
 								width={50}
 								height={50}
@@ -67,11 +72,17 @@ export const RecommendedProducts = async ({
 					);
 				})}
 			</div>
-			<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-				{products?.map((e) => (
-					<Card10 key={e.id} data={e} />
-				))}
-			</div>
+			{products?.length === 0 ? (
+				<NotFoundCard12 />
+			) : (
+				<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+					{products?.map((e, index) => (
+						<MotionFadeIn key={e.id} delay={index * 0.03}>
+							<Card10 key={e.id} data={e} />
+						</MotionFadeIn>
+					))}
+				</div>
+			)}
 		</div>
 	);
 };

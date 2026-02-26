@@ -1,4 +1,5 @@
 import ThemeOneShopPage from '@/components/theme/one/shop-page';
+import ThemeThreeShopPage from '@/components/theme/three/shop-page';
 import ThemeTwoShopPage from '@/components/theme/two/shop-page';
 import { getApiDataWithSubdomain } from '@/lib';
 import { iTenantFrontend } from '@/types/tenant-frontend';
@@ -22,9 +23,9 @@ export default async function ShopPage({
 		case 'two':
 			return <ThemeTwoShopPage searchParams={searchParams} />;
 		case 'three':
-		// return <ThemeThreeShopPage data={products} />;
+			return <ThemeThreeShopPage searchParams={searchParams} />;
 		default:
-		// return <ThemeOneShopPage data={products} />;
+			return <ThemeOneShopPage searchParams={searchParams} />;
 	}
 }
 

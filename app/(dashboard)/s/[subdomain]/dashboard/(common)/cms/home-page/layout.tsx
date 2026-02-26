@@ -135,12 +135,12 @@ export default function Layout({ children }: LayoutProps) {
 							}
 
 							// need hide home banner image if theme is three and one
-							if (
-								data?.data.theme !== 'two' &&
-								item.tab === 'home-banner-image'
-							) {
-								return null;
-							}
+							// if (
+							// 	data?.data.theme === 'two' &&
+							// 	item.tab === 'home-banner-image'
+							// ) {
+							// 	return null;
+							// }
 
 							return (
 								<SidebarMenuItem key={item.title}>
