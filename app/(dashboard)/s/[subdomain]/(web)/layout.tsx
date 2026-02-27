@@ -1,4 +1,4 @@
-import { getApiData, getApiDataWithSubdomain, themeVariable } from '@/lib';
+import { env, getApiData, getApiDataWithSubdomain, themeVariable } from '@/lib';
 import { FrontendPageVisit } from '@/store/features/frontend';
 import { iTenantFrontend } from '@/types/tenant-frontend';
 import { Metadata } from 'next';
@@ -148,10 +148,20 @@ export async function generateMetadata({
 			title: 'Tenant not found',
 		};
 	}
+	const favicon = settings?.cms?.fav_icon
+		? `${env.baseAPI}/${settings.cms.fav_icon}?v=${settings.cms.updated_at || '1'}`
+		: '/favicon.ico';
+
 	return {
 		title: {
 			default: settings?.cms?.app_name || 'SOS',
 			template: `%s - ${settings?.cms?.app_name || 'SOS'}`,
+		},
+		// ✅ Dynamic Favicon
+		icons: {
+			icon: favicon,
+			shortcut: favicon,
+			apple: favicon,
 		},
 		description: settings?.cms?.seo_meta_description || 'SOS Management',
 		keywords: settings?.cms?.seo_meta_keywords || 'SOS, Management, Dashboard',

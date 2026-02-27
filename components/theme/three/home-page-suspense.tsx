@@ -45,12 +45,12 @@ export default async function ThemeThreeHomePageSuspense({
 			image: settings?.cms?.three_column_banner_2 ?? null,
 			link: settings?.cms?.three_column_banner_2_url ?? null,
 		},
-	].filter((e) => e.image && e.link);
+	].filter((e) => e.image);
 
 	return (
 		<>
 			<main className="bg-primary3/5 space-y-10 md:space-y-14 lg:space-y-16 2xl:space-y-24 pb-10 md:pb-14 lg:pb-16 2xl:pb-24">
-				<MotionFadeIn className="hidden">
+				<MotionFadeIn>
 					<Banner04 cms={settings?.cms} />
 				</MotionFadeIn>
 
@@ -60,14 +60,16 @@ export default async function ThemeThreeHomePageSuspense({
 							<h2 className="fs-50 font-semibold text-center font-kalnia text-primary3  mb-8 lg:mb-14">
 								Categories
 							</h2>
-							<CategorySections categories={categories} />
+							<MotionFadeIn>
+								<CategorySections categories={categories} />
+							</MotionFadeIn>
 						</div>
 					</MotionFadeIn>
 				)}
 
 				{settings?.cms?.populer_section_title && (
-					<MotionFadeIn>
-						<div className="max-w-[1740px] px-5 mx-auto">
+					<div className="max-w-[1740px] px-5 mx-auto">
+						<MotionFadeIn>
 							{settings?.cms?.populer_section_title && (
 								<div className="sp-60 mb-sp">
 									<h2 className="fs-50 font-semibold  font-kalnia text-primary3">
@@ -75,6 +77,9 @@ export default async function ThemeThreeHomePageSuspense({
 									</h2>
 								</div>
 							)}
+						</MotionFadeIn>
+
+						<MotionFadeIn>
 							{settings?.populer_section_category_id_1.name &&
 								settings?.populer_section_subcategory_id_1.id && (
 									<PopularProducts
@@ -87,8 +92,8 @@ export default async function ThemeThreeHomePageSuspense({
 										]}
 									/>
 								)}
-						</div>
-					</MotionFadeIn>
+						</MotionFadeIn>
+					</div>
 				)}
 				{bannerImages?.length > 0 && (
 					<MotionFadeIn>

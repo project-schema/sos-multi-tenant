@@ -57,7 +57,7 @@ const schema = z.object({
 
 type ZodType = z.infer<typeof schema>;
 
-export function HomeAdvertiseBanner() {
+export function HomeAdvertiseBanner14() {
 	const [store, { isLoading }] = useUpdateSystemMutation();
 	const { data, isLoading: loading, isError, refetch } = useSystemQuery();
 
@@ -155,14 +155,66 @@ export function HomeAdvertiseBanner() {
 					<CardContent className="pt-6">
 						<div className="mb-6">
 							<h3 className="text-lg font-semibold text-gray-900 mb-2">
-								Two Column Banners
+								Single Column Banner
 							</h3>
 							<p className="text-sm text-gray-600">
-								Configure banners that appear in a two-column layout
+								Configure for single Layout
 							</p>
 						</div>
 
-						<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+						<div className="space-y-4 max-w-xl">
+							<FormField
+								control={form.control}
+								name="three_column_banner_3"
+								render={({ field }) => (
+									<FormItem>
+										<FormControl>
+											<ImageUpload
+												label="Banner Image"
+												value={field.value as File}
+												onChange={field.onChange}
+												defaultImage={imageFormat(
+													data?.data?.three_column_banner_3 ?? null,
+												)}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="three_column_banner_3_url"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel className="text-sm">Banner URL</FormLabel>
+										<FormControl>
+											<Input
+												{...field}
+												placeholder="https://example.com"
+												type="url"
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</div>
+					</CardContent>
+				</Card>
+
+				{/* Three Column Banners Section */}
+				<Card>
+					<CardContent className="pt-6">
+						<div className="mb-6">
+							<h3 className="text-lg font-semibold text-gray-900 mb-2">
+								Four Column Banner
+							</h3>
+							<p className="text-sm text-gray-600">Control for four Layout</p>
+						</div>
+
+						{/* Banner 1 */}
+						<div className="border border-gray-200 rounded-lg p-4 bg-blue-50  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 							{/* Banner 1 */}
 							<div className="space-y-4">
 								<div className="border border-gray-200 rounded-lg p-4 bg-gray-50">
@@ -256,30 +308,10 @@ export function HomeAdvertiseBanner() {
 									</div>
 								</div>
 							</div>
-						</div>
-					</CardContent>
-				</Card>
-
-				{/* Three Column Banners Section */}
-				<Card>
-					<CardContent className="pt-6">
-						<div className="mb-6">
-							<h3 className="text-lg font-semibold text-gray-900 mb-2">
-								{data?.data.theme === 'one' ? 'Single' : 'Three'} Column Banner
-								{data?.data.theme === 'one' ? '' : 's'}
-							</h3>
-							<p className="text-sm text-gray-600">
-								{data?.data.theme === 'one'
-									? 'For theme one need single banner'
-									: 'Configure banners that appear in a three-column layout'}
-							</p>
-						</div>
-
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-							{/* Banner 1 */}
-							<div className="border border-gray-200 rounded-lg p-4 bg-blue-50">
+							{/* Banner 3 */}
+							<div className="border border-gray-200 rounded-lg p-4 bg-gray-50">
 								<h4 className="text-sm font-medium text-gray-700 mb-3">
-									Banner 1
+									Banner 3
 								</h4>
 								<div className="space-y-4">
 									<FormField
@@ -321,104 +353,51 @@ export function HomeAdvertiseBanner() {
 								</div>
 							</div>
 
-							{/* If theme is two and three */}
-							{data?.data.theme !== 'one' && (
-								<>
-									{/* Banner 2 */}
-									<div className="border border-gray-200 rounded-lg p-4 bg-green-50">
-										<h4 className="text-sm font-medium text-gray-700 mb-3">
-											Banner 2
-										</h4>
-										<div className="space-y-4">
-											<FormField
-												control={form.control}
-												name="three_column_banner_2"
-												render={({ field }) => (
-													<FormItem>
-														<FormControl>
-															<ImageUpload
-																label="Banner Image"
-																value={field.value as File}
-																onChange={field.onChange}
-																defaultImage={imageFormat(
-																	data?.data?.three_column_banner_2 ?? null,
-																)}
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-											<FormField
-												control={form.control}
-												name="three_column_banner_2_url"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel className="text-sm">
-															Banner URL
-														</FormLabel>
-														<FormControl>
-															<Input
-																{...field}
-																placeholder="https://example.com"
-																type="url"
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-										</div>
-									</div>
+							{/* Banner 4 */}
+							<div className="border border-gray-200 rounded-lg p-4 bg-gray-50">
+								<h4 className="text-sm font-medium text-gray-700 mb-3">
+									Banner 4
+								</h4>
 
-									{/* Banner 3 */}
-									<div className="border border-gray-200 rounded-lg p-4 bg-purple-50">
-										<h4 className="text-sm font-medium text-gray-700 mb-3">
-											Banner 3
-										</h4>
-										<div className="space-y-4">
-											<FormField
-												control={form.control}
-												name="three_column_banner_3"
-												render={({ field }) => (
-													<FormItem>
-														<FormControl>
-															<ImageUpload
-																label="Banner Image"
-																value={field.value as File}
-																onChange={field.onChange}
-																defaultImage={imageFormat(
-																	data?.data?.three_column_banner_3 ?? null,
-																)}
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-											<FormField
-												control={form.control}
-												name="three_column_banner_3_url"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel className="text-sm">
-															Banner URL
-														</FormLabel>
-														<FormControl>
-															<Input
-																{...field}
-																placeholder="https://example.com"
-																type="url"
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-										</div>
-									</div>
-								</>
-							)}
+								<div className="space-y-4">
+									<FormField
+										control={form.control}
+										name="three_column_banner_2"
+										render={({ field }) => (
+											<FormItem>
+												<FormControl>
+													<ImageUpload
+														label="Banner Image"
+														value={field.value as File}
+														onChange={field.onChange}
+														defaultImage={imageFormat(
+															data?.data?.three_column_banner_2 ?? null,
+														)}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<FormField
+										control={form.control}
+										name="three_column_banner_2_url"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel className="text-sm">Banner URL</FormLabel>
+												<FormControl>
+													<Input
+														{...field}
+														placeholder="https://example.com"
+														type="url"
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</div>
+							</div>
 						</div>
 					</CardContent>
 				</Card>

@@ -29,9 +29,14 @@ const schema = z.object({
 	app_name: z.string().min(1, 'App Name is required'),
 	home_page_title: z.string().min(1, 'Home Page Title is required'),
 	color_primary: z.string().optional(),
+	contact_email: z.string().optional(),
 	logo: z
 		.instanceof(File)
 		.refine((file) => file.size > 0, { message: 'Image is required' })
+		.optional(),
+	fav_icon: z
+		.instanceof(File)
+		.refine((file) => file.size > 0, { message: 'Fav Icon is required' })
 		.optional(),
 });
 
@@ -47,7 +52,9 @@ export function BasicInfo() {
 			app_name: data?.data?.app_name || '',
 			home_page_title: data?.data?.home_page_title || '',
 			color_primary: data?.data?.color_primary || '',
+			contact_email: data?.data?.contact_email || '',
 			logo: undefined,
+			fav_icon: undefined,
 		},
 	});
 
@@ -58,7 +65,9 @@ export function BasicInfo() {
 				app_name: data?.data?.app_name || '',
 				home_page_title: data?.data?.home_page_title || '',
 				color_primary: data?.data?.color_primary || '',
+				contact_email: data?.data?.contact_email || '',
 				logo: undefined,
+				fav_icon: undefined,
 			});
 		}
 	}, [data, form]);
@@ -120,24 +129,45 @@ export function BasicInfo() {
 			<CardContent>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-						{/* logo */}
-						<FormField
-							control={form.control}
-							name="logo"
-							render={({ field }) => (
-								<FormItem>
-									<FormControl>
-										<ImageUpload
-											label="Logo"
-											value={field.value as File}
-											onChange={field.onChange}
-											defaultImage={imageFormat(data?.data?.logo ?? null)}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+						<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 ">
+							{/* logo */}
+							<FormField
+								control={form.control}
+								name="logo"
+								render={({ field }) => (
+									<FormItem>
+										<FormControl>
+											<ImageUpload
+												label="Logo"
+												value={field.value as File}
+												onChange={field.onChange}
+												defaultImage={imageFormat(data?.data?.logo ?? null)}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							{/* fav_icon */}
+							<FormField
+								control={form.control}
+								name="fav_icon"
+								render={({ field }) => (
+									<FormItem>
+										<FormControl>
+											<ImageUpload
+												label="Fav Icon"
+												value={field.value as File}
+												onChange={field.onChange}
+												defaultImage={imageFormat(data?.data?.fav_icon ?? null)}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</div>
 
 						{/* app_name */}
 						<FormField
@@ -163,6 +193,21 @@ export function BasicInfo() {
 									<FormLabel>Home Page Title</FormLabel>
 									<FormControl>
 										<Input {...field} placeholder="Enter home page title..." />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						{/* contact_email */}
+						<FormField
+							control={form.control}
+							name="contact_email"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Contact Email</FormLabel>
+									<FormControl>
+										<Input {...field} placeholder="Enter contact email..." />
 									</FormControl>
 									<FormMessage />
 								</FormItem>

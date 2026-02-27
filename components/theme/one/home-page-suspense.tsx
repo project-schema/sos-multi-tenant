@@ -104,6 +104,48 @@ export default async function ThemeOneHomePageSuspense() {
 						/>
 					</MotionFadeIn>
 				)}
+
+				{settings?.cms.extra_section_tittle_4 && (
+					<MotionFadeIn>
+						<PopularItems
+							buttons={[
+								{
+									label: settings?.recomended_category_id_1?.id?.toString(),
+									value: settings?.recomended_sub_category_id_1?.id?.toString(),
+								},
+							]}
+							title={settings?.cms.extra_section_tittle_4 || ''}
+						/>
+					</MotionFadeIn>
+				)}
+
+				{settings?.cms.extra_section_tittle_5 && (
+					<MotionFadeIn>
+						<PopularItems
+							buttons={[
+								{
+									label: settings?.recomended_category_id_2?.id?.toString(),
+									value: settings?.recomended_sub_category_id_2?.id?.toString(),
+								},
+							]}
+							title={settings?.cms.extra_section_tittle_5 || ''}
+						/>
+					</MotionFadeIn>
+				)}
+
+				{settings?.cms.extra_section_tittle_6 && (
+					<MotionFadeIn>
+						<PopularItems
+							buttons={[
+								{
+									label: settings?.recomended_category_id_3?.id?.toString(),
+									value: settings?.recomended_sub_category_id_3?.id?.toString(),
+								},
+							]}
+							title={settings?.cms.extra_section_tittle_6 || ''}
+						/>
+					</MotionFadeIn>
+				)}
 			</div>
 		</>
 	);

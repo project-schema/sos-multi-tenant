@@ -2,7 +2,7 @@
 
 import { Loader9 } from '@/components/dashboard';
 import { Logo } from '@/components/web/header/_ctx/logo';
-import { env } from '@/lib';
+import { imageFormat } from '@/lib';
 import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import { TenantAndUserLogin } from '@/store/features/auth/tenants-and-user-login';
 import { TenantUserRegistration } from '@/store/features/auth/tenants-user-registration';
@@ -41,7 +41,7 @@ export default function AuthClient({
 				<div className="hidden md:block col-span-5">
 					<MotionFadeIn className="w-full h-full">
 						<Image
-							src={env.placeholderImage}
+							src={imageFormat(settings?.cms?.auth_page_image ?? null)}
 							width={1000}
 							height={1000}
 							alt="Image"

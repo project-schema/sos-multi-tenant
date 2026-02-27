@@ -132,8 +132,8 @@ export function HomeBanner3Image() {
 			<form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
 				{/* Three Column Banners Section */}
 				<Card>
-					<CardContent className="pt-6">
-						<div className="mb-6">
+					<CardContent className="pt-6 space-y-6">
+						<div>
 							<h3 className="text-lg font-semibold text-gray-900 mb-2">
 								Home Banner Image
 							</h3>
@@ -266,12 +266,7 @@ export function HomeBanner3Image() {
 								</div>
 							</div>
 						</div>
-					</CardContent>
-				</Card>
 
-				{/* Submit Button */}
-				<Card>
-					<CardContent className="pt-6">
 						<div className="flex justify-end">
 							<Button type="submit" disabled={isLoading}>
 								{isLoading && (

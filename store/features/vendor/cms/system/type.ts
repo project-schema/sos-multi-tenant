@@ -4,12 +4,20 @@ export type iSystem = {
 	home_page_title: string;
 	color_primary: string;
 	color_secondary: string;
+	contact_email: string;
 	logo: string;
+	fav_icon: string;
 	deleted_at: null;
 	created_at: null;
 	updated_at: null;
 
+	auth_page_image: string;
+
 	theme: 'one' | 'two' | 'three';
+
+	extra_section_tittle_4: string;
+	extra_section_tittle_5: string;
+	extra_section_tittle_6: string;
 
 	seo_meta_title: string;
 	seo_meta_description: string;
@@ -46,6 +54,9 @@ export type iSystem = {
 
 	banner_1: string;
 	banner_1_url: string;
+	banner_title: string;
+	banner_description: string;
+
 	banner_2: string;
 	banner_2_url: string;
 	banner_3: string;

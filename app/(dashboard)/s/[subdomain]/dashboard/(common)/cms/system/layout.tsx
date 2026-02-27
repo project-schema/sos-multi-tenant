@@ -55,6 +55,12 @@ export default function Layout({ children }: LayoutProps) {
 				icon: Share2,
 			},
 			{
+				title: 'Login Page',
+				tab: 'login-page',
+				url: `/dashboard/cms/system?tab=login-page`,
+				icon: Text,
+			},
+			{
 				title: 'Footer',
 				tab: 'footer',
 				url: `/dashboard/cms/system?tab=footer`,

@@ -134,7 +134,7 @@ const ContactSection = ({ settings }: { settings?: iTenantFrontend }) => {
 								<div>
 									<Mail className="w-4 h-4 text-gray-600" />
 								</div>
-								<div>Need Email</div>
+								<div>{settings?.cms?.contact_email || 'No Email'}</div>
 							</div>
 						</li>
 					</ul>

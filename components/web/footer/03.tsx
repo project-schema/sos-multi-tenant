@@ -60,8 +60,8 @@ export default async function Footer03() {
 
 	return (
 		<>
-			<MotionFadeIn>
-				<div className="bg-primary3/10 py-10 md:py-14 lg:py-16 2xl:py-24">
+			<div className="bg-primary3/10 py-10 md:py-14 lg:py-16 2xl:py-24">
+				<MotionFadeIn>
 					<div className="max-w-[1425px] mx-auto  sp-60 px-sp flex flex-wrap justify-center items-center grid-cols-4 gap-6">
 						{settings?.content_services?.map((item) => (
 							<div
@@ -81,11 +81,11 @@ export default async function Footer03() {
 							</div>
 						))}
 					</div>
-				</div>
-			</MotionFadeIn>
+				</MotionFadeIn>
+			</div>
 
-			<MotionFadeIn>
-				<footer className="bg-primary3/20 text-gray-800">
+			<footer className="bg-primary3/20 text-gray-800">
+				<MotionFadeIn>
 					{/* Main Footer Content */}
 					<div className="max-w-[1340px] mx-auto px-5  lg:px-8 py-10 md:py-14 lg:py-16 2xl:py-24">
 						<div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-10 gap-8">
@@ -218,39 +218,38 @@ export default async function Footer03() {
 							</div>
 						</div>
 					</div>
-
-					{/* Bottom Section - Copyright and Payment Methods */}
-					<div className="bg-primary3 py-4">
-						<div className="max-w-[1340px] mx-auto px-5  lg:px-8">
-							<div className="flex flex-col lg:flex-row justify-between items-center gap-1 lg:gap-4">
-								{/* Copyright */}
-								<div className="text-white/80 text-sm text-center">
-									<span className="text-white ">
-										{settings?.cms?.footer_copyright_text}
-									</span>{' '}
-									<span className="text-white font-semibold">
-										{settings?.cms?.app_name}
-									</span>
-								</div>
-								<div>
-									<Image
-										src={imageFormat(
-											settings?.cms?.footer_payment_methods || null,
-										)}
-										alt={settings?.cms?.footer_payment_methods || ''}
-										width={1000}
-										height={1000}
-										className="block h-[24px] w-full object-contain"
-									/>
-								</div>
-								<div>
-									<MoveToTop />
-								</div>
+				</MotionFadeIn>
+				{/* Bottom Section - Copyright and Payment Methods */}
+				<div className="bg-primary3 py-4">
+					<div className="max-w-[1340px] mx-auto px-5  lg:px-8">
+						<div className="flex flex-col lg:flex-row justify-between items-center gap-1 lg:gap-4">
+							{/* Copyright */}
+							<div className="text-white/80 text-sm text-center">
+								<span className="text-white ">
+									{settings?.cms?.footer_copyright_text}
+								</span>{' '}
+								<span className="text-white font-semibold">
+									{settings?.cms?.app_name}
+								</span>
+							</div>
+							<div>
+								<Image
+									src={imageFormat(
+										settings?.cms?.footer_payment_methods || null,
+									)}
+									alt={settings?.cms?.footer_payment_methods || ''}
+									width={1000}
+									height={1000}
+									className="block h-[24px] w-full object-contain"
+								/>
+							</div>
+							<div>
+								<MoveToTop />
 							</div>
 						</div>
 					</div>
-				</footer>
-			</MotionFadeIn>
+				</div>
+			</footer>
 		</>
 	);
 }

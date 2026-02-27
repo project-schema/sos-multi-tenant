@@ -53,6 +53,12 @@ export default function Layout({ children }: LayoutProps) {
 				icon: Image,
 			},
 			{
+				title: 'Home Banner Image',
+				tab: 'home-banner-1-image',
+				url: `/dashboard/cms/home-page?tab=home-banner-1-image`,
+				icon: Image,
+			},
+			{
 				title: 'Home Service',
 				tab: 'home-service',
 				url: `/dashboard/cms/home-page?tab=home-service`,
@@ -82,11 +88,34 @@ export default function Layout({ children }: LayoutProps) {
 				url: `/dashboard/cms/home-page?tab=recommended-category`,
 				icon: Package,
 			},
-
+			{
+				title: 'Products Section 4',
+				tab: 'section-4',
+				url: `/dashboard/cms/home-page?tab=section-4`,
+				icon: Package,
+			},
+			{
+				title: 'Products Section 5',
+				tab: 'section-5',
+				url: `/dashboard/cms/home-page?tab=section-5`,
+				icon: Package,
+			},
+			{
+				title: 'Products Section 6',
+				tab: 'section-6',
+				url: `/dashboard/cms/home-page?tab=section-6`,
+				icon: Package,
+			},
 			{
 				title: 'Advertise Banner',
 				tab: 'advertise-banner',
 				url: `/dashboard/cms/home-page?tab=advertise-banner`,
+				icon: Megaphone,
+			},
+			{
+				title: 'Advertise Banner',
+				tab: 'advertise-banner-1-4',
+				url: `/dashboard/cms/home-page?tab=advertise-banner-1-4`,
 				icon: Megaphone,
 			},
 		],
@@ -126,10 +155,20 @@ export default function Layout({ children }: LayoutProps) {
 								return null;
 							}
 
+							if (
+								data?.data?.theme !== 'one' &&
+								(item.tab === 'section-4' ||
+									item.tab === 'section-5' ||
+									item.tab === 'section-6')
+							) {
+								return null;
+							}
+
 							// need hide recommended category if theme is one
 							if (
 								data?.data?.theme === 'one' &&
-								item.tab === 'recommended-category'
+								(item.tab === 'recommended-category' ||
+									item.tab === 'home-banner-image')
 							) {
 								return null;
 							}
@@ -142,8 +181,28 @@ export default function Layout({ children }: LayoutProps) {
 							// 	return null;
 							// }
 
+							if (data?.data?.theme === 'three' && item.tab === 'home-slider') {
+								return null;
+							}
+
+							if (
+								data?.data?.theme === 'three' &&
+								(item.tab === 'home-banner-image' ||
+									item.tab === 'advertise-banner')
+							) {
+								return null;
+							}
+
+							if (
+								data?.data?.theme !== 'three' &&
+								(item.tab === 'home-banner-1-image' ||
+									item.tab === 'advertise-banner-1-4')
+							) {
+								return null;
+							}
+
 							return (
-								<SidebarMenuItem key={item.title}>
+								<SidebarMenuItem key={item.tab}>
 									<SidebarMenuButton asChild>
 										<Link
 											href={item.url}

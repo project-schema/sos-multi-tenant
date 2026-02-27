@@ -8,6 +8,7 @@ import {
 	CMSTheme,
 	Cmssocial,
 } from '@/store/features/vendor/cms/system';
+import { CMSLoginPage } from '@/store/features/vendor/cms/system/login-page';
 import { useSearchParams } from 'next/navigation';
 
 export default function Page() {
@@ -29,6 +30,9 @@ export default function Page() {
 
 		case 'social':
 			return <Cmssocial />;
+
+		case 'login-page':
+			return <CMSLoginPage />;
 
 		case 'footer':
 			return <CMSFooter />;
