@@ -28,12 +28,18 @@ type LayoutProps = {
 
 export default function Layout({ children }: LayoutProps) {
 	const searchParams = useSearchParams();
-	const activeTab = searchParams.get('tab') || 'home-offer';
+	const activeTab = searchParams.get('tab') || 'home-service';
 	const { data, isLoading: loading, isError, refetch } = useSystemQuery();
 
 	// Tab config
 	const items = useMemo(
 		() => [
+			{
+				title: 'Home Service',
+				tab: 'home-service',
+				url: `/dashboard/cms/home-page?tab=home-service`,
+				icon: Palette,
+			},
 			{
 				title: 'Home Offer',
 				tab: 'home-offer',
@@ -58,12 +64,7 @@ export default function Layout({ children }: LayoutProps) {
 				url: `/dashboard/cms/home-page?tab=home-banner-1-image`,
 				icon: Image,
 			},
-			{
-				title: 'Home Service',
-				tab: 'home-service',
-				url: `/dashboard/cms/home-page?tab=home-service`,
-				icon: Palette,
-			},
+
 			{
 				title: 'Popular Category',
 				tab: 'popular-category',
@@ -181,14 +182,12 @@ export default function Layout({ children }: LayoutProps) {
 							// 	return null;
 							// }
 
-							if (data?.data?.theme === 'three' && item.tab === 'home-slider') {
-								return null;
-							}
-
 							if (
 								data?.data?.theme === 'three' &&
 								(item.tab === 'home-banner-image' ||
-									item.tab === 'advertise-banner')
+									item.tab === 'advertise-banner' ||
+									item.tab === 'home-slider' ||
+									item.tab === 'home-offer')
 							) {
 								return null;
 							}

@@ -23,6 +23,9 @@ export default function Page() {
 	const tab = searchParams.get('tab') || 'home-offer';
 
 	switch (tab) {
+		case 'home-service':
+			return <HomeService />;
+
 		case 'home-offer':
 			return <HomeOffer />;
 
@@ -34,9 +37,6 @@ export default function Page() {
 
 		case 'home-banner-1-image':
 			return <HomeBanner1Image />;
-
-		case 'home-service':
-			return <HomeService />;
 
 		case 'popular-category':
 			return <PopularCategory />;

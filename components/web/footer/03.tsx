@@ -123,6 +123,7 @@ export default async function Footer03() {
 												href={url as string}
 												className="w-8 h-8  rounded-full flex items-center justify-center  transition-all duration-200"
 												aria-label={social.label}
+												prefetch={false}
 											>
 												<Image
 													src={social.icon}

@@ -88,6 +88,7 @@ export default async function Footer02() {
 										href={url as string}
 										className="w-10 h-10 bg-white border border-orange-500/10 rounded-full flex items-center justify-center hover:bg-orange-500/5 transition-all duration-200"
 										aria-label={social.label}
+										prefetch={false}
 									>
 										<Image
 											src={social.icon}

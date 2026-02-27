@@ -126,6 +126,7 @@ export default async function Footer01() {
 											href={url as string}
 											className="w-10 h-10 bg-white border border-orange-500/10 rounded-md flex items-center justify-center hover:bg-orange-500/5 transition-all duration-200"
 											aria-label={social.label}
+											prefetch={false}
 										>
 											<Image
 												src={social.icon}
@@ -172,9 +173,12 @@ export default async function Footer01() {
 								{settings?.cms?.footer_contact_number_one && (
 									<li className="flex items-start space-x-3">
 										<Phone className="w-5 h-5 text-gray-300 mt-0.5 flex-shrink-0" />
-										<span className="text-gray-300">
+										<a
+											href={`tel:${settings.cms.footer_contact_number_one}`}
+											className="text-gray-300"
+										>
 											{settings.cms.footer_contact_number_one}
-										</span>
+										</a>
 									</li>
 								)}
 								{settings?.cms?.footer_contact_address_two && (
@@ -188,9 +192,12 @@ export default async function Footer01() {
 								{settings?.cms?.footer_contact_number_two && (
 									<li className="flex items-start space-x-3">
 										<Phone className="w-5 h-5 text-gray-300 mt-0.5 flex-shrink-0" />
-										<span className="text-gray-300">
+										<a
+											href={`tel:${settings.cms.footer_contact_number_two}`}
+											className="text-gray-300"
+										>
 											{settings.cms.footer_contact_number_two}
-										</span>
+										</a>
 									</li>
 								)}
 							</ul>

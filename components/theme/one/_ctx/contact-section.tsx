@@ -100,7 +100,7 @@ const ContactSection = ({ cms }: { cms: iSystem }) => {
 								<div className="h-12 w-12 rounded-md bg-black text-white flex items-center justify-center">
 									<Mail className="w-8 h-8" />
 								</div>
-								<p className="text-gray-900">Email Static Need data</p>
+								<p className="text-gray-900">{cms?.contact_email}</p>
 							</div>
 
 							{(cms?.footer_contact_address_one ||
