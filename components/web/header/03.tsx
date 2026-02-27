@@ -1,6 +1,8 @@
 import { getApiDataWithSubdomain, imageFormat } from '@/lib';
+import { socialIcons } from '@/lib/icon/social-icon';
 import { iTenantFrontend } from '@/types/tenant-frontend';
-import { Facebook, Instagram, Map, Music, Phone, Twitter } from 'lucide-react';
+import { MapPin, Phone } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { MobileMenu } from './_ctx/mobile-menu';
 import SearchPopup from './_ctx/search-popup';
@@ -32,6 +34,44 @@ export default async function MainHeader() {
 			label: 'Contact',
 			href: '/contact',
 			badge: '',
+		},
+	];
+
+	const socialLinks = [
+		{
+			key: 'fb_url',
+			label: 'Facebook',
+			icon: socialIcons.fb,
+		},
+		{
+			key: 'x_url',
+			label: 'X (Twitter)',
+			icon: socialIcons.x,
+		},
+		{
+			key: 'instagram_url',
+			label: 'Instagram',
+			icon: socialIcons.ins,
+		},
+		{
+			key: 'tiktok_url',
+			label: 'TikTok',
+			icon: socialIcons.tiktok,
+		},
+		{
+			key: 'youtube_url',
+			label: 'YouTube',
+			icon: socialIcons.youtube,
+		},
+		{
+			key: 'telegram_url',
+			label: 'Telegram',
+			icon: socialIcons.telegram,
+		},
+		{
+			key: 'whatsapp_url',
+			label: 'WhatsApp',
+			icon: socialIcons.whatsAPP,
 		},
 	];
 	// const menuItems = [
@@ -103,7 +143,7 @@ export default async function MainHeader() {
 	// 	},
 	// ];
 	return (
-		<header className="w-full bg-white">
+		<header className="w-full bg-white border-b border-primary3/20">
 			{/* Top Promotional Bar */}
 			{/* {settings?.offers && settings?.offers?.length > 0 && (
 				<TopPromotionalBar offers={settings?.offers ?? []} />
@@ -114,46 +154,44 @@ export default async function MainHeader() {
 				<div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex items-center justify-between flex-wrap gap-4 text-xs sm:text-sm">
 						{/* Social Media Icons */}
-						<div className="flex items-center gap-3">
-							<Link
-								href="#"
-								className="hover:opacity-80 transition-opacity"
-								aria-label="Facebook"
-							>
-								<Facebook className="w-4 h-4" />
-							</Link>
-							<Link
-								href="#"
-								className="hover:opacity-80 transition-opacity"
-								aria-label="Instagram"
-							>
-								<Instagram className="w-4 h-4" />
-							</Link>
-							<Link
-								href="#"
-								className="hover:opacity-80 transition-opacity"
-								aria-label="TikTok"
-							>
-								<Music className="w-4 h-4" />
-							</Link>
-							<Link
-								href="#"
-								className="hover:opacity-80 transition-opacity"
-								aria-label="X (Twitter)"
-							>
-								<Twitter className="w-4 h-4" />
-							</Link>
+						<div className="flex items-center gap-2">
+							{socialLinks?.map((social) => {
+								const url =
+									settings?.cms?.[social.key as keyof typeof settings.cms];
+
+								if (!url) return null;
+
+								return (
+									<Link
+										key={social.key}
+										href={url as string}
+										className="w-4 h-4  rounded-full flex items-center justify-center  transition-all duration-200"
+										aria-label={social.label}
+									>
+										<Image
+											src={social.icon}
+											width={1000}
+											height={1000}
+											alt={social.label}
+											className="w-4 h-4 object-contain hover:scale-110 transition-all"
+										/>
+									</Link>
+								);
+							})}
 						</div>
 
 						{/* Contact Information */}
 						<div className="flex items-center gap-3">
-							<div className="flex items-center gap-2">
+							<a
+								href={`tel:${settings?.cms.footer_contact_number_one}`}
+								className="flex items-center gap-2"
+							>
 								<Phone className="w-4 h-4" />
 								<span>{settings?.cms.footer_contact_number_one}</span>
-							</div>
+							</a>
 							<div className="h-4 w-px bg-white/50" />
 							<div className="flex items-center gap-2">
-								<Map className="w-4 h-4" />
+								<MapPin className="w-4 h-4" />
 								<span>{settings?.cms.footer_contact_address_one}</span>
 							</div>
 						</div>
@@ -202,7 +240,7 @@ export default async function MainHeader() {
 			</div>
 
 			{/* Bottom Bar - Navigation Menu */}
-			<div className="bg-white border-t border-gray-200 relative">
+			<div className="bg-white border-t border-primary3/10 relative">
 				<div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8">
 					<nav className="flex items-center justify-center flex-wrap py-5">
 						{menuItems.map((item) => (

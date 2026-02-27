@@ -11,7 +11,9 @@ import { iSystem } from '@/store/features/vendor/cms/system/type';
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
+import { Logo } from './logo';
 import { SearchBar } from './search-bar';
+import { UserAccountMobile } from './user-account-mobile';
 import { UtilityIcons } from './utility-icons';
 
 export function MobileMenu({ cms }: { cms: iSystem | null }) {
@@ -23,11 +25,15 @@ export function MobileMenu({ cms }: { cms: iSystem | null }) {
 					<Menu className="w-6 h-6 text-black" />
 				</button>
 			</SheetTrigger>
-			<SheetContent side="left" className="w-[300px] sm:w-[400px]">
-				<SheetHeader>
-					<SheetTitle>Menu</SheetTitle>
+			<SheetContent
+				side="left"
+				className="w-[300px] sm:w-[400px] max-h-[100svh-60px] overflow-y-auto"
+			>
+				<SheetHeader hidden>
+					<SheetTitle>Mobile Navigation</SheetTitle>
 				</SheetHeader>
-				<div className="mt-6 flex flex-col gap-4 p-4">
+				<div className="flex flex-col gap-8 p-4 pt-10">
+					<Logo logo={cms?.logo ?? ''} className="w-full h-10 mx-auto" />
 					{/* Mobile Search */}
 					<div className="flex flex-col gap-2">
 						<label className="text-sm font-medium text-gray-700">Search</label>
@@ -36,6 +42,9 @@ export function MobileMenu({ cms }: { cms: iSystem | null }) {
 
 					{/* Mobile Navigation */}
 					<nav className="flex flex-col gap-2">
+						<label className="text-sm font-medium text-black  pb-2 border-b">
+							Navigation
+						</label>
 						<Link
 							href="/"
 							className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors py-2"
@@ -67,14 +76,8 @@ export function MobileMenu({ cms }: { cms: iSystem | null }) {
 					</nav>
 
 					{/* Mobile User Actions */}
-					<div className="flex flex-col gap-3 pt-4 border-t">
-						<Link
-							href="/auth"
-							className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors py-2"
-							onClick={() => setOpen(false)}
-						>
-							Log In / Register
-						</Link>
+					<div className="flex flex-col gap-8 pt-8 border-t">
+						<UserAccountMobile cms={cms} />
 						<UtilityIcons variant="mobile" />
 					</div>
 				</div>

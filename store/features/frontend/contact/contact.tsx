@@ -72,7 +72,7 @@ const ContactPage = () => {
 	};
 
 	return (
-		<div className=" pt-10 md:pt-20 bg-gray-50  ">
+		<div className=" pt-10 md:pt-20 bg-gray-50">
 			<div className="layout">
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 max-w-7xl mx-auto">
 					{/* Left Side - Google Map */}

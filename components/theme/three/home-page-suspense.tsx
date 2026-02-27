@@ -50,7 +50,7 @@ export default async function ThemeThreeHomePageSuspense({
 	return (
 		<>
 			<main className="bg-primary3/5 space-y-10 md:space-y-14 lg:space-y-16 2xl:space-y-24 pb-10 md:pb-14 lg:pb-16 2xl:pb-24">
-				<MotionFadeIn>
+				<MotionFadeIn className="hidden">
 					<Banner04 cms={settings?.cms} />
 				</MotionFadeIn>
 

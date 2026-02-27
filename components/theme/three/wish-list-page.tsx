@@ -5,7 +5,9 @@ export default function ThemeThreeWishListPage() {
 	return (
 		<>
 			<Header03 />
-			<CommonWishList />
+			<div className="bg-primary3/5">
+				<CommonWishList />
+			</div>
 			<Footer03 />
 		</>
 	);
