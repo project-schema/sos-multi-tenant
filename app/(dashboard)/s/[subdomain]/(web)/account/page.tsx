@@ -1,3 +1,4 @@
+import ThemeFourAccountPage from '@/components/theme/four/account-page';
 import ThemeOneAccountPage from '@/components/theme/one/account-page';
 import ThemeThreeAccountPage from '@/components/theme/three/account-page';
 import ThemeTwoAccountPage from '@/components/theme/two/account-page';
@@ -14,6 +15,8 @@ export default async function AccountPage() {
 			return <ThemeTwoAccountPage />;
 		case 'three':
 			return <ThemeThreeAccountPage />;
+		case 'four':
+			return <ThemeFourAccountPage />;
 		default:
 			return <ThemeOneAccountPage />;
 	}

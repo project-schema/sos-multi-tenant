@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { socialIcons } from '@/lib/icon/social-icon';
+import { webSocialLinks } from '@/lib/icon/social-icon';
 import { useStoreContactMutation } from '@/store/features/frontend/contact/api-slice';
 import { iTenantFrontend } from '@/types/tenant-frontend';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -56,43 +56,7 @@ const ContactSection = ({ settings }: { settings?: iTenantFrontend }) => {
 			toast.error(error?.data?.message || 'Failed to send message');
 		}
 	};
-	const socialLinks = [
-		{
-			key: 'fb_url',
-			label: 'Facebook',
-			icon: socialIcons.fb,
-		},
-		{
-			key: 'x_url',
-			label: 'X (Twitter)',
-			icon: socialIcons.x,
-		},
-		{
-			key: 'instagram_url',
-			label: 'Instagram',
-			icon: socialIcons.ins,
-		},
-		{
-			key: 'tiktok_url',
-			label: 'TikTok',
-			icon: socialIcons.tiktok,
-		},
-		{
-			key: 'youtube_url',
-			label: 'YouTube',
-			icon: socialIcons.youtube,
-		},
-		{
-			key: 'telegram_url',
-			label: 'Telegram',
-			icon: socialIcons.telegram,
-		},
-		{
-			key: 'whatsapp_url',
-			label: 'WhatsApp',
-			icon: socialIcons.whatsAPP,
-		},
-	];
+
 	return (
 		<div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
 			{/* Left Side - Google Map */}
@@ -140,7 +104,7 @@ const ContactSection = ({ settings }: { settings?: iTenantFrontend }) => {
 					</ul>
 				</div>
 				<div className="flex gap-1 flex-wrap">
-					{socialLinks?.map((social) => {
+					{webSocialLinks?.map((social) => {
 						const url =
 							settings?.cms?.[social.key as keyof typeof settings.cms];
 

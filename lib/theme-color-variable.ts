@@ -39,6 +39,22 @@ export const themeVariable = (cms: iSystem) => {
           color: #ffffff;
         }
       `;
+	} else if (cms.theme && cms.theme === 'four') {
+		return `
+        :root {
+          --primary3: ${cms.color_primary || env.color_primary};
+          --color-orange-500: ${cms.color_primary || env.color_primary};
+          --color-orange-600: ${cms.color_primary || env.color_primary};
+          --swiper-theme-color: ${cms.color_primary || env.color_primary};
+          --swiper-pagination-bullet-size: 10px;
+          --swiper-pagination-bullet-border-radius: 2px;
+
+        }
+        ::selection {
+          background: ${cms.color_primary || env.color_primary};
+          color: #ffffff;
+        }
+      `;
 	} else {
 		return ``;
 	}

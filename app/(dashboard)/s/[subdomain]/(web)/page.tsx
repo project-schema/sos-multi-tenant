@@ -1,3 +1,4 @@
+import ThemeFourHomePage from '@/components/theme/four/home-page';
 import ThemeOneHomePage from '@/components/theme/one/home-page';
 import ThemeThreeHomePage from '@/components/theme/three/home-page';
 import ThemeTwoHomePage from '@/components/theme/two/home-page';
@@ -28,16 +29,22 @@ export default async function Page({
 	switch (settings?.cms?.theme || env.theme) {
 		case 'one':
 			return <ThemeOneHomePage />;
+
 		case 'two':
 			return (
 				<ThemeTwoHomePage searchParams={{ trend, search, feature, include }} />
 			);
+
 		case 'three':
 			return (
 				<ThemeThreeHomePage
 					searchParams={{ trend, search, feature, include }}
 				/>
 			);
+
+		case 'four':
+			return <ThemeFourHomePage include={include} />;
+
 		default:
 			return <ThemeOneHomePage />;
 	}

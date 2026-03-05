@@ -15,3 +15,41 @@ export const socialIcons = {
 	whatsAPP,
 	youtube,
 };
+
+export const webSocialLinks = [
+	{
+		key: 'fb_url',
+		label: 'Facebook',
+		icon: socialIcons.fb,
+	},
+	{
+		key: 'x_url',
+		label: 'X (Twitter)',
+		icon: socialIcons.x,
+	},
+	{
+		key: 'instagram_url',
+		label: 'Instagram',
+		icon: socialIcons.ins,
+	},
+	{
+		key: 'tiktok_url',
+		label: 'TikTok',
+		icon: socialIcons.tiktok,
+	},
+	{
+		key: 'youtube_url',
+		label: 'YouTube',
+		icon: socialIcons.youtube,
+	},
+	{
+		key: 'telegram_url',
+		label: 'Telegram',
+		icon: socialIcons.telegram,
+	},
+	{
+		key: 'whatsapp_url',
+		label: 'WhatsApp',
+		icon: socialIcons.whatsAPP,
+	},
+];

@@ -1,3 +1,4 @@
+import ThemeFourCartPage from '@/components/theme/four/cart-page';
 import ThemeOneCartPage from '@/components/theme/one/cart-page';
 import ThemeThreeCartPage from '@/components/theme/three/cart-page';
 import ThemeTwoCartPage from '@/components/theme/two/cart-page';
@@ -18,6 +19,8 @@ export default async function CartPage() {
 			return <ThemeTwoCartPage />;
 		case 'three':
 			return <ThemeThreeCartPage />;
+		case 'four':
+			return <ThemeFourCartPage />;
 		default:
 			return <ThemeOneCartPage />;
 	}

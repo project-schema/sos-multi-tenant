@@ -1,3 +1,4 @@
+import ThemeFourBlogPage from '@/components/theme/four/blog-page';
 import ThemeOneBlogPage from '@/components/theme/one/blog-page';
 import ThemeThreeBlogPage from '@/components/theme/three/blog-page';
 import ThemeTwoBlogPage from '@/components/theme/two/blog-page';
@@ -18,6 +19,8 @@ export default async function BlogPage() {
 			return <ThemeTwoBlogPage />;
 		case 'three':
 			return <ThemeThreeBlogPage />;
+		case 'four':
+			return <ThemeFourBlogPage />;
 		default:
 			return <ThemeOneBlogPage />;
 	}

@@ -161,7 +161,7 @@ export default function CommonShopSidebar() {
 									checked={selectedCategoryIds.includes(category.id)}
 									onCheckedChange={() => handleCategoryToggle(category.id)}
 								/>
-								<p>{category.name}</p>
+								<p className="line-clamp-1">{category.name}</p>
 							</li>
 						))}
 					</ul>

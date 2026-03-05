@@ -1,3 +1,4 @@
+import ThemeFourBlogDetailPage from '@/components/theme/four/blog-detail';
 import ThemeOneBlogDetailPage from '@/components/theme/one/blog-detail';
 import ThemeThreeBlogDetailPage from '@/components/theme/three/blog-detail';
 import ThemeTwoBlogDetailPage from '@/components/theme/two/blog-detail';
@@ -25,6 +26,8 @@ export default async function BlogDetailPage({
 			return <ThemeTwoBlogDetailPage params={{ slug }} />;
 		case 'three':
 			return <ThemeThreeBlogDetailPage params={{ slug }} />;
+		case 'four':
+			return <ThemeFourBlogDetailPage params={{ slug }} />;
 		default:
 			return <ThemeOneBlogDetailPage params={{ slug }} />;
 	}

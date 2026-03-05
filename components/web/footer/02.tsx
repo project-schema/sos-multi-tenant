@@ -1,5 +1,5 @@
 import { getApiDataWithSubdomain, imageFormat } from '@/lib';
-import { socialIcons } from '@/lib/icon/social-icon';
+import { webSocialLinks } from '@/lib/icon/social-icon';
 import { iBrand } from '@/store/features/admin/brand';
 import { iCategory } from '@/store/features/admin/category';
 import { iSystem } from '@/store/features/vendor/cms/system/type';
@@ -17,43 +17,6 @@ export default async function Footer02() {
 		'/tenant-frontend/brands',
 	);
 
-	const socialLinks = [
-		{
-			key: 'fb_url',
-			label: 'Facebook',
-			icon: socialIcons.fb,
-		},
-		{
-			key: 'x_url',
-			label: 'X (Twitter)',
-			icon: socialIcons.x,
-		},
-		{
-			key: 'instagram_url',
-			label: 'Instagram',
-			icon: socialIcons.ins,
-		},
-		{
-			key: 'tiktok_url',
-			label: 'TikTok',
-			icon: socialIcons.tiktok,
-		},
-		{
-			key: 'youtube_url',
-			label: 'YouTube',
-			icon: socialIcons.youtube,
-		},
-		{
-			key: 'telegram_url',
-			label: 'Telegram',
-			icon: socialIcons.telegram,
-		},
-		{
-			key: 'whatsapp_url',
-			label: 'WhatsApp',
-			icon: socialIcons.whatsAPP,
-		},
-	];
 	return (
 		<footer className="bg-gray-100 text-gray-800 mt-24">
 			{/* Main Footer Content */}
@@ -77,7 +40,7 @@ export default async function Footer02() {
 
 						{/* Social Media Icons */}
 						<div className="flex space-x-3">
-							{socialLinks?.map((social) => {
+							{webSocialLinks?.map((social) => {
 								const url = settings?.cms?.[social.key as keyof iSystem];
 
 								if (!url) return null;

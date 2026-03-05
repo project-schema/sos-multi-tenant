@@ -200,6 +200,14 @@ export default function Layout({ children }: LayoutProps) {
 								return null;
 							}
 
+							if (
+								data?.data?.theme === 'four' &&
+								(item.tab === 'home-banner-image' ||
+									item.tab === 'best-selling-product')
+							) {
+								return null;
+							}
+
 							return (
 								<SidebarMenuItem key={item.tab}>
 									<SidebarMenuButton asChild>

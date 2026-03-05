@@ -151,6 +151,7 @@ export function HomeAdvertiseBanner() {
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
 				{/* Two Column Banners Section */}
+
 				<Card>
 					<CardContent className="pt-6">
 						<div className="mb-6">
@@ -261,167 +262,286 @@ export function HomeAdvertiseBanner() {
 				</Card>
 
 				{/* Three Column Banners Section */}
-				<Card>
-					<CardContent className="pt-6">
-						<div className="mb-6">
-							<h3 className="text-lg font-semibold text-gray-900 mb-2">
-								{data?.data.theme === 'one' ? 'Single' : 'Three'} Column Banner
-								{data?.data.theme === 'one' ? '' : 's'}
-							</h3>
-							<p className="text-sm text-gray-600">
-								{data?.data.theme === 'one'
-									? 'For theme one need single banner'
-									: 'Configure banners that appear in a three-column layout'}
-							</p>
-						</div>
-
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-							{/* Banner 1 */}
-							<div className="border border-gray-200 rounded-lg p-4 bg-blue-50">
-								<h4 className="text-sm font-medium text-gray-700 mb-3">
-									Banner 1
-								</h4>
-								<div className="space-y-4">
-									<FormField
-										control={form.control}
-										name="three_column_banner_1"
-										render={({ field }) => (
-											<FormItem>
-												<FormControl>
-													<ImageUpload
-														label="Banner Image"
-														value={field.value as File}
-														onChange={field.onChange}
-														defaultImage={imageFormat(
-															data?.data?.three_column_banner_1 ?? null,
-														)}
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-									<FormField
-										control={form.control}
-										name="three_column_banner_1_url"
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel className="text-sm">Banner URL</FormLabel>
-												<FormControl>
-													<Input
-														{...field}
-														placeholder="https://example.com"
-														type="url"
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-								</div>
+				{data?.data.theme !== 'four' && (
+					<Card>
+						<CardContent className="pt-6">
+							<div className="mb-6">
+								<h3 className="text-lg font-semibold text-gray-900 mb-2">
+									{data?.data.theme === 'one' ? 'Single' : 'Three'} Column
+									Banner
+									{data?.data.theme === 'one' ? '' : 's'}
+								</h3>
+								<p className="text-sm text-gray-600">
+									{data?.data.theme === 'one'
+										? 'For theme one need single banner'
+										: 'Configure banners that appear in a three-column layout'}
+								</p>
 							</div>
 
-							{/* If theme is two and three */}
-							{data?.data.theme !== 'one' && (
-								<>
-									{/* Banner 2 */}
-									<div className="border border-gray-200 rounded-lg p-4 bg-green-50">
-										<h4 className="text-sm font-medium text-gray-700 mb-3">
-											Banner 2
-										</h4>
-										<div className="space-y-4">
-											<FormField
-												control={form.control}
-												name="three_column_banner_2"
-												render={({ field }) => (
-													<FormItem>
-														<FormControl>
-															<ImageUpload
-																label="Banner Image"
-																value={field.value as File}
-																onChange={field.onChange}
-																defaultImage={imageFormat(
-																	data?.data?.three_column_banner_2 ?? null,
-																)}
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-											<FormField
-												control={form.control}
-												name="three_column_banner_2_url"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel className="text-sm">
-															Banner URL
-														</FormLabel>
-														<FormControl>
-															<Input
-																{...field}
-																placeholder="https://example.com"
-																type="url"
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-										</div>
+							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+								{/* Banner 1 */}
+								<div className="border border-gray-200 rounded-lg p-4 bg-blue-50">
+									<h4 className="text-sm font-medium text-gray-700 mb-3">
+										Banner 1
+									</h4>
+									<div className="space-y-4">
+										<FormField
+											control={form.control}
+											name="three_column_banner_1"
+											render={({ field }) => (
+												<FormItem>
+													<FormControl>
+														<ImageUpload
+															label="Banner Image"
+															value={field.value as File}
+															onChange={field.onChange}
+															defaultImage={imageFormat(
+																data?.data?.three_column_banner_1 ?? null,
+															)}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="three_column_banner_1_url"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className="text-sm">Banner URL</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															placeholder="https://example.com"
+															type="url"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
 									</div>
+								</div>
 
-									{/* Banner 3 */}
-									<div className="border border-gray-200 rounded-lg p-4 bg-purple-50">
-										<h4 className="text-sm font-medium text-gray-700 mb-3">
-											Banner 3
-										</h4>
-										<div className="space-y-4">
-											<FormField
-												control={form.control}
-												name="three_column_banner_3"
-												render={({ field }) => (
-													<FormItem>
-														<FormControl>
-															<ImageUpload
-																label="Banner Image"
-																value={field.value as File}
-																onChange={field.onChange}
-																defaultImage={imageFormat(
-																	data?.data?.three_column_banner_3 ?? null,
-																)}
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-											<FormField
-												control={form.control}
-												name="three_column_banner_3_url"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel className="text-sm">
-															Banner URL
-														</FormLabel>
-														<FormControl>
-															<Input
-																{...field}
-																placeholder="https://example.com"
-																type="url"
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
+								{/* If theme is two and three */}
+								{data?.data.theme !== 'one' && (
+									<>
+										{/* Banner 2 */}
+										<div className="border border-gray-200 rounded-lg p-4 bg-green-50">
+											<h4 className="text-sm font-medium text-gray-700 mb-3">
+												Banner 2
+											</h4>
+											<div className="space-y-4">
+												<FormField
+													control={form.control}
+													name="three_column_banner_2"
+													render={({ field }) => (
+														<FormItem>
+															<FormControl>
+																<ImageUpload
+																	label="Banner Image"
+																	value={field.value as File}
+																	onChange={field.onChange}
+																	defaultImage={imageFormat(
+																		data?.data?.three_column_banner_2 ?? null,
+																	)}
+																/>
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+												<FormField
+													control={form.control}
+													name="three_column_banner_2_url"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel className="text-sm">
+																Banner URL
+															</FormLabel>
+															<FormControl>
+																<Input
+																	{...field}
+																	placeholder="https://example.com"
+																	type="url"
+																/>
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+											</div>
 										</div>
+
+										{/* Banner 3 */}
+										<div className="border border-gray-200 rounded-lg p-4 bg-purple-50">
+											<h4 className="text-sm font-medium text-gray-700 mb-3">
+												Banner 3
+											</h4>
+											<div className="space-y-4">
+												<FormField
+													control={form.control}
+													name="three_column_banner_3"
+													render={({ field }) => (
+														<FormItem>
+															<FormControl>
+																<ImageUpload
+																	label="Banner Image"
+																	value={field.value as File}
+																	onChange={field.onChange}
+																	defaultImage={imageFormat(
+																		data?.data?.three_column_banner_3 ?? null,
+																	)}
+																/>
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+												<FormField
+													control={form.control}
+													name="three_column_banner_3_url"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel className="text-sm">
+																Banner URL
+															</FormLabel>
+															<FormControl>
+																<Input
+																	{...field}
+																	placeholder="https://example.com"
+																	type="url"
+																/>
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+											</div>
+										</div>
+									</>
+								)}
+							</div>
+						</CardContent>
+					</Card>
+				)}
+				{/* Three Column Banners Section */}
+				{data?.data.theme === 'four' && (
+					<Card>
+						<CardContent className="pt-6">
+							<div className="mb-6">
+								<h3 className="text-lg font-semibold text-gray-900 mb-2">
+									Single Column Banner
+								</h3>
+								<p className="text-sm text-gray-600">
+									For theme one need single banner
+								</p>
+							</div>
+
+							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+								<div className="border border-gray-200 rounded-lg p-4 bg-green-50">
+									<div className="space-y-4">
+										<FormField
+											control={form.control}
+											name="three_column_banner_1"
+											render={({ field }) => (
+												<FormItem>
+													<FormControl>
+														<ImageUpload
+															label="Banner Image"
+															value={field.value as File}
+															onChange={field.onChange}
+															defaultImage={imageFormat(
+																data?.data?.three_column_banner_1 ?? null,
+															)}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="three_column_banner_1_url"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className="text-sm">Banner URL</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															placeholder="https://example.com"
+															type="url"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
 									</div>
-								</>
-							)}
-						</div>
-					</CardContent>
-				</Card>
+								</div>
+							</div>
+						</CardContent>
+					</Card>
+				)}
+				{/* Three Column Banners Section */}
+				{data?.data.theme === 'four' && (
+					<Card>
+						<CardContent className="pt-6">
+							<div className="mb-6">
+								<h3 className="text-lg font-semibold text-gray-900 mb-2">
+									Single Column Banner 2
+								</h3>
+								<p className="text-sm text-gray-600">
+									For theme one need single banner
+								</p>
+							</div>
+
+							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+								<div className="border border-gray-200 rounded-lg p-4 bg-green-50">
+									<div className="space-y-4">
+										<FormField
+											control={form.control}
+											name="three_column_banner_2"
+											render={({ field }) => (
+												<FormItem>
+													<FormControl>
+														<ImageUpload
+															label="Banner Image"
+															value={field.value as File}
+															onChange={field.onChange}
+															defaultImage={imageFormat(
+																data?.data?.three_column_banner_2 ?? null,
+															)}
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+										<FormField
+											control={form.control}
+											name="three_column_banner_2_url"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel className="text-sm">Banner URL</FormLabel>
+													<FormControl>
+														<Input
+															{...field}
+															placeholder="https://example.com"
+															type="url"
+														/>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
+								</div>
+							</div>
+						</CardContent>
+					</Card>
+				)}
 
 				{/* Submit Button */}
 				<div className="flex justify-end">

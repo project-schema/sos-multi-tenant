@@ -1,3 +1,4 @@
+import ThemeFourAuthPage from '@/components/theme/four/auth-page';
 import ThemeOneAuthPage from '@/components/theme/one/auth-page';
 import ThemeThreeAuthPage from '@/components/theme/three/auth-page';
 import AuthClient from '@/components/theme/two/_ctx/auth-client';
@@ -15,6 +16,8 @@ export default async function AuthPage() {
 			return <ThemeOneAuthPage />;
 		case 'three':
 			return <ThemeThreeAuthPage />;
+		case 'four':
+			return <ThemeFourAuthPage />;
 
 		case 'two':
 		default:

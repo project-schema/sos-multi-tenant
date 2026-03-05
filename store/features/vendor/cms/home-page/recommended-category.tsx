@@ -5,7 +5,16 @@ import { SearchableSelect } from '@/components/dashboard/form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { DialogFooter } from '@/components/ui/dialog';
-import { Form, FormField } from '@/components/ui/form';
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm, ErrorAlert } from '@/lib';
 import { useVendorMarketPlaceUtilityQuery } from '@/store/features/vendor/product/vendor-product-api-slice';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,6 +27,8 @@ import { useSystemQuery, useUpdateSystemMutation } from '../system/api-slice';
 
 // --- Zod Schema ---
 const schema = z.object({
+	best_setting_title: z.string().optional(),
+	banner_description: z.string().optional(),
 	recomended_category_id_1: z.string().min(1, 'Category 1 is required'),
 	recomended_sub_category_id_1: z.string().optional(),
 	recomended_category_id_2: z.string().optional(),
@@ -39,6 +50,8 @@ export function RecommendedCategory() {
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
 		defaultValues: {
+			best_setting_title: data?.data?.best_setting_title || '',
+			banner_description: data?.data?.banner_description || '',
 			recomended_category_id_1: data?.data?.recomended_category_id_1 || '',
 			recomended_sub_category_id_1:
 				data?.data?.recomended_sub_category_id_1 || '',
@@ -102,6 +115,8 @@ export function RecommendedCategory() {
 	useEffect(() => {
 		if (data?.data) {
 			form.reset({
+				banner_description: data?.data?.banner_description || '',
+				best_setting_title: data?.data?.best_setting_title || '',
 				recomended_category_id_1: data?.data?.recomended_category_id_1 || '',
 				recomended_sub_category_id_1:
 					data?.data?.recomended_sub_category_id_1 || '',
@@ -230,7 +245,41 @@ export function RecommendedCategory() {
 			<CardContent>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-						{/* Category 1 */}
+						{data?.data.theme === 'four' && (
+							<>
+								{/* Category 1 */}
+								<FormField
+									control={form.control}
+									name="best_setting_title"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Recommended Title</FormLabel>
+											<FormControl>
+												<Input {...field} placeholder="Enter title..." />
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								{/* desc 1 */}
+								<FormField
+									control={form.control}
+									name="banner_description"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Recommended Description</FormLabel>
+											<FormControl>
+												<Textarea
+													{...field}
+													placeholder="Enter description..."
+												/>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+							</>
+						)}
 						<div className="grid grid-cols-2 gap-4">
 							<FormField
 								control={form.control}
@@ -372,51 +421,53 @@ export function RecommendedCategory() {
 						</div>
 
 						{/* Category 4 */}
-						<div className="grid grid-cols-2 gap-4">
-							<FormField
-								control={form.control}
-								name="recomended_category_id_4"
-								render={({ field }) => (
-									<SearchableSelect
-										field={field}
-										label="Category 4"
-										options={(marketPlaceData?.data?.categories ?? []).map(
-											(category) => ({
-												label: category.name,
-												value: category.id.toString(),
-											}),
-										)}
-										placeholder={
-											marketPlaceLoading ? 'Loading...' : 'Select category'
-										}
-									/>
-								)}
-							/>
+						{data?.data.theme !== 'four' && (
+							<div className="grid grid-cols-2 gap-4">
+								<FormField
+									control={form.control}
+									name="recomended_category_id_4"
+									render={({ field }) => (
+										<SearchableSelect
+											field={field}
+											label="Category 4"
+											options={(marketPlaceData?.data?.categories ?? []).map(
+												(category) => ({
+													label: category.name,
+													value: category.id.toString(),
+												}),
+											)}
+											placeholder={
+												marketPlaceLoading ? 'Loading...' : 'Select category'
+											}
+										/>
+									)}
+								/>
 
-							<FormField
-								control={form.control}
-								name="recomended_sub_category_id_4"
-								render={({ field }) => (
-									<SearchableSelect
-										field={field}
-										label="Subcategory 4"
-										options={filteredSubcategories4.map((subcategory) => ({
-											label: subcategory.name,
-											value: subcategory.id.toString(),
-										}))}
-										placeholder={
-											marketPlaceLoading
-												? 'Loading...'
-												: !categoryId4
-													? 'Select category first'
-													: filteredSubcategories4.length === 0
-														? 'No subcategories available'
-														: 'Select subcategory'
-										}
-									/>
-								)}
-							/>
-						</div>
+								<FormField
+									control={form.control}
+									name="recomended_sub_category_id_4"
+									render={({ field }) => (
+										<SearchableSelect
+											field={field}
+											label="Subcategory 4"
+											options={filteredSubcategories4.map((subcategory) => ({
+												label: subcategory.name,
+												value: subcategory.id.toString(),
+											}))}
+											placeholder={
+												marketPlaceLoading
+													? 'Loading...'
+													: !categoryId4
+														? 'Select category first'
+														: filteredSubcategories4.length === 0
+															? 'No subcategories available'
+															: 'Select subcategory'
+											}
+										/>
+									)}
+								/>
+							</div>
+						)}
 
 						<DialogFooter>
 							<Button type="submit" disabled={isLoading}>

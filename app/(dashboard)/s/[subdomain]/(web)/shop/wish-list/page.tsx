@@ -1,3 +1,4 @@
+import ThemeFourWishListPage from '@/components/theme/four/wish-list-page';
 import ThemeOneWishListPage from '@/components/theme/one/wish-list-page';
 import ThemeThreeWishListPage from '@/components/theme/three/wish-list-page';
 import ThemeTwoWishListPage from '@/components/theme/two/wish-list-page';
@@ -18,6 +19,8 @@ export default async function WishListPage() {
 			return <ThemeTwoWishListPage />;
 		case 'three':
 			return <ThemeThreeWishListPage />;
+		case 'four':
+			return <ThemeFourWishListPage />;
 		default:
 			return <ThemeOneWishListPage />;
 	}

@@ -1,3 +1,4 @@
+import ThemeFourShopPage from '@/components/theme/four/shop-page';
 import ThemeOneShopPage from '@/components/theme/one/shop-page';
 import ThemeThreeShopPage from '@/components/theme/three/shop-page';
 import ThemeTwoShopPage from '@/components/theme/two/shop-page';
@@ -24,6 +25,8 @@ export default async function ShopPage({
 			return <ThemeTwoShopPage searchParams={searchParams} />;
 		case 'three':
 			return <ThemeThreeShopPage searchParams={searchParams} />;
+		case 'four':
+			return <ThemeFourShopPage searchParams={searchParams} />;
 		default:
 			return <ThemeOneShopPage searchParams={searchParams} />;
 	}

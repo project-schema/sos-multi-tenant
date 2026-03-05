@@ -1,5 +1,5 @@
 import { getApiDataWithSubdomain, imageFormat } from '@/lib';
-import { socialIcons } from '@/lib/icon/social-icon';
+import { webSocialLinks } from '@/lib/icon/social-icon';
 import { iTenantFrontend } from '@/types/tenant-frontend';
 import { MapPin, Phone } from 'lucide-react';
 import Image from 'next/image';
@@ -37,43 +37,6 @@ export default async function MainHeader() {
 		},
 	];
 
-	const socialLinks = [
-		{
-			key: 'fb_url',
-			label: 'Facebook',
-			icon: socialIcons.fb,
-		},
-		{
-			key: 'x_url',
-			label: 'X (Twitter)',
-			icon: socialIcons.x,
-		},
-		{
-			key: 'instagram_url',
-			label: 'Instagram',
-			icon: socialIcons.ins,
-		},
-		{
-			key: 'tiktok_url',
-			label: 'TikTok',
-			icon: socialIcons.tiktok,
-		},
-		{
-			key: 'youtube_url',
-			label: 'YouTube',
-			icon: socialIcons.youtube,
-		},
-		{
-			key: 'telegram_url',
-			label: 'Telegram',
-			icon: socialIcons.telegram,
-		},
-		{
-			key: 'whatsapp_url',
-			label: 'WhatsApp',
-			icon: socialIcons.whatsAPP,
-		},
-	];
 	// const menuItems = [
 	// 	{
 	// 		label: 'New',
@@ -155,7 +118,7 @@ export default async function MainHeader() {
 					<div className="flex items-center justify-between flex-wrap gap-4 text-xs sm:text-sm">
 						{/* Social Media Icons */}
 						<div className="flex items-center gap-2">
-							{socialLinks?.map((social) => {
+							{webSocialLinks?.map((social) => {
 								const url =
 									settings?.cms?.[social.key as keyof typeof settings.cms];
 

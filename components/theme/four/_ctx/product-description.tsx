@@ -1,0 +1,189 @@
+'use client';
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
+import { iVendorProductView } from '@/store/features/vendor/product/vendor-product-type';
+import { Star } from 'lucide-react';
+import * as React from 'react';
+
+export function ProductDescription({
+	product,
+}: {
+	product: iVendorProductView;
+}) {
+	const [openFaqIndex, setOpenFaqIndex] = React.useState<number | null>(0);
+
+	const ratings = [
+		{
+			id: 1,
+			user: 'John Doe',
+			rating: 5,
+			date: '2024-01-15',
+			comment:
+				'Excellent quality! The fabric is soft and comfortable. Fits perfectly as described. Highly recommend!',
+		},
+		{
+			id: 2,
+			user: 'Sarah Smith',
+			rating: 4,
+			date: '2024-01-10',
+			comment:
+				'Great product overall. The color matches the photos perfectly. Only minor issue is the sizing runs slightly small.',
+		},
+		{
+			id: 3,
+			user: 'Mike Johnson',
+			rating: 5,
+			date: '2024-01-05',
+			comment:
+				'Love this product! Fast shipping and excellent customer service. Will definitely order again.',
+		},
+		{
+			id: 4,
+			user: 'Emily Brown',
+			rating: 4,
+			date: '2023-12-28',
+			comment:
+				'Good quality for the price. Material feels nice and the design is exactly as shown. Very satisfied!',
+		},
+	];
+
+	const averageRating =
+		ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length;
+
+	return (
+		<div className="mt-10">
+			<Tabs defaultValue="description" className="w-full">
+				<TabsList className="w-full flex-wrap justify-start border-b rounded-none bg-transparent p-0 h-auto">
+					<TabsTrigger
+						value="description"
+						className="text-base font-semibold border-0 data-[state=active]:border-b-2 data-[state=active]:border-orange-500 data-[state=active]:text-orange-500 rounded-none border-b border-transparent px-4 py-3"
+					>
+						Product Description
+					</TabsTrigger>
+					<TabsTrigger
+						value="faq"
+						className="text-base font-semibold border-0 data-[state=active]:border-b-2 data-[state=active]:border-orange-500 data-[state=active]:text-orange-500 rounded-none border-b border-transparent px-4 py-3"
+					>
+						Technical Information
+					</TabsTrigger>
+					<TabsTrigger
+						value="rating"
+						className="text-base font-semibold border-0 data-[state=active]:border-b-2 data-[state=active]:border-orange-500 data-[state=active]:text-orange-500 rounded-none border-b border-transparent px-4 py-3"
+					>
+						Reviews (1)
+					</TabsTrigger>
+				</TabsList>
+
+				{/* Description Tab */}
+				<TabsContent value="description" className="mt-6 space-y-8  ">
+					<MotionFadeIn>
+						<div
+							dangerouslySetInnerHTML={{
+								__html: product?.long_description || '',
+							}}
+						></div>
+					</MotionFadeIn>
+				</TabsContent>
+
+				{/* FAQ Tab */}
+				<TabsContent value="faq" className="mt-6">
+					<MotionFadeIn>
+						<div className="space-y-4">
+							{product?.specifications?.map((faq, index) => (
+								<div
+									key={index}
+									className="border border-gray-200 rounded-lg overflow-hidden"
+								>
+									<button
+										onClick={() =>
+											setOpenFaqIndex(openFaqIndex === index ? null : index)
+										}
+										className="w-full text-left px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
+									>
+										<span className="font-semibold text-gray-900">
+											{faq.specification}
+										</span>
+										<span className="text-gray-500 text-xl">
+											{openFaqIndex === index ? '−' : '+'}
+										</span>
+									</button>
+									{openFaqIndex === index && (
+										<div className="px-4 pb-3 text-gray-700 border-t border-gray-200 bg-gray-50">
+											<p className="pt-3">{faq.specification_ans}</p>
+										</div>
+									)}
+								</div>
+							))}
+						</div>
+					</MotionFadeIn>
+				</TabsContent>
+
+				{/* Rating Tab */}
+				<TabsContent value="rating" className="mt-6">
+					<MotionFadeIn>
+						<div className="space-y-6">
+							{/* Rating Summary */}
+							<div className="border-b border-gray-200 pb-6">
+								<div className="flex items-center gap-4 mb-4">
+									<div className="text-4xl font-bold">
+										{averageRating.toFixed(1)}
+									</div>
+									<div>
+										<div className="flex items-center gap-1 mb-2">
+											{Array.from({ length: 5 }).map((_, i) => (
+												<Star
+													key={i}
+													className={`w-5 h-5 ${
+														i < Math.round(averageRating)
+															? 'fill-yellow-400 text-yellow-400'
+															: 'text-gray-300'
+													}`}
+												/>
+											))}
+										</div>
+										<p className="text-sm text-gray-600">
+											Based on {ratings.length} reviews
+										</p>
+									</div>
+								</div>
+							</div>
+
+							{/* Individual Reviews */}
+							<div className="space-y-6">
+								{ratings.map((review) => (
+									<div
+										key={review.id}
+										className="border-b border-gray-200 pb-6 last:border-0"
+									>
+										<div className="flex items-start justify-between mb-2">
+											<div>
+												<h4 className="font-semibold text-gray-900">
+													{review.user}
+												</h4>
+												<p className="text-sm text-gray-500">{review.date}</p>
+											</div>
+											<div className="flex items-center gap-1">
+												{Array.from({ length: 5 }).map((_, i) => (
+													<Star
+														key={i}
+														className={`w-4 h-4 ${
+															i < review.rating
+																? 'fill-yellow-400 text-yellow-400'
+																: 'text-gray-300'
+														}`}
+													/>
+												))}
+											</div>
+										</div>
+										<p className="text-gray-700">{review.comment}</p>
+									</div>
+								))}
+							</div>
+						</div>
+					</MotionFadeIn>
+				</TabsContent>
+			</Tabs>
+		</div>
+	);
+}

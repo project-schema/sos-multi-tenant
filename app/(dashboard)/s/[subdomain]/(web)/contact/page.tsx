@@ -1,3 +1,4 @@
+import ThemeFourContactPage from '@/components/theme/four/contact-page';
 import ThemeOneContactPage from '@/components/theme/one/contact-page';
 import ThemeThreeContactPage from '@/components/theme/three/contact-page';
 import ThemeTwoContactPage from '@/components/theme/two/contact-page';
@@ -18,6 +19,8 @@ export default async function ContactPage() {
 			return <ThemeTwoContactPage />;
 		case 'three':
 			return <ThemeThreeContactPage />;
+		case 'four':
+			return <ThemeFourContactPage cms={settings?.cms} />;
 		default:
 			return <ThemeOneContactPage cms={settings?.cms} />;
 	}

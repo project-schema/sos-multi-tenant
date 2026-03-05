@@ -1,3 +1,4 @@
+import ThemeFourProductDetailsPage from '@/components/theme/four/product-details';
 import ThemeOneProductDetailsPage from '@/components/theme/one/product-details';
 import ThemeThreeProductDetailsPage from '@/components/theme/three/product-details';
 import ThemeTwoProductDetailsPage from '@/components/theme/two/product-details';
@@ -25,6 +26,8 @@ export default async function ProductDetailsPage({
 			return <ThemeTwoProductDetailsPage params={{ slug }} />;
 		case 'three':
 			return <ThemeThreeProductDetailsPage params={{ slug }} />;
+		case 'four':
+			return <ThemeFourProductDetailsPage params={{ slug }} />;
 		default:
 			return <ThemeOneProductDetailsPage params={{ slug }} />;
 	}

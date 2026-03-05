@@ -1,3 +1,4 @@
+import ThemeFourCheckoutPage from '@/components/theme/four/checkout-page';
 import ThemeOneCheckoutPage from '@/components/theme/one/checkout-page';
 import ThemeThreeCheckoutPage from '@/components/theme/three/checkout-page';
 import ThemeTwoCheckoutPage from '@/components/theme/two/checkout-page';
@@ -17,6 +18,8 @@ export default async function CheckoutPage() {
 			return <ThemeTwoCheckoutPage />;
 		case 'three':
 			return <ThemeThreeCheckoutPage />;
+		case 'four':
+			return <ThemeFourCheckoutPage />;
 		default:
 			return <ThemeOneCheckoutPage />;
 	}

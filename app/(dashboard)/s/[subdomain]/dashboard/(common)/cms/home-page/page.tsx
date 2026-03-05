@@ -20,7 +20,7 @@ import { useSearchParams } from 'next/navigation';
 
 export default function Page() {
 	const searchParams = useSearchParams();
-	const tab = searchParams.get('tab') || 'home-offer';
+	const tab = searchParams.get('tab') || 'home-service';
 
 	switch (tab) {
 		case 'home-service':
@@ -65,8 +65,7 @@ export default function Page() {
 		case 'advertise-banner-1-4':
 			return <HomeAdvertiseBanner14 />;
 
-		case 'home-offer':
 		default:
-			return <HomeOffer />;
+			return <HomeService />;
 	}
 }

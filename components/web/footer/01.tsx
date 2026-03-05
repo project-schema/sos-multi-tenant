@@ -1,5 +1,5 @@
 import { getApiDataWithSubdomain, imageFormat } from '@/lib';
-import { socialIcons } from '@/lib/icon/social-icon';
+import { webSocialLinks } from '@/lib/icon/social-icon';
 import { iCategory } from '@/store/features/admin/category';
 import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import { iService } from '@/store/features/vendor/cms/home-page';
@@ -16,43 +16,7 @@ export default async function Footer01() {
 	const categories = await getApiDataWithSubdomain<iCategory[]>(
 		'/tenant-frontend/categories',
 	);
-	const socialLinks = [
-		{
-			key: 'fb_url',
-			label: 'Facebook',
-			icon: socialIcons.fb,
-		},
-		{
-			key: 'x_url',
-			label: 'X (Twitter)',
-			icon: socialIcons.x,
-		},
-		{
-			key: 'instagram_url',
-			label: 'Instagram',
-			icon: socialIcons.ins,
-		},
-		{
-			key: 'tiktok_url',
-			label: 'TikTok',
-			icon: socialIcons.tiktok,
-		},
-		{
-			key: 'youtube_url',
-			label: 'YouTube',
-			icon: socialIcons.youtube,
-		},
-		{
-			key: 'telegram_url',
-			label: 'Telegram',
-			icon: socialIcons.telegram,
-		},
-		{
-			key: 'whatsapp_url',
-			label: 'WhatsApp',
-			icon: socialIcons.whatsAPP,
-		},
-	];
+
 	return (
 		<MotionFadeIn>
 			<footer className="bg-gray-900 text-white">
@@ -115,7 +79,7 @@ export default async function Footer01() {
 
 							{/* Social Media Icons */}
 							<div className="flex gap-4 flex-wrap">
-								{socialLinks?.map((social) => {
+								{webSocialLinks?.map((social) => {
 									const url = settings?.cms?.[social.key as keyof iSystem];
 
 									if (!url) return null;

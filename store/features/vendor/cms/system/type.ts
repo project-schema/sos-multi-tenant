@@ -13,7 +13,7 @@ export type iSystem = {
 
 	auth_page_image: string;
 
-	theme: 'one' | 'two' | 'three';
+	theme: 'one' | 'two' | 'three' | 'four';
 
 	extra_section_tittle_4: string;
 	extra_section_tittle_5: string;

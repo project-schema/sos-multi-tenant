@@ -48,6 +48,7 @@ export async function getApiData<T = any>(url: string): Promise<T | null> {
 export async function getApiDataWithSubdomain<T = any>(
 	url: string,
 ): Promise<T | null> {
+	console.log(url);
 	try {
 		const h = await headers();
 		const subdomain = h.get('x-tenant-subdomain');

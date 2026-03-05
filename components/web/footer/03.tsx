@@ -1,5 +1,5 @@
 import { getApiDataWithSubdomain, imageFormat } from '@/lib';
-import { socialIcons } from '@/lib/icon/social-icon';
+import { webSocialLinks } from '@/lib/icon/social-icon';
 import { iBrand } from '@/store/features/admin/brand';
 import { iCategory } from '@/store/features/admin/category';
 import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
@@ -20,43 +20,6 @@ export default async function Footer03() {
 	const brands = await getApiDataWithSubdomain<iBrand[]>(
 		'/tenant-frontend/brands',
 	);
-	const socialLinks = [
-		{
-			key: 'fb_url',
-			label: 'Facebook',
-			icon: socialIcons.fb,
-		},
-		{
-			key: 'x_url',
-			label: 'X (Twitter)',
-			icon: socialIcons.x,
-		},
-		{
-			key: 'instagram_url',
-			label: 'Instagram',
-			icon: socialIcons.ins,
-		},
-		{
-			key: 'tiktok_url',
-			label: 'TikTok',
-			icon: socialIcons.tiktok,
-		},
-		{
-			key: 'youtube_url',
-			label: 'YouTube',
-			icon: socialIcons.youtube,
-		},
-		{
-			key: 'telegram_url',
-			label: 'Telegram',
-			icon: socialIcons.telegram,
-		},
-		{
-			key: 'whatsapp_url',
-			label: 'WhatsApp',
-			icon: socialIcons.whatsAPP,
-		},
-	];
 
 	return (
 		<>
@@ -111,7 +74,7 @@ export default async function Footer03() {
 
 								{/* Social Media Icons */}
 								<div className="flex gap-1 flex-wrap ">
-									{socialLinks?.map((social) => {
+									{webSocialLinks?.map((social) => {
 										const url =
 											settings?.cms?.[social.key as keyof typeof settings.cms];
 

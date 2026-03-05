@@ -27,7 +27,7 @@ import { useSystemQuery, useUpdateSystemMutation } from './api-slice';
 
 // --- Zod Schema ---
 const schema = z.object({
-	theme: z.enum(['one', 'two', 'three'], {
+	theme: z.enum(['one', 'two', 'three', 'four'], {
 		error: 'Please select a theme',
 	}),
 });
@@ -52,6 +52,12 @@ const themes = [
 		name: 'Theme Three',
 		description: 'Bold and vibrant design',
 		image: '/theme/03.jpg',
+	},
+	{
+		id: 'four',
+		name: 'Theme Four',
+		description: 'Classic and clean design layout',
+		image: '/theme/01.jpg',
 	},
 ] as const;
 
