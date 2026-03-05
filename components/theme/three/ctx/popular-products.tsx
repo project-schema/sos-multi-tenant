@@ -8,6 +8,9 @@ export const PopularProducts = async ({
 }: {
 	buttons: { label: string; value: string }[];
 }) => {
+	if (!buttons?.[0]?.value) {
+		return null;
+	}
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
 		`/tenant-frontend/products/${buttons?.[0]?.value || ''}`,
 	);

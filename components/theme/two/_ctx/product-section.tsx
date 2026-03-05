@@ -15,11 +15,11 @@ export async function ProductSection({
 	buttons,
 	feature,
 }: ProductSectionProps) {
+	const activeFeature = feature || buttons?.[0]?.value;
+	if (!activeFeature) return null;
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
 		`/tenant-frontend/products/${feature || buttons?.[0]?.value}`,
 	);
-
-	const activeFeature = feature || buttons?.[0]?.value;
 
 	return (
 		<div className="max-w-[1720px] mx-auto px-4 lg:px-8">

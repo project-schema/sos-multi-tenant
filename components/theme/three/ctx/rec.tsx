@@ -13,12 +13,14 @@ export const RecommendedProducts = async ({
 	settings: iTenantFrontend;
 	include: string;
 }) => {
+	const isActive = include || settings?.recomended_sub_category_id_1.id;
+	if (!isActive) return null;
+
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
 		`/tenant-frontend/products/${
 			include || settings?.recomended_sub_category_id_1.id || ''
 		}`,
 	);
-	const isActive = include || settings?.recomended_sub_category_id_1.id;
 	return (
 		<div className="max-w-[1740px] px-5 mx-auto">
 			<div className="sp-60 mb-sp flex items-center gap-2 justify-center flex-wrap">

@@ -12,6 +12,9 @@ export async function TrendingProducts({
 	settings: iTenantFrontend | null;
 	trend: string;
 }) {
+	if (!(trend || settings?.cms?.populer_section_subcategory_id_1)) {
+		return null;
+	}
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
 		`/tenant-frontend/products/${
 			trend || settings?.cms?.populer_section_subcategory_id_1

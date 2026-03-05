@@ -12,6 +12,7 @@ export async function BestSellingProducts({
 	title,
 	id,
 }: BestSellingProductsProps) {
+	if (!id) return null;
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
 		`/tenant-frontend/products/${id}`,
 	);

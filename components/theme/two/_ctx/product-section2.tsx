@@ -15,10 +15,11 @@ export async function ProductSection2({
 	buttons,
 	include,
 }: ProductSectionProps) {
+	const activeFeature = include || buttons?.[0]?.value;
+	if (!activeFeature) return null;
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
 		`/tenant-frontend/products/${include || buttons?.[0]?.value}`,
 	);
-	const activeFeature = include || buttons?.[0]?.value;
 
 	return (
 		<div className="max-w-[1720px] mx-auto px-4 lg:px-8">

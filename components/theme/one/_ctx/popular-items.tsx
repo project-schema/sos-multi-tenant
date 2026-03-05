@@ -12,6 +12,9 @@ export async function PopularItems({
 	buttons: { label: string; value: string }[];
 	title: string;
 }) {
+	if (!buttons?.[0]?.value) {
+		return null;
+	}
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
 		`/tenant-frontend/products/${buttons?.[0]?.value || ''}`,
 	);
