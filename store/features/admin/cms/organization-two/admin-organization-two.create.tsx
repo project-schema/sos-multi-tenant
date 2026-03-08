@@ -54,7 +54,7 @@ export function OrganizationTwoCreate() {
 					}).unwrap();
 					if (response.status === 200) {
 						toast.success(
-							response.message || 'OrganizationTwo Created successfully'
+							response.message || 'OrganizationTwo Created successfully',
 						);
 						form.reset();
 					} else {
@@ -130,7 +130,7 @@ export function OrganizationTwoCreate() {
 						{isLoading && (
 							<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 						)}
-						{isLoading ? 'Creating...' : 'Create OrganizationTwo'}
+						{isLoading ? 'Creating...' : 'Create '}
 					</Button>
 				</DialogFooter>
 			</form>

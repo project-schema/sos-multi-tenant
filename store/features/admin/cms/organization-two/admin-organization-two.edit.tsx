@@ -70,7 +70,7 @@ export function OrganizationTwoEdit({
 					}).unwrap();
 					if (response.status === 200) {
 						toast.success(
-							response.message || 'OrganizationTwo updated successfully'
+							response.message || 'OrganizationTwo updated successfully',
 						);
 						setOpen(false);
 					} else {
@@ -160,7 +160,7 @@ export function OrganizationTwoEdit({
 								{isLoading && (
 									<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
 								)}
-								{isLoading ? 'Updating...' : 'Update OrganizationTwo'}
+								{isLoading ? 'Updating...' : 'Update '}
 							</Button>
 						</DialogFooter>
 					</form>

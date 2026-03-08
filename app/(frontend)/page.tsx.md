@@ -1,12 +1,14 @@
-// import Pricing from '@/components/essential/Pricing';
-import { MainWebCTA } from '@/components/main-web/cta';
+import Banner from '@/components/essential/Banner';
+import ChooseUs from '@/components/essential/ChooseUs';
+import Counter from '@/components/essential/Counter';
+import ItServices from '@/components/essential/Itservices';
+import Organization from '@/components/essential/Organization';
+import OrganizationProvide from '@/components/essential/OrganizationProvide';
+import Partners from '@/components/essential/Partners';
+import Pricing from '@/components/essential/Pricing';
+import Services from '@/components/essential/Services';
 import { MainWebFeature } from '@/components/main-web/feature';
-import { MainWebFeature2 } from '@/components/main-web/feature2';
-import { MainWebFeature3 } from '@/components/main-web/feature3';
 import { MainWebHero } from '@/components/main-web/hero';
-import { MainWebPricing } from '@/components/main-web/pricing';
-import { MainWebSupport } from '@/components/main-web/support';
-import { MainWebTestimonial } from '@/components/main-web/testimonial';
 import { getApiData } from '@/lib';
 import {
 	iItServicesType,
@@ -19,6 +21,7 @@ import {
 } from '@/types';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 
 export const dynamic = 'force-dynamic'; // 👈 REQUIRED
 
@@ -62,44 +65,42 @@ export default async function HomePage() {
 			{/* <!-- /hero section --> */}
 
 			{/* <!-- feature section --> */}
-			{services && services?.message.length > 0 && (
-				<MainWebFeature settingsData={settings} getServiceData={services} />
-			)}
+			<MainWebFeature />
 			{/* <!-- /feature section --> */}
 
-			{/* <!-- main featured section --> */}
-			{orgTwo?.status === 200 && (
-				<MainWebFeature2 settings={settings} getOrTwoData={orgTwo} />
+			<Banner settings={settings} />
+
+			{services?.status === 200 && (
+				<Services settingsData={settings} getServiceData={services} />
 			)}
-			{/* <!-- /main featured  section--> */}
 
-			{/* <!-- featured section--> */}
-			<MainWebFeature3 settingsData={settings} />
-			{/* <!-- /featured section--> */}
+			{orgOne?.status === 200 && (
+				<Organization settingsData={settings} getOrgOneData={orgOne} />
+			)}
 
-			{/* <!-- support section --> */}
-			<MainWebSupport settingsData={settings} />
-			{/* <!-- /support section --> */}
+			<Counter settings={settings} />
 
-			{/* <!-- testimonial section --> */}
-			<MainWebTestimonial settings={settings} />
-			{/* <!-- /testimonial section --> */}
+			{itService?.status === 200 && (
+				<ItServices settings={settings} itServices={itService} />
+			)}
 
-			{/* <!-- pricing section --> */}
-			<MainWebPricing />
-			{/* <!-- /pricing section --> */}
+			{orgTwo?.status === 200 && (
+				<OrganizationProvide settings={settings} getOrTwoData={orgTwo} />
+			)}
 
-			{/* <!-- cta section --> */}
-			<MainWebCTA settings={settings} />
-			{/* <!-- /callout section --> */}
+			<ChooseUs settings={settings} />
 
-			{/* {subscriptions?.status === 200 && (
+			{partners?.status === 200 && (
+				<Partners settings={settings} partners={partners} />
+			)}
+
+			{subscriptions?.status === 200 && (
 				<div className="pt-20">
 					<Suspense fallback={null}>
 						<Pricing subscriptions={subscriptions} />
 					</Suspense>
 				</div>
-			)} */}
+			)}
 		</>
 	);
 }

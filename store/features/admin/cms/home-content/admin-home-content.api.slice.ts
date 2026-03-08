@@ -4,7 +4,7 @@ import { iHomeContentResponse } from './admin-home-content.type';
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// get all
-		adminViewHomeContent: builder.query<iHomeContentResponse, undefined>({
+		adminViewHomeContent: builder.query<iHomeContentResponse, void>({
 			query: () => ({
 				url: `/admin/settings`,
 				method: 'GET',

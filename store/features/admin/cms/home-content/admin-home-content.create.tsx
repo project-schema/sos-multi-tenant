@@ -112,8 +112,10 @@ export function HomeContentCreate() {
 		defaultValues: {
 			home_banner_heading: '',
 			home_banner_description: '',
+
 			service_one_title: '',
 			service_one_heading: '',
+
 			org_one_title: '',
 			org_one_heading: '',
 			org_one_photo: undefined,
@@ -191,7 +193,7 @@ export function HomeContentCreate() {
 					if (response.status === 200) {
 						refetch();
 						toast.success(
-							response.message || 'Home content updated successfully'
+							response.message || 'Home content updated successfully',
 						);
 					} else {
 						const errorResponse = response as any;

@@ -54,37 +54,70 @@ export type iHomeContentResponse = {
 export type settingData = {
 	id: number;
 	logo: string;
+
+	// banner
+	f_banner_group_title_image: string | null;
+	f_banner_group_title: string;
 	home_banner_heading: string;
 	home_banner_description: string;
+	f_banner_btn_1_text: string;
+	f_banner_btn_1_url: string;
+	f_banner_btn_2_text: string;
+	f_banner_btn_2_url: string;
+	f_banner_image_1: string | null;
+	f_banner_image_2: string | null;
+	f_banner_image_3: string | null;
+
+	// feature 1
 	service_one_title: string;
 	service_one_heading: string;
+
+	// feature 2
+	org_one_photo: string;
+	org_heading: string;
+	org_title: string;
+
+	// feature 3
 	org_one_title: string;
 	org_one_heading: string;
-	org_one_photo: string;
-	org_one_video_link: string;
+	org_one_video_link: string; // description
+	org_photo: string;
+
+	// feature 4
+	service_two_title: string;
+	service_two_heading: string;
+	f_feature_image_4: string;
+
+	// feature 5
+	f_feature_image_5: string;
 	count_one: string;
 	one_title: string;
+	count_two: string;
 	count_two_title: string;
 	count_three: string;
 	count_three_title: string;
+
+	// feature 6
+	f_feature_image_6: string;
 	count_four: string;
 	count_four_title: string;
-	service_two_title: string;
-	service_two_heading: string;
-	org_title: string;
-	org_heading: string;
-	org_photo: string;
+	progress_value: string;
+	progres_two_value: string;
+	progres_three_value: string;
+	progres_four_value: string;
+
+	// feature 7
+	progress_title: string;
+	progres_two_title: string;
+
+	// feature 8
 	chose_us_title: string;
 	chose_us_heading: string;
-	chose_description: string;
-	progress_title: string;
-	progress_value: string;
-	progres_two_title: string;
-	progres_two_value: string;
 	progres_three_title: string;
-	progres_three_value: string;
 	progres_four_title: string;
-	progres_four_value: string;
+	f_feature_image_8: string;
+
+	chose_description: string;
 	chose_us_two_title: string;
 	chose_us_two_heading: string;
 	testimonial_title: string;
@@ -145,7 +178,6 @@ export type settingData = {
 	deleted_at: null;
 	created_at: null;
 	updated_at: string;
-	count_two: string;
 	member_title: string;
 	member_heading: string;
 	mission_image: string;

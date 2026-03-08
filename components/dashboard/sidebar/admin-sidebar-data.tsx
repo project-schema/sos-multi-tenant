@@ -100,6 +100,10 @@ const cms: sidebarItem[] = [
 		isActive: false,
 		items: [
 			{
+				title: 'Home Page',
+				url: '/admin/cms/home-page?tab=banner',
+			},
+			{
 				title: 'Update Home',
 				url: '/admin/cms/home-content',
 			},
