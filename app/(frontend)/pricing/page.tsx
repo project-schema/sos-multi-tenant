@@ -1,7 +1,6 @@
-import style from '@/components/essential/AboutPage/ChooseUs/ChooseUs.style.module.css';
-import Pricing from '@/components/essential/Pricing';
+import { MainWebPricing } from '@/components/main-web/pricing';
 import { getApiData } from '@/lib';
-import { iSubscriptionsType } from '@/types';
+import { iSettingsType, iSubscriptionsType } from '@/types';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
@@ -15,15 +14,16 @@ export const metadata: Metadata = {
 
 export default async function Page() {
 	const subscriptions = await getApiData<iSubscriptionsType>('/subscriptions');
+	const settings = await getApiData<iSettingsType>('/settings');
 
 	if (subscriptions?.status !== 200) {
 		return notFound();
 	}
 
 	return (
-		<div className={style.pricingPageSection}>
+		<div className="xl:pt-[130px] md:pt-[100px] pt-[70px]">
 			<Suspense fallback={null}>
-				<Pricing subscriptions={subscriptions} />
+				{settings && <MainWebPricing settings={settings} />}
 			</Suspense>
 		</div>
 	);

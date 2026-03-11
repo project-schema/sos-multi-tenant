@@ -11,10 +11,11 @@ export const MainWebHeader = ({ settings }: { settings: iSettingsType }) => {
 		<header className="header--area fixed top-0 left-0 right-0 bg-[#fff] z-50">
 			<div className="container mx-auto">
 				<nav className="mx-auto lg:pt-[0px] pt-[14px] lg:pb-[0px] pb-[16px] flex items-center justify-between">
-					<Link href="/" className="">
+					<Link href="/" className="flex w-auto ">
 						<Image
-							fill
-							className="object-cover max-w-sm"
+							width={300}
+							height={300}
+							className="object-contain h-20"
 							src={imageFormat(settings.message.logo ?? null)}
 							alt="logo"
 						/>

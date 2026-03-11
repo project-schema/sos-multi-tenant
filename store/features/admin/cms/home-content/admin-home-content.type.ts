@@ -1,51 +1,3 @@
-export type iHomeContent = {
-	home_banner_heading: string;
-	home_banner_description: string;
-	service_one_title: string;
-	service_one_heading: string;
-	org_one_title: string;
-	org_one_heading: string;
-	org_one_photo: string;
-	org_one_video_link: string;
-	count_one: string;
-	one_title: string;
-	count_two: string;
-	count_two_title: string;
-	count_three: string;
-	count_three_title: string;
-	count_four: string;
-	count_four_title: string;
-	service_two_title: string;
-	service_two_heading: string;
-	org_title: string;
-	org_photo: string;
-	org_heading: string;
-	chose_us_title: string;
-	chose_us_heading: string;
-	chose_description: string;
-	progress_title: string;
-	progress_value: string;
-	progres_two_title: string;
-	progres_two_value: string;
-	progres_three_title: string;
-	progres_three_value: string;
-	progres_four_title: string;
-	progres_four_value: string;
-	chose_card_one_icon: string;
-	chose_card_one_title: string;
-	chose_card_one_description: string;
-	chose_card_two_icon: string;
-	chose_card_two_title: string;
-	chose_card_two_description: string;
-	chose_card_three_icon: string;
-	chose_card_three_title: string;
-	chose_card_three_description: string;
-	chose_card_four_icon: string;
-	chose_card_four_title: string;
-	chose_card_four_description: string;
-	partner_title: string;
-	partner_heading: string;
-};
 export type iHomeContentResponse = {
 	status: 200;
 	data: 'success';
@@ -56,14 +8,18 @@ export type settingData = {
 	logo: string;
 
 	// banner
-	f_banner_group_title_image: string | null;
-	f_banner_group_title: string;
 	home_banner_heading: string;
 	home_banner_description: string;
-	f_banner_btn_1_text: string;
-	f_banner_btn_1_url: string;
-	f_banner_btn_2_text: string;
-	f_banner_btn_2_url: string;
+
+	newsletter_title: string; // title
+
+	newsletter_description: string; // btn text
+	subscription_heading: string; // btn url
+
+	subscription_title: string; // btn i text
+	chose_description: string; // btn i url
+
+	f_banner_group_title_image: string | null;
 	f_banner_image_1: string | null;
 	f_banner_image_2: string | null;
 	f_banner_image_3: string | null;
@@ -117,11 +73,16 @@ export type settingData = {
 	progres_four_title: string;
 	f_feature_image_8: string;
 
-	chose_description: string;
-	chose_us_two_title: string;
-	chose_us_two_heading: string;
+	// feature 9
+	partner_title: string;
+	partner_heading: string;
+
+	// feature 10
 	testimonial_title: string;
 	testimonial_heading: string;
+
+	chose_us_two_title: string;
+	chose_us_two_heading: string;
 	chose_card_one_icon: string;
 	chose_card_one_title: string;
 	chose_card_one_description: string;
@@ -134,10 +95,7 @@ export type settingData = {
 	chose_card_four_icon: string;
 	chose_card_four_title: string;
 	chose_card_four_description: string;
-	partner_title: string;
-	partner_heading: string;
-	newsletter_title: string;
-	newsletter_description: string;
+
 	footer_description: string;
 	footer_contact_address: string;
 	footer_contact_number: string;
@@ -145,6 +103,7 @@ export type settingData = {
 	copywright_text: string;
 	credit_name: string;
 	credit_link: string;
+
 	service_banner_heading: string;
 	service_banner_description: string;
 	advertise_banner_heading: string;
@@ -173,8 +132,7 @@ export type settingData = {
 	mission_title: string;
 	mission_heading: string;
 	mission_description: string;
-	subscription_heading: null;
-	subscription_title: null;
+
 	deleted_at: null;
 	created_at: null;
 	updated_at: string;

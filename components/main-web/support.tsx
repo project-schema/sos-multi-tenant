@@ -1,4 +1,5 @@
 import { imageFormat } from '@/lib';
+import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import { iSettingsType } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,29 +15,22 @@ export const MainWebSupport = ({
 				<div className="container mx-auto">
 					<div className="flex justify-between items-center lg:py-[160px]">
 						<div className="w-[100%] lg:w-[50%] me-auto">
-							<h6
-								className="text-white font-bold md:text-[48px] text-[36px] md:leading-[64px] leading-[38px] mb-[16px]"
-								data-aos="fade-up"
-								data-aos-duration="400"
-							>
-								{settingsData?.message?.count_four_title}
-							</h6>
-							<p
-								className="text-[18px] leading-[26px] md:mb-[34px] mb-[58px] text-white"
-								data-aos="fade-up"
-								data-aos-duration="500"
-							>
-								{settingsData?.message?.count_four}
-							</p>
+							<MotionFadeIn>
+								<h6 className="text-white font-bold md:text-[48px] text-[36px] md:leading-[64px] leading-[38px] mb-[16px]">
+									{settingsData?.message?.count_four_title}
+								</h6>
+							</MotionFadeIn>
+							<MotionFadeIn direction="down">
+								<p className="text-[18px] leading-[26px] md:mb-[34px] mb-[58px] text-white">
+									{settingsData?.message?.count_four}
+								</p>
+							</MotionFadeIn>
 
-							<div
-								className=" flex flex-wrap xl:justify-start justify-center gap-4 btn--wrap select-none"
-								data-aos="fade-up"
-								data-aos-duration="600"
-							>
-								<Link
-									href={settingsData?.message?.progres_two_value}
-									className="
+							<MotionFadeIn>
+								<div className=" flex flex-wrap xl:justify-start justify-center gap-4 btn--wrap select-none">
+									<Link
+										href={settingsData?.message?.progres_two_value}
+										className="
                     select-none 
                     px-[32px] 
                     py-[12px] 
@@ -52,28 +46,28 @@ export const MainWebSupport = ({
                     items-center
                     gap-[10px]
                     "
-								>
-									{settingsData?.message?.progress_value}
-									<svg
-										width="18"
-										height="16"
-										viewBox="0 0 18 16"
-										fill="none"
-										xmlns="http://www.w3.org/2000/svg"
 									>
-										<path
-											d="M1 8H17M17 8L10 1M17 8L10 15"
-											stroke="white"
-											strokeWidth="2"
-											strokeLinecap="round"
-											strokeLinejoin="round"
-										></path>
-									</svg>
-								</Link>
+										{settingsData?.message?.progress_value}
+										<svg
+											width="18"
+											height="16"
+											viewBox="0 0 18 16"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M1 8H17M17 8L10 1M17 8L10 15"
+												stroke="white"
+												strokeWidth="2"
+												strokeLinecap="round"
+												strokeLinejoin="round"
+											></path>
+										</svg>
+									</Link>
 
-								<Link
-									href={settingsData?.message?.progres_three_value}
-									className="
+									<Link
+										href={settingsData?.message?.progres_three_value}
+										className="
                     select-none 
                     px-[32px] 
                     py-[12px] 
@@ -91,25 +85,26 @@ export const MainWebSupport = ({
                     items-center
                     gap-[10px]
                     "
-								>
-									{settingsData?.message?.progres_three_value}
-									<svg
-										width="18"
-										height="16"
-										viewBox="0 0 18 16"
-										fill="none"
-										xmlns="http://www.w3.org/2000/svg"
 									>
-										<path
-											d="M1 8H17M17 8L10 1M17 8L10 15"
-											stroke="white"
-											strokeWidth="2"
-											strokeLinecap="round"
-											strokeLinejoin="round"
-										></path>
-									</svg>
-								</Link>
-							</div>
+										{settingsData?.message?.progres_three_value}
+										<svg
+											width="18"
+											height="16"
+											viewBox="0 0 18 16"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M1 8H17M17 8L10 1M17 8L10 15"
+												stroke="white"
+												strokeWidth="2"
+												strokeLinecap="round"
+												strokeLinejoin="round"
+											></path>
+										</svg>
+									</Link>
+								</div>
+							</MotionFadeIn>
 						</div>
 					</div>
 				</div>
@@ -136,13 +131,17 @@ export const MainWebSupport = ({
               justify-end
               "
 				>
-					<Image
-						width={500}
-						height={500}
-						className="w-full"
-						src={imageFormat(settingsData?.message?.f_feature_image_6 ?? null)}
-						alt="image"
-					/>
+					<MotionFadeIn>
+						<Image
+							width={500}
+							height={500}
+							className="w-full"
+							src={imageFormat(
+								settingsData?.message?.f_feature_image_6 ?? null,
+							)}
+							alt="image"
+						/>
+					</MotionFadeIn>
 				</div>
 			</div>
 		</section>

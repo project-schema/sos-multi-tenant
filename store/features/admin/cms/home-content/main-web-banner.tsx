@@ -32,17 +32,17 @@ const schema = z.object({
 		.refine((file) => file.size > 0, { message: 'Image is required' })
 		.optional(),
 
-	f_banner_group_title: z.string().optional(),
+	newsletter_title: z.string().optional(),
 
 	home_banner_heading: z.string().optional(),
 
 	home_banner_description: z.string().optional(),
 
-	f_banner_btn_1_text: z.string().optional(),
-	f_banner_btn_1_url: z.string().optional(),
+	newsletter_description: z.string().optional(), // btn text
+	subscription_heading: z.string().optional(), // btn url
 
-	f_banner_btn_2_text: z.string().optional(),
-	f_banner_btn_2_url: z.string().optional(),
+	subscription_title: z.string().optional(),
+	chose_description: z.string().optional(),
 
 	f_banner_image_1: z.instanceof(File).optional(),
 	f_banner_image_2: z.instanceof(File).optional(),
@@ -66,13 +66,13 @@ export function MainWebBanner() {
 		resolver: zodResolver(schema),
 		defaultValues: {
 			f_banner_group_title_image: undefined,
-			f_banner_group_title: setting?.f_banner_group_title ?? '',
+			newsletter_title: setting?.newsletter_title ?? '',
 			home_banner_heading: setting?.home_banner_heading ?? '',
 			home_banner_description: setting?.home_banner_description ?? '',
-			f_banner_btn_1_text: setting?.f_banner_btn_1_text ?? '',
-			f_banner_btn_1_url: setting?.f_banner_btn_1_url ?? '',
-			f_banner_btn_2_text: setting?.f_banner_btn_2_text ?? '',
-			f_banner_btn_2_url: setting?.f_banner_btn_2_url ?? '',
+			newsletter_description: setting?.newsletter_description ?? '',
+			subscription_title: setting?.subscription_title ?? '',
+			subscription_heading: setting?.subscription_heading ?? '',
+			chose_description: setting?.chose_description ?? '',
 			f_banner_image_1: undefined,
 			f_banner_image_2: undefined,
 			f_banner_image_3: undefined,
@@ -83,14 +83,15 @@ export function MainWebBanner() {
 	useEffect(() => {
 		if (data?.data) {
 			form.reset({
-				f_banner_group_title_image: undefined,
-				f_banner_group_title: setting?.f_banner_group_title ?? '',
+				newsletter_title: setting?.newsletter_title ?? '',
 				home_banner_heading: setting?.home_banner_heading ?? '',
 				home_banner_description: setting?.home_banner_description ?? '',
-				f_banner_btn_1_text: setting?.f_banner_btn_1_text ?? '',
-				f_banner_btn_1_url: setting?.f_banner_btn_1_url ?? '',
-				f_banner_btn_2_text: setting?.f_banner_btn_2_text ?? '',
-				f_banner_btn_2_url: setting?.f_banner_btn_2_url ?? '',
+				newsletter_description: setting?.newsletter_description ?? '',
+				subscription_title: setting?.subscription_title ?? '',
+				subscription_heading: setting?.subscription_heading ?? '',
+				chose_description: setting?.chose_description ?? '',
+
+				f_banner_group_title_image: undefined,
 				f_banner_image_1: undefined,
 				f_banner_image_2: undefined,
 				f_banner_image_3: undefined,
@@ -179,7 +180,7 @@ export function MainWebBanner() {
 
 						<FormField
 							control={form.control}
-							name="f_banner_group_title"
+							name="newsletter_title"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Group Title</FormLabel>
@@ -229,7 +230,7 @@ export function MainWebBanner() {
 					<CardContent className="pt-6 grid md:grid-cols-2 gap-6">
 						<FormField
 							control={form.control}
-							name="f_banner_btn_1_text"
+							name="newsletter_description"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Button 1 Text</FormLabel>
@@ -243,7 +244,7 @@ export function MainWebBanner() {
 
 						<FormField
 							control={form.control}
-							name="f_banner_btn_1_url"
+							name="subscription_heading"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Button 1 URL</FormLabel>
@@ -257,7 +258,7 @@ export function MainWebBanner() {
 
 						<FormField
 							control={form.control}
-							name="f_banner_btn_2_text"
+							name="subscription_title"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Button 2 Text</FormLabel>
@@ -271,7 +272,7 @@ export function MainWebBanner() {
 
 						<FormField
 							control={form.control}
-							name="f_banner_btn_2_url"
+							name="chose_description"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Button 2 URL</FormLabel>

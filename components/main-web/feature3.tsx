@@ -1,4 +1,5 @@
 import { imageFormat } from '@/lib';
+import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import { iSettingsType } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,77 +24,71 @@ export const MainWebFeature3 = ({
 				<div className="max-w-full relative">
 					<div className="grid lg:grid-cols-2 grid-cols-1 gap-[40px] mb-[60px]">
 						<div className="content--wrap">
-							<div
-								className="inline-flex items-center border border-[#0000001d] rounded-[100px] py-[9px] px-[20px] mb-[20px]"
-								data-aos="fade-up"
-								data-aos-duration="400"
-							>
-								<IconEle />
-								<p className="font-medium">
-									{settingsData?.message?.org_one_title}
-								</p>
-							</div>
+							<MotionFadeIn>
+								<div className="inline-flex items-center border border-[#0000001d] rounded-[100px] py-[9px] px-[20px] mb-[20px]">
+									<IconEle />
+									<p className="font-medium">
+										{settingsData?.message?.org_one_title}
+									</p>
+								</div>
+							</MotionFadeIn>
 
-							<h6
-								className="xl:text-[48px] md:text-[32px] text-[26px] xl:leading-[64px] md:leading-[38px] leading-[28px] font-bold mb-[15px]"
-								data-aos="fade-up"
-								data-aos-duration="500"
-							>
-								{settingsData?.message?.org_one_heading}
-							</h6>
-							<p
-								className="text-[#969696] text-[18px] mb-[30px]"
-								data-aos="fade-up"
-								data-aos-duration="600"
-							>
-								{settingsData?.message?.org_one_video_link}
-							</p>
+							<MotionFadeIn>
+								<h6 className="xl:text-[48px] md:text-[32px] text-[26px] xl:leading-[64px] md:leading-[38px] leading-[28px] font-bold mb-[15px]">
+									{settingsData?.message?.org_one_heading}
+								</h6>
+							</MotionFadeIn>
+
+							<MotionFadeIn>
+								<p className="text-[#969696] text-[18px] mb-[30px]">
+									{settingsData?.message?.org_one_video_link}
+								</p>
+							</MotionFadeIn>
 
 							<Feature3List />
 						</div>
 						<div className="w-full">
-							<Image
-								width={500}
-								height={500}
-								className="w-full"
-								src={imageFormat(settingsData?.message?.org_photo ?? null)}
-								alt="image"
-							/>
+							<MotionFadeIn>
+								<Image
+									width={500}
+									height={500}
+									className="w-full"
+									src={imageFormat(settingsData?.message?.org_photo ?? null)}
+									alt="image"
+								/>
+							</MotionFadeIn>
 						</div>
 					</div>
 
 					<div className="grid lg:grid-cols-2 grid-cols-1 gap-[40px] mb-[60px]">
 						<div className="w-full">
-							<Image
-								width={500}
-								height={500}
-								className="w-full"
-								src={imageFormat(
-									settingsData?.message?.f_feature_image_4 ?? null,
-								)}
-								alt="image"
-							/>
+							<MotionFadeIn>
+								<Image
+									width={500}
+									height={500}
+									className="w-full"
+									src={imageFormat(
+										settingsData?.message?.f_feature_image_4 ?? null,
+									)}
+									alt="image"
+								/>
+							</MotionFadeIn>
 						</div>
 						<div className="content--wrap">
-							<div
-								className="inline-flex items-center border border-[#0000001d] rounded-[100px] py-[9px] px-[20px] mb-[20px]"
-								data-aos="fade-up"
-								data-aos-duration="400"
-							>
-								<IconEle />
+							<MotionFadeIn>
+								<div className="inline-flex items-center border border-[#0000001d] rounded-[100px] py-[9px] px-[20px] mb-[20px]">
+									<IconEle />
 
-								<p className="font-medium">
-									{settingsData?.message?.service_two_title}
-								</p>
-							</div>
-
-							<h6
-								className="xl:text-[48px] md:text-[32px] text-[26px] xl:leading-[64px] md:leading-[38px] leading-[28px] font-bold mb-[15px]"
-								data-aos="fade-up"
-								data-aos-duration="500"
-							>
-								{settingsData?.message?.service_two_heading}
-							</h6>
+									<p className="font-medium">
+										{settingsData?.message?.service_two_title}
+									</p>
+								</div>
+							</MotionFadeIn>
+							<MotionFadeIn direction="down">
+								<h6 className="xl:text-[48px] md:text-[32px] text-[26px] xl:leading-[64px] md:leading-[38px] leading-[28px] font-bold mb-[15px]">
+									{settingsData?.message?.service_two_heading}
+								</h6>
+							</MotionFadeIn>
 
 							<Feature4List />
 						</div>
@@ -101,67 +96,69 @@ export const MainWebFeature3 = ({
 
 					<div className="grid lg:grid-cols-2 grid-cols-1 gap-[40px]">
 						<div className="content--wrap">
-							<div
-								className="inline-flex items-center border border-[#0000001d] rounded-[100px] py-[9px] px-[20px] mb-[20px]"
-								data-aos="fade-up"
-								data-aos-duration="400"
-							>
-								<IconEle />
+							<MotionFadeIn>
+								<div className="inline-flex items-center border border-[#0000001d] rounded-[100px] py-[9px] px-[20px] mb-[20px]">
+									<IconEle />
 
-								<p className="font-medium">
-									{settingsData?.message?.one_title}
+									<p className="font-medium">
+										{settingsData?.message?.one_title}
+									</p>
+								</div>
+							</MotionFadeIn>
+
+							<MotionFadeIn>
+								<h6 className="xl:text-[48px] md:text-[32px] text-[26px] xl:leading-[64px] md:leading-[38px] leading-[28px] font-bold mb-[15px]">
+									{settingsData?.message?.count_one}
+								</h6>
+							</MotionFadeIn>
+							<MotionFadeIn direction="down">
+								<p className="text-[#969696] text-[18px] mb-[30px]">
+									{settingsData?.message?.count_two}
 								</p>
-							</div>
+							</MotionFadeIn>
 
-							<h6
-								className="xl:text-[48px] md:text-[32px] text-[26px] xl:leading-[64px] md:leading-[38px] leading-[28px] font-bold mb-[15px]"
-								data-aos="fade-up"
-								data-aos-duration="500"
-							>
-								{settingsData?.message?.count_one}
-							</h6>
-							<p
-								className="text-[#969696] text-[18px] mb-[30px]"
-								data-aos="fade-up"
-								data-aos-duration="600"
-							>
-								{settingsData?.message?.count_two}
-							</p>
-
-							<div className="" data-aos="fade-up" data-aos-duration="700">
-								<Link
-									href={settingsData?.message?.count_two_title}
-									className="inline-flex items-center border gap-[10px] border-[#0000001d] rounded-[100px] py-[9px] px-[20px] mb-[15px] mr-[15px]"
-								>
-									<Fb />
-									<p className="font-medium">Facebook</p>
-								</Link>
-								<Link
-									href={settingsData?.message?.count_three}
-									className="inline-flex items-center border gap-[10px] border-[#0000001d] rounded-[100px] py-[9px] px-[20px] mb-[15px] mr-[15px]"
-								>
-									<Ins />
-									<p className="font-medium">Instagram</p>
-								</Link>
-								<Link
-									href={settingsData?.message?.count_three_title}
-									className="inline-flex items-center border gap-[10px] border-[#0000001d] rounded-[100px] py-[9px] px-[20px] mb-[15px] mr-[15px]"
-								>
-									<Ws />
-									<p className="font-medium">WhatsApp</p>
-								</Link>
+							<div className="flex flex-wrap gap-3">
+								<MotionFadeIn>
+									<Link
+										href={settingsData?.message?.count_two_title}
+										className="inline-flex items-center border gap-[10px] border-[#0000001d] rounded-[100px] py-[9px] px-[20px] mb-[15px] mr-[15px]"
+									>
+										<Fb />
+										<p className="font-medium">Facebook</p>
+									</Link>
+								</MotionFadeIn>
+								<MotionFadeIn>
+									<Link
+										href={settingsData?.message?.count_three}
+										className="inline-flex items-center border gap-[10px] border-[#0000001d] rounded-[100px] py-[9px] px-[20px] mb-[15px] mr-[15px]"
+									>
+										<Ins />
+										<p className="font-medium">Instagram</p>
+									</Link>
+								</MotionFadeIn>
+								<MotionFadeIn>
+									<Link
+										href={settingsData?.message?.count_three_title}
+										className="inline-flex items-center border gap-[10px] border-[#0000001d] rounded-[100px] py-[9px] px-[20px] mb-[15px] mr-[15px]"
+									>
+										<Ws />
+										<p className="font-medium">WhatsApp</p>
+									</Link>
+								</MotionFadeIn>
 							</div>
 						</div>
 						<div className="w-full">
-							<Image
-								width={500}
-								height={500}
-								className="w-full"
-								src={imageFormat(
-									settingsData?.message?.f_feature_image_5 ?? null,
-								)}
-								alt="image"
-							/>
+							<MotionFadeIn>
+								<Image
+									width={500}
+									height={500}
+									className="w-full"
+									src={imageFormat(
+										settingsData?.message?.f_feature_image_5 ?? null,
+									)}
+									alt="image"
+								/>
+							</MotionFadeIn>
 						</div>
 					</div>
 				</div>

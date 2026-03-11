@@ -63,14 +63,12 @@ export default async function HomePage() {
 
 			{/* <!-- feature section --> */}
 			{services && services?.message.length > 0 && (
-				<MainWebFeature settingsData={settings} getServiceData={services} />
+				<MainWebFeature settingsData={settings} />
 			)}
 			{/* <!-- /feature section --> */}
 
 			{/* <!-- main featured section --> */}
-			{orgTwo?.status === 200 && (
-				<MainWebFeature2 settings={settings} getOrTwoData={orgTwo} />
-			)}
+			{orgTwo?.status === 200 && <MainWebFeature2 settings={settings} />}
 			{/* <!-- /main featured  section--> */}
 
 			{/* <!-- featured section--> */}
@@ -86,7 +84,7 @@ export default async function HomePage() {
 			{/* <!-- /testimonial section --> */}
 
 			{/* <!-- pricing section --> */}
-			<MainWebPricing />
+			<MainWebPricing settings={settings} />
 			{/* <!-- /pricing section --> */}
 
 			{/* <!-- cta section --> */}

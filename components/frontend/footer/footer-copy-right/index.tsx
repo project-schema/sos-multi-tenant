@@ -1,6 +1,6 @@
+import { iSettingsType } from '@/types';
 import Link from 'next/link';
 import style from './footer-coy-right.module.css';
-import { iSettingsType } from '@/types';
 
 function FooterCopyRight({ settingsData }: { settingsData: iSettingsType }) {
 	const data = settingsData?.message;

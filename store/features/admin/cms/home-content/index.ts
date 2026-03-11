@@ -1,6 +1,7 @@
 export * from './admin-home-content.create';
 export * from './main-web-banner';
 export * from './main-web-feature-1';
+export * from './main-web-feature-10';
 export * from './main-web-feature-2';
 export * from './main-web-feature-3';
 export * from './main-web-feature-4';
@@ -8,3 +9,4 @@ export * from './main-web-feature-5';
 export * from './main-web-feature-6';
 export * from './main-web-feature-7';
 export * from './main-web-feature-8';
+export * from './main-web-feature-9';

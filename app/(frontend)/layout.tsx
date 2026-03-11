@@ -33,7 +33,7 @@ export default async function Layout({
 					<main className="pt-0">
 						{children}
 						{/* <!-- footer section --> */}
-						<MainWebFooter />
+						<MainWebFooter settings={settings ?? null} />
 						{/* <!-- /footer section --> */}
 					</main>
 				</div>

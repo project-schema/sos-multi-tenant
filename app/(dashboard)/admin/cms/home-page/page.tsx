@@ -3,6 +3,7 @@
 import {
 	MainWebBanner,
 	MainWebFeature1,
+	MainWebFeature10,
 	MainWebFeature2,
 	MainWebFeature3,
 	MainWebFeature4,
@@ -10,6 +11,7 @@ import {
 	MainWebFeature6,
 	MainWebFeature7,
 	MainWebFeature8,
+	MainWebFeature9,
 } from '@/store/features/admin/cms/home-content';
 import { useSearchParams } from 'next/navigation';
 
@@ -44,6 +46,12 @@ export default function Page() {
 
 		case 'feature8':
 			return <MainWebFeature8 />;
+
+		case 'feature9':
+			return <MainWebFeature9 />;
+
+		case 'feature10':
+			return <MainWebFeature10 />;
 
 		default:
 			return <div>not content</div>;

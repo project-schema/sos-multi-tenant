@@ -79,6 +79,18 @@ export default function Layout({ children }: LayoutProps) {
 				url: `/admin/cms/home-page?tab=feature8`,
 				icon: Palette,
 			},
+			{
+				title: 'Home Feature 9',
+				tab: 'feature9',
+				url: `/admin/cms/home-page?tab=feature9`,
+				icon: Palette,
+			},
+			{
+				title: 'Home Feature 10',
+				tab: 'feature10',
+				url: `/admin/cms/home-page?tab=feature10`,
+				icon: Palette,
+			},
 		],
 		[],
 	);

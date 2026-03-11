@@ -1,3 +1,4 @@
+import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import { iSettingsType } from '@/types';
 import TitleStart from './icons/title-start';
 
@@ -14,21 +15,18 @@ export const MainWebTestimonial = ({
 			<div className="container mx-auto">
 				<div className="max-w-full flex flex-col justify-center items-center relative px-[0px] 2xl:px-[0px] md:px-[35px]">
 					<div className="flex flex-col justify-center max-w-3xl items-center xl:mb-[60px] mb-[40px]">
-						<span
-							className="text-primary font-hind text-center flex items-center gap-[8px] text-[16px] leading-[18px] mb-[22px] section-heading"
-							data-aos="fade-up"
-							data-aos-duration="400"
-						>
-							<TitleStart />
-							{settings?.message?.partner_title}
-						</span>
-						<h2
-							className="section--title font-hind text-center font-semibold xl:text-[48px] lg:text-[40px] text-[36px] uppercase lg:leading-[64px] leading-[40px] text-secondary section-title"
-							data-aos="fade-up"
-							data-aos-duration="500"
-						>
-							{settings?.message?.partner_heading}
-						</h2>
+						<MotionFadeIn>
+							<span className="text-primary font-hind text-center flex items-center gap-[8px] text-[16px] leading-[18px] mb-[22px] section-heading">
+								<TitleStart />
+								{settings?.message?.testimonial_title}
+							</span>
+						</MotionFadeIn>
+
+						<MotionFadeIn direction="down">
+							<h2 className="section--title font-hind text-center font-semibold xl:text-[48px] lg:text-[40px] text-[36px] uppercase lg:leading-[64px] leading-[40px] text-secondary section-title">
+								{settings?.message?.testimonial_heading}
+							</h2>
+						</MotionFadeIn>
 					</div>
 				</div>
 			</div>
