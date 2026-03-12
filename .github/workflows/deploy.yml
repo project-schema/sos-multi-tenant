@@ -1,0 +1,30 @@
+name: Deploy SOS Multi Tenant
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_KEY_PROJECT2 }}
+          script: |
+            cd /var/www/sos-multi-tenant
+
+            git pull origin main
+
+            docker compose down
+
+            docker system prune -f
+
+            docker compose build --no-cache
+
+            docker compose up -d

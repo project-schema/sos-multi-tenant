@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  sos_multi_tenant:
+    build: .
+    container_name: sos_multi_tenant
+    ports:
+      - "3099:3099"
+    restart: always
+    environment:
+      NODE_ENV: production

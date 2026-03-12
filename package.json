@@ -1,8 +1,10 @@
 {
 	"private": true,
 	"scripts": {
-		"dev": "next dev --port 3090",
-		"build": "next build",
+		"dev-proxy": "next dev --port 3090",
+		"clean": "rm -rf .next",
+		"dev": "npm run clean && npm run dev-proxy",
+		"build": "npm run clean && next build",
 		"start": "next start -H 0.0.0.0 -p 3099",
 		"type-check": "tsc --project tsconfig.json --pretty --noEmit && echo 'Typechecking passed!'"
 	},

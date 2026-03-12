@@ -2,3 +2,5 @@
 .gitignore
 build/
 coverage/
+privet
+privet.pub
