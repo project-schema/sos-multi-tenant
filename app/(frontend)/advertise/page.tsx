@@ -1,6 +1,7 @@
 import AdvertiseBanner from '@/components/essential/AdvertisePage/AdvertiseBanner/AdvertiseBanner';
 import SosAdvertise from '@/components/essential/AdvertisePage/SosAdvertise/SosAdvertiseSection';
 import { getApiData } from '@/lib';
+import { SmoothScrollPage } from '@/lib/smooth-scroll';
 import { iFaqsType, iSettingsType } from '@/types';
 import { notFound } from 'next/navigation';
 
@@ -17,9 +18,9 @@ export default async function Page() {
 		return notFound();
 	}
 	return (
-		<>
+		<SmoothScrollPage>
 			<AdvertiseBanner settings={settings} />
 			<SosAdvertise settings={settings} faqs={faqs} />
-		</>
+		</SmoothScrollPage>
 	);
 }

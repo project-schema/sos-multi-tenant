@@ -8,6 +8,7 @@ import { MainWebPricing } from '@/components/main-web/pricing';
 import { MainWebSupport } from '@/components/main-web/support';
 import { MainWebTestimonial } from '@/components/main-web/testimonial';
 import { getApiData } from '@/lib';
+import { SmoothScrollPage } from '@/lib/smooth-scroll';
 import {
 	iItServicesType,
 	iOrgOneType,
@@ -56,7 +57,7 @@ export default async function HomePage() {
 	}
 
 	return (
-		<>
+		<SmoothScrollPage>
 			{/* <!-- hero section --> */}
 			<MainWebHero settings={settings} />
 			{/* <!-- /hero section --> */}
@@ -98,6 +99,6 @@ export default async function HomePage() {
 					</Suspense>
 				</div>
 			)} */}
-		</>
+		</SmoothScrollPage>
 	);
 }

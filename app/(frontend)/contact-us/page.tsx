@@ -1,5 +1,6 @@
 import Contact from '@/components/essential/Contact/Contact';
 import { getApiData } from '@/lib';
+import { SmoothScrollPage } from '@/lib/smooth-scroll';
 import { iContactType } from '@/types';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -15,8 +16,8 @@ export default async function Page() {
 		return notFound();
 	}
 	return (
-		<>
+		<SmoothScrollPage>
 			<Contact data={data} />
-		</>
+		</SmoothScrollPage>
 	);
 }

@@ -19,29 +19,23 @@ export default async function Layout({
 	}
 
 	return (
-		<>
-			<div className="web">
-				<div className="antialiased bg-white text-secondary font-poppins">
-					{/* <!-- Navbar --> */}
-					<MainWebHeader settings={settings ?? null} />
-					{/* <!-- / Navbar --> */}
+		<div className="web">
+			<div className="antialiased bg-white text-secondary font-poppins">
+				{/* <!-- Navbar --> */}
+				<MainWebHeader settings={settings ?? null} />
+				{/* <!-- / Navbar --> */}
 
-					{/* <!-- Offcanvas Sidebar --> */}
-					{/* <MainWebOffCanvas /> */}
-					{/* <!-- / Offcanvas Sidebar --> */}
+				{/* <!-- Offcanvas Sidebar --> */}
+				{/* <MainWebOffCanvas /> */}
+				{/* <!-- / Offcanvas Sidebar --> */}
 
-					<main className="pt-0">
-						{children}
-						{/* <!-- footer section --> */}
-						<MainWebFooter settings={settings ?? null} />
-						{/* <!-- /footer section --> */}
-					</main>
-				</div>
+				<main className="pt-0">
+					{children}
+					{/* <!-- footer section --> */}
+					<MainWebFooter settings={settings ?? null} />
+					{/* <!-- /footer section --> */}
+				</main>
 			</div>
-
-			{/* <Nav settings={settings} />
-			{children}
-			<Footer /> */}
-		</>
+		</div>
 	);
 }

@@ -5,6 +5,7 @@ import OurCompany from '@/components/essential/AboutPage/OurCompany/OurCompany';
 import OurMission from '@/components/essential/AboutPage/OurMission/OurMission';
 import OurVission from '@/components/essential/AboutPage/OurVission/OurVission';
 import { getApiData } from '@/lib';
+import { SmoothScrollPage } from '@/lib/smooth-scroll';
 import {
 	iCompanionsType,
 	iMembersType,
@@ -35,13 +36,13 @@ export default async function Page() {
 		return notFound();
 	}
 	return (
-		<>
+		<SmoothScrollPage>
 			<OurCompany settings={settings} />
 			<OurVission settings={settings} />
 			<OurMission settings={settings} missions={missions} />
 			<ChooseUs settings={settings} companions={companions} />
 			<FeedbackSlider settings={settings} testimonials={testimonials} />
 			<KeyMembers settings={settings} members={members} />
-		</>
+		</SmoothScrollPage>
 	);
 }

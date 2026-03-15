@@ -11,7 +11,8 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 	const { data, isLoading, isError } = useVendorProfileInfoQuery(undefined, {
 		skip:
 			session?.tenant_type !== 'merchant' &&
-			session?.tenant_type !== 'dropshipper',
+			session?.tenant_type !== 'dropshipper' &&
+			!session,
 	});
 	const router = useRouter();
 

@@ -687,7 +687,6 @@ export default function CartViewPageClient({
 								<Textarea
 									id="address"
 									placeholder="1234 Main St"
-									defaultValue=""
 									name="address"
 									value={form.address}
 									onChange={(e) =>
@@ -704,7 +703,6 @@ export default function CartViewPageClient({
 								<Textarea
 									id="note"
 									placeholder="special instruction"
-									defaultValue=""
 									name="note"
 									value={form.note}
 									onChange={(e) =>

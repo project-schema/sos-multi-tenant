@@ -1,6 +1,7 @@
 import AllServices from '@/components/essential/ServicePage/AllServices/AllServices';
 import ServiceBanner from '@/components/essential/ServicePage/ServiceBanner/ServiceBanner';
 import { getApiData } from '@/lib';
+import { SmoothScrollPage } from '@/lib/smooth-scroll';
 import { iPagination, iServiceType, iSettingsType } from '@/types';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -39,7 +40,7 @@ export default async function Page({
 	const [settings, services, categories] = await Promise.all([
 		getApiData<iSettingsType>('/settings'),
 		getApiData<iPagination<iServiceType>>(
-			`/all-services${queryString ? `?${queryString}` : ''}`
+			`/all-services${queryString ? `?${queryString}` : ''}`,
 		),
 		getApiData<{
 			status: number;
@@ -53,7 +54,7 @@ export default async function Page({
 	}
 
 	return (
-		<>
+		<SmoothScrollPage>
 			<ServiceBanner settings={settings} />
 			<AllServices
 				services={services}
@@ -66,6 +67,6 @@ export default async function Page({
 					tags: resolvedSearchParams?.tags || '',
 				}}
 			/>
-		</>
+		</SmoothScrollPage>
 	);
 }

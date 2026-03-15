@@ -1,5 +1,6 @@
 import { MainWebPricing } from '@/components/main-web/pricing';
 import { getApiData } from '@/lib';
+import { SmoothScrollPage } from '@/lib/smooth-scroll';
 import { iSettingsType, iSubscriptionsType } from '@/types';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -21,10 +22,12 @@ export default async function Page() {
 	}
 
 	return (
-		<div className="xl:pt-[130px] md:pt-[100px] pt-[70px]">
-			<Suspense fallback={null}>
-				{settings && <MainWebPricing settings={settings} />}
-			</Suspense>
-		</div>
+		<SmoothScrollPage>
+			<div className="xl:pt-[130px] md:pt-[100px] pt-[70px]">
+				<Suspense fallback={null}>
+					{settings && <MainWebPricing settings={settings} />}
+				</Suspense>
+			</div>
+		</SmoothScrollPage>
 	);
 }
