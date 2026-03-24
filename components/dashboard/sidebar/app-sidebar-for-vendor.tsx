@@ -9,6 +9,7 @@ import {
 	SidebarHeader,
 	useSidebar,
 } from '@/components/ui/sidebar';
+import { MotionView } from '@/lib';
 import Link from 'next/link';
 import AppRoot from './app-root';
 import { NavMain } from './nav-main';
@@ -28,24 +29,26 @@ export function AppSidebarForVendor({
 	const filteredReports = filterItems(vendorSidebarData.reports, searchQuery);
 	const filteredServices = filterItems(
 		vendorSidebarData.servicesAndAdvertise,
-		searchQuery
+		searchQuery,
 	);
 	const filteredSupport = filterItems(vendorSidebarData.support, searchQuery);
 	const filteredCms = filterItems(vendorSidebarData.cms, searchQuery);
 	return (
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader className="mb-4 relative">
-				<Link href="/dashboard" className="flex items-center gap-2">
-					<div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-						<Tent className="size-4" />
-					</div>
-					<div className="grid flex-1 text-left text-sm leading-tight">
-						<span className="truncate font-medium text-lg">
-							Start Own Startup
-						</span>
-						<span className="truncate text-xs">This is your Business</span>
-					</div>
-				</Link>
+				<MotionView y={10}>
+					<Link href="/dashboard" className="flex items-center gap-2">
+						<div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+							<Tent className="size-4" />
+						</div>
+						<div className="grid flex-1 text-left text-sm leading-tight">
+							<span className="truncate font-medium text-lg">
+								Start Own Startup
+							</span>
+							<span className="truncate text-xs">This is your Business</span>
+						</div>
+					</Link>
+				</MotionView>
 				{state === 'expanded' && (
 					<Link
 						href="/"
@@ -58,18 +61,32 @@ export function AppSidebarForVendor({
 			</SidebarHeader>
 
 			{/*   Search Input */}
-			<SearchForm value={searchQuery} onChange={setSearchQuery as any} />
+			<MotionView y={10}>
+				<SearchForm value={searchQuery} onChange={setSearchQuery as any} />
+			</MotionView>
 
 			{/*   Filtered Navigation */}
 			<SidebarContent className="gap-0 pb-8">
-				<AppRoot />
-				<NavMain items={filteredProducts} groupLabel="Products" />
-				<NavMain items={filteredPos} groupLabel="POS & Purchase" />
+				<MotionView y={10}>
+					<AppRoot />
+				</MotionView>
+				<MotionView y={10}>
+					<NavMain items={filteredProducts} groupLabel="Products" />
+				</MotionView>
+				<MotionView y={10}>
+					<NavMain items={filteredPos} groupLabel="POS & Purchase" />
+				</MotionView>
 				{/* <NavMain items={filteredServices} groupLabel="Services & Advertise" /> */}
 				{/* <NavMain items={filteredSupport} groupLabel="Support" /> */}
-				<NavMain items={filteredReports} groupLabel="Reports" />
-				<NavMain items={filteredCms} groupLabel="CMS" />
-				<NavMain items={filteredSettings} groupLabel="Settings" />
+				<MotionView y={10}>
+					<NavMain items={filteredReports} groupLabel="Reports" />
+				</MotionView>
+				<MotionView y={10}>
+					<NavMain items={filteredCms} groupLabel="CMS" />
+				</MotionView>
+				<MotionView y={10}>
+					<NavMain items={filteredSettings} groupLabel="Settings" />
+				</MotionView>
 			</SidebarContent>
 		</Sidebar>
 	);

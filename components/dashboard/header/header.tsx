@@ -2,6 +2,7 @@
 
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import { MotionView } from '@/lib';
 import { Notification } from '@/store/features/vendor/notification';
 import { useSession } from 'next-auth/react';
 import { Crumb, DbBreadcrumb } from '../breadcrumb/Breadcrumb';
@@ -13,14 +14,15 @@ export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
 
 	return (
 		<header className="print:hidden fixed w-full top-0 left-0 md:pl-[var(--sidebar-width)] z-10 bg-white  border-b flex h-16   shrink-0 items-center gap-2 transition-[width,height,padding] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12   group-has-data-[collapsible=icon]/sidebar-wrapper:pl-10">
-			<div className="flex items-center gap-2 px-4">
-				<SidebarTrigger className="-ml-1" />
-				<Separator
-					orientation="vertical"
-					className="mr-2 data-[orientation=vertical]:h-4"
-				/>
-				<DbBreadcrumb items={breadcrumb} />
-				{/* <Breadcrumb>
+			<MotionView y={10}>
+				<div className="flex items-center gap-2 px-4">
+					<SidebarTrigger className="-ml-1" />
+					<Separator
+						orientation="vertical"
+						className="mr-2 data-[orientation=vertical]:h-4"
+					/>
+					<DbBreadcrumb items={breadcrumb} />
+					{/* <Breadcrumb>
 					<BreadcrumbList>
 						<BreadcrumbItem className="hidden md:block">
 							<BreadcrumbLink href="/user">{page}</BreadcrumbLink>
@@ -31,24 +33,26 @@ export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
 						</BreadcrumbItem>
 					</BreadcrumbList>
 				</Breadcrumb> */}
-			</div>
-
+				</div>
+			</MotionView>
 			{/* Right side elements */}
-			<div className="flex items-center gap-2 ml-auto px-4">
-				{/* Balance Toggle */}
-				{session?.tenant_type !== 'admin' ? <BalanceToggle /> : null}
+			<MotionView y={10} className="ml-auto">
+				<div className="flex items-center gap-2  px-4">
+					{/* Balance Toggle */}
+					{session?.tenant_type !== 'admin' ? <BalanceToggle /> : null}
 
-				{/* Notifications Dropdown */}
-				<Notification />
+					{/* Notifications Dropdown */}
+					<Notification />
 
-				{/* User Profile Dropdown */}
-				{session?.tenant_type === 'user' ? <UserDropdown /> : null}
-				{session?.tenant_type === 'admin' ? <UserDropdown /> : null}
-				{session?.tenant_type === 'merchant' ||
-				session?.tenant_type === 'dropshipper' ? (
-					<TenantDropdown />
-				) : null}
-			</div>
+					{/* User Profile Dropdown */}
+					{session?.tenant_type === 'user' ? <UserDropdown /> : null}
+					{session?.tenant_type === 'admin' ? <UserDropdown /> : null}
+					{session?.tenant_type === 'merchant' ||
+					session?.tenant_type === 'dropshipper' ? (
+						<TenantDropdown />
+					) : null}
+				</div>
+			</MotionView>
 		</header>
 	);
 }

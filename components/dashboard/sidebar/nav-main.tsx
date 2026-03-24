@@ -17,6 +17,7 @@ import {
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
+import { MotionItem } from '@/lib';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { sidebarItem } from './sidebar.type';
@@ -65,12 +66,14 @@ export function NavMain({
 							</CollapsibleTrigger>
 							<CollapsibleContent>
 								<SidebarMenuSub>
-									{item.items?.map((subItem) => (
+									{item.items?.map((subItem, i) => (
 										<SidebarMenuSubItem key={subItem.title}>
 											<SidebarMenuSubButton asChild>
-												<Link href={subItem.url}>
-													<span className="text-xs">{subItem.title}</span>
-												</Link>
+												<MotionItem i={i * 0.03} y={2}>
+													<Link href={subItem.url} className="block w-full">
+														<span className="text-xs">{subItem.title} </span>
+													</Link>
+												</MotionItem>
 											</SidebarMenuSubButton>
 										</SidebarMenuSubItem>
 									))}

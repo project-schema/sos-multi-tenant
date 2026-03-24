@@ -1,6 +1,4 @@
 import { Loader8 } from '@/components/dashboard';
-import Footer02 from '@/components/web/footer/02';
-import Header02 from '@/components/web/header/02';
 import { getApiDataWithSubdomain, MotionShow } from '@/lib';
 import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import {
@@ -26,7 +24,6 @@ export default async function ThemeTwoProductDetailsSuspense({
 
 	return (
 		<>
-			<Header02 />
 			<Suspense fallback={<Loader8 />}>
 				<section className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
 					{/* Top section: Gallery + Info */}
@@ -65,7 +62,6 @@ export default async function ThemeTwoProductDetailsSuspense({
 					)}
 				</section>
 			</Suspense>
-			<Footer02 />
 		</>
 	);
 }

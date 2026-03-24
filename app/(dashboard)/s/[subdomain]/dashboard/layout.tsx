@@ -4,13 +4,17 @@ import { Loader9 } from '@/components/dashboard';
 import { AffiliateSidebar } from '@/components/dashboard/sidebar/affiliate-sidebar';
 import { VendorSidebar } from '@/components/dashboard/sidebar/vendor-sidebar';
 import { useSession } from 'next-auth/react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	const { data: session, status } = useSession();
 	const router = useRouter();
 	const pathname = usePathname();
+	const params = useSearchParams();
+
+	const message = params.get('message');
 
 	useEffect(() => {
 		// Redirect to auth page if not authenticated (skip if already on auth page)
@@ -18,6 +22,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 			router.push('/auth');
 		}
 	}, [status, pathname, router]);
+
+	useEffect(() => {
+		if (!message) return;
+
+		toast.success(message);
+		router.replace(pathname);
+	}, [message]);
 
 	if (status === 'loading') {
 		return <Loader9 />;

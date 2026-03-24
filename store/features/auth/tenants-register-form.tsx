@@ -17,12 +17,14 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { alertConfirm, env } from '@/lib';
+import { CircularProgress } from '@/components/ui/progress-09';
+import { Slider } from '@/components/ui/slider';
+import { env } from '@/lib';
 import { iSettingsType } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import {
 	useAuthRegisterMutation,
@@ -100,6 +102,141 @@ export const TenantsRegisterForm = ({
 }: {
 	settings: iSettingsType;
 }) => {
+	// const router = useRouter();
+	// const [register, { isLoading: isLoadingTenantRegister }] =
+	// 	useTenantRegisterMutation();
+	// const [authRegister, { isLoading: isLoadingAuthRegister }] =
+	// 	useAuthRegisterMutation();
+	// const isLoading = isLoadingAuthRegister || isLoadingTenantRegister;
+	// const [showPassword, setShowPassword] = useState(false);
+	// const [showPasswordConfirmation, setShowPasswordConfirmation] =
+	// 	useState(false);
+
+	// const form = useForm<ZodType>({
+	// 	resolver: zodResolver(schema),
+	// 	defaultValues: {
+	// 		company_name: '',
+	// 		domain: '',
+	// 		email: '',
+	// 		owner_name: '',
+	// 		type: 'user',
+	// 		password: '',
+	// 		password_confirmation: '',
+	// 		number: '',
+	// 		accept_terms: false,
+	// 	},
+	// });
+
+	// const typeIsUser = form.watch('type') === 'user';
+
+	// const onSubmit = async (data: ZodType) => {
+	// 	alertConfirm({
+	// 		onOk: async () => {
+	// 			try {
+	// 				const response: any = await register({
+	// 					...data,
+	// 				}).unwrap();
+
+	// 				const validationErrors =
+	// 					response?.validation_errors || response?.errors;
+
+	// 				if (validationErrors && typeof validationErrors === 'object') {
+	// 					const values = form.getValues();
+
+	// 					Object.entries(validationErrors).forEach(([field, messages]) => {
+	// 						const message = Array.isArray(messages) ? messages[0] : messages;
+
+	// 						if (
+	// 							message &&
+	// 							Object.prototype.hasOwnProperty.call(values, field)
+	// 						) {
+	// 							form.setError(field as keyof ZodType, {
+	// 								type: 'server',
+	// 								message: String(message),
+	// 							});
+	// 						}
+	// 					});
+
+	// 					const firstMessage = Object.values(validationErrors)?.[0];
+	// 					toast.error(
+	// 						String(
+	// 							Array.isArray(firstMessage) ? firstMessage[0] : firstMessage,
+	// 						),
+	// 					);
+	// 					return;
+	// 				}
+
+	// 				if (response.message === 'Registration successfully!' && typeIsUser) {
+	// 					toast.success(response.message || 'User registered successfully');
+	// 					router.push('/auth?tab=login');
+	// 				}
+
+	// 				if (response.success) {
+	// 					toast.success(response.message || 'Tenant registered successfully');
+	// 					localStorage.setItem('tenant_data', JSON.stringify(data));
+
+	// 					const tenantSubdomain = response.data.domain;
+
+	// 					// Get current domain info
+	// 					const { protocol, host } = window.location;
+	// 					const currentDomain = host.replace(/^.*?\./, '');
+
+	// 					let tenantURL = '';
+
+	// 					// Construct tenant URL based on current host
+	// 					if (env.rootDomain.includes('localhost')) {
+	// 						tenantURL = `${protocol}//${tenantSubdomain}.${currentDomain}/auth?tab=login`;
+	// 					} else {
+	// 						tenantURL = `${protocol}//${tenantSubdomain}.${env.rootDomain}/auth?tab=login`;
+	// 					}
+	// 					// Redirect to tenant's subdomain
+	// 					window.location.href = tenantURL;
+	// 				} else {
+	// 					if (!typeIsUser) {
+	// 						toast.error(response.message || 'Failed to create tenant');
+	// 					}
+	// 				}
+	// 			} catch (err: any) {
+	// 				const validationErrors =
+	// 					err?.data?.validation_errors || err?.data?.errors;
+
+	// 				if (validationErrors && typeof validationErrors === 'object') {
+	// 					const values = form.getValues();
+
+	// 					Object.entries(validationErrors).forEach(([field, messages]) => {
+	// 						const message = Array.isArray(messages) ? messages[0] : messages;
+
+	// 						if (
+	// 							message &&
+	// 							Object.prototype.hasOwnProperty.call(values, field)
+	// 						) {
+	// 							form.setError(field as keyof ZodType, {
+	// 								type: 'server',
+	// 								message: String(message),
+	// 							});
+	// 						}
+	// 					});
+
+	// 					const firstMessage = Object.values(validationErrors)?.[0];
+	// 					toast.error(
+	// 						String(
+	// 							Array.isArray(firstMessage) ? firstMessage[0] : firstMessage,
+	// 						),
+	// 					);
+	// 					return;
+	// 				}
+
+	// 				toast.error(err?.data?.message || 'Failed to create tenant');
+	// 			}
+	// 		},
+	// 	});
+	// };
+
+	// if (!isLoadingTenantRegister) {
+	// 	return (
+	// 		<div className="flex justify-center items-center h-screen">Loader</div>
+	// 	);
+	// }
 	const router = useRouter();
 	const [register, { isLoading: isLoadingTenantRegister }] =
 		useTenantRegisterMutation();
@@ -109,6 +246,9 @@ export const TenantsRegisterForm = ({
 	const [showPassword, setShowPassword] = useState(false);
 	const [showPasswordConfirmation, setShowPasswordConfirmation] =
 		useState(false);
+	const [showDelayedLoader, setShowDelayedLoader] = useState(false);
+	const [progress, setProgress] = useState(0);
+	const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
@@ -127,108 +267,192 @@ export const TenantsRegisterForm = ({
 
 	const typeIsUser = form.watch('type') === 'user';
 
+	// Effect to handle delayed loader display and progress animation
+	useEffect(() => {
+		let timer: NodeJS.Timeout;
+		let progressInterval: NodeJS.Timeout;
+
+		if (isSubmitting && isLoading) {
+			// Set timer to show loader after 3 seconds
+			timer = setTimeout(() => {
+				setShowDelayedLoader(true);
+
+				// Reset progress when loader appears
+				setProgress(0);
+
+				// Simulate progress increment
+				progressInterval = setInterval(() => {
+					setProgress((prev) => {
+						// Increase progress but cap at 95% until actual completion
+						if (prev < 95) {
+							// Gradually slow down as it approaches 95
+							const increment =
+								prev < 30 ? 5 : prev < 60 ? 3 : prev < 80 ? 2 : 1;
+							return Math.min(prev + increment, 95);
+						}
+						return prev;
+					});
+				}, 500);
+			}, 3000);
+		} else if (!isLoading) {
+			// When loading completes, if loader is showing, set progress to 100% and hide after delay
+			if (showDelayedLoader) {
+				setProgress(100);
+
+				// Hide loader after a brief delay to show 100%
+				const hideTimer = setTimeout(() => {
+					setShowDelayedLoader(false);
+					setIsSubmitting(false);
+				}, 500);
+
+				return () => clearTimeout(hideTimer);
+			} else {
+				setIsSubmitting(false);
+			}
+		}
+
+		return () => {
+			if (timer) clearTimeout(timer);
+			if (progressInterval) clearInterval(progressInterval);
+		};
+	}, [isSubmitting, isLoading, showDelayedLoader]);
+
 	const onSubmit = async (data: ZodType) => {
-		alertConfirm({
-			onOk: async () => {
-				try {
-					const response: any = await register({
-						...data,
-					}).unwrap();
+		try {
+			setIsSubmitting(true); // Set submitting state when form submission starts
 
-					const validationErrors =
-						response?.validation_errors || response?.errors;
+			const response: any = await register({
+				...data,
+			}).unwrap();
 
-					if (validationErrors && typeof validationErrors === 'object') {
-						const values = form.getValues();
+			const validationErrors = response?.validation_errors || response?.errors;
 
-						Object.entries(validationErrors).forEach(([field, messages]) => {
-							const message = Array.isArray(messages) ? messages[0] : messages;
+			if (validationErrors && typeof validationErrors === 'object') {
+				const values = form.getValues();
 
-							if (
-								message &&
-								Object.prototype.hasOwnProperty.call(values, field)
-							) {
-								form.setError(field as keyof ZodType, {
-									type: 'server',
-									message: String(message),
-								});
-							}
+				Object.entries(validationErrors).forEach(([field, messages]) => {
+					const message = Array.isArray(messages) ? messages[0] : messages;
+
+					if (message && Object.prototype.hasOwnProperty.call(values, field)) {
+						form.setError(field as keyof ZodType, {
+							type: 'server',
+							message: String(message),
 						});
-
-						const firstMessage = Object.values(validationErrors)?.[0];
-						toast.error(
-							String(
-								Array.isArray(firstMessage) ? firstMessage[0] : firstMessage
-							)
-						);
-						return;
 					}
+				});
 
-					if (response.message === 'Registration successfully!' && typeIsUser) {
-						toast.success(response.message || 'User registered successfully');
-						router.push('/auth?tab=login');
-					}
+				const firstMessage = Object.values(validationErrors)?.[0];
+				toast.error(
+					String(Array.isArray(firstMessage) ? firstMessage[0] : firstMessage),
+				);
+				setIsSubmitting(false);
+				return;
+			}
 
-					if (response.success) {
-						toast.success(response.message || 'Tenant registered successfully');
-						localStorage.setItem('tenant_data', JSON.stringify(data));
+			if (response.message === 'Registration successfully!' && typeIsUser) {
+				toast.success(response.message || 'User registered successfully');
+				router.push('/auth?tab=login');
+			}
 
-						const tenantSubdomain = response.data.domain;
+			if (response.success) {
+				toast.success(response.message || 'Tenant registered successfully');
+				localStorage.setItem('tenant_data', JSON.stringify(data));
 
-						// Get current domain info
-						const { protocol, host } = window.location;
-						const currentDomain = host.replace(/^.*?\./, '');
+				const tenantSubdomain = response.data.domain;
 
-						let tenantURL = '';
+				// Get current domain info
+				const { protocol, host } = window.location;
+				const currentDomain = host.replace(/^.*?\./, '');
 
-						// Construct tenant URL based on current host
-						if (env.rootDomain.includes('localhost')) {
-							tenantURL = `${protocol}//${tenantSubdomain}.${currentDomain}/auth?tab=login`;
-						} else {
-							tenantURL = `${protocol}//${tenantSubdomain}.${env.rootDomain}/auth?tab=login`;
-						}
-						// Redirect to tenant's subdomain
-						window.location.href = tenantURL;
-					} else {
-						if (!typeIsUser) {
-							toast.error(response.message || 'Failed to create tenant');
-						}
-					}
-				} catch (err: any) {
-					const validationErrors =
-						err?.data?.validation_errors || err?.data?.errors;
+				let tenantURL = '';
 
-					if (validationErrors && typeof validationErrors === 'object') {
-						const values = form.getValues();
-
-						Object.entries(validationErrors).forEach(([field, messages]) => {
-							const message = Array.isArray(messages) ? messages[0] : messages;
-
-							if (
-								message &&
-								Object.prototype.hasOwnProperty.call(values, field)
-							) {
-								form.setError(field as keyof ZodType, {
-									type: 'server',
-									message: String(message),
-								});
-							}
-						});
-
-						const firstMessage = Object.values(validationErrors)?.[0];
-						toast.error(
-							String(
-								Array.isArray(firstMessage) ? firstMessage[0] : firstMessage
-							)
-						);
-						return;
-					}
-
-					toast.error(err?.data?.message || 'Failed to create tenant');
+				// Construct tenant URL based on current host
+				if (env.rootDomain.includes('localhost')) {
+					tenantURL = `${protocol}//${tenantSubdomain}.${currentDomain}/auth?tab=login`;
+				} else {
+					tenantURL = `${protocol}//${tenantSubdomain}.${env.rootDomain}/auth?tab=login`;
 				}
-			},
-		});
+				// Redirect to tenant's subdomain
+				window.location.href = tenantURL;
+			} else {
+				if (!typeIsUser) {
+					toast.error(response.message || 'Failed to create tenant');
+				}
+				setIsSubmitting(false);
+			}
+		} catch (err: any) {
+			const validationErrors =
+				err?.data?.validation_errors || err?.data?.errors;
+
+			if (validationErrors && typeof validationErrors === 'object') {
+				const values = form.getValues();
+
+				Object.entries(validationErrors).forEach(([field, messages]) => {
+					const message = Array.isArray(messages) ? messages[0] : messages;
+
+					if (message && Object.prototype.hasOwnProperty.call(values, field)) {
+						form.setError(field as keyof ZodType, {
+							type: 'server',
+							message: String(message),
+						});
+					}
+				});
+
+				const firstMessage = Object.values(validationErrors)?.[0];
+				toast.error(
+					String(Array.isArray(firstMessage) ? firstMessage[0] : firstMessage),
+				);
+				setIsSubmitting(false);
+				return;
+			}
+
+			toast.error(err?.data?.message || 'Failed to create tenant');
+			setIsSubmitting(false);
+		}
 	};
+
+	// Show loader ONLY when submission takes more than 5 seconds
+	if (showDelayedLoader) {
+		return (
+			<div className="flex justify-center items-center  py-10 bg-white rounded-lg">
+				<div className="mx-auto flex w-full max-w-xs flex-col items-center">
+					<CircularProgress
+						labelClassName="text-xl font-bold"
+						renderLabel={(progress) => `${Math.round(progress)}%`}
+						showLabel
+						size={120}
+						strokeWidth={10}
+						value={progress}
+					/>
+					<div className="w-full mt-8">
+						<Slider
+							value={[progress]}
+							defaultValue={[progress]}
+							// onValueChange={(value) => setProgress(value[0])}
+							max={100}
+							step={1}
+							className="cursor-pointer"
+							sliderTrackClassName="bg-primary/25"
+						/>
+					</div>
+					<p className="mt-4 text-sm text-gray-500">
+						{progress < 30 && 'Initializing setup...'}
+						{progress >= 30 && progress < 60 && 'Creating tenant resources...'}
+						{progress >= 60 && progress < 95 && 'Finalizing configuration...'}
+						{progress >= 95 && progress < 100 && 'Almost there...'}
+						{progress === 100 && 'Complete! Redirecting...'}
+					</p>
+					{/* Show additional message after 5 seconds */}
+					{progress > 0 && (
+						<p className="mt-2 text-xs text-gray-400">
+							{progress < 95 &&
+								"This may take a moment. Please don't close this window."}
+						</p>
+					)}
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<section className="shadow-lg rounded-lg mb-10">

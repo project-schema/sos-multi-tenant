@@ -22,13 +22,22 @@ export function Motion({ children }: { children: React.ReactNode }) {
 	);
 }
 
-export function MotionView({ children }: { children: React.ReactNode }) {
+export function MotionView({
+	children,
+	y = 100,
+	className = '',
+}: {
+	children: React.ReactNode;
+	y?: number;
+	className?: string;
+}) {
 	return (
 		<motion.div
-			initial={{ opacity: 0, y: 100 }}
+			initial={{ opacity: 0, y }}
 			whileInView={{ opacity: 1, y: 0 }}
 			viewport={{ once: true }}
 			transition={{ delay: 0.1, duration: 0.5 }}
+			className={className}
 		>
 			{children}
 		</motion.div>
@@ -74,16 +83,18 @@ export function MotionItem({
 	i,
 	className,
 	once = true,
+	y = 15,
 }: {
 	children: React.ReactNode;
 	i: number;
+	y?: number;
 	className?: string;
 	once?: boolean;
 }) {
 	return (
 		<motion.div
 			className={className}
-			initial={{ opacity: 0, y: 15 }}
+			initial={{ opacity: 0, y }}
 			whileInView={{ opacity: 1, y: 0 }}
 			viewport={{ once }}
 			transition={{

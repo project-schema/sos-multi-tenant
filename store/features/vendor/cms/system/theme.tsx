@@ -57,7 +57,7 @@ const themes = [
 		id: 'four',
 		name: 'Theme Four',
 		description: 'Classic and clean design layout',
-		image: '/theme/01.jpg',
+		image: '/theme/04.jpg',
 	},
 ] as const;
 

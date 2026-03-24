@@ -1,7 +1,9 @@
 'use client';
 
+import { Loader9 } from '@/components/dashboard';
 import PricingCard from '@/components/frontend/Cards/PricingCard';
 import Radio from '@/components/frontend/Input/Radio';
+import { useVendorProfileInfoQuery } from '@/store/features/vendor/profile';
 import { iSubscriptionsType } from '@/types';
 import { motion } from 'motion/react';
 import { useSession } from 'next-auth/react';
@@ -17,6 +19,12 @@ function Pricing({
 }) {
 	const { data: session } = useSession();
 	const pathName = usePathname();
+	const { data: profile, isLoading: profileLoading } =
+		useVendorProfileInfoQuery(undefined, {
+			skip:
+				session?.tenant_type !== 'dropshipper' &&
+				session?.tenant_type !== 'merchant',
+		});
 	const searchParams = useSearchParams().get('from');
 	const router = useRouter();
 
@@ -25,6 +33,33 @@ function Pricing({
 	// Since role is not available in the login response, default to vendor
 	const [toggle, setToggle] = useState('vendor');
 	const [time, setTime] = useState('monthly');
+
+	useEffect(() => {
+		/*
+		    
+		*/
+		if (session?.tenant_type === 'dropshipper') {
+			setToggle('affiliate');
+		}
+
+		if (session?.tenant_type === 'merchant') {
+			setToggle('vendor');
+		}
+	}, [session]);
+
+	useEffect(() => {
+		/*
+		    
+		*/
+		if (profile?.usersubscription) {
+			const subscription = subscriptions.data.find(
+				(e) => e.id === profile?.usersubscription?.subscription.id,
+			);
+			if (subscription) {
+				setTime(subscription.subscription_package_type);
+			}
+		}
+	}, [profile]);
 
 	useEffect(() => {
 		/*
@@ -42,6 +77,13 @@ function Pricing({
 		}
 		setToggle(type);
 	};
+
+	if (profileLoading)
+		return (
+			<>
+				<Loader9 />
+			</>
+		);
 	return (
 		<section className={`${style.pricingMain} !mt-0`}>
 			<div className="layout">

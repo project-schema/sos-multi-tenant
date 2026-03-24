@@ -28,7 +28,7 @@ export default async function HomePage() {
 
 	return (
 		<div className={style.loginBg}>
-			<div className="layout">
+			<div className="layout pb-20">
 				<div className="max-w-2xl mx-auto">
 					<Suspense fallback={null}>
 						<PageClient settings={settings} />
