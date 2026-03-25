@@ -93,7 +93,7 @@ export default function WebPricing({
 					<MotionFadeIn
 						key={sub.id}
 						delay={index * 0.2}
-						className={`price--card flex flex-col gap-8 w-[100%] h-full bg-gray-50 rounded-2xl shadow-md p-6 border border-gray-100  ${sub?.suggest?.toString() === '1' ? "bg-[url('https://i.ibb.co.com/YFxTN1wK/price-c-bg.png')] bg--img" : ''}`}
+						className={`price--card   w-[100%] h-full bg-gray-50 rounded-2xl shadow-md p-6 border border-gray-100  ${sub?.suggest?.toString() === '1' ? "bg-[url('https://i.ibb.co.com/YFxTN1wK/price-c-bg.png')] bg--img" : ''}`}
 					>
 						<WebPricingCard subscription={sub} />
 					</MotionFadeIn>

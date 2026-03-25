@@ -33,7 +33,7 @@ export default function WebPricingCard({
 	const isSuggest = subscription?.suggest?.toString() === '1';
 
 	return (
-		<div className="space-y-8">
+		<div className="flex flex-col justify-between gap-8 h-full">
 			<div>
 				{/* Icon + Title */}
 				<div className="flex  items-center gap-4 mb-6">

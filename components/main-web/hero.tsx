@@ -11,7 +11,7 @@ export const MainWebHero = ({ settings }: { settings: iSettingsType }) => {
 
 	return (
 		<section className="hero-section  flex items-center relative">
-			<div className="absolute top-0 xl:h-[1218px] h-full ">
+			<div className="absolute top-0 xl:h-[1218px] h-full w-full">
 				<img
 					className="w-full h-full"
 					src="https://i.ibb.co.com/HpnZWWD1/hero.png"
