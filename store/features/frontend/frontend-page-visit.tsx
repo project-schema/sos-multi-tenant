@@ -10,7 +10,8 @@ export function FrontendPageVisit() {
 	const [trackVisit] = useFrontendVisitPageMutation();
 
 	useEffect(() => {
-		if (!pathname.startsWith('/account') && session?.user?.usersubscription) {
+		if (!pathname.startsWith('/account')) {
+			// if (!pathname.startsWith('/account') && session?.user?.usersubscription) {
 			trackVisit();
 		}
 	}, [trackVisit, pathname]);

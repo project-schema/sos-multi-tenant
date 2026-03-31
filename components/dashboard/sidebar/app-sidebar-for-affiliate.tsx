@@ -8,6 +8,7 @@ import {
 	SidebarContent,
 	SidebarHeader,
 } from '@/components/ui/sidebar';
+import { MotionView } from '@/lib';
 import Link from 'next/link';
 import { affiliateSidebarData } from './affiliate-sidebar-data';
 import AppRoot from './app-root';
@@ -22,20 +23,20 @@ export function AppSidebarForAffiliate({
 
 	const filteredProducts = filterItems(
 		affiliateSidebarData.products,
-		searchQuery
+		searchQuery,
 	);
 	const filteredSettings = filterItems(
 		affiliateSidebarData.settings,
-		searchQuery
+		searchQuery,
 	);
 
 	const filteredServices = filterItems(
 		affiliateSidebarData.servicesAndAdvertise,
-		searchQuery
+		searchQuery,
 	);
 	const filteredSupport = filterItems(
 		affiliateSidebarData.support,
-		searchQuery
+		searchQuery,
 	);
 
 	const filteredCms = filterItems(affiliateSidebarData.cms, searchQuery);
@@ -43,30 +44,46 @@ export function AppSidebarForAffiliate({
 	return (
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader className="mb-4">
-				<Link href="/" className="flex items-center gap-2">
-					<div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-						<Tent className="size-4" />
-					</div>
-					<div className="grid flex-1 text-left text-sm leading-tight">
-						<span className="truncate font-medium text-lg">
-							Start Own Startup
-						</span>
-						<span className="truncate text-xs">This is your Business</span>
-					</div>
-				</Link>
+				<MotionView y={10}>
+					<Link href="/" className="flex items-center gap-2">
+						<div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+							<Tent className="size-4" />
+						</div>
+						<div className="grid flex-1 text-left text-sm leading-tight">
+							<span className="truncate font-medium text-lg">
+								Start Own Startup
+							</span>
+							<span className="truncate text-xs">This is your Business</span>
+						</div>
+					</Link>
+				</MotionView>
 			</SidebarHeader>
 
 			{/*   Search Input */}
-			<SearchForm value={searchQuery} onChange={setSearchQuery as any} />
+			<MotionView y={10}>
+				<SearchForm value={searchQuery} onChange={setSearchQuery as any} />
+			</MotionView>
 
 			{/*   Filtered Navigation */}
 			<SidebarContent className="gap-0 pb-8">
-				<AppRoot />
-				<NavMain items={filteredProducts} groupLabel="Products" />
-				<NavMain items={filteredServices} groupLabel="Services & Advertise" />
-				<NavMain items={filteredSupport} groupLabel="Support" />
-				<NavMain items={filteredCms} groupLabel="CMS" />
-				<NavMain items={filteredSettings} groupLabel="Settings" />
+				<MotionView y={10}>
+					<AppRoot />
+				</MotionView>
+				<MotionView y={10}>
+					<NavMain items={filteredProducts} groupLabel="Products" />
+				</MotionView>
+				<MotionView y={10}>
+					<NavMain items={filteredServices} groupLabel="Services & Advertise" />
+				</MotionView>
+				<MotionView y={10}>
+					<NavMain items={filteredSupport} groupLabel="Support" />
+				</MotionView>
+				<MotionView y={10}>
+					<NavMain items={filteredCms} groupLabel="CMS" />
+				</MotionView>
+				<MotionView y={10}>
+					<NavMain items={filteredSettings} groupLabel="Settings" />
+				</MotionView>
 			</SidebarContent>
 		</Sidebar>
 	);

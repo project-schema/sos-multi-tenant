@@ -1,4 +1,4 @@
-import { getApiDataWithSubdomain, imageFormat } from '@/lib';
+import { env, getApiDataWithSubdomain, imageFormat } from '@/lib';
 import { webSocialLinks } from '@/lib/icon/social-icon';
 import { iBrand } from '@/store/features/admin/brand';
 import { iCategory } from '@/store/features/admin/category';
@@ -27,7 +27,12 @@ export default async function Footer02() {
 						{/* Logo */}
 						<div className="h-[34px] flex space-x-2">
 							<img
-								src={imageFormat(settings?.cms?.footer_logo ?? null)}
+								// src={imageFormat(settings?.cms?.footer_logo ?? null)}
+								src={
+									settings?.cms?.footer_logo
+										? `${env.baseAPI}/${settings.cms.footer_logo}`
+										: '/logo-black.png'
+								}
 								alt={settings?.cms?.footer_logo ?? ''}
 								className="  h-full object-contain"
 							/>

@@ -1,4 +1,4 @@
-import { getApiDataWithSubdomain, imageFormat } from '@/lib';
+import { env, getApiDataWithSubdomain } from '@/lib';
 import { webSocialLinks } from '@/lib/icon/social-icon';
 import { iTenantFrontend } from '@/types/tenant-frontend';
 import { MapPin, Phone } from 'lucide-react';
@@ -177,7 +177,12 @@ export default async function MainHeader() {
 						>
 							<img
 								className="h-10"
-								src={imageFormat(settings?.cms.logo || null)}
+								// src={imageFormat(settings?.cms.logo || null)}
+								src={
+									settings?.cms.logo
+										? `${env.baseAPI}/${settings?.cms.logo}`
+										: '/logo-black.png'
+								}
 								alt="logo"
 							/>
 						</Link>

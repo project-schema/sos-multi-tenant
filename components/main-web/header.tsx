@@ -16,7 +16,7 @@ export const MainWebHeader = ({ settings }: { settings: iSettingsType }) => {
 							width={300}
 							height={300}
 							className="object-contain h-20"
-							src={imageFormat(settings.message.logo ?? null)}
+							src={imageFormat(settings.message.logo ?? '/logo-black.png')}
 							alt="logo"
 						/>
 					</Link>

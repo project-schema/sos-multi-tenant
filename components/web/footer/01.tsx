@@ -1,4 +1,4 @@
-import { getApiDataWithSubdomain, imageFormat } from '@/lib';
+import { env, getApiDataWithSubdomain, imageFormat } from '@/lib';
 import { webSocialLinks } from '@/lib/icon/social-icon';
 import { iCategory } from '@/store/features/admin/category';
 import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
@@ -59,7 +59,12 @@ export default async function Footer01() {
 							<div className="h-[34px] flex items-center">
 								{settings?.cms?.footer_logo ? (
 									<img
-										src={imageFormat(settings.cms.footer_logo)}
+										// src={imageFormat(settings.cms.footer_logo)}
+										src={
+											settings?.cms?.footer_logo
+												? `${env.baseAPI}/${settings.cms.footer_logo}`
+												: '/logo-white.png'
+										}
 										alt={settings.cms.app_name || 'Logo'}
 										className="h-full object-contain"
 									/>

@@ -1,4 +1,4 @@
-import { cn, imageFormat } from '@/lib';
+import { cn, env } from '@/lib';
 import Link from 'next/link';
 
 export function Logo({
@@ -13,11 +13,11 @@ export function Logo({
 			href="/"
 			className={cn(
 				'flex items-center space-x-2 flex-shrink-0 max-w-max h-14',
-				className
+				className,
 			)}
 		>
 			<img
-				src={imageFormat(logo ?? null)}
+				src={logo ? `${env.baseAPI}/${logo}` : '/logo-black.png'}
 				alt="logo"
 				className="w-full h-full"
 			/>

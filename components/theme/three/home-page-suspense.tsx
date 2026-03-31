@@ -80,12 +80,12 @@ export default async function ThemeThreeHomePageSuspense({
 						</MotionFadeIn>
 
 						<MotionFadeIn>
-							{settings?.populer_section_category_id_1.name &&
+							{settings?.populer_section_category_id_1?.name &&
 								settings?.populer_section_subcategory_id_1.id && (
 									<PopularProducts
 										buttons={[
 											{
-												label: settings?.populer_section_category_id_1.name,
+												label: settings?.populer_section_category_id_1?.name,
 												value:
 													settings?.populer_section_subcategory_id_1.id.toString(),
 											},
@@ -131,12 +131,12 @@ export default async function ThemeThreeHomePageSuspense({
 									{settings?.cms.best_setting_title}
 								</h2>
 							</div>
-							{settings?.best_setting_category_id_1.name &&
+							{settings?.best_setting_category_id_1?.name &&
 								settings?.best_setting_sub_category_id_1.id && (
 									<PopularProducts
 										buttons={[
 											{
-												label: settings?.best_setting_category_id_1.name,
+												label: settings?.best_setting_category_id_1?.name,
 												value:
 													settings?.best_setting_sub_category_id_1.id.toString(),
 											},
@@ -166,8 +166,8 @@ export default async function ThemeThreeHomePageSuspense({
 					</MotionFadeIn>
 				)}
 
-				{settings?.recomended_category_id_1.name &&
-					settings?.recomended_sub_category_id_1.id && (
+				{settings?.recomended_category_id_1?.name &&
+					settings?.recomended_sub_category_id_1?.id && (
 						<MotionFadeIn>
 							<RecommendedProducts settings={settings} include={include} />
 						</MotionFadeIn>
