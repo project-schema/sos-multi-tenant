@@ -2,7 +2,7 @@ import ThemeFourHomePage from '@/components/theme/four/home-page';
 import ThemeOneHomePage from '@/components/theme/one/home-page';
 import ThemeThreeHomePage from '@/components/theme/three/home-page';
 import ThemeTwoHomePage from '@/components/theme/two/home-page';
-import { env, getApiDataWithSubdomain } from '@/lib';
+import { getApiDataWithSubdomain } from '@/lib';
 import { iTenantFrontend } from '@/types/tenant-frontend';
 import { redirect } from 'next/navigation';
 
@@ -22,11 +22,11 @@ export default async function Page({
 		'/tenant-frontend/cms',
 	);
 
-	if (!settings?.cms?.theme) {
+	if (!settings?.cms?.theme || settings.has_website === 'no') {
 		redirect('/auth?tab=login');
 	}
 
-	switch (settings?.cms?.theme || env.theme) {
+	switch (settings?.cms?.theme) {
 		case 'one':
 			return <ThemeOneHomePage />;
 

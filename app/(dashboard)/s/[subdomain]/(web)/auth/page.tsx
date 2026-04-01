@@ -11,6 +11,10 @@ export default async function AuthPage() {
 		await getApiDataWithSubdomain<iTenantFrontend>(`/tenant-frontend/cms`);
 	const subscriptions = await getApiData<iSubscriptionsType>('/subscriptions');
 
+	if (settings?.has_website === 'no') {
+		return <AuthClient settings={settings} />;
+	}
+
 	switch (settings?.cms?.theme) {
 		case 'one':
 			return <ThemeOneAuthPage />;

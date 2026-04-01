@@ -127,7 +127,7 @@ export default async function MySiteLayout({
 			)}
 
 			{/* Frontend Page Visit */}
-			<FrontendPageVisit />
+			<FrontendPageVisit settings={settings} />
 			{children}
 		</>
 	);

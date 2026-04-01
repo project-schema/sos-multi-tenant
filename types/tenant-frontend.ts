@@ -39,4 +39,8 @@ export type iTenantFrontend = {
 
 	best_category_id: iCategory;
 	best_sub_category_id: iSubCategory;
+
+	website_visits: number;
+	already_visits: number;
+	has_website: 'yes' | 'no';
 };

@@ -54,14 +54,20 @@ const api = apiSlice.injectEndpoints({
 			}),
 		}),
 
-		FrontendVisitPage: builder.mutation<{ status: 200; message: string }, void>(
+		FrontendVisitPage: builder.mutation<
 			{
-				query: () => ({
-					url: `/website-visit`,
-					method: 'GET',
-				}),
-			}
-		),
+				status: 200;
+				message: string;
+				website_visits: number; // can max visit
+				already_visits: number; // count visit
+			},
+			void
+		>({
+			query: () => ({
+				url: `/website-visit`,
+				method: 'GET',
+			}),
+		}),
 	}),
 });
 
