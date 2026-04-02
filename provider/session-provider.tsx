@@ -11,9 +11,9 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 	const { data: session, status } = useSession();
 	const { data, isLoading, isError } = useVendorProfileInfoQuery(undefined, {
 		skip:
-			session?.tenant_type !== 'merchant' &&
-			session?.tenant_type !== 'dropshipper' &&
-			!session,
+			!session ||
+			(session.tenant_type !== 'merchant' &&
+				session.tenant_type !== 'dropshipper'),
 	});
 	const router = useRouter();
 
@@ -23,7 +23,7 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 			return;
 		}
 
-		if (status === 'authenticated' && session) {
+		if (status === 'authenticated' && session && !isLoading && !isError) {
 			const role = session.user?.role_type;
 
 			// Redirect tenant users first
@@ -40,6 +40,8 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 			if (isRestrictedTenant) {
 				const subscription = data?.usersubscription;
 
+				console.log(!subscription);
+
 				// No subscription
 				if (!subscription) {
 					router.replace('/dashboard/membership');
@@ -49,6 +51,8 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 				// Expired subscription
 				const expireDate = new Date(subscription.expire_date);
 				const now = new Date();
+
+				console.log(expireDate <= now);
 
 				// {
 				//     "expireDate": "2026-05-01T10:51:51.000Z",
@@ -64,7 +68,7 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 				}
 			}
 		}
-	}, [status, session, data, router]);
+	}, [status, session, data, router, isLoading]);
 
 	// useEffect(() => {
 	// 	if (status === 'unauthenticated') {

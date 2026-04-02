@@ -18,12 +18,11 @@ function Pricing({
 	subscriptions: iSubscriptionsType;
 }) {
 	const { data: session } = useSession();
+	const tenant_type = session?.tenant_type;
 	const pathName = usePathname();
 	const { data: profile, isLoading: profileLoading } =
 		useVendorProfileInfoQuery(undefined, {
-			skip:
-				session?.tenant_type !== 'dropshipper' &&
-				session?.tenant_type !== 'merchant',
+			skip: tenant_type !== 'dropshipper' && tenant_type !== 'merchant',
 		});
 	const searchParams = useSearchParams().get('from');
 	const router = useRouter();
@@ -38,11 +37,11 @@ function Pricing({
 		/*
 		    
 		*/
-		if (session?.tenant_type === 'dropshipper') {
+		if (tenant_type === 'dropshipper') {
 			setToggle('affiliate');
 		}
 
-		if (session?.tenant_type === 'merchant') {
+		if (tenant_type === 'merchant') {
 			setToggle('vendor');
 		}
 	}, [session]);
@@ -98,6 +97,7 @@ function Pricing({
 							},
 						}}
 						className={style.topOfHead}
+						hidden={tenant_type === 'dropshipper' || tenant_type === 'merchant'}
 					>
 						<button
 							onClick={() => handleToggle('vendor')}
