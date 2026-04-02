@@ -93,6 +93,17 @@ export async function proxy(request: NextRequest) {
 		// Handle tenant authentication
 		// If user is logged in on tenant subdomain and trying to access auth page, redirect to tenant home
 		if (token && token.accessToken && pathname.startsWith('/auth')) {
+			const role = token.user?.role_type;
+
+			if (role === 'admin') {
+				return NextResponse.redirect(new URL('/dashboard', request.url));
+			}
+
+			if (role === 'tenant_user') {
+				return NextResponse.redirect(new URL('/account', request.url));
+			}
+
+			// fallback (optional)
 			return NextResponse.redirect(new URL('/', request.url));
 		}
 
