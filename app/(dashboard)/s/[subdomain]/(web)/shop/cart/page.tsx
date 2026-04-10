@@ -9,7 +9,12 @@ import { redirect } from 'next/navigation';
 export default async function CartPage() {
 	const settings =
 		await getApiDataWithSubdomain<iTenantFrontend>(`/tenant-frontend/cms`);
+
 	if (!settings?.cms?.theme) {
+		redirect('/auth?tab=login');
+	}
+
+	if (settings.has_website === 'no') {
 		redirect('/auth?tab=login');
 	}
 	switch (settings?.cms?.theme) {

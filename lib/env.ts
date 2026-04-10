@@ -8,6 +8,7 @@ export const env = {
 	next_auth_url: process.env.NEXTAUTH_URL,
 	token: process.env.NEXT_PUBLIC_TOKEN,
 	theme: process.env.NEXT_PUBLIC_THEME || 'two',
+
 	placeholderImage:
 		process.env.NEXT_PUBLIC_PLACEHOLDER_IMAGE ||
 		'https://ui.shadcn.com/placeholder.svg',
@@ -63,7 +64,7 @@ export const DASHBOARD_PAGE = (
 	role: string,
 	subscription?: any,
 	router?: any,
-	admin?: boolean
+	admin?: boolean,
 ) => {
 	switch (role) {
 		case '1':

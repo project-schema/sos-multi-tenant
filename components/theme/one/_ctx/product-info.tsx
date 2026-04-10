@@ -2,6 +2,7 @@ import { CartAction } from '@/components/theme/two/_ctx/cart-action';
 import { sign } from '@/lib';
 import { iVendorProductView } from '@/store/features/vendor/product/vendor-product-type';
 import { Facebook, Instagram, Twitter } from 'lucide-react';
+import { GuestCartAction } from '../../common/guest-cart-action';
 
 export function ProductInfo({ product }: { product?: iVendorProductView }) {
 	return (
@@ -48,6 +49,9 @@ export function ProductInfo({ product }: { product?: iVendorProductView }) {
 				{product?.short_description}
 			</p>
 			{product && Number(product?.qty) > 0 && <CartAction product={product} />}
+			{product && Number(product?.qty) > 0 && (
+				<GuestCartAction product={product} />
+			)}
 
 			<div className="items-center gap-2 hidden">
 				<h2 className="text-base font-semibold">Share:</h2>

@@ -50,6 +50,8 @@ export default function CommonCart() {
 		}
 	};
 
+	if (!session) return null;
+
 	// Loading state
 	if (isLoading) {
 		return (

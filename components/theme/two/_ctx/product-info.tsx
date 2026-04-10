@@ -8,6 +8,7 @@ import {
 	Twitter,
 } from 'lucide-react';
 import Link from 'next/link';
+import { GuestCartAction } from '../../common/guest-cart-action';
 import { CartAction } from './cart-action';
 export function ProductInfo({ product }: { product: iVendorProductView }) {
 	return (
@@ -66,6 +67,7 @@ export function ProductInfo({ product }: { product: iVendorProductView }) {
 
 			{/* Color & Size & Quantity & Actions */}
 			{Number(product.qty) > 0 && <CartAction product={product} />}
+			{Number(product.qty) > 0 && <GuestCartAction product={product} />}
 
 			<div className="space-y-2  !hidden">
 				<h4 className="text-sm font-semibold">Have any question? Call Now.</h4>

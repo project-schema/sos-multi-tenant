@@ -12,6 +12,10 @@ export default async function BlogPage() {
 	if (!settings?.cms?.theme) {
 		redirect('/auth?tab=login');
 	}
+
+	if (settings.has_website === 'no') {
+		redirect('/auth?tab=login');
+	}
 	switch (settings?.cms?.theme) {
 		case 'one':
 			return <ThemeOneBlogPage />;

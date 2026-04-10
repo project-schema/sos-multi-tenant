@@ -1,5 +1,6 @@
 'use client';
 import { Badge } from '@/components/ui/badge';
+import { checkSubscription } from '@/lib';
 import SubscriptionBuyModal from '@/store/features/frontend/pricing/subscription-buy-modal';
 import { motion } from 'motion/react';
 import { useSession } from 'next-auth/react';
@@ -9,7 +10,7 @@ import { useState } from 'react';
 import shape from './card-active-bg-shape.svg';
 import style from './PricingCard.module.css';
 
-function PricingCard({ data, user, i }: any) {
+function PricingCard({ data, user, i, usersubscription }: any) {
 	const { data: session } = useSession();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
@@ -74,8 +75,9 @@ function PricingCard({ data, user, i }: any) {
 					delay: i * 0.1,
 				},
 			}}
-			className={`${style.card} ${data.suggest === '1' && style.suggest} ${
-				user?.usersubscription?.id === data.id && style.activated
+			className={`relative ${style.card} ${data.suggest === '1' && style.suggest} ${
+				session?.user?.usersubscription?.subscription?.id === data.id &&
+				style.activated
 			} `}
 		>
 			{data.suggest === '1' && (
@@ -173,6 +175,8 @@ function PricingCard({ data, user, i }: any) {
 					onClick={handleSwitch}
 					className={`${style.buyNow} ${data.suggest && 'mb-5'} ${
 						session?.user?.usersubscription?.subscription?.id === data.id &&
+						usersubscription &&
+						!checkSubscription(usersubscription) &&
 						'!hidden'
 					}`}
 				>

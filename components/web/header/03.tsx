@@ -4,6 +4,7 @@ import { iTenantFrontend } from '@/types/tenant-frontend';
 import { MapPin, Phone } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { GuestUtilityIcons } from './_ctx/guest-utility-icons';
 import { MobileMenu } from './_ctx/mobile-menu';
 import SearchPopup from './_ctx/search-popup';
 import { UserAccount } from './_ctx/user-account';
@@ -201,6 +202,7 @@ export default async function MainHeader() {
 						{/* Account and Cart - Right */}
 						<div className="flex items-center gap-4">
 							<UtilityIcons variant="desktop" />
+							<GuestUtilityIcons variant="desktop" />
 							<UserAccount cms={settings?.cms ?? null} />
 							<MobileMenu cms={settings?.cms ?? null} />
 						</div>

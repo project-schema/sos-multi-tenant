@@ -13,6 +13,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from '@/components/ui/dialog';
+import { toast } from 'sonner';
 
 export function FrontendPageVisit({
 	settings,
@@ -25,7 +26,13 @@ export function FrontendPageVisit({
 	const router = useRouter();
 
 	const [open, setOpen] = useState(false);
+	if (!settings?.cms?.theme) {
+		toast.error('Theme not found');
+	}
 
+	if (settings?.has_website === 'no') {
+		toast.error('Website not found');
+	}
 	useEffect(() => {
 		const handleVisit = async () => {
 			if (!pathname.startsWith('/account') && settings?.has_website === 'yes') {
@@ -45,6 +52,10 @@ export function FrontendPageVisit({
 				}
 			}
 		};
+
+		if (pathname === '/auth') {
+			setOpen(false);
+		}
 
 		handleVisit();
 	}, [trackVisit, pathname, settings?.has_website]);

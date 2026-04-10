@@ -17,8 +17,9 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { alertConfirm, ErrorAlert } from '@/lib';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderCircle } from 'lucide-react';
+import { LoaderCircle, View } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -40,24 +41,32 @@ const themes = [
 		name: 'Theme One',
 		description: 'Classic and clean design layout',
 		image: '/theme/01.jpg',
+		preview:
+			'https://preview.themeforest.net/item/runic-creative-agency-html-template/full_screen_preview/52994907',
 	},
 	{
 		id: 'two',
 		name: 'Theme Two',
 		description: 'Modern and minimalist design',
 		image: '/theme/02.jpg',
+		preview:
+			'https://preview.themeforest.net/item/runic-creative-agency-html-template/full_screen_preview/52994907',
 	},
 	{
 		id: 'three',
 		name: 'Theme Three',
 		description: 'Bold and vibrant design',
 		image: '/theme/03.jpg',
+		preview:
+			'https://preview.themeforest.net/item/runic-creative-agency-html-template/full_screen_preview/52994907',
 	},
 	{
 		id: 'four',
 		name: 'Theme Four',
 		description: 'Classic and clean design layout',
 		image: '/theme/04.jpg',
+		preview:
+			'https://preview.themeforest.net/item/runic-creative-agency-html-template/full_screen_preview/52994907',
 	},
 ] as const;
 
@@ -92,6 +101,11 @@ export function CMSTheme() {
 
 	const onSubmit = async (formData: ZodType) => {
 		alertConfirm({
+			clickOutSide: true,
+			title: 'Update Theme',
+			content: 'Update Existing data or Upload New Dummy data?',
+			cancelBtnText: 'Upload New Dummy Data',
+			confirmBtnText: 'Previous Theme Data',
 			onOk: async () => {
 				try {
 					const response = await store({ ...formData }).unwrap();
@@ -128,6 +142,9 @@ export function CMSTheme() {
 					}
 				}
 			},
+			onCancel: async () => {
+				toast.success('Theme updated successfully');
+			},
 		});
 	};
 
@@ -152,7 +169,7 @@ export function CMSTheme() {
 											{themes.map((theme) => (
 												<Label
 													key={theme.id}
-													className="has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:bg-primary/5 flex flex-col items-center gap-3 rounded-lg border p-4 cursor-pointer hover:bg-accent transition-colors relative"
+													className="  has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:bg-primary/5 flex flex-col items-center gap-3 rounded-lg border p-4 cursor-pointer group hover:bg-accent transition-colors relative"
 												>
 													{theme.id === data?.data?.theme && (
 														<Badge
@@ -162,6 +179,15 @@ export function CMSTheme() {
 															Active
 														</Badge>
 													)}
+
+													<Link
+														target="_blank"
+														href={theme.preview}
+														className="absolute top-2 left-2 group-hover:opacity-100 opacity-0 p-2 rounded-md bg-muted transition-opacity text-black shadow "
+													>
+														<View className="size-4 text-black" />
+														<span className="sr-only">Preview</span>
+													</Link>
 
 													<RadioGroupItem
 														value={theme.id}

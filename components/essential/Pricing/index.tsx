@@ -146,6 +146,7 @@ function Pricing({
 									time={time}
 									user={user}
 									i={i}
+									usersubscription={profile?.usersubscription}
 								/>
 							))}
 					</div>

@@ -129,6 +129,7 @@ export default function Card01({ product }: { product?: iVendorProduct }) {
 					>
 						<button
 							onClick={handleWishlist}
+							hidden={!isAuthenticated}
 							disabled={isWishlistLoading}
 							className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 disabled:opacity-50 ${
 								isWishlisted

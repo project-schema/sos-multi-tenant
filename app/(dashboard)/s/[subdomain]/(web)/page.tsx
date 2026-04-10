@@ -22,7 +22,11 @@ export default async function Page({
 		'/tenant-frontend/cms',
 	);
 
-	if (!settings?.cms?.theme || settings.has_website === 'no') {
+	if (!settings?.cms?.theme) {
+		redirect('/auth?tab=login');
+	}
+
+	if (settings.has_website === 'no') {
 		redirect('/auth?tab=login');
 	}
 

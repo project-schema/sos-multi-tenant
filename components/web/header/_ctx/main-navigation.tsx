@@ -9,6 +9,7 @@ import {
 import { iCategory } from '@/store/features/admin/category';
 import { ChevronDown, Menu } from 'lucide-react';
 import Link from 'next/link';
+import { GuestUtilityIcons } from './guest-utility-icons';
 import { UtilityIcons } from './utility-icons';
 
 function CategoriesDropdownButton({ categories }: { categories: iCategory[] }) {
@@ -78,6 +79,7 @@ export function MainNavigation({
 					</div>
 
 					<UtilityIcons variant="desktop" />
+					<GuestUtilityIcons />
 				</div>
 			</div>
 		</div>

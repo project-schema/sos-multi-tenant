@@ -20,24 +20,27 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
-import { imageFormat, sign } from '@/lib';
+import { sign } from '@/lib';
 import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
-import {
-	useGetCartQuery,
-	usePlaceOrderMutation,
-} from '@/store/features/frontend/cart';
+import { useGuestPlaceOrderMutation } from '@/store/features/frontend/cart';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle, Loader2, ShoppingCart } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import {
+	getGuestCart,
+	iGuestCartItem,
+	setGuestCart,
+} from './guest-cart-action';
 
-// Zod validation schema
+// ─── Validation schema ────────────────────────────────────────────────────────
+
 const checkoutSchema = z.object({
 	name: z.string().min(1, 'Full name is required').max(255),
 	phone: z
@@ -57,40 +60,47 @@ const checkoutSchema = z.object({
 });
 
 type CheckoutFormData = z.infer<typeof checkoutSchema>;
+
 const plans = [
 	{
-		id: 'cod', // should match backend value
+		id: 'cod' as const,
 		name: 'Cash on Delivery',
 		description: 'Pay with COD',
 	},
-] as const;
-export default function Checkout() {
+];
+
+// ─── Delivery charges (static — replace with API call if needed) ───────────
+// If you have a public delivery charges endpoint, swap this with a fetch/useQuery
+const DELIVERY_CHARGES = [
+	{ id: 1, area: 'Inside Dhaka', charge: 60 },
+	{ id: 2, area: 'Outside Dhaka', charge: 120 },
+];
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
+export default function GuestCheckout() {
 	const { data: session } = useSession();
-	const {
-		data: cartData,
-		isLoading,
-		isError,
-	} = useGetCartQuery(undefined, {
-		skip: !session,
-	});
-	const [placeOrder, { isLoading: isPlacingOrder }] = usePlaceOrderMutation();
+	const [items, setItems] = useState<iGuestCartItem[]>([]);
 	const [orderSuccess, setOrderSuccess] = useState<{
 		orderNumber: string;
 	} | null>(null);
-
 	const [discount] = useState(0);
 
-	const items = cartData?.cart || [];
+	const [placeOrder, { isLoading: isPlacingOrder }] =
+		useGuestPlaceOrderMutation();
+
+	// Load guest cart from localStorage
+	useEffect(() => {
+		setItems(getGuestCart());
+	}, []);
 
 	const subtotal = useMemo(
-		() =>
-			items.reduce((sum, item) => sum + Number(item.totalproductprice || 0), 0),
+		() => items.reduce((sum, item) => sum + item.price * item.qty, 0),
 		[items],
 	);
 
 	const form = useForm<CheckoutFormData>({
 		resolver: zodResolver(checkoutSchema),
-
 		defaultValues: {
 			name: '',
 			phone: '',
@@ -98,66 +108,62 @@ export default function Checkout() {
 			notes: '',
 			payment_method: 'cod',
 			agree: false,
-			delivery_charge: cartData?.deliveryCharge?.[0]?.id,
+			delivery_charge: DELIVERY_CHARGES[0].id,
 		},
 	});
 
-	const deliveryCharge = form.watch('delivery_charge');
+	const deliveryChargeId = form.watch('delivery_charge');
 	const shipping =
-		cartData?.deliveryCharge?.find(
-			(charge) => charge.id.toString() === deliveryCharge?.toString(),
-		)?.charge || 0;
+		DELIVERY_CHARGES.find((c) => c.id === Number(deliveryChargeId))?.charge ??
+		0;
 
-	const total = subtotal - discount + Number(shipping);
+	const total = subtotal - discount + shipping;
+
+	// ── Submit ─────────────────────────────────────────────────────────────
 
 	const onSubmit = async (data: CheckoutFormData) => {
 		try {
 			const result = await placeOrder({
-				cart_id: cartData?.cart?.[0]?.id.toString() || '',
+				cart_id: 'guest-cart',
 				payment_type: 'COD',
-				tenant_id: session?.tenant_id || '',
-				tenant_type: 'tenant',
+				tenant_id: 'perves',
+				tenant_type: 'guest',
 				datas: [
 					{
 						address: data.address,
 						amount_to_collect: total,
-						area_name: 'Area Name',
+						area_name:
+							DELIVERY_CHARGES.find((c) => c.id === data.delivery_charge)
+								?.area || '',
 						city: 'City',
 						delivery_type: 1,
-						email: session?.user?.email || '',
+						email: '',
 						id: 1,
-						item_description: 'Item Description',
-						item_quantity: cartData?.cart?.[0]?.product_qty || 0,
+						item_description: items.map((i) => i.name).join(', '),
+						item_quantity: items.reduce((sum, i) => sum + i.qty, 0),
 						item_type: 1,
 						item_weight: 1,
 						name: data.name,
 						phone: data.phone,
 						special_instruction: data.notes || '',
-						variants: [
-							{
-								id: 1,
-								unit: {
-									id: 1,
-									unit_name: 'Unit Name',
-								},
-								qty: '1',
-								size: {
-									id: 1,
-									name: 'Size Name',
-								},
-								color: {
-									id: 1,
-									name: 'Color Name',
-								},
-								variant_id: '1',
-								previousQty: '1',
-							},
-						],
+						// Pass guest cart items as variants
+						variants: items.map((item) => ({
+							id: item.product_id,
+							unit: { id: item.unit_id ?? 1, unit_name: 'Unit' },
+							qty: String(item.qty),
+							size: { id: 1, name: item.size ?? '' },
+							color: { id: 1, name: item.color ?? '' },
+							variant_id: String(item.variant_id ?? ''),
+							previousQty: String(item.qty),
+						})),
 					},
 				],
 			}).unwrap();
 
 			if (result.success || result.status === 200) {
+				// Clear guest cart after successful order
+				setGuestCart([]);
+				setItems([]);
 				setOrderSuccess({
 					orderNumber: result.data?.order_number || `ORD-${Date.now()}`,
 				});
@@ -166,11 +172,9 @@ export default function Checkout() {
 				toast.error(result.message || 'Failed to place order');
 			}
 		} catch (error: any) {
-			// Handle validation errors from API
 			const validationErrors = error?.data?.data || error?.data?.errors;
 
 			if (validationErrors && typeof validationErrors === 'object') {
-				// Map API field names to form field names
 				const fieldMapping: Record<string, keyof CheckoutFormData> = {
 					'datas.0.phone': 'phone',
 					'datas.0.address': 'address',
@@ -180,7 +184,6 @@ export default function Checkout() {
 				Object.entries(validationErrors).forEach(([field, messages]) => {
 					const formField = fieldMapping[field] || field;
 					const message = Array.isArray(messages) ? messages[0] : messages;
-
 					if (message && formField in form.getValues()) {
 						form.setError(formField as any, {
 							type: 'server',
@@ -189,12 +192,14 @@ export default function Checkout() {
 					}
 				});
 
-				// Show first error as toast
 				const firstError = Object.values(validationErrors)?.[0];
-				const errorMessage = Array.isArray(firstError)
-					? firstError[0]
-					: firstError;
-				toast.error(String(errorMessage || 'Validation failed'));
+				toast.error(
+					String(
+						Array.isArray(firstError)
+							? firstError[0]
+							: firstError || 'Validation failed',
+					),
+				);
 				return;
 			}
 
@@ -202,9 +207,8 @@ export default function Checkout() {
 		}
 	};
 
-	if (!session) return null;
+	// ── Order success ──────────────────────────────────────────────────────
 
-	// Order success state
 	if (orderSuccess) {
 		return (
 			<MotionFadeIn>
@@ -219,18 +223,12 @@ export default function Checkout() {
 						Thank you for your purchase! Your order has been placed
 						successfully.
 					</p>
-					{/* <p className="text-gray-800 mb-6">
-					Order Number:{' '}
-					<span className="font-bold text-orange-500">
-						#{orderSuccess.orderNumber}
-					</span>
-				</p> */}
 					<p className="text-sm text-gray-500 mb-8">
 						We&apos;ll send you an update when your order is on its way.
 					</p>
 					<div className="flex flex-col sm:flex-row gap-3 justify-center">
-						<Link href="/account?view=orders">
-							<Button variant="outline">View Orders</Button>
+						<Link href="/auth?tab=login">
+							<Button variant="outline">Login to track order</Button>
 						</Link>
 						<Link href="/shop">
 							<Button className="bg-orange-500 text-white">
@@ -243,50 +241,8 @@ export default function Checkout() {
 		);
 	}
 
-	// Loading state
-	if (isLoading) {
-		return (
-			<section>
-				<h1 className="text-3xl font-bold mb-6">Checkout</h1>
-				<div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-					<div className="lg:col-span-8">
-						<div className="border rounded-md p-5 space-y-4">
-							<Skeleton className="h-6 w-40" />
-							<Skeleton className="h-10 w-full" />
-							<Skeleton className="h-10 w-full" />
-							<Skeleton className="h-10 w-full" />
-							<Skeleton className="h-20 w-full" />
-						</div>
-					</div>
-					<aside className="lg:col-span-4">
-						<div className="border rounded-md p-5 space-y-4">
-							<Skeleton className="h-6 w-32" />
-							<Skeleton className="h-16 w-full" />
-							<Skeleton className="h-16 w-full" />
-							<Skeleton className="h-11 w-full" />
-						</div>
-					</aside>
-				</div>
-			</section>
-		);
-	}
+	// ── Empty cart ─────────────────────────────────────────────────────────
 
-	// Error state
-	if (isError) {
-		return (
-			<section>
-				<h1 className="text-3xl font-bold mb-6">Checkout</h1>
-				<div className="rounded-md border p-8 text-center">
-					<p className="text-red-500 mb-4">
-						Failed to load cart. Please try again.
-					</p>
-					<Button onClick={() => window.location.reload()}>Retry</Button>
-				</div>
-			</section>
-		);
-	}
-
-	// Empty cart state
 	if (items.length === 0) {
 		return (
 			<section>
@@ -308,6 +264,10 @@ export default function Checkout() {
 			</section>
 		);
 	}
+
+	if (session) return null;
+
+	// ── Main checkout ──────────────────────────────────────────────────────
 
 	return (
 		<MotionFadeIn>
@@ -354,19 +314,19 @@ export default function Checkout() {
 											name="delivery_charge"
 											render={({ field }) => (
 												<FormItem>
-													<FormLabel>Select Delivery area*</FormLabel>
+													<FormLabel>Select Delivery Area *</FormLabel>
 													<FormControl>
 														<Select
 															onValueChange={(value) =>
 																field.onChange(Number(value))
 															}
-															defaultValue={field.value?.toString() || ''}
+															defaultValue={field.value?.toString()}
 														>
 															<SelectTrigger className="w-full">
 																<SelectValue placeholder="Select Delivery Charge" />
 															</SelectTrigger>
 															<SelectContent>
-																{cartData?.deliveryCharge?.map((charge) => (
+																{DELIVERY_CHARGES.map((charge) => (
 																	<SelectItem
 																		key={charge.id}
 																		value={charge.id.toString()}
@@ -431,28 +391,44 @@ export default function Checkout() {
 
 									{/* Order Items */}
 									<div className="divide-y max-h-64 overflow-y-auto">
-										{items.map((item: any) => (
+										{items.map((item) => (
 											<div
-												key={item.id}
+												key={item.product_id}
 												className="py-3 flex items-start gap-3"
 											>
-												<div className="w-14 h-14 rounded overflow-hidden flex-shrink-0">
-													<img
-														src={imageFormat(item.product?.image)}
-														alt={item.product?.name || 'Product'}
-														className="w-full h-full object-cover"
-													/>
+												<div className="w-14 h-14 rounded overflow-hidden flex-shrink-0 bg-gray-100">
+													{item.image ? (
+														<img
+															src={item.image}
+															alt={item.name}
+															className="w-full h-full object-cover"
+														/>
+													) : (
+														<div className="w-full h-full flex items-center justify-center text-gray-300">
+															<ShoppingCart className="w-6 h-6" />
+														</div>
+													)}
 												</div>
 												<div className="flex-1 min-w-0">
 													<p className="text-sm font-medium leading-5 truncate">
-														{item.product?.name || 'Product'}
+														{item.name}
 													</p>
 													<p className="text-xs text-gray-500">
-														Qty: {item.product_qty}
+														Qty: {item.qty}
 													</p>
+													{item.color && (
+														<p className="text-xs text-gray-400">
+															Color: {item.color}
+														</p>
+													)}
+													{item.size && (
+														<p className="text-xs text-gray-400">
+															Size: {item.size}
+														</p>
+													)}
 												</div>
 												<div className="text-sm font-semibold">
-													{Number(item.totalproductprice).toLocaleString()}৳
+													{(item.price * item.qty).toLocaleString()}৳
 												</div>
 											</div>
 										))}
@@ -481,7 +457,9 @@ export default function Checkout() {
 											<div className="text-right">
 												<div className="font-semibold">{shipping}৳</div>
 												<div className="text-xs text-gray-500">
-													Shipping to Dhaka
+													{DELIVERY_CHARGES.find(
+														(c) => c.id === Number(deliveryChargeId),
+													)?.area || ''}
 												</div>
 											</div>
 										</div>
@@ -510,7 +488,7 @@ export default function Checkout() {
 														</p>
 														<RadioGroup
 															defaultValue={field.value}
-															className="grid grid-cols-1 md:grid-cols-2 gap-3"
+															className="grid grid-cols-1 gap-3"
 															onValueChange={field.onChange}
 														>
 															{plans.map((plan) => (
@@ -527,7 +505,7 @@ export default function Checkout() {
 																		<div className="font-medium">
 																			{plan.name}
 																		</div>
-																		<div className="text-muted-foreground pr-2 text-xs leading-snug text-balance">
+																		<div className="text-muted-foreground pr-2 text-xs leading-snug">
 																			{plan.description}
 																		</div>
 																	</div>
@@ -585,6 +563,17 @@ export default function Checkout() {
 											`Place Order - ${total.toLocaleString()}৳`
 										)}
 									</Button>
+
+									{/* Login nudge */}
+									<p className="text-xs text-center text-gray-400">
+										Have an account?{' '}
+										<Link
+											href="/auth?tab=login"
+											className="text-orange-500 hover:underline"
+										>
+											Login for faster checkout
+										</Link>
+									</p>
 								</div>
 							</aside>
 						</div>

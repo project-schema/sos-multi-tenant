@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 export function UtilityIcons1() {
-	const { status } = useSession();
+	const { status, data: session } = useSession();
 	const isAuthenticated = status === 'authenticated';
 
 	// Only fetch data if authenticated
@@ -24,8 +24,10 @@ export function UtilityIcons1() {
 	const cartTotal =
 		cartData?.cart?.reduce(
 			(acc, item) => acc + Number(item.totalproductprice || 0),
-			0
+			0,
 		) || 0;
+
+	if (!session) return null;
 
 	return (
 		<>

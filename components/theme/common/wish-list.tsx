@@ -33,6 +33,10 @@ export default function CommonWishList() {
 		}
 	};
 
+	if (!session) {
+		return null;
+	}
+
 	// Loading state
 	if (isLoading) {
 		return (

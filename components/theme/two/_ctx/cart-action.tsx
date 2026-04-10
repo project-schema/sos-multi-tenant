@@ -223,6 +223,8 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 		}
 	};
 
+	if (!session) return null;
+
 	return (
 		<div className="space-y-4">
 			{/* Color Selection */}

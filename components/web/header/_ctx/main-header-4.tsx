@@ -3,6 +3,7 @@ import { iCategory } from '@/store/features/admin/category';
 import { iSystem } from '@/store/features/vendor/cms/system/type';
 import { useState } from 'react';
 import { ContactInfo } from './contact-info';
+import { GuestUtilityIcons } from './guest-utility-icons';
 import { Logo } from './logo';
 import { MobileMenu } from './mobile-menu';
 import { MobileSearch } from './mobile-search';
@@ -44,6 +45,7 @@ export function MainHeader4({
 						<UserAccount cms={cms ?? null} />
 						<MobileMenu cms={cms ?? null} />
 						<UtilityIcons variant="desktop" />
+						<GuestUtilityIcons variant="desktop" />
 					</div>
 				</div>
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { Loader9 } from '@/components/dashboard';
+import { checkSubscription } from '@/lib';
 import { useVendorProfileInfoQuery } from '@/store/features/vendor/profile';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -48,18 +49,7 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 					return;
 				}
 
-				// Expired subscription
-				const expireDate = new Date(subscription.expire_date);
-				const now = new Date();
-
-				console.log(expireDate <= now);
-
-				// {
-				//     "expireDate": "2026-05-01T10:51:51.000Z",
-				//     "now": "2026-04-02T04:27:22.321Z"
-				// }
-
-				if (expireDate <= now) {
+				if (checkSubscription(subscription)) {
 					toast.warning(
 						'Your subscription has expired. Please renew your subscription to continue using our services.',
 					);

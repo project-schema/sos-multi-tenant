@@ -176,6 +176,18 @@ const api = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: ['Cart'],
 		}),
+		// Place order guest
+		GuestPlaceOrder: builder.mutation<
+			iPlaceOrderResponse,
+			iPlaceOrderRequestData
+		>({
+			query: (data) => ({
+				url: `/frontend-order-create/guest`,
+				method: 'POST',
+				body: data,
+			}),
+			invalidatesTags: ['Cart'],
+		}),
 	}),
 });
 
@@ -184,4 +196,5 @@ export const {
 	useAddToCartMutation,
 	useDeleteFromCartMutation,
 	usePlaceOrderMutation,
+	useGuestPlaceOrderMutation,
 } = api;

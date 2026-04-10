@@ -1,6 +1,7 @@
 import { getApiDataWithSubdomain } from '@/lib';
 import { iTenantFrontend } from '@/types/tenant-frontend';
 import Link from 'next/link';
+import { GuestUtilityIcons1 } from './_ctx/guest-utility-icons-1';
 import { Logo } from './_ctx/logo';
 import { MobileMenu1 } from './_ctx/mobile-menu-1';
 import SearchPopup1 from './_ctx/search-popup-1';
@@ -33,6 +34,7 @@ export default async function Header01() {
 							{/* Right Side Actions */}
 							<div className="hidden md:flex items-center space-x-6">
 								<UtilityIcons1 />
+								<GuestUtilityIcons1 />
 
 								{/* User Account */}
 								<UserAccount1 />

@@ -3,3 +3,6 @@ export const sign = {
 	dollar: '$',
 	percent: '%',
 };
+
+export const GUEST_CART_KEY = 'guest_cart';
+export const GUEST_WISHLIST_KEY = 'guest_wishlist';
