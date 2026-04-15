@@ -40,7 +40,7 @@ export const VendorPosSalesCard = ({
 				<Card
 					className={cn(
 						posSelectProduct && 'border-blue-400',
-						`overflow-hidden hover:shadow-md transition-shadow cursor-pointer group border-2 hover:border-blue-400 py-0 gap-0`
+						`overflow-hidden hover:shadow-md transition-shadow cursor-pointer group border-2 hover:border-blue-400 py-0 gap-0`,
 					)}
 					onClick={handleCardClick}
 				>
@@ -63,7 +63,7 @@ export const VendorPosSalesCard = ({
 						<div className="space-y-1">
 							<Badge
 								variant="secondary"
-								className="text-xs w-full justify-center"
+								className="text-xs w-full justify-center text-white"
 							>
 								{product.selling_price} {sign.tk}
 							</Badge>
@@ -91,7 +91,7 @@ const CardDetails = ({
 
 	const { data, isLoading, isError } = useVendorPosSalesProductDetailsQuery(
 		{ product_id: slug },
-		{ skip: !slug }
+		{ skip: !slug },
 	);
 	const { cart, addToCart, removeFromCart } = usePosSales();
 
@@ -159,13 +159,13 @@ const CardDetails = ({
 				<tbody>
 					{product.product_variant?.map((variant, i) => {
 						const isSelected = selectedItem.some(
-							(item) => item.variant_id === variant.id
+							(item) => item.variant_id === variant.id,
 						);
 						const isOutOfStock = variant?.qty === 0;
 
 						// selected item qty
 						const selectedItemQty = selectedItem.find(
-							(item) => item.variant_id === variant.id
+							(item) => item.variant_id === variant.id,
 						)?.quantity;
 
 						// remaing qty
@@ -174,7 +174,7 @@ const CardDetails = ({
 							<tr
 								className={cn(
 									isSelected && 'bg-blue-50 rounded-2xl user-select-none',
-									'cursor-pointer'
+									'cursor-pointer',
 								)}
 								onClick={() => {
 									if (isOutOfStock || remainingQty <= 0) {
@@ -231,7 +231,7 @@ const CardDetails = ({
 												sku: variant.product.sku,
 												image: '',
 												selling_price: parseFloat(
-													variant.product.selling_price
+													variant.product.selling_price,
 												),
 												quantity: 1,
 												stock: variant.qty,

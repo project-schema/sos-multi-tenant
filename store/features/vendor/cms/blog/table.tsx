@@ -101,12 +101,16 @@ export function CmsBlogTable({ data }: { data: iCmsBlog[] }) {
 								<TableCell className="py-2">
 									<div className="flex flex-wrap gap-1">
 										{tags.slice(0, 3).map((tag, idx) => (
-											<Badge key={idx} variant="secondary" className="text-xs">
+											<Badge
+												key={idx}
+												variant="secondary"
+												className="text-xs text-white"
+											>
 												{tag}
 											</Badge>
 										))}
 										{tags.length > 3 && (
-											<Badge variant="secondary" className="text-xs">
+											<Badge variant="secondary" className="text-xs text-white">
 												+{tags.length - 3}
 											</Badge>
 										)}

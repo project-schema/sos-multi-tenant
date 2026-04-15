@@ -262,7 +262,7 @@ export function VendorPOSalesSellExchange({
 														/>
 													</TableCell>
 													<TableCell>
-														<Badge variant="secondary">
+														<Badge className='text-white' variant="secondary">
 															{returnSubtotal} {sign.tk}
 														</Badge>
 													</TableCell>

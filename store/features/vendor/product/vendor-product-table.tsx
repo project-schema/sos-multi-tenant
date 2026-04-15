@@ -83,7 +83,7 @@ export function VendorProductTable({
 								<span>#{item.uniqid}</span>
 							</TableCell>
 							<TableCell className="py-2">
-								<Link href={`/product/${item.id}/view`}>
+								<Link href={`/dashboard/product/${item.id}/view`}>
 									<Avatar className="h-12 w-12 rounded-xl">
 										<AvatarImage
 											src={env.baseAPI + '/' + item.image}
@@ -99,7 +99,7 @@ export function VendorProductTable({
 							<TableCell className="py-2">
 								<Link
 									className="hover:underline hover:text-blue-500 transition"
-									href={`/product/${item.id}/view`}
+									href={`/dashboard/product/${item.id}/view`}
 								>
 									{textCount(item.name, 15)}
 								</Link>
@@ -150,7 +150,7 @@ export function VendorProductTable({
 										<DropdownMenuItem>
 											<Link
 												className="flex items-center gap-2 w-full"
-												href={`/product/${item.id}/view`}
+												href={`/dashboard/product/${item.id}/view`}
 											>
 												<ExternalLink className="size-4" />
 												<span>View Product</span>
@@ -159,7 +159,7 @@ export function VendorProductTable({
 										<DropdownMenuItem>
 											<Link
 												className="flex items-center gap-2 w-full"
-												href={`/product/${item.id}/edit`}
+												href={`/dashboard/product/${item.id}/edit`}
 											>
 												<Pencil className="size-4" />
 												<span>Edit Product</span>

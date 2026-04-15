@@ -153,7 +153,7 @@ export function VendorDailySalesReportPage() {
 												<TableCell className="py-2 pl-4">
 													{tableSrCount(
 														data.variantSalesReport.current_page,
-														i
+														i,
 													)}
 												</TableCell>
 												<TableCell className="py-2">
@@ -175,7 +175,9 @@ export function VendorDailySalesReportPage() {
 													</Badge>
 												</TableCell>
 												<TableCell className="py-2">
-													<Badge variant="secondary">{item.qty}</Badge>
+													<Badge className="text-white" variant="secondary">
+														{item.qty}
+													</Badge>
 												</TableCell>
 												<TableCell className="py-2">
 													<Badge className="capitalize" variant="default">
@@ -192,13 +194,13 @@ export function VendorDailySalesReportPage() {
 												</TableCell>
 												<TableCell className="py-2">
 													<Badge
-														className="capitalize"
+														className={`capitalize text-white`}
 														variant={
 															item.status === 'paid'
 																? 'default'
 																: item.status === 'due'
-																? 'destructive'
-																: 'secondary'
+																	? 'destructive'
+																	: 'secondary'
 														}
 													>
 														{item.status}

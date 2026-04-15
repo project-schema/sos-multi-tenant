@@ -50,7 +50,7 @@ export function VendorDueSalesReportPage() {
 			start_date: filters.start_date
 				? format(filters.start_date, 'dd-MM-yyyy')
 				: '',
-		}
+		},
 	);
 
 	useEffect(() => {
@@ -134,7 +134,10 @@ export function VendorDueSalesReportPage() {
 													</Badge>
 												</TableCell>
 												<TableCell className="py-2">
-													<Badge className="capitalize" variant="secondary">
+													<Badge
+														className="capitalize text-white"
+														variant="secondary"
+													>
 														{item.paid_amount} {sign.tk}
 													</Badge>
 												</TableCell>

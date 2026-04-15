@@ -5,6 +5,7 @@ import {
 	iVendorProductView,
 } from '@/store/features/vendor/product/vendor-product-type';
 import Link from 'next/link';
+import { GuestCartAction } from '../common/guest-cart-action';
 import { CartAction } from '../two/_ctx/cart-action';
 import ProductSlider from './ctx/theme-gallery';
 
@@ -80,6 +81,11 @@ export default async function ThemeThreeProductDetailsSuspensePage({
 								data?.product.qty &&
 								Number(data?.product.qty) > 0 && (
 									<CartAction product={data?.product} />
+								)}
+							{data?.product &&
+								data?.product.qty &&
+								Number(data?.product.qty) > 0 && (
+									<GuestCartAction product={data?.product} />
 								)}
 
 							{/* <div>

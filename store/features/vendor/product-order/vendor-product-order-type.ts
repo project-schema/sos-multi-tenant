@@ -48,7 +48,10 @@ export type iVendorProductOrder = {
 		id: number;
 		name: string;
 	};
-	product: null;
+	product: {
+		id: number;
+		name: string;
+	};
 	size: {
 		id: number;
 		name: string;

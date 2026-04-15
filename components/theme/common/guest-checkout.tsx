@@ -23,7 +23,10 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { sign } from '@/lib';
 import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
-import { useGuestPlaceOrderMutation } from '@/store/features/frontend/cart';
+import {
+	useGetDeliveryChargeQuery,
+	useGuestPlaceOrderMutation,
+} from '@/store/features/frontend/cart';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle, Loader2, ShoppingCart } from 'lucide-react';
@@ -71,15 +74,13 @@ const plans = [
 
 // ─── Delivery charges (static — replace with API call if needed) ───────────
 // If you have a public delivery charges endpoint, swap this with a fetch/useQuery
-const DELIVERY_CHARGES = [
-	{ id: 1, area: 'Inside Dhaka', charge: 60 },
-	{ id: 2, area: 'Outside Dhaka', charge: 120 },
-];
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function GuestCheckout() {
 	const { data: session } = useSession();
+	const { data: deliveryCharge, isLoading: isDeliveryChargeLoading } =
+		useGetDeliveryChargeQuery();
 	const [items, setItems] = useState<iGuestCartItem[]>([]);
 	const [orderSuccess, setOrderSuccess] = useState<{
 		orderNumber: string;
@@ -108,16 +109,17 @@ export default function GuestCheckout() {
 			notes: '',
 			payment_method: 'cod',
 			agree: false,
-			delivery_charge: DELIVERY_CHARGES[0].id,
+			delivery_charge: deliveryCharge?.deliveryCharge?.[0].id,
 		},
 	});
 
 	const deliveryChargeId = form.watch('delivery_charge');
 	const shipping =
-		DELIVERY_CHARGES.find((c) => c.id === Number(deliveryChargeId))?.charge ??
-		0;
+		deliveryCharge?.deliveryCharge?.find(
+			(c) => c.id === Number(deliveryChargeId),
+		)?.charge ?? 0;
 
-	const total = subtotal - discount + shipping;
+	const total = subtotal - discount + Number(shipping);
 
 	// ── Submit ─────────────────────────────────────────────────────────────
 
@@ -133,8 +135,9 @@ export default function GuestCheckout() {
 						address: data.address,
 						amount_to_collect: total,
 						area_name:
-							DELIVERY_CHARGES.find((c) => c.id === data.delivery_charge)
-								?.area || '',
+							deliveryCharge?.deliveryCharge?.find(
+								(c) => c.id === data.delivery_charge,
+							)?.area || '',
 						city: 'City',
 						delivery_type: 1,
 						email: '',
@@ -207,6 +210,8 @@ export default function GuestCheckout() {
 		}
 	};
 
+	if (session) return null;
+
 	// ── Order success ──────────────────────────────────────────────────────
 
 	if (orderSuccess) {
@@ -265,13 +270,11 @@ export default function GuestCheckout() {
 		);
 	}
 
-	if (session) return null;
-
 	// ── Main checkout ──────────────────────────────────────────────────────
 
 	return (
 		<MotionFadeIn>
-			<section>
+			<section className="pt-10">
 				<h1 className="text-3xl font-bold mb-6">Checkout</h1>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)}>
@@ -326,15 +329,17 @@ export default function GuestCheckout() {
 																<SelectValue placeholder="Select Delivery Charge" />
 															</SelectTrigger>
 															<SelectContent>
-																{DELIVERY_CHARGES.map((charge) => (
-																	<SelectItem
-																		key={charge.id}
-																		value={charge.id.toString()}
-																	>
-																		{charge.area} - {charge.charge}
-																		{sign.tk}
-																	</SelectItem>
-																))}
+																{deliveryCharge?.deliveryCharge?.map(
+																	(charge) => (
+																		<SelectItem
+																			key={charge.id}
+																			value={charge.id.toString()}
+																		>
+																			{charge.area} - {charge.charge}
+																			{sign.tk}
+																		</SelectItem>
+																	),
+																)}
 															</SelectContent>
 														</Select>
 													</FormControl>
@@ -457,7 +462,7 @@ export default function GuestCheckout() {
 											<div className="text-right">
 												<div className="font-semibold">{shipping}৳</div>
 												<div className="text-xs text-gray-500">
-													{DELIVERY_CHARGES.find(
+													{deliveryCharge?.deliveryCharge?.find(
 														(c) => c.id === Number(deliveryChargeId),
 													)?.area || ''}
 												</div>

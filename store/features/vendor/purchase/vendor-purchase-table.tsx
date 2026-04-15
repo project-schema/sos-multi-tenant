@@ -120,7 +120,7 @@ export function VendorPurchaseTable({
 										<DropdownMenuItem>
 											<Link
 												className="flex items-center gap-2 w-full"
-												href={`/purchase/invoice/${item.id}`}
+												href={`/dashboard/purchase/invoice/${item.id}`}
 											>
 												<ExternalLink className="size-4" />
 												<span>View Invoice</span>
@@ -139,7 +139,7 @@ export function VendorPurchaseTable({
 											<DropdownMenuItem>
 												<Link
 													className="flex items-center gap-2 w-full"
-													href={`/purchase/return/${item.id}`}
+													href={`/dashboard/purchase/return/${item.id}`}
 												>
 													<PackageX className="size-4" />
 													<span>Return Purchase</span>

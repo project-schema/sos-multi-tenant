@@ -22,7 +22,7 @@ export function VendorPurchaseReturnViewPage() {
 		{
 			id: id?.toString() || '',
 		},
-		{ skip: !id }
+		{ skip: !id },
 	);
 
 	return (
@@ -121,7 +121,7 @@ export function VendorPurchaseReturnViewPage() {
 													</TableCell>
 
 													<TableCell>
-														<Badge variant="secondary">
+														<Badge className="text-white" variant="secondary">
 															{f_field?.r_sub_total} {sign.tk}
 														</Badge>
 													</TableCell>
@@ -148,7 +148,7 @@ export function VendorPurchaseReturnViewPage() {
 											<span>
 												{data.return_list?.return_details.reduce(
 													(sum, item) => sum + (item?.return_qty || 0),
-													0
+													0,
 												)}
 											</span>
 										</div>

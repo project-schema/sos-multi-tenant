@@ -1,5 +1,8 @@
 import { apiSlice } from '../../api/apiSlice';
-import { iVendorDeliveryCharge } from '../../vendor/delivery-charge/vendor-delivery-charge-type';
+import {
+	iVendorDeliveryCharge,
+	iVendorDeliveryChargeResponse,
+} from '../../vendor/delivery-charge/vendor-delivery-charge-type';
 import { iVendorProduct } from '../../vendor/product/vendor-product-type';
 
 // Types
@@ -188,6 +191,15 @@ const api = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: ['Cart'],
 		}),
+
+		// Get cart
+		GetDeliveryCharge: builder.query<iVendorDeliveryChargeResponse, void>({
+			query: () => ({
+				url: `/tenant-frontend/delivery-charge`,
+				method: 'GET',
+			}),
+			providesTags: ['Cart'],
+		}),
 	}),
 });
 
@@ -197,4 +209,5 @@ export const {
 	useDeleteFromCartMutation,
 	usePlaceOrderMutation,
 	useGuestPlaceOrderMutation,
+	useGetDeliveryChargeQuery,
 } = api;

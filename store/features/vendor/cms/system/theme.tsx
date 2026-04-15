@@ -24,7 +24,11 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { useSystemQuery, useUpdateSystemMutation } from './api-slice';
+import {
+	useSystemQuery,
+	useUpdateDummyDataMutation,
+	useUpdateSystemMutation,
+} from './api-slice';
 
 // --- Zod Schema ---
 const schema = z.object({
@@ -72,6 +76,7 @@ const themes = [
 
 export function CMSTheme() {
 	const [store, { isLoading }] = useUpdateSystemMutation();
+	const [update, { isLoading: updating }] = useUpdateDummyDataMutation();
 	const { data, isLoading: loading, isError, refetch } = useSystemQuery();
 
 	const form = useForm<ZodType>({
@@ -99,13 +104,16 @@ export function CMSTheme() {
 		);
 	}
 
+	console.log(form.watch('theme'));
+
 	const onSubmit = async (formData: ZodType) => {
 		alertConfirm({
-			clickOutSide: true,
+			clickOutSide: false,
 			title: 'Update Theme',
-			content: 'Update Existing data or Upload New Dummy data?',
-			cancelBtnText: 'Upload New Dummy Data',
+			content: 'Do you want to update theme?',
+			cancelBtnText: 'Dummy Data',
 			confirmBtnText: 'Previous Theme Data',
+
 			onOk: async () => {
 				try {
 					const response = await store({ ...formData }).unwrap();
@@ -143,7 +151,30 @@ export function CMSTheme() {
 				}
 			},
 			onCancel: async () => {
-				toast.success('Theme updated successfully');
+				alertConfirm({
+					clickOutSide: false,
+					title: 'Update Dummy Data',
+					content: 'Dummy Data will replace existing data',
+					cancelBtnText: 'Cancel',
+					confirmBtnText: 'Update Dummy Data',
+					onOk: async () => {
+						try {
+							const response = await update({ theme: formData.theme }).unwrap();
+							const responseStore = await store({ ...formData }).unwrap();
+
+							if (response.success) {
+								refetch();
+								toast.success(
+									response?.message || 'Theme updated successfully',
+								);
+							} else {
+								toast.error(response?.message || 'Something went wrong');
+							}
+						} catch (error: any) {
+							toast.error(error?.message || 'Something went wrong');
+						}
+					},
+				});
 			},
 		});
 	};
@@ -183,10 +214,10 @@ export function CMSTheme() {
 													<Link
 														target="_blank"
 														href={theme.preview}
-														className="absolute top-2 left-2 group-hover:opacity-100 opacity-0 p-2 rounded-md bg-muted transition-opacity text-black shadow "
+														className="flex items-center gap-2 absolute top-2 left-2 group-hover:opacity-100 opacity-0 p-2 rounded-md bg-muted transition-opacity text-black shadow "
 													>
+														<span>Preview</span>
 														<View className="size-4 text-black" />
-														<span className="sr-only">Preview</span>
 													</Link>
 
 													<RadioGroupItem

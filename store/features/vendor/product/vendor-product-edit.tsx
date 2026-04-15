@@ -83,11 +83,11 @@ export const VendorProductEdit = ({
 			image: undefined,
 			images: [],
 
-			brand_id: editData.brand_id.toString(),
-			category_id: editData.category_id.toString(),
-			subcategory_id: editData.subcategory_id.toString(),
-			supplier_id: editData.supplier_id.toString(),
-			warehouse_id: editData.warehouse_id.toString(),
+			brand_id: editData?.brand_id?.toString(),
+			category_id: editData?.category_id?.toString(),
+			subcategory_id: editData?.subcategory_id?.toString(),
+			supplier_id: editData?.supplier_id?.toString(),
+			warehouse_id: editData?.warehouse_id?.toString(),
 			original_price: Number(editData.original_price),
 			selling_price: Number(editData.selling_price),
 			discount_price: Number(editData.discount_price),
@@ -125,11 +125,11 @@ export const VendorProductEdit = ({
 			single_advance_payment_type:
 				editData.single_advance_payment_type || 'flat',
 
-			market_place_brand_id: editData.market_place_brand_id?.toString() ?? '',
+			market_place_brand_id: editData?.market_place_brand_id?.toString() ?? '',
 			market_place_category_id:
-				editData.market_place_category_id?.toString() ?? '',
+				editData?.market_place_category_id?.toString() ?? '',
 			market_place_subcategory_id:
-				editData.market_place_subcategory_id?.toString() ?? '',
+				editData?.market_place_subcategory_id?.toString() ?? '',
 		},
 	});
 
@@ -152,7 +152,7 @@ export const VendorProductEdit = ({
 
 	const categories = data?.data?.category ?? [];
 	const subcategories =
-		categories.find((c) => c.id.toString() === categoryId)?.subcategory ?? [];
+		categories.find((c) => c?.id?.toString() === categoryId)?.subcategory ?? [];
 
 	// reset subcategory if category changed
 	useEffect(() => {
@@ -172,11 +172,11 @@ export const VendorProductEdit = ({
 			image: undefined,
 			images: [],
 			exp_date: new Date(editData.exp_date),
-			brand_id: editData.brand_id.toString(),
-			category_id: editData.category_id.toString(),
-			subcategory_id: editData.subcategory_id.toString(),
-			supplier_id: editData.supplier_id.toString(),
-			warehouse_id: editData.warehouse_id.toString(),
+			brand_id: editData?.brand_id?.toString(),
+			category_id: editData?.category_id?.toString(),
+			subcategory_id: editData?.subcategory_id?.toString(),
+			supplier_id: editData?.supplier_id?.toString(),
+			warehouse_id: editData?.warehouse_id?.toString(),
 			original_price: Number(editData.original_price),
 			selling_price: Number(editData.selling_price),
 			discount_price: Number(editData.discount_price),
@@ -209,11 +209,11 @@ export const VendorProductEdit = ({
 				advance_payment_type: selling.advance_payment_type,
 			})),
 
-			market_place_brand_id: editData.market_place_brand_id?.toString() ?? '',
+			market_place_brand_id: editData?.market_place_brand_id?.toString() ?? '',
 			market_place_category_id:
-				editData.market_place_category_id?.toString() ?? '',
+				editData?.market_place_category_id?.toString() ?? '',
 			market_place_subcategory_id:
-				editData.market_place_subcategory_id?.toString() ?? '',
+				editData?.market_place_subcategory_id?.toString() ?? '',
 		});
 	}, [editData]);
 
@@ -350,7 +350,7 @@ export const VendorProductEdit = ({
 												options={
 													(data?.data?.brand ?? []).map((b) => ({
 														label: b.name,
-														value: b.id.toString(),
+														value: b?.id?.toString(),
 													})) ?? []
 												}
 												placeholder={isLoading ? 'Loading...' : 'Select brand'}
@@ -368,7 +368,7 @@ export const VendorProductEdit = ({
 												options={
 													(data?.data?.category ?? []).map((cat) => ({
 														label: cat.name,
-														value: cat.id.toString(),
+														value: cat?.id?.toString(),
 													})) ?? []
 												}
 												placeholder={
@@ -388,7 +388,7 @@ export const VendorProductEdit = ({
 												options={
 													(subcategories ?? []).map((sc) => ({
 														label: sc.name,
-														value: sc.id.toString(),
+														value: sc?.id?.toString(),
 													})) ?? []
 												}
 												placeholder={
@@ -515,7 +515,7 @@ export const VendorProductEdit = ({
 												options={
 													(data?.data?.supplier ?? []).map((s) => ({
 														label: s.business_name,
-														value: s.id.toString(),
+														value: s?.id?.toString(),
 													})) ?? []
 												}
 												placeholder={
@@ -535,7 +535,7 @@ export const VendorProductEdit = ({
 												options={
 													(data?.data?.warehouse ?? []).map((w) => ({
 														label: w.name,
-														value: w.id.toString(),
+														value: w?.id?.toString(),
 													})) ?? []
 												}
 												placeholder={

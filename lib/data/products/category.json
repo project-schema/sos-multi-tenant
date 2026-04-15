@@ -1,0 +1,35 @@
+[
+	{
+		"id": 3,
+		"name": "Cloth",
+		"slug": "cloth",
+		"description": "cloth items",
+		"status": "active",
+		"image": null,
+		"created_at": "2026-04-10T03:14:44.000000Z",
+		"updated_at": "2026-04-10T03:14:44.000000Z",
+		"deleted_at": null
+	},
+	{
+		"id": 2,
+		"name": "Mobile Phone",
+		"slug": "mobile-phone",
+		"description": "All mobile phones",
+		"status": "active",
+		"image": null,
+		"created_at": "2026-04-10T03:13:57.000000Z",
+		"updated_at": "2026-04-10T03:13:57.000000Z",
+		"deleted_at": null
+	},
+	{
+		"id": 1,
+		"name": "Sample Products",
+		"slug": "sample-products",
+		"description": "Starter category for newly created merchant tenants.",
+		"status": "active",
+		"image": null,
+		"created_at": "2026-04-01T10:37:19.000000Z",
+		"updated_at": "2026-04-01T10:37:19.000000Z",
+		"deleted_at": null
+	}
+]

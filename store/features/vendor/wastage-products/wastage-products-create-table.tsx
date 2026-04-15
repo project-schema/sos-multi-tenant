@@ -204,7 +204,7 @@ export function VendorWastageProductsCreateTable({
 												form.watch(`return_items.${index}.rate`) || '0';
 											const returnSubtotal = calculateReturnSubtotal(
 												returnQty,
-												rate
+												rate,
 											);
 
 											return (
@@ -241,7 +241,7 @@ export function VendorWastageProductsCreateTable({
 																				const max = f_field?.purchase_qty || 0;
 																				if (value > max) {
 																					toast.error(
-																						`Return Qty must be less than or equal to ${max}`
+																						`Return Qty must be less than or equal to ${max}`,
 																					);
 																					return;
 																				}
@@ -259,7 +259,7 @@ export function VendorWastageProductsCreateTable({
 														/>
 													</TableCell>
 													<TableCell>
-														<Badge variant="secondary">
+														<Badge variant="secondary" className="text-white">
 															{returnSubtotal} {sign.tk}
 														</Badge>
 													</TableCell>
@@ -312,7 +312,7 @@ export function VendorWastageProductsCreateTable({
 													.watch('return_items')
 													.reduce(
 														(sum, item) => sum + (item?.return_qty || 0),
-														0
+														0,
 													)}
 											</span>
 										</div>

@@ -123,16 +123,16 @@ export function VendorWarehouseReportPage() {
 											const totalStockValue = item.products.reduce(
 												(sum, product) =>
 													sum +
-													parseFloat(product.stock) *
-														parseFloat(product.selling_price),
-												0
+													Number(product.stock || 1) *
+														Number(product.selling_price),
+												0,
 											);
 											const totalPurchaseValue = item.products.reduce(
 												(sum, product) =>
 													sum +
-													parseFloat(product.stock) *
-														parseFloat(product.purchase_price),
-												0
+													Number(product.stock || 1) *
+														Number(product.purchase_price),
+												0,
 											);
 
 											return (
@@ -140,7 +140,7 @@ export function VendorWarehouseReportPage() {
 													<TableCell className="py-2 pl-4">
 														{tableSrCount(
 															data.warehouse_report.current_page,
-															i
+															i,
 														)}
 													</TableCell>
 													<TableCell className="py-2">
@@ -157,7 +157,10 @@ export function VendorWarehouseReportPage() {
 														</Badge>
 													</TableCell>
 													<TableCell className="py-2">
-														<Badge className="capitalize" variant="secondary">
+														<Badge
+															className="capitalize text-white"
+															variant="secondary"
+														>
 															{totalPurchaseValue.toFixed(2)} {sign.tk}
 														</Badge>
 													</TableCell>

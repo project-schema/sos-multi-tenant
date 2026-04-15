@@ -29,12 +29,12 @@ export default async function Layout({
 				{/* <MainWebOffCanvas /> */}
 				{/* <!-- / Offcanvas Sidebar --> */}
 
-				<main className="pt-0">
+				<main className="pt-0 min-h-screen">
 					{children}
 					{/* <!-- footer section --> */}
-					<MainWebFooter settings={settings ?? null} />
 					{/* <!-- /footer section --> */}
 				</main>
+				<MainWebFooter settings={settings ?? null} />
 			</div>
 		</div>
 	);

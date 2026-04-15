@@ -29,7 +29,24 @@ const api = apiSlice.injectEndpoints({
 				};
 			},
 		}),
+
+		// Update dummy data
+		UpdateDummyData: builder.mutation<
+			{ success: boolean; message: string },
+			{ theme: 'one' | 'two' | 'three' | 'four' }
+		>({
+			query: (data) => {
+				return {
+					url: `/import/theme-${data.theme}`,
+					method: 'GET',
+				};
+			},
+		}),
 	}),
 });
 
-export const { useSystemQuery, useUpdateSystemMutation } = api;
+export const {
+	useSystemQuery,
+	useUpdateSystemMutation,
+	useUpdateDummyDataMutation,
+} = api;

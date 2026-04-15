@@ -26,6 +26,8 @@ export function UtilityIcons({ variant = 'desktop' }: UtilityIconsProps) {
 	const wishlistCount = wishlistData?.wishlist?.length || 0;
 	const cartCount = cartData?.cart?.length || 0;
 
+	if (!isAuthenticated) return null;
+
 	return (
 		<div
 			className={`flex items-center ${

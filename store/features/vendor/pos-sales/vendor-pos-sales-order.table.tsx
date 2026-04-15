@@ -125,7 +125,7 @@ const DropDownAction = ({ item }: { item: iVendorPosSalesOrder }) => {
 				<DropdownMenuItem>
 					<Link
 						className="flex items-center gap-2 w-full"
-						href={`/pos-sales/${item.id}/invoice`}
+						href={`/dashboard/pos-sales/${item.id}/invoice`}
 					>
 						<ExternalLink className="size-4" />
 						<span>View Invoice </span>
@@ -137,7 +137,7 @@ const DropDownAction = ({ item }: { item: iVendorPosSalesOrder }) => {
 				<DropdownMenuItem>
 					<Link
 						className="flex items-center gap-2 w-full"
-						href={`/pos-sales/${item.id}/return`}
+						href={`/dashboard/pos-sales/${item.id}/return`}
 					>
 						<PackageX className="size-4" />
 						<span>Return </span>
@@ -147,7 +147,7 @@ const DropDownAction = ({ item }: { item: iVendorPosSalesOrder }) => {
 					<DropdownMenuItem>
 						<Link
 							className="flex items-center gap-2 w-full"
-							href={`/pos-sales/${item.id}/exchange`}
+							href={`/dashboard/pos-sales/${item.id}/exchange`}
 						>
 							<ExternalLink className="size-4" />
 							<span>Exchange </span>

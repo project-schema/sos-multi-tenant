@@ -152,7 +152,10 @@ export function VendorStockShortageReportPage() {
 														</Badge>
 													</TableCell>
 													<TableCell className="py-2">
-														<Badge className="capitalize" variant="secondary">
+														<Badge
+															className="capitalize text-white"
+															variant="secondary"
+														>
 															{item.purchase_price} {sign.tk}
 														</Badge>
 													</TableCell>

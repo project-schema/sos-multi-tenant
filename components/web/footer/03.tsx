@@ -23,29 +23,31 @@ export default async function Footer03() {
 
 	return (
 		<>
-			<div className="bg-primary3/10 py-10 md:py-14 lg:py-16 2xl:py-24">
-				<MotionFadeIn>
-					<div className="max-w-[1425px] mx-auto  sp-60 px-sp flex flex-wrap justify-center items-center grid-cols-4 gap-6">
-						{settings?.content_services?.map((item) => (
-							<div
-								key={item.title}
-								className="flex flex-col items-center justify-center border border-primary3/25 hover:border-primary3 transition-all rounded-lg p-2 lg:p-7"
-							>
-								<Image
-									src={imageFormat(item.icon || null)}
-									alt="image"
-									width={1000}
-									height={1000}
-									className="w-10 lg:w-20 h-10 lg:h-20 object-cover block mb-2"
-								/>
-								<p className=" fs-24 font-montserrat font-semibold text-center">
-									{item.title}
-								</p>
-							</div>
-						))}
-					</div>
-				</MotionFadeIn>
-			</div>
+			{settings?.content_services && settings?.content_services?.length > 0 && (
+				<div className="bg-primary3/10 py-10 md:py-14 lg:py-16 2xl:py-24">
+					<MotionFadeIn>
+						<div className="max-w-[1425px] mx-auto  sp-60 px-sp flex flex-wrap justify-center items-center grid-cols-4 gap-6">
+							{settings?.content_services?.map((item) => (
+								<div
+									key={item.title}
+									className="flex flex-col items-center justify-center border border-primary3/25 hover:border-primary3 transition-all rounded-lg p-2 lg:p-7"
+								>
+									<Image
+										src={imageFormat(item.icon || null)}
+										alt="image"
+										width={1000}
+										height={1000}
+										className="w-10 lg:w-20 h-10 lg:h-20 object-cover block mb-2"
+									/>
+									<p className=" fs-24 font-montserrat font-semibold text-center">
+										{item.title}
+									</p>
+								</div>
+							))}
+						</div>
+					</MotionFadeIn>
+				</div>
+			)}
 
 			<footer className="bg-primary3/20 text-gray-800">
 				<MotionFadeIn>

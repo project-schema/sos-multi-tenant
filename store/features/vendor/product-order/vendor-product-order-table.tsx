@@ -14,14 +14,12 @@ import { Badge } from '@/components/ui/badge';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
-	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { badgeFormat, dateFormat, sign, tableSrCount, timeFormat } from '@/lib';
 
 import { iPagination } from '@/types';
-import { Ellipsis, ExternalLink } from 'lucide-react';
-import Link from 'next/link';
+import { Ellipsis } from 'lucide-react';
 import { VendorProductOrderStatus } from './vendor-product-order-status';
 import { VendorProductOrderStatusCancel } from './vendor-product-order-status-cancel';
 import { iVendorProductOrder } from './vendor-product-order-type';
@@ -72,7 +70,7 @@ export function VendorProductOrderTable({
 								#{item.order_id}
 							</TableCell>
 							<TableCell className="py-2">{item.courier_name || '-'}</TableCell>
-							<TableCell className="py-2">#{item.product_id}</TableCell>
+							<TableCell className="py-2">{item?.product?.name}</TableCell>
 							<TableCell className="py-2">{item.name || '-'}</TableCell>
 							<TableCell className="py-2">{item.order_media || '-'}</TableCell>
 							<TableCell className="py-2">
@@ -113,7 +111,7 @@ export function VendorProductOrderTable({
 										</Button>
 									</DropdownMenuTrigger>
 									<DropdownMenuContent align="end" className="w-56">
-										<DropdownMenuItem>
+										{/* <DropdownMenuItem>
 											<Link
 												className="flex items-center gap-2 w-full"
 												href={`/admin/merchant-product/${item.id}`}
@@ -121,7 +119,7 @@ export function VendorProductOrderTable({
 												<ExternalLink className="size-4" />
 												<span>View Product {item.status}</span>
 											</Link>
-										</DropdownMenuItem>
+										</DropdownMenuItem> */}
 										{/*
 											If the order status is "hold", show the option to
 											mark it as "received"

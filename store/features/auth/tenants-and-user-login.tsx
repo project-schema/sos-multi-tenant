@@ -60,6 +60,11 @@ export function TenantAndUserLogin({ settings }: { settings?: iSettingsType }) {
 				if (signInResult?.ok) {
 					toast.success('Login successful!');
 					form.reset();
+
+					if (result.data.user.role_type === 'tenant_user') {
+						router.push('/account');
+						return;
+					}
 					if (result.data.user?.usersubscription) {
 						router.push('/dashboard');
 						return;
