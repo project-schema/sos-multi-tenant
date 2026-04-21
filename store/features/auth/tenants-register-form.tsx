@@ -386,7 +386,7 @@ export const TenantsRegisterForm = ({
 									</span>
 								</span>
 								<p className="text-xs text-blue-500">
-									This may take up to 45 seconds
+									This may take up to 1.30 min
 								</p>
 							</div>
 						) : progress < 95 ? (

@@ -89,7 +89,7 @@ export function TenantUserRegistration({
 				});
 
 				if (signInResult?.ok) {
-					toast.success('Registration successful!');
+					// toast.success('Registration successful!');
 					form.reset();
 					router.push('/account');
 				} else {
