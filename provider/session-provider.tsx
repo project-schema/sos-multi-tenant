@@ -4,46 +4,61 @@ import { Loader9 } from '@/components/dashboard';
 import { checkSubscription } from '@/lib';
 import { useVendorProfileInfoQuery } from '@/store/features/vendor/profile';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 	const { data: session, status } = useSession();
-	const { data, isLoading, isError } = useVendorProfileInfoQuery(undefined, {
-		skip:
-			!session ||
-			(session.tenant_type !== 'merchant' &&
-				session.tenant_type !== 'dropshipper'),
-	});
 	const router = useRouter();
+	const pathname = usePathname();
+
+	const isVendor =
+		session?.tenant_type === 'merchant' ||
+		session?.tenant_type === 'dropshipper';
+
+	const { data, isLoading, isError } = useVendorProfileInfoQuery(undefined, {
+		skip: !session || !isVendor,
+	});
+
+	// ✅ Only true once ALL checks pass — children never render prematurely
+	const [isResolved, setIsResolved] = useState(false);
 
 	useEffect(() => {
-		if (status === 'unauthenticated') {
-			router.replace('/auth');
+		if (status === 'loading') return;
+
+		if (
+			['/auth', '/dashboard/cms/system', '/dashboard/membership'].some((p) =>
+				pathname.startsWith(p),
+			)
+		) {
+			setIsResolved(true);
 			return;
 		}
 
-		if (status === 'authenticated' && session && !isLoading && !isError) {
+		if (status === 'unauthenticated') {
+			router.replace('/auth');
+			return; // stay null until redirect completes
+		}
+
+		if (status === 'authenticated' && session) {
 			const role = session.user?.role_type;
 
-			// Redirect tenant users first
 			if (role === 'tenant_user') {
 				router.replace('/account');
 				return;
 			}
 
-			// Check subscription (only for specific tenant types)
-			const isRestrictedTenant =
-				session.tenant_type === 'dropshipper' ||
-				session.tenant_type === 'merchant';
+			if (isVendor) {
+				if (isLoading) return; // wait for vendor data
 
-			if (isRestrictedTenant) {
+				if (isError) {
+					router.replace('/dashboard/membership');
+					return;
+				}
+
 				const subscription = data?.usersubscription;
 
-				console.log(!subscription);
-
-				// No subscription
 				if (!subscription) {
 					router.replace('/dashboard/membership');
 					return;
@@ -51,36 +66,30 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 
 				if (checkSubscription(subscription)) {
 					toast.warning(
-						'Your subscription has expired. Please renew your subscription to continue using our services.',
+						'Your subscription has expired. Please renew your subscription.',
 					);
 					router.replace('/dashboard/membership');
 					return;
 				}
+
+				if (
+					data?.usersubscription?.has_website === 'yes' &&
+					!data?.cms_setting?.theme
+				) {
+					router.replace('/dashboard/cms/system?tab=theme');
+					return;
+				}
 			}
+
+			// ✅ All checks passed — safe to render
+			setIsResolved(true);
 		}
-	}, [status, session, data, router, isLoading]);
+	}, [status, session, data, isLoading, isError, isVendor, router]);
 
-	// useEffect(() => {
-	// 	if (status === 'unauthenticated') {
-	// 		router.replace('/auth');
-	// 	}
+	// ✅ Return null (blank) until resolved — no flash of wrong content
+	// if (!isResolved) return null;
 
-	// 	if (
-	// 		status === 'authenticated' &&
-	// 		data &&
-	// 		!data.usersubscription &&
-	// 		(session?.tenant_type === 'dropshipper' ||
-	// 			session?.tenant_type === 'merchant')
-	// 	) {
-	// 		router.replace('/dashboard/membership');
-	// 	}
-
-	// 	if (session?.user.role_type === 'tenant_user') {
-	// 		router.replace('/account');
-	// 	}
-	// }, [status, session, data, router]);
-
-	if (status === 'loading' || isLoading) {
+	if (status === 'loading' || (isVendor && isLoading) || !isResolved) {
 		return <Loader9 />;
 	}
 

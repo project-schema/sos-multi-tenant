@@ -15,6 +15,9 @@ const api = apiSlice.injectEndpoints({
 				status: 200;
 				user: iVendorProfile;
 				usersubscription: iSubscription | null;
+				cms_setting: {
+					theme: 'one' | 'two' | 'three' | 'four';
+				};
 			},
 			undefined
 		>({

@@ -107,6 +107,7 @@ export type iAdminPaymentHistory = {
 
 export type iSubscription = {
 	id: number;
+
 	user_id: number;
 	subscription_id: number;
 	expire_date: string;
@@ -124,6 +125,7 @@ export type iSubscription = {
 	chat_access: number;
 	pos_sale_qty: number;
 	employee_create: string;
+	has_website: 'yes' | 'no';
 	subscription: {
 		id: number;
 		card_heading: string;

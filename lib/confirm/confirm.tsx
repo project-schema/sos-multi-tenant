@@ -50,6 +50,8 @@ export const alertConfirm = ({
 	cancelBtnText = 'Cancel',
 	className,
 	clickOutSide = false,
+	extraCleanup,
+	extraCleanupText = 'Cancel',
 }: {
 	onOk: () => void | Promise<void>;
 	onCancel?: () => void;
@@ -59,6 +61,9 @@ export const alertConfirm = ({
 	cancelBtnText?: string;
 	className?: string;
 	clickOutSide?: boolean;
+
+	extraCleanup?: boolean;
+	extraCleanupText?: string;
 }) => {
 	const div = document.createElement('div');
 	document.body.appendChild(div);
@@ -125,6 +130,11 @@ export const alertConfirm = ({
 						<AlertDialogDescription>{content}</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter className={cn('flex-row justify-end')}>
+						{extraCleanup && (
+							<Button variant="destructive" type="button" onClick={cleanup}>
+								{extraCleanupText}
+							</Button>
+						)}
 						<AlertDialogCancel disabled={isLoading} onClick={handleCancel}>
 							{cancelBtnText}
 						</AlertDialogCancel>

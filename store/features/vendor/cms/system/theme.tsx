@@ -104,8 +104,6 @@ export function CMSTheme() {
 		);
 	}
 
-	console.log(form.watch('theme'));
-
 	const onSubmit = async (formData: ZodType) => {
 		alertConfirm({
 			clickOutSide: false,
@@ -113,6 +111,8 @@ export function CMSTheme() {
 			content: 'Do you want to update theme?',
 			cancelBtnText: 'Dummy Data',
 			confirmBtnText: 'Previous Theme Data',
+
+			extraCleanup: true,
 
 			onOk: async () => {
 				try {
