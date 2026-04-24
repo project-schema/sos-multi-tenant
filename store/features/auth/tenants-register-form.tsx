@@ -271,7 +271,7 @@ export const TenantsRegisterForm = ({
 			const response: any = await register({ ...data }).unwrap();
 
 			if (response.success) {
-				toast.success(response.message || 'Tenant created');
+				// toast.success(response.message || 'Tenant created');
 
 				// ✅ STORE TENANT URL FOR AUTO-REDIRECT
 				const url = buildTenantURL(response.data.domain);

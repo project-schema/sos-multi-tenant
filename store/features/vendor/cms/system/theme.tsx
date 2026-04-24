@@ -1,6 +1,7 @@
 'use client';
 
 import { Loader5 } from '@/components/dashboard';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -17,10 +18,10 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { alertConfirm, ErrorAlert } from '@/lib';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderCircle, View } from 'lucide-react';
+import { AlertTriangleIcon, LoaderCircle, View, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -78,6 +79,7 @@ export function CMSTheme() {
 	const [store, { isLoading }] = useUpdateSystemMutation();
 	const [update, { isLoading: updating }] = useUpdateDummyDataMutation();
 	const { data, isLoading: loading, isError, refetch } = useSystemQuery();
+	const [alert, setAlert] = useState(true);
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
@@ -108,7 +110,7 @@ export function CMSTheme() {
 		alertConfirm({
 			clickOutSide: false,
 			title: 'Update Theme',
-			content: 'Do you want to update theme?',
+			content: 'Theme Update take up to 30 seconds.',
 			cancelBtnText: 'Dummy Data',
 			confirmBtnText: 'Previous Theme Data',
 
@@ -160,7 +162,7 @@ export function CMSTheme() {
 					onOk: async () => {
 						try {
 							const response = await update({ theme: formData.theme }).unwrap();
-							const responseStore = await store({ ...formData }).unwrap();
+							await store({ ...formData }).unwrap();
 
 							if (response.success) {
 								refetch();
@@ -182,6 +184,26 @@ export function CMSTheme() {
 	return (
 		<Card className="w-full">
 			<CardContent>
+				<Alert
+					hidden={!alert}
+					className="border-amber-500/50 mb-4 text-amber-500 dark:border-amber-500 [&>svg]:text-amber-500"
+				>
+					<AlertTriangleIcon className="size-4" />
+					<AlertTitle>Warning!</AlertTitle>
+					<AlertDescription className="text-amber-500">
+						Theme Change will take up to 30 seconds.
+					</AlertDescription>
+
+					<Button
+						size="icon"
+						variant="outline"
+						type="button"
+						className="absolute right-2 top-4"
+						onClick={() => setAlert(false)}
+					>
+						<X />
+					</Button>
+				</Alert>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 						{/* theme */}
