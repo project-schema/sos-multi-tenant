@@ -1,18 +1,20 @@
 'use client';
 
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
 	OrderDashboardCards,
 	OrdersTable,
 } from '@/store/features/account/order';
-import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function CommonAccount() {
 	const [view, setView] = useState<'home' | 'profile' | 'orders'>('home');
 	const searchParams = useSearchParams();
+	const { data: session } = useSession();
 	useEffect(() => {
 		const view = searchParams.get('view');
 		if (view) {
@@ -27,17 +29,22 @@ export default function CommonAccount() {
 				{/* Sidebar */}
 				<aside className="lg:col-span-3 border rounded-md overflow-hidden">
 					<div className="flex items-center gap-4 p-4 border-b">
-						<div className="relative w-16 h-16 rounded-full overflow-hidden">
+						<Avatar className="h-12 w-12 rounded-xl">
+							<AvatarFallback className="rounded-xl bg-sky-100">
+								{session?.user?.name?.charAt(0).toUpperCase()}
+							</AvatarFallback>
+						</Avatar>
+						{/* <div className="relative w-16 h-16 rounded-full overflow-hidden">
 							<Image
 								src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=256&auto=format&fit=crop"
 								alt="avatar"
 								fill
 								className="object-cover"
 							/>
-						</div>
+						</div> */}
 						<div>
-							<p className="font-semibold">Alex Adams</p>
-							<p className="text-xs text-gray-500">Joined Sep Mon 2021</p>
+							<p className="font-semibold">{session?.user?.name}</p>
+							<p className="text-xs text-gray-500">{session?.user?.email}</p>
 						</div>
 					</div>
 					<nav className="divide-y">

@@ -109,7 +109,7 @@ export default function GuestCheckout() {
 			notes: '',
 			payment_method: 'cod',
 			agree: false,
-			delivery_charge: deliveryCharge?.deliveryCharge?.[0].id,
+			delivery_charge: deliveryCharge?.deliveryCharge?.[0]?.id,
 		},
 	});
 

@@ -205,14 +205,16 @@ export const VendorPurchaseCreate = () => {
 				try {
 					const response = await store({
 						...data,
+						supplier_id: Number(data.supplier_id),
+						payment_id: Number(data.payment_id),
 						purchase_date: format(data.purchase_date, 'dd-MM-yyyy'),
-						unit_id: data.products.map((p) => p.unit_id),
+						unit_id: data.products.map((p) => Number(p.unit_id)),
 						sub_total: data.products.map((p) => p.sub_total),
 						rate: data.products.map((p) => p.rate),
 						qty: data.products.map((p) => p.qty),
-						product_id: data.products.map((p) => p.product_id),
-						color_id: data.products.map((p) => p.utility_id),
-						size_id: data.products.map((p) => p.variation_id),
+						product_id: data.products.map((p) => Number(p.product_id)),
+						color_id: data.products.map((p) => Number(p.utility_id)),
+						size_id: data.products.map((p) => Number(p.variation_id)),
 						total_qty: data.products.reduce((acc, p) => acc + p.qty, 0),
 						total_price: data.products.reduce((acc, p) => acc + p.sub_total, 0),
 					}).unwrap();

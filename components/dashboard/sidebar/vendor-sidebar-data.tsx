@@ -17,6 +17,7 @@ import {
 	ShoppingCart,
 	Store,
 	Trash2,
+	Users,
 	Wallet,
 } from 'lucide-react';
 import { sidebarItem } from './sidebar.type';
@@ -80,6 +81,12 @@ const products: sidebarItem[] = [
 		title: 'Products Orders',
 		url: '/dashboard/product-order',
 		icon: ShoppingBag,
+		isActive: false,
+	},
+	{
+		title: 'Register Customers',
+		url: '/dashboard/product-customer',
+		icon: Users,
 		isActive: false,
 	},
 	// {
@@ -239,10 +246,10 @@ const settings: sidebarItem[] = [
 				title: 'Order Source',
 				url: '/dashboard/order-source',
 			},
-			// {
-			// 	title: 'Courier Company',
-			// 	url: '/dashboard/courier-company',
-			// },
+			{
+				title: 'Courier Company',
+				url: '/dashboard/courier-company',
+			},
 			// {
 			// 	title: 'Pickup Area',
 			// 	url: '/dashboard/pickup-area',

@@ -148,7 +148,7 @@ export default async function ThemeFourHomePageSuspense({
 									href={settings?.cms.two_column_banner_1_url ?? '#'}
 									className="block overflow-hidden"
 								>
-									<div className="relative w-full aspect-[4/3] sm:aspect-[16/9]">
+									<div className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:h-[600px]">
 										<Image
 											src={imageFormat(
 												settings?.cms.two_column_banner_1 ?? null,
@@ -167,7 +167,7 @@ export default async function ThemeFourHomePageSuspense({
 									href={settings?.cms.two_column_banner_2_url ?? '#'}
 									className="block overflow-hidden"
 								>
-									<div className="relative w-full aspect-[4/3] sm:aspect-[16/9]">
+									<div className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:h-[600px]">
 										<Image
 											src={imageFormat(
 												settings?.cms.two_column_banner_2 ?? null,
@@ -189,7 +189,7 @@ export default async function ThemeFourHomePageSuspense({
 									href={settings?.cms.three_column_banner_2_url ?? '#'}
 									className="block overflow-hidden"
 								>
-									<div className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[3/2]">
+									<div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[600px]">
 										<Image
 											src={imageFormat(
 												settings?.cms.three_column_banner_2 ?? null,

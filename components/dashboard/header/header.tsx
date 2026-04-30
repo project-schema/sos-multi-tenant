@@ -1,10 +1,13 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { MotionView } from '@/lib';
 import { Notification } from '@/store/features/vendor/notification';
+import { ShoppingCart, Store } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import { Crumb, DbBreadcrumb } from '../breadcrumb/Breadcrumb';
 import { BalanceToggle } from './_ctx/balance-toggle';
 import { TenantDropdown } from './_ctx/tenant-dropdown';
@@ -38,6 +41,24 @@ export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
 			{/* Right side elements */}
 			<MotionView y={10} className="ml-auto">
 				<div className="flex items-center gap-2  px-4">
+					{session?.tenant_type === 'merchant' ||
+					session?.tenant_type === 'dropshipper' ? (
+						<>
+							<Button size="icon" type="button" variant="outline">
+								<Link href="/dashboard/pos-sales/create">
+									<Store className="size-4" />
+									<span className="sr-only">pos</span>
+								</Link>
+							</Button>
+							<Button size="icon" type="button" variant="outline">
+								<Link href="/dashboard/purchase/create">
+									<ShoppingCart className="size-4" />
+									<span className="sr-only">purchase</span>
+								</Link>
+							</Button>
+						</>
+					) : null}
+
 					{/* Balance Toggle */}
 					{session?.tenant_type !== 'admin' ? <BalanceToggle /> : null}
 

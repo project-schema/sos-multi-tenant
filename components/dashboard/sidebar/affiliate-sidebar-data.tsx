@@ -10,6 +10,7 @@ import {
 	PackageCheck,
 	Percent,
 	ShoppingCart,
+	Users,
 	Wallet,
 } from 'lucide-react';
 
@@ -53,6 +54,12 @@ const products: sidebarItem[] = [
 		title: 'Products Orders',
 		url: '/dashboard/dropshipper-orders',
 		icon: PackageCheck,
+		isActive: false,
+	},
+	{
+		title: 'Register Customers',
+		url: '/dashboard/product-customer',
+		icon: Users,
 		isActive: false,
 	},
 ];
