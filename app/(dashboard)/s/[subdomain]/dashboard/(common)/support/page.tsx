@@ -1,16 +1,15 @@
-import { DbHeader } from '@/components/dashboard';
-import { SessionProvider } from '@/provider';
-import { VendorSupportPage } from '@/store/features/vendor/support';
-const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/dashboard' },
-	{ name: 'Support' },
-];
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
+
 export default function Page() {
 	return (
-		<SessionProvider>
-			<DbHeader breadcrumb={breadcrumbItems} />
-
-			<VendorSupportPage />
-		</SessionProvider>
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
 	);
 }
+
+export const metadata = {
+	title: 'Support',
+};

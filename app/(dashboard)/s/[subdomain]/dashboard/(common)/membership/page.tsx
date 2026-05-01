@@ -1,31 +1,15 @@
-import { DbHeader } from '@/components/dashboard';
-import Pricing from '@/components/essential/Pricing';
-import { getApiData } from '@/lib';
-import { SessionProvider } from '@/provider';
-import { iSubscriptionsType } from '@/types';
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/dashboard' },
-	{ name: 'Membership' },
-];
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
 
-export const metadata: Metadata = {
-	title: 'Membership - SOS',
-	description: 'Membership - SOS Management',
-};
-export default async function Page() {
-	const subscriptions = await getApiData<iSubscriptionsType>('/subscriptions');
-
-	if (subscriptions?.status !== 200) {
-		return notFound();
-	}
+export default function Page() {
 	return (
-		<SessionProvider>
-			<div className="user-db-pricing">
-				<DbHeader breadcrumb={breadcrumbItems} />
-				<Pricing subscriptions={subscriptions} />
-			</div>
-		</SessionProvider>
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
 	);
 }
+
+export const metadata = {
+	title: 'Membership',
+};

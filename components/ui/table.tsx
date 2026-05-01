@@ -1,77 +1,80 @@
 'use client';
 
+import { cn } from '@/lib/utils';
+import { HTMLMotionProps, motion } from 'framer-motion';
 import * as React from 'react';
 
-import { cn } from '@/lib/utils';
+/* ---------------- Table ---------------- */
 
 function Table({ className, ...props }: React.ComponentProps<'table'>) {
 	return (
-		<div
-			data-slot="table-container"
+		<motion.div
+			initial="hidden"
+			animate="show"
+			variants={{
+				hidden: {},
+				show: {
+					transition: {
+						staggerChildren: 0.08,
+						delayChildren: 0.1,
+					},
+				},
+			}}
 			className="relative w-full overflow-x-auto"
 		>
 			<table
-				data-slot="table"
 				className={cn('w-full caption-bottom text-sm', className)}
 				{...props}
 			/>
-		</div>
+		</motion.div>
 	);
 }
+
+/* ---------------- Header ---------------- */
 
 function TableHeader({ className, ...props }: React.ComponentProps<'thead'>) {
 	return (
-		<thead
-			data-slot="table-header"
-			className={cn('[&_tr]:border-b', className)}
-			{...props}
-		/>
+		<thead className={cn('[&_tr]:border-b bg-white', className)} {...props} />
 	);
 }
+
+/* ---------------- Body (NO motion এখানে) ---------------- */
 
 function TableBody({ className, ...props }: React.ComponentProps<'tbody'>) {
 	return (
-		<tbody
-			data-slot="table-body"
-			className={cn('[&_tr:last-child]:border-0', className)}
-			{...props}
-		/>
+		<tbody className={cn('[&_tr:last-child]:border-0', className)} {...props} />
 	);
 }
 
-function TableFooter({ className, ...props }: React.ComponentProps<'tfoot'>) {
+/* ---------------- Row Animation ---------------- */
+
+const rowVariants = {
+	hidden: { opacity: 0, y: 10 },
+	show: { opacity: 1, y: 0 },
+};
+
+function TableRow({ className, ...props }: HTMLMotionProps<'tr'>) {
 	return (
-		<tfoot
-			data-slot="table-footer"
+		<motion.tr
+			variants={rowVariants}
+			transition={{ duration: 0.25, ease: 'easeOut' }}
 			className={cn(
-				'bg-muted/50 border-t font-medium [&>tr]:last:border-b-0',
-				className
+				'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
+				className,
 			)}
 			{...props}
 		/>
 	);
 }
 
-function TableRow({ className, ...props }: React.ComponentProps<'tr'>) {
-	return (
-		<tr
-			data-slot="table-row"
-			className={cn(
-				'hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors',
-				className
-			)}
-			{...props}
-		/>
-	);
-}
+/* ---------------- Cells ---------------- */
 
 function TableHead({ className, ...props }: React.ComponentProps<'th'>) {
 	return (
 		<th
-			data-slot="table-head"
 			className={cn(
-				'text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
-				className
+				'h-10 px-2 text-left align-middle font-medium whitespace-nowrap bg-stone-100',
+				className,
 			)}
 			{...props}
 		/>
@@ -81,15 +84,27 @@ function TableHead({ className, ...props }: React.ComponentProps<'th'>) {
 function TableCell({ className, ...props }: React.ComponentProps<'td'>) {
 	return (
 		<td
-			data-slot="table-cell"
+			className={cn('p-2 align-middle whitespace-nowrap', className)}
+			{...props}
+		/>
+	);
+}
+
+/* ---------------- Footer ---------------- */
+
+function TableFooter({ className, ...props }: React.ComponentProps<'tfoot'>) {
+	return (
+		<tfoot
 			className={cn(
-				'p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
-				className
+				'bg-muted/50 border-t font-medium [&>tr]:last:border-b-0',
+				className,
 			)}
 			{...props}
 		/>
 	);
 }
+
+/* ---------------- Caption ---------------- */
 
 function TableCaption({
 	className,
@@ -97,7 +112,6 @@ function TableCaption({
 }: React.ComponentProps<'caption'>) {
 	return (
 		<caption
-			data-slot="table-caption"
 			className={cn('text-muted-foreground mt-4 text-sm', className)}
 			{...props}
 		/>

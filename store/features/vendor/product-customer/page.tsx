@@ -2,10 +2,8 @@
 
 import { Container1, Loader8 } from '@/components/dashboard';
 import { Pagination1 } from '@/components/dashboard/pagination';
-import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
-import { SlidersHorizontal } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { useVendorRegisterCustomerQuery } from './api-slice';
@@ -38,29 +36,10 @@ export function VendorRegisterCustomerPage() {
 				<>
 					<div className="pb-2  flex items-center justify-between">
 						<CardTitle>Register Customers</CardTitle>
-						<Button
-							variant="outline"
-							size="icon"
-							onClick={() => setToggleFilter((e) => !e)}
-						>
-							<SlidersHorizontal className="h-4 w-4" />
-						</Button>
 					</div>
 				</>
 			}
 		>
-			{/* {toggleFilter && (
-				<VendorProductStatistics setStatusFilter={setStatusFilter} />
-			)} */}
-
-			{/* {toggleFilter && (
-				<VendorProductOrderFilter
-					searchTerm={searchTerm}
-					setSearchTerm={setSearchTerm}
-					statusFilter={statusFilter}
-					setStatusFilter={setStatusFilter}
-				/>
-			)} */}
 			{data?.message && (
 				<>
 					<div className="relative overflow-hidden">

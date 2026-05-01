@@ -1,6 +1,8 @@
-import { DbHeader } from '@/components/dashboard';
+import { DbHeader, Loader9 } from '@/components/dashboard';
 import { SessionProvider } from '@/provider';
-import CartViewPageClient from './page.client';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page.client'));
+
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/dashboard' },
 	{ name: 'Cart' },
@@ -13,9 +15,15 @@ export default async function Page({
 }) {
 	const { tenant_id, id } = await params;
 	return (
-		<SessionProvider>
-			<DbHeader breadcrumb={breadcrumbItems} />
-			<CartViewPageClient cartId={id} />
-		</SessionProvider>
+		<Suspense fallback={<Loader9 />}>
+			<SessionProvider>
+				<DbHeader breadcrumb={breadcrumbItems} />
+				<PageClient cartId={id} />
+			</SessionProvider>
+		</Suspense>
 	);
 }
+
+export const metadata = {
+	title: 'Cart',
+};

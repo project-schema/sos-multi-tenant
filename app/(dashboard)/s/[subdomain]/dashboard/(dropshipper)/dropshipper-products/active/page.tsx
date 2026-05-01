@@ -1,17 +1,15 @@
-import { DbHeader } from '@/components/dashboard';
-import { SessionProvider } from '@/provider';
-import DropshipperProductActivePage from '@/store/features/dropshipper/product/dropshipper-product-active-page';
-
-const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/dashboard' },
-	{ name: 'Product' },
-];
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
 
 export default function Page() {
 	return (
-		<SessionProvider>
-			<DbHeader breadcrumb={breadcrumbItems} />
-			<DropshipperProductActivePage status="active" />
-		</SessionProvider>
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
 	);
 }
+
+export const metadata = {
+	title: 'Active Dropshipper Product',
+};

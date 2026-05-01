@@ -1,36 +1,19 @@
-import { DbHeader } from '@/components/dashboard';
-import { getApiData } from '@/lib';
-import { SessionProvider } from '@/provider';
-import { iAdminService } from '@/store/features/admin/service';
-import { VendorServicePurchasePay } from '@/store/features/vendor/services-purchase/service-pay';
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-export const metadata: Metadata = {
-	title: 'Service Payment - SOS',
-	description: 'Service Payment - SOS Management',
-};
-const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/dashboard' },
-	{ name: 'Services', path: '/services' },
-	{ name: 'Purchase' },
-];
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
+
 export default async function Page({
 	params,
 }: {
 	params: Promise<{ id: string }>;
 }) {
-	const { id } = await params;
-	const [service] = await Promise.all([
-		getApiData<iAdminService>(`/services-view/${id}`),
-	]);
-	if (!service) {
-		return notFound();
-	}
-
 	return (
-		<SessionProvider>
-			<DbHeader breadcrumb={breadcrumbItems} />
-			<VendorServicePurchasePay service={service} />
-		</SessionProvider>
+		<Suspense fallback={<Loader9 />}>
+			<PageClient params={params} />
+		</Suspense>
 	);
 }
+
+export const metadata = {
+	title: 'Purchase Pay',
+};

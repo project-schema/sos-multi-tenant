@@ -64,6 +64,10 @@ export async function getApiDataWithSubdomain<T = any>(
 			? `https://${subdomain}.${apiDomain}/api${url}`
 			: `http://${subdomain}.localhost:8000/api${url}`;
 
+		/*
+ 			LOCALHOST MODE SUBDOMAIN HOME PAGE NEVER WORK BECAUSE IT'S NOT A REAL DOMAIN
+ 			BUT LIVE WILL BE WORK
+		*/
 		const res = await fetch(apiUrl, {
 			next: { revalidate: 45 },
 			headers: {
@@ -81,6 +85,7 @@ export async function getApiDataWithSubdomain<T = any>(
 
 		return (await res.json()) as T;
 	} catch (error: any) {
+		console.log(error);
 		console.error('API Error:', {
 			message: error?.message || 'Unexpected API Error',
 			status: error?.status,

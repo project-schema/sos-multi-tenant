@@ -1,29 +1,15 @@
-import { DbHeader } from '@/components/dashboard';
-import { getApiData } from '@/lib';
-import { SessionProvider } from '@/provider';
-import { VendorRegisterCustomerPage } from '@/store/features/vendor/product-customer';
-import { iSubscriptionsType } from '@/types';
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/dashboard' },
-	{ name: 'Register Customers' },
-];
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
 
-export const metadata: Metadata = {
-	title: 'Customers - SOS',
-	description: 'Customers - SOS Management',
-};
-export default async function Page() {
-	const subscriptions = await getApiData<iSubscriptionsType>('/subscriptions');
-
-	if (subscriptions?.status !== 200) {
-		return notFound();
-	}
+export default function Page() {
 	return (
-		<SessionProvider>
-			<DbHeader breadcrumb={breadcrumbItems} />
-			<VendorRegisterCustomerPage />
-		</SessionProvider>
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
 	);
 }
+
+export const metadata = {
+	title: 'Customers',
+};

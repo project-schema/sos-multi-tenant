@@ -28,7 +28,10 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-	title: 'SOS',
+	title: {
+		template: `%s | SOS`,
+		default: 'SOS',
+	},
 	description: 'SOS Management',
 };
 

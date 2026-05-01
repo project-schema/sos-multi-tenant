@@ -1,6 +1,5 @@
 import { DbHeader } from '@/components/dashboard';
 import { UserHistory } from '@/store/features';
-import React from 'react';
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/user' },
 	{ name: 'History' },

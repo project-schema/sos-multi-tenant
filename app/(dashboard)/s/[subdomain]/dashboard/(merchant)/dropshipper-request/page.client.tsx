@@ -5,6 +5,7 @@ import { Pagination1 } from '@/components/dashboard/pagination';
 import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
+import { SessionProvider } from '@/provider';
 import {
 	DropshipperProductFilter,
 	DropshipperProductTable,
@@ -32,7 +33,7 @@ export default function PageClient() {
 			status: statusFilter,
 			page: page,
 			search: debouncedSearchTerm,
-		}
+		},
 	);
 
 	useEffect(() => {
@@ -40,7 +41,7 @@ export default function PageClient() {
 	}, [statusFilter, debouncedSearchTerm]);
 
 	return (
-		<>
+		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
 			<Container1
 				isError={isError}
@@ -82,6 +83,6 @@ export default function PageClient() {
 					</>
 				)}
 			</Container1>
-		</>
+		</SessionProvider>
 	);
 }

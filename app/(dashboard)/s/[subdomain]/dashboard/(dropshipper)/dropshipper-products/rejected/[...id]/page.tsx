@@ -1,18 +1,15 @@
-import { DbHeader } from '@/components/dashboard';
-import { SessionProvider } from '@/provider';
-import PageClient from './page.client';
-
-const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/dashboard' },
-	{ name: 'Products', path: '/dropshipper-products' },
-	{ name: 'Details' },
-];
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page.client'));
 
 export default function Page() {
 	return (
-		<SessionProvider>
-			<DbHeader breadcrumb={breadcrumbItems} />
+		<Suspense fallback={<Loader9 />}>
 			<PageClient />
-		</SessionProvider>
+		</Suspense>
 	);
 }
+
+export const metadata = {
+	title: 'Rejected Dropshipper Product',
+};

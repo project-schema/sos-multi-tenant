@@ -91,8 +91,8 @@ export const apiSlice = createApi({
 	reducerPath: 'api',
 	baseQuery,
 	endpoints: () => ({}),
-	refetchOnReconnect: env.production ? false : true,
-	refetchOnMountOrArgChange: env.production ? false : true,
+	refetchOnReconnect: true,
+	refetchOnMountOrArgChange: true,
 	refetchOnFocus: env.production ? false : true,
 	keepUnusedDataFor: 50000,
 	tagTypes: [

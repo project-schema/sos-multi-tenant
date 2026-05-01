@@ -1,4 +1,4 @@
-import { DbHeader, Loader8 } from '@/components/dashboard';
+import { DbHeader, Loader9 } from '@/components/dashboard';
 import { SessionProvider } from '@/provider';
 import { Suspense } from 'react';
 import PageClient from './page.client';
@@ -10,11 +10,11 @@ const breadcrumbItems = [
 
 export default function Page() {
 	return (
-		<SessionProvider>
-			<DbHeader breadcrumb={breadcrumbItems} />
-			<Suspense fallback={<Loader8 />}>
+		<Suspense fallback={<Loader9 />}>
+			<SessionProvider>
+				<DbHeader breadcrumb={breadcrumbItems} />
 				<PageClient />
-			</Suspense>
-		</SessionProvider>
+			</SessionProvider>
+		</Suspense>
 	);
 }

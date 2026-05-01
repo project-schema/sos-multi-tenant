@@ -1,22 +1,15 @@
-import { DbHeader } from '@/components/dashboard';
-import { SessionProvider } from '@/provider';
-import { UserHistory } from '@/store/features/vendor/recharge/user-history';
-import { Metadata } from 'next';
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
 
-const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/dashboard' },
-	{ name: 'History' },
-];
 export default function Page() {
 	return (
-		<SessionProvider>
-			<DbHeader breadcrumb={breadcrumbItems} />
-			<UserHistory />
-		</SessionProvider>
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
 	);
 }
 
-export const metadata: Metadata = {
-	title: 'My Wallet | History | SOS',
-	description: 'SOS Management',
+export const metadata = {
+	title: 'History',
 };

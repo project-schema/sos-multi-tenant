@@ -1,24 +1,11 @@
-'use client';
-import { VendorProfileSettings } from '@/store/features/vendor/profile';
-import { MyShop } from '@/store/features/vendor/profile/my-shop';
-import { MyShopDropshipper } from '@/store/features/vendor/profile/my-shop-dorpshipper';
-import { VendorProfileNote } from '@/store/features/vendor/profile/vendor-note';
-import { useSession } from 'next-auth/react';
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
 
-import { useSearchParams } from 'next/navigation';
-
-export default function User() {
-	const { data: session } = useSession();
-	const searchParams = useSearchParams().get('tab');
-	const isDropshipper = session?.tenant_type === 'dropshipper';
-	switch (searchParams) {
-		case 'note':
-			return <VendorProfileNote />;
-
-		case 'my_shop':
-			return isDropshipper ? <MyShopDropshipper /> : <MyShop />;
-
-		default:
-			return <VendorProfileSettings />;
-	}
+export default function Page() {
+	return (
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
+	);
 }
