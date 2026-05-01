@@ -1,14 +1,15 @@
-import { DbHeader } from '@/components/dashboard';
-import { UserSupportPage } from '@/store/features/user/support';
-const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/dashboard' },
-	{ name: 'Support' },
-];
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
+
 export default function Page() {
 	return (
-		<>
-			<DbHeader breadcrumb={breadcrumbItems} />
-			<UserSupportPage />
-		</>
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
 	);
 }
+
+export const metadata = {
+	title: 'Support',
+};

@@ -1,19 +1,15 @@
-'use client';
-import { DbHeader } from '@/components/dashboard';
-import { UserServicePage } from '@/store/features/user/service';
-
-const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/user' },
-	{ name: 'Order' },
-];
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
 
 export default function Page() {
 	return (
-		<>
-			<DbHeader breadcrumb={breadcrumbItems} />
-			<div>
-				<UserServicePage />
-			</div>
-		</>
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
 	);
 }
+
+export const metadata = {
+	title: 'Order',
+};

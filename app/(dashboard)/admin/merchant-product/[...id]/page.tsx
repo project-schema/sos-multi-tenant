@@ -1,36 +1,15 @@
-'use client';
-import { Container1, DbHeader } from '@/components/dashboard';
-import { ProductView } from '@/components/dashboard/product/product-preview';
-import { CardTitle } from '@/components/ui/card';
-import { useAdminGetSingleProductQuery } from '@/store/features/admin/merchant-product';
-import { useParams } from 'next/navigation';
-
-const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/admin' },
-	{ name: 'Merchant Products' },
-];
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
 
 export default function Page() {
-	const params = useParams();
-	const id = params.id as string[];
-	const tenant_id = id?.[0] || '';
-	const product_id = id?.[1] || '';
-
-	const { data, isLoading, isError } = useAdminGetSingleProductQuery(
-		{ id: product_id || '', tenant_id: tenant_id || '' },
-		{ skip: !product_id || !tenant_id },
-	);
-
 	return (
-		<>
-			<DbHeader breadcrumb={breadcrumbItems} />
-			<Container1
-				isError={isError}
-				isLoading={isLoading}
-				header={<CardTitle>Merchant Products</CardTitle>}
-			>
-				{data?.product && <ProductView product={data.product} />}
-			</Container1>
-		</>
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
 	);
 }
+
+export const metadata = {
+	title: 'Merchant Product Detail',
+};

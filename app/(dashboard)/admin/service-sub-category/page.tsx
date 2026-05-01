@@ -1,33 +1,15 @@
-import { Container1, DbHeader } from '@/components/dashboard';
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
-import {
-	ServiceSubCategoryCreate,
-	ServiceSubCategoryTable,
-} from '@/store/features/admin/service-sub-category';
-
-const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/admin' },
-	{ name: 'Service Sub Category' },
-];
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
 
 export default function Page() {
 	return (
-		<>
-			<DbHeader breadcrumb={breadcrumbItems} />
-			<Container1 header={<CardTitle>Service Sub Category</CardTitle>}>
-				<div className="grid lg:grid-cols-3 gap-4">
-					<Card className="lg:col-span-1">
-						<CardContent>
-							<ServiceSubCategoryCreate />
-						</CardContent>
-					</Card>
-					<Card className="lg:col-span-2 overflow-hidden">
-						<CardContent>
-							<ServiceSubCategoryTable />
-						</CardContent>
-					</Card>
-				</div>
-			</Container1>
-		</>
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
 	);
 }
+
+export const metadata = {
+	title: 'Service Sub Category',
+};

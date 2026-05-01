@@ -1,22 +1,15 @@
-'use client';
-import { Container1, DbHeader } from '@/components/dashboard';
-import { CardTitle } from '@/components/ui/card';
-import { VendorSupportView } from '@/store/features/vendor/support/vendor-support-view';
-import { useParams } from 'next/navigation';
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
 
 export default function Page() {
-	const { id } = useParams();
-	const breadcrumbItems = [
-		{ name: 'Dashboard', path: '/dashboard' },
-		{ name: 'Support', path: '/support' },
-		{ name: 'View' },
-	];
 	return (
-		<>
-			<DbHeader breadcrumb={breadcrumbItems} />
-			<Container1 header={<CardTitle>Support</CardTitle>}>
-				<VendorSupportView />
-			</Container1>
-		</>
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
 	);
 }
+
+export const metadata = {
+	title: 'Support View',
+};

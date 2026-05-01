@@ -15,8 +15,8 @@ function Table({ className, ...props }: React.ComponentProps<'table'>) {
 				hidden: {},
 				show: {
 					transition: {
-						staggerChildren: 0.08,
-						delayChildren: 0.1,
+						staggerChildren: 0.05,
+						delayChildren: 0.08,
 					},
 				},
 			}}
@@ -38,7 +38,7 @@ function TableHeader({ className, ...props }: React.ComponentProps<'thead'>) {
 	);
 }
 
-/* ---------------- Body (NO motion এখানে) ---------------- */
+/* ---------------- Body   ---------------- */
 
 function TableBody({ className, ...props }: React.ComponentProps<'tbody'>) {
 	return (
@@ -49,15 +49,15 @@ function TableBody({ className, ...props }: React.ComponentProps<'tbody'>) {
 /* ---------------- Row Animation ---------------- */
 
 const rowVariants = {
-	hidden: { opacity: 0, y: 10 },
-	show: { opacity: 1, y: 0 },
+	hidden: { opacity: 0, y: 10, filter: 'blur(3px)' },
+	show: { opacity: 1, y: 0, filter: 'blur(0px)' },
 };
 
 function TableRow({ className, ...props }: HTMLMotionProps<'tr'>) {
 	return (
 		<motion.tr
 			variants={rowVariants}
-			transition={{ duration: 0.25, ease: 'easeOut' }}
+			transition={{ duration: 0.15, ease: 'easeOut' }}
 			className={cn(
 				'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
 				className,

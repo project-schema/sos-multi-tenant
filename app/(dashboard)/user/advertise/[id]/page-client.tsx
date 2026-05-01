@@ -19,8 +19,8 @@ import {
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/dashboard' },
-	{ name: 'Advertise', path: '/advertise' },
+	{ name: 'Dashboard', path: '/user' },
+	{ name: 'Advertise', path: '/user/advertise' },
 	{ name: 'Advertise Details' },
 ];
 const tabs = [

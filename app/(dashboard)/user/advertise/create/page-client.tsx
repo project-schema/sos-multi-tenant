@@ -6,8 +6,8 @@ import { useUserAdvertiseCreateMutation } from '@/store/features/user/advertise'
 import { VendorAdvertiseCreate } from '@/store/features/vendor/advertise';
 
 const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/dashboard' },
-	{ name: 'Advertise', path: '/advertise' },
+	{ name: 'Dashboard', path: '/user' },
+	{ name: 'Advertise', path: '/user/advertise' },
 	{ name: 'Create Advertise' },
 ];
 export default function PageClient() {

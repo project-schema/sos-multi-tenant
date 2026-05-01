@@ -1,17 +1,15 @@
-import { DbHeader } from '@/components/dashboard';
-import { rootDomain } from '@/lib/utils';
-import type { Metadata } from 'next';
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
 
-export const metadata: Metadata = {
-	title: `Admin Dashboard | ${rootDomain}`,
-	description: `Manage subdomains for ${rootDomain}`,
-};
-
-const breadcrumbItems = [{ name: 'Dashboard' }];
-export default async function AdminPage() {
+export default function Page() {
 	return (
-		<div>
-			<DbHeader breadcrumb={breadcrumbItems} />
-		</div>
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
 	);
 }
+
+export const metadata = {
+	title: 'Dashboard',
+};

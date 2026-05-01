@@ -5,7 +5,7 @@ import { SessionProvider } from '@/provider';
 import { UserAdvertisePage } from '@/store/features/user/advertise';
 
 const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/dashboard' },
+	{ name: 'Dashboard', path: '/user' },
 	{ name: 'Advertise' },
 ];
 

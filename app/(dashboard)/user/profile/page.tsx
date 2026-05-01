@@ -1,21 +1,15 @@
-'use client';
-import { UserProfile, UserSettings } from '@/store/features/user-profile';
-import { UserPassword } from '@/store/features/user-profile/user-password';
-import { useSearchParams } from 'next/navigation';
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
 
-export default function ProfilePage() {
-	const searchParams = useSearchParams().get('tab');
-	switch (searchParams) {
-		case 'profile':
-			return <UserProfile />;
-
-		case 'password':
-			return <UserPassword />;
-
-		case 'settings':
-			return <UserSettings />;
-
-		default:
-			return <UserProfile />;
-	}
+export default function Page() {
+	return (
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
+	);
 }
+
+export const metadata = {
+	title: 'Profile',
+};

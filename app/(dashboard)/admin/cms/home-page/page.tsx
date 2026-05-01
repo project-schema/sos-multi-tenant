@@ -1,59 +1,15 @@
-'use client';
-
-import {
-	MainWebBanner,
-	MainWebFeature1,
-	MainWebFeature10,
-	MainWebFeature2,
-	MainWebFeature3,
-	MainWebFeature4,
-	MainWebFeature5,
-	MainWebFeature6,
-	MainWebFeature7,
-	MainWebFeature8,
-	MainWebFeature9,
-} from '@/store/features/admin/cms/home-content';
-import { useSearchParams } from 'next/navigation';
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
 
 export default function Page() {
-	const searchParams = useSearchParams();
-	const tab = searchParams.get('tab') || 'banner';
-
-	switch (tab) {
-		case 'banner':
-			return <MainWebBanner />;
-
-		case 'feature1':
-			return <MainWebFeature1 />;
-
-		case 'feature2':
-			return <MainWebFeature2 />;
-
-		case 'feature3':
-			return <MainWebFeature3 />;
-
-		case 'feature4':
-			return <MainWebFeature4 />;
-
-		case 'feature5':
-			return <MainWebFeature5 />;
-
-		case 'feature6':
-			return <MainWebFeature6 />;
-
-		case 'feature7':
-			return <MainWebFeature7 />;
-
-		case 'feature8':
-			return <MainWebFeature8 />;
-
-		case 'feature9':
-			return <MainWebFeature9 />;
-
-		case 'feature10':
-			return <MainWebFeature10 />;
-
-		default:
-			return <div>not content</div>;
-	}
+	return (
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
+	);
 }
+
+export const metadata = {
+	title: 'Home Page',
+};

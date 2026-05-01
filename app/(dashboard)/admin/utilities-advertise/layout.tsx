@@ -1,5 +1,3 @@
-'use client';
-
 import { DbHeader } from '@/components/dashboard';
 import { Suspense } from 'react';
 import { SuspensePage } from './suspense-page';
@@ -19,3 +17,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 		</>
 	);
 }
+export const metadata = {
+	title: 'Utilities Advertise',
+};

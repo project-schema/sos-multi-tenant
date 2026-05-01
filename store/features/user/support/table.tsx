@@ -19,7 +19,7 @@ import {
 import { dateFormat, tableSrCount, timeFormat } from '@/lib';
 
 import { iPagination } from '@/types';
-import { Ellipsis, ExternalLink, Pencil } from 'lucide-react';
+import { Ellipsis, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { iUserSupport } from './type';
 
@@ -96,21 +96,21 @@ export function UserSupportTable({
 										<DropdownMenuItem>
 											<Link
 												className="flex items-center gap-2 w-full"
-												href={`/support/${item.id}`}
+												href={`/user/support/${item.id}`}
 											>
 												<ExternalLink className="size-4" />
 												<span>View Support</span>
 											</Link>
 										</DropdownMenuItem>
-										<DropdownMenuItem>
+										{/* <DropdownMenuItem>
 											<Link
 												className="flex items-center gap-2 w-full"
-												href={`/support/${item.id}/edit`}
+												href={`/user/support/${item.id}/edit`}
 											>
 												<Pencil className="size-4" />
 												<span>Edit Support</span>
 											</Link>
-										</DropdownMenuItem>
+										</DropdownMenuItem> */}
 									</DropdownMenuContent>
 								</DropdownMenu>
 							</TableCell>

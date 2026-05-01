@@ -1,32 +1,15 @@
-import { Container1, DbHeader } from '@/components/dashboard';
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
-import { meta } from '@/lib';
-import { HomeContentCreate } from '@/store/features/admin/cms/home-content';
-import { Metadata } from 'next';
-
-const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/admin' },
-	{ name: 'Home Content' },
-];
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
 
 export default function Page() {
 	return (
-		<>
-			<DbHeader breadcrumb={breadcrumbItems} />
-			<Container1 header={<CardTitle>Home Content</CardTitle>}>
-				<Card>
-					<CardContent>
-						<HomeContentCreate />
-					</CardContent>
-				</Card>
-			</Container1>
-		</>
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
 	);
 }
 
-export const metadata: Metadata = {
-	...meta({
-		title: 'Home Content - Update',
-		description: 'Home Content - Update',
-	}),
+export const metadata = {
+	title: 'Home Content',
 };

@@ -1,6 +1,6 @@
 'use client';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { cn, ErrorAlert, Motion } from '@/lib';
+import { cn, ErrorAlert, MotionView } from '@/lib';
 import { AnimatePresence, motion } from 'motion/react';
 import {
 	Loader1,
@@ -58,12 +58,13 @@ export function Container1({
 			>
 				<Card
 					className={cn(
-						'gap-0 py-3 lg:py-6 print:border-none print:shadow-none'
+						'gap-0 py-3 lg:py-6 print:border-none print:shadow-none',
 					)}
 				>
 					{header && (
 						<CardHeader className={cn('pb-0 print:hidden')}>
-							<Motion>{header}</Motion>
+							<MotionView y={10}>{header}</MotionView>
+							{/* <Motion>{header}</Motion> */}
 						</CardHeader>
 					)}
 					<CardContent>
@@ -74,7 +75,9 @@ export function Container1({
 								<LoaderComponent key={i} />
 							))}
 
-						{!isError && !isLoading && <Motion>{children}</Motion>}
+						{!isError && !isLoading && (
+							<MotionView y={10}> {children}</MotionView>
+						)}
 					</CardContent>
 				</Card>
 			</motion.div>

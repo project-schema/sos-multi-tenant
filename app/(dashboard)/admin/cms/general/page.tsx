@@ -1,32 +1,15 @@
-import { Container1, DbHeader } from '@/components/dashboard';
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
-import { meta } from '@/lib';
-import { GeneralContentCreate } from '@/store/features/admin/cms/general-content';
-import { Metadata } from 'next';
-
-const breadcrumbItems = [
-	{ name: 'Dashboard', path: '/admin' },
-	{ name: 'General Content' },
-];
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
 
 export default function Page() {
 	return (
-		<>
-			<DbHeader breadcrumb={breadcrumbItems} />
-			<Container1 header={<CardTitle>General Content</CardTitle>}>
-				<Card>
-					<CardContent>
-						<GeneralContentCreate />
-					</CardContent>
-				</Card>
-			</Container1>
-		</>
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
 	);
 }
 
-export const metadata: Metadata = {
-	...meta({
-		title: 'General Content - Update',
-		description: 'General Content - Update',
-	}),
+export const metadata = {
+	title: 'General',
 };

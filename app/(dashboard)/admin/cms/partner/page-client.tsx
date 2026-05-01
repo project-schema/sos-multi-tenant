@@ -1,0 +1,35 @@
+'use client';
+
+import { Container1, DbHeader } from '@/components/dashboard';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import {
+	PartnerCreate,
+	PartnerTable,
+} from '@/store/features/admin/cms/partner';
+
+const breadcrumbItems = [
+	{ name: 'Dashboard', path: '/admin' },
+	{ name: 'All Partner' },
+];
+
+export default function Page() {
+	return (
+		<>
+			<DbHeader breadcrumb={breadcrumbItems} />
+			<Container1 header={<CardTitle>All Partner</CardTitle>}>
+				<div className="grid lg:grid-cols-3 gap-4">
+					<Card className="lg:col-span-1">
+						<CardContent>
+							<PartnerCreate />
+						</CardContent>
+					</Card>
+					<Card className="lg:col-span-2 overflow-hidden">
+						<CardContent>
+							<PartnerTable />
+						</CardContent>
+					</Card>
+				</div>
+			</Container1>
+		</>
+	);
+}
