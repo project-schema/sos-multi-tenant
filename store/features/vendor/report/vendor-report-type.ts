@@ -140,6 +140,14 @@ export type iVendorDailySalesResponse = {
 			id: number;
 			unit_name: string;
 		};
+		pos_sale: {
+			id: number;
+			due_amount: string;
+			paid_amount: string;
+			total_price: string;
+			payment_status: string;
+			barcode: string;
+		};
 	}>;
 };
 

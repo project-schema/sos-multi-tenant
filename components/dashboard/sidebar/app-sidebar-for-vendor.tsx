@@ -22,7 +22,7 @@ export function AppSidebarForVendor({
 }: React.ComponentProps<typeof Sidebar>) {
 	const [searchQuery, setSearchQuery] = React.useState('');
 	const { state } = useSidebar();
-
+	const [openItem, setOpenItem] = React.useState<string | null>(null);
 	const filteredProducts = filterItems(vendorSidebarData.products, searchQuery);
 	const filteredPos = filterItems(vendorSidebarData.pos, searchQuery);
 	const filteredSettings = filterItems(vendorSidebarData.settings, searchQuery);
@@ -71,21 +71,56 @@ export function AppSidebarForVendor({
 					<AppRoot />
 				</MotionView>
 				<MotionView y={10}>
-					<NavMain items={filteredProducts} groupLabel="Products" />
+					<NavMain
+						items={filteredProducts}
+						groupLabel="Products"
+						openItem={openItem}
+						setOpenItem={setOpenItem}
+					/>
 				</MotionView>
 				<MotionView y={10}>
-					<NavMain items={filteredPos} groupLabel="POS & Purchase" />
+					<NavMain
+						items={filteredPos}
+						groupLabel="POS & Purchase"
+						openItem={openItem}
+						setOpenItem={setOpenItem}
+					/>
 				</MotionView>
-				{/* <NavMain items={filteredServices} groupLabel="Services & Advertise" /> */}
-				{/* <NavMain items={filteredSupport} groupLabel="Support" /> */}
+				<NavMain
+					items={filteredServices}
+					groupLabel="Services & Advertise"
+					openItem={openItem}
+					setOpenItem={setOpenItem}
+				/>
+				<NavMain
+					items={filteredSupport}
+					groupLabel="Support"
+					openItem={openItem}
+					setOpenItem={setOpenItem}
+				/>
 				<MotionView y={10}>
-					<NavMain items={filteredReports} groupLabel="Reports" />
+					<NavMain
+						items={filteredReports}
+						groupLabel="Reports"
+						openItem={openItem}
+						setOpenItem={setOpenItem}
+					/>
 				</MotionView>
 				<MotionView y={10}>
-					<NavMain items={filteredCms} groupLabel="CMS" />
+					<NavMain
+						items={filteredCms}
+						groupLabel="CMS"
+						openItem={openItem}
+						setOpenItem={setOpenItem}
+					/>
 				</MotionView>
 				<MotionView y={10}>
-					<NavMain items={filteredSettings} groupLabel="Settings" />
+					<NavMain
+						items={filteredSettings}
+						groupLabel="Settings"
+						openItem={openItem}
+						setOpenItem={setOpenItem}
+					/>
 				</MotionView>
 			</SidebarContent>
 		</Sidebar>

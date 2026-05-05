@@ -54,7 +54,7 @@ export function VendorWarehouseTable() {
 						{warehouses?.warehouses?.length === 0 ? (
 							<TableRow>
 								<TableCell
-									colSpan={6}
+									colSpan={5}
 									className="text-center py-8 text-muted-foreground"
 								>
 									No data found matching your criteria

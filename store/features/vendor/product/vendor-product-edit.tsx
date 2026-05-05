@@ -150,6 +150,8 @@ export const VendorProductEdit = ({
 	const isAffiliate = form.watch('is_affiliate');
 	const preOrder = form.watch('pre_order');
 
+	console.log({ preOrder, isAffiliate });
+
 	const categories = data?.data?.category ?? [];
 	const subcategories =
 		categories.find((c) => c?.id?.toString() === categoryId)?.subcategory ?? [];

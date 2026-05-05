@@ -1,33 +1,15 @@
-'use client';
-import {
-	AdminUserNote,
-	AdminUserPayments,
-	AdminUserService,
-	AdminUserServiceAdvertisement,
-	AdminUserSubscription,
-} from '@/store/features/admin/user';
-import { AdminUserProfileTab } from '@/store/features/admin/user/admin.user.profile.tab';
-import { useSearchParams } from 'next/navigation';
+import { Loader9 } from '@/components/dashboard';
+import { lazy, Suspense } from 'react';
+const PageClient = lazy(() => import('./page-client'));
 
-export default function User() {
-	const searchParams = useSearchParams().get('tab');
-	switch (searchParams) {
-		case 'payments':
-			return <AdminUserPayments />;
-
-		case 'note':
-			return <AdminUserNote />;
-
-		case 'subscriptions':
-			return <AdminUserSubscription />;
-
-		case 'advertisement':
-			return <AdminUserServiceAdvertisement />;
-
-		case 'service':
-			return <AdminUserService />;
-
-		default:
-			return <AdminUserProfileTab />;
-	}
+export default function Page() {
+	return (
+		<Suspense fallback={<Loader9 />}>
+			<PageClient />
+		</Suspense>
+	);
 }
+
+export const metadata = {
+	title: 'Users View',
+};

@@ -9,12 +9,14 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 import { alertConfirm } from '@/lib';
+import { useRouter } from 'next/navigation';
 import { useAdminDeleteAdvertiseMutation } from './admin.advertise.api.slice';
 import { iAdminAdvertise } from './admin.advertise.type';
 
 export function AdminAdvertiseDelete({ data }: { data: iAdminAdvertise }) {
 	const [mutation, { isLoading }] = useAdminDeleteAdvertiseMutation();
 	const [clicked, setClicked] = useState(false);
+	const router = useRouter();
 
 	const handleClick = async () => {
 		if (clicked || isLoading) return;
@@ -28,6 +30,7 @@ export function AdminAdvertiseDelete({ data }: { data: iAdminAdvertise }) {
 						id: data.id,
 					}).unwrap();
 					if (res.status === 200) {
+						router.push('/admin/advertise');
 						toast.success('Deleted successfully');
 					}
 				} catch (err) {

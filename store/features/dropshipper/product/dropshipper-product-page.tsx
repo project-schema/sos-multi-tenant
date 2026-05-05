@@ -107,8 +107,8 @@ export default function DropShipperProductPage() {
 
 	return (
 		<Container1
-			isError={false}
-			isLoading={false}
+			isError={isError}
+			isLoading={isLoading}
 			header={
 				<>
 					<div className="pb-2 lg:pb-3 flex items-center justify-between">

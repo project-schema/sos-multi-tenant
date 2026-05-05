@@ -247,6 +247,7 @@ export type iRequestDropProduct = {
 		selling_price: string;
 		discount_price: string;
 		image: string;
+		reason: null | string;
 		product_image: {
 			id: number;
 			product_id: number;

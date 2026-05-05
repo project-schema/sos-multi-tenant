@@ -47,7 +47,7 @@ const api = apiSlice.injectEndpoints({
 			providesTags: ['AdminSupport'],
 		}),
 
-		// new withdraw
+		// new support
 		adminNewSupport: builder.mutation<{ status: 200; message: string }, any>({
 			query: (data) => {
 				const body = new FormData();
@@ -63,8 +63,28 @@ const api = apiSlice.injectEndpoints({
 			},
 			invalidatesTags: ['AdminSupport'],
 		}),
+		// replay
+		AdminSupportReplay: builder.mutation<{ status: 200; message: string }, any>(
+			{
+				query: (data) => {
+					const body = new FormData();
+					Object.entries(data).forEach(([key, value]) => {
+						if (value) {
+							body.append(key, value as string);
+						}
+					});
+					return {
+						url: `/admin/supportbox-replay`,
+						method: 'POST',
+						body,
+						formData: true,
+					};
+				},
+				invalidatesTags: ['AdminSupport'],
+			},
+		),
 
-		// new withdraw
+		// cancel
 		adminSupportCancel: builder.mutation<{ status: 200; message: string }, any>(
 			{
 				query: (data) => {
@@ -79,7 +99,7 @@ const api = apiSlice.injectEndpoints({
 					};
 				},
 				invalidatesTags: ['AdminSupport'],
-			}
+			},
 		),
 
 		// delete
@@ -90,13 +110,13 @@ const api = apiSlice.injectEndpoints({
 					method: 'DELETE',
 				}),
 				invalidatesTags: ['AdminSupport'],
-			}
+			},
 		),
 		// close
 		adminSupportClose: builder.mutation<{ status: 200; message: string }, any>({
 			query: (data) => ({
 				url: `/admin/close-support-box/${data.id}`,
-				method: 'DELETE',
+				method: 'POST',
 			}),
 			invalidatesTags: ['AdminSupport'],
 		}),
@@ -122,6 +142,7 @@ const api = apiSlice.injectEndpoints({
 				url: `/admin/supportbox/${id}`,
 				method: 'GET',
 			}),
+			providesTags: ['AdminSupport'],
 		}),
 	}),
 });
@@ -134,4 +155,5 @@ export const {
 	useAdminSupportAssignMutation,
 	useAdminSupportCancelMutation,
 	useAdminSupportViewQuery,
+	useAdminSupportReplayMutation,
 } = api;

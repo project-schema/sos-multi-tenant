@@ -61,6 +61,10 @@ export type iAdminSupportView = {
 			deleted_at: null;
 			created_at: string;
 			updated_at: string;
-		}
+			file: { name: string };
+			user: {
+				role_as: string;
+			};
+		},
 	];
 };

@@ -21,14 +21,7 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 import { useDebounce } from '@/hooks/use-debounce';
-import {
-	badgeFormat,
-	dateFormat,
-	env,
-	sign,
-	tableSrCount,
-	textCount,
-} from '@/lib';
+import { badgeFormat, dateFormat, env, tableSrCount, textCount } from '@/lib';
 import { Ellipsis, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -100,10 +93,9 @@ export default function DropshipperProductRejectPage() {
 											Product Name{' '}
 										</TableHead>
 										<TableHead className="bg-stone-100">
-											Original Price{' '}
+											Reject Reason
 										</TableHead>
-										<TableHead className="bg-stone-100">Sale Price </TableHead>
-										<TableHead className="bg-stone-100">Offer </TableHead>
+
 										<TableHead className="bg-stone-100">Date </TableHead>
 										<TableHead className="bg-stone-100">Status </TableHead>
 										<TableHead className="bg-stone-100">Action </TableHead>
@@ -113,7 +105,7 @@ export default function DropshipperProductRejectPage() {
 									{data?.products?.data?.length === 0 ? (
 										<TableRow>
 											<TableCell
-												colSpan={11}
+												colSpan={8}
 												className="text-center py-8 text-muted-foreground"
 											>
 												No items found matching your criteria
@@ -152,24 +144,9 @@ export default function DropshipperProductRejectPage() {
 														{textCount(item?.product?.name, 15)}
 													</Link>
 												</TableCell>
-												<TableCell className="py-2">
-													{item?.product?.selling_price ? (
-														<Badge variant="info">
-															{item?.product?.selling_price} {sign.tk}
-														</Badge>
-													) : (
-														'N/A'
-													)}
-												</TableCell>
-												<TableCell className="py-2">
-													<Badge variant="outline">
-														{item?.product?.selling_price} {sign.tk}
-													</Badge>
-												</TableCell>
-												<TableCell className="py-2">
-													<Badge variant="success">
-														{item?.product?.selling_price || '00'} {sign.tk}
-													</Badge>
+
+												<TableCell className="py-2 whitespace-pre">
+													{item?.reason}
 												</TableCell>
 
 												<TableCell className="py-2">
@@ -183,8 +160,8 @@ export default function DropshipperProductRejectPage() {
 														{item.status === 1
 															? 'Active'
 															: item.status === 2
-															? 'Pending'
-															: 'Rejected'}
+																? 'Pending'
+																: 'Rejected'}
 													</Badge>
 												</TableCell>
 												<TableCell className="py-2">

@@ -133,6 +133,8 @@ export function VendorDailySalesReportPage() {
 										<TableHead className="bg-stone-100">Quantity</TableHead>
 										<TableHead className="bg-stone-100">Rate</TableHead>
 										<TableHead className="bg-stone-100">Sub Total</TableHead>
+										<TableHead className="bg-stone-100">Paid</TableHead>
+										<TableHead className="bg-stone-100">Due</TableHead>
 										<TableHead className="bg-stone-100">Sale Date</TableHead>
 										<TableHead className="bg-stone-100">Status</TableHead>
 									</TableRow>
@@ -141,7 +143,7 @@ export function VendorDailySalesReportPage() {
 									{data.variantSalesReport.data.length === 0 ? (
 										<TableRow>
 											<TableCell
-												colSpan={10}
+												colSpan={11}
 												className="text-center py-8 text-muted-foreground"
 											>
 												No items found matching your criteria
@@ -187,6 +189,16 @@ export function VendorDailySalesReportPage() {
 												<TableCell className="py-2">
 													<Badge className="capitalize" variant="default">
 														{item.sub_total} {sign.tk}
+													</Badge>
+												</TableCell>
+												<TableCell className="py-2">
+													<Badge className="capitalize" variant="success">
+														{item?.pos_sale?.paid_amount || '0'} {sign.tk}
+													</Badge>
+												</TableCell>
+												<TableCell className="py-2">
+													<Badge className="capitalize" variant="destructive">
+														{item?.pos_sale?.due_amount || '0'} {sign.tk}
 													</Badge>
 												</TableCell>
 												<TableCell className="py-2">

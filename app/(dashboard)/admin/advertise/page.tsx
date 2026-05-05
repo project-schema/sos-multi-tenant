@@ -1,3 +1,5 @@
+'use client';
+
 import { Loader9 } from '@/components/dashboard';
 import { lazy, Suspense } from 'react';
 const PageClient = lazy(() => import('./page-client'));
@@ -9,7 +11,3 @@ export default function Page() {
 		</Suspense>
 	);
 }
-
-export const metadata = {
-	title: 'Advertise',
-};

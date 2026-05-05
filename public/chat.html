@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Chat UI</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			*,
+			*::before,
+			*::after {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			:root {
+				--bg: #ffffff;
+				--sidebar-bg: #ffffff;
+				--border: #e5e7eb;
+				--muted: #6b7280;
+				--accent: #22c55e;
+				--accent-light: #dcfce7;
+				--text: #111827;
+				--text-sm: #374151;
+				--hover: #f9fafb;
+				--active: #f3f4f6;
+				--badge: #22c55e;
+				--bubble-bg: #ffffff;
+				--bubble-border: #e5e7eb;
+				--input-bg: #f9fafb;
+				--shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+				--radius: 12px;
+				--radius-sm: 8px;
+			}
+			body {
+				font-family: 'Geist', sans-serif;
+				background: #f1f5f9;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				min-height: 100vh;
+			}
+			.app {
+				width: 900px;
+				height: 600px;
+				background: var(--bg);
+				border-radius: 16px;
+				border: 1px solid var(--border);
+				box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+				display: flex;
+				overflow: hidden;
+			}
+
+			/* SIDEBAR */
+			.sidebar {
+				width: 280px;
+				border-right: 1px solid var(--border);
+				display: flex;
+				flex-direction: column;
+				background: var(--sidebar-bg);
+				flex-shrink: 0;
+			}
+			.sidebar-header {
+				padding: 20px 16px 12px;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+			.sidebar-header h2 {
+				font-size: 18px;
+				font-weight: 600;
+				color: var(--text);
+				letter-spacing: -0.3px;
+			}
+			.icon-btn {
+				width: 28px;
+				height: 28px;
+				border-radius: 6px;
+				border: 1px solid var(--border);
+				background: var(--bg);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				cursor: pointer;
+				color: var(--muted);
+				transition: background 0.15s;
+			}
+			.icon-btn:hover {
+				background: var(--hover);
+			}
+			.search-wrap {
+				padding: 0 12px 12px;
+				position: relative;
+			}
+			.search-wrap input {
+				width: 100%;
+				padding: 7px 12px 7px 32px;
+				border-radius: var(--radius-sm);
+				border: 1px solid var(--border);
+				background: var(--input-bg);
+				font-family: inherit;
+				font-size: 13px;
+				color: var(--text);
+				outline: none;
+			}
+			.search-wrap input::placeholder {
+				color: var(--muted);
+			}
+			.search-icon {
+				position: absolute;
+				left: 22px;
+				top: 50%;
+				transform: translateY(-50%);
+				color: var(--muted);
+				pointer-events: none;
+			}
+			.contacts {
+				flex: 1;
+				overflow-y: auto;
+			}
+			.contacts::-webkit-scrollbar {
+				width: 4px;
+			}
+			.contacts::-webkit-scrollbar-track {
+				background: transparent;
+			}
+			.contacts::-webkit-scrollbar-thumb {
+				background: var(--border);
+				border-radius: 4px;
+			}
+			.contact-item {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				padding: 10px 12px;
+				cursor: pointer;
+				transition: background 0.12s;
+				position: relative;
+			}
+			.contact-item:hover {
+				background: var(--hover);
+			}
+			.contact-item.active {
+				background: var(--active);
+			}
+			.avatar {
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				flex-shrink: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 13px;
+				font-weight: 600;
+				color: white;
+			}
+			.contact-info {
+				flex: 1;
+				min-width: 0;
+			}
+			.contact-row {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin-bottom: 2px;
+			}
+			.contact-name {
+				font-size: 13.5px;
+				font-weight: 500;
+				color: var(--text);
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				max-width: 140px;
+			}
+			.contact-time {
+				font-size: 11px;
+				color: var(--muted);
+				flex-shrink: 0;
+			}
+			.contact-preview {
+				font-size: 12px;
+				color: var(--muted);
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: flex;
+				align-items: center;
+				gap: 4px;
+			}
+			.check {
+				color: var(--muted);
+				font-size: 11px;
+			}
+			.check.green {
+				color: var(--accent);
+			}
+			.badge {
+				background: var(--badge);
+				color: white;
+				border-radius: 50%;
+				width: 18px;
+				height: 18px;
+				font-size: 10px;
+				font-weight: 600;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-shrink: 0;
+			}
+			.online-dot {
+				width: 10px;
+				height: 10px;
+				background: var(--accent);
+				border-radius: 50%;
+				border: 2px solid white;
+				position: absolute;
+				bottom: 10px;
+				left: 38px;
+			}
+
+			/* Avatar colors */
+			.av1 {
+				background: linear-gradient(135deg, #f9a8d4, #c084fc);
+			}
+			.av2 {
+				background: linear-gradient(135deg, #93c5fd, #6366f1);
+			}
+			.av3 {
+				background: linear-gradient(135deg, #fcd34d, #f97316);
+			}
+			.av4 {
+				background: linear-gradient(135deg, #86efac, #14b8a6);
+			}
+			.av5 {
+				background: linear-gradient(135deg, #fca5a5, #ef4444);
+			}
+			.av6 {
+				background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+			}
+			.av7 {
+				background: linear-gradient(135deg, #6ee7b7, #3b82f6);
+			}
+			.av8 {
+				background: linear-gradient(135deg, #fde68a, #f59e0b);
+			}
+			.av9 {
+				background: linear-gradient(135deg, #d1fae5, #10b981);
+			}
+
+			/* CHAT AREA */
+			.chat-area {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				min-width: 0;
+			}
+			.chat-header {
+				padding: 14px 20px;
+				border-bottom: 1px solid var(--border);
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+			.chat-header-left {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+			}
+			.header-name {
+				font-size: 15px;
+				font-weight: 600;
+				color: var(--text);
+			}
+			.header-status {
+				font-size: 12px;
+				color: var(--accent);
+				font-weight: 500;
+			}
+			.header-actions {
+				display: flex;
+				gap: 6px;
+			}
+			.hbtn {
+				width: 32px;
+				height: 32px;
+				border-radius: 8px;
+				border: 1px solid var(--border);
+				background: transparent;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				cursor: pointer;
+				color: var(--muted);
+				transition: background 0.12s;
+			}
+			.hbtn:hover {
+				background: var(--hover);
+			}
+
+			.messages {
+				flex: 1;
+				padding: 20px;
+				overflow-y: auto;
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+			}
+			.messages::-webkit-scrollbar {
+				width: 4px;
+			}
+			.messages::-webkit-scrollbar-thumb {
+				background: var(--border);
+				border-radius: 4px;
+			}
+
+			.msg-bubble {
+				max-width: 72%;
+				padding: 11px 14px;
+				border-radius: 14px;
+				font-size: 13.5px;
+				line-height: 1.5;
+				color: var(--text-sm);
+				background: var(--bubble-bg);
+				border: 1px solid var(--bubble-border);
+				box-shadow: var(--shadow);
+				align-self: flex-start;
+			}
+			.msg-bubble.sent {
+				align-self: flex-end;
+				background: #f0fdf4;
+				border-color: #bbf7d0;
+			}
+			.msg-time {
+				font-size: 11px;
+				color: var(--muted);
+				margin-top: 2px;
+				align-self: flex-start;
+				margin-left: 2px;
+			}
+
+			.chat-input-wrap {
+				padding: 12px 16px;
+				border-top: 1px solid var(--border);
+				display: flex;
+				align-items: center;
+				gap: 8px;
+			}
+			.chat-input {
+				flex: 1;
+				padding: 9px 14px;
+				border-radius: 10px;
+				border: 1px solid var(--border);
+				background: var(--input-bg);
+				font-family: inherit;
+				font-size: 13.5px;
+				color: var(--text);
+				outline: none;
+				transition: border-color 0.15s;
+			}
+			.chat-input:focus {
+				border-color: #a7f3d0;
+			}
+			.chat-input::placeholder {
+				color: var(--muted);
+			}
+			.input-actions {
+				display: flex;
+				align-items: center;
+				gap: 4px;
+			}
+			.ibtn {
+				width: 32px;
+				height: 32px;
+				border-radius: 8px;
+				border: none;
+				background: transparent;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				cursor: pointer;
+				color: var(--muted);
+				transition: color 0.12s;
+			}
+			.ibtn:hover {
+				color: var(--text);
+			}
+			.send-btn {
+				padding: 8px 16px;
+				border-radius: 8px;
+				border: none;
+				background: var(--accent);
+				color: white;
+				font-family: inherit;
+				font-size: 13px;
+				font-weight: 500;
+				cursor: pointer;
+				transition: background 0.15s;
+			}
+			.send-btn:hover {
+				background: #16a34a;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="app">
+			<!-- SIDEBAR -->
+			<div class="sidebar">
+				<div class="sidebar-header">
+					<h2>Chats</h2>
+					<button class="icon-btn">
+						<svg
+							width="14"
+							height="14"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2.2"
+						>
+							<line x1="12" y1="5" x2="12" y2="19" />
+							<line x1="5" y1="12" x2="19" y2="12" />
+						</svg>
+					</button>
+				</div>
+				<div class="search-wrap">
+					<svg
+						class="search-icon"
+						width="13"
+						height="13"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2.2"
+					>
+						<circle cx="11" cy="11" r="8" />
+						<line x1="21" y1="21" x2="16.65" y2="16.65" />
+					</svg>
+					<input type="text" placeholder="Chats search..." />
+				</div>
+				<div class="contacts">
+					<div class="contact-item">
+						<div class="avatar av1">JS</div>
+						<div class="contact-info">
+							<div class="contact-row">
+								<span class="contact-name">Jacquenetta Slowgrave</span>
+								<span class="contact-time">10 minutes</span>
+							</div>
+							<div class="contact-preview">
+								<span class="check green">✓✓</span>
+								<span>Great! Looking forwar...</span>
+							</div>
+						</div>
+						<div class="badge">8</div>
+					</div>
+
+					<div class="contact-item">
+						<div class="avatar av2">NP</div>
+						<div class="contact-info">
+							<div class="contact-row">
+								<span class="contact-name">Nickola Peever</span>
+								<span class="contact-time">40 minutes</span>
+							</div>
+							<div class="contact-preview">
+								<span class="check green">✓✓</span>
+								<span>Sounds perfect! I've be...</span>
+							</div>
+						</div>
+						<div class="badge">2</div>
+					</div>
+
+					<div class="contact-item">
+						<div class="avatar av3">FH</div>
+						<div class="contact-info">
+							<div class="contact-row">
+								<span class="contact-name">Farand Hume</span>
+								<span class="contact-time">Yesterday</span>
+							</div>
+							<div class="contact-preview">
+								<span class="check green">✓✓</span>
+								<span>How about 7 PM at the new l...</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="contact-item">
+						<div class="avatar av4">OP</div>
+						<div class="contact-info">
+							<div class="contact-row">
+								<span class="contact-name">Ossie Peasey</span>
+								<span class="contact-time">13 days</span>
+							</div>
+							<div class="contact-preview">
+								<span class="check">✓</span>
+								<span>Hey Bonnie, yes, definitely! ...</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="contact-item">
+						<div class="avatar av5">HN</div>
+						<div class="contact-info">
+							<div class="contact-row">
+								<span class="contact-name">Hall Negri</span>
+								<span class="contact-time">2 days</span>
+							</div>
+							<div class="contact-preview">
+								<span class="check green">✓✓</span>
+								<span>No worries at all! I'll grab a t...</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="contact-item">
+						<div class="avatar av6">ES</div>
+						<div class="contact-info">
+							<div class="contact-row">
+								<span class="contact-name">Elyssa Segot</span>
+								<span class="contact-time">Yesterday</span>
+							</div>
+							<div class="contact-preview">
+								<span class="check green">✓✓</span>
+								<span>She just told me today.</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="contact-item">
+						<div class="avatar av7">GW</div>
+						<div class="contact-info">
+							<div class="contact-row">
+								<span class="contact-name">Gil Wilfing</span>
+								<span class="contact-time">1 day</span>
+							</div>
+							<div class="contact-preview">
+								<span class="check">✓</span>
+								<span>See you in 5 minutes!</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="contact-item active">
+						<div class="avatar av8">BC</div>
+						<div class="online-dot"></div>
+						<div class="contact-info">
+							<div class="contact-row">
+								<span class="contact-name">Bab Cleaton</span>
+								<span class="contact-time">3 hours</span>
+							</div>
+							<div class="contact-preview">
+								<span class="check green">✓✓</span>
+								<span>If it takes long you can mail</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="contact-item">
+						<div class="avatar av9">JS</div>
+						<div class="contact-info">
+							<div class="contact-row">
+								<span class="contact-name">Janith Satch</span>
+								<span class="contact-time">1 day</span>
+							</div>
+							<div class="contact-preview">
+								<span class="check green">✓✓</span>
+								<span>Absolutely! It's amazing...</span>
+							</div>
+						</div>
+						<div class="badge">2</div>
+					</div>
+
+					<div class="contact-item">
+						<div class="avatar av1">BA</div>
+						<div class="contact-info">
+							<div class="contact-row">
+								<span class="contact-name">Biron Alison</span>
+								<span class="contact-time">1 day</span>
+							</div>
+							<div class="contact-preview">
+								<span class="check green">✓✓</span>
+								<span>Yeah, she mentioned it last ...</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="contact-item">
+						<div class="avatar av2">BY</div>
+						<div class="contact-info">
+							<div class="contact-row">
+								<span class="contact-name">Baily Younie</span>
+								<span class="contact-time">Yesterday</span>
+							</div>
+							<div class="contact-preview">
+								<span class="check green">✓✓</span>
+								<span>Thanks, I appreciate it!...</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- CHAT AREA -->
+			<div class="chat-area">
+				<div class="chat-header">
+					<div class="chat-header-left">
+						<div
+							class="avatar av8"
+							style="width: 36px; height: 36px; font-size: 12px"
+						>
+							BC
+						</div>
+						<div>
+							<div class="header-name">Bab Cleaton</div>
+							<div class="header-status">Online</div>
+						</div>
+					</div>
+					<div class="header-actions">
+						<button class="hbtn">
+							<svg
+								width="15"
+								height="15"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<rect x="2" y="7" width="20" height="15" rx="2" />
+								<polyline points="17,2 12,7 7,2" />
+							</svg>
+						</button>
+						<button class="hbtn">
+							<svg
+								width="15"
+								height="15"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<path
+									d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 012 2.22 2 2 0 014 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"
+								/>
+							</svg>
+						</button>
+						<button class="hbtn">
+							<svg
+								width="15"
+								height="15"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<circle cx="12" cy="5" r="1" />
+								<circle cx="12" cy="12" r="1" />
+								<circle cx="12" cy="19" r="1" />
+							</svg>
+						</button>
+					</div>
+				</div>
+
+				<div class="messages">
+					<div class="msg-bubble">
+						I know how important this file is to you. You can trust me ;) I know
+						how important this file is to you. You can trust me ;) know how
+						important this file is to you. You can trust me ;)
+					</div>
+					<div class="msg-time">05:23 PM</div>
+				</div>
+
+				<div class="chat-input-wrap">
+					<input
+						class="chat-input"
+						type="text"
+						placeholder="Type a message..."
+						value="asdfsdf"
+					/>
+					<div class="input-actions">
+						<button class="ibtn">
+							<svg
+								width="16"
+								height="16"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<circle cx="12" cy="12" r="10" />
+								<path d="M8 14s1.5 2 4 2 4-2 4-2" />
+								<line x1="9" y1="9" x2="9.01" y2="9" />
+								<line x1="15" y1="9" x2="15.01" y2="9" />
+							</svg>
+						</button>
+						<button class="ibtn">
+							<svg
+								width="16"
+								height="16"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<path
+									d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"
+								/>
+							</svg>
+						</button>
+						<button class="ibtn">
+							<svg
+								width="16"
+								height="16"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<path d="M12 2a3 3 0 013 3v7a3 3 0 01-6 0V5a3 3 0 013-3z" />
+								<path d="M19 10v2a7 7 0 01-14 0v-2" />
+								<line x1="12" y1="19" x2="12" y2="22" />
+							</svg>
+						</button>
+					</div>
+					<button class="send-btn">Send</button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

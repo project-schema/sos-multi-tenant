@@ -82,7 +82,7 @@ export function AppSidebarForUser({
 	...props
 }: React.ComponentProps<typeof Sidebar>) {
 	const [searchQuery, setSearchQuery] = React.useState('');
-
+	const [openItem, setOpenItem] = React.useState<string | null>(null);
 	const filteredOrder = filterItems(userDbOrder, searchQuery);
 	const filteredAdvertise = filterItems(userDbAdvertise, searchQuery);
 	const filteredWallet = filterItems(userDbWallet, searchQuery);
@@ -110,10 +110,30 @@ export function AppSidebarForUser({
 			{/* 📚 Filtered Navigation */}
 			<SidebarContent className="gap-0">
 				<AppRoot />
-				<NavMain items={filteredOrder} groupLabel="Order" />
-				<NavMain items={filteredAdvertise} groupLabel="Advertise" />
-				<NavMain items={filteredWallet} groupLabel="Wallet" />
-				<NavMain items={filteredSupport} groupLabel="Support" />
+				<NavMain
+					items={filteredOrder}
+					groupLabel="Order"
+					openItem={openItem}
+					setOpenItem={setOpenItem}
+				/>
+				<NavMain
+					items={filteredAdvertise}
+					groupLabel="Advertise"
+					openItem={openItem}
+					setOpenItem={setOpenItem}
+				/>
+				<NavMain
+					items={filteredWallet}
+					groupLabel="Wallet"
+					openItem={openItem}
+					setOpenItem={setOpenItem}
+				/>
+				<NavMain
+					items={filteredSupport}
+					groupLabel="Support"
+					openItem={openItem}
+					setOpenItem={setOpenItem}
+				/>
 			</SidebarContent>
 		</Sidebar>
 	);

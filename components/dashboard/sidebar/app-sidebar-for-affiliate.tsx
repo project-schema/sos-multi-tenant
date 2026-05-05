@@ -20,6 +20,7 @@ export function AppSidebarForAffiliate({
 	...props
 }: React.ComponentProps<typeof Sidebar>) {
 	const [searchQuery, setSearchQuery] = React.useState('');
+	const [openItem, setOpenItem] = React.useState<string | null>(null);
 
 	const filteredProducts = filterItems(
 		affiliateSidebarData.products,
@@ -70,19 +71,44 @@ export function AppSidebarForAffiliate({
 					<AppRoot />
 				</MotionView>
 				<MotionView y={10}>
-					<NavMain items={filteredProducts} groupLabel="Products" />
+					<NavMain
+						items={filteredProducts}
+						groupLabel="Products"
+						openItem={openItem}
+						setOpenItem={setOpenItem}
+					/>
 				</MotionView>
 				<MotionView y={10}>
-					<NavMain items={filteredServices} groupLabel="Services & Advertise" />
+					<NavMain
+						items={filteredServices}
+						groupLabel="Services & Advertise"
+						openItem={openItem}
+						setOpenItem={setOpenItem}
+					/>
 				</MotionView>
 				<MotionView y={10}>
-					<NavMain items={filteredSupport} groupLabel="Support" />
+					<NavMain
+						items={filteredSupport}
+						groupLabel="Support"
+						openItem={openItem}
+						setOpenItem={setOpenItem}
+					/>
 				</MotionView>
 				<MotionView y={10}>
-					<NavMain items={filteredCms} groupLabel="CMS" />
+					<NavMain
+						items={filteredCms}
+						groupLabel="CMS"
+						openItem={openItem}
+						setOpenItem={setOpenItem}
+					/>
 				</MotionView>
 				<MotionView y={10}>
-					<NavMain items={filteredSettings} groupLabel="Settings" />
+					<NavMain
+						items={filteredSettings}
+						groupLabel="Settings"
+						openItem={openItem}
+						setOpenItem={setOpenItem}
+					/>
 				</MotionView>
 			</SidebarContent>
 		</Sidebar>

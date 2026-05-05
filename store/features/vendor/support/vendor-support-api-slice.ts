@@ -42,6 +42,7 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
+			invalidatesTags: ['VendorSupport'],
 		}),
 
 		VendorSupportCategory: builder.query<
@@ -72,6 +73,7 @@ const api = apiSlice.injectEndpoints({
 				url: `/tenant-support/show/${id}`,
 				method: 'GET',
 			}),
+			providesTags: ['VendorSupport'],
 		}),
 
 		VendorSupportCount: builder.query<
@@ -84,6 +86,28 @@ const api = apiSlice.injectEndpoints({
 			}),
 			providesTags: ['VendorSupport'],
 		}),
+
+		// replay
+		VendorSupportReplay: builder.mutation<
+			{ status: 200; message: string },
+			any
+		>({
+			query: (data) => {
+				const body = new FormData();
+				Object.entries(data).forEach(([key, value]) => {
+					if (value) {
+						body.append(key, value as string);
+					}
+				});
+				return {
+					url: `/tenant-support/ticket-replay`,
+					method: 'POST',
+					body,
+					formData: true,
+				};
+			},
+			invalidatesTags: ['VendorSupport'],
+		}),
 	}),
 });
 
@@ -94,4 +118,5 @@ export const {
 	useVendorSupportSubCategoryQuery,
 	useVendorSupportViewQuery,
 	useVendorSupportCountQuery,
+	useVendorSupportReplayMutation,
 } = api;

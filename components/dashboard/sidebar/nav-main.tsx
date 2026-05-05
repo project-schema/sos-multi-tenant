@@ -19,17 +19,55 @@ import {
 } from '@/components/ui/sidebar';
 import { MotionItem } from '@/lib';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect } from 'react';
 import { sidebarItem } from './sidebar.type';
 
-export function NavMain({
+function NavMainInner({
 	items,
 	groupLabel = 'Platform',
+	openItem,
+	setOpenItem,
 }: {
 	items: sidebarItem[];
 	groupLabel?: string;
+	openItem: string | null;
+	setOpenItem: (value: string | null) => void;
 }) {
 	const router = useRouter();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
+	const type = searchParams.get('type');
+
+	useEffect(() => {
+		const activeItem = items.find((item) => isParentActive(item));
+		if (activeItem) {
+			setOpenItem(activeItem.title);
+		}
+	}, [pathname]);
+
+	const isActive = (url?: string) => {
+		if (!url || url === '#') return false;
+
+		const [basePath, queryString] = url.split('?');
+
+		// check pathname first
+		if (pathname !== basePath) return false;
+
+		// if no query → match only path
+		if (!queryString) return true;
+
+		const params = new URLSearchParams(queryString);
+		const urlType = params.get('type');
+
+		return urlType === type;
+	};
+
+	const isParentActive = (item: sidebarItem) => {
+		if (isActive(item.url)) return true;
+		return item.items?.some((sub) => isActive(sub.url));
+	};
+
 	const handleNavigation = (item: sidebarItem) => {
 		if (item.url && item.url !== '#' && item.url !== '') {
 			router.push(item.url);
@@ -47,7 +85,9 @@ export function NavMain({
 					<Collapsible
 						key={item.title}
 						asChild
-						defaultOpen={item.isActive}
+						defaultOpen={isParentActive(item)}
+						open={openItem === item.title}
+						onOpenChange={(isOpen) => setOpenItem(isOpen ? item.title : null)}
 						className="group/collapsible"
 					>
 						<SidebarMenuItem>
@@ -55,7 +95,11 @@ export function NavMain({
 								<SidebarMenuButton
 									onClick={() => handleNavigation(item)}
 									tooltip={item.title}
-									className="cursor-pointer"
+									className={`cursor-pointer ${
+										isActive(item.url) || isParentActive(item)
+											? 'bg-muted text-gray-900 font-medium'
+											: 'text-gray-700'
+									}`}
 								>
 									{item.icon && <item.icon />}
 									<span>{item.title}</span>
@@ -70,7 +114,14 @@ export function NavMain({
 										<SidebarMenuSubItem key={subItem.title}>
 											<SidebarMenuSubButton asChild>
 												<MotionItem i={i * 0.03} y={2}>
-													<Link href={subItem.url} className="block w-full">
+													<Link
+														href={subItem.url}
+														className={`block w-full ${
+															isActive(subItem.url)
+																? 'text-gray-900 font-medium'
+																: 'text-gray-600'
+														}`}
+													>
 														<span className="text-xs">{subItem.title} </span>
 													</Link>
 												</MotionItem>
@@ -84,5 +135,27 @@ export function NavMain({
 				))}
 			</SidebarMenu>
 		</SidebarGroup>
+	);
+}
+export function NavMain({
+	items,
+	groupLabel = 'Platform',
+	openItem,
+	setOpenItem,
+}: {
+	items: sidebarItem[];
+	groupLabel?: string;
+	openItem: string | null;
+	setOpenItem: (value: string | null) => void;
+}) {
+	return (
+		<Suspense fallback={null}>
+			<NavMainInner
+				items={items}
+				groupLabel={groupLabel}
+				openItem={openItem}
+				setOpenItem={setOpenItem}
+			/>
+		</Suspense>
 	);
 }

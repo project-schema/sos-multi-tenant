@@ -19,6 +19,7 @@ export function AppSidebarForAdmin({
 	...props
 }: React.ComponentProps<typeof Sidebar>) {
 	const [searchQuery, setSearchQuery] = React.useState('');
+	const [openItem, setOpenItem] = React.useState<string | null>(null);
 
 	const filteredProducts = filterItems(adminSidebarData.products, searchQuery);
 	const filterUser = filterItems(adminSidebarData.users, searchQuery);
@@ -28,7 +29,7 @@ export function AppSidebarForAdmin({
 	const filteredSupport = filterItems(adminSidebarData.support, searchQuery);
 	const filteredAdvertise = filterItems(
 		adminSidebarData.advertise,
-		searchQuery
+		searchQuery,
 	);
 	const filteredSaas = filterItems(adminSidebarData.sass, searchQuery);
 
@@ -54,14 +55,54 @@ export function AppSidebarForAdmin({
 			{/*   Filtered Navigation */}
 			<SidebarContent className="gap-0 pb-8">
 				<AppRoot />
-				<NavMain items={filterUser} groupLabel="Users" />
-				<NavMain items={filteredProducts} groupLabel="Products" />
-				<NavMain items={filteredServices} groupLabel="Services" />
-				<NavMain items={filteredAdvertise} groupLabel="Advertise" />
-				<NavMain items={filteredSaas} groupLabel="Saas" />
-				<NavMain items={filteredSupport} groupLabel="Support" />
-				<NavMain items={filteredCMS} groupLabel="CMS" />
-				<NavMain items={filteredHRM} groupLabel="HRM" />
+				<NavMain
+					items={filterUser}
+					groupLabel="Users"
+					openItem={openItem}
+					setOpenItem={setOpenItem}
+				/>
+				<NavMain
+					items={filteredProducts}
+					groupLabel="Products"
+					openItem={openItem}
+					setOpenItem={setOpenItem}
+				/>
+				<NavMain
+					items={filteredServices}
+					groupLabel="Services"
+					openItem={openItem}
+					setOpenItem={setOpenItem}
+				/>
+				<NavMain
+					items={filteredAdvertise}
+					groupLabel="Advertise"
+					openItem={openItem}
+					setOpenItem={setOpenItem}
+				/>
+				<NavMain
+					items={filteredSaas}
+					groupLabel="Saas"
+					openItem={openItem}
+					setOpenItem={setOpenItem}
+				/>
+				<NavMain
+					items={filteredSupport}
+					groupLabel="Support"
+					openItem={openItem}
+					setOpenItem={setOpenItem}
+				/>
+				<NavMain
+					items={filteredCMS}
+					groupLabel="CMS"
+					openItem={openItem}
+					setOpenItem={setOpenItem}
+				/>
+				<NavMain
+					items={filteredHRM}
+					groupLabel="HRM"
+					openItem={openItem}
+					setOpenItem={setOpenItem}
+				/>
 			</SidebarContent>
 		</Sidebar>
 	);

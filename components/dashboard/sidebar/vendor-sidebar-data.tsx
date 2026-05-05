@@ -10,6 +10,7 @@ import {
 	Megaphone,
 	MessageSquare,
 	Package,
+	PackageOpen,
 	Percent,
 	QrCode,
 	Settings,
@@ -89,12 +90,12 @@ const products: sidebarItem[] = [
 		icon: Users,
 		isActive: false,
 	},
-	// {
-	// 	title: 'Dropshipper Requests',
-	// 	url: '/dashboard/dropshipper-request',
-	// 	icon: PackageOpen,
-	// 	isActive: false,
-	// },
+	{
+		title: 'Dropshipper Requests',
+		url: '/dashboard/dropshipper-request',
+		icon: PackageOpen,
+		isActive: false,
+	},
 ];
 
 const pos: sidebarItem[] = [
@@ -262,36 +263,36 @@ const settings: sidebarItem[] = [
 				title: 'Delivery Charge',
 				url: '/dashboard/delivery-charge',
 			},
-			// {
-			// 	title: 'Woo Commerce',
-			// 	url: '/dashboard/woo-commerce',
-			// },
+			{
+				title: 'Woo Commerce',
+				url: '/dashboard/woo-commerce',
+			},
 
 			{
 				title: 'Payment Methods',
 				url: '/dashboard/payment-methods',
 			},
-			// {
-			// 	title: 'Invoice Generate',
-			// 	url: '/dashboard/invoice-generate',
-			// },
+			{
+				title: 'Invoice Generate',
+				url: '/dashboard/invoice-generate',
+			},
 		],
 	},
-	// {
-	// 	title: 'Employee',
-	// 	icon: Users,
-	// 	isActive: false,
-	// 	items: [
-	// 		{
-	// 			title: 'Create Employee',
-	// 			url: '/dashboard/create-employee',
-	// 		},
-	// 		{
-	// 			title: 'Manage Employee',
-	// 			url: '/dashboard/manage-employee',
-	// 		},
-	// 	],
-	// },
+	{
+		title: 'Employee',
+		icon: Users,
+		isActive: false,
+		items: [
+			{
+				title: 'Create Employee',
+				url: '/dashboard/create-employee',
+			},
+			{
+				title: 'Manage Employee',
+				url: '/dashboard/manage-employee',
+			},
+		],
+	},
 	{
 		title: 'Balance',
 		icon: Wallet,

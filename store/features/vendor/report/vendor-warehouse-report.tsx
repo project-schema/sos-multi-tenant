@@ -100,6 +100,7 @@ export function VendorWarehouseReportPage() {
 										<TableHead className="bg-stone-100">
 											Products Count
 										</TableHead>
+										<TableHead className="bg-stone-100">Stock Count</TableHead>
 										<TableHead className="bg-stone-100">
 											Total Stock Value
 										</TableHead>
@@ -134,6 +135,10 @@ export function VendorWarehouseReportPage() {
 														Number(product.purchase_price),
 												0,
 											);
+											const totalStock = item.products.reduce(
+												(sum, product) => sum + Number(product.stock || 0),
+												0,
+											);
 
 											return (
 												<TableRow key={item.id}>
@@ -150,6 +155,9 @@ export function VendorWarehouseReportPage() {
 														<Badge variant="outline">
 															{item.products.length} Products
 														</Badge>
+													</TableCell>
+													<TableCell className="py-2">
+														<Badge variant="outline">{totalStock} stock</Badge>
 													</TableCell>
 													<TableCell className="py-2">
 														<Badge className="capitalize" variant="default">

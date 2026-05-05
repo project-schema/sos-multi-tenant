@@ -1,181 +1,103 @@
 'use client';
 
+import { imageFormat } from '@/lib';
 import { useParams } from 'next/navigation';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useVendorSupportViewQuery } from './vendor-support-api-slice';
-
-type ChatAuthor = 'me' | 'support';
-
-type ChatMessage = {
-	id: number;
-	author: ChatAuthor;
-	text: string;
-	timestamp: string; // HH:MM
-};
-
-function formatNow() {
-	const d = new Date();
-	const hh = String(d.getHours()).padStart(2, '0');
-	const mm = String(d.getMinutes()).padStart(2, '0');
-	return `${hh}:${mm}`;
-}
+import { VendorSupportReplay } from './vendor-support-replay';
 
 export function VendorSupportView() {
 	const { id } = useParams();
-	const { data, isLoading, isError, isFetching } = useVendorSupportViewQuery(
+	const { data } = useVendorSupportViewQuery(
 		{ id: id as string },
 		{
 			skip: !id,
-		}
-	);
-	if (isError) return <div>Error</div>;
-	if (!data?.message) return <div>No data</div>;
-	const [messages, setMessages] = useState<ChatMessage[]>([
-		{
-			id: 1,
-			author: 'support',
-			text: 'Hi! 👋 How can we help you today?',
-			timestamp: formatNow(),
 		},
-	]);
-	const [input, setInput] = useState('');
-	const [isSupportTyping, setIsSupportTyping] = useState(false);
-	const nextId = useRef(2);
-	const listRef = useRef<HTMLDivElement>(null);
-
-	const cannedReplies = useMemo(
-		() => [
-			'Thanks for reaching out! Could you share more details?',
-			"Got it. I'm checking this for you…",
-			'I’ve noted this. Anything else you’d like to add?',
-			'You can also find guidance in Settings → Help Center.',
-			'Happy to help! If you need anything else, just message here.',
-		],
-		[]
 	);
-	const replyIndex = useRef(0);
+
+	const supportData = data?.message;
+
+	// Create a ref to the message container
+	const messageContainerRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		// Auto scroll to bottom when messages change
-		if (!listRef.current) return;
-		listRef.current.scrollTop = listRef.current.scrollHeight;
-	}, [messages]);
-
-	function pushMessage(author: ChatAuthor, text: string) {
-		setMessages((prev) => [
-			...prev,
-			{ id: nextId.current++, author, text, timestamp: formatNow() },
-		]);
-	}
-
-	function handleSend() {
-		const text = input.trim();
-		if (!text) return;
-		setInput('');
-		pushMessage('me', text);
-
-		// Simulate support typing and replying
-		setIsSupportTyping(true);
-		const reply = cannedReplies[replyIndex.current % cannedReplies.length];
-		replyIndex.current += 1;
-		setTimeout(() => {
-			pushMessage('support', reply);
-			setIsSupportTyping(false);
-		}, 900);
-	}
-
-	function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-		if (e.key === 'Enter' && !e.shiftKey) {
-			e.preventDefault();
-			handleSend();
+		// Scroll to the bottom of the messages container when the component mounts or updates
+		if (messageContainerRef.current) {
+			messageContainerRef.current.scrollTop =
+				messageContainerRef.current.scrollHeight;
 		}
-	}
+	}, [supportData]); // This effect will trigger whenever supportData changes
 
 	return (
-		<div className="w-full h-full max-h-[700px] flex flex-col border rounded-lg bg-white">
-			{/* Header */}
-			<div className="px-4 py-3 border-b flex items-center gap-3">
-				<div className="w-9 h-9 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-semibold">
-					S
+		<div className="grid grid-cols-12 py-4 gap-3">
+			{/* Support Information */}
+			<div className=" hidden lg:block col-span-3 border rounded-lg p-3">
+				<div className="font-semibold text-lg">{supportData?.subject}</div>
+				<div className="text-sm text-gray-600 mt-2">
+					{supportData?.description}
 				</div>
-				<div className="flex-1">
-					<div className="font-semibold">Support</div>
-					<div className="text-xs text-gray-500">
-						Typically replies within a few minutes
-					</div>
+				<div className="mt-2 text-sm text-gray-500">
+					<strong>Ticket No: </strong>
+					{supportData?.ticket_no}
+				</div>
+				<div className="text-sm text-gray-500">
+					<strong>Status: </strong>
+					{supportData?.status}
 				</div>
 			</div>
 
 			{/* Messages */}
-			<div
-				ref={listRef}
-				className="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-gray-50"
-			>
-				{messages.map((m) => (
+			<div className="flex-1 col-span-12 lg:col-span-7 border rounded-lg p-3 space-y-3 relative">
+				{supportData && (
 					<div
-						key={m.id}
-						className={`flex ${
-							m.author === 'me' ? 'justify-end' : 'justify-start'
-						}`}
+						ref={messageContainerRef} // Attach ref to the message container
+						className="space-y-3 bg-gray-50 h-screen max-h-[calc(100vh-200px)] lg:max-h-[calc(100vh-300px)] overflow-y-auto pb-14"
 					>
-						<div
-							className={`max-w-[78%] rounded-2xl px-3 py-2 text-sm shadow-sm ${
-								m.author === 'me'
-									? 'bg-indigo-600 text-white rounded-br-md'
-									: 'bg-white text-gray-800 border rounded-bl-md'
-							}`}
-						>
-							<div>{m.text}</div>
-							<div
-								className={`mt-1 text-[10px] ${
-									m.author === 'me' ? 'text-indigo-100' : 'text-gray-400'
-								}`}
-							>
-								{m.timestamp}
-							</div>
-						</div>
-					</div>
-				))}
-
-				{isSupportTyping && (
-					<div className="flex justify-start">
-						<div className="max-w-[78%] rounded-2xl px-3 py-2 text-sm bg-white border text-gray-600 rounded-bl-md shadow-sm">
-							<span className="inline-flex gap-1 items-center">
-								<span
-									className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-									style={{ animationDelay: '0ms' }}
-								/>
-								<span
-									className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-									style={{ animationDelay: '150ms' }}
-								/>
-								<span
-									className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-									style={{ animationDelay: '300ms' }}
-								/>
-							</span>
-						</div>
+						{supportData?.ticketreplay?.length > 0 ? (
+							supportData?.ticketreplay?.map((message) => (
+								<div
+									key={message.id}
+									className={`flex ${message.user.role_as !== '1' ? 'justify-end' : 'justify-start'}`}
+								>
+									<div
+										className={`max-w-[78%] space-y-2 rounded-2xl px-3 py-2 text-sm shadow-sm ${
+											message.user.role_as !== '1'
+												? 'bg-indigo-600 text-white rounded-br-md'
+												: 'bg-white text-gray-800 border rounded-bl-md'
+										}`}
+									>
+										<div>{message.description}</div>
+										<div
+											className={`mt-1 text-[10px] space-y-2 ${
+												message.user.role_as !== '1'
+													? 'text-indigo-100'
+													: 'text-gray-400'
+											}`}
+										>
+											{message.file && (
+												<img
+													className="max-h-20 rounded-md"
+													src={imageFormat(message.file.name)}
+													alt="image"
+												/>
+											)}
+											<span>
+												{new Date(message.created_at).toLocaleString()}
+											</span>
+										</div>
+									</div>
+								</div>
+							))
+						) : (
+							<div>No messages yet</div>
+						)}
 					</div>
 				)}
-			</div>
-
-			{/* Composer */}
-			<div className="p-3 border-t bg-white flex items-center gap-2">
-				<input
-					type="text"
-					value={input}
-					onChange={(e) => setInput(e.target.value)}
-					onKeyDown={handleKeyDown}
-					placeholder="Type your message…"
-					className="flex-1 rounded-md border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-indigo-500"
-				/>
-				<button
-					onClick={handleSend}
-					className="px-3 py-2 rounded-md bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 active:bg-indigo-800 disabled:opacity-50"
-					disabled={!input.trim()}
-				>
-					Send
-				</button>
+				{supportData && (
+					<div className="absolute bottom-3 w-[calc(100%-1rem)] bg-gray-50">
+						<VendorSupportReplay data={supportData} />
+					</div>
+				)}
 			</div>
 		</div>
 	);

@@ -1,9 +1,9 @@
 import { apiSlice } from '../../api/apiSlice';
 import {
-	iUserSupport,
 	iUserSupportCategory,
 	iUserSupportResponse,
 	iUserSupportSubResponse,
+	iUserSupportView,
 } from './type';
 
 const api = apiSlice.injectEndpoints({
@@ -62,13 +62,15 @@ const api = apiSlice.injectEndpoints({
 		}),
 
 		UserSupportView: builder.query<
-			{ status: 200; message: iUserSupport },
+			{ status: 200; message: iUserSupportView },
 			{ id: string }
 		>({
 			query: ({ id }) => ({
-				url: `/tenant-support/show/${id}`,
+				url: `/user/supportbox/${id}`,
+				// url: `/tenant-support/show/${id}`,
 				method: 'GET',
 			}),
+			providesTags: ['UserSupport'],
 		}),
 
 		UserSupportCount: builder.query<{ closed: number; all_support: [] }, void>({
@@ -77,6 +79,24 @@ const api = apiSlice.injectEndpoints({
 				method: 'GET',
 			}),
 			providesTags: ['UserSupport'],
+		}),
+		// replay
+		UserSupportReplay: builder.mutation<{ status: 200; message: string }, any>({
+			query: (data) => {
+				const body = new FormData();
+				Object.entries(data).forEach(([key, value]) => {
+					if (value) {
+						body.append(key, value as string);
+					}
+				});
+				return {
+					url: `/user/ticket-replay`,
+					method: 'POST',
+					body,
+					formData: true,
+				};
+			},
+			invalidatesTags: ['UserSupport'],
 		}),
 	}),
 });
@@ -88,4 +108,5 @@ export const {
 	useUserSupportSubCategoryQuery,
 	useUserSupportViewQuery,
 	useUserSupportCountQuery,
+	useUserSupportReplayMutation,
 } = api;

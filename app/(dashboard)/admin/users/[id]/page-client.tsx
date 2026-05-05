@@ -9,7 +9,7 @@ import {
 import { AdminUserProfileTab } from '@/store/features/admin/user/admin.user.profile.tab';
 import { useSearchParams } from 'next/navigation';
 
-export default function User() {
+export default function PageClient() {
 	const searchParams = useSearchParams().get('tab');
 	switch (searchParams) {
 		case 'payments':

@@ -405,6 +405,7 @@ export function VendorServicesCreate() {
 															type="button"
 															onClick={addTag}
 															variant="secondary"
+															className="text-white"
 														>
 															Add
 														</Button>
@@ -413,12 +414,12 @@ export function VendorServicesCreate() {
 														{(form.watch('tags') ?? []).map((t, i) => (
 															<span
 																key={`${t}-${i}`}
-																className="px-2 py-1 rounded-full text-xs bg-secondary"
+																className="px-2 py-1 rounded-full text-xs bg-secondary text-white"
 															>
 																{t}{' '}
 																<button
 																	type="button"
-																	className="ml-1 text-muted-foreground"
+																	className="ml-1 text-white"
 																	onClick={() => removeTag(i)}
 																>
 																	x
