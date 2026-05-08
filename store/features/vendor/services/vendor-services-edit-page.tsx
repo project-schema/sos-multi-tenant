@@ -257,7 +257,7 @@ export function VendorServicesEdit({
 					if (response.status === 200) {
 						toast.success(response.message || 'Service updated successfully');
 						form.reset();
-						router.push(`/dashboard/services`);
+						router.push(`/dashboard/expertise`);
 					} else {
 						if (response.status === 400) {
 							handleValidationError(response as any, form.setError);
@@ -445,6 +445,7 @@ export function VendorServicesEdit({
 															type="button"
 															onClick={addTag}
 															variant="secondary"
+															className="text-white"
 														>
 															Add
 														</Button>
@@ -453,12 +454,12 @@ export function VendorServicesEdit({
 														{(form.watch('tags') ?? []).map((t, i) => (
 															<span
 																key={`${t}-${i}`}
-																className="px-2 py-1 rounded-full text-xs bg-secondary"
+																className="px-2 py-1 rounded-full text-xs bg-secondary text-white"
 															>
 																{t}{' '}
 																<button
 																	type="button"
-																	className="ml-1 text-muted-foreground"
+																	className="ml-1 text-white"
 																	onClick={() => removeTag(i)}
 																>
 																	×

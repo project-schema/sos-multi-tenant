@@ -23,13 +23,14 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { alertConfirm, handleValidationError } from '@/lib';
+import { alertConfirm, env, handleValidationError } from '@/lib';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { testData1, testData2 } from './service-dummy-data';
 import {
 	useVendorServiceCategoryAndSubCategoryQuery,
 	useVendorServicesCreateMutation,
@@ -107,7 +108,7 @@ const Step2Schema = z.object({
 
 const FormSchema = Step1Schema.extend(Step2Schema.shape);
 
-type FormType = z.infer<typeof FormSchema>;
+export type FormType = z.infer<typeof FormSchema>;
 
 const defaultValues: Partial<FormType> = {
 	service_category_id: '',
@@ -223,7 +224,7 @@ export function VendorServicesCreate() {
 					if (response.status === 200) {
 						toast.success(response.message || 'Service created successfully');
 						form.reset();
-						router.push(`/dashboard/services`);
+						router.push(`/dashboard/expertise`);
 					} else {
 						if (response.status === 400) {
 							handleValidationError(response as any, form.setError);
@@ -262,6 +263,14 @@ export function VendorServicesCreate() {
 		});
 	};
 
+	const handleDummyData = (e: number) => {
+		if (e === 1) {
+			form.reset(testData1);
+		} else {
+			form.reset(testData2);
+		}
+	};
+
 	return (
 		<Container1
 			header={
@@ -270,6 +279,17 @@ export function VendorServicesCreate() {
 						<CardTitle>Create Service</CardTitle>
 						<div className="text-sm text-muted-foreground">
 							Step {step} of 2
+						</div>
+						<div
+							className="flex items-center gap-2"
+							hidden={!env.serviceDummyData}
+						>
+							<Button variant="outline" onClick={() => handleDummyData(1)}>
+								Insert Dummy Data
+							</Button>
+							<Button variant="outline" onClick={() => handleDummyData(2)}>
+								Insert Dummy Data 2
+							</Button>
 						</div>
 					</div>
 				</>

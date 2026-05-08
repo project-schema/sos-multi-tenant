@@ -97,6 +97,8 @@ export type iAdminServiceOrder = {
 	status: string;
 	created_at: string;
 	amount: string;
+	is_rejected: string;
+	reason: string;
 	servicerating: {
 		id: number;
 		user_id: number;

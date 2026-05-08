@@ -114,7 +114,7 @@ export default function TabOfSD({ packages = [] as any[] }) {
 										href={
 											!isTenant
 												? `/services/${e.vendor_service_id}/pay?package_id=${e.id}&price=${e.price}`
-												: `/dashboard/services/purchase/${e.vendor_service_id}/pay?package_id=${e.id}&price=${e.price}`
+												: `/dashboard/expertise/purchase/${e.vendor_service_id}/pay?package_id=${e.id}&price=${e.price}`
 										}
 										className={style.tabBtn}
 										prefetch={false}

@@ -86,18 +86,23 @@ export function AppSidebarForVendor({
 						setOpenItem={setOpenItem}
 					/>
 				</MotionView>
-				<NavMain
-					items={filteredServices}
-					groupLabel="Services & Advertise"
-					openItem={openItem}
-					setOpenItem={setOpenItem}
-				/>
-				<NavMain
-					items={filteredSupport}
-					groupLabel="Support"
-					openItem={openItem}
-					setOpenItem={setOpenItem}
-				/>
+				<MotionView y={10}>
+					<NavMain
+						items={filteredServices}
+						groupLabel="Services & Advertise"
+						openItem={openItem}
+						setOpenItem={setOpenItem}
+					/>
+				</MotionView>
+				<MotionView y={10}>
+					<NavMain
+						items={filteredSupport}
+						groupLabel="Support"
+						openItem={openItem}
+						setOpenItem={setOpenItem}
+					/>
+				</MotionView>
+
 				<MotionView y={10}>
 					<NavMain
 						items={filteredReports}

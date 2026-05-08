@@ -22,7 +22,7 @@ export function ChatWindow({ contact, messages }: ChatWindowProps) {
 				</div>
 			</ScrollArea>
 
-			<ChatInput receiverId="me5" />
+			<ChatInput receiverId="abdur2" />
 		</div>
 	);
 }

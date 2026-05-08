@@ -18,7 +18,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm } from '@/lib';
 import { LoaderCircle, Upload, X } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import {
+	useParams,
+	usePathname,
+	useRouter,
+	useSearchParams,
+} from 'next/navigation';
 import { useMemo, useState, type ChangeEvent } from 'react';
 import { toast } from 'sonner';
 import { iAdminService } from '../../admin/service';
@@ -36,6 +41,7 @@ export const ServiceOrderCheckout = ({
 	isLoading: boolean;
 }) => {
 	const searchParams = useSearchParams();
+	const pathName = usePathname();
 	const router = useRouter();
 	const { id } = useParams<{ id: string }>();
 	const { data: session } = useSession();
@@ -44,7 +50,7 @@ export const ServiceOrderCheckout = ({
 	const rawPrice = Number(searchParams.get('price') || 0);
 	const price = useMemo(
 		() => (Number.isFinite(rawPrice) ? rawPrice : 0),
-		[rawPrice]
+		[rawPrice],
 	);
 
 	const [details, setDetails] = useState('');
@@ -54,9 +60,9 @@ export const ServiceOrderCheckout = ({
 	const selectedPackage = useMemo(
 		() =>
 			service?.servicepackages?.find(
-				(pkg) => String(pkg.id) === String(packageId)
+				(pkg) => String(pkg.id) === String(packageId),
 			),
-		[service?.servicepackages, packageId]
+		[service?.servicepackages, packageId],
 	);
 
 	const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -75,7 +81,7 @@ export const ServiceOrderCheckout = ({
 	const handleSubmit = () => {
 		if (!packageId || !id) {
 			toast.error(
-				'Package information is missing. Please go back and select a package.'
+				'Package information is missing. Please go back and select a package.',
 			);
 			return;
 		}
@@ -123,7 +129,11 @@ export const ServiceOrderCheckout = ({
 						toast.success(response?.message || 'Order placed successfully');
 						setErrors({});
 						if (session) {
-							router.push('/user/order');
+							if (pathName.startsWith('/dashboard')) {
+								router.push('/dashboard/expertise/purchase-order');
+							} else {
+								router.push('/user/order');
+							}
 						}
 					} else {
 						toast.error(response?.message || 'Failed to place order');
@@ -139,7 +149,7 @@ export const ServiceOrderCheckout = ({
 						});
 					}
 					toast.error(
-						error?.data?.message || error?.message || 'Failed to place order'
+						error?.data?.message || error?.message || 'Failed to place order',
 					);
 				}
 			},
@@ -152,7 +162,7 @@ export const ServiceOrderCheckout = ({
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2,
 			}),
-		[price]
+		[price],
 	);
 
 	const gateways: { id: Gateway; name: string; description: string }[] = [

@@ -6,6 +6,7 @@ import {
 	FileText,
 	Headset,
 	Megaphone,
+	MessageSquare,
 	Package,
 	PackageCheck,
 	Percent,
@@ -107,19 +108,30 @@ const servicesAndAdvertise: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Service',
-				url: '/dashboard/services/create',
+				url: '/dashboard/expertise/create',
 			},
 			{
 				title: 'Services',
-				url: '/dashboard/services',
+				url: '/dashboard/expertise',
 			},
 			{
 				title: 'Service Order',
-				url: '/dashboard/services/order',
+				url: '/dashboard/expertise/order',
+			},
+		],
+	},
+	{
+		title: 'Services Purchase',
+		icon: DraftingCompass,
+		isActive: false,
+		items: [
+			{
+				title: 'All Services',
+				url: '/dashboard/expertise/purchase',
 			},
 			{
 				title: 'Purchase Service',
-				url: '/dashboard/services/purchase',
+				url: '/dashboard/expertise/purchase-order',
 			},
 		],
 	},
@@ -156,12 +168,13 @@ const support: sidebarItem[] = [
 			},
 		],
 	},
-	// {
-	// 	title: 'Customer Chat',
-	// 	icon: MessageSquare,
-	// 	isActive: false,
-	// 	url: '/dashboard/customer-chat',
-	// },
+
+	{
+		title: 'Customer Chat',
+		icon: MessageSquare,
+		isActive: false,
+		url: '/dashboard/customer-chat',
+	},
 ];
 
 const cms: sidebarItem[] = [

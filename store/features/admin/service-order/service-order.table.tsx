@@ -154,7 +154,7 @@ export function AdminServiceOrderTable({
 													href={`/admin/service-order/${item.id}`}
 												>
 													<ExternalLink className="size-4" />
-													<span>View Product</span>
+													<span>View Service</span>
 												</Link>
 											</DropdownMenuItem>
 
@@ -220,11 +220,11 @@ export function AdminServiceOrderTable({
 
 											<DropdownMenuSeparator />
 
-											{item.status !== 'cancel' && (
+											{item.status !== 'canceled' && (
 												<AdminServiceOrderStatus
 													data={item}
 													icon="XCircle"
-													status="cancel"
+													status="canceled"
 													text="Service Cancelled"
 													type="destructive"
 												/>

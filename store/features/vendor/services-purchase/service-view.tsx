@@ -1,271 +1,217 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { badgeFormat, env, timeFormat } from '@/lib';
-import { CreditCard, FileText, Package, User } from 'lucide-react';
-import Image from 'next/image';
-import { ServiceRatingCard } from '../../user/service/service-ratting-card';
+import { env } from '@/lib';
+import { useState } from 'react';
+import { iAdminService } from '../../admin/service';
 
-export function VendorServicePurchaseView({ order }: { order: any }) {
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
+
+export function VendorServicePurchaseView({
+	service,
+}: {
+	service: iAdminService;
+}) {
+	const [currentIndex, setCurrentIndex] = useState(0);
+	const [isFading, setIsFading] = useState(false);
+
+	const coverImage = service?.image
+		? `${env.baseAPI}/${service?.image}`
+		: '/placeholder.svg';
+
+	const gallery = [
+		{ id: 'cover', image: coverImage },
+		...(service.serviceimages || []).map((img) => ({
+			id: img.id ?? crypto.randomUUID(),
+			image: img.images ? `${env.baseAPI}/${img.images}` : '/placeholder.svg',
+		})),
+	].filter((img) => img.image);
+
+	const changeImage = (direction: 1 | -1) => {
+		if (gallery.length === 0) return;
+		setIsFading(true);
+		setTimeout(() => {
+			setCurrentIndex(
+				(prev) => (prev + direction + gallery.length) % gallery.length,
+			);
+			setIsFading(false);
+		}, 150);
+	};
+
+	const nextImage = () => changeImage(1);
+	const previousImage = () => changeImage(-1);
+
+	const packages = service.servicepackages || [];
+	const defaultTab =
+		packages.length > 0 ? packages[0].id.toString() : 'no-package';
+
 	return (
-		<div className="space-y-6 max-w-5xl mx-auto">
-			{/* Order Overview */}
-			<Card>
-				<CardHeader>
-					<div className="flex items-center justify-between">
-						<div>
-							<CardTitle>Order Overview</CardTitle>
-							<CardDescription>
-								Order ID: #{order.trxid || order.id}
-							</CardDescription>
-
-							<div className="space-y-1">
-								<p className="text-sm text-muted-foreground flex items-center gap-2">
-									<CreditCard className="h-4 w-4" />
-									Amount
-								</p>
-								<p className="text-lg font-semibold">
-									৳ {order.amount || '0.00'}
-								</p>
-							</div>
-						</div>
-					</div>
-				</CardHeader>
-			</Card>
-
-			{/* Customer & Vendor Information */}
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-				<Card>
-					<CardHeader>
-						<CardTitle className="flex items-center gap-2">
-							<User className="h-5 w-5" />
-							Customer Details
-						</CardTitle>
-					</CardHeader>
-					<CardContent className="space-y-4">
-						{order.customerdetails ? (
-							<>
-								<div className="flex items-center gap-3">
-									<Avatar>
-										<AvatarImage
-											src={order.customerdetails.image || undefined}
-										/>
-										<AvatarFallback>
-											{order.customerdetails.name?.charAt(0).toUpperCase() ||
-												'U'}
-										</AvatarFallback>
-									</Avatar>
-									<div>
-										<p className="font-medium">{order.customerdetails.name}</p>
-										<p className="text-sm text-muted-foreground">
-											{order.customerdetails.email}
-										</p>
-									</div>
-								</div>
-								<Separator />
-								<div className="space-y-2 text-sm">
-									<div className="flex justify-between">
-										<span className="text-muted-foreground">Phone:</span>
-										<span className="font-medium">
-											{order.customerdetails.number || 'N/A'}
-										</span>
-									</div>
-									<div className="flex justify-between">
-										<span className="text-muted-foreground">User ID:</span>
-										<span className="font-medium">
-											{order.customerdetails.uniqid || order.customerdetails.id}
-										</span>
-									</div>
-
-									<div className="flex justify-between">
-										<span className="text-muted-foreground">Role:</span>
-										<Badge variant="outline" className="capitalize">
-											{order.customerdetails.role_as || 'N/A'}
-										</Badge>
-									</div>
-									<div className="flex justify-between">
-										<span className="text-muted-foreground">Status:</span>
-										<Badge
-											variant={badgeFormat(order.customerdetails.status)}
-											className="capitalize"
-										>
-											{order.customerdetails.status}
-										</Badge>
-									</div>
-								</div>
-							</>
-						) : (
-							<p className="text-muted-foreground text-sm">No customer data</p>
-						)}
-					</CardContent>
-				</Card>
-
-				<Card>
-					<CardHeader>
-						<CardTitle className="flex items-center gap-2">
-							<Package className="h-5 w-5" />
-							Service Information
-						</CardTitle>
-					</CardHeader>
-					<CardContent>
+		<div className="grid lg:grid-cols-3 gap-6 px-4">
+			<Card className="lg:col-span-2">
+				<CardHeader className="space-y-2">
+					{service.reason && service.status === 'rejected' && (
+						<Alert variant="destructive">
+							<AlertTitle>Service Rejected</AlertTitle>
+							<AlertDescription>{service.reason}</AlertDescription>
+						</Alert>
+					)}
+					<div className="flex items-start justify-between gap-4">
 						<div className="space-y-2">
-							<div className="flex justify-between">
-								<span className="text-sm text-muted-foreground">
-									Service Title:
-								</span>
-								<span className="text-sm font-medium">
-									{order.servicedetails?.title || 'N/A'}
-								</span>
-							</div>
-							<div className="flex justify-between">
-								<span className="text-sm text-muted-foreground">
-									Service ID:
-								</span>
-								<span className="text-sm font-medium">
-									{(order as any).vendor_service_id || 'N/A'}
-								</span>
-							</div>
-							<div className="flex justify-between">
-								<span className="text-sm text-muted-foreground">
-									Package ID:
-								</span>
-								<span className="text-sm font-medium">
-									{(order as any).service_package_id || 'N/A'}
-								</span>
-							</div>
-							<div className="flex justify-between">
-								<span className="text-sm text-muted-foreground">
-									Commission Type:
-								</span>
-								<Badge variant="outline" className="capitalize">
-									{(order as any).commission_type || 'N/A'}
+							<div className="flex items-center gap-3">
+								<CardTitle className="text-2xl font-semibold">
+									{service.title}
+								</CardTitle>
+								<Badge
+									variant={
+										service.status === 'active' ? 'default' : 'secondary'
+									}
+								>
+									{service.status}
 								</Badge>
 							</div>
-							<div className="flex justify-between">
-								<span className="text-sm text-muted-foreground">
-									Commission Amount:
-								</span>
-								<span className="text-sm font-medium">
-									৳ {(order as any).commission_amount || '0.00'}
-								</span>
+							<div className="text-sm text-muted-foreground">
+								Commission: {service.commission} ({service.commission_type})
 							</div>
 						</div>
-					</CardContent>
-				</Card>
-			</div>
-
-			{/* Service Information */}
-
-			{/* Order Details */}
-			<Card>
-				<CardHeader>
-					<CardTitle className="flex items-center gap-2">
-						<FileText className="h-5 w-5" />
-						Order Details
-					</CardTitle>
-				</CardHeader>
-				<CardContent className="space-y-4">
-					<div>
-						<p className="text-sm text-muted-foreground mb-2">
-							Customer Requirements / Message:
-						</p>
-						<div className="rounded-lg border bg-muted/40 p-4">
-							<p className="text-sm whitespace-pre-wrap">
-								{order.details || 'No details provided'}
-							</p>
-						</div>
 					</div>
-					<div>
-						<p className="text-sm text-muted-foreground mb-2">Attachments:</p>
+					{service.tags?.length ? (
 						<div className="flex flex-wrap gap-2">
-							{order.files?.map((file: any) => (
-								<div key={file.id} className="border rounded-md p-2">
-									<Image
-										src={`${env.baseAPI}/${file.name}`}
-										alt={file.name}
-										width={100}
-										height={100}
-										unoptimized
-										className="rounded-sm"
-									/>
-								</div>
+							{service?.tags?.map((tag, i) => (
+								<Badge key={i} variant="outline">
+									{tag}
+								</Badge>
 							))}
 						</div>
+					) : null}
+				</CardHeader>
+				<CardContent className="space-y-4">
+					<div className="relative w-full overflow-hidden rounded-xl bg-muted aspect-video">
+						<Button
+							variant="ghost"
+							size="icon"
+							className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-12 sm:h-12 bg-white/80 hover:bg-white"
+							onClick={previousImage}
+						>
+							<ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+						</Button>
+
+						<img
+							src={gallery[currentIndex]?.image || '/placeholder.svg'}
+							alt={service.title}
+							className={`object-cover w-full h-full transition-all duration-200 group-hover:scale-105 ${
+								isFading ? 'opacity-0' : 'opacity-100'
+							}`}
+						/>
+
+						<Button
+							variant="ghost"
+							size="icon"
+							className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-12 sm:h-12 bg-white/80 hover:bg-white"
+							onClick={nextImage}
+						>
+							<ChevronRight className="w-6 h-6 sm:w-8 sm:h-8" />
+						</Button>
+					</div>
+
+					{gallery.length > 1 ? (
+						<div className="flex justify-center gap-3 sm:gap-4 mt-4 flex-wrap">
+							{gallery.slice(0, 6).map((img, index) => (
+								<button
+									key={`${img.id}-${index}`}
+									onClick={() => {
+										if (index === currentIndex) return;
+										setIsFading(true);
+										setTimeout(() => {
+											setCurrentIndex(index);
+											setIsFading(false);
+										}, 150);
+									}}
+									className={`relative w-16 h-16 rounded-lg overflow-hidden transition-all
+                  ${
+										currentIndex === index
+											? 'ring-2 ring-black'
+											: 'hover:ring-1 hover:ring-gray-200'
+									}`}
+								>
+									<img
+										src={img.image}
+										alt={`${service.title} thumbnail ${index}`}
+										className="object-cover w-full h-full"
+									/>
+								</button>
+							))}
+						</div>
+					) : null}
+
+					<Separator />
+
+					<div className="space-y-2">
+						<h3 className="text-lg font-semibold">Details</h3>
+						<p className="text-sm leading-relaxed text-muted-foreground">
+							{service.description}
+						</p>
 					</div>
 				</CardContent>
 			</Card>
-			{/* Delivery Details */}
-			{order.orderdelivery?.length > 0 && (
-				<Card>
-					<CardHeader>
-						<CardTitle className="flex items-center gap-2">
-							<FileText className="h-5 w-5" />
-							Delivery Details
-						</CardTitle>
-					</CardHeader>
-					<CardContent className="space-y-4">
-						{order.orderdelivery?.length === 0 ? (
-							<p className="text-sm text-muted-foreground">
-								No delivery found.
-							</p>
-						) : (
-							<div className="space-y-2">
-								{order.orderdelivery?.map((delivery: any) => (
-									<div key={delivery.id} className="border rounded-lg p-4">
-										<p className="text-sm mb-2">
-											Delivered on:{' '}
-											<span className="text-muted-foreground">
-												{timeFormat(delivery.created_at)}
-											</span>
-										</p>
 
-										<p className="text-sm"> {delivery.description}</p>
-
-										{delivery.deliveryfiles?.length > 0 && (
-											<div className="mt-2">
-												<p className="text-sm text-muted-foreground mb-2">
-													Delivery Attachments:
-												</p>
-
-												<div className="flex flex-wrap gap-2">
-													{delivery.deliveryfiles?.map((file: any) => (
-														<div
-															key={file.id}
-															className="border rounded-md p-2"
-														>
-															<Image
-																src={`${env.baseAPI}/${file.files}`}
-																alt={file.files}
-																width={100}
-																height={100}
-																unoptimized
-																className="rounded-sm"
-															/>
-														</div>
-													))}
-												</div>
-											</div>
-										)}
-									</div>
+			<Card className="lg:col-span-1">
+				<CardHeader>
+					<CardTitle>Packages</CardTitle>
+				</CardHeader>
+				<CardContent>
+					{packages.length === 0 ? (
+						<div className="text-sm text-muted-foreground">
+							No packages available for this service.
+						</div>
+					) : (
+						<Tabs defaultValue={defaultTab} className="w-full">
+							<TabsList className="w-full justify-start overflow-x-auto">
+								{packages.map((pkg) => (
+									<TabsTrigger
+										key={pkg.id}
+										value={pkg.id.toString()}
+										className="text-left whitespace-nowrap"
+									>
+										{pkg.package_title}
+									</TabsTrigger>
 								))}
-							</div>
-						)}
-					</CardContent>
-				</Card>
-			)}
-
-			{order.status === 'success' && order.servicerating && (
-				<ServiceRatingCard data={order} />
-			)}
+							</TabsList>
+							{packages.map((pkg) => (
+								<TabsContent key={pkg.id} value={pkg.id.toString()}>
+									<div className="space-y-3 p-2">
+										<div className="flex items-center justify-between">
+											<span className="text-base font-semibold">
+												{pkg.package_title}
+											</span>
+											<Badge variant="outline">${pkg.price}</Badge>
+										</div>
+										<p className="text-sm text-muted-foreground">
+											{pkg.package_description}
+										</p>
+										<div className="text-sm text-muted-foreground space-y-1">
+											<p>Delivery time: {pkg.time}</p>
+											<p>Revision max: {pkg.revision_max_time}</p>
+										</div>
+										<div>
+											<Link
+												href={`/dashboard/expertise/purchase/${service.id}/pay?package_id=${pkg.id}&price=${pkg.price}`}
+											>
+												<Button>Buy Now</Button>
+											</Link>
+										</div>
+									</div>
+								</TabsContent>
+							))}
+						</Tabs>
+					)}
+				</CardContent>
+			</Card>
 		</div>
 	);
 }

@@ -364,15 +364,15 @@ const servicesAndAdvertise: sidebarItem[] = [
 		items: [
 			{
 				title: 'Create Service',
-				url: '/dashboard/services/create',
+				url: '/dashboard/expertise/create',
 			},
 			{
 				title: 'Services',
-				url: '/dashboard/services',
+				url: '/dashboard/expertise',
 			},
 			{
 				title: 'Service Order',
-				url: '/dashboard/services/order',
+				url: '/dashboard/expertise/order',
 			},
 		],
 	},
@@ -383,11 +383,11 @@ const servicesAndAdvertise: sidebarItem[] = [
 		items: [
 			{
 				title: 'All Services',
-				url: '/dashboard/services/purchase',
+				url: '/dashboard/expertise/purchase',
 			},
 			{
 				title: 'Purchase Service',
-				url: '/dashboard/services/purchase-order',
+				url: '/dashboard/expertise/purchase-order',
 			},
 		],
 	},

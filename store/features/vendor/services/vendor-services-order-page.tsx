@@ -1,16 +1,6 @@
 'use client';
 
-import { Container1, Loader8 } from '@/components/dashboard';
-import { Pagination1 } from '@/components/dashboard/pagination';
 import { Button } from '@/components/ui/button';
-import { CardTitle } from '@/components/ui/card';
-import { useDebounce } from '@/hooks/use-debounce';
-import { AdminAdvertiseFilter } from '@/store/features/admin/advertise';
-
-import { SlidersHorizontal } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useVendorServicesOrderQuery } from './vendor-services-api-slice';
-
 import {
 	Table,
 	TableBody,
@@ -22,6 +12,13 @@ import {
 
 import { Badge } from '@/components/ui/badge';
 import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
 	badgeFormat,
 	dateFormat,
 	sign,
@@ -30,7 +27,21 @@ import {
 	timeFormat,
 } from '@/lib';
 
+import { Ellipsis, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
+
+import { Container1, Loader8 } from '@/components/dashboard';
+import { Pagination1 } from '@/components/dashboard/pagination';
+import { CardTitle } from '@/components/ui/card';
+import { useDebounce } from '@/hooks/use-debounce';
+import { AdminAdvertiseFilter } from '@/store/features/admin/advertise';
+
+import { SlidersHorizontal } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useVendorServicesOrderQuery } from './vendor-services-api-slice';
+
+import { ServiceOrderStatus } from '../services-purchase/service-order-status';
+import { ServiceOrderCancelReq } from '../services-purchase/sevice-order-cancel-req';
 import { VendorServicesOrderStatistics } from './vendor-services-order-statistics';
 export function VendorServicesOrderPage() {
 	const [toggleFilter, setToggleFilter] = useState(true);
@@ -123,7 +134,7 @@ export function VendorServicesOrderPage() {
 														{item?.servicedetails ? (
 															<Link
 																className="hover:underline hover:text-blue-500 transition"
-																href={`/dashboard/services/order/${item.id}`}
+																href={`/dashboard/expertise/order/${item.id}`}
 															>
 																{textCount(item?.servicedetails?.title, 20)}
 															</Link>
@@ -135,7 +146,7 @@ export function VendorServicesOrderPage() {
 													<TableCell className="py-2">
 														<Link
 															className="hover:underline hover:text-blue-500 transition"
-															href={`/admin/users/${item.id}`}
+															href={`#`}
 														>
 															{item?.customerdetails?.name}
 														</Link>
@@ -172,7 +183,99 @@ export function VendorServicesOrderPage() {
 															</>
 														)}
 													</TableCell>
-													<TableCell className="py-2"></TableCell>
+													<TableCell className="py-2">
+														<DropdownMenu>
+															<DropdownMenuTrigger asChild>
+																<Button
+																	variant="outline"
+																	className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
+																	size="icon"
+																>
+																	<Ellipsis />
+																	<span className="sr-only">Open menu</span>
+																</Button>
+															</DropdownMenuTrigger>
+															<DropdownMenuContent align="end" className="w-56">
+																<DropdownMenuItem>
+																	<Link
+																		className="flex items-center gap-2 w-full"
+																		href={`/dashboard/expertise/order/${item.id}`}
+																	>
+																		<ExternalLink className="size-4" />
+																		<span>View Service</span>
+																	</Link>
+																</DropdownMenuItem>
+
+																<DropdownMenuSeparator />
+
+																{item.status !== 'revision' && (
+																	<ServiceOrderCancelReq data={item} />
+																)}
+
+																{/* {item.is_rejected === '1' &&
+																	item.status !== 'canceled' && (
+																		<>
+																			<AdminServiceOrderStatusAccept
+																				data={item}
+																			/>
+																			<AdminServiceOrderStatusCancel
+																				data={item}
+																			/>
+																		</>
+																	)} */}
+
+																<DropdownMenuSeparator />
+
+																{item.status === 'pending' && (
+																	<ServiceOrderStatus
+																		data={item}
+																		icon="Loader"
+																		status="progress"
+																		text="In Progress"
+																	/>
+																)}
+
+																{item.status === 'progress' && (
+																	<ServiceOrderStatus
+																		data={item}
+																		icon="Truck"
+																		status="delivered"
+																		text="Delivered"
+																	/>
+																)}
+
+																{item.status === 'delivered' && (
+																	<ServiceOrderStatus
+																		data={item}
+																		icon="RotateCcw"
+																		status="revision"
+																		text="Revision Requested"
+																	/>
+																)}
+
+																{item.status === 'delivered' && (
+																	<ServiceOrderStatus
+																		data={item}
+																		icon="CheckCircle2"
+																		status="success"
+																		text="Service Completed Successfully"
+																	/>
+																)}
+
+																<DropdownMenuSeparator />
+
+																{item.status !== 'canceled' && (
+																	<ServiceOrderStatus
+																		data={item}
+																		icon="XCircle"
+																		status="canceled"
+																		text="Service Cancelled"
+																		type="destructive"
+																	/>
+																)}
+															</DropdownMenuContent>
+														</DropdownMenu>
+													</TableCell>
 												</TableRow>
 											);
 										})

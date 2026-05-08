@@ -79,7 +79,7 @@ export function VendorServiceTable({
 							<TableCell className="py-2">
 								<Link
 									className="hover:underline hover:text-blue-500 transition"
-									href={`/services/${item.id}`}
+									href={`/dashboard/expertise/${item.id}/view`}
 								>
 									{textCount(item.title, 40)}
 								</Link>
@@ -93,7 +93,7 @@ export function VendorServiceTable({
 								</Badge>
 							</TableCell>
 							<TableCell className="py-2">
-								<Link href={`/services/${item.id}/view`}>
+								<Link href={`/dashboard/expertise/${item.id}/view`}>
 									<Avatar className="h-12 w-12 rounded-xl">
 										<AvatarImage
 											src={env.baseAPI + '/' + item.image}
@@ -148,7 +148,7 @@ const DropdownAction = ({ item }: { item: iVendorServices }) => {
 				<DropdownMenuItem>
 					<Link
 						className="flex items-center gap-2 w-full"
-						href={`/services/${item.id}/view`}
+						href={`/dashboard/expertise/${item.id}/view`}
 					>
 						<ExternalLink className="size-4" />
 						<span>View Service</span>
@@ -158,7 +158,7 @@ const DropdownAction = ({ item }: { item: iVendorServices }) => {
 				<DropdownMenuItem>
 					<Link
 						className="flex items-center gap-2 w-full"
-						href={`/services/${item.id}/edit`}
+						href={`/dashboard/expertise/${item.id}/edit`}
 					>
 						<Pencil className="size-4" />
 						<span>Edit Service</span>

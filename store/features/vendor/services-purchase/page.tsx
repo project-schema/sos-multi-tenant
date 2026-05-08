@@ -21,12 +21,18 @@ export function VendorServicesPurchasePage() {
 	const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
 	const { data, isLoading, isError, isFetching } =
-		useVendorServicesPurchaseQuery({
-			page: page,
-			search: debouncedSearchTerm,
-			status: statusFilter,
-			service_category_id: serviceCategoryFilter,
-		});
+		useVendorServicesPurchaseQuery(
+			{
+				page: page,
+				search: debouncedSearchTerm,
+				status: statusFilter,
+				service_category_id: serviceCategoryFilter,
+			},
+			{
+				refetchOnMountOrArgChange: false,
+				refetchOnFocus: false,
+			},
+		);
 
 	useEffect(() => {
 		setPage(1);

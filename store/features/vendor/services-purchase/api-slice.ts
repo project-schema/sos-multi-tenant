@@ -26,10 +26,12 @@ const api = apiSlice.injectEndpoints({
 					method: 'GET',
 				};
 			},
+			providesTags: ['AdminServiceOrder'],
 		}),
 
 		VendorServicesPurchaseSingle: builder.query<iServiceType, { id: string }>({
 			query: ({ id }) => `/tenant-service/myorders/${id}`,
+			providesTags: ['AdminServiceOrder'],
 		}),
 
 		// service-buy-count
@@ -46,6 +48,7 @@ const api = apiSlice.injectEndpoints({
 			void
 		>({
 			query: () => '/tenant-service/buy-count',
+			providesTags: ['AdminServiceOrder'],
 		}),
 
 		// service order lists
@@ -58,6 +61,8 @@ const api = apiSlice.injectEndpoints({
 		>({
 			query: ({ page, search }) =>
 				`/tenant-service/order?page=${page}&search=${search}`,
+
+			providesTags: ['AdminServiceOrder'],
 		}),
 
 		// /service-category
@@ -84,6 +89,67 @@ const api = apiSlice.injectEndpoints({
 					formData: true,
 				};
 			},
+			invalidatesTags: ['AdminServiceOrder'],
+		}),
+
+		/* status update 
+			"service_order_id": 22,
+    		"status": "cancel_request",
+    		"reason": "Test"
+		*/
+		ServiceOrderStatusCancelReq: builder.mutation<
+			{ message: string; status: number; data: 'success' },
+			{
+				service_order_id: number | string;
+				reason?: string;
+				status: 'cancel_request';
+			}
+		>({
+			query: (body) => ({
+				url: `/tenant-service/status`,
+				method: 'POST',
+				body,
+			}),
+			invalidatesTags: ['AdminServiceOrder'],
+		}),
+		ServiceOrderStatus: builder.mutation<
+			{ message: string; status: number; data: 'success' },
+			{
+				service_order_id: number | string;
+				reason?: string;
+				status: string;
+				order_delivery_id?: number | string;
+			}
+		>({
+			query: (body) => ({
+				url: `/tenant-service/status`,
+				method: 'POST',
+				body,
+			}),
+			invalidatesTags: ['AdminServiceOrder'],
+		}),
+
+		// rating store
+		ServiceRating: builder.mutation<
+			{ message: string; status: number; data: 'success' },
+			{
+				service_order_id: number | string;
+				rating: number;
+				comment: string;
+				vendor_service_id: number | string;
+			}
+		>({
+			query: ({ service_order_id, rating, comment, vendor_service_id }) => ({
+				url: `/service-rating`,
+				method: 'POST',
+				body: {
+					service_order_id,
+					rating,
+					comment,
+					vendor_service_id,
+				},
+			}),
+			invalidatesTags: ['AdminService'],
 		}),
 	}),
 });
@@ -95,4 +161,7 @@ export const {
 	useVendorServicesPurchaseCountQuery,
 	useVendorServicesPurchaseOrderQuery,
 	useVendorServiceOrderMutation,
+	useServiceOrderStatusCancelReqMutation,
+	useServiceOrderStatusMutation,
+	useServiceRatingMutation,
 } = api;

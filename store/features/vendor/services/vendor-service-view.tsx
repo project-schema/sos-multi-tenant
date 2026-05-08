@@ -32,7 +32,7 @@ export function VendorServiceView({ service }: { service: iVendorServices }) {
 		setIsFading(true);
 		setTimeout(() => {
 			setCurrentIndex(
-				(prev) => (prev + direction + gallery.length) % gallery.length
+				(prev) => (prev + direction + gallery.length) % gallery.length,
 			);
 			setIsFading(false);
 		}, 150);
@@ -76,8 +76,8 @@ export function VendorServiceView({ service }: { service: iVendorServices }) {
 					</div>
 					{service.tags?.length ? (
 						<div className="flex flex-wrap gap-2">
-							{service.tags.map((tag) => (
-								<Badge key={tag} variant="outline">
+							{service?.tags?.map((tag, i) => (
+								<Badge key={i} variant="outline">
 									{tag}
 								</Badge>
 							))}

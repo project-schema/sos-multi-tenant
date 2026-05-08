@@ -33,7 +33,7 @@ export function ServicesPurchaseGrid({
 					key={service.id}
 					className="gap-2 overflow-hidden hover:shadow-lg pt-0 transition-shadow duration-200"
 				>
-					<Link href={`/dashboard/services/purchase/${service.id}/view`}>
+					<Link href={`/dashboard/expertise/purchase/${service.id}/view`}>
 						<div className="relative w-full h-48 bg-muted">
 							<Image
 								src={imageFormat(service.image)}
@@ -49,7 +49,7 @@ export function ServicesPurchaseGrid({
 					<CardHeader className="pb-0">
 						<div className="space-y-2">
 							{/* Title */}
-							<Link href={`/dashboard/services/purchase/${service.id}/view`}>
+							<Link href={`/dashboard/expertise/purchase/${service.id}/view`}>
 								<h3 className="font-semibold text-sm line-clamp-2 hover:text-primary transition-colors">
 									{service.title}
 								</h3>
@@ -64,7 +64,7 @@ export function ServicesPurchaseGrid({
 								<Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
 								<span className="text-sm font-medium">
 									{parseFloat(service.servicerating_avg_rating || '0').toFixed(
-										1
+										1,
 									)}
 								</span>
 							</div>
@@ -83,7 +83,7 @@ export function ServicesPurchaseGrid({
 
 					<CardFooter className="pt-0">
 						<Button asChild className="w-full" variant="default">
-							<Link href={`/dashboard/services/purchase/${service.id}/view`}>
+							<Link href={`/dashboard/expertise/purchase/${service.id}/view`}>
 								View Details
 							</Link>
 						</Button>

@@ -9,6 +9,8 @@ export const env = {
 	token: process.env.NEXT_PUBLIC_TOKEN,
 	theme: process.env.NEXT_PUBLIC_THEME || 'two',
 
+	serviceDummyData: true,
+
 	placeholderImage:
 		process.env.NEXT_PUBLIC_PLACEHOLDER_IMAGE ||
 		'https://ui.shadcn.com/placeholder.svg',

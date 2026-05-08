@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import {
 	Dialog,
 	DialogContent,
-	DialogDescription,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
@@ -21,40 +20,47 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm } from '@/lib';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderCircle, Pencil } from 'lucide-react';
+import { Ban, LoaderCircle } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { useDropshipperCustomPriceMutation } from './dropshipper-product-api-slice';
+import { iAdminServiceOrder } from '../../admin/service';
+import { useServiceOrderStatusCancelReqMutation } from './api-slice';
 
 //  Zod Schema
-const couponSchema = z.object({
-	profit_amount: z.number().min(1, 'Price is required'),
+const schema = z.object({
+	reason: z.string().trim().min(1, 'Reason is required').max(2000, 'Too long'),
 });
 
-type ZodType = z.infer<typeof couponSchema>;
+type ZodType = z.infer<typeof schema>;
 
-//  Component
-export function DropshipperCustomPrice({ data }: { data: any }) {
+export function ServiceOrderCancelReq({ data }: { data: iAdminServiceOrder }) {
 	const [open, setOpen] = useState(false);
+	const isRejected = data?.is_rejected === '1';
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
 				<DialogTrigger className="flex items-center gap-2 w-full">
 					<DropdownMenuShortcut className="ml-0">
-						<Pencil className="size-4  " />
+						<Ban className="size-4" />
 					</DropdownMenuShortcut>
-					Custom Price
+					{isRejected ? 'Reject Message' : 'Cancel Request'}
 				</DialogTrigger>
 			</DropdownMenuItem>
 
-			<DialogContent className={cn('sm:max-w-xl w-full')}>
+			<DialogContent className={cn('sm:max-w-2xl w-full')}>
+				<DialogHeader>
+					<DialogTitle>
+						{isRejected ? 'Reject Message' : 'Cancel Request'}
+					</DialogTitle>
+				</DialogHeader>
+
 				<FORM setOpen={setOpen} editData={data} />
 			</DialogContent>
 		</Dialog>
@@ -66,36 +72,34 @@ const FORM = ({
 	editData,
 }: {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	editData: any;
+	editData: iAdminServiceOrder;
 }) => {
-	const [update, { isLoading }] = useDropshipperCustomPriceMutation();
+	const [update, { isLoading }] = useServiceOrderStatusCancelReqMutation();
 
 	const form = useForm<ZodType>({
-		resolver: zodResolver(couponSchema),
+		resolver: zodResolver(schema),
 		defaultValues: {
-			profit_amount: editData?.profit_amount || '',
+			reason: editData?.reason || '',
 		},
 	});
-
 	useEffect(() => {
 		form.reset({
-			profit_amount: editData?.profit_amount || '',
+			reason: editData?.reason || '',
 		});
 	}, [editData]);
-
-	const profit = form.watch('profit_amount');
 
 	const onSubmit = async (data: ZodType) => {
 		alertConfirm({
 			onOk: async () => {
 				try {
 					const response = await update({
-						id: editData.id,
-						profit_amount: data.profit_amount.toString(),
+						reason: data.reason,
+						status: 'cancel_request',
+						service_order_id: editData.id,
 					}).unwrap();
 
-					if (response?.status === 200) {
-						toast.success(response.message || 'Update successfully');
+					if (response.data === 'success') {
+						toast.success(response.message || 'Updated successfully');
 						form.reset();
 						setOpen(false);
 					} else {
@@ -127,55 +131,38 @@ const FORM = ({
 		});
 	};
 	return (
-		<>
-			<DialogHeader>
-				<DialogTitle>Custom Price</DialogTitle>
-				<DialogDescription>
-					Update custom price{' '}
-					<b>
-						{Number(
-							editData.product.discount_price ||
-								editData.product.selling_price ||
-								0,
-						) + Number(profit)}
-					</b>
-				</DialogDescription>
-			</DialogHeader>
-			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-					{/* Message */}
-					<FormField
-						control={form.control}
-						name="profit_amount"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Price</FormLabel>
-								<FormControl>
-									<Input
-										type="number"
-										placeholder="Price..."
-										{...field}
-										onWheel={(e) => {
-											(e.target as HTMLInputElement).blur();
-										}}
-										onChange={(e) => {
-											field.onChange(e.target.valueAsNumber || '');
-										}}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+				{/* Reason */}
+				<FormField
+					control={form.control}
+					name="reason"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Reject Reason</FormLabel>
+							<FormControl>
+								<Textarea placeholder="Type reason..." {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 
-					<Button type="submit" className="w-full">
-						{isLoading && (
-							<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-						)}
-						{isLoading ? 'Submitting...' : 'Submit'}
-					</Button>
-				</form>
-			</Form>
-		</>
+				{editData.status !== 'canceled' && (
+					<div className="flex justify-end">
+						<Button type="submit" disabled={isLoading}>
+							{isLoading && (
+								<LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+							)}
+							{isLoading
+								? 'Updating...'
+								: editData?.is_rejected === '1'
+									? 'Update Message'
+									: 'Cancel Order'}
+						</Button>
+					</div>
+				)}
+			</form>
+		</Form>
 	);
 };

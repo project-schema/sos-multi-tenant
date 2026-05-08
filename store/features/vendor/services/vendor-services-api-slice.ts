@@ -148,7 +148,7 @@ const api = apiSlice.injectEndpoints({
 		// order count
 		VendorServicesOrderCount: builder.query<iVendorServicesStatistics, void>({
 			query: () => '/tenant-service/order/count',
-			providesTags: ['VendorService'],
+			providesTags: ['VendorService', 'AdminServiceOrder'],
 		}),
 
 		// order
@@ -157,7 +157,7 @@ const api = apiSlice.injectEndpoints({
 			void
 		>({
 			query: () => '/tenant-service/orders',
-			providesTags: ['VendorService'],
+			providesTags: ['VendorService', 'AdminServiceOrder'],
 		}),
 
 		// order
@@ -166,7 +166,7 @@ const api = apiSlice.injectEndpoints({
 			{ id: string }
 		>({
 			query: ({ id }) => `/tenant-service/orders/view/${id}`,
-			providesTags: ['VendorService'],
+			providesTags: ['VendorService', 'AdminServiceOrder'],
 		}),
 
 		vendorServiceOrderStatusUpdate: builder.mutation<
