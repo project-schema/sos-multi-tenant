@@ -99,8 +99,12 @@ const api = apiSlice.injectEndpoints({
 			invalidatesTags: ['VendorService'],
 		}),
 
-		VendorServices: builder.query<iVendorServicesResponse, void>({
-			query: () => '/tenant-service',
+		VendorServices: builder.query<
+			iVendorServicesResponse,
+			{ page: number | string }
+		>({
+			query: ({ page }) => `/tenant-service?page=${page}`,
+
 			providesTags: ['VendorService'],
 		}),
 

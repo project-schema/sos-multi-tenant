@@ -38,6 +38,8 @@ export default async function MySiteLayout({
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
 		'/tenant-frontend/cms',
 	);
+
+	console.log(settings);
 	return (
 		<>
 			{/* Theme Colors */}

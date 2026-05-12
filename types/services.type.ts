@@ -18,14 +18,16 @@ export interface iServiceType {
 		| 'delivered'
 		| 'revision'
 		| 'canceled'
-		| 'cancel_request';
+		| 'cancel_request'
+		| 'active'
+		| 'rejected';
 	commission: number;
 	commission_type: string;
 	image: string;
 	created_at: string;
 	updated_at: string;
 	deleted_at: null;
-	reason: null;
+	reason: null | string;
 	tenant_id: string;
 	servicerating_avg_rating: string;
 	servicepackages: iServicePackageType[];

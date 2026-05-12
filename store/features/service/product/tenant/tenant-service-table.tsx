@@ -32,7 +32,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { iPagination } from '@/types';
 import { Ellipsis, ExternalLink, Pencil } from 'lucide-react';
 import Link from 'next/link';
-export function VendorServiceTable({ data }: { data: iPagination<any> }) {
+import { iService } from '../../type';
+import { VendorServicesDelete } from './tenant-services-delete';
+export function VendorServiceTable({ data }: { data: iPagination<iService> }) {
 	const services = data.data;
 	return (
 		<Table>
@@ -73,19 +75,21 @@ export function VendorServiceTable({ data }: { data: iPagination<any> }) {
 							<TableCell className="py-2">
 								<Link
 									className="hover:underline hover:text-blue-500 transition"
-									href={`/services/${item.id}`}
+									href={`/dashboard/expertise/${item.id}/view`}
 								>
 									{textCount(item.title, 40)}
 								</Link>
 							</TableCell>
 							<TableCell className="py-2">
 								<Badge className="capitalize" variant="default">
-									{sign.dollar}
 									{item.commission}
+									{item.commission_type === 'percentage'
+										? sign.percent
+										: sign.tk}
 								</Badge>
 							</TableCell>
 							<TableCell className="py-2">
-								<Link href={`/services/${item.id}`}>
+								<Link href={`/dashboard/expertise/${item.id}/view`}>
 									<Avatar className="h-12 w-12 rounded-xl">
 										<AvatarImage
 											src={env.baseAPI + '/' + item.image}
@@ -123,7 +127,7 @@ export function VendorServiceTable({ data }: { data: iPagination<any> }) {
 	);
 }
 
-const DropdownAction = ({ item }: { item: any }) => {
+const DropdownAction = ({ item }: { item: iService }) => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -140,7 +144,7 @@ const DropdownAction = ({ item }: { item: any }) => {
 				<DropdownMenuItem>
 					<Link
 						className="flex items-center gap-2 w-full"
-						href={`/services/${item.id}`}
+						href={`/dashboard/expertise/${item.id}/view`}
 					>
 						<ExternalLink className="size-4" />
 						<span>View Service</span>
@@ -150,7 +154,7 @@ const DropdownAction = ({ item }: { item: any }) => {
 				<DropdownMenuItem>
 					<Link
 						className="flex items-center gap-2 w-full"
-						href={`/services/${item.id}/edit`}
+						href={`/dashboard/expertise/${item.id}/edit`}
 					>
 						<Pencil className="size-4" />
 						<span>Edit Service</span>
@@ -159,7 +163,7 @@ const DropdownAction = ({ item }: { item: any }) => {
 
 				<DropdownMenuSeparator />
 				{/* Delete Service  */}
-				{/* <VendorServicesDelete data={item} /> */}
+				<VendorServicesDelete data={item} />
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

@@ -63,7 +63,7 @@ export const DropshipperProductAddToCart = ({
 
 				quantities.forEach((qty, variantId) => {
 					const variant = product?.product_variant?.find(
-						(v) => v.id === variantId,
+						(v) => v.id === variantId
 					);
 					if (variant) {
 						cartItems.push({
@@ -100,7 +100,7 @@ export const DropshipperProductAddToCart = ({
 				if (response.status === 201) {
 					router.push(`/dashboard/cart`);
 					toast.success(
-						response?.message || 'Product added to cart successfully',
+						response?.message || 'Product added to cart successfully'
 					);
 				} else {
 					toast.error(response?.message || 'Failed to add product to cart');
@@ -190,6 +190,9 @@ export const DropshipperProductAddToCart = ({
 												onChange={(e) =>
 													handleQtyChange(variant.id, e.target.value)
 												}
+												onWheel={(e) => {
+													(e.target as HTMLInputElement).blur();
+												}}
 											/>
 										</TableCell>
 									</TableRow>

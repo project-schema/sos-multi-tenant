@@ -2,7 +2,7 @@ import { DbHeader } from '@/components/dashboard';
 import { getApiData } from '@/lib';
 import { SessionProvider } from '@/provider';
 import { iAdminService } from '@/store/features/admin/service';
-import { VendorServicePurchasePay } from '@/store/features/vendor/services-purchase/service-pay';
+import { TenantServicePurchasePay } from '@/store/features/service/tenant-purchase/services-purchase-pay';
 import { notFound } from 'next/navigation';
 
 const breadcrumbItems = [
@@ -26,7 +26,7 @@ export default async function Page({
 	return (
 		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<VendorServicePurchasePay service={service} />
+			<TenantServicePurchasePay service={service} />
 		</SessionProvider>
 	);
 }

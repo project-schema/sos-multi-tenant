@@ -280,10 +280,7 @@ export function VendorServicesCreate() {
 						<div className="text-sm text-muted-foreground">
 							Step {step} of 2
 						</div>
-						<div
-							className="flex items-center gap-2"
-							hidden={!env.serviceDummyData}
-						>
+						<div className="flex items-center gap-2" hidden={!env.dummyData}>
 							<Button variant="outline" onClick={() => handleDummyData(1)}>
 								Insert Dummy Data
 							</Button>
@@ -352,7 +349,7 @@ export function VendorServicesCreate() {
 																	(item) => ({
 																		label: item.name,
 																		value: item.id.toString(),
-																	}),
+																	})
 																)) ??
 															[]
 														}
@@ -374,7 +371,7 @@ export function VendorServicesCreate() {
 																	?.find(
 																		(item) =>
 																			item.id.toString() ===
-																			categoryId.toString(),
+																			categoryId.toString()
 																	)
 																	?.servicesub_categories?.map((subItem) => ({
 																		label: subItem.name,

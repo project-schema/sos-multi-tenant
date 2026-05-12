@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { env } from '@/lib';
+import { iServiceType } from '@/types/services.type';
 import { useState } from 'react';
 import { iAdminService } from '../../admin/service';
 
@@ -16,7 +17,7 @@ import Link from 'next/link';
 export function VendorServicePurchaseView({
 	service,
 }: {
-	service: iAdminService;
+	service: iAdminService | iServiceType;
 }) {
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [isFading, setIsFading] = useState(false);

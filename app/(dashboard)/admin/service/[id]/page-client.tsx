@@ -3,7 +3,7 @@ import { Container1, DbHeader } from '@/components/dashboard';
 import { CardTitle } from '@/components/ui/card';
 import { SessionProvider } from '@/provider';
 import { useAdminVendorServiceSingleQuery } from '@/store/features/admin/service';
-import { VendorServiceView } from '@/store/features/vendor/services/vendor-service-view';
+import { AdminServiceViewPage } from '@/store/features/service/product/admin/admin.service.view.page';
 import { useParams } from 'next/navigation';
 
 const breadcrumbItems = [
@@ -26,7 +26,7 @@ export default function Page() {
 				isLoading={isLoading}
 				header={<CardTitle>Service View</CardTitle>}
 			>
-				{data && <VendorServiceView service={data.message} />}
+				{data && <AdminServiceViewPage service={data.message} />}
 			</Container1>
 		</SessionProvider>
 	);

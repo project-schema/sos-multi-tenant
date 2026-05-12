@@ -19,7 +19,16 @@ import {
 	timeFormat,
 } from '@/lib';
 
+import { Button } from '@/components/ui/button';
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { iPagination } from '@/types';
+import { Ellipsis } from 'lucide-react';
+import { iAdminWithdrawal } from '../../admin/withdrawal';
+import { ViewWithdrawalModal } from '../../admin/withdrawal/admin.withdrawal.view-modal';
 import { iVendorWithdraw } from './vendor-withdraw-type';
 
 export function VendorWithdrawTable({
@@ -41,9 +50,9 @@ export function VendorWithdrawTable({
 					<TableHead className="bg-stone-100">Branch Name </TableHead>
 					<TableHead className="bg-stone-100">AC Holder Name </TableHead>
 					<TableHead className="bg-stone-100">Date </TableHead>
-					<TableHead className="bg-stone-100">Screenshot </TableHead>
 					<TableHead className="bg-stone-100">Admin T.ID </TableHead>
 					<TableHead className="bg-stone-100">Status </TableHead>
+					<TableHead className="bg-stone-100">Action </TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody>
@@ -88,6 +97,7 @@ export function VendorWithdrawTable({
 								{dateFormat(item.created_at)} <br />
 								{timeFormat(item.created_at)}
 							</TableCell>
+							<TableCell className="py-2">{item.admin_transition_id}</TableCell>
 							<TableCell className="py-2">
 								<Badge
 									className="capitalize"
@@ -96,7 +106,9 @@ export function VendorWithdrawTable({
 									{item.status}
 								</Badge>
 							</TableCell>
-							<TableCell className="py-2">{item.admin_transition_id}</TableCell>
+							<TableCell className="py-2">
+								<DropDownAction item={item as any} />
+							</TableCell>
 						</TableRow>
 					))
 				)}
@@ -104,3 +116,23 @@ export function VendorWithdrawTable({
 		</Table>
 	);
 }
+
+const DropDownAction = ({ item }: { item: iAdminWithdrawal }) => {
+	return (
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button
+					variant="outline"
+					className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
+					size="icon"
+				>
+					<Ellipsis />
+					<span className="sr-only">Open menu</span>
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align="end" className="w-56">
+				{item.status === 'success' && <ViewWithdrawalModal data={item} />}
+			</DropdownMenuContent>
+		</DropdownMenu>
+	);
+};

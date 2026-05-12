@@ -3,8 +3,8 @@
 import { Container1, DbHeader } from '@/components/dashboard';
 import { CardTitle } from '@/components/ui/card';
 import { SessionProvider } from '@/provider';
-import { VendorServiceView } from '@/store/features/vendor/services/vendor-service-view';
-import { useVendorServicesSingleQuery } from '@/store/features/vendor/services/vendor-services-api-slice';
+import { TenantServiceViewPage } from '@/store/features/service/product/tenant/tenant-service-view';
+import { useVendorServicesSingleQuery } from '@/store/features/service/product/tenant/tenant-services-api-slice';
 import { useParams } from 'next/navigation';
 
 const breadcrumbItems = [
@@ -28,7 +28,7 @@ export default function Page() {
 				isLoading={isLoading}
 				header={<CardTitle>Service View</CardTitle>}
 			>
-				{data && <VendorServiceView service={data.message} />}
+				{data && <TenantServiceViewPage service={data.message} />}
 			</Container1>
 		</SessionProvider>
 	);

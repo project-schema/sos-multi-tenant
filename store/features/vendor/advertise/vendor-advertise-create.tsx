@@ -9,7 +9,10 @@ import {
 } from '@/store/features/frontend/advertiser-form';
 import { advertiseStep } from '@/store/features/frontend/advertiser-form/advertiser-form-slice';
 
+import { env } from '@/lib';
+import { useAppDispatch } from '@/store/hooks';
 import { useSelector } from 'react-redux';
+import { fillAdvertiseDummyData } from '../../frontend/advertiser-form/dumy-data';
 
 export function VendorAdvertiseCreate({
 	createAdvertise,
@@ -19,10 +22,18 @@ export function VendorAdvertiseCreate({
 	isLoading: boolean;
 }) {
 	const step = useSelector(advertiseStep);
-
+	const dispatch = useAppDispatch();
 	return (
 		<div className="layout db-advertise-create">
 			<AdvertiserFormProgressbar currentStep={step} />
+			{
+				<button
+					hidden={!env.dummyData}
+					onClick={fillAdvertiseDummyData(dispatch)}
+				>
+					Fill Dummy Data
+				</button>
+			}
 			{step === 1 && <AdvertiserFormTab1 />}
 			{step === 2 && (
 				<AdvertiserFormTab2

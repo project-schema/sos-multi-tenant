@@ -23,7 +23,7 @@ export function VendorPosSalesOrderReturnPage() {
 			<Container1
 				isError={isError}
 				isLoading={isLoading}
-				header={<CardTitle>Sales Invoice</CardTitle>}
+				header={<CardTitle>POS Sales Return</CardTitle>}
 			>
 				{data?.status && <VendorPOSalesSellReturn data={data} />}
 			</Container1>

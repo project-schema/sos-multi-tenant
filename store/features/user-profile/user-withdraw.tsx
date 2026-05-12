@@ -1,5 +1,15 @@
 'use client';
 
+import { Container1, Loader8 } from '@/components/dashboard';
+import { Pagination1 } from '@/components/dashboard/pagination';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { CardTitle } from '@/components/ui/card';
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import {
 	Table,
 	TableBody,
@@ -8,11 +18,6 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-
-import { Container1, Loader8 } from '@/components/dashboard';
-import { Pagination1 } from '@/components/dashboard/pagination';
-import { Badge } from '@/components/ui/badge';
-import { CardTitle } from '@/components/ui/card';
 import {
 	badgeFormat,
 	dateFormat,
@@ -21,7 +26,10 @@ import {
 	textCount,
 	timeFormat,
 } from '@/lib';
+import { Ellipsis } from 'lucide-react';
 import { useState } from 'react';
+import { iAdminWithdrawal } from '../admin/withdrawal';
+import { ViewWithdrawalModal } from '../admin/withdrawal/admin.withdrawal.view-modal';
 import {
 	useAllBanksQuery,
 	useAllWithdrawHistoryQuery,
@@ -81,9 +89,9 @@ export function UserWithdraw() {
 								<TableHead className="bg-stone-100">Branch Name </TableHead>
 								<TableHead className="bg-stone-100">AC Holder Name </TableHead>
 								<TableHead className="bg-stone-100">Date </TableHead>
-								<TableHead className="bg-stone-100">Screenshot </TableHead>
 								<TableHead className="bg-stone-100">Admin T.ID </TableHead>
 								<TableHead className="bg-stone-100">Status </TableHead>
+								<TableHead className="bg-stone-100">Action </TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
@@ -130,9 +138,7 @@ export function UserWithdraw() {
 											{dateFormat(item.created_at)} <br />
 											{timeFormat(item.created_at)}
 										</TableCell>
-										<TableCell className="py-2">
-											{item.admin_screenshot}
-										</TableCell>
+
 										<TableCell className="py-2">
 											{item.admin_transition_id}
 										</TableCell>
@@ -146,6 +152,10 @@ export function UserWithdraw() {
 												</Badge>
 											)}
 										</TableCell>
+
+										<TableCell className="py-2">
+											<DropDownAction item={item as any} />
+										</TableCell>
 									</TableRow>
 								))
 							)}
@@ -157,3 +167,23 @@ export function UserWithdraw() {
 		</Container1>
 	);
 }
+
+const DropDownAction = ({ item }: { item: iAdminWithdrawal }) => {
+	return (
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button
+					variant="outline"
+					className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
+					size="icon"
+				>
+					<Ellipsis />
+					<span className="sr-only">Open menu</span>
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align="end" className="w-56">
+				{item.status === 'success' && <ViewWithdrawalModal data={item} />}
+			</DropdownMenuContent>
+		</DropdownMenu>
+	);
+};

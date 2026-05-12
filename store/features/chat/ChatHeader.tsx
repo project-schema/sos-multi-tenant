@@ -1,29 +1,39 @@
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { MoreHorizontal, Phone } from 'lucide-react';
-import { Contact } from './chat';
 import { ContactAvatar } from './ContactAvatar';
+import { iChatUser } from './type';
+import { getAvatarGradientClass, getChatInitials } from './utils';
 
 interface ChatHeaderProps {
-	contact: Contact;
+	peer: iChatUser;
+	partnerId: number;
 }
 
-export function ChatHeader({ contact }: ChatHeaderProps) {
+function isRecentlyOnline(lastSeen: string) {
+	const t = new Date(lastSeen).getTime();
+	if (Number.isNaN(t)) return false;
+	return Date.now() - t < 5 * 60 * 1000;
+}
+
+export function ChatHeader({ peer, partnerId }: ChatHeaderProps) {
+	const online = isRecentlyOnline(peer.last_seen);
+
 	return (
 		<>
 			<div className="flex items-center justify-between px-5 py-3.5">
 				<div className="flex items-center gap-3">
 					<ContactAvatar
-						initials={contact.initials}
-						colorClass={contact.avatarColor}
+						initials={getChatInitials(peer.name)}
+						colorClass={getAvatarGradientClass(partnerId)}
 						size="sm"
-						isOnline={contact.isOnline}
+						isOnline={online}
 					/>
 					<div>
 						<p className="text-sm font-semibold text-foreground leading-tight">
-							{contact.name}
+							{peer.name}
 						</p>
-						{contact.isOnline && (
+						{online && (
 							<p className="text-xs text-green-500 font-medium leading-tight">
 								Online
 							</p>

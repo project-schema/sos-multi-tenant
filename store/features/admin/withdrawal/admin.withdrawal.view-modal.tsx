@@ -16,7 +16,6 @@ import {
 import { env } from '@/lib';
 import { cn } from '@/lib/utils';
 import { CheckCircle2Icon, ExternalLink } from 'lucide-react';
-import Image from 'next/image';
 import React, { useState } from 'react';
 import { iAdminWithdrawal } from './admin.withdrawal.type';
 
@@ -64,12 +63,10 @@ const FORM = ({
 			)}
 			{editData?.admin_screenshot && (
 				<div className="text-center">
-					<Image
+					<img
+						src={`${env.baseAPI}/${editData?.admin_screenshot}`}
 						alt="image"
 						className="mx-auto text-center border p-2 rounded-md max-h-96 object-contain"
-						width={400}
-						height={400}
-						src={`${env.baseAPI}/${editData?.admin_screenshot}`}
 					/>
 				</div>
 			)}

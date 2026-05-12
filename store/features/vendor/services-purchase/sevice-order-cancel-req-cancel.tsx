@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 
 import { alertConfirm } from '@/lib';
 import { iAdminServiceOrder } from '../../admin/service';
-import { useAdminCancelServiceOrderRequestMutation } from './service-order.api.slice';
+import { useAdminCancelServiceOrderRequestMutation } from '@/store/features/admin/service-order/service-order.api.slice';
 
 export function ServiceOrderStatusCancel({
 	data,

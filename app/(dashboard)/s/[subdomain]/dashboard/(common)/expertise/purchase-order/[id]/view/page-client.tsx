@@ -3,7 +3,7 @@
 import { Container1, DbHeader } from '@/components/dashboard';
 import { CardTitle } from '@/components/ui/card';
 import { SessionProvider } from '@/provider';
-import { VendorServiceOrderView } from '@/store/features/vendor/services/vendor-service-order-view';
+import { TenantServicePurchaseOrderView } from '@/store/features/service/tenant-purchase/tenant-purchase-order-page';
 import { useVendorServicesOrderSingleQuery } from '@/store/features/vendor/services/vendor-services-api-slice';
 import { useParams } from 'next/navigation';
 
@@ -28,7 +28,7 @@ export default function Page() {
 				isLoading={isLoading}
 				header={<CardTitle>Service View</CardTitle>}
 			>
-				{data && <VendorServiceOrderView order={data.message} />}
+				{data && <TenantServicePurchaseOrderView order={data.message} />}
 			</Container1>
 		</SessionProvider>
 	);

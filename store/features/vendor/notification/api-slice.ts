@@ -14,7 +14,7 @@ const api = apiSlice.injectEndpoints({
 		// mark as read
 		MarkAsReadAll: builder.mutation<{ status: 200; message: string }, void>({
 			query: () => ({
-				url: `/mark-as-read-all`,
+				url: `/notification/mark-as-read-all`,
 				method: 'GET',
 			}),
 		}),
@@ -25,7 +25,7 @@ const api = apiSlice.injectEndpoints({
 			{ id: string }
 		>({
 			query: ({ id }) => ({
-				url: `/mark-as-read/${id}`,
+				url: `/notification/mark-as-read/${id}`,
 				method: 'GET',
 			}),
 		}),

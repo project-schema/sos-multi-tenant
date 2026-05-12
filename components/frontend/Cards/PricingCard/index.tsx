@@ -3,25 +3,15 @@ import { Badge } from '@/components/ui/badge';
 import { checkSubscription } from '@/lib';
 import SubscriptionBuyModal from '@/store/features/frontend/pricing/subscription-buy-modal';
 import { motion } from 'motion/react';
-import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { usePathname, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import shape from './card-active-bg-shape.svg';
 import style from './PricingCard.module.css';
 
 function PricingCard({ data, user, i, usersubscription }: any) {
-	const { data: session } = useSession();
-	const pathname = usePathname();
-	const searchParams = useSearchParams();
-	const tab = searchParams.get('tab');
+	// const { data: session } = useSession();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const isAuthPage = pathname === '/auth';
-	const isPricingTab = tab === 'pricing';
-	const isSubscription = session?.user?.usersubscription;
-
-	const isFrontendPay = isAuthPage && isPricingTab && !isSubscription;
 	const handleSwitch = () => {
 		setIsModalOpen(true);
 	};
@@ -75,10 +65,11 @@ function PricingCard({ data, user, i, usersubscription }: any) {
 					delay: i * 0.1,
 				},
 			}}
-			className={`relative ${style.card} ${data.suggest === '1' && style.suggest} ${
-				session?.user?.usersubscription?.subscription?.id === data.id &&
-				style.activated
-			} `}
+			className={`relative ${style.card} ${
+				data.suggest === '1' && style.suggest
+			}
+			 ${usersubscription?.subscription?.id === data.id && style.activated}
+			 `}
 		>
 			{data.suggest === '1' && (
 				<span className={style.popular}>MOST POPULAR</span>
@@ -141,28 +132,17 @@ function PricingCard({ data, user, i, usersubscription }: any) {
 					</div>
 				))}
 			</div>
-			{session?.user?.usersubscription?.subscription?.id === data.id && (
+			{usersubscription?.subscription?.id === data.id && (
 				<Badge className="bg-green-500 text-white absolute top-2 left-2">
 					Active
 				</Badge>
 			)}
 
-			{/* <button
-				onClick={handleSwitch}
-				className={`${style.buyNow} ${data.suggest && 'mb-5'} ${
-					session?.user?.usersubscription?.subscription?.id === data.id &&
-					'!hidden'
-				}`}
-			>
-				{data?.subscription_amount === '0' ? 'Get Free' : 'Buy Now'}
-			</button> */}
-
-			{!session?.user?.usersubscription && (
+			{!usersubscription && (
 				<button
 					onClick={handleSwitch}
 					className={`${style.buyNow} ${data.suggest && 'mb-5'} ${
-						session?.user?.usersubscription?.subscription?.id === data.id &&
-						'!hidden'
+						usersubscription?.subscription?.id === data.id && '!hidden'
 					}`}
 				>
 					{data?.subscription_amount === '0' ? 'Get Free' : 'Buy Now'}
@@ -170,11 +150,11 @@ function PricingCard({ data, user, i, usersubscription }: any) {
 			)}
 
 			{/* if user have already subscription then show renew button */}
-			{session?.user?.usersubscription && data.subscription_amount !== '0' && (
+			{usersubscription && data.subscription_amount !== '0' && (
 				<button
 					onClick={handleSwitch}
 					className={`${style.buyNow} ${data.suggest && 'mb-5'} ${
-						session?.user?.usersubscription?.subscription?.id === data.id &&
+						usersubscription?.subscription?.id === data.id &&
 						usersubscription &&
 						!checkSubscription(usersubscription) &&
 						'!hidden'

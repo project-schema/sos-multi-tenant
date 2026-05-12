@@ -1,3 +1,4 @@
+import { useAppSelector } from '@/store/hooks';
 import Checkout from './checkout/Checkout';
 
 export function AdvertiserFormTab4Checkout({
@@ -7,6 +8,8 @@ export function AdvertiserFormTab4Checkout({
 	createAdvertise: (data: any) => any;
 	isLoading: boolean;
 }) {
+	const level2 = useAppSelector((state) => state.advertiseForm);
+	console.log(level2);
 	return (
 		<div>
 			<Checkout createAdvertise={createAdvertise} isLoading={isLoading} />

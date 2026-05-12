@@ -6,7 +6,7 @@ import { VendorPosSalesOrderReturnPage } from '@/store/features/vendor/pos-sales
 
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/dashboard' },
-	{ name: 'POS Sales', path: '/pos-sales' },
+	{ name: 'POS Sales', path: '/dashboard/pos-sales' },
 	{ name: 'POS Sales Return' },
 ];
 

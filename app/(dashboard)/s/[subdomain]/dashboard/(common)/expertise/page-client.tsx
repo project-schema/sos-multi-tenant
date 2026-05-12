@@ -2,7 +2,7 @@
 
 import { DbHeader } from '@/components/dashboard';
 import { SessionProvider } from '@/provider';
-import { VendorServicesPage } from '@/store/features/vendor/services';
+import { TenantServicesPage } from '@/store/features/service/product/tenant/tenant-services-page';
 
 const breadcrumbItems = [
 	{ name: 'Dashboard', path: '/dashboard' },
@@ -13,7 +13,7 @@ export default function Page() {
 	return (
 		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
-			<VendorServicesPage />
+			<TenantServicesPage />
 		</SessionProvider>
 	);
 }

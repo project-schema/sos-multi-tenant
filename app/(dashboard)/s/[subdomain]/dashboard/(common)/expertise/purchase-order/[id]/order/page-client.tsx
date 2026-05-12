@@ -28,7 +28,7 @@ export default function Page() {
 				isLoading={isLoading}
 				header={<CardTitle>Service View</CardTitle>}
 			>
-				{data && <VendorServicePurchaseView order={(data as any)?.message} />}
+				{data && <VendorServicePurchaseView service={data} />}
 			</Container1>
 		</SessionProvider>
 	);

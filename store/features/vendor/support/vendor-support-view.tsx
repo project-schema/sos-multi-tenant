@@ -1,6 +1,7 @@
 'use client';
 
 import { imageFormat } from '@/lib';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { useVendorSupportViewQuery } from './vendor-support-api-slice';
@@ -12,7 +13,7 @@ export function VendorSupportView() {
 		{ id: id as string },
 		{
 			skip: !id,
-		},
+		}
 	);
 
 	const supportData = data?.message;
@@ -57,7 +58,11 @@ export function VendorSupportView() {
 							supportData?.ticketreplay?.map((message) => (
 								<div
 									key={message.id}
-									className={`flex ${message.user.role_as !== '1' ? 'justify-end' : 'justify-start'}`}
+									className={`flex ${
+										message.user.role_as !== '1'
+											? 'justify-end'
+											: 'justify-start'
+									}`}
 								>
 									<div
 										className={`max-w-[78%] space-y-2 rounded-2xl px-3 py-2 text-sm shadow-sm ${
@@ -91,9 +96,25 @@ export function VendorSupportView() {
 						) : (
 							<div>No messages yet</div>
 						)}
+
+						{supportData.status === 'closed' && (
+							<div className="text-center ">
+								<p className="text-red-500">
+									This support ticket has been closed.
+								</p>
+								<p className="text-gray-500">Thank you for your support.</p>
+
+								<Link
+									href="/support/create"
+									className="text-blue-500 hover:text-blue-600"
+								>
+									Open a new support ticket
+								</Link>
+							</div>
+						)}
 					</div>
 				)}
-				{supportData && (
+				{supportData && supportData.status !== 'closed' && (
 					<div className="absolute bottom-3 w-[calc(100%-1rem)] bg-gray-50">
 						<VendorSupportReplay data={supportData} />
 					</div>

@@ -12,7 +12,7 @@ export function UserSupportView() {
 		{ id: id as string },
 		{
 			skip: !id,
-		},
+		}
 	);
 
 	const supportData = data?.message;
@@ -57,7 +57,11 @@ export function UserSupportView() {
 							supportData?.ticketreplay?.map((message) => (
 								<div
 									key={message.id}
-									className={`flex ${message.user.role_as !== '1' ? 'justify-end' : 'justify-start'}`}
+									className={`flex ${
+										message.user.role_as !== '1'
+											? 'justify-end'
+											: 'justify-start'
+									}`}
 								>
 									<div
 										className={`max-w-[78%] space-y-2 rounded-2xl px-3 py-2 text-sm shadow-sm ${
@@ -91,9 +95,17 @@ export function UserSupportView() {
 						) : (
 							<div>No messages yet</div>
 						)}
+						{supportData.status === 'closed' && (
+							<div className="text-center ">
+								<p className="text-red-500">
+									This support ticket has been closed.
+								</p>
+								<p className="text-gray-500">Thank you for your support.</p>
+							</div>
+						)}
 					</div>
 				)}
-				{supportData && (
+				{supportData && supportData.status !== 'closed' && (
 					<div className="absolute bottom-3 w-[calc(100%-1rem)] bg-gray-50">
 						<UserSupportReplay data={supportData} />
 					</div>

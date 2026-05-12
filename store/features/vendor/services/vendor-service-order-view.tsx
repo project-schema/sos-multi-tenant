@@ -118,7 +118,7 @@ export function VendorServiceOrderView({
 									)} */}
 									{order.status !== 'delivered' && <DropdownMenuSeparator />}
 
-									{order.status !== 'cancel' && (
+									{/* {order.status !== 'cancel' && (
 										<VendorServiceOrderStatus
 											data={order}
 											icon="XCircle"
@@ -126,7 +126,7 @@ export function VendorServiceOrderView({
 											text="Service Cancelled"
 											type="destructive"
 										/>
-									)}
+									)} */}
 								</DropdownMenuContent>
 							</DropdownMenu>
 							<div className="flex items-center gap-2">
