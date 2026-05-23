@@ -56,21 +56,21 @@ const productSchema = z.object({
 	qty: z
 		.number({ error: 'Qty is required' })
 		.min(0, { message: 'Qty must be at least 0' })
-		.max(1000000, { message: 'Too long' })
+		.max(100000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Qty must be a number',
 		}),
 	rate: z
 		.number({ error: 'Rate is required' })
 		.min(0, { message: 'Rate must be at least 0' })
-		.max(1000000, { message: 'Too long' })
+		.max(100000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Rate must be a number',
 		}),
 	sub_total: z
 		.number({ error: 'Sub Total is required' })
 		.min(0, { message: 'Sub Total must be at least 0' })
-		.max(1000000, { message: 'Too long' })
+		.max(100000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Sub Total must be a number',
 		}),
@@ -90,21 +90,21 @@ const schema = z.object({
 	grand_total: z
 		.number({ error: 'Grand Total	 is required' })
 		.min(0, { message: 'Grand Total must be at least 0' })
-		.max(1000000, { message: 'Too long' })
+		.max(100000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Grand Total must be a number',
 		}),
 	purchase_discount: z
 		.number({ error: 'Purchase Discount is required' })
 		.min(0, { message: 'Purchase Discount must be at least 0' })
-		.max(1000000, { message: 'Too long' })
+		.max(100000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Purchase Discount must be a number',
 		}),
 	paid_amount: z
 		.number({ error: 'Paid Amount is required' })
 		.min(0, { message: 'Paid Amount must be at least 0' })
-		.max(1000000, { message: 'Too long' })
+		.max(100000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Paid Amount must be a number',
 		}),

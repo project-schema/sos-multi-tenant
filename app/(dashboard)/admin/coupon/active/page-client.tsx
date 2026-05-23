@@ -4,12 +4,14 @@ import { Container1, DbHeader, Loader8 } from '@/components/dashboard';
 import { Pagination1 } from '@/components/dashboard/pagination';
 import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
+import { env } from '@/lib';
 import {
 	AdminCouponFilter,
 	AdminCouponTable,
 	CreateCouponModal,
 	useAdminCouponQuery,
 } from '@/store/features/admin/coupon';
+import { AdminDeleteAllCoupons } from '@/store/features/admin/coupon/admin.delete.all-coupon';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 const breadcrumbItems = [
@@ -72,9 +74,12 @@ export default function Page() {
 				isError={isError}
 				isLoading={isLoading}
 				header={
-					<div className="flex items-center justify-between">
+					<div className="flex items-center justify-between gap-3">
 						<CardTitle>Active Coupon</CardTitle>
 						<CreateCouponModal />
+						{data?.message?.data && env.development && (
+							<AdminDeleteAllCoupons coupons={data?.message?.data} />
+						)}
 					</div>
 				}
 			>

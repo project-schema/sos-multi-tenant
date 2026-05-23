@@ -48,7 +48,7 @@ export type iAdminAdvertiseDetail = {
 	campaign_name: string;
 	conversion_location: string;
 	performance_goal: string;
-	platforms: null;
+	platforms: string[];
 	budget: string;
 	budget_amount: string;
 	start_date: string;

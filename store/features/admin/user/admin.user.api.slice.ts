@@ -222,10 +222,10 @@ const api = apiSlice.injectEndpoints({
 		// delete user
 		adminDeleteUser: builder.mutation<
 			{ status: 200; message: string },
-			{ id: string | number }
+			{ id: string | number; type: string }
 		>({
 			query: (data) => ({
-				url: `/delete-vendor/${data.id}`,
+				url: `/delete-vendor/${data.type}/${data.id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['AdminAllUser', 'AdminUserStatistics'],

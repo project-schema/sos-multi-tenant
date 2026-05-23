@@ -116,6 +116,7 @@ const FORM = ({
 	const { data, isLoading: isLoadingUsers } =
 		useAdminCouponUsersQuery(undefined);
 
+	console.log({ editData });
 	const form = useForm<ZodType>({
 		resolver: zodResolver(couponSchema),
 		defaultValues: {
@@ -127,6 +128,7 @@ const FORM = ({
 			limitation: editData.limitation || 1,
 			expire_date: new Date(editData.expire_date) || new Date(),
 			user_id: editData?.user_id?.toString() || '',
+			status: editData.status || 'active',
 		},
 	});
 
@@ -140,6 +142,7 @@ const FORM = ({
 			limitation: editData.limitation || 1,
 			expire_date: new Date(editData.expire_date) || new Date(),
 			user_id: editData?.user_id?.toString() || '',
+			status: editData.status || 'active',
 		});
 	}, [editData]);
 
@@ -150,6 +153,7 @@ const FORM = ({
 				user_id: Number(data.user_id),
 				id: editData.id,
 				status: editData.status,
+				tenant_id: editData.tenant_id ?? undefined,
 			}).unwrap();
 
 			if (response.success || response.status === 200) {
@@ -182,6 +186,8 @@ const FORM = ({
 			}
 		}
 	};
+
+	console.log(form.formState.errors);
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
@@ -324,7 +330,7 @@ const FORM = ({
 												variant="outline"
 												className={cn(
 													'w-full pl-3 justify-start text-left font-normal',
-													!field.value && 'text-muted-foreground'
+													!field.value && 'text-muted-foreground',
 												)}
 											>
 												<CalendarIcon className="mr-2 h-4 w-4" />
@@ -356,13 +362,42 @@ const FORM = ({
 								field={field}
 								label="User"
 								options={
-									data?.message?.map((cat) => ({
-										label: cat.email,
-										value: cat.id.toString(),
-									})) ?? []
+									data?.message
+										?.filter(
+											(e) => String(e.id) === String(editData?.tenant_id),
+										)
+										?.map((cat) => ({
+											label: cat.email,
+											value: cat.id.toString(),
+										})) ?? []
 								}
 								placeholder={isLoadingUsers ? 'Loading...' : 'Select User'}
 							/>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="status"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Status</FormLabel>
+								<Select
+									onValueChange={field.onChange}
+									defaultValue={field.value}
+								>
+									<FormControl>
+										<SelectTrigger className="w-full">
+											<SelectValue placeholder="Type" />
+										</SelectTrigger>
+									</FormControl>
+									<SelectContent>
+										<SelectItem value="active">Active</SelectItem>
+										<SelectItem value="deactivate">Deactivate</SelectItem>
+									</SelectContent>
+								</Select>
+								<FormMessage />
+							</FormItem>
 						)}
 					/>
 				</div>

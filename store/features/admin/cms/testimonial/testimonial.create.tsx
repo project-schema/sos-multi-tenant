@@ -35,9 +35,7 @@ import { useAdminStoreTestimonialMutation } from './testimonial.api.slice';
 export const schema = z.object({
 	image: z
 		.instanceof(File)
-		.refine((file) => file.size > 0, { message: 'Image is required' })
-		.optional(),
-
+		.refine((file) => file.size > 0, { message: 'Image is required' }),
 	name: z.string().min(1, 'Title is required'),
 	rating: z.string().min(1, 'Rating is required'),
 	designation: z.string().min(1, 'Designation is required'),

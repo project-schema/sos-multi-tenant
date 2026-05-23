@@ -9,9 +9,10 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { dateFormat, ErrorAlert, tableSrCount, textCount } from '@/lib';
+import { dateFormat, env, ErrorAlert, tableSrCount, textCount } from '@/lib';
 import { useAdminAllManagerListQuery } from './admin-manager-permissions-api-slice';
 import { AdminManagerTableDelete } from './admin-manager-permissions-delete';
+import { AdminManagerDeleteAll } from './admin-manager-permissions-delete-all';
 import { AdminManagerTableEdit } from './admin-manager-permissions-edit';
 
 export function AdminManagerTable() {
@@ -35,6 +36,7 @@ export function AdminManagerTable() {
 	return (
 		<>
 			<div className="border rounded-lg relative">
+				{data && env.development && <AdminManagerDeleteAll managers={data} />}
 				{isFetching && <Loader8 />}
 				<Table>
 					<TableHeader>

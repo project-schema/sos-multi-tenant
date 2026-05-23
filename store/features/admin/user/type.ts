@@ -15,7 +15,7 @@ export type statusType = 'all' | 'active' | 'pending';
 export type userType = 'all' | 'vendor' | 'affiliate' | 'user';
 
 export type iUser = {
-	id: number;
+	id: number | string;
 	name: string;
 	company_name: string;
 	email: string;

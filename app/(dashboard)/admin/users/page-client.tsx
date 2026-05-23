@@ -46,6 +46,7 @@ import {
 } from '@/store/features/admin/user';
 import { AdminTenantEditProfile } from '@/store/features/admin/user/admin.tenant.edit.profile';
 import { useAdminAllUserQuery } from '@/store/features/admin/user/admin.user.api.slice';
+import { DeleteAllUsers } from '@/store/features/admin/user/admin.user.delete.all';
 import { AdminUserStatistics } from '@/store/features/admin/user/admin.user.statistics';
 import { statusType, userType } from '@/store/features/admin/user/type';
 import { Ellipsis, ExternalLink, SlidersHorizontal } from 'lucide-react';
@@ -102,6 +103,9 @@ export default function Page() {
 							</Button>
 						</div>
 						{toggleFilter && <AdminUserStatistics />}
+						{allUsers?.all.data && env.development && (
+							<DeleteAllUsers users={allUsers?.all.data} />
+						)}
 					</>
 				}
 			>

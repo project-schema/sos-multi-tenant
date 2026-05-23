@@ -44,7 +44,7 @@ export function ServiceTable() {
 								<TableHead className="bg-stone-100">#SL.</TableHead>
 								<TableHead className="bg-stone-100">Icon </TableHead>
 								<TableHead className="bg-stone-100">Title </TableHead>
-								<TableHead className="bg-stone-100">Description </TableHead>
+								<TableHead className="bg-stone-100 ">Description </TableHead>
 								<TableHead className="bg-stone-100">Action </TableHead>
 							</TableRow>
 						</TableHeader>
@@ -72,7 +72,9 @@ export function ServiceTable() {
 										<TableCell className="py-2">
 											{textCount(item.title, 25)}
 										</TableCell>
-										<TableCell className={cn('py-2 whitespace-pre-wrap')}>
+										<TableCell
+											className={cn('py-2 whitespace-pre-wrap min-w-md')}
+										>
 											{item.description}
 										</TableCell>
 

@@ -22,6 +22,15 @@ export type iAdminCoupon = {
 		name: string;
 		email: string;
 	};
+	tenant: {
+		id: number;
+		balance: string;
+		email: string;
+		company_name: string;
+		phone: string;
+		owner_name: string;
+		type: string;
+	};
 };
 
 export type iAdminCouponResponse = {

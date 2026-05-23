@@ -50,7 +50,6 @@ const schema = z.object({
 		.instanceof(File)
 		.refine((file) => file.size > 0, { message: 'Image is required' })
 		.optional(),
-
 	name: z.string().min(1, 'Title is required'),
 	rating: z.string().min(1, 'Rating is required'),
 	designation: z.string().min(1, 'Designation is required'),
@@ -85,7 +84,7 @@ export function TestimonialEdit({ editData }: { editData: iTestimonial }) {
 					}).unwrap();
 					if (response.status === 200) {
 						toast.success(
-							response.message || 'Testimonial updated successfully'
+							response.message || 'Testimonial updated successfully',
 						);
 						setOpen(false);
 					} else {

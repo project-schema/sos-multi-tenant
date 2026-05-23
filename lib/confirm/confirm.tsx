@@ -129,7 +129,7 @@ export const alertConfirm = ({
 						<AlertDialogTitle>{title}</AlertDialogTitle>
 						<AlertDialogDescription>{content}</AlertDialogDescription>
 					</AlertDialogHeader>
-					<AlertDialogFooter className={cn('flex-row justify-end')}>
+					<AlertDialogFooter className={cn('flex-row justify-end flex-wrap')}>
 						{extraCleanup && (
 							<Button variant="destructive" type="button" onClick={cleanup}>
 								{extraCleanupText}

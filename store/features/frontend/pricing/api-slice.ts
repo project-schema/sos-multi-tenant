@@ -3,6 +3,7 @@ import { apiSlice } from '../../api/apiSlice';
 // tenant-subscription/buy/subscription/{id}
 // tenant-subscription/apply/coupon
 // tenant-subscription/buy-subscription
+
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		// tenant-subscription/buy/subscription/{id}
@@ -26,6 +27,7 @@ const api = apiSlice.injectEndpoints({
 				body: { name },
 			}),
 		}),
+
 		// tenant-subscription/buy-subscription
 		FrontendBuySubscriptionPay: builder.mutation<
 			{ status: 200; message: string; data: any },

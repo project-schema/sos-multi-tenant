@@ -5,12 +5,14 @@ import { Pagination1 } from '@/components/dashboard/pagination';
 import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
+import { env } from '@/lib';
 import {
 	AdminAdvertiseFilter,
 	AdminAdvertiseStatistics,
 	AdminAdvertiseTable,
 	useAdminAdvertiseQuery,
 } from '@/store/features/admin/advertise';
+import { AdminDeleteAllAdvertise } from '@/store/features/admin/advertise/admin.advertise.delete-all';
 
 import { SlidersHorizontal } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -54,6 +56,9 @@ export default function Page() {
 							>
 								<SlidersHorizontal className="h-4 w-4" />
 							</Button>
+							{data?.message?.data && env.development && (
+								<AdminDeleteAllAdvertise advertises={data?.message.data} />
+							)}
 						</div>
 						{toggleFilter && <AdminAdvertiseStatistics />}
 					</>

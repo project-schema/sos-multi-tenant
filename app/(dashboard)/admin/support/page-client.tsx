@@ -4,11 +4,13 @@ import { Container1, DbHeader, Loader8 } from '@/components/dashboard';
 import { Pagination1 } from '@/components/dashboard/pagination';
 import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
+import { env } from '@/lib';
 import {
 	AdminSupportFilter,
 	AdminSupportTable,
 	useAdminSupportQuery,
 } from '@/store/features/admin/support';
+import { AdminSupportDeleteAll } from '@/store/features/admin/support/admin.support.delete-all';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 const breadcrumbItems = [
@@ -69,6 +71,9 @@ export default function Page() {
 					setFilters={setFilters}
 					clearFilters={clearFilters}
 				/>
+				{data?.message.data && env.development && (
+					<AdminSupportDeleteAll supports={data?.message.data} />
+				)}
 				{data?.message && (
 					<>
 						<div className="border rounded-lg relative">

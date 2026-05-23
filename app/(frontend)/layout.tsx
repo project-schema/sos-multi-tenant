@@ -25,15 +25,10 @@ export default async function Layout({
 				<MainWebHeader settings={settings ?? null} />
 				{/* <!-- / Navbar --> */}
 
-				{/* <!-- Offcanvas Sidebar --> */}
-				{/* <MainWebOffCanvas /> */}
-				{/* <!-- / Offcanvas Sidebar --> */}
-
 				<main className="pt-0 min-h-screen">
 					{children}
-					{/* <!-- footer section --> */}
-					{/* <!-- /footer section --> */}
 				</main>
+					{/* <!-- /footer section --> */}
 				<MainWebFooter settings={settings ?? null} />
 			</div>
 		</div>

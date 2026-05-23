@@ -80,9 +80,13 @@ export function AdminCouponTable({
 								{dateFormat(item.expire_date.toString())}
 							</TableCell>
 							<TableCell className="py-2">
-								{textCount(item?.user?.name, 10)}
+								{item.tenant_id
+									? textCount(item?.tenant?.owner_name, 10)
+									: textCount(item?.user?.name, 10)}
 							</TableCell>
-							<TableCell className="py-2">{item?.user?.email}</TableCell>
+							<TableCell className="py-2">
+								{item.tenant_id ? item?.tenant?.email : item?.user?.email}
+							</TableCell>
 							<TableCell className="py-2">
 								<Badge
 									className="capitalize"

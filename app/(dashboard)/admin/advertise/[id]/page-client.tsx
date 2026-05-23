@@ -333,9 +333,14 @@ export default function Page() {
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Platform:
 											</p>
-											{data?.product?.platform?.map((item, index) => (
-												<p key={index}>{item},</p>
-											))}
+											{Array.isArray(data?.product?.platform) &&
+												data?.product?.platform?.map((item, index) => (
+													<p key={index}>{item},</p>
+												))}
+											{typeof data?.product?.platform === 'string' &&
+												data?.product?.platform && (
+													<p>{data?.product?.platform}</p>
+												)}
 										</div>
 										<h2 className="text-xl font-semibold">Placements</h2>
 										<div className="flex gap-2">
@@ -414,9 +419,14 @@ export default function Page() {
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">
 												Platform
 											</p>
-											{data?.product?.platform?.map((item, index) => (
-												<p key={index}>{item},</p>
-											))}
+											{Array.isArray(data?.product?.platform) &&
+												data?.product?.platform?.map((item, index) => (
+													<p key={index}>{item},</p>
+												))}
+											{typeof data?.product?.platform === 'string' &&
+												data?.product?.platform && (
+													<p>{data?.product?.platform}</p>
+												)}
 										</div>
 										<div className="flex gap-2">
 											<p className="font-semibold max-w-[120px] md:max-w-[200px] w-full">

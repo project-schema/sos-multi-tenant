@@ -5,6 +5,15 @@ export interface iFrontendApplyCoupon {
 export interface iFrontendBuySubscriptionPay {
 	id: string;
 }
+const coupon_type = {
+	status: 200,
+	data: 'success',
+	message: {
+		id: 56,
+		amount: 200,
+		type: 'flat',
+	},
+};
 const data = {
 	id: 1,
 	subscription_user_type: 'vendor',

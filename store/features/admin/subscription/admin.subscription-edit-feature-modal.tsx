@@ -215,8 +215,9 @@ const FORMVendor = ({
 									<Input
 										type="number"
 										{...field}
+										value={field.value.toString()}
 										onChange={(e) =>
-											field.onChange(e.target.valueAsNumber || '')
+											field.onChange(e.target.valueAsNumber || 0)
 										}
 									/>
 								</FormControl>
@@ -236,8 +237,9 @@ const FORMVendor = ({
 									<Input
 										type="number"
 										{...field}
+										value={field.value.toString()}
 										onChange={(e) =>
-											field.onChange(e.target.valueAsNumber || '')
+											field.onChange(e.target.valueAsNumber || 0)
 										}
 									/>
 								</FormControl>
@@ -257,8 +259,9 @@ const FORMVendor = ({
 									<Input
 										type="number"
 										{...field}
+										value={field.value.toString()}
 										onChange={(e) =>
-											field.onChange(e.target.valueAsNumber || '')
+											field.onChange(e.target.valueAsNumber || 0)
 										}
 									/>
 								</FormControl>
@@ -278,8 +281,9 @@ const FORMVendor = ({
 									<Input
 										type="number"
 										{...field}
+										value={field.value.toString()}
 										onChange={(e) =>
-											field.onChange(e.target.valueAsNumber || '')
+											field.onChange(e.target.valueAsNumber || 0)
 										}
 									/>
 								</FormControl>
@@ -322,8 +326,9 @@ const FORMVendor = ({
 									<Input
 										type="number"
 										{...field}
+										value={field.value.toString()}
 										onChange={(e) =>
-											field.onChange(e.target.valueAsNumber || '')
+											field.onChange(e.target.valueAsNumber || 0)
 										}
 									/>
 								</FormControl>
@@ -518,8 +523,9 @@ const FORMAffiliate = ({
 									<Input
 										type="number"
 										{...field}
+										value={field.value.toString()}
 										onChange={(e) =>
-											field.onChange(e.target.valueAsNumber || '')
+											field.onChange(e.target.valueAsNumber || 0)
 										}
 									/>
 								</FormControl>
@@ -539,8 +545,9 @@ const FORMAffiliate = ({
 									<Input
 										type="number"
 										{...field}
+										value={field.value.toString()}
 										onChange={(e) =>
-											field.onChange(e.target.valueAsNumber || '')
+											field.onChange(e.target.valueAsNumber || 0)
 										}
 									/>
 								</FormControl>
@@ -560,8 +567,9 @@ const FORMAffiliate = ({
 									<Input
 										type="number"
 										{...field}
+										value={field.value.toString()}
 										onChange={(e) =>
-											field.onChange(e.target.valueAsNumber || '')
+											field.onChange(e.target.valueAsNumber || 0)
 										}
 									/>
 								</FormControl>
@@ -606,8 +614,9 @@ const FORMAffiliate = ({
 										<Input
 											type="number"
 											{...field}
+											value={field.value.toString()}
 											onChange={(e) =>
-												field.onChange(e.target.valueAsNumber || '')
+												field.onChange(e.target.valueAsNumber || 0)
 											}
 										/>
 									</FormControl>

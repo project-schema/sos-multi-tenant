@@ -26,6 +26,7 @@ export function UserDelete({ user }: { user: iUser }) {
 				try {
 					const res = await mutation({
 						id: user.id,
+						type: user.is_tenant ? 'tenant' : 'user',
 					}).unwrap();
 					if (res.status === 200) {
 						toast.success('Deleted successfully');

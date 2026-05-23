@@ -66,7 +66,7 @@ export const DASHBOARD_PAGE = (
 	role: string,
 	subscription?: any,
 	router?: any,
-	admin?: boolean
+	admin?: boolean,
 ) => {
 	switch (role) {
 		case '1':
