@@ -91,6 +91,7 @@ export function VendorCategoryTable() {
 
 									<TableCell className="py-2">
 										<Badge
+											hidden={!category.status}
 											className="capitalize"
 											variant={badgeFormat(category.status)}
 										>

@@ -63,10 +63,10 @@ const api = apiSlice.injectEndpoints({
 		// delete
 		adminDeleteProduct: builder.mutation<
 			{ status: 200; message: string },
-			{ id: string | number }
+			{ id: string | number; tenant_id: string }
 		>({
 			query: (data) => ({
-				url: `/delete-product/${data.id}`,
+				url: `/delete-product/${data.tenant_id}/${data.id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['AdminProduct'],

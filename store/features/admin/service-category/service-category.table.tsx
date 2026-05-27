@@ -70,6 +70,7 @@ export function ServiceCategoryTable() {
 										<TableCell className="py-2">
 											<Badge
 												className="capitalize"
+												hidden={!category.status}
 												variant={badgeFormat(category.status)}
 											>
 												{category.status}

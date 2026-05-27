@@ -50,8 +50,8 @@ export function MerchantProductTable({
 					<TableHead className="bg-stone-100">Image</TableHead>
 					<TableHead className="bg-stone-100">Product Name </TableHead>
 					<TableHead className="bg-stone-100">Author Name </TableHead>
-					<TableHead className="bg-stone-100">Price</TableHead>
-					<TableHead className="bg-stone-100">Commission </TableHead>
+					<TableHead className="bg-stone-100">Original Price</TableHead>
+					<TableHead className="bg-stone-100">Sell/Discount Price </TableHead>
 					<TableHead className="bg-stone-100">Date </TableHead>
 					<TableHead className="bg-stone-100">Status </TableHead>
 					<TableHead className="bg-stone-100">Action </TableHead>
@@ -100,20 +100,25 @@ export function MerchantProductTable({
 							<TableCell className="py-2">
 								<Link
 									className="hover:underline hover:text-blue-500 transition"
-									href={`/admin/users/${item.id}`}
+									// href={`/admin/users/${item.id}`}
+									href={`/admin/users/${item.tenant_id}?type=${
+										item.tenant_id ? 'tenant' : 'user'
+									}`}
 								>
 									{textCount(item.vendor.name, 15)}
 								</Link>
 							</TableCell>
 							<TableCell className="py-2">
 								<Badge variant="outline">
-									{item.selling_price} {sign.tk}
+									{item.original_price} {sign.tk}
 								</Badge>
 							</TableCell>
 							<TableCell className="py-2">
 								<Badge variant="success">
-									{item.discount_rate || '00'}{' '}
-									{item.discount_type === 'percent' ? sign.percent : sign.tk}
+									{item.discount_price
+										? item.discount_price
+										: item.original_price}{' '}
+									{sign.tk}
 								</Badge>
 							</TableCell>
 

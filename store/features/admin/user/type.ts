@@ -84,6 +84,7 @@ export type iSubscription = {
 	user_id: number;
 	subscription_id: number;
 	expire_date: string;
+	already_visits: number;
 	service_qty: number;
 	product_qty: number;
 	affiliate_request: number;
@@ -102,6 +103,8 @@ export type iSubscription = {
 		id: number;
 		card_heading: string;
 	};
+	website_visits: number;
+	has_website: 'yes' | 'no';
 };
 
 export type iEditVendor = {

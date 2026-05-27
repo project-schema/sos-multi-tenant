@@ -14,20 +14,22 @@ import { Pagination1 } from '@/components/dashboard/pagination';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { dateFormat } from '@/lib';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useAdminVendorPaymentHistoryQuery } from './admin.user.api.slice';
 
 export function AdminUserPayments() {
 	const params = useParams();
 	const [page, setPage] = useState(1);
+	const type = useSearchParams().get('type');
+	console.log(type);
 
 	const { data, isLoading, isError, isFetching } =
 		useAdminVendorPaymentHistoryQuery({
 			id: params.id as string,
 			page,
+			type: type || '',
 		});
-
 
 	if (isLoading) {
 		return (

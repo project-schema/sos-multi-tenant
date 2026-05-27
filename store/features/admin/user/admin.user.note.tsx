@@ -13,7 +13,7 @@ import { Loader6, Loader8 } from '@/components/dashboard';
 import { Pagination1 } from '@/components/dashboard/pagination';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { badgeFormat, dateFormat, textCount } from '@/lib';
+import { badgeFormat, dateFormat } from '@/lib';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { useAdminNoteVendorQuery } from './admin.user.api.slice';
@@ -26,7 +26,6 @@ export function AdminUserNote() {
 		id: params.id as string,
 		page,
 	});
-
 
 	if (isLoading) {
 		return (
@@ -81,8 +80,8 @@ export function AdminUserNote() {
 								<TableRow key={item.id}>
 									<TableCell className="font-medium py-4">#{item.id}</TableCell>
 
-									<TableCell className="py-2">
-										{textCount(item.note, 100)}
+									<TableCell className="py-2 whitespace-pre-wrap min-w-sm">
+										{item.note}
 									</TableCell>
 
 									<TableCell className="py-2">

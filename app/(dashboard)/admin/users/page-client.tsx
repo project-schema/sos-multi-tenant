@@ -200,6 +200,7 @@ export default function Page() {
 										</TableCell>
 										<TableCell className="py-2">
 											<Badge
+												hidden={!user.status}
 												className="capitalize"
 												variant={badgeFormat(user.status)}
 											>

@@ -108,7 +108,7 @@ export function UserRemoveBalance({ user }: { user: iUser }) {
 				}}
 			>
 				<DialogHeader>
-					<DialogTitle>Add Balance</DialogTitle>
+					<DialogTitle>Remove Balance</DialogTitle>
 					<DialogDescription>
 						<span className="block">Name : {user.name}</span>
 						<span className="block">Email : {user.email}</span>

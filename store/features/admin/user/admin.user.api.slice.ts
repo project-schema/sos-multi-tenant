@@ -32,10 +32,10 @@ const api = apiSlice.injectEndpoints({
 
 		adminVendorPaymentHistory: builder.query<
 			iAdminPaymentHistory,
-			{ id: string; page: number }
+			{ id: string; page: number; type: string }
 		>({
-			query: ({ id, page }) => ({
-				url: `/admin/vendor/payment/history/${id}?page=${page}`,
+			query: ({ id, page, type }) => ({
+				url: `/admin/vendor/payment/history/${id}?type=${type}&page=${page}`,
 				method: 'GET',
 			}),
 		}),

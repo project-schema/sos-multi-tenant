@@ -93,6 +93,7 @@ export function CategoryTable() {
 										<Badge
 											className="capitalize"
 											variant={badgeFormat(category.status)}
+											hidden={!category.status}
 										>
 											{category.status}
 										</Badge>

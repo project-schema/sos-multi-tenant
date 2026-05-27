@@ -70,7 +70,7 @@ export default function ServiceProductViewGallery({
 						</div>
 					</div>
 				</div>
-				{service.tags?.length ? (
+				{service.tags?.length && Array.isArray(service.tags) ? (
 					<div className="flex flex-wrap gap-2">
 						{service?.tags?.map((tag, i) => (
 							<Badge key={i} variant="outline">

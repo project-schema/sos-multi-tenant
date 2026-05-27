@@ -68,8 +68,8 @@ const AllServices = ({
 								<div className={style.serviceRating}>
 									{parseFloat(data.servicerating_avg_rating).toFixed(1)}
 								</div>
-								<h4 className={style.servicePrice}>
-									Price {data.firstpackage.price} tk
+								<h4 className={style?.servicePrice}>
+									Price {data?.firstpackage?.price} tk
 								</h4>
 							</div>
 						</ClientMotionWrapper>

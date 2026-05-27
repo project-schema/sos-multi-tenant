@@ -94,6 +94,7 @@ export function BrandTable() {
 											<Badge
 												className="capitalize"
 												variant={badgeFormat(category.status)}
+												hidden={!category.status}
 											>
 												{category.status}
 											</Badge>

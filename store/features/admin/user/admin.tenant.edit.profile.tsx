@@ -145,7 +145,7 @@ export function AdminTenantEditProfile({ user }: { user: iUser }) {
 				</DialogTrigger>
 			</DropdownMenuItem>
 
-			<DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
+			<DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
 				<DialogHeader>
 					<DialogTitle>Edit Profile Tenant</DialogTitle>
 					<DialogDescription>
@@ -172,138 +172,139 @@ export function AdminTenantEditProfile({ user }: { user: iUser }) {
 								</FormItem>
 							)}
 						/>
-
-						{/* Name */}
-						<FormField
-							control={form.control}
-							name="name"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Name</FormLabel>
-									<FormControl>
-										<Input {...field} placeholder="Enter name..." />
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						{/* Owner Name */}
-
-						<FormField
-							control={form.control}
-							name="owner_name"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Owner Name</FormLabel>
-									<FormControl>
-										<Input {...field} placeholder="Enter owner name..." />
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						{/* Email */}
-						<FormField
-							control={form.control}
-							name="email"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Email</FormLabel>
-									<FormControl>
-										<Input
-											type="email"
-											{...field}
-											placeholder="Enter email..."
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						{/* Number */}
-						<FormField
-							control={form.control}
-							name="number"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Phone Number</FormLabel>
-									<FormControl>
-										<Input
-											type="tel"
-											{...field}
-											placeholder="Enter phone number..."
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						{/* Balance */}
-						<FormField
-							control={form.control}
-							name="balance"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Balance</FormLabel>
-									<FormControl>
-										<Input
-											type="number"
-											step="0.01"
-											{...field}
-											placeholder="Enter balance..."
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						{/* Address */}
-
-						<FormField
-							control={form.control}
-							name="address"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Address</FormLabel>
-									<FormControl>
-										<Textarea {...field} placeholder="Enter address..." />
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						{/* Status */}
-						<FormField
-							control={form.control}
-							name="status"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Status</FormLabel>
-									<Select
-										onValueChange={field.onChange}
-										defaultValue={field.value}
-									>
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+							{/* Name */}
+							<FormField
+								control={form.control}
+								name="name"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Name</FormLabel>
 										<FormControl>
-											<SelectTrigger className="w-full">
-												<SelectValue placeholder="Select status" />
-											</SelectTrigger>
+											<Input {...field} placeholder="Enter name..." />
 										</FormControl>
-										<SelectContent>
-											<SelectItem value="active">Active</SelectItem>
-											<SelectItem value="pending">Pending</SelectItem>
-											<SelectItem value="blocked">Blocked</SelectItem>
-										</SelectContent>
-									</Select>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							{/* Owner Name */}
+
+							<FormField
+								control={form.control}
+								name="owner_name"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Owner Name</FormLabel>
+										<FormControl>
+											<Input {...field} placeholder="Enter owner name..." />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							{/* Email */}
+							<FormField
+								control={form.control}
+								name="email"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Email</FormLabel>
+										<FormControl>
+											<Input
+												type="email"
+												{...field}
+												placeholder="Enter email..."
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							{/* Number */}
+							<FormField
+								control={form.control}
+								name="number"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Phone Number</FormLabel>
+										<FormControl>
+											<Input
+												type="tel"
+												{...field}
+												placeholder="Enter phone number..."
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							{/* Balance */}
+							<FormField
+								control={form.control}
+								name="balance"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Balance</FormLabel>
+										<FormControl>
+											<Input
+												type="number"
+												step="0.01"
+												{...field}
+												placeholder="Enter balance..."
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							{/* Address */}
+
+							<FormField
+								control={form.control}
+								name="address"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Address</FormLabel>
+										<FormControl>
+											<Textarea {...field} placeholder="Enter address..." />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							{/* Status */}
+							<FormField
+								control={form.control}
+								name="status"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Status</FormLabel>
+										<Select
+											onValueChange={field.onChange}
+											defaultValue={field.value}
+										>
+											<FormControl>
+												<SelectTrigger className="w-full">
+													<SelectValue placeholder="Select status" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												<SelectItem value="active">Active</SelectItem>
+												<SelectItem value="pending">Pending</SelectItem>
+												<SelectItem value="blocked">Blocked</SelectItem>
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</div>
 
 						<DialogFooter>
 							<Button type="submit" disabled={isLoading}>

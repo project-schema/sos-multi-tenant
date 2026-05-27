@@ -13,7 +13,7 @@ import { Loader6, Loader8 } from '@/components/dashboard';
 import { Pagination1 } from '@/components/dashboard/pagination';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { badgeFormat, dateFormat, tableSrCount, textCount } from '@/lib';
+import { badgeFormat, dateFormat, tableSrCount } from '@/lib';
 import { useState } from 'react';
 import { useVendorProfileNoteQuery } from './vendor-profile-api-slice';
 
@@ -79,8 +79,8 @@ export function VendorProfileNote() {
 										{tableSrCount(data.notes.current_page, i)}
 									</TableCell>
 
-									<TableCell className="py-2">
-										{textCount(item.note, 100)}
+									<TableCell className="py-2 whitespace-pre-wrap min-w-sm">
+										{item.note}
 									</TableCell>
 
 									<TableCell className="py-2">

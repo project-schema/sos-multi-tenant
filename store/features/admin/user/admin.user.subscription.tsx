@@ -7,6 +7,7 @@ import { checkCoupon, dateFormat } from '@/lib';
 import {
 	Box,
 	CalendarClock,
+	Globe,
 	Layers,
 	MessageCircle,
 	PackageCheck,
@@ -26,8 +27,8 @@ export function AdminUserSubscription() {
 	});
 
 	const subscription = data?.vendor?.usersubscription;
-	const isVendor = data?.vendor.role_as === '2';
-	const isDropShipper = data?.vendor?.role_as === '3';
+	const isVendor = data?.vendor.role_as?.toString() === '2';
+	const isDropShipper = data?.vendor?.role_as?.toString() === '3';
 	if (isLoading) {
 		return (
 			<div className="space-y-4">
@@ -138,6 +139,27 @@ export function AdminUserSubscription() {
 									iconClassName="text-orange-600"
 									className="bg-orange-100/55 border-orange-400"
 								/>
+								<Card1
+									title="Website Create"
+									countTitle={subscription.has_website || 'No'}
+									icon={Globe}
+									iconClassName="text-orange-600"
+									className="bg-orange-100/55 border-orange-400"
+								/>
+								<Card1
+									title="Website Visits"
+									countTitle={subscription.website_visits || 'No'}
+									icon={Users}
+									iconClassName="text-orange-600"
+									className="bg-emerald-100/55 border-emerald-400"
+								/>
+								<Card1
+									title="Already Visits"
+									countTitle={subscription.already_visits || 'No'}
+									icon={Users}
+									iconClassName="text-orange-600"
+									className="bg-cyan-100/55 border-cyan-400"
+								/>
 							</>
 						)}
 
@@ -177,6 +199,27 @@ export function AdminUserSubscription() {
 									icon={MessageCircle}
 									iconClassName="text-purple-600"
 									className="bg-purple-100/55 border-purple-400"
+								/>
+								<Card1
+									title="Website Create"
+									countTitle={subscription.has_website || 'No'}
+									icon={Globe}
+									iconClassName="text-orange-600"
+									className="bg-orange-100/55 border-orange-400"
+								/>
+								<Card1
+									title="Website Visits"
+									countTitle={subscription.website_visits || 'No'}
+									icon={Users}
+									iconClassName="text-orange-600"
+									className="bg-emerald-100/55 border-emerald-400"
+								/>
+								<Card1
+									title="Already Visits"
+									countTitle={subscription.already_visits || 'No'}
+									icon={Users}
+									iconClassName="text-orange-600"
+									className="bg-cyan-100/55 border-cyan-400"
 								/>
 							</>
 						)}

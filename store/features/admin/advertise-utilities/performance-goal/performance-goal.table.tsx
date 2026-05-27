@@ -19,7 +19,7 @@ import { PerformanceGoalEdit } from './performance-goal.edit';
 export function PerformanceGoalTable() {
 	const [page, setPage] = useState(1);
 	const { data, isFetching, isLoading, isError } = useAdminPerformanceGoalQuery(
-		{ page }
+		{ page },
 	);
 
 	if (isError) {
@@ -80,7 +80,11 @@ export function PerformanceGoalTable() {
 											</Badge>
 										</TableCell>
 										<TableCell className="py-2">
-											<Badge className="capitalize" variant="info">
+											<Badge
+												className="capitalize"
+												variant="info"
+												hidden={!item?.conversion_location?.name}
+											>
 												{item?.conversion_location?.name || ''}
 											</Badge>
 										</TableCell>

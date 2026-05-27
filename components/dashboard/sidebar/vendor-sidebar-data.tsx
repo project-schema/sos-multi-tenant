@@ -278,21 +278,21 @@ const settings: sidebarItem[] = [
 			},
 		],
 	},
-	{
-		title: 'Employee',
-		icon: Users,
-		isActive: false,
-		items: [
-			{
-				title: 'Create Employee',
-				url: '/dashboard/create-employee',
-			},
-			{
-				title: 'Manage Employee',
-				url: '/dashboard/manage-employee',
-			},
-		],
-	},
+	// {
+	// 	title: 'Employee',
+	// 	icon: Users,
+	// 	isActive: false,
+	// 	items: [
+	// 		{
+	// 			title: 'Create Employee',
+	// 			url: '/dashboard/employee/create',
+	// 		},
+	// 		{
+	// 			title: 'Manage Employee',
+	// 			url: '/dashboard/employee',
+	// 		},
+	// 	],
+	// },
 	{
 		title: 'Balance',
 		icon: Wallet,

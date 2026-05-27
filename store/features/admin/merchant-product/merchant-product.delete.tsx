@@ -26,6 +26,7 @@ export function MerchantProductDelete({ data }: { data: iMerchantProduct }) {
 				try {
 					const res = await mutation({
 						id: data.id,
+						tenant_id: data.tenant_id,
 					}).unwrap();
 					if (res.status === 200) {
 						toast.success('Deleted successfully');

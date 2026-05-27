@@ -54,16 +54,11 @@ const schema = z.object({
 	password: z
 		.string({ error: 'Password is required' })
 		.min(8, 'Password must be at least 8 characters'),
-	balance: z
-		.string()
-		.min(1, 'Balance is required')
-		.refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) >= 0, {
-			message: 'Must be a positive number',
-		}),
 
 	// verified_at is 0 and 1
 	verified_at: z.union([z.literal(0), z.literal(1)]),
-
+	owner_name: z.string(),
+	domain: z.string(),
 	status: z.enum(['active', 'pending', 'blocked']),
 	type: z.enum(['Merchant', 'Dropshipper', 'User']),
 });
@@ -82,11 +77,12 @@ export function UserCreateProfile() {
 			name: '',
 			email: '',
 			number: '',
-			balance: '0',
 			status: 'active',
 			password: '',
 			verified_at: 1,
 			type: 'User',
+			owner_name: '',
+			domain: '',
 		},
 	});
 
@@ -169,7 +165,64 @@ export function UserCreateProfile() {
 									<FormItem>
 										<FormLabel>Name</FormLabel>
 										<FormControl>
-											<Input {...field} />
+											<Input {...field} placeholder="Name" />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							{/* Type */}
+							<FormField
+								control={form.control}
+								name="type"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Type</FormLabel>
+										<Select
+											onValueChange={field.onChange}
+											defaultValue={field.value}
+										>
+											<FormControl>
+												<SelectTrigger className="w-full">
+													<SelectValue placeholder="Select type" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												<SelectItem value="User">User</SelectItem>
+												<SelectItem value="Merchant">Merchant</SelectItem>
+												<SelectItem value="Dropshipper">Dropshipper</SelectItem>
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							{/* Domain */}
+							<FormField
+								control={form.control}
+								name="domain"
+								render={({ field }) => (
+									<FormItem hidden={type === 'User'}>
+										<FormLabel>Domain</FormLabel>
+										<FormControl>
+											<Input {...field} placeholder="example.com" />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							{/* Owner Name */}
+							<FormField
+								control={form.control}
+								name="owner_name"
+								render={({ field }) => (
+									<FormItem hidden={type === 'User'}>
+										<FormLabel>Owner Name</FormLabel>
+										<FormControl>
+											<Input {...field} placeholder="John Doe" />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -184,7 +237,11 @@ export function UserCreateProfile() {
 									<FormItem>
 										<FormLabel>Email</FormLabel>
 										<FormControl>
-											<Input type="email" {...field} />
+											<Input
+												type="email"
+												{...field}
+												placeholder="m0zYH@example.com"
+											/>
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -199,22 +256,7 @@ export function UserCreateProfile() {
 									<FormItem>
 										<FormLabel>Phone Number</FormLabel>
 										<FormControl>
-											<Input type="tel" {...field} />
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-
-							{/* Balance */}
-							<FormField
-								control={form.control}
-								name="balance"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Balance</FormLabel>
-										<FormControl>
-											<Input type="number" step="0.01" {...field} />
+											<Input type="tel" {...field} placeholder="123-456-7890" />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -229,7 +271,11 @@ export function UserCreateProfile() {
 									<FormItem>
 										<FormLabel>Password</FormLabel>
 										<FormControl>
-											<Input type="password" {...field} />
+											<Input
+												type="password"
+												{...field}
+												placeholder="*********"
+											/>
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -256,33 +302,6 @@ export function UserCreateProfile() {
 												<SelectItem value="active">Active</SelectItem>
 												<SelectItem value="pending">Pending</SelectItem>
 												<SelectItem value="blocked">Blocked</SelectItem>
-											</SelectContent>
-										</Select>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-
-							{/* Type */}
-							<FormField
-								control={form.control}
-								name="type"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Type</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
-											<FormControl>
-												<SelectTrigger className="w-full">
-													<SelectValue placeholder="Select type" />
-												</SelectTrigger>
-											</FormControl>
-											<SelectContent>
-												<SelectItem value="User">User</SelectItem>
-												<SelectItem value="Merchant">Merchant</SelectItem>
-												<SelectItem value="Dropshipper">Dropshipper</SelectItem>
 											</SelectContent>
 										</Select>
 										<FormMessage />
