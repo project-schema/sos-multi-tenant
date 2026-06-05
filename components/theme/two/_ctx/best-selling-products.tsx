@@ -14,7 +14,7 @@ export async function BestSellingProducts({
 }: BestSellingProductsProps) {
 	if (!id) return null;
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
-		`/tenant-frontend/products/${id}`,
+		`/tenant-frontend/products/${id}?limit=4`
 	);
 	return (
 		<div className="space-y-10">

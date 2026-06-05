@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
 
-import { Barcode } from 'lucide-react';
+import { Barcode, Plus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useVendorBarcodeManageQuery } from './barcode-generator-api-slice';
 import { VendorBarcodeManageFilter } from './barcode-manage.filter';
@@ -26,6 +27,7 @@ export function VendorBarcodeManagePage({
 		bar_qty: number[];
 	};
 }) {
+	const router = useRouter();
 	const [searchTerm, setSearchTerm] = useState('');
 	const [page, setPage] = useState(1);
 
@@ -50,6 +52,16 @@ export function VendorBarcodeManagePage({
 					<>
 						<div className="pb-2 lg:pb-3 flex items-center justify-between">
 							<CardTitle>Barcode Manage</CardTitle>
+							<Button
+								title="Generate Barcode"
+								onClick={() => router.push('/dashboard/barcode/generator')}
+								size="sm"
+								type="button"
+								variant="outline"
+							>
+								<Plus className="size-4" />
+								Generate
+							</Button>
 							{selectedBarcodes.bar_qty.length > 0 && (
 								<Button
 									className="ml-auto"

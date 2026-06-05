@@ -5,7 +5,8 @@ import { Pagination1 } from '@/components/dashboard/pagination';
 import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
-import { SlidersHorizontal } from 'lucide-react';
+import { Plus, SlidersHorizontal } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useVendorSupportAllQuery } from './vendor-support-api-slice';
 import { VendorSupportFilter } from './vendor-support-filter';
@@ -13,6 +14,7 @@ import { VendorSupportStatistics } from './vendor-support-statistics';
 import { VendorSupportTable } from './vendor-support-table';
 
 export function VendorSupportPage() {
+	const router = useRouter();
 	const [toggleFilter, setToggleFilter] = useState(true);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [page, setPage] = useState(1);
@@ -37,13 +39,27 @@ export function VendorSupportPage() {
 				<>
 					<div className="pb-2  flex items-center justify-between">
 						<CardTitle>All Support</CardTitle>
-						<Button
-							variant="outline"
-							size="icon"
-							onClick={() => setToggleFilter((e) => !e)}
-						>
-							<SlidersHorizontal className="h-4 w-4" />
-						</Button>
+						<div className="flex items-center gap-2">
+							<Button
+								title="Create Support"
+								variant="outline"
+								size="sm"
+								onClick={() => router.push('/dashboard/support/create')}
+								type="button"
+							>
+								<Plus className="h-4 w-4" />
+								Create Support
+							</Button>
+							<Button
+								title="Filter Support"
+								variant="outline"
+								size="sm"
+								onClick={() => setToggleFilter((e) => !e)}
+								type="button"
+							>
+								<SlidersHorizontal className="h-4 w-4" />
+							</Button>
+						</div>
 					</div>
 				</>
 			}

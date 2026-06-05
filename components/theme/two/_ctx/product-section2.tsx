@@ -18,7 +18,7 @@ export async function ProductSection2({
 	const activeFeature = include || buttons?.[0]?.value;
 	if (!activeFeature) return null;
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
-		`/tenant-frontend/products/${include || buttons?.[0]?.value}`,
+		`/tenant-frontend/products/${include || buttons?.[0]?.value}?limit=10`
 	);
 
 	return (

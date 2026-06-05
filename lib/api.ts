@@ -46,9 +46,8 @@ export async function getApiData<T = any>(url: string): Promise<T | null> {
 }
 
 export async function getApiDataWithSubdomain<T = any>(
-	url: string,
+	url: string
 ): Promise<T | null> {
-	console.log(url);
 	try {
 		const h = await headers();
 		const subdomain = h.get('x-tenant-subdomain');
@@ -85,7 +84,6 @@ export async function getApiDataWithSubdomain<T = any>(
 
 		return (await res.json()) as T;
 	} catch (error: any) {
-		console.log(error);
 		console.error('API Error:', {
 			message: error?.message || 'Unexpected API Error',
 			status: error?.status,

@@ -12,7 +12,7 @@ export const PopularProducts = async ({
 		return null;
 	}
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
-		`/tenant-frontend/products/${buttons?.[0]?.value || ''}`,
+		`/tenant-frontend/products/${buttons?.[0]?.value || ''}?limit=8`
 	);
 	return (
 		<>

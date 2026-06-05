@@ -67,16 +67,7 @@ const products: sidebarItem[] = [
 		title: 'Products',
 		icon: Package,
 		isActive: false,
-		items: [
-			{
-				title: 'Create Product',
-				url: '/dashboard/product/create',
-			},
-			{
-				title: 'All Products',
-				url: '/dashboard/product',
-			},
-		],
+		url: '/dashboard/product',
 	},
 	{
 		title: 'Products Orders',
@@ -132,10 +123,6 @@ const pos: sidebarItem[] = [
 		isActive: false,
 		items: [
 			{
-				title: 'New Purchase',
-				url: '/dashboard/purchase/create',
-			},
-			{
 				title: 'All Purchases',
 				url: '/dashboard/purchase',
 			},
@@ -153,16 +140,7 @@ const pos: sidebarItem[] = [
 		title: 'Barcode ',
 		icon: QrCode,
 		isActive: false,
-		items: [
-			{
-				title: 'Barcode Generator',
-				url: '/dashboard/barcode/generator',
-			},
-			{
-				title: 'Manage Barcode',
-				url: '/dashboard/barcode/manage',
-			},
-		],
+		url: '/dashboard/barcode/manage',
 	},
 
 	{
@@ -171,17 +149,10 @@ const pos: sidebarItem[] = [
 		isActive: false,
 		items: [
 			{
-				title: 'Create Damage',
-				url: '/dashboard/damage-products/create',
-			},
-			{
 				title: 'All Damage',
 				url: '/dashboard/damage-products',
 			},
-			{
-				title: 'Create Wastage',
-				url: '/dashboard/wastage-products/create',
-			},
+
 			{
 				title: 'All Wastage',
 				url: '/dashboard/wastage-products',
@@ -221,16 +192,7 @@ const settings: sidebarItem[] = [
 		title: 'Coupons',
 		icon: Percent,
 		isActive: false,
-		items: [
-			{
-				title: 'Generate Coupons',
-				url: '/dashboard/coupon/generate',
-			},
-			{
-				title: 'Request Coupons',
-				url: '/dashboard/coupon',
-			},
-		],
+		url: '/dashboard/coupon/generate',
 	},
 	{
 		title: 'Membership',
@@ -278,21 +240,12 @@ const settings: sidebarItem[] = [
 			},
 		],
 	},
-	// {
-	// 	title: 'Employee',
-	// 	icon: Users,
-	// 	isActive: false,
-	// 	items: [
-	// 		{
-	// 			title: 'Create Employee',
-	// 			url: '/dashboard/employee/create',
-	// 		},
-	// 		{
-	// 			title: 'Manage Employee',
-	// 			url: '/dashboard/employee',
-	// 		},
-	// 	],
-	// },
+	{
+		title: 'Employee',
+		icon: Users,
+		isActive: false,
+		url: '/dashboard/employee',
+	},
 	{
 		title: 'Balance',
 		icon: Wallet,
@@ -316,43 +269,10 @@ const settings: sidebarItem[] = [
 
 const reports: sidebarItem[] = [
 	{
-		title: 'All Reports',
+		title: 'Reports',
 		icon: BarChart3,
 		isActive: false,
-		items: [
-			{
-				title: 'Stock Report',
-				url: '/dashboard/report?type=stock',
-			},
-			{
-				title: 'Sales Report',
-				url: '/dashboard/report?type=sales',
-			},
-			{
-				title: 'Due Sales Report',
-				url: '/dashboard/report?type=due-sales',
-			},
-			{
-				title: 'Purchase Report',
-				url: '/dashboard/report?type=purchase',
-			},
-			{
-				title: 'Warehouse Report',
-				url: '/dashboard/report?type=warehouse',
-			},
-			{
-				title: 'Stock Shortage Report',
-				url: '/dashboard/report?type=stock-shortage',
-			},
-			{
-				title: 'Top Repeat Customers',
-				url: '/dashboard/report?type=top-repeat-customers',
-			},
-			{
-				title: 'Daily Sales Report',
-				url: '/dashboard/report?type=daily-sales',
-			},
-		],
+		url: '/dashboard/report',
 	},
 ];
 
@@ -362,10 +282,6 @@ const servicesAndAdvertise: sidebarItem[] = [
 		icon: DraftingCompass,
 		isActive: false,
 		items: [
-			{
-				title: 'Create Service',
-				url: '/dashboard/expertise/create',
-			},
 			{
 				title: 'Services',
 				url: '/dashboard/expertise',
@@ -395,16 +311,7 @@ const servicesAndAdvertise: sidebarItem[] = [
 		title: 'Manage Advertise',
 		icon: Megaphone,
 		isActive: false,
-		items: [
-			{
-				title: 'Create Advertise',
-				url: '/dashboard/advertise/create',
-			},
-			{
-				title: 'All Advertise',
-				url: '/dashboard/advertise',
-			},
-		],
+		url: '/dashboard/advertise',
 	},
 ];
 
@@ -413,16 +320,7 @@ const support: sidebarItem[] = [
 		title: 'Supports',
 		icon: Headset,
 		isActive: false,
-		items: [
-			{
-				title: 'Create Support',
-				url: '/dashboard/support/create',
-			},
-			{
-				title: 'All Supports',
-				url: '/dashboard/support',
-			},
-		],
+		url: '/dashboard/support',
 	},
 	{
 		title: 'Customer Chat',

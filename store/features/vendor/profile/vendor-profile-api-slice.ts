@@ -13,7 +13,7 @@ const api = apiSlice.injectEndpoints({
 		VendorProfileInfo: builder.query<
 			{
 				status: 200;
-				user: iVendorProfile;
+				user: iUser;
 				usersubscription: iSubscription | null;
 				cms_setting: {
 					theme: 'one' | 'two' | 'three' | 'four';

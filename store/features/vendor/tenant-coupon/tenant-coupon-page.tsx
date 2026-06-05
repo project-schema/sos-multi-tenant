@@ -1,9 +1,11 @@
 'use client';
 
 import { Container1, Loader8 } from '@/components/dashboard';
+import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
 import { format } from 'date-fns';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useTenantCouponQuery } from './api-slice';
 import { CreateCouponModal } from './coupon-create-modal';
@@ -11,6 +13,7 @@ import { AdminCouponFilter } from './coupon-filter';
 import { AdminCouponTable } from './table';
 
 export function TenantCouponPage() {
+	const router = useRouter();
 	const [filters, setFilters] = useState({
 		searchTerm: '',
 		status: 'all',
@@ -57,7 +60,18 @@ export function TenantCouponPage() {
 			header={
 				<div className="flex items-center justify-between">
 					<CardTitle>Coupons</CardTitle>
-					<CreateCouponModal />
+					<div className="flex items-center gap-2">
+						<Button
+							variant="outline"
+							size="sm"
+							type="button"
+							onClick={() => router.push('/dashboard/coupon')}
+						>
+							Request Coupon
+						</Button>
+
+						<CreateCouponModal />
+					</div>
 				</div>
 			}
 		>

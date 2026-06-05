@@ -1,5 +1,5 @@
-// [ note : never change title ]
-export const rolePermissionData = [
+// [ note : never change title ] — admin panel permission groups
+export const adminRolePermissionData = [
 	{
 		title: 'Dashboard',
 		routes: [{ name: 'Dashboard', path: 'dashboard' }],
@@ -65,7 +65,6 @@ export const rolePermissionData = [
 		title: 'Brand',
 		routes: [{ name: 'Brand', path: 'brand' }],
 	},
-
 	{
 		title: 'Manage Order',
 		routes: [
@@ -97,7 +96,6 @@ export const rolePermissionData = [
 			{ name: 'Home Update Content', path: 'home-update-content' },
 		],
 	},
-
 	{
 		title: 'About Content',
 		routes: [
@@ -190,3 +188,292 @@ export const rolePermissionData = [
 		routes: [{ name: 'Role', path: 'role' }],
 	},
 ];
+
+// Merchant & dropshipper tenant dashboard — aligned with vendor-sidebar-data.tsx
+export const vendorRolePermissionData = [
+	{
+		title: 'Product Utilities',
+		routes: [
+			{ name: 'Category', path: 'category' },
+			{ name: 'Sub Category', path: 'sub_category' },
+			{ name: 'Brand', path: 'brand' },
+			{ name: 'Unit', path: 'unit' },
+			{ name: 'Color', path: 'color' },
+			{ name: 'Variation', path: 'variation' },
+			{ name: 'Supplier', path: 'supplier' },
+			{ name: 'Warehouse', path: 'warehouse' },
+		],
+	},
+	{
+		title: 'Products',
+		routes: [
+			{ name: 'Products', path: 'products' },
+			{ name: 'Add Product', path: 'add_product' },
+			{ name: 'All Product', path: 'all_product' },
+			{ name: 'Active Product', path: 'active_product' },
+			{ name: 'Pending Product', path: 'pending_product' },
+			{ name: 'Edit Product', path: 'edit_product' },
+			{ name: 'Reject Product', path: 'reject_product' },
+		],
+	},
+	{
+		title: 'Products Orders',
+		routes: [
+			{ name: 'Order', path: 'order' },
+			{ name: 'Add Order', path: 'add_order' },
+			{ name: 'All Order', path: 'all_order' },
+			{ name: 'Hold Order', path: 'hold_order' },
+			{ name: 'Pending Order', path: 'pending_order' },
+			{ name: 'Receive Order', path: 'receive_order' },
+			{ name: 'Order Ready', path: 'order_ready' },
+			{ name: 'Order Processing', path: 'order_processing' },
+			{ name: 'Delivery Processing', path: 'delivery_processing' },
+			{ name: 'Delivery Order', path: 'delivery_order' },
+			{ name: 'Order Return', path: 'order_return' },
+			{ name: 'Cancel Order', path: 'cancel_order' },
+		],
+	},
+	{
+		title: 'Register Customers',
+		routes: [{ name: 'Register Customers', path: 'customer' }],
+	},
+	{
+		title: 'Dropshipper Requests',
+		routes: [
+			{ name: 'Dropshipper Request', path: 'affiliate_request' },
+			{ name: 'All Request', path: 'all_request' },
+			{ name: 'Active Request', path: 'active_request' },
+			{ name: 'Pending Request', path: 'pending_request' },
+			{ name: 'Reject Request', path: 'reject_request' },
+			{ name: 'Expired Request', path: 'expired_request' },
+		],
+	},
+	{
+		title: 'Manage POS',
+		routes: [
+			{ name: 'POS Customer', path: 'customer' },
+			{ name: 'POS Sales', path: 'add_pos_sale' },
+			{ name: 'POS Orders', path: 'all_pos_sale' },
+			{ name: 'POS Payment History', path: 'payment_history_pos_sale' },
+			{ name: 'POS Sales Return', path: 'sale_return' },
+		],
+	},
+	{
+		title: 'Manage Purchase',
+		routes: [
+			{ name: 'Purchase', path: 'purchase' },
+			{ name: 'Add Purchase', path: 'add_purchase' },
+			{ name: 'All Purchases', path: 'all_purchase' },
+			{ name: 'Payment History', path: 'payment_history_purchase' },
+			{ name: 'Purchase Return', path: 'purchase_return' },
+		],
+	},
+	{
+		title: 'Barcode',
+		routes: [
+			{ name: 'Barcode', path: 'barcode' },
+			{ name: 'Barcode Generate', path: 'barcode_generate' },
+			{ name: 'Barcode Manage', path: 'barcode_manage' },
+		],
+	},
+	{
+		title: 'Wastage & Damaged',
+		routes: [
+			{ name: 'All Damage', path: 'damage_list' },
+			{ name: 'Create Damage', path: 'create_damage' },
+			{ name: 'Add Wastage', path: 'add_wastage' },
+			{ name: 'All Wastage', path: 'all_wastage' },
+		],
+	},
+	{
+		title: 'CMS',
+		routes: [
+			{ name: 'System', path: 'cms_system' },
+			{ name: 'Home Page', path: 'cms_home_page' },
+			{ name: 'Blog', path: 'cms_blog' },
+			{ name: 'Blog Category', path: 'cms_blog_category' },
+		],
+	},
+	{
+		title: 'Manage Services',
+		routes: [
+			{ name: 'Service & Order', path: 'service_and_order' },
+			{ name: 'Create Service', path: 'create_service' },
+			{ name: 'All Service', path: 'all_service' },
+			{ name: 'Service Order', path: 'service_order' },
+		],
+	},
+	{
+		title: 'Services Purchase',
+		routes: [
+			{ name: 'Purchase Service', path: 'purchase_service' },
+			{ name: 'All Service Order', path: 'all_service_order' },
+			{ name: 'Pending Service Order', path: 'pending_service_order' },
+			{ name: 'Progress Service Order', path: 'progress_service_order' },
+			{ name: 'Hold Service Order', path: 'hold_service_order' },
+			{ name: 'Cancel Service Order', path: 'cancel_service_order' },
+		],
+	},
+	{
+		title: 'Manage Advertise',
+		routes: [{ name: 'Manage Advertise', path: 'advertiser' }],
+	},
+	{
+		title: 'Supports',
+		routes: [
+			{ name: 'Create Support', path: 'create_support' },
+			{ name: 'All Support', path: 'all_support' },
+		],
+	},
+	{
+		title: 'Customer Chat',
+		routes: [{ name: 'Customer Chat', path: 'chat' }],
+	},
+	{
+		title: 'Reports',
+		routes: [
+			{ name: 'Report', path: 'report' },
+			{ name: 'Stock Report', path: 'stock_report' },
+			{ name: 'Sales Report', path: 'sales_report' },
+			{ name: 'Due Sales Report', path: 'due_sales_report' },
+			{ name: 'Purchase Report', path: 'purchase_report' },
+			{ name: 'Warehouse Report', path: 'warehouse_report' },
+			{ name: 'Stock Shortage Report', path: 'stock_shortage_report' },
+			{ name: 'Top Repeat Customer', path: 'top_repeat_customer' },
+			{ name: 'Sales Report Daily', path: 'sales_report_daily' },
+		],
+	},
+	{
+		title: 'Coupons',
+		routes: [{ name: 'Coupons', path: 'coupon' }],
+	},
+	{
+		title: 'Membership',
+		routes: [{ name: 'Membership', path: 'membership' }],
+	},
+	{
+		title: 'Settings',
+		routes: [
+			{ name: 'Order Source', path: 'source' },
+			{ name: 'Courier Company', path: 'delivery_company' },
+			{ name: 'Pickup Area', path: 'pickup_area' },
+			{ name: 'Delivery Area', path: 'delivery_area' },
+			{ name: 'Payment Methods', path: 'payment_method' },
+			{ name: 'Invoice Generate', path: 'invoice_generate' },
+			{ name: 'Setting', path: 'setting' },
+		],
+	},
+	{
+		title: 'Employee',
+		routes: [{ name: 'Employee', path: 'employee' }],
+	},
+	{
+		title: 'Balance',
+		routes: [
+			{ name: 'Balance', path: 'balance' },
+			{ name: 'Recharge', path: 'recharge' },
+			{ name: 'Recharge History', path: 'recharge_history' },
+			{ name: 'Withdraw', path: 'withdraw' },
+		],
+	},
+];
+
+/** @deprecated Use adminRolePermissionData or vendorRolePermissionData */
+export const rolePermissionData = adminRolePermissionData;
+
+/** Tenant employee permission keys (Laravel backend) */
+export const vendorPermissionKeys = {
+	products: null,
+	add_product: null,
+	all_product: null,
+	active_product: null,
+	pending_product: null,
+	edit_product: null,
+	reject_product: null,
+	category: null,
+	sub_category: null,
+	brand: null,
+	warehouse: null,
+	unit: null,
+	color: null,
+	variation: null,
+	supplier: null,
+	order: null,
+	add_order: null,
+	all_order: null,
+	hold_order: null,
+	pending_order: null,
+	receive_order: null,
+	delivery_processing: null,
+	delivery_order: null,
+	cancel_order: null,
+	customer: null,
+	pos_sale: null,
+	add_pos_sale: null,
+	all_pos_sale: null,
+	payment_history_pos_sale: null,
+	purchase: null,
+	add_purchase: null,
+	all_purchase: null,
+	payment_history_purchase: null,
+	barcode: null,
+	barcode_generate: null,
+	barcode_manage: null,
+	setting: null,
+	source: null,
+	payment_method: null,
+	affiliate_request: null,
+	all_request: null,
+	active_request: null,
+	pending_request: null,
+	reject_request: null,
+	expired_request: null,
+	return_list: null,
+	purchase_return: null,
+	sale_return: null,
+	add_wastage: null,
+	all_wastage: null,
+	report: null,
+	stock_report: null,
+	sales_report: null,
+	due_sales_report: null,
+	purchase_report: null,
+	warehouse_report: null,
+	service_and_order: null,
+	create_service: null,
+	all_service: null,
+	service_order: null,
+	coupon: null,
+	membership: null,
+	advertiser: null,
+	purchase_service: null,
+	all_service_order: null,
+	pending_service_order: null,
+	progress_service_order: null,
+	hold_service_order: null,
+	cancel_service_order: null,
+	balance: null,
+	recharge: null,
+	withdraw: null,
+	recharge_history: null,
+	create_support: null,
+	all_support: null,
+	chat: null,
+	employee: null,
+	invoice_generate: null,
+	order_return: null,
+	order_ready: null,
+	order_processing: null,
+	damage_list: null,
+	create_damage: null,
+	stock_shortage_report: null,
+	top_repeat_customer: null,
+	sales_report_daily: null,
+	delivery_company: null,
+	delivery_area: null,
+	pickup_area: null,
+	cms_system: null,
+	cms_home_page: null,
+	cms_blog: null,
+	cms_blog_category: null,
+} as const;

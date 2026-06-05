@@ -56,21 +56,18 @@ const productSchema = z.object({
 	qty: z
 		.number({ error: 'Qty is required' })
 		.min(0, { message: 'Qty must be at least 0' })
-		.max(100000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Qty must be a number',
 		}),
 	rate: z
 		.number({ error: 'Rate is required' })
 		.min(0, { message: 'Rate must be at least 0' })
-		.max(100000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Rate must be a number',
 		}),
 	sub_total: z
 		.number({ error: 'Sub Total is required' })
 		.min(0, { message: 'Sub Total must be at least 0' })
-		.max(100000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Sub Total must be a number',
 		}),
@@ -90,28 +87,24 @@ const schema = z.object({
 	grand_total: z
 		.number({ error: 'Grand Total	 is required' })
 		.min(0, { message: 'Grand Total must be at least 0' })
-		.max(100000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Grand Total must be a number',
 		}),
 	purchase_discount: z
 		.number({ error: 'Purchase Discount is required' })
 		.min(0, { message: 'Purchase Discount must be at least 0' })
-		.max(100000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Purchase Discount must be a number',
 		}),
 	paid_amount: z
 		.number({ error: 'Paid Amount is required' })
 		.min(0, { message: 'Paid Amount must be at least 0' })
-		.max(100000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Paid Amount must be a number',
 		}),
 	due_amount: z
 		.number({ error: 'Due Amount is required' })
 		.min(0, { message: 'Due Amount must be at least 0' })
-		.max(1000000, { message: 'Too long' })
 		.refine((val) => !isNaN(val), {
 			message: 'Due Amount must be a number',
 		}),
@@ -125,13 +118,11 @@ export const VendorPurchaseCreate = () => {
 	const [store, { isLoading: isLoadingStore }] =
 		useVendorPurchaseStoreMutation();
 
-	const { data, isLoading, isError } = useVendorPurchaseCreateDataQuery(
-		undefined,
-		{
+	const { data, isLoading, isError, refetch } =
+		useVendorPurchaseCreateDataQuery(undefined, {
 			refetchOnFocus: false,
 			refetchOnMountOrArgChange: false,
-		},
-	);
+		});
 
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
@@ -172,7 +163,7 @@ export const VendorPurchaseCreate = () => {
 			{ supplier_id: form.watch('supplier_id') },
 			{
 				skip: !form.watch('supplier_id'),
-			},
+			}
 		);
 
 	// Add useEffect for automatic calculations
@@ -191,7 +182,7 @@ export const VendorPurchaseCreate = () => {
 
 		const grandTotal = Math.max(
 			0,
-			productsTotal - Number(purchaseDiscount || 0),
+			productsTotal - Number(purchaseDiscount || 0)
 		);
 		const dueAmount = Math.max(0, grandTotal - Number(paidAmount || 0));
 
@@ -221,6 +212,7 @@ export const VendorPurchaseCreate = () => {
 					if (response.status === 200) {
 						toast.success(response.message || 'Created successfully');
 						form.reset();
+						refetch();
 						router.push('/dashboard/purchase');
 					} else {
 						const errorResponse = response as any;
@@ -317,7 +309,7 @@ export const VendorPurchaseCreate = () => {
 														variant="outline"
 														className={cn(
 															'w-full pl-3 justify-start text-left font-normal py-5',
-															!field.value && 'text-muted-foreground',
+															!field.value && 'text-muted-foreground'
 														)}
 													>
 														<CalendarIcon className="mr-2 h-4 w-4" />
@@ -435,7 +427,7 @@ export const VendorPurchaseCreate = () => {
 															}
 															onSelectorClick={(selectedOption) => {
 																const price = parseFloat(
-																	selectedOption?.others?.original_price ?? '0',
+																	selectedOption?.others?.original_price ?? '0'
 																);
 
 																// Set rate
@@ -448,7 +440,7 @@ export const VendorPurchaseCreate = () => {
 																// Set sub_total
 																form.setValue(
 																	`products.${index}.sub_total`,
-																	price * qty,
+																	price * qty
 																);
 															}}
 														/>
@@ -538,11 +530,11 @@ export const VendorPurchaseCreate = () => {
 																		// Get current rate
 																		const rate =
 																			form.getValues(
-																				`products.${index}.rate`,
+																				`products.${index}.rate`
 																			) || 0;
 																		form.setValue(
 																			`products.${index}.sub_total`,
-																			qty * rate,
+																			qty * rate
 																		);
 																	}}
 																/>
@@ -577,7 +569,7 @@ export const VendorPurchaseCreate = () => {
 																			0;
 																		form.setValue(
 																			`products.${index}.sub_total`,
-																			qty * rate,
+																			qty * rate
 																		);
 																	}}
 																/>

@@ -1,4 +1,15 @@
 import { iPagination } from '@/types';
+
+export type iVendorOrderVariant = {
+	id: number;
+	unit: { id: number; unit_name: string };
+	qty: string;
+	size: { id: number; name: string };
+	color: { id: number; name: string };
+	variant_id: string;
+	previousQty: string;
+};
+
 export type iVendorProductOrderResponse = {
 	message: iPagination<iVendorProductOrder>;
 	status: number;
@@ -13,12 +24,12 @@ export type iVendorProductOrder = {
 	email: string;
 	city: string;
 	address: string;
-	variants: null;
+	variants: iVendorOrderVariant[] | null;
 	status: string;
 	created_at: string;
 	updated_at: string;
 	order_id: string;
-	afi_amount: null;
+	afi_amount: number | string | null;
 	product_amount: number;
 	category_id: number;
 	qty: number;
@@ -40,10 +51,10 @@ export type iVendorProductOrder = {
 	additional_note: string;
 	internal_note: string;
 	last_status: string;
-	courier_name: null;
-	consignment_id: null;
+	courier_name: string | null;
+	consignment_id: string | null;
 	wc_order_no: null;
-	affiliator: null;
+	affiliator?: { id: number; name: string } | null;
 	vendor: {
 		id: number;
 		name: string;

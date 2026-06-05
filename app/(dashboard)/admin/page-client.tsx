@@ -1,10 +1,15 @@
+'use client';
+
 import { DbHeader } from '@/components/dashboard';
+import { AdminDashboardPage } from '@/store/features/admin/dashboard';
 
 const breadcrumbItems = [{ name: 'Dashboard' }];
-export default async function AdminPage() {
+
+export default function AdminPageClient() {
 	return (
-		<div>
+		<>
 			<DbHeader breadcrumb={breadcrumbItems} />
-		</div>
+			<AdminDashboardPage />
+		</>
 	);
 }

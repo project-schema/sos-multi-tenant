@@ -9,7 +9,6 @@ export function AdvertiserFormTab4Checkout({
 	isLoading: boolean;
 }) {
 	const level2 = useAppSelector((state) => state.advertiseForm);
-	console.log(level2);
 	return (
 		<div>
 			<Checkout createAdvertise={createAdvertise} isLoading={isLoading} />

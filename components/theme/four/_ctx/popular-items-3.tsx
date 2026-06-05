@@ -18,7 +18,7 @@ export async function PopularItems3({
 		return null;
 	}
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
-		`/tenant-frontend/products/${category_id}`,
+		`/tenant-frontend/products/${category_id}?limit=8`
 	);
 
 	return (

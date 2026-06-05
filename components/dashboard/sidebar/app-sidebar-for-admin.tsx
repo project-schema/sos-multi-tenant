@@ -14,24 +14,47 @@ import AppRoot from './app-root';
 import { NavMain } from './nav-main';
 import { SearchForm } from './search-form';
 import { filterItems } from './sidebar-actions';
+import { useAdminSidebarPermissions } from './use-admin-sidebar-permissions';
 
 export function AppSidebarForAdmin({
 	...props
 }: React.ComponentProps<typeof Sidebar>) {
 	const [searchQuery, setSearchQuery] = React.useState('');
 	const [openItem, setOpenItem] = React.useState<string | null>(null);
+	const { filterByPermission } = useAdminSidebarPermissions();
 
-	const filteredProducts = filterItems(adminSidebarData.products, searchQuery);
-	const filterUser = filterItems(adminSidebarData.users, searchQuery);
-	const filteredServices = filterItems(adminSidebarData.services, searchQuery);
-	const filteredCMS = filterItems(adminSidebarData.cms, searchQuery);
-	const filteredHRM = filterItems(adminSidebarData.hrm, searchQuery);
-	const filteredSupport = filterItems(adminSidebarData.support, searchQuery);
-	const filteredAdvertise = filterItems(
-		adminSidebarData.advertise,
+	const filteredProducts = filterItems(
+		filterByPermission(adminSidebarData.products),
 		searchQuery,
 	);
-	const filteredSaas = filterItems(adminSidebarData.sass, searchQuery);
+	const filterUser = filterItems(
+		filterByPermission(adminSidebarData.users),
+		searchQuery,
+	);
+	const filteredServices = filterItems(
+		filterByPermission(adminSidebarData.services),
+		searchQuery,
+	);
+	const filteredCMS = filterItems(
+		filterByPermission(adminSidebarData.cms),
+		searchQuery,
+	);
+	const filteredHRM = filterItems(
+		filterByPermission(adminSidebarData.hrm),
+		searchQuery,
+	);
+	const filteredSupport = filterItems(
+		filterByPermission(adminSidebarData.support),
+		searchQuery,
+	);
+	const filteredAdvertise = filterItems(
+		filterByPermission(adminSidebarData.advertise),
+		searchQuery,
+	);
+	const filteredSaas = filterItems(
+		filterByPermission(adminSidebarData.sass),
+		searchQuery,
+	);
 
 	return (
 		<Sidebar collapsible="icon" {...props}>

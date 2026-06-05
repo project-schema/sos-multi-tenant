@@ -2,6 +2,7 @@
 
 import { Container1 } from '@/components/dashboard';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
 	Table,
@@ -12,6 +13,7 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 import { badgeFormat, dateFormat, sign } from '@/lib';
+import { useRouter } from 'next/navigation';
 import {
 	useVendorCouponQuery,
 	useVendorCouponRequestQuery,
@@ -20,6 +22,7 @@ import { VendorCouponRequestModal } from './vendor-coupon-req-modal';
 
 export function VendorCouponPage() {
 	const { data, isLoading, isError } = useVendorCouponQuery(undefined);
+	const router = useRouter();
 	const {
 		data: requestData,
 		isLoading: requestLoading,
@@ -30,7 +33,19 @@ export function VendorCouponPage() {
 		<Container1
 			isLoading={isLoading || requestLoading}
 			isError={isError || requestError}
-			header={<CardTitle>Coupons</CardTitle>}
+			header={
+				<div className="flex items-center justify-between gap-2">
+					<CardTitle>Coupons</CardTitle>
+					<Button
+						variant="outline"
+						size="sm"
+						type="button"
+						onClick={() => router.back()}
+					>
+						Back
+					</Button>
+				</div>
+			}
 		>
 			{data?.message.length === 0 && requestData?.status !== 200 && (
 				<Card>

@@ -103,7 +103,6 @@ export default function SubscriptionBuyModal({
 		}
 	};
 	const handleRenewPurchase = async () => {
-		console.log('handleRenewPurchase');
 		try {
 			const paymentData = {
 				package_id: subscription.id.toString(),

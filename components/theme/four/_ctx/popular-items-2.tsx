@@ -21,7 +21,7 @@ export async function PopularItems2({
 		return null;
 	}
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
-		`/tenant-frontend/products/${include || buttons?.[0]?.value || ''}`,
+		`/tenant-frontend/products/${include || buttons?.[0]?.value || ''}?limit=8`
 	);
 
 	return (

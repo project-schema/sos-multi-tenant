@@ -145,6 +145,11 @@ export const apiSlice = createApi({
 		'AdminRole',
 		'AdminManager',
 
+		'VendorEmployeeRole',
+
+		'VendorDashboard',
+		'DropshipperDashboard',
+		'AdminDashboard',
 		'VendorBrand',
 		'VendorCategory',
 		'VendorSubCategory',

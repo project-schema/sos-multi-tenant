@@ -36,7 +36,7 @@ export default async function ThemeFourShopPageSuspense({
 	}
 	const queryString = params.toString();
 	const url = `/tenant-frontend/products${
-		queryString ? `?${queryString}` : ''
+		queryString ? `?${queryString}&limit=12` : '?limit=12'
 	}`;
 	const animationKey = `${category_id}-${min_price}-${max_price}-${color_id}-${size_id}`;
 	const products =

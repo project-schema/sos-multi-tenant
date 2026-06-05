@@ -24,7 +24,7 @@ export default async function ThemeTwoHomePageSuspense({
 }) {
 	const { trend, search, feature, include } = await searchParams;
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
-		'/tenant-frontend/cms',
+		'/tenant-frontend/cms'
 	);
 
 	const brands = await getApiDataWithSubdomain<
@@ -55,7 +55,11 @@ export default async function ThemeTwoHomePageSuspense({
 					settings?.cms?.populer_section_subcategory_id_3 ||
 					settings?.cms?.populer_section_subcategory_id_4) && (
 					<Suspense fallback={<Loader9 />}>
-						<TrendingProducts settings={settings ?? null} trend={trend} />
+						<TrendingProducts
+							settings={settings ?? null}
+							trend={trend}
+							limit={8}
+						/>
 					</Suspense>
 				)}
 

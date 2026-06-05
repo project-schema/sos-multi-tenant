@@ -15,6 +15,7 @@ import AppRoot from './app-root';
 import { NavMain } from './nav-main';
 import { SearchForm } from './search-form';
 import { filterItems } from './sidebar-actions';
+import { useVendorSidebarPermissions } from './use-vendor-sidebar-permissions';
 import { vendorSidebarData } from './vendor-sidebar-data';
 
 export function AppSidebarForVendor({
@@ -23,16 +24,18 @@ export function AppSidebarForVendor({
 	const [searchQuery, setSearchQuery] = React.useState('');
 	const { state } = useSidebar();
 	const [openItem, setOpenItem] = React.useState<string | null>(null);
-	const filteredProducts = filterItems(vendorSidebarData.products, searchQuery);
-	const filteredPos = filterItems(vendorSidebarData.pos, searchQuery);
-	const filteredSettings = filterItems(vendorSidebarData.settings, searchQuery);
-	const filteredReports = filterItems(vendorSidebarData.reports, searchQuery);
-	const filteredServices = filterItems(
-		vendorSidebarData.servicesAndAdvertise,
-		searchQuery,
-	);
-	const filteredSupport = filterItems(vendorSidebarData.support, searchQuery);
-	const filteredCms = filterItems(vendorSidebarData.cms, searchQuery);
+	const { filterByPermission } = useVendorSidebarPermissions();
+
+	const withPermissions = (items: typeof vendorSidebarData.products) =>
+		filterItems(filterByPermission(items), searchQuery);
+
+	const filteredProducts = withPermissions(vendorSidebarData.products);
+	const filteredPos = withPermissions(vendorSidebarData.pos);
+	const filteredSettings = withPermissions(vendorSidebarData.settings);
+	const filteredReports = withPermissions(vendorSidebarData.reports);
+	const filteredServices = withPermissions(vendorSidebarData.servicesAndAdvertise);
+	const filteredSupport = withPermissions(vendorSidebarData.support);
+	const filteredCms = withPermissions(vendorSidebarData.cms);
 	return (
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader className="mb-4 relative">

@@ -1,5 +1,10 @@
 import { AdminSidebar } from '@/components/dashboard/sidebar/admin-sidebar';
+import AdminLayoutClient from './layout-client';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-	return <AdminSidebar> {children}</AdminSidebar>;
+	return (
+		<AdminLayoutClient>
+			<AdminSidebar>{children}</AdminSidebar>
+		</AdminLayoutClient>
+	);
 }

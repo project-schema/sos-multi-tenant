@@ -42,7 +42,6 @@ const SessionProvider = ({ children }: { children: React.ReactNode }) => {
 			if (isRestrictedTenant) {
 				const subscription = data?.usersubscription;
 
-				console.log(!subscription);
 
 				// No subscription
 				if (!subscription) {

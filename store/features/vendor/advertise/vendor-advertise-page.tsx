@@ -7,13 +7,15 @@ import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
 import { AdminAdvertiseFilter } from '@/store/features/admin/advertise';
 
-import { SlidersHorizontal } from 'lucide-react';
+import { Plus, SlidersHorizontal } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useVendorAdvertiseQuery } from './vendor-advertise-api-slice';
 import { VendorAdvertiseStatistics } from './vendor-advertise-statistics';
 import { VendorAdvertiseTable } from './vendor-advertise-table';
 
 export function VendorAdvertisePage() {
+	const router = useRouter();
 	const [toggleFilter, setToggleFilter] = useState(true);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [page, setPage] = useState(1);
@@ -39,14 +41,26 @@ export function VendorAdvertisePage() {
 					<>
 						<div className="pb-2 lg:pb-3 flex items-center justify-between">
 							<CardTitle>Manage Advertise</CardTitle>
-							<Button
-								className="ml-auto"
-								variant="outline"
-								size="icon"
-								onClick={() => setToggleFilter((e) => !e)}
-							>
-								<SlidersHorizontal className="h-4 w-4" />
-							</Button>
+							<div className="flex items-center gap-2">
+								<Button
+									title="Create Advertise"
+									variant="outline"
+									size="sm"
+									onClick={() => router.push('/dashboard/advertise/create')}
+									type="button"
+								>
+									<Plus className="h-4 w-4" />
+									Create Advertise
+								</Button>
+								<Button
+									title="Filter Advertise"
+									variant="outline"
+									size="sm"
+									onClick={() => setToggleFilter((e) => !e)}
+								>
+									<SlidersHorizontal className="h-4 w-4" />
+								</Button>
+							</div>
 						</div>
 						{toggleFilter && <VendorAdvertiseStatistics />}
 					</>

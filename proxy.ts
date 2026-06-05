@@ -77,8 +77,6 @@ export async function proxy(request: NextRequest) {
 	const { pathname } = request.nextUrl;
 	const subdomain = extractSubdomain(request);
 
-	console.log({ subdomain, pathname });
-
 	if (subdomain) {
 		// Block access to /admin or /user on subdomains
 		if (pathname.startsWith('/admin') || pathname.startsWith('/user')) {

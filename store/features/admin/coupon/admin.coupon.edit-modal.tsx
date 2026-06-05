@@ -116,7 +116,6 @@ const FORM = ({
 	const { data, isLoading: isLoadingUsers } =
 		useAdminCouponUsersQuery(undefined);
 
-	console.log({ editData });
 	const form = useForm<ZodType>({
 		resolver: zodResolver(couponSchema),
 		defaultValues: {
@@ -187,7 +186,6 @@ const FORM = ({
 		}
 	};
 
-	console.log(form.formState.errors);
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
@@ -330,7 +328,7 @@ const FORM = ({
 												variant="outline"
 												className={cn(
 													'w-full pl-3 justify-start text-left font-normal',
-													!field.value && 'text-muted-foreground',
+													!field.value && 'text-muted-foreground'
 												)}
 											>
 												<CalendarIcon className="mr-2 h-4 w-4" />
@@ -364,7 +362,7 @@ const FORM = ({
 								options={
 									data?.message
 										?.filter(
-											(e) => String(e.id) === String(editData?.tenant_id),
+											(e) => String(e.id) === String(editData?.tenant_id)
 										)
 										?.map((cat) => ({
 											label: cat.email,

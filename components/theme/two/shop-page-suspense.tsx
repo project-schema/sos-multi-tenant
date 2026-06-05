@@ -35,7 +35,7 @@ export default async function ThemeTwoShopPageSuspense({
 	}
 	const queryString = params.toString();
 	const url = `/tenant-frontend/products${
-		queryString ? `?${queryString}` : ''
+		queryString ? `?${queryString}&limit=10` : '?limit=10'
 	}`;
 	const animationKey = `${category_id}-${min_price}-${max_price}-${color_id}-${size_id}`;
 	const products =

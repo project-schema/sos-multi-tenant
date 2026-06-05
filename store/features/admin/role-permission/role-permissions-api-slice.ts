@@ -1,5 +1,9 @@
 import { apiSlice } from '../../api/apiSlice';
-import { iAdminRole, iAdminRoleSingleRes } from './role-permission-type';
+import {
+	iAdminManagerPermissions,
+	iAdminRole,
+	iAdminRoleSingleRes,
+} from './role-permission-type';
 
 const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
@@ -62,6 +66,18 @@ const api = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: ['AdminRole'],
 		}),
+
+		// /admin/get-manager-permissions
+		adminGetManagerPermissions: builder.query<
+			iAdminManagerPermissions,
+			undefined
+		>({
+			query: () => ({
+				url: `/admin/get-manager-permissions`,
+				method: 'GET',
+			}),
+			providesTags: ['AdminRole'],
+		}),
 	}),
 });
 
@@ -71,4 +87,5 @@ export const {
 	useAdminUpdateRoleMutation,
 	useAdminDeleteRoleMutation,
 	useAdminRoleWithPermissionQuery,
+	useAdminGetManagerPermissionsQuery,
 } = api;

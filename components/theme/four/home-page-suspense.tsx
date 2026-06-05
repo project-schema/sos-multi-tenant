@@ -17,11 +17,11 @@ export default async function ThemeFourHomePageSuspense({
 	include?: string;
 }) {
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
-		'/tenant-frontend/cms',
+		'/tenant-frontend/cms'
 	);
 
 	const brands = await getApiDataWithSubdomain<iCategory[]>(
-		'/tenant-frontend/categories',
+		'/tenant-frontend/categories'
 	);
 
 	let finalBrands = brands ?? [];
@@ -151,7 +151,7 @@ export default async function ThemeFourHomePageSuspense({
 									<div className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:h-[600px]">
 										<Image
 											src={imageFormat(
-												settings?.cms.two_column_banner_1 ?? null,
+												settings?.cms.two_column_banner_1 ?? null
 											)}
 											alt="image"
 											fill
@@ -170,7 +170,7 @@ export default async function ThemeFourHomePageSuspense({
 									<div className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:h-[600px]">
 										<Image
 											src={imageFormat(
-												settings?.cms.two_column_banner_2 ?? null,
+												settings?.cms.two_column_banner_2 ?? null
 											)}
 											alt="image"
 											fill
@@ -184,15 +184,15 @@ export default async function ThemeFourHomePageSuspense({
 					</MotionFadeIn>
 					<MotionFadeIn>
 						<div className="overflow-hidden">
-							{settings?.cms.three_column_banner_2 && (
+							{settings?.cms.three_column_banner_1 && (
 								<Link
-									href={settings?.cms.three_column_banner_2_url ?? '#'}
+									href={settings?.cms.three_column_banner_1_url ?? '#'}
 									className="block overflow-hidden"
 								>
 									<div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[600px]">
 										<Image
 											src={imageFormat(
-												settings?.cms.three_column_banner_2 ?? null,
+												settings?.cms.three_column_banner_1 ?? null
 											)}
 											alt="image"
 											fill

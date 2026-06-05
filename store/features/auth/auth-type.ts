@@ -46,7 +46,7 @@ export interface iAuthUser {
 	id: number;
 	name: string;
 	email: string;
-	role_type: 'tenant_user' | 'admin';
+	role_type: 'tenant_user' | 'admin' | 'employee';
 	last_seen: string;
 	usersubscription?: {
 		id: number;

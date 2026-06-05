@@ -14,7 +14,7 @@ export async function PopularItems2({
 	include?: string;
 }) {
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
-		`/tenant-frontend/products/${include || buttons?.[0]?.value || ''}`
+		`/tenant-frontend/products/${include || buttons?.[0]?.value || ''}?limit=8`
 	);
 	const active = include || buttons?.[0]?.value;
 

@@ -20,6 +20,7 @@ import { badgeFormat, dateFormat, sign, tableSrCount, timeFormat } from '@/lib';
 
 import { iPagination } from '@/types';
 import { Ellipsis } from 'lucide-react';
+import { VendorProductOrderDetailsModal } from './vendor-product-order-details-modal';
 import { VendorProductOrderStatus } from './vendor-product-order-status';
 import { VendorProductOrderStatusCancel } from './vendor-product-order-status-cancel';
 import { iVendorProductOrder } from './vendor-product-order-type';
@@ -83,7 +84,7 @@ export function VendorProductOrderTable({
 							</TableCell>
 							<TableCell className="py-2">
 								<Badge variant="outline">
-									{Number((item as any).afi_amount) || 0} {sign.tk}
+									{Number(item.afi_amount) || 0} {sign.tk}
 								</Badge>
 							</TableCell>
 							<TableCell className="py-0">
@@ -111,15 +112,7 @@ export function VendorProductOrderTable({
 										</Button>
 									</DropdownMenuTrigger>
 									<DropdownMenuContent align="end" className="w-56">
-										{/* <DropdownMenuItem>
-											<Link
-												className="flex items-center gap-2 w-full"
-												href={`/admin/merchant-product/${item.id}`}
-											>
-												<ExternalLink className="size-4" />
-												<span>View Product {item.status}</span>
-											</Link>
-										</DropdownMenuItem> */}
+										<VendorProductOrderDetailsModal order={item} />
 										{/*
 											If the order status is "hold", show the option to
 											mark it as "received"

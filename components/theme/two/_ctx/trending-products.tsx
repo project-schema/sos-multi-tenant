@@ -8,9 +8,11 @@ import Link from 'next/link';
 export async function TrendingProducts({
 	settings,
 	trend,
+	limit,
 }: {
 	settings: iTenantFrontend | null;
 	trend: string;
+	limit: number;
 }) {
 	if (!(trend || settings?.cms?.populer_section_subcategory_id_1)) {
 		return null;
@@ -18,7 +20,7 @@ export async function TrendingProducts({
 	const products = await getApiDataWithSubdomain<iVendorProduct[]>(
 		`/tenant-frontend/products/${
 			trend || settings?.cms?.populer_section_subcategory_id_1
-		}`,
+		}?limit=${limit || ''}`
 	);
 
 	const activeSubcategory =

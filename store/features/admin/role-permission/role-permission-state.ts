@@ -1,8 +1,8 @@
-import { rolePermissionData } from '@/lib/data/role-permission';
+import { adminRolePermissionData } from '@/lib/data/role-permission';
 import { State } from './role-permission-type';
 
 export const initialState: State = {
-	permissionData: [...rolePermissionData].map((e, ei) => ({
+	permissionData: [...adminRolePermissionData].map((e, ei) => ({
 		id: ei.toString(),
 		title: e.title,
 		checked: false,

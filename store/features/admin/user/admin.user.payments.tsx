@@ -22,7 +22,6 @@ export function AdminUserPayments() {
 	const params = useParams();
 	const [page, setPage] = useState(1);
 	const type = useSearchParams().get('type');
-	console.log(type);
 
 	const { data, isLoading, isError, isFetching } =
 		useAdminVendorPaymentHistoryQuery({

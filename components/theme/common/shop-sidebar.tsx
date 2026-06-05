@@ -34,14 +34,14 @@ export default function CommonShopSidebar() {
 				.split(',')
 				.map((id) => Number(id))
 				.filter((id) => !Number.isNaN(id));
-		},
+		}
 	);
 
 	const [selectedColorId, setSelectedColorId] = useState<number | null>(
-		searchParams.get('color_id') ? Number(searchParams.get('color_id')) : null,
+		searchParams.get('color_id') ? Number(searchParams.get('color_id')) : null
 	);
 	const [selectedSizeId, setSelectedSizeId] = useState<number | null>(
-		searchParams.get('size_id') ? Number(searchParams.get('size_id')) : null,
+		searchParams.get('size_id') ? Number(searchParams.get('size_id')) : null
 	);
 
 	const updateUrl = useCallback(
@@ -53,7 +53,6 @@ export default function CommonShopSidebar() {
 			sizeId?: number | null;
 		}) => {
 			const params = new URLSearchParams(searchParams.toString());
-			console.log({ params: params.toString() });
 
 			if (next.categoryIds) {
 				if (next.categoryIds.length) {
@@ -97,7 +96,7 @@ export default function CommonShopSidebar() {
 
 			router.push(`${pathname}?${params.toString()}`);
 		},
-		[pathname, router, searchParams],
+		[pathname, router, searchParams]
 	);
 
 	const handleCategoryToggle = (id: number) => {
@@ -130,7 +129,7 @@ export default function CommonShopSidebar() {
 						.split(',')
 						.map((id) => Number(id))
 						.filter((id) => !Number.isNaN(id))
-				: [],
+				: []
 		);
 
 		const colorParam = searchParams.get('color_id');
@@ -197,7 +196,12 @@ export default function CommonShopSidebar() {
 			</div>
 
 			<div>
-				<h3 className="mb-3 font-semibold">Size</h3>
+				<h3
+					hidden={sizes && sizes?.length === 0}
+					className="mb-3 font-semibold"
+				>
+					Size
+				</h3>
 				<div className="flex flex-wrap gap-2">
 					{sizeLoading ? (
 						<div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -206,29 +210,40 @@ export default function CommonShopSidebar() {
 						</div>
 					) : (
 						<div className="flex flex-wrap gap-2">
-							{sizes?.map((s) => {
-								const active = selectedSizeId === s.id;
-								return (
-									<button
-										key={s.id}
-										onClick={() => handleSizeSelect(s.id)}
-										className={`rounded border px-3 py-1 text-sm hover:bg-orange-500/5 ${
-											active
-												? 'border-orange-600 bg-orange-500/5 text-orange-600'
-												: ''
-										}`}
-									>
-										{s.name}
-									</button>
-								);
-							})}
+							{/* if size otherwise null  */}
+
+							{sizes && sizes?.length > 0 ? (
+								<div className="flex flex-wrap gap-2">
+									{sizes?.map((s) => {
+										const active = selectedSizeId === s.id;
+										return (
+											<button
+												key={s.id}
+												onClick={() => handleSizeSelect(s.id)}
+												className={`rounded border px-3 py-1 text-sm hover:bg-orange-500/5 ${
+													active
+														? 'border-orange-600 bg-orange-500/5 text-orange-600'
+														: ''
+												}`}
+											>
+												{s.name}
+											</button>
+										);
+									})}
+								</div>
+							) : null}
 						</div>
 					)}
 				</div>
 			</div>
 
 			<div>
-				<h3 className="mb-3 font-semibold">Color</h3>
+				<h3
+					hidden={colors && colors?.length === 0}
+					className="mb-3 font-semibold"
+				>
+					Color
+				</h3>
 				<div className="flex items-center flex-wrap gap-3">
 					{colorLoading ? (
 						<div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -237,22 +252,26 @@ export default function CommonShopSidebar() {
 						</div>
 					) : (
 						<div className="flex items-center flex-wrap gap-3">
-							{colors?.map((c) => {
-								const active = selectedColorId === c.id;
-								return (
-									<button
-										key={c.id}
-										onClick={() => handleColorSelect(c.id)}
-										className={`rounded border px-3 py-1 text-sm hover:bg-orange-500/5 ${
-											active
-												? 'border-orange-600 bg-orange-500/5 text-orange-600'
-												: ''
-										}`}
-									>
-										{c.name}
-									</button>
-								);
-							})}
+							{colors && colors?.length > 0 ? (
+								<div className="flex flex-wrap gap-2">
+									{colors?.map((c) => {
+										const active = selectedColorId === c.id;
+										return (
+											<button
+												key={c.id}
+												onClick={() => handleColorSelect(c.id)}
+												className={`rounded border px-3 py-1 text-sm hover:bg-orange-500/5 ${
+													active
+														? 'border-orange-600 bg-orange-500/5 text-orange-600'
+														: ''
+												}`}
+											>
+												{c.name}
+											</button>
+										);
+									})}
+								</div>
+							) : null}
 						</div>
 					)}
 				</div>

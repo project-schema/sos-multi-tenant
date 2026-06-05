@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
 import { Grid3X3, List, SlidersHorizontal } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useVendorProductAllQuery } from './vendor-product-api-slice';
 import { VendorProductCard } from './vendor-product-card';
@@ -17,6 +18,7 @@ import { VendorProductTable } from './vendor-product-table';
 const VIEW_PREFERENCE_KEY = 'vendor-product-view-preference';
 
 export default function VendorProductPage() {
+	const router = useRouter();
 	const [toggleFilter, setToggleFilter] = useState(true);
 	const [statusFilter, setStatusFilter] = useState('all');
 	const [searchTerm, setSearchTerm] = useState('');
@@ -58,6 +60,13 @@ export default function VendorProductPage() {
 					<div className="pb-2  flex items-center justify-between">
 						<CardTitle>All Products</CardTitle>
 						<div className="flex items-center gap-2">
+							<Button
+								size="sm"
+								variant="outline"
+								onClick={() => router.push('/dashboard/product/create')}
+							>
+								Create
+							</Button>
 							<Button
 								variant="outline"
 								size="icon"

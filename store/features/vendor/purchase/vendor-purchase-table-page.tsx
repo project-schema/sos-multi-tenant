@@ -6,13 +6,15 @@ import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import { useDebounce } from '@/hooks/use-debounce';
 import { format } from 'date-fns';
-import { SlidersHorizontal } from 'lucide-react';
+import { Plus, SlidersHorizontal } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useVendorPurchaseQuery } from './vendor-purchase-api-slice';
 import { VendorPurchaseFilter } from './vendor-purchase-filter';
 import { VendorPurchaseTable } from './vendor-purchase-table';
 
 export function VendorPurchaseTablePage() {
+	const router = useRouter();
 	const [toggleFilter, setToggleFilter] = useState(true);
 	const [page, setPage] = useState(1);
 	const [filters, setFilters] = useState({
@@ -54,14 +56,28 @@ export function VendorPurchaseTablePage() {
 				<>
 					<div className="pb-2 lg:pb-3 flex items-center justify-between">
 						<CardTitle>All Purchases</CardTitle>
-						<Button
-							className="ml-auto"
-							variant="outline"
-							size="icon"
-							onClick={() => setToggleFilter((e) => !e)}
-						>
-							<SlidersHorizontal className="h-4 w-4" />
-						</Button>
+						<div className="flex items-center gap-2">
+							<Button
+								title="Create Purchase"
+								onClick={() => router.push('/dashboard/purchase/create')}
+								size="sm"
+								type="button"
+								variant="outline"
+							>
+								<Plus className="size-4" />
+								Create
+							</Button>
+							<Button
+								title="Toggle Filter"
+								onClick={() => setToggleFilter((e) => !e)}
+								size="icon"
+								type="button"
+								variant="outline"
+							>
+								<SlidersHorizontal className="size-4" />
+								<span className="sr-only">toggle filter</span>
+							</Button>
+						</div>
 					</div>
 				</>
 			}

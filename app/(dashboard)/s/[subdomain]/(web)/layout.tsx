@@ -12,7 +12,7 @@ interface TenantCheckResponse {
 
 async function checkTenantExists(subdomain: string): Promise<boolean> {
 	const response = await getApiData<TenantCheckResponse>(
-		`/have/tenant/${subdomain}`,
+		`/have/tenant/${subdomain}`
 	);
 
 	// If no response (404 or other error) or success is false, tenant doesn't exist
@@ -30,16 +30,14 @@ export default async function MySiteLayout({
 
 	// Check if tenant exists
 	const tenantExists = await checkTenantExists(subdomain);
-	console.log({ tenantExists, subdomain });
 
 	if (!tenantExists) {
 		notFound();
 	}
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
-		'/tenant-frontend/cms',
+		'/tenant-frontend/cms'
 	);
 
-	console.log(settings);
 	return (
 		<>
 			{/* Theme Colors */}
@@ -143,7 +141,7 @@ export async function generateMetadata({
 	const { subdomain } = await params;
 	const tenantExists = await checkTenantExists(subdomain);
 	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
-		'/tenant-frontend/cms',
+		'/tenant-frontend/cms'
 	);
 	if (!tenantExists) {
 		return {
@@ -151,7 +149,9 @@ export async function generateMetadata({
 		};
 	}
 	const favicon = settings?.cms?.fav_icon
-		? `${env.baseAPI}/${settings.cms.fav_icon}?v=${settings.cms.updated_at || '1'}`
+		? `${env.baseAPI}/${settings.cms.fav_icon}?v=${
+				settings.cms.updated_at || '1'
+		  }`
 		: '/favicon.ico';
 
 	return {

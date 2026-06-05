@@ -148,6 +148,8 @@ export function NavMain({
 	openItem: string | null;
 	setOpenItem: (value: string | null) => void;
 }) {
+	if (!items.length) return null;
+
 	return (
 		<Suspense fallback={null}>
 			<NavMainInner
