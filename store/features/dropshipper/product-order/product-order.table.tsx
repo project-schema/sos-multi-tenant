@@ -13,6 +13,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import {
 	DropdownMenu,
+	DropdownMenuContent,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
@@ -29,10 +30,13 @@ import { ClickToCopy } from '@/hooks/use-copy';
 import { iPagination } from '@/types';
 import { Ellipsis } from 'lucide-react';
 import Link from 'next/link';
+import { DropshipperProductOrderInvoiceModal } from './product-order-invoice-modal';
+import type { iDropShipperProductOrder } from './product-order.type';
+
 export function DropshipperProductOrderTable({
 	data,
 }: {
-	data: iPagination<any>;
+	data: iPagination<iDropShipperProductOrder>;
 }) {
 	const products = data.data;
 	return (
@@ -173,6 +177,9 @@ export function DropshipperProductOrderTable({
 												<span className="sr-only">Open menu</span>
 											</Button>
 										</DropdownMenuTrigger>
+										<DropdownMenuContent align="end" className="w-56">
+											<DropshipperProductOrderInvoiceModal order={item} />
+										</DropdownMenuContent>
 									</DropdownMenu>
 								</TableCell>
 							</TableRow>

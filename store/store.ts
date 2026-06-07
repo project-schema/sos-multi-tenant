@@ -15,6 +15,10 @@ import barcodeGeneratorReducer from './features/vendor/barcode-generator/barcode
 import posSalesDamageReducer from './features/vendor/damage-products/damage-products.slice';
 import posSalesExchangeReducer from './features/vendor/pos-sales/vendor-pos-sales-exchange.slice';
 import posSalesReducer from './features/vendor/pos-sales/vendor-pos-sales.slice';
+import pwaReducer, {
+	PWA_STORAGE_KEY,
+	PwaState,
+} from './features/pwa/pwaSlice';
 // import webReducer from './web'
 
 // ...
@@ -30,6 +34,18 @@ const loadAdvertiseFormState = (): AdvertiseFormState | undefined => {
 		return JSON.parse(serialized) as AdvertiseFormState;
 	} catch (error) {
 		console.warn('Failed to load advertise form data from localStorage', error);
+		return undefined;
+	}
+};
+
+const loadPwaState = (): PwaState | undefined => {
+	if (!isBrowser) return undefined;
+	try {
+		const serialized = window.localStorage.getItem(PWA_STORAGE_KEY);
+		if (!serialized) return undefined;
+		return JSON.parse(serialized) as PwaState;
+	} catch (error) {
+		console.warn('Failed to load PWA prompt data from localStorage', error);
 		return undefined;
 	}
 };
@@ -73,6 +89,15 @@ const saveAdvertiseFormState = (state: AdvertiseFormState) => {
 	}
 };
 
+const savePwaState = (state: PwaState) => {
+	if (!isBrowser) return;
+	try {
+		window.localStorage.setItem(PWA_STORAGE_KEY, JSON.stringify(state));
+	} catch (error) {
+		console.warn('Failed to save PWA prompt data to localStorage', error);
+	}
+};
+
 const rootReducer = combineReducers({
 	counter: counterReducer,
 	advertiseForm: advertiseFormReducer,
@@ -81,6 +106,7 @@ const rootReducer = combineReducers({
 	posSalesDamage: posSalesDamageReducer,
 	barcodeGenerator: barcodeGeneratorReducer,
 	dropshipperCart: dropshipperCartReducer,
+	pwa: pwaReducer,
 	[apiSlice.reducerPath]: apiSlice.reducer,
 });
 
@@ -88,14 +114,17 @@ export type RootState = ReturnType<typeof rootReducer>;
 
 export const makeStore = () => {
 	const preloadedAdvertiseForm = loadAdvertiseFormState();
-	const preloadedState = preloadedAdvertiseForm
-		? { advertiseForm: preloadedAdvertiseForm }
-		: undefined;
+	const preloadedPwa = loadPwaState();
+	const preloadedState = {
+		...(preloadedAdvertiseForm ? { advertiseForm: preloadedAdvertiseForm } : {}),
+		...(preloadedPwa ? { pwa: preloadedPwa } : {}),
+	};
+	const hasPreloadedState = Object.keys(preloadedState).length > 0;
 
 	const store = configureStore({
 		reducer: rootReducer,
 		devTools: process.env.NODE_ENV !== 'production',
-		preloadedState,
+		preloadedState: hasPreloadedState ? preloadedState : undefined,
 		middleware: (getDefaultMiddleware) => {
 			return getDefaultMiddleware({
 				serializableCheck: false,
@@ -105,8 +134,9 @@ export const makeStore = () => {
 
 	if (isBrowser) {
 		store.subscribe(() => {
-			const { advertiseForm } = store.getState();
+			const { advertiseForm, pwa } = store.getState();
 			saveAdvertiseFormState(advertiseForm);
+			savePwaState(pwa);
 		});
 	}
 

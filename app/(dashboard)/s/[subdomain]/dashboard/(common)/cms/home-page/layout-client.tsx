@@ -1,6 +1,7 @@
 'use client';
 
-import { Container1, DbHeader } from '@/components/dashboard';
+import { Container1, DbHeader, Loader9 } from '@/components/dashboard';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CardTitle } from '@/components/ui/card';
 import {
 	SidebarMenu,
@@ -9,7 +10,10 @@ import {
 } from '@/components/ui/sidebar';
 import { SessionProvider } from '@/provider';
 import { useSystemQuery } from '@/store/features/vendor/cms/system/api-slice';
+import { useVendorProfileInfoQuery } from '@/store/features/vendor/profile';
 import {
+	AlertTriangle,
+	ArrowRight,
 	Home,
 	Image,
 	Megaphone,
@@ -27,6 +31,8 @@ type LayoutProps = {
 };
 
 export default function Layout({ children }: LayoutProps) {
+	const { data: profileData, isLoading: profileLoading } =
+		useVendorProfileInfoQuery(undefined);
 	const searchParams = useSearchParams();
 	const activeTab = searchParams.get('tab') || 'home-service';
 	const { data, isLoading: loading, isError, refetch } = useSystemQuery();
@@ -120,7 +126,7 @@ export default function Layout({ children }: LayoutProps) {
 				icon: Megaphone,
 			},
 		],
-		[],
+		[]
 	);
 
 	// Find current tab item
@@ -139,6 +145,14 @@ export default function Layout({ children }: LayoutProps) {
 		}
 	}, [currentItem]);
 
+	if (profileLoading) {
+		return (
+			<>
+				<Loader9 />
+			</>
+		);
+	}
+
 	return (
 		<SessionProvider>
 			<DbHeader breadcrumb={breadcrumbItems} />
@@ -147,89 +161,111 @@ export default function Layout({ children }: LayoutProps) {
 				isError={false}
 				header={<CardTitle>Home - {currentItem.title}</CardTitle>}
 			>
-				<div className="flex gap-4 flex-col lg:flex-row">
-					<SidebarMenu className="flex flex-row lg:flex-col w-full lg:max-w-3xs flex-wrap">
-						{items.map((item) => {
-							const isActive = item.tab === activeTab;
-							// need hide home slider if theme is two
-							if (data?.data?.theme === 'two' && item.tab === 'home-slider') {
-								return null;
-							}
+				{profileData?.usersubscription?.has_website === 'no' ? (
+					<Alert variant="destructive" className="border-amber-500/50 mb-4   ">
+						<AlertTriangle className="size-4" />
+						<AlertTitle>No Website in your subscription</AlertTitle>
+						<AlertDescription className=" ">
+							Please change your subscription plan to have a website
+							<Link
+								href="/dashboard/membership"
+								className="flex items-center gap-2 "
+							>
+								<ArrowRight />
+								<span>Back to Membership</span>
+							</Link>
+						</AlertDescription>
+					</Alert>
+				) : (
+					<>
+						<div className="flex gap-4 flex-col lg:flex-row">
+							<SidebarMenu className="flex flex-row lg:flex-col w-full lg:max-w-3xs flex-wrap">
+								{items.map((item) => {
+									const isActive = item.tab === activeTab;
+									// need hide home slider if theme is two
+									if (
+										data?.data?.theme === 'two' &&
+										item.tab === 'home-slider'
+									) {
+										return null;
+									}
 
-							if (
-								data?.data?.theme !== 'one' &&
-								(item.tab === 'section-4' ||
-									item.tab === 'section-5' ||
-									item.tab === 'section-6')
-							) {
-								return null;
-							}
+									if (
+										data?.data?.theme !== 'one' &&
+										(item.tab === 'section-4' ||
+											item.tab === 'section-5' ||
+											item.tab === 'section-6')
+									) {
+										return null;
+									}
 
-							// need hide recommended category if theme is one
-							if (
-								data?.data?.theme === 'one' &&
-								(item.tab === 'recommended-category' ||
-									item.tab === 'home-banner-image')
-							) {
-								return null;
-							}
+									// need hide recommended category if theme is one
+									if (
+										data?.data?.theme === 'one' &&
+										(item.tab === 'recommended-category' ||
+											item.tab === 'home-banner-image')
+									) {
+										return null;
+									}
 
-							// need hide home banner image if theme is three and one
-							// if (
-							// 	data?.data.theme === 'two' &&
-							// 	item.tab === 'home-banner-image'
-							// ) {
-							// 	return null;
-							// }
+									// need hide home banner image if theme is three and one
+									// if (
+									// 	data?.data.theme === 'two' &&
+									// 	item.tab === 'home-banner-image'
+									// ) {
+									// 	return null;
+									// }
 
-							if (
-								data?.data?.theme === 'three' &&
-								(item.tab === 'home-banner-image' ||
-									item.tab === 'advertise-banner' ||
-									item.tab === 'home-slider' ||
-									item.tab === 'home-offer')
-							) {
-								return null;
-							}
+									if (
+										data?.data?.theme === 'three' &&
+										(item.tab === 'home-banner-image' ||
+											item.tab === 'advertise-banner' ||
+											item.tab === 'home-slider' ||
+											item.tab === 'home-offer')
+									) {
+										return null;
+									}
 
-							if (
-								data?.data?.theme !== 'three' &&
-								(item.tab === 'home-banner-1-image' ||
-									item.tab === 'advertise-banner-1-4')
-							) {
-								return null;
-							}
+									if (
+										data?.data?.theme !== 'three' &&
+										(item.tab === 'home-banner-1-image' ||
+											item.tab === 'advertise-banner-1-4')
+									) {
+										return null;
+									}
 
-							if (
-								data?.data?.theme === 'four' &&
-								(item.tab === 'home-banner-image' ||
-									item.tab === 'best-selling-product')
-							) {
-								return null;
-							}
+									if (
+										data?.data?.theme === 'four' &&
+										(item.tab === 'home-banner-image' ||
+											item.tab === 'best-selling-product')
+									) {
+										return null;
+									}
 
-							return (
-								<SidebarMenuItem key={item.tab}>
-									<SidebarMenuButton asChild>
-										<Link
-											href={item.url}
-											className={`flex items-center gap-2 ${
-												isActive
-													? 'text-primary font-semibold'
-													: 'text-muted-foreground'
-											}`}
-										>
-											<item.icon size={18} />
-											<span>{item.title}</span>
-										</Link>
-									</SidebarMenuButton>
-								</SidebarMenuItem>
-							);
-						})}
-					</SidebarMenu>
+									return (
+										<SidebarMenuItem key={item.tab}>
+											<SidebarMenuButton asChild>
+												<Link
+													href={item.url}
+													className={`flex items-center gap-2 ${
+														isActive
+															? 'text-primary font-semibold'
+															: 'text-muted-foreground'
+													}`}
+												>
+													<item.icon size={18} />
+													<span>{item.title}</span>
+												</Link>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									);
+								})}
+							</SidebarMenu>
 
-					<div className="w-full">{children}</div>
-				</div>
+							<div className="w-full">{children}</div>
+						</div>
+					</>
+				)}
 			</Container1>
 		</SessionProvider>
 	);

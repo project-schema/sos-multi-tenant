@@ -12,6 +12,7 @@ export * from './env';
 export * from './error-alert';
 export * from './errorHandler';
 export * from './free-coupon';
+export * from './full-screen-view';
 export * from './img';
 export * from './motion';
 export * from './order-status-text';

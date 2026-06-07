@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { MotionView } from '@/lib';
+import { FullscreenButton, MotionView } from '@/lib';
 import { Notification } from '@/store/features/vendor/notification';
 import { Plus, ShoppingCart, Store } from 'lucide-react';
 import { useSession } from 'next-auth/react';
@@ -41,6 +41,7 @@ export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
 			{/* Right side elements */}
 			<MotionView y={10} className="ml-auto">
 				<div className="flex items-center gap-2  px-4">
+					<FullscreenButton />
 					{session?.tenant_type === 'merchant' ? (
 						<>
 							{/* create product button */}

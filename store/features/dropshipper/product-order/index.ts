@@ -1,3 +1,4 @@
 export * from './product-order.api.slice';
+export * from './product-order-invoice-modal';
 export * from './product-order.table';
 export * from './product-order.type';

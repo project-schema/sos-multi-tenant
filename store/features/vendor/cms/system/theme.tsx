@@ -18,13 +18,21 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { alertConfirm, ErrorAlert } from '@/lib';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AlertTriangleIcon, LoaderCircle, View, X } from 'lucide-react';
+import {
+	AlertTriangleIcon,
+	ArrowRight,
+	LoaderCircle,
+	View,
+	X,
+} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { useVendorProfileInfoQuery } from '../../profile';
 import {
 	useSystemQuery,
 	useUpdateDummyDataMutation,
@@ -80,7 +88,10 @@ export function CMSTheme() {
 	const [update, { isLoading: updating }] = useUpdateDummyDataMutation();
 	const { data, isLoading: loading, isError, refetch } = useSystemQuery();
 	const [alert, setAlert] = useState(true);
-
+	const { data: profileData, isLoading: profileLoading } =
+		useVendorProfileInfoQuery(undefined);
+	console.log(profileData);
+	const router = useRouter();
 	const form = useForm<ZodType>({
 		resolver: zodResolver(schema),
 		defaultValues: {
@@ -98,7 +109,7 @@ export function CMSTheme() {
 	}, [data, form]);
 
 	if (isError) return <ErrorAlert />;
-	if (loading) {
+	if (loading || profileLoading) {
 		return (
 			<>
 				<Loader5 />
@@ -167,7 +178,7 @@ export function CMSTheme() {
 							if (response.success) {
 								refetch();
 								toast.success(
-									response?.message || 'Theme updated successfully',
+									response?.message || 'Theme updated successfully'
 								);
 							} else {
 								toast.error(response?.message || 'Something went wrong');
@@ -180,6 +191,29 @@ export function CMSTheme() {
 			},
 		});
 	};
+
+	if (profileData?.usersubscription?.has_website === 'no') {
+		return (
+			<Card>
+				<CardContent>
+					<Alert variant="destructive" className="border-amber-500/50 mb-4   ">
+						<AlertTriangleIcon className="size-4" />
+						<AlertTitle>No Website in your subscription</AlertTitle>
+						<AlertDescription className=" ">
+							Please change your subscription plan to have a website
+							<Link
+								href="/dashboard/membership"
+								className="flex items-center gap-2 "
+							>
+								<ArrowRight />
+								<span>Back to Membership</span>
+							</Link>
+						</AlertDescription>
+					</Alert>
+				</CardContent>
+			</Card>
+		);
+	}
 
 	return (
 		<Card className="w-full">

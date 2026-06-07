@@ -1,5 +1,7 @@
+import { PWAInstallPrompt } from '@/components/pwa-install-prompt';
+import { PWARegister } from '@/components/pwa-register';
 import { RootProviders } from '@/provider';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Kalnia, Montserrat, Poppins } from 'next/font/google';
 import 'react-quill-new/dist/quill.snow.css';
 import 'swiper/css';
@@ -33,6 +35,30 @@ export const metadata: Metadata = {
 		default: 'SOS',
 	},
 	description: 'SOS Management',
+	applicationName: 'SOS',
+	manifest: '/manifest.webmanifest',
+	appleWebApp: {
+		capable: true,
+		statusBarStyle: 'default',
+		title: 'SOS',
+	},
+	icons: {
+		icon: [
+			{ url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+			{ url: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+		],
+		apple: [{ url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' }],
+	},
+};
+
+export const viewport: Viewport = {
+	width: 'device-width',
+	initialScale: 1,
+	maximumScale: 5,
+	themeColor: [
+		{ media: '(prefers-color-scheme: light)', color: '#0060eb' },
+		{ media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
+	],
 };
 
 export default function RootLayout({
@@ -45,7 +71,11 @@ export default function RootLayout({
 			<body
 				className={` ${poppins.variable} ${kalnia.variable} ${montserrat.variable} antialiased`}
 			>
-				<RootProviders>{children}</RootProviders>
+				<RootProviders>
+					{children}
+					<PWARegister />
+					<PWAInstallPrompt />
+				</RootProviders>
 			</body>
 		</html>
 	);
