@@ -36,7 +36,7 @@ const registerSchema = z
 			.min(1, 'Phone number is required')
 			.regex(
 				/^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/,
-				'Please enter a valid phone number',
+				'Please enter a valid phone number'
 			),
 		password: z
 			.string()
@@ -97,8 +97,16 @@ export function TenantUserRegistration({
 				}
 			}
 		} catch (error: any) {
+			if (error?.data?.errors && typeof error.data.errors === 'object') {
+				Object.entries(error.data.errors).forEach(([field, value]) => {
+					form.setError(field as keyof RegisterFormData, {
+						type: 'server',
+						message: (value as string[])[0],
+					});
+				});
+			}
 			toast.error(
-				error?.data?.message || 'Registration failed. Please try again.',
+				error?.data?.message || 'Registration failed. Please try again.'
 			);
 		}
 	};

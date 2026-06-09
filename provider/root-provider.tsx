@@ -1,4 +1,7 @@
 'use client';
+
+import '@/lib/pwa-deferred-prompt';
+
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { SessionProvider } from 'next-auth/react';
 

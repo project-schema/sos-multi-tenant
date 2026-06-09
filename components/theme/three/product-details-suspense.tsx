@@ -7,6 +7,7 @@ import {
 import Link from 'next/link';
 import { GuestCartAction } from '../common/guest-cart-action';
 import { CartAction } from '../two/_ctx/cart-action';
+import { ThemeThreeProductDescription } from './ctx/product-description';
 import ProductSlider from './ctx/theme-gallery';
 
 export default async function ThemeThreeProductDetailsSuspensePage({
@@ -187,15 +188,8 @@ export default async function ThemeThreeProductDetailsSuspensePage({
 					</MotionFadeIn>
 
 					<MotionFadeIn className="order-1 lg:order-2 lg:col-span-8 px-5 py-8 border rounded-md border-primary3/20">
-						<h3 className="font-kalnia fs-32 font-medium text-primary3">
-							Description
-						</h3>
-						{data?.product?.long_description && (
-							<div
-								dangerouslySetInnerHTML={{
-									__html: data?.product?.long_description || '',
-								}}
-							></div>
+						{data?.product && (
+							<ThemeThreeProductDescription product={data.product} />
 						)}
 					</MotionFadeIn>
 				</div>

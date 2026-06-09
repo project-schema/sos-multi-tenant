@@ -49,6 +49,17 @@ function extractSubdomain(request: NextRequest): string | null {
 		: null;
 }
 
+// Public assets must bypass subdomain rewrites (icons, SW, manifest, etc.)
+function isStaticAssetPath(pathname: string): boolean {
+	if (pathname === '/favicon.ico') return true;
+	if (pathname === '/sw.js') return true;
+	if (pathname === '/offline') return true;
+	if (pathname === '/manifest.webmanifest') return true;
+	if (pathname.startsWith('/icons/')) return true;
+	if (pathname.startsWith('/screenshots/')) return true;
+	return /\.[a-zA-Z0-9]+$/.test(pathname);
+}
+
 // List of web routes that should NOT have /dashboard prefix
 const WEB_ROUTES = ['/shop', '/account', '/contact', '/auth', '/blog'];
 
@@ -75,6 +86,11 @@ function isDashboardRoute(pathname: string): boolean {
 
 export async function proxy(request: NextRequest) {
 	const { pathname } = request.nextUrl;
+
+	if (isStaticAssetPath(pathname)) {
+		return NextResponse.next();
+	}
+
 	const subdomain = extractSubdomain(request);
 
 	if (subdomain) {

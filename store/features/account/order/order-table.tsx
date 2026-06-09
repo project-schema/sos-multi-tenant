@@ -1,4 +1,14 @@
+'use client';
+
+import { Badge } from '@/components/ui/badge';
+import {
+	badgeFormat,
+	changeOrderStatusText,
+	dateFormat,
+	sign,
+} from '@/lib';
 import { useGetOrdersQuery } from './api-slice';
+import { OrderDetailsModal, OrderReviewButton } from './order-details-modal';
 import { iOrder } from './type';
 
 export function OrdersTable() {
@@ -27,46 +37,6 @@ export function OrdersTable() {
 
 	const orders = data?.orders || [];
 
-	const getStatusColor = (status: string) => {
-		switch (status?.toLowerCase()) {
-			case 'pending':
-				return 'bg-yellow-100 text-yellow-700';
-			case 'processing':
-				return 'bg-blue-100 text-blue-700';
-			case 'completed':
-				return 'bg-green-100 text-green-700';
-			case 'cancelled':
-				return 'bg-red-100 text-red-700';
-			default:
-				return 'bg-gray-100 text-gray-700';
-		}
-	};
-
-	const getPaymentStatusColor = (status: string) => {
-		switch (status?.toLowerCase()) {
-			case 'paid':
-				return 'bg-green-100 text-green-700';
-			case 'unpaid':
-				return 'bg-red-100 text-red-700';
-			case 'partial':
-				return 'bg-yellow-100 text-yellow-700';
-			default:
-				return 'bg-gray-100 text-gray-700';
-		}
-	};
-
-	const formatDate = (dateString: string) => {
-		return new Date(dateString).toLocaleDateString('en-US', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		});
-	};
-
-	const capitalizeFirst = (str: string) => {
-		return str?.charAt(0).toUpperCase() + str?.slice(1);
-	};
-
 	return (
 		<div className="border rounded-md overflow-hidden">
 			<div className="overflow-x-auto">
@@ -74,6 +44,7 @@ export function OrdersTable() {
 					<thead className="bg-gray-50 text-gray-700 font-semibold">
 						<tr>
 							<th className="px-4 py-3 whitespace-nowrap">ORDER #</th>
+							<th className="px-4 py-3">PRODUCT</th>
 							<th className="px-4 py-3">TOTAL</th>
 							<th className="px-4 py-3 whitespace-nowrap">ORDER STATUS</th>
 							<th className="px-4 py-3 whitespace-nowrap">DATE</th>
@@ -90,27 +61,32 @@ export function OrdersTable() {
 						) : (
 							orders.map((order: iOrder) => (
 								<tr key={order.id} className="hover:bg-gray-50">
-									<td className="px-4 py-3 whitespace-nowrap">
-										{order.order_id}
+									<td className="px-4 py-3 whitespace-nowrap font-medium">
+										#{order.order_id}
 									</td>
-									<td className="px-4 py-3">{order.due_amount}৳</td>
 									<td className="px-4 py-3">
-										<span
-											className={`px-2 py-1 rounded text-xs font-medium ${getStatusColor(
-												order.status
-											)}`}
+										{order.product?.name || '—'}
+									</td>
+									<td className="px-4 py-3">
+										{order.due_amount}
+										{sign.tk}
+									</td>
+									<td className="px-4 py-3">
+										<Badge
+											className="capitalize"
+											variant={badgeFormat(order.status)}
 										>
-											{capitalizeFirst(order.status)}
-										</span>
+											{changeOrderStatusText(order.status)}
+										</Badge>
 									</td>
-
 									<td className="px-4 py-3 whitespace-nowrap">
-										{formatDate(order.created_at)}
+										{dateFormat(order.created_at)}
 									</td>
-									<td className="px-4 py-3 text-right">
-										<button className="border rounded px-3 py-1 text-sm hover:bg-gray-50 transition-colors">
-											Details
-										</button>
+									<td className="px-4 py-3">
+										<div className="flex items-center justify-end gap-2">
+											<OrderReviewButton order={order} />
+											<OrderDetailsModal order={order} />
+										</div>
 									</td>
 								</tr>
 							))

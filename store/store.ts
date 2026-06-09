@@ -15,10 +15,8 @@ import barcodeGeneratorReducer from './features/vendor/barcode-generator/barcode
 import posSalesDamageReducer from './features/vendor/damage-products/damage-products.slice';
 import posSalesExchangeReducer from './features/vendor/pos-sales/vendor-pos-sales-exchange.slice';
 import posSalesReducer from './features/vendor/pos-sales/vendor-pos-sales.slice';
-import pwaReducer, {
-	PWA_STORAGE_KEY,
-	PwaState,
-} from './features/pwa/pwaSlice';
+import { getPwaStorageKeyFromWindow } from '@/lib/pwa-scope';
+import pwaReducer, { PwaState } from './features/pwa/pwaSlice';
 // import webReducer from './web'
 
 // ...
@@ -41,7 +39,8 @@ const loadAdvertiseFormState = (): AdvertiseFormState | undefined => {
 const loadPwaState = (): PwaState | undefined => {
 	if (!isBrowser) return undefined;
 	try {
-		const serialized = window.localStorage.getItem(PWA_STORAGE_KEY);
+		const storageKey = getPwaStorageKeyFromWindow();
+		const serialized = window.localStorage.getItem(storageKey);
 		if (!serialized) return undefined;
 		return JSON.parse(serialized) as PwaState;
 	} catch (error) {
@@ -92,7 +91,8 @@ const saveAdvertiseFormState = (state: AdvertiseFormState) => {
 const savePwaState = (state: PwaState) => {
 	if (!isBrowser) return;
 	try {
-		window.localStorage.setItem(PWA_STORAGE_KEY, JSON.stringify(state));
+		const storageKey = getPwaStorageKeyFromWindow();
+		window.localStorage.setItem(storageKey, JSON.stringify(state));
 	} catch (error) {
 		console.warn('Failed to save PWA prompt data to localStorage', error);
 	}

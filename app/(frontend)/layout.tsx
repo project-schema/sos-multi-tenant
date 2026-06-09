@@ -1,5 +1,6 @@
 // import Footer from '@/components/frontend/footer/Footer';
 // import Nav from '@/components/frontend/nav';
+import { PWAStorefront } from '@/components/pwa-storefront';
 import { MainWebFooter } from '@/components/main-web/footer';
 import { MainWebHeader } from '@/components/main-web/header';
 import { getApiData } from '@/lib';
@@ -30,6 +31,7 @@ export default async function Layout({
 				</main>
 					{/* <!-- /footer section --> */}
 				<MainWebFooter settings={settings ?? null} />
+				<PWAStorefront />
 			</div>
 		</div>
 	);

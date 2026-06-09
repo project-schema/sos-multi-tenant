@@ -93,11 +93,7 @@ export function PWARegister() {
 			handleControllerChange,
 		);
 
-		if (document.readyState === 'complete') {
-			void registerServiceWorker();
-		} else {
-			window.addEventListener('load', registerServiceWorker, { once: true });
-		}
+		void registerServiceWorker();
 
 		return () => {
 			isMounted = false;

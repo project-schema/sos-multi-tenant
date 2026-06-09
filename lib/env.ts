@@ -11,6 +11,8 @@ export const env = {
 
 	dummyData: true,
 
+	pwa_prompt_days: process.env.NEXT_PUBLIC_PWA_PROMPT_DAYS || 15,
+
 	placeholderImage:
 		process.env.NEXT_PUBLIC_PLACEHOLDER_IMAGE ||
 		'https://ui.shadcn.com/placeholder.svg',
@@ -66,7 +68,7 @@ export const DASHBOARD_PAGE = (
 	role: string,
 	subscription?: any,
 	router?: any,
-	admin?: boolean,
+	admin?: boolean
 ) => {
 	switch (role) {
 		case '1':

@@ -1,5 +1,5 @@
 import { RootState } from '@/store';
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 export interface PwaState {
 	installed: boolean;
@@ -8,7 +8,8 @@ export interface PwaState {
 
 export const PWA_STORAGE_KEY = 'pwaPromptState';
 
-const FIFTEEN_DAYS_MS = 15 * 24 * 60 * 60 * 1000;
+// const FIFTEEN_DAYS_MS = 15 * 24 * 60 * 60 * 1000;
+const FIFTEEN_DAYS_MS = 1000;
 
 const initialState: PwaState = {
 	installed: false,
@@ -29,14 +30,20 @@ export const pwaSlice = createSlice({
 		resetPrompt: (state) => {
 			state.dismissedUntil = null;
 		},
+		hydratePwaState: (state, action: PayloadAction<PwaState>) => {
+			state.installed = action.payload.installed;
+			state.dismissedUntil = action.payload.dismissedUntil;
+		},
 	},
 });
 
-export const { setInstalled, dismissFor15Days, resetPrompt } = pwaSlice.actions;
+export const { setInstalled, dismissFor15Days, resetPrompt, hydratePwaState } =
+	pwaSlice.actions;
 
 export const selectIsInstalled = (state: RootState) => state.pwa.installed;
 
-export const selectDismissedUntil = (state: RootState) => state.pwa.dismissedUntil;
+export const selectDismissedUntil = (state: RootState) =>
+	state.pwa.dismissedUntil;
 
 export const selectCanShowPrompt = (state: RootState) => {
 	if (state.pwa.installed) return false;

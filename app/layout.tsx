@@ -1,5 +1,3 @@
-import { PWAInstallPrompt } from '@/components/pwa-install-prompt';
-import { PWARegister } from '@/components/pwa-register';
 import { RootProviders } from '@/provider';
 import type { Metadata, Viewport } from 'next';
 import { Kalnia, Montserrat, Poppins } from 'next/font/google';
@@ -71,11 +69,7 @@ export default function RootLayout({
 			<body
 				className={` ${poppins.variable} ${kalnia.variable} ${montserrat.variable} antialiased`}
 			>
-				<RootProviders>
-					{children}
-					<PWARegister />
-					<PWAInstallPrompt />
-				</RootProviders>
+				<RootProviders>{children}</RootProviders>
 			</body>
 		</html>
 	);

@@ -13,6 +13,7 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const iconsDir = join(__dirname, '..', 'public', 'icons');
+const screenshotsDir = join(__dirname, '..', 'public', 'screenshots');
 
 const BRAND_COLOR = '#0060eb';
 const TEXT_COLOR = '#ffffff';
@@ -50,7 +51,35 @@ async function generateWithSharp() {
 		await createIcon(512, 'icon-512.png');
 		await createIcon(512, 'icon-maskable-512.png', true);
 
-		console.log('PWA icons generated with sharp.');
+		const createScreenshot = async (width, height, filename, label) => {
+			const fontSize = Math.round(Math.min(width, height) * 0.06);
+			const svg = `
+				<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+					<rect width="${width}" height="${height}" fill="#f8fafc"/>
+					<rect x="0" y="0" width="${width}" height="${Math.round(height * 0.12)}" fill="${BRAND_COLOR}"/>
+					<text
+						x="50%"
+						y="58%"
+						dominant-baseline="middle"
+						text-anchor="middle"
+						fill="${BRAND_COLOR}"
+						font-family="Arial, Helvetica, sans-serif"
+						font-size="${fontSize}"
+						font-weight="700"
+					>${label}</text>
+				</svg>
+			`;
+
+			await sharp(Buffer.from(svg))
+				.png()
+				.toFile(join(screenshotsDir, filename));
+		};
+
+		await mkdir(screenshotsDir, { recursive: true });
+		await createScreenshot(390, 844, 'mobile.png', 'SOS Mobile');
+		await createScreenshot(1280, 720, 'desktop-wide.png', 'SOS Desktop');
+
+		console.log('PWA icons and screenshots generated with sharp.');
 		return true;
 	} catch {
 		return false;

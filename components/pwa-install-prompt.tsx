@@ -12,22 +12,30 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import {
+	clearDeferredInstallPrompt,
+	getDeferredInstallPrompt,
+	subscribeToInstallPrompt,
+	type BeforeInstallPromptEvent,
+} from '@/lib/pwa-deferred-prompt';
+import { getPwaStorageKeyFromWindow } from '@/lib/pwa-scope';
+import {
 	dismissFor15Days,
+	hydratePwaState,
 	selectCanShowPrompt,
 	selectIsInstalled,
 	setInstalled,
+	type PwaState,
 } from '@/store/features/pwa/pwaSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { Check, Download, Loader2, PlusSquare, Share2, Smartphone } from 'lucide-react';
+import {
+	Check,
+	Download,
+	Loader2,
+	PlusSquare,
+	Share2,
+	Smartphone,
+} from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
-
-interface BeforeInstallPromptEvent extends Event {
-	prompt: () => Promise<void>;
-	userChoice: Promise<{
-		outcome: 'accepted' | 'dismissed';
-		platform: string;
-	}>;
-}
 
 type PromptVariant = 'chromium' | 'ios';
 
@@ -45,7 +53,7 @@ function isStandaloneMode(): boolean {
 	if (typeof window === 'undefined') return false;
 
 	const isDisplayModeStandalone = window.matchMedia(
-		'(display-mode: standalone)',
+		'(display-mode: standalone)'
 	).matches;
 
 	const isIosStandalone =
@@ -73,12 +81,15 @@ const IOS_INSTRUCTIONS = [
 	},
 ] as const;
 
+const CHROMIUM_FALLBACK_DELAY_MS = 2000;
+
 export function PWAInstallPrompt() {
 	const dispatch = useAppDispatch();
 	const isInstalled = useAppSelector(selectIsInstalled);
 	const canShowPrompt = useAppSelector(selectCanShowPrompt);
 
 	const [mounted, setMounted] = useState(false);
+	const [pwaHydrated, setPwaHydrated] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [promptVariant, setPromptVariant] = useState<PromptVariant | null>(
 		null,
@@ -86,10 +97,54 @@ export function PWAInstallPrompt() {
 	const [deferredPrompt, setDeferredPrompt] =
 		useState<BeforeInstallPromptEvent | null>(null);
 	const [isInstalling, setIsInstalling] = useState(false);
+	const [chromiumFallbackReady, setChromiumFallbackReady] = useState(false);
 
 	useEffect(() => {
 		setMounted(true);
 	}, []);
+
+	useEffect(() => {
+		if (!mounted) return;
+
+		const storageKey = getPwaStorageKeyFromWindow();
+
+		try {
+			const serialized = window.localStorage.getItem(storageKey);
+			if (serialized) {
+				dispatch(hydratePwaState(JSON.parse(serialized) as PwaState));
+			} else {
+				dispatch(
+					hydratePwaState({
+						installed: false,
+						dismissedUntil: null,
+					}),
+				);
+			}
+		} catch (error) {
+			console.warn('Failed to hydrate PWA state', error);
+			dispatch(
+				hydratePwaState({
+					installed: false,
+					dismissedUntil: null,
+				}),
+			);
+		}
+
+		setPwaHydrated(true);
+	}, [mounted, dispatch]);
+
+	useEffect(() => {
+		if (!mounted) return;
+
+		const existing = getDeferredInstallPrompt();
+		if (existing) {
+			setDeferredPrompt(existing);
+		}
+
+		return subscribeToInstallPrompt((prompt) => {
+			setDeferredPrompt(prompt);
+		});
+	}, [mounted]);
 
 	useEffect(() => {
 		if (!mounted) return;
@@ -106,34 +161,27 @@ export function PWAInstallPrompt() {
 			}
 		};
 
-		const handleBeforeInstallPrompt = (event: Event) => {
-			event.preventDefault();
-			setDeferredPrompt(event as BeforeInstallPromptEvent);
-		};
-
 		const handleAppInstalled = () => {
 			dispatch(setInstalled());
+			clearDeferredInstallPrompt();
 			setDeferredPrompt(null);
 			setOpen(false);
 			setPromptVariant(null);
 		};
 
 		mediaQuery.addEventListener('change', handleDisplayModeChange);
-		window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 		window.addEventListener('appinstalled', handleAppInstalled);
 
 		return () => {
 			mediaQuery.removeEventListener('change', handleDisplayModeChange);
-			window.removeEventListener(
-				'beforeinstallprompt',
-				handleBeforeInstallPrompt,
-			);
 			window.removeEventListener('appinstalled', handleAppInstalled);
 		};
 	}, [mounted, dispatch]);
 
 	useEffect(() => {
-		if (!mounted || isInstalled || !canShowPrompt) {
+		if (!mounted || !pwaHydrated) return;
+		if (isInstalled || !canShowPrompt) {
+			setChromiumFallbackReady(false);
 			setOpen(false);
 			setPromptVariant(null);
 			return;
@@ -146,6 +194,7 @@ export function PWAInstallPrompt() {
 		}
 
 		if (deferredPrompt) {
+			setChromiumFallbackReady(false);
 			setPromptVariant('chromium');
 			setOpen(true);
 			return;
@@ -153,7 +202,30 @@ export function PWAInstallPrompt() {
 
 		setOpen(false);
 		setPromptVariant(null);
-	}, [mounted, isInstalled, canShowPrompt, deferredPrompt]);
+
+		const timer = window.setTimeout(() => {
+			setChromiumFallbackReady(true);
+		}, CHROMIUM_FALLBACK_DELAY_MS);
+
+		return () => window.clearTimeout(timer);
+	}, [mounted, pwaHydrated, isInstalled, canShowPrompt, deferredPrompt]);
+
+	useEffect(() => {
+		if (!mounted || !pwaHydrated || isInstalled || !canShowPrompt) return;
+		if (isIOSDevice() || deferredPrompt) return;
+
+		if (chromiumFallbackReady) {
+			setPromptVariant('chromium');
+			setOpen(true);
+		}
+	}, [
+		mounted,
+		pwaHydrated,
+		isInstalled,
+		canShowPrompt,
+		deferredPrompt,
+		chromiumFallbackReady,
+	]);
 
 	const handleInstall = useCallback(async () => {
 		if (!deferredPrompt) return;
@@ -170,6 +242,7 @@ export function PWAInstallPrompt() {
 		} catch (error) {
 			console.warn('PWA install prompt failed', error);
 		} finally {
+			clearDeferredInstallPrompt();
 			setDeferredPrompt(null);
 			setIsInstalling(false);
 			setOpen(false);
@@ -200,7 +273,7 @@ export function PWAInstallPrompt() {
 				}
 			}}
 		>
-			<AlertDialogContent className="max-w-[calc(100vw-2rem)] sm:max-w-md">
+			<AlertDialogContent className="z-[200] max-w-[calc(100vw-2rem)] sm:max-w-md">
 				{promptVariant === 'ios' ? (
 					<>
 						<AlertDialogHeader>
@@ -263,8 +336,9 @@ export function PWAInstallPrompt() {
 							</div>
 							<AlertDialogTitle>Install App</AlertDialogTitle>
 							<AlertDialogDescription>
-								Install this app for faster access, offline support, and an
-								app-like experience.
+								{deferredPrompt
+									? 'Install this app for faster access, offline support, and an app-like experience.'
+									: 'Install this app from your browser menu. Look for the install icon in the address bar, or open the browser menu and choose "Install app".'}
 							</AlertDialogDescription>
 						</AlertDialogHeader>
 
@@ -276,24 +350,34 @@ export function PWAInstallPrompt() {
 							>
 								Maybe Later
 							</AlertDialogCancel>
-							<AlertDialogAction
-								onClick={(event) => {
-									event.preventDefault();
-									void handleInstall();
-								}}
-								disabled={isInstalling}
-								className="w-full sm:w-auto"
-							>
-								{isInstalling ? (
-									<Loader2
-										className="size-4 animate-spin"
-										aria-hidden="true"
-									/>
-								) : (
-									<Download className="size-4" aria-hidden="true" />
-								)}
-								{isInstalling ? 'Installing...' : 'Install'}
-							</AlertDialogAction>
+							{deferredPrompt ? (
+								<AlertDialogAction
+									onClick={(event) => {
+										event.preventDefault();
+										void handleInstall();
+									}}
+									disabled={isInstalling}
+									className="w-full sm:w-auto"
+								>
+									{isInstalling ? (
+										<Loader2
+											className="size-4 animate-spin"
+											aria-hidden="true"
+										/>
+									) : (
+										<Download className="size-4" aria-hidden="true" />
+									)}
+									{isInstalling ? 'Installing...' : 'Install'}
+								</AlertDialogAction>
+							) : (
+								<Button
+									type="button"
+									onClick={handleGotIt}
+									className="w-full sm:w-auto"
+								>
+									Got It
+								</Button>
+							)}
 						</AlertDialogFooter>
 					</>
 				) : null}

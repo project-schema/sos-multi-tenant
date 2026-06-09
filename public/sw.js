@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals */
 
 const CACHE_PREFIX = 'sos-pwa-';
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const STATIC_CACHE = `${CACHE_PREFIX}${CACHE_VERSION}-static`;
 const RUNTIME_CACHE = `${CACHE_PREFIX}${CACHE_VERSION}-runtime`;
 const OFFLINE_URL = '/offline';
@@ -12,7 +12,24 @@ const PRECACHE_ASSETS = [
 	'/icons/icon-192.png',
 	'/icons/icon-512.png',
 	'/icons/icon-maskable-512.png',
+	'/screenshots/mobile.png',
+	'/screenshots/desktop-wide.png',
 ];
+
+const precacheAssets = async (cache, urls) => {
+	await Promise.all(
+		urls.map(async (url) => {
+			try {
+				const response = await fetch(url, { cache: 'reload' });
+				if (response.ok) {
+					await cache.put(url, response);
+				}
+			} catch {
+				// One failed asset must not abort the whole service worker install.
+			}
+		}),
+	);
+};
 
 const isSameOrigin = (url) => url.origin === self.location.origin;
 
@@ -23,6 +40,7 @@ const isStaticAssetRequest = (request, url) => {
 	if (request.destination === 'image') return true;
 	if (url.pathname.startsWith('/_next/static/')) return true;
 	if (url.pathname.startsWith('/icons/')) return true;
+	if (url.pathname.startsWith('/screenshots/')) return true;
 	return false;
 };
 
@@ -97,7 +115,7 @@ self.addEventListener('install', (event) => {
 	event.waitUntil(
 		caches
 			.open(STATIC_CACHE)
-			.then((cache) => cache.addAll(PRECACHE_ASSETS))
+			.then((cache) => precacheAssets(cache, PRECACHE_ASSETS))
 			.then(() => self.skipWaiting()),
 	);
 });

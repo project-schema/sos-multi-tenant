@@ -199,6 +199,8 @@ export const apiSlice = createApi({
 		'Cart',
 		'AccountOrders',
 
+		'ProductReview',
+
 		'TenantBanner',
 		'HomeOffer',
 	],

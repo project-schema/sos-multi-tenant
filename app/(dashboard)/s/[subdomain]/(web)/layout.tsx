@@ -1,7 +1,9 @@
-import { env, getApiData, getApiDataWithSubdomain, themeVariable } from '@/lib';
+import { PWAStorefront } from '@/components/pwa-storefront';
+import { getApiData, getApiDataWithSubdomain, themeVariable } from '@/lib';
+import { PWA_METADATA_ICONS } from '@/lib/pwa-icons';
 import { FrontendPageVisit } from '@/store/features/frontend';
 import { iTenantFrontend } from '@/types/tenant-frontend';
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 
@@ -129,6 +131,7 @@ export default async function MySiteLayout({
 			{/* Frontend Page Visit */}
 			<FrontendPageVisit settings={settings} />
 			{children}
+			<PWAStorefront />
 		</>
 	);
 }
@@ -148,23 +151,21 @@ export async function generateMetadata({
 			title: 'Tenant not found',
 		};
 	}
-	const favicon = settings?.cms?.fav_icon
-		? `${env.baseAPI}/${settings.cms.fav_icon}?v=${
-				settings.cms.updated_at || '1'
-		  }`
-		: '/favicon.ico';
+	const appName = settings?.cms?.app_name || 'SOS';
 
 	return {
 		title: {
-			default: settings?.cms?.app_name || 'SOS',
-			template: `%s - ${settings?.cms?.app_name || 'SOS'}`,
+			default: appName,
+			template: `%s - ${appName}`,
 		},
-		// ✅ Dynamic Favicon
-		icons: {
-			icon: favicon,
-			shortcut: favicon,
-			apple: favicon,
+		manifest: '/manifest.webmanifest',
+		applicationName: appName,
+		appleWebApp: {
+			capable: true,
+			statusBarStyle: 'default',
+			title: appName,
 		},
+		icons: PWA_METADATA_ICONS,
 		description: settings?.cms?.seo_meta_description || 'SOS Management',
 		keywords: settings?.cms?.seo_meta_keywords || 'SOS, Management, Dashboard',
 		authors: [{ name: settings?.cms?.seo_meta_title || 'SOS' }],
@@ -174,5 +175,34 @@ export async function generateMetadata({
 			description: settings?.cms?.seo_meta_description || 'SOS Management',
 			images: settings?.cms?.seo_meta_image || [],
 		},
+		other: {
+			'mobile-web-app-capable': 'yes',
+		},
+	};
+}
+
+export async function generateViewport({
+	params,
+}: {
+	params: Promise<{ subdomain: string }>;
+}): Promise<Viewport> {
+	const { subdomain } = await params;
+	const tenantExists = await checkTenantExists(subdomain);
+	const settings = await getApiDataWithSubdomain<iTenantFrontend>(
+		'/tenant-frontend/cms'
+	);
+	const themeColor = settings?.cms?.color_primary || '#0060eb';
+
+	if (!tenantExists) {
+		return {
+			themeColor: '#0060eb',
+		};
+	}
+
+	return {
+		themeColor: [
+			{ media: '(prefers-color-scheme: light)', color: themeColor },
+			{ media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
+		],
 	};
 }
