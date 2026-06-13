@@ -5,6 +5,7 @@ import { Facebook, Instagram, Twitter } from 'lucide-react';
 import { GuestCartAction } from '../../common/guest-cart-action';
 
 export function ProductInfo({ product }: { product?: iVendorProductView }) {
+	console.log(product);
 	return (
 		<>
 			<div className="space-y-2">

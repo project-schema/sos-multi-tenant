@@ -2,8 +2,10 @@ import { CartAction } from '@/components/theme/two/_ctx/cart-action';
 import { sign } from '@/lib';
 import { iVendorProductView } from '@/store/features/vendor/product/vendor-product-type';
 import { Facebook, Instagram, Twitter } from 'lucide-react';
+import { GuestCartAction } from '../../common/guest-cart-action';
 
 export function ProductInfo({ product }: { product?: iVendorProductView }) {
+	console.log(product);
 	return (
 		<>
 			<div className="space-y-2">
@@ -35,10 +37,12 @@ export function ProductInfo({ product }: { product?: iVendorProductView }) {
 					</span>
 				</div>
 
-				{Number(product?.qty) > 0 && (
-					<p className="text-sm text-green-500">In Stock</p>
+				{Number(product?.qty) > 0 && product?.pre_order === '0' && (
+					<p className="text-sm text-green-500">
+						{product?.qty} In Stock Available
+					</p>
 				)}
-				{Number(product?.qty) <= 0 && (
+				{Number(product?.qty) <= 0 && product?.pre_order === '0' && (
 					<p className="text-sm text-red-500">Out of Stock</p>
 				)}
 			</div>
@@ -48,6 +52,9 @@ export function ProductInfo({ product }: { product?: iVendorProductView }) {
 				{product?.short_description}
 			</p>
 			{product && Number(product?.qty) > 0 && <CartAction product={product} />}
+			{product && Number(product?.qty) > 0 && (
+				<GuestCartAction product={product} />
+			)}
 
 			<div className="items-center gap-2 hidden">
 				<h2 className="text-base font-semibold">Share:</h2>

@@ -96,6 +96,10 @@ const pos: sidebarItem[] = [
 		isActive: false,
 		items: [
 			{
+				title: 'POS Dashboard',
+				url: '/dashboard/pos-sales',
+			},
+			{
 				title: 'POS Customer',
 				url: '/dashboard/customer',
 			},
@@ -105,7 +109,7 @@ const pos: sidebarItem[] = [
 			},
 			{
 				title: 'POS Orders',
-				url: '/dashboard/pos-sales',
+				url: '/dashboard/pos-sales/orders',
 			},
 			{
 				title: 'POS Payment History',

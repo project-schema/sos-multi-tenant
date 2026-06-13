@@ -130,6 +130,8 @@ export type iSubscription = {
 		id: number;
 		card_heading: string;
 	};
+	website_visits: number;
+	already_visits: number;
 };
 
 export type iEditVendor = {

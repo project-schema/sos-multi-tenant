@@ -3,20 +3,28 @@
 import { Container1 } from '@/components/dashboard';
 import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
-import { sign, timeFormat } from '@/lib';
+import { sign, textCount, timeFormat } from '@/lib';
 import { Printer } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { useVendorPosSalesOrderShowQuery } from './vendor-pos-sales.api-slice';
 import { iVendorPosSalesOrderShow } from './vendor-pos-sales.type';
+import { useVendorShopInfoQuery } from '../profile/vendor-profile-api-slice';
+import type { iVendorShopInfo } from '../profile/vendor-profile-type';
+
+function getShopDisplayName(shopInfo?: iVendorShopInfo) {
+	return shopInfo?.company_name || shopInfo?.name || 'Shop Name';
+}
 
 // Thermal Print Component - Optimized for 58mm thermal printers
 function VendorPosSalesThermalInvoice({
 	data,
+	shopInfo,
 }: {
 	data: iVendorPosSalesOrderShow;
+	shopInfo?: iVendorShopInfo;
 }) {
-	const { logo, data: saleData } = data;
+	const { data: saleData } = data;
 
 	// Format sale date
 	const saleDate = saleData.sale_date;
@@ -48,10 +56,10 @@ function VendorPosSalesThermalInvoice({
 
 			{/* Shop Info */}
 			<div className="mb-2">
-				<p className="font-bold text-xs">{logo?.shop_name || 'Shop Name'}</p>
-				<p className="text-xs">{logo?.address || 'Address'}</p>
-				<p className="text-xs">{logo?.phone || 'Phone'}</p>
-				<p className="text-xs">{logo?.email || 'Email'}</p>
+				<p className="font-bold text-xs">{getShopDisplayName(shopInfo)}</p>
+				<p className="text-xs">{shopInfo?.address || 'Address'}</p>
+				<p className="text-xs">{shopInfo?.phone || 'Phone'}</p>
+				<p className="text-xs">{shopInfo?.email || 'Email'}</p>
 			</div>
 
 			{/* Customer Info */}
@@ -78,7 +86,9 @@ function VendorPosSalesThermalInvoice({
 						{saleData.sale_details.map((item, index) => (
 							<tr key={item.id} className="border-b border-gray-300">
 								<td className="py-1 text-xs">
-									<div className="font-medium">{item.product.name}</div>
+									<div className="font-medium">
+										{textCount(item.product.name, 15)}
+									</div>
 									<div className="text-xs text-gray-600">
 										{item.unit.unit_name}{' '}
 										{item.size?.name && `(${item.size.name})`}
@@ -179,8 +189,14 @@ function VendorPosSalesThermalInvoice({
 	);
 }
 
-function VendorPosSalesInvoice({ data }: { data: iVendorPosSalesOrderShow }) {
-	const { logo, data: saleData } = data;
+function VendorPosSalesInvoice({
+	data,
+	shopInfo,
+}: {
+	data: iVendorPosSalesOrderShow;
+	shopInfo?: iVendorShopInfo;
+}) {
+	const { data: saleData } = data;
 
 	// Format sale date
 	const saleDate = saleData.sale_date;
@@ -231,16 +247,16 @@ function VendorPosSalesInvoice({ data }: { data: iVendorPosSalesOrderShow }) {
 					</h3>
 					<div className="space-y-1 print:space-y-0">
 						<p className="font-medium text-gray-900 print:text-xs">
-							{logo?.shop_name || 'Shop Name'}
+							{getShopDisplayName(shopInfo)}
 						</p>
 						<p className="text-gray-700 print:text-xs">
-							{logo?.address || 'Address'}
+							{shopInfo?.address || 'Address'}
 						</p>
 						<p className="text-gray-700 print:text-xs">
-							{logo?.phone || 'Phone'}
+							{shopInfo?.phone || 'Phone'}
 						</p>
 						<p className="text-gray-700 print:text-xs">
-							{logo?.email || 'Email'}
+							{shopInfo?.email || 'Email'}
 						</p>
 					</div>
 				</div>
@@ -301,7 +317,7 @@ function VendorPosSalesInvoice({ data }: { data: iVendorPosSalesOrderShow }) {
 								}
 							>
 								<td className="border border-gray-300 px-3 py-2 font-medium print:px-1 print:py-1 print:text-xs print:border-gray-600">
-									{item.product.name}
+									{textCount(item.product.name, 15)}
 								</td>
 								<td className="border border-gray-300 px-3 py-2 print:px-1 print:py-1 print:text-xs print:border-gray-600">
 									{item.unit.unit_name}
@@ -556,6 +572,12 @@ export function VendorPosSalesOrderInvoicePage() {
 			skip: !id,
 		}
 	);
+	const {
+		data: shopData,
+		isLoading: isShopLoading,
+		isError: isShopError,
+	} = useVendorShopInfoQuery(undefined);
+	const shopInfo = shopData?.shop_info;
 
 	const handleThermalPrint = () => {
 		setIsThermalPrint(true);
@@ -574,7 +596,9 @@ export function VendorPosSalesOrderInvoicePage() {
 	if (isThermalPrint) {
 		return (
 			<div className="min-h-screen bg-white p-4">
-				{data?.status && <VendorPosSalesThermalInvoice data={data} />}
+				{data?.status && (
+					<VendorPosSalesThermalInvoice data={data} shopInfo={shopInfo} />
+				)}
 			</div>
 		);
 	}
@@ -582,8 +606,8 @@ export function VendorPosSalesOrderInvoicePage() {
 	return (
 		<>
 			<Container1
-				isError={isError}
-				isLoading={isLoading}
+				isError={isError || isShopError}
+				isLoading={isLoading || isShopLoading}
 				header={
 					<div className="flex justify-between items-center">
 						<CardTitle>Sales Invoice</CardTitle>
@@ -612,7 +636,9 @@ export function VendorPosSalesOrderInvoicePage() {
 					</div>
 				}
 			>
-				{data?.status && <VendorPosSalesInvoice data={data} />}
+				{data?.status && (
+					<VendorPosSalesInvoice data={data} shopInfo={shopInfo} />
+				)}
 			</Container1>
 		</>
 	);

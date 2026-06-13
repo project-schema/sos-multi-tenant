@@ -1,6 +1,6 @@
 'use client';
 
-import { VendorProfileSettings } from '@/store/features/vendor/profile';
+import { VendorProfileSettings, VendorUserSubscription } from '@/store/features/vendor/profile';
 import { MyShop } from '@/store/features/vendor/profile/my-shop';
 import { MyShopDropshipper } from '@/store/features/vendor/profile/my-shop-dorpshipper';
 import { VendorProfileNote } from '@/store/features/vendor/profile/vendor-note';
@@ -15,6 +15,9 @@ export default function User() {
 	switch (searchParams) {
 		case 'note':
 			return <VendorProfileNote />;
+
+		case 'subscription':
+			return <VendorUserSubscription />;
 
 		case 'my_shop':
 			return isDropshipper ? <MyShopDropshipper /> : <MyShop />;

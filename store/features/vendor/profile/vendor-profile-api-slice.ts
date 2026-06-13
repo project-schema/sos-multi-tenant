@@ -4,7 +4,6 @@ import {
 	iNote,
 	iSubscription,
 	iUser,
-	iVendorProfile,
 	iVendorShopInfo,
 } from './vendor-profile-type';
 

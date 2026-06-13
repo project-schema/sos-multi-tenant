@@ -112,7 +112,7 @@ export const VendorProductEdit = ({
 			is_affiliate: editData.is_affiliate === 1 ? true : false,
 			selling_type: editData.selling_type || 'single',
 			is_connect_bulk_single:
-				editData.is_connect_bulk_single === '1' ? true : false,
+				editData.is_connect_bulk_single === '0' ? true : false,
 			discount_type: editData.discount_type || 'flat',
 			discount_rate: Number(editData.discount_rate),
 			advance_payment: Number(editData.advance_payment),
@@ -184,7 +184,7 @@ export const VendorProductEdit = ({
 			is_affiliate: editData.is_affiliate === 1 ? true : false,
 			selling_type: editData.selling_type || 'single',
 			is_connect_bulk_single:
-				editData.is_connect_bulk_single === '1' ? true : false,
+				editData.is_connect_bulk_single === '0' ? true : false,
 			discount_type: editData.discount_type || 'flat',
 			discount_rate: Number(editData.discount_rate),
 			advance_payment: Number(editData.advance_payment),
@@ -212,19 +212,18 @@ export const VendorProductEdit = ({
 	}, [editData]);
 
 	const onSubmit = async (values: VendorProductCreateZod) => {
-		const data = VendorProductCreateData(values);
+		const datas = VendorProductCreateData(values);
 
 		alertConfirm({
 			onOk: async () => {
 				try {
 					const response = await updateProduct({
-						...data,
+						...datas,
 						id: editData.id,
 					}).unwrap();
 					if (response.status === 200) {
 						toast.success(response.message || 'Update successfully');
 						form.reset();
-						router.push(`/dashboard/product`);
 					} else {
 						if (response?.status === 400) {
 							handleValidationError(response, form.setError);
@@ -242,6 +241,8 @@ export const VendorProductEdit = ({
 			},
 		});
 	};
+
+	console.log(form.formState.errors);
 
 	return (
 		<Form {...form}>
@@ -747,7 +748,7 @@ export const VendorProductEdit = ({
 
 							{/* Drop Shipper Sales Type */}
 							{!preOrder && (
-								<Card className={isAffiliate ? 'bg-blue-50' : 'hidden'}>
+								<Card className={isAffiliate ? 'bg-blue-50' : 'bg-blue-50'}>
 									<CardContent>
 										<div className="space-y-6">
 											<div className="space-y-4">

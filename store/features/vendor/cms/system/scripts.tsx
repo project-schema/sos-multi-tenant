@@ -14,9 +14,14 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { alertConfirm, ErrorAlert } from '@/lib';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderCircle } from 'lucide-react';
+import { InfoIcon, LoaderCircle } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -61,9 +66,11 @@ export function CMSScripts() {
 				scripts_google_adsense: data?.data?.scripts_google_adsense || '',
 				scripts_google_recaptcha: data?.data?.scripts_google_recaptcha || '',
 				scripts_facebook_pixel: data?.data?.scripts_facebook_pixel || '',
-				scripts_facebook_messenger: data?.data?.scripts_facebook_messenger || '',
+				scripts_facebook_messenger:
+					data?.data?.scripts_facebook_messenger || '',
 				scripts_whatsapp_chat: data?.data?.scripts_whatsapp_chat || '',
-				scripts_google_tag_manager: data?.data?.scripts_google_tag_manager || '',
+				scripts_google_tag_manager:
+					data?.data?.scripts_google_tag_manager || '',
 			});
 		}
 	}, [data, form]);
@@ -135,7 +142,22 @@ export function CMSScripts() {
 							name="scripts_google_analytics"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Google Analytics</FormLabel>
+									<FormLabel className="flex items-center gap-2 justify-between">
+										<span>Google Analytics</span>
+										<Tooltip>
+											<TooltipTrigger className="flex items-center gap-2">
+												<InfoIcon className="h-4 w-4 ml-2" />
+												<span>Example</span>
+											</TooltipTrigger>
+											<TooltipContent className="bg-transparent">
+												<img
+													src="/placeholder.svg"
+													alt="Google Analytics"
+													className="w-52 h-52 object-contain"
+												/>
+											</TooltipContent>
+										</Tooltip>
+									</FormLabel>
 									<FormControl>
 										<Textarea
 											{...field}
@@ -144,7 +166,8 @@ export function CMSScripts() {
 										/>
 									</FormControl>
 									<FormDescription>
-										Paste your Google Analytics tracking code (e.g., GA4 measurement ID)
+										Paste your Google Analytics tracking code (e.g., GA4
+										measurement ID)
 									</FormDescription>
 									<FormMessage />
 								</FormItem>
@@ -223,12 +246,27 @@ export function CMSScripts() {
 							name="scripts_facebook_pixel"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Facebook Pixel</FormLabel>
+									<FormLabel className="flex items-center gap-2 justify-between">
+										<span>Facebook Pixel</span>
+
+										<Tooltip>
+											<TooltipTrigger className="flex items-center gap-2">
+												<InfoIcon className="h-4 w-4 ml-2" />
+												<span>Example</span>
+											</TooltipTrigger>
+											<TooltipContent className="bg-transparent">
+												<img
+													src="/fb-pixel.webp"
+													alt="Facebook Pixel"
+													className="w-96 h-96 object-contain"
+												/>
+											</TooltipContent>
+										</Tooltip>
+									</FormLabel>
 									<FormControl>
 										<Textarea
 											{...field}
 											placeholder="Paste your Facebook Pixel script..."
-											rows={3}
 										/>
 									</FormControl>
 									<FormDescription>

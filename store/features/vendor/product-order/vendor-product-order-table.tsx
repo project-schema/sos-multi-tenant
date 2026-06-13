@@ -21,8 +21,7 @@ import { badgeFormat, dateFormat, sign, tableSrCount, timeFormat } from '@/lib';
 import { iPagination } from '@/types';
 import { Ellipsis } from 'lucide-react';
 import { VendorProductOrderDetailsModal } from './vendor-product-order-details-modal';
-import { VendorProductOrderStatus } from './vendor-product-order-status';
-import { VendorProductOrderStatusCancel } from './vendor-product-order-status-cancel';
+import { VendorProductOrderStatusMenuItems } from './vendor-product-order-status-menu';
 import { iVendorProductOrder } from './vendor-product-order-type';
 
 export function VendorProductOrderTable({
@@ -113,96 +112,7 @@ export function VendorProductOrderTable({
 									</DropdownMenuTrigger>
 									<DropdownMenuContent align="end" className="w-56">
 										<VendorProductOrderDetailsModal order={item} />
-										{/*
-											If the order status is "hold", show the option to
-											mark it as "received"
-											*/}
-										{item?.status === 'hold' && (
-											<VendorProductOrderStatus
-												data={item}
-												icon="Clock"
-												status="pending"
-												text="Order Pending"
-											/>
-										)}
-										{/*
-											If the order status is "pending", show the option to
-											mark it as "received"
-											*/}
-										{item?.status === 'pending' && (
-											<VendorProductOrderStatus
-												data={item}
-												icon="PackageCheck"
-												status="received"
-												text="Order Received"
-											/>
-										)}
-										{/* If the order status is "received", show the option to
-											mark it as "processing" */}
-										{item?.status === 'received' && (
-											<VendorProductOrderStatus
-												data={item}
-												icon="PackageSearch"
-												status="processing"
-												text="Product Processing"
-											/>
-										)}
-										{/*If the order status is "processing", show the option to
-											mark it as "ready"*/}
-										{item?.status === 'processing' && (
-											<VendorProductOrderStatus
-												data={item}
-												icon="Box"
-												status="ready"
-												text="Product Ready"
-											/>
-										)}
-										{/* If the order status is NOT one of these (hold, pending,
-											progress, cancel, delivered), // then show the option to
-											mark it as "in delivery" (progress) */}
-										{![
-											'hold',
-											'pending',
-											'progress',
-											'cancel',
-											'delivered',
-										].includes(item?.status) && (
-											<VendorProductOrderStatus
-												data={item}
-												icon="Truck"
-												status="progress"
-												text="Delivery Processing"
-											/>
-										)}
-										{/* If the status is one of the "in-process" states, allow
-											the admin to cancel the order */}
-										{[
-											'ready',
-											'processing',
-											'received',
-											'pending',
-											'hold',
-										].includes(item?.status) && (
-											<VendorProductOrderStatusCancel data={item} />
-										)}
-										{/* If the order is "in delivery" (progress), allow marking
-											as delivered or returned */}
-										{item?.status === 'progress' && (
-											<>
-												<VendorProductOrderStatus
-													data={item}
-													icon="CheckCircle2"
-													status="delivered"
-													text="Product Delivered"
-												/>
-												<VendorProductOrderStatus
-													data={item}
-													icon="RotateCcw"
-													status="return"
-													text="Product Return"
-												/>
-											</>
-										)}
+										<VendorProductOrderStatusMenuItems data={item} />
 									</DropdownMenuContent>
 								</DropdownMenu>
 							</TableCell>

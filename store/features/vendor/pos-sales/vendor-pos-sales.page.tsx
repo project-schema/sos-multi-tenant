@@ -13,7 +13,7 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 import { useDebounce } from '@/hooks/use-debounce';
-import { sign, tableSrCount } from '@/lib';
+import { sign, tableSrCount, textCount } from '@/lib';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -127,12 +127,21 @@ export function VendorPosSalesPage() {
 													</TableCell>
 													<TableCell>
 														<div className="space-y-1">
-															<div className="font-medium">{item.name}</div>
+															<div
+																className="font-medium line-clamp-1"
+																title={item.name}
+															>
+																{textCount(item.name, 20)}
+															</div>
 
 															<div className="text-xs text-muted-foreground capitalize">
-																{item.unit ? item.unit : ''}
-																{item.color ? `, ${item.color}` : ''}
-																{item.size ? `, ${item.size}` : ''}
+																{item.unit ? textCount(item.unit, 6) : ''}
+																{item.color
+																	? `, ${textCount(item.color, 6)}`
+																	: ''}
+																{item.size
+																	? `, ${textCount(item.size, 6)}`
+																	: ''}
 															</div>
 														</div>
 													</TableCell>

@@ -59,14 +59,14 @@ export function VendorSupportView() {
 								<div
 									key={message.id}
 									className={`flex ${
-										message.user.role_as !== '1'
+										message?.user?.role_as !== '1'
 											? 'justify-end'
 											: 'justify-start'
 									}`}
 								>
 									<div
 										className={`max-w-[78%] space-y-2 rounded-2xl px-3 py-2 text-sm shadow-sm ${
-											message.user.role_as !== '1'
+											message?.user?.role_as !== '1'
 												? 'bg-indigo-600 text-white rounded-br-md'
 												: 'bg-white text-gray-800 border rounded-bl-md'
 										}`}
@@ -74,7 +74,7 @@ export function VendorSupportView() {
 										<div>{message.description}</div>
 										<div
 											className={`mt-1 text-[10px] space-y-2 ${
-												message.user.role_as !== '1'
+												message?.user?.role_as !== '1'
 													? 'text-indigo-100'
 													: 'text-gray-400'
 											}`}

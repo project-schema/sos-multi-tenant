@@ -1,3 +1,4 @@
+export * from './vendor-pos-dashboard-page';
 export * from './vendor-pos-checkout';
 export * from './vendor-pos-sales-order-exchange.page';
 export * from './vendor-pos-sales-order.invoice';

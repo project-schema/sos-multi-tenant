@@ -29,10 +29,11 @@ import { LoaderCircle } from 'lucide-react';
 
 import { Container1 } from '@/components/dashboard';
 import { useDebounce } from '@/hooks/use-debounce';
-import { sign, tableSrCount } from '@/lib';
+import { sign, tableSrCount, textCount } from '@/lib';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useVendorShopInfoQuery } from '../profile/vendor-profile-api-slice';
 import { VendorPosExchangeCheckout } from './vendor-pos-exchange-checkout';
 import { VendorPosSalesExchangeCard } from './vendor-pos-sales-exchange-card';
 import { usePosSalesExchange } from './vendor-pos-sales-exchange.hook';
@@ -42,6 +43,13 @@ import {
 } from './vendor-pos-sales.api-slice';
 import { iVendorPosSalesOrderShow } from './vendor-pos-sales.type';
 import { VendorPosSellFilter } from './vendor-pos-sell-filter';
+
+function getShopDisplayName(shopInfo?: {
+	company_name?: string;
+	name?: string;
+}) {
+	return shopInfo?.company_name || shopInfo?.name || 'Shop Name';
+}
 // Zod Schema for return form
 const returnItemSchema = z.object({
 	product_id: z.number().optional(),
@@ -104,7 +112,9 @@ export function VendorPOSalesSellExchange({
 		clearCart,
 		setDiscount,
 	} = usePosSalesExchange();
-	const { logo, data: showData } = data;
+	const { data: showData } = data;
+	const { data: shopData } = useVendorShopInfoQuery(undefined);
+	const shopInfo = shopData?.shop_info;
 	const [submitReturn, { isLoading }] = useVendorPosSellReturnMutation();
 	const form = useForm<ReturnFormData>({
 		resolver: zodResolver(returnSchema),
@@ -167,11 +177,11 @@ export function VendorPOSalesSellExchange({
 									<h3 className="font-semibold text-lg mb-2">Bill To:</h3>
 									<div className="space-y-1 text-sm">
 										<p className="font-medium">
-											{logo?.shop_name || 'Shop Name'}
+											{getShopDisplayName(shopInfo)}
 										</p>
-										<p>{logo?.phone || 'Phone'}</p>
-										<p>{logo?.email || 'Email'}</p>
-										<p>{logo?.address || 'Address'}</p>
+										<p>{shopInfo?.phone || 'Phone'}</p>
+										<p>{shopInfo?.email || 'Email'}</p>
+										<p>{shopInfo?.address || 'Address'}</p>
 									</div>
 								</div>
 							</div>
@@ -207,13 +217,13 @@ export function VendorPOSalesSellExchange({
 												form.watch(`return_items.${index}.rate`) || '0';
 											const returnSubtotal = calculateReturnSubtotal(
 												returnQty,
-												rate,
+												rate
 											);
 
 											return (
 												<TableRow key={f_field.id}>
 													<TableCell className="font-medium">
-														{f_field.product_name}
+														{textCount(f_field.product_name || '', 15)}
 													</TableCell>
 													<TableCell>{f_field.unit}</TableCell>
 													<TableCell>{f_field.color}</TableCell>
@@ -244,7 +254,7 @@ export function VendorPOSalesSellExchange({
 																				const max = f_field?.purchase_qty || 0;
 																				if (value > max) {
 																					toast.error(
-																						`Return Qty must be less than or equal to ${max}`,
+																						`Return Qty must be less than or equal to ${max}`
 																					);
 																					return;
 																				}
@@ -262,7 +272,7 @@ export function VendorPOSalesSellExchange({
 														/>
 													</TableCell>
 													<TableCell>
-														<Badge className='text-white' variant="secondary">
+														<Badge className="text-white" variant="secondary">
 															{returnSubtotal} {sign.tk}
 														</Badge>
 													</TableCell>
@@ -415,7 +425,7 @@ export function VendorPOSalesSellExchange({
 																	<TableCell>
 																		<div className="space-y-1">
 																			<div className="font-medium">
-																				{item.name}
+																				{textCount(item.name, 15)}
 																			</div>
 
 																			<div className="text-xs text-muted-foreground capitalize">

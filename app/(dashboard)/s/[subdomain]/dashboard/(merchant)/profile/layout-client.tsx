@@ -8,7 +8,7 @@ import {
 	SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { SessionProvider } from '@/provider';
-import { Home, ScrollText, Store } from 'lucide-react';
+import { Home, ScrollText, Sparkles, Store } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
@@ -34,6 +34,11 @@ export default function LayoutClient({ children }: LayoutProps) {
 				title: 'Note',
 				url: `/profile?tab=note`,
 				icon: ScrollText,
+			},
+			{
+				title: 'User Subscription',
+				url: `/profile?tab=subscription`,
+				icon: Sparkles,
 			},
 			{
 				title: 'My Shop',

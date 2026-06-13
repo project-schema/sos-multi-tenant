@@ -212,6 +212,7 @@ export const VendorProductCreateSchema = z
 export type VendorProductCreateZod = z.infer<typeof VendorProductCreateSchema>;
 
 export const VendorProductCreateData = (values: VendorProductCreateZod) => {
+	console.log(values.is_connect_bulk_single ? '0' : '1');
 	let data = {
 		name: values.name,
 
@@ -249,7 +250,6 @@ export const VendorProductCreateData = (values: VendorProductCreateZod) => {
 		is_affiliate: values.is_affiliate ? '1' : '0',
 		qty: 0,
 		pre_order: values.pre_order ? '1' : '0',
-		is_connect_bulk_single: 1,
 	};
 	let single = {
 		selling_type: values.selling_type,

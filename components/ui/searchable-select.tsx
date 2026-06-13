@@ -6,6 +6,8 @@
 		options={options}
 		placeholder="Select..."
 		onSelectorClick={handleSelectorClick}
+		onAddNew={(search) => openCreateModal(search)}
+		addNewLabel="Add new customer"
 	/>		
 */
 
@@ -24,7 +26,8 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { Check, ChevronsUpDown, Plus } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 type Option = {
 	label: string;
@@ -34,8 +37,10 @@ type Option = {
 interface SelectSearchProps {
 	options: Option[];
 	placeholder?: string;
-	onSelectorClick?: (value: any) => void;
+	onSelectorClick?: (value: Option) => void;
 	value?: string;
+	onAddNew?: (search: string) => void;
+	addNewLabel?: string;
 }
 
 export const SelectSearch = ({
@@ -43,9 +48,20 @@ export const SelectSearch = ({
 	placeholder = 'Select...',
 	onSelectorClick,
 	value,
+	onAddNew,
+	addNewLabel = 'Add new',
 }: SelectSearchProps) => {
+	const [open, setOpen] = useState(false);
+	const [search, setSearch] = useState('');
+
+	useEffect(() => {
+		if (!open) {
+			setSearch('');
+		}
+	}, [open]);
+
 	return (
-		<Popover>
+		<Popover open={open} onOpenChange={setOpen}>
 			<PopoverTrigger asChild>
 				<Button
 					variant="outline"
@@ -63,16 +79,45 @@ export const SelectSearch = ({
 			</PopoverTrigger>
 			<PopoverContent className="w-full p-0" align="start">
 				<Command>
-					<CommandInput placeholder="Search..." className="h-9" />
+					<CommandInput
+						placeholder="Search..."
+						className="h-9"
+						value={search}
+						onValueChange={setSearch}
+					/>
 					<CommandList>
-						<CommandEmpty>No result found.</CommandEmpty>
+						<CommandEmpty>
+							{search.trim() && onAddNew ? (
+								<div className="px-2 py-4 text-center">
+									<p className="mb-3 text-sm text-muted-foreground">
+										No result found for &quot;{search.trim()}&quot;
+									</p>
+									<Button
+										type="button"
+										size="sm"
+										variant="secondary"
+										className="gap-1.5 text-white"
+										onClick={() => {
+											onAddNew(search.trim());
+											setOpen(false);
+										}}
+									>
+										<Plus className="size-4" />
+										{addNewLabel}
+									</Button>
+								</div>
+							) : (
+								'No result found.'
+							)}
+						</CommandEmpty>
 						<CommandGroup>
 							{options.map((opt, i) => (
 								<CommandItem
 									value={opt.label}
 									key={i}
 									onSelect={() => {
-										onSelectorClick && onSelectorClick(opt);
+										onSelectorClick?.(opt);
+										setOpen(false);
 									}}
 								>
 									{opt.label}

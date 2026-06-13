@@ -34,7 +34,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { alertConfirm, handleValidationError } from '@/lib';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { useVendorCustomerStoreMutation } from './vendor-customer-api-slice';
 
@@ -58,31 +58,79 @@ const schema = z.object({
 });
 
 type ZodType = z.infer<typeof schema>;
-export function VendorCustomerCreateModal() {
-	const [open, setOpen] = useState(false);
+
+export type VendorCustomerFormValues = ZodType;
+
+export type CreatedVendorCustomer = {
+	id: number;
+	customer_name: string;
+	phone: string;
+};
+
+type VendorCustomerCreateModalProps = {
+	showTrigger?: boolean;
+	open?: boolean;
+	onOpenChange?: (open: boolean) => void;
+	defaultValues?: Partial<ZodType>;
+	onCreated?: (customer: CreatedVendorCustomer) => void;
+};
+
+export function VendorCustomerCreateModal({
+	showTrigger = true,
+	open: controlledOpen,
+	onOpenChange: controlledOnOpenChange,
+	defaultValues,
+	onCreated,
+}: VendorCustomerCreateModalProps = {}) {
+	const [internalOpen, setInternalOpen] = useState(false);
+	const open = controlledOpen ?? internalOpen;
+	const setOpen = (value: boolean | ((prev: boolean) => boolean)) => {
+		const nextOpen = typeof value === 'function' ? value(open) : value;
+
+		if (controlledOnOpenChange) {
+			controlledOnOpenChange(nextOpen);
+			return;
+		}
+
+		setInternalOpen(nextOpen);
+	};
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
-			<DialogTrigger asChild>
-				<Button variant="outline" size="sm">
-					<Plus className="h-4 w-4" />
-					<span>Customer</span>
-				</Button>
-			</DialogTrigger>
+			{showTrigger ? (
+				<DialogTrigger asChild>
+					<Button variant="outline" size="sm">
+						<Plus className="h-4 w-4" />
+						<span>Customer</span>
+					</Button>
+				</DialogTrigger>
+			) : null}
 
 			<DialogContent className="sm:max-w-[600px]">
 				<DialogHeader>
 					<DialogTitle>Create Customer</DialogTitle>
-					<DialogDescription>Create a new order source.</DialogDescription>
+					<DialogDescription>Create a new customer.</DialogDescription>
 				</DialogHeader>
 
-				<FORM setOpen={setOpen} />
+				<FORM
+					setOpen={setOpen}
+					defaultValues={defaultValues}
+					onCreated={onCreated}
+				/>
 			</DialogContent>
 		</Dialog>
 	);
 }
 
-const FORM = ({ setOpen }: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
+const FORM = ({
+	setOpen,
+	defaultValues,
+	onCreated,
+}: {
+	setOpen: (open: boolean) => void;
+	defaultValues?: Partial<ZodType>;
+	onCreated?: (customer: CreatedVendorCustomer) => void;
+}) => {
 	const [store, { isLoading }] = useVendorCustomerStoreMutation();
 
 	const form = useForm<ZodType>({
@@ -97,6 +145,19 @@ const FORM = ({ setOpen }: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
 		},
 	});
 
+	useEffect(() => {
+		if (defaultValues) {
+			form.reset({
+				customer_name: defaultValues.customer_name ?? '',
+				phone: defaultValues.phone ?? '',
+				email: defaultValues.email ?? '',
+				address: defaultValues.address ?? '',
+				status: defaultValues.status ?? 'active',
+				description: defaultValues.description ?? '',
+			});
+		}
+	}, [defaultValues, form]);
+
 	const onSubmit = async (data: ZodType) => {
 		alertConfirm({
 			onOk: async () => {
@@ -106,6 +167,21 @@ const FORM = ({ setOpen }: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
 					}).unwrap();
 					if (response.status === 200) {
 						toast.success(response.message || 'Created successfully');
+						const responseData = response as {
+							customer?: { id: number };
+							data?: { id: number };
+							id?: number;
+						};
+
+						onCreated?.({
+							id:
+								responseData.customer?.id ??
+								responseData.data?.id ??
+								responseData.id ??
+								0,
+							customer_name: data.customer_name,
+							phone: data.phone,
+						});
 						form.reset();
 						setOpen(false);
 					} else {

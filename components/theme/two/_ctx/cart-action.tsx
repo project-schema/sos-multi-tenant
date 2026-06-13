@@ -29,7 +29,7 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 	const [selectedColor, setSelectedColor] = useState<string | null>(null);
 	const [selectedSize, setSelectedSize] = useState<string | null>(null);
 	const [selectedVariantId, setSelectedVariantId] = useState<number | null>(
-		null,
+		null
 	);
 
 	// Get unique colors and sizes from variants
@@ -74,10 +74,10 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 
 	// Check if product is in cart or wishlist
 	const isInCart = cartData?.cart?.some(
-		(item) => item.product_id === product.id,
+		(item) => item.product_id === product.id
 	);
 	const wishlistItem = wishlistData?.wishlist?.find(
-		(item) => item.product_id === product.id,
+		(item) => item.product_id === product.id
 	);
 	const isInWishlist = !!wishlistItem;
 
@@ -92,7 +92,7 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 		setSelectedColor(colorName === selectedColor ? null : colorName);
 		// Find variant with this color
 		const variant = product?.product_variant?.find(
-			(v) => v.color?.name === colorName,
+			(v) => v.color?.name === colorName
 		);
 		if (variant) {
 			setSelectedVariantId(variant.id);
@@ -106,7 +106,7 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 		const variant = product?.product_variant?.find(
 			(v) =>
 				v.size?.name === sizeName &&
-				(!selectedColor || v.color?.name === selectedColor),
+				(!selectedColor || v.color?.name === selectedColor)
 		);
 		if (variant) {
 			setSelectedVariantId(variant.id);
@@ -114,35 +114,24 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 	};
 
 	// Handle Add to Cart
-	const handleAddToCart = async () => {
-		if (!isAuthenticated) {
-			toast.info('Please login to add items to your cart');
-			router.push('/auth?tab=login');
-			return;
-		}
-
-		if (isInCart) {
-			router.push('/shop/cart');
-			return;
-		}
-
+	const addProductToCart = async (): Promise<boolean> => {
 		// Validate variant selection if product has variants
 		if (product?.product_variant?.length > 0) {
 			if (uniqueColors.length > 0 && !selectedColor) {
 				toast.error('Please select a color');
-				return;
+				return false;
 			}
 			if (uniqueSizes.length > 0 && !selectedSize) {
 				toast.error('Please select a size');
-				return;
+				return false;
 			}
 		}
 
 		try {
-			const cartData: iAddToCartRequest = {
+			const payload: iAddToCartRequest = {
 				product_id: product.id,
 				purchase_type: 'single',
-				tenant_id: session?.tenant_id,
+				tenant_id: session?.tenant_id || '',
 				qty: [quantity],
 				size_id: [selectedSize] as any,
 				color_id: [selectedColor] as any,
@@ -159,18 +148,39 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 				],
 			};
 
-			const result = await addToCart(cartData).unwrap();
+			const result = await addToCart(payload).unwrap();
 
 			if (result.status === 201) {
 				toast.success(result.message || 'Added to cart');
-			} else if (result.status === 409) {
-				toast.info(result.message || 'Product already in cart');
-			} else {
-				toast.error(result.message || 'Failed to add to cart');
+				return true;
 			}
+
+			if (result.status === 409) {
+				toast.info(result.message || 'Product already in cart');
+				return true;
+			}
+
+			toast.error(result.message || 'Failed to add to cart');
+			return false;
 		} catch (error: any) {
 			toast.error(error?.data?.message || 'Something went wrong');
+			return false;
 		}
+	};
+
+	const handleAddToCart = async () => {
+		if (!isAuthenticated) {
+			toast.info('Please login to add items to your cart');
+			router.push('/auth?tab=login');
+			return;
+		}
+
+		if (isInCart) {
+			router.push('/shop/cart');
+			return;
+		}
+
+		await addProductToCart();
 	};
 
 	// Handle Buy Now
@@ -181,16 +191,14 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 			return;
 		}
 
-		// If not in cart, add it first
-		if (!isInCart) {
-			await handleAddToCart();
-		}
-
-		// Navigate to checkout
 		if (isInCart) {
 			router.push('/shop/checkout');
-		} else {
-			toast.error('Product not added to cart');
+			return;
+		}
+
+		const added = await addProductToCart();
+		if (added) {
+			router.push('/shop/checkout');
 		}
 	};
 
@@ -240,7 +248,7 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 									'px-3 py-1.5 border rounded text-sm transition-all',
 									selectedColor === c.name
 										? 'border-orange-500 bg-orange-500/5 text-orange-600'
-										: 'border-orange-500/20 hover:bg-orange-500/5',
+										: 'border-orange-500/20 hover:bg-orange-500/5'
 								)}
 							>
 								{c.name}
@@ -263,7 +271,7 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 									'px-3 py-1.5 border rounded text-sm transition-all',
 									selectedSize === s.name
 										? 'border-orange-500 bg-orange-500/5 text-orange-600'
-										: 'border-orange-500/20 hover:bg-orange-500/5',
+										: 'border-orange-500/20 hover:bg-orange-500/5'
 								)}
 							>
 								{s.name}
@@ -337,7 +345,7 @@ export function CartAction({ product }: { product: iVendorProductView }) {
 					className={cn(
 						'inline-flex items-center justify-center gap-2 px-4 py-3 rounded-md hover:bg-orange-500 hover:text-white',
 						isInWishlist &&
-							'  bg-orange-500 text-white border-orange-500/50 hover:bg-orange-500 hover:text-white',
+							'  bg-orange-500 text-white border-orange-500/50 hover:bg-orange-500 hover:text-white'
 					)}
 				>
 					{isWishlistLoading ? (

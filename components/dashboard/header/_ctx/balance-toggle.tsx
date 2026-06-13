@@ -1,4 +1,10 @@
 import { Button } from '@/components/ui/button';
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { sign } from '@/lib';
 import { useProfileDataQuery } from '@/store/features/user-profile/user-profile-api-slice';
 import { useVendorProfileDataInfoQuery } from '@/store/features/vendor/profile';
@@ -69,37 +75,53 @@ export function BalanceToggle() {
 		}
 	};
 
+	const tooltipLabel =
+		isBalanceLoading || isFetching
+			? 'Loading balance...'
+			: showBalance
+				? 'Hide balance'
+				: 'Show balance';
+
 	return (
-		<Button
-			variant="ghost"
-			size="sm"
-			onClick={
-				session?.tenant_type === 'user' ? userToggleBalance : toggleBalance
-			}
-			className="flex items-center gap-2 cursor-pointer"
-		>
-			{isBalanceLoading || isFetching ? (
-				<span className="text-muted-foreground flex items-center gap-1">
-					<Loader2 className="h-3 w-3 animate-spin" />
-					Loading...
-				</span>
-			) : showBalance ? (
-				<span className="font-medium">
-					{sign.tk}{' '}
-					{session?.tenant_type === 'user'
-						? userData?.user?.balance?.toFixed(2)
-						: data?.shop_info?.balance
-						? data?.shop_info?.balance
-						: 0}
-				</span>
-			) : (
-				<span className="text-muted-foreground">••••</span>
-			)}
-			{isBalanceLoading || isFetching ? null : showBalance ? (
-				<EyeOff className="h-2 w-2" />
-			) : (
-				<Eye className="h-2 w-2" />
-			)}
-		</Button>
+		<TooltipProvider>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<Button
+						variant="ghost"
+						size="sm"
+						onClick={
+							session?.tenant_type === 'user'
+								? userToggleBalance
+								: toggleBalance
+						}
+						className="flex items-center gap-2 cursor-pointer"
+					>
+						{isBalanceLoading || isFetching ? (
+							<span className="text-muted-foreground flex items-center gap-1">
+								<Loader2 className="h-3 w-3 animate-spin" />
+								Loading...
+							</span>
+						) : showBalance ? (
+							<span className="font-medium">
+								{sign.tk}{' '}
+								{session?.tenant_type === 'user'
+									? userData?.user?.balance?.toFixed(2)
+									: data?.shop_info?.balance
+										? data?.shop_info?.balance
+										: 0}
+							</span>
+						) : (
+							<span className="text-muted-foreground">••••</span>
+						)}
+						{isBalanceLoading || isFetching ? null : showBalance ? (
+							<EyeOff className="h-2 w-2" />
+						) : (
+							<Eye className="h-2 w-2" />
+						)}
+					</Button>
+				</TooltipTrigger>
+				<TooltipContent>{tooltipLabel}</TooltipContent>
+			</Tooltip>
+		</TooltipProvider>
 	);
 }

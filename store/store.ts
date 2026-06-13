@@ -88,7 +88,7 @@ const saveAdvertiseFormState = (state: AdvertiseFormState) => {
 	}
 };
 
-const savePwaState = (state: PwaState) => {
+export const persistPwaState = (state: PwaState) => {
 	if (!isBrowser) return;
 	try {
 		const storageKey = getPwaStorageKeyFromWindow();
@@ -136,7 +136,7 @@ export const makeStore = () => {
 		store.subscribe(() => {
 			const { advertiseForm, pwa } = store.getState();
 			saveAdvertiseFormState(advertiseForm);
-			savePwaState(pwa);
+			persistPwaState(pwa);
 		});
 	}
 

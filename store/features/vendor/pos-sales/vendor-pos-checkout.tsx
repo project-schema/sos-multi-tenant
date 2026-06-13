@@ -6,11 +6,16 @@ import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SelectSearch } from '@/components/ui/searchable-select';
+import { Textarea } from '@/components/ui/textarea';
 import { sign } from '@/lib';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import { VendorCustomerCreateModal } from '../customer/vendor-customer-create-modal';
+import {
+	CreatedVendorCustomer,
+	VendorCustomerCreateModal,
+	VendorCustomerFormValues,
+} from '../customer/vendor-customer-create-modal';
 import { VendorOrderSourceCreateModal } from '../order-source';
 import { VendorPaymentMethodsCreateModal } from '../payment-methods';
 import { useCreateSaleMutation } from './vendor-pos-sales.api-slice';
@@ -21,6 +26,28 @@ interface CheckoutProps {
 	isOpen: boolean;
 	onClose: () => void;
 	data?: iVendorPosSalesResponse;
+}
+
+type PosCustomer = iVendorPosSalesResponse['data']['customer'][number];
+
+function parseCustomerSearch(
+	search: string
+): Pick<VendorCustomerFormValues, 'customer_name' | 'phone'> {
+	const trimmed = search.trim();
+	const isPhone = /^[\d+\-\s()]+$/.test(trimmed);
+
+	if (isPhone) {
+		return { phone: trimmed, customer_name: '' };
+	}
+
+	return { customer_name: trimmed, phone: '' };
+}
+
+function buildCustomerOptions(customers: PosCustomer[]) {
+	return customers.map((customer) => ({
+		label: `${customer.customer_name} (${customer.phone})`,
+		value: customer.id.toString(),
+	}));
 }
 
 // Generate a simple barcode
@@ -37,8 +64,19 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 	const [selectedCustomer, setSelectedCustomer] = useState<any>(null);
 	const [orderSource, setOrderSource] = useState<string>('');
 	const [paymentMethod, setPaymentMethod] = useState<string>('');
-	const [paymentAmount, setPaymentAmount] = useState(0);
+	const [paymentAmountInput, setPaymentAmountInput] = useState('');
+	const [discountInput, setDiscountInput] = useState('');
+	const [note, setNote] = useState('');
 	const [error, setError] = useState<string | null>(null);
+	const [extraCustomers, setExtraCustomers] = useState<PosCustomer[]>([]);
+	const [isCreateCustomerOpen, setIsCreateCustomerOpen] = useState(false);
+	const [createCustomerDefaults, setCreateCustomerDefaults] = useState<
+		Partial<VendorCustomerFormValues> | undefined
+	>();
+	const [pendingCustomerMatch, setPendingCustomerMatch] = useState<{
+		customer_name: string;
+		phone: string;
+	} | null>(null);
 	const router = useRouter();
 	const {
 		cart,
@@ -55,24 +93,101 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 
 	const [createSale, { isLoading: isCreatingSale }] = useCreateSaleMutation();
 
-	// Clear errors when modal opens
-	useEffect(() => {
-		if (isOpen) {
-			setError(null);
-		}
-	}, [isOpen]);
+	const customerOptions = useMemo(() => {
+		const customers = [...(data?.data?.customer ?? [])];
 
-	// Calculate totals
-	const totalQty = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
-	const totalPrice = subtotal;
-	const grandTotal = total < 0 ? 0 : total;
-	const dueAmount = Math.max(0, grandTotal - paymentAmount);
-	const changeAmount = Math.max(0, paymentAmount - grandTotal);
+		extraCustomers.forEach((customer) => {
+			if (!customers.some((item) => item.id === customer.id)) {
+				customers.push(customer);
+			}
+		});
+
+		return buildCustomerOptions(customers);
+	}, [data?.data?.customer, extraCustomers]);
 
 	const handleCustomerSelect = (customerId: string) => {
 		setSelectedCustomer(customerId);
 		setCustomer(customerId as any);
 	};
+
+	const handleAddNewCustomer = (search: string) => {
+		setCreateCustomerDefaults(parseCustomerSearch(search));
+		setIsCreateCustomerOpen(true);
+	};
+
+	const handleCustomerCreated = (customer: CreatedVendorCustomer) => {
+		const nextCustomer: PosCustomer = {
+			id: customer.id,
+			customer_name: customer.customer_name,
+			phone: customer.phone,
+			email: '',
+			address: '',
+		};
+
+		if (customer.id) {
+			setExtraCustomers((prev) => {
+				if (prev.some((item) => item.id === customer.id)) {
+					return prev;
+				}
+
+				return [...prev, nextCustomer];
+			});
+			handleCustomerSelect(customer.id.toString());
+			return;
+		}
+
+		setPendingCustomerMatch({
+			customer_name: customer.customer_name,
+			phone: customer.phone,
+		});
+	};
+
+	// Clear errors when modal opens
+	useEffect(() => {
+		if (isOpen) {
+			setError(null);
+			setDiscountInput(discount ? String(discount) : '');
+			setPaymentAmountInput('');
+		} else {
+			setNote('');
+			setPaymentAmountInput('');
+			setDiscountInput('');
+		}
+	}, [isOpen, discount]);
+
+	useEffect(() => {
+		if (!pendingCustomerMatch || !data?.data?.customer) return;
+
+		const matchedCustomer =
+			data.data.customer.find(
+				(customer) =>
+					customer.phone === pendingCustomerMatch.phone &&
+					customer.customer_name === pendingCustomerMatch.customer_name
+			) ??
+			data.data.customer.find(
+				(customer) => customer.phone === pendingCustomerMatch.phone
+			);
+
+		if (matchedCustomer) {
+			setExtraCustomers((prev) => {
+				if (prev.some((item) => item.id === matchedCustomer.id)) {
+					return prev;
+				}
+
+				return [...prev, matchedCustomer];
+			});
+			handleCustomerSelect(matchedCustomer.id.toString());
+			setPendingCustomerMatch(null);
+		}
+	}, [data?.data?.customer, pendingCustomerMatch, setCustomer]);
+
+	// Calculate totals
+	const paymentAmount = parseFloat(paymentAmountInput) || 0;
+	const totalQty = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+	const totalPrice = subtotal;
+	const grandTotal = total < 0 ? 0 : total;
+	const dueAmount = Math.max(0, grandTotal - paymentAmount);
+	const changeAmount = Math.max(0, paymentAmount - grandTotal);
 
 	const handleCheckout = async () => {
 		// Clear any previous errors
@@ -127,12 +242,16 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 				qty: quantities,
 				rate: rates,
 				sub_total: subTotals,
+				note: note.trim(),
 			};
 
 			const result: any = await createSale(saleData).unwrap();
 
 			if (result.status === 200) {
 				toast.success(result.message || 'Sale completed successfully');
+				setNote('');
+				setPaymentAmountInput('');
+				setDiscountInput('');
 				resetPosSales();
 				router.push(`/dashboard/pos-sales/${result?.sale_id}/invoice`);
 				onClose();
@@ -183,8 +302,16 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 					<div className="flex gap-3 mb-6">
 						<VendorPaymentMethodsCreateModal />
 						<VendorOrderSourceCreateModal />
-						<VendorCustomerCreateModal />
+						<VendorCustomerCreateModal onCreated={handleCustomerCreated} />
 					</div>
+
+					<VendorCustomerCreateModal
+						showTrigger={false}
+						open={isCreateCustomerOpen}
+						onOpenChange={setIsCreateCustomerOpen}
+						defaultValues={createCustomerDefaults}
+						onCreated={handleCustomerCreated}
+					/>
 
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 						{/* Customer Selection */}
@@ -192,13 +319,10 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 							<Label>Customer *</Label>
 							<SelectSearch
 								value={selectedCustomer}
-								options={
-									data?.data?.customer?.map((customer) => ({
-										label: customer.customer_name,
-										value: customer.id.toString(),
-									})) ?? []
-								}
+								options={customerOptions}
 								placeholder="Select Customer"
+								addNewLabel="Add new customer"
+								onAddNew={handleAddNewCustomer}
 								onSelectorClick={(value) => {
 									handleCustomerSelect(value.value);
 								}}
@@ -246,8 +370,21 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 							<Label>Sale Discount</Label>
 							<Input
 								type="number"
-								value={discount}
-								onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
+								value={discountInput}
+								onChange={(e) => {
+									const value = e.target.value;
+									setDiscountInput(value);
+
+									if (value === '') {
+										setDiscount(0);
+										return;
+									}
+
+									const parsed = parseFloat(value);
+									if (!Number.isNaN(parsed)) {
+										setDiscount(parsed);
+									}
+								}}
 								placeholder="Enter sale discount"
 								className="pr-3"
 								onWheel={(e) => {
@@ -261,15 +398,24 @@ export function VendorPosCheckout({ isOpen, onClose, data }: CheckoutProps) {
 							<Label>Paid Amount *</Label>
 							<Input
 								type="number"
-								value={paymentAmount}
-								onChange={(e) =>
-									setPaymentAmount(parseFloat(e.target.value) || 0)
-								}
+								value={paymentAmountInput}
+								onChange={(e) => setPaymentAmountInput(e.target.value)}
 								placeholder="Enter paid amount"
 								className="pr-3"
 								onWheel={(e) => {
 									(e.target as HTMLInputElement).blur();
 								}}
+							/>
+						</div>
+
+						{/* Note */}
+						<div className="space-y-2 md:col-span-2">
+							<Label>Note</Label>
+							<Textarea
+								value={note}
+								onChange={(e) => setNote(e.target.value)}
+								placeholder="Add a note for this sale..."
+								rows={3}
 							/>
 						</div>
 					</div>

@@ -3,7 +3,6 @@
 import {
 	AlertDialog,
 	AlertDialogAction,
-	AlertDialogCancel,
 	AlertDialogContent,
 	AlertDialogDescription,
 	AlertDialogFooter,
@@ -17,16 +16,14 @@ import {
 	subscribeToInstallPrompt,
 	type BeforeInstallPromptEvent,
 } from '@/lib/pwa-deferred-prompt';
-import { getPwaStorageKeyFromWindow } from '@/lib/pwa-scope';
 import {
 	dismissFor15Days,
-	hydratePwaState,
 	selectCanShowPrompt,
 	selectIsInstalled,
 	setInstalled,
-	type PwaState,
 } from '@/store/features/pwa/pwaSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { persistPwaState, type RootState } from '@/store/store';
 import {
 	Check,
 	Download,
@@ -36,6 +33,7 @@ import {
 	Smartphone,
 } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
+import { useStore } from 'react-redux';
 
 type PromptVariant = 'chromium' | 'ios';
 
@@ -85,11 +83,11 @@ const CHROMIUM_FALLBACK_DELAY_MS = 2000;
 
 export function PWAInstallPrompt() {
 	const dispatch = useAppDispatch();
+	const store = useStore<RootState>();
 	const isInstalled = useAppSelector(selectIsInstalled);
 	const canShowPrompt = useAppSelector(selectCanShowPrompt);
 
 	const [mounted, setMounted] = useState(false);
-	const [pwaHydrated, setPwaHydrated] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [promptVariant, setPromptVariant] = useState<PromptVariant | null>(
 		null,
@@ -102,36 +100,6 @@ export function PWAInstallPrompt() {
 	useEffect(() => {
 		setMounted(true);
 	}, []);
-
-	useEffect(() => {
-		if (!mounted) return;
-
-		const storageKey = getPwaStorageKeyFromWindow();
-
-		try {
-			const serialized = window.localStorage.getItem(storageKey);
-			if (serialized) {
-				dispatch(hydratePwaState(JSON.parse(serialized) as PwaState));
-			} else {
-				dispatch(
-					hydratePwaState({
-						installed: false,
-						dismissedUntil: null,
-					}),
-				);
-			}
-		} catch (error) {
-			console.warn('Failed to hydrate PWA state', error);
-			dispatch(
-				hydratePwaState({
-					installed: false,
-					dismissedUntil: null,
-				}),
-			);
-		}
-
-		setPwaHydrated(true);
-	}, [mounted, dispatch]);
 
 	useEffect(() => {
 		if (!mounted) return;
@@ -179,7 +147,7 @@ export function PWAInstallPrompt() {
 	}, [mounted, dispatch]);
 
 	useEffect(() => {
-		if (!mounted || !pwaHydrated) return;
+		if (!mounted) return;
 		if (isInstalled || !canShowPrompt) {
 			setChromiumFallbackReady(false);
 			setOpen(false);
@@ -208,24 +176,17 @@ export function PWAInstallPrompt() {
 		}, CHROMIUM_FALLBACK_DELAY_MS);
 
 		return () => window.clearTimeout(timer);
-	}, [mounted, pwaHydrated, isInstalled, canShowPrompt, deferredPrompt]);
+	}, [mounted, isInstalled, canShowPrompt, deferredPrompt]);
 
 	useEffect(() => {
-		if (!mounted || !pwaHydrated || isInstalled || !canShowPrompt) return;
+		if (!mounted || isInstalled || !canShowPrompt) return;
 		if (isIOSDevice() || deferredPrompt) return;
 
 		if (chromiumFallbackReady) {
 			setPromptVariant('chromium');
 			setOpen(true);
 		}
-	}, [
-		mounted,
-		pwaHydrated,
-		isInstalled,
-		canShowPrompt,
-		deferredPrompt,
-		chromiumFallbackReady,
-	]);
+	}, [mounted, isInstalled, canShowPrompt, deferredPrompt, chromiumFallbackReady]);
 
 	const handleInstall = useCallback(async () => {
 		if (!deferredPrompt) return;
@@ -252,9 +213,10 @@ export function PWAInstallPrompt() {
 
 	const handleMaybeLater = useCallback(() => {
 		dispatch(dismissFor15Days());
+		persistPwaState(store.getState().pwa);
 		setOpen(false);
 		setPromptVariant(null);
-	}, [dispatch]);
+	}, [dispatch, store]);
 
 	const handleGotIt = useCallback(() => {
 		setOpen(false);
@@ -310,12 +272,14 @@ export function PWAInstallPrompt() {
 						</ol>
 
 						<AlertDialogFooter className="gap-2 sm:gap-2">
-							<AlertDialogCancel
+							<Button
+								type="button"
+								variant="outline"
 								onClick={handleMaybeLater}
 								className="w-full sm:w-auto"
 							>
 								Maybe Later
-							</AlertDialogCancel>
+							</Button>
 							<Button
 								type="button"
 								onClick={handleGotIt}
@@ -343,13 +307,15 @@ export function PWAInstallPrompt() {
 						</AlertDialogHeader>
 
 						<AlertDialogFooter className="gap-2 sm:gap-2">
-							<AlertDialogCancel
+							<Button
+								type="button"
+								variant="outline"
 								onClick={handleMaybeLater}
 								disabled={isInstalling}
 								className="w-full sm:w-auto"
 							>
 								Maybe Later
-							</AlertDialogCancel>
+							</Button>
 							{deferredPrompt ? (
 								<AlertDialogAction
 									onClick={(event) => {

@@ -3,6 +3,12 @@
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { FullscreenButton, MotionView } from '@/lib';
 import { Notification } from '@/store/features/vendor/notification';
 import { Plus, ShoppingCart, Store } from 'lucide-react';
@@ -43,39 +49,50 @@ export function DbHeader({ breadcrumb }: { breadcrumb: Crumb[] }) {
 				<div className="flex items-center gap-2  px-4">
 					<FullscreenButton />
 					{session?.tenant_type === 'merchant' ? (
-						<>
-							{/* create product button */}
-							<Button
-								size="icon"
-								title="Create Product"
-								type="button"
-								variant="outline"
-								onClick={() => router.push('/dashboard/product/create')}
-							>
-								<Plus className="size-4" />
-								<span className="sr-only">create product</span>
-							</Button>
-							<Button
-								title="POS"
-								onClick={() => router.push('/dashboard/pos-sales/create')}
-								size="icon"
-								type="button"
-								variant="outline"
-							>
-								<Store className="size-4" />
-								<span className="sr-only">pos</span>
-							</Button>
-							<Button
-								title="Purchase"
-								onClick={() => router.push('/dashboard/purchase/create')}
-								size="icon"
-								type="button"
-								variant="outline"
-							>
-								<ShoppingCart className="size-4" />
-								<span className="sr-only">purchase</span>
-							</Button>
-						</>
+						<TooltipProvider>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<Button
+										size="icon"
+										type="button"
+										variant="outline"
+										onClick={() => router.push('/dashboard/product/create')}
+									>
+										<Plus className="size-4" />
+										<span className="sr-only">Create Product</span>
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent>Create Product</TooltipContent>
+							</Tooltip>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<Button
+										onClick={() => router.push('/dashboard/pos-sales/create')}
+										size="icon"
+										type="button"
+										variant="outline"
+									>
+										<Store className="size-4" />
+										<span className="sr-only">POS</span>
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent>POS</TooltipContent>
+							</Tooltip>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<Button
+										onClick={() => router.push('/dashboard/purchase/create')}
+										size="icon"
+										type="button"
+										variant="outline"
+									>
+										<ShoppingCart className="size-4" />
+										<span className="sr-only">Purchase</span>
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent>Purchase</TooltipContent>
+							</Tooltip>
+						</TooltipProvider>
 					) : null}
 
 					{/* Balance Toggle */}

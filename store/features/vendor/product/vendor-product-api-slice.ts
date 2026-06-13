@@ -152,6 +152,7 @@ const api = apiSlice.injectEndpoints({
 			any
 		>({
 			query: (data) => {
+				console.log(data);
 				const body = new FormData();
 				Object.entries(data as any).forEach(([key, value]) => {
 					if (key === 'images') {

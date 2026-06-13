@@ -39,7 +39,7 @@ export function MultiSelect({
 	};
 
 	const handleSelect = (item: MultiSelectOption) => {
-		if (!value.find((i) => i.value === item.value)) {
+		if (!value?.find((i) => i.value === item.value)) {
 			onChange([...value, item]);
 		}
 		setInputValue('');

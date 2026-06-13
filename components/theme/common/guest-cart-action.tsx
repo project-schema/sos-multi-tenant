@@ -76,7 +76,7 @@ export function GuestCartAction({ product }: { product: iVendorProductView }) {
 	const [selectedColor, setSelectedColor] = useState<string | null>(null);
 	const [selectedSize, setSelectedSize] = useState<string | null>(null);
 	const [selectedVariantId, setSelectedVariantId] = useState<number | null>(
-		null,
+		null
 	);
 
 	const [isInCart, setIsInCart] = useState(false);
@@ -122,7 +122,7 @@ export function GuestCartAction({ product }: { product: iVendorProductView }) {
 		const variant = product?.product_variant?.find(
 			(v) =>
 				v.color?.name === colorName &&
-				(!selectedSize || v.size?.name === selectedSize),
+				(!selectedSize || v.size?.name === selectedSize)
 		);
 		if (variant) setSelectedVariantId(variant.id);
 	};
@@ -132,7 +132,7 @@ export function GuestCartAction({ product }: { product: iVendorProductView }) {
 		const variant = product?.product_variant?.find(
 			(v) =>
 				v.size?.name === sizeName &&
-				(!selectedColor || v.color?.name === selectedColor),
+				(!selectedColor || v.color?.name === selectedColor)
 		);
 		if (variant) setSelectedVariantId(variant.id);
 	};
@@ -166,7 +166,7 @@ export function GuestCartAction({ product }: { product: iVendorProductView }) {
 				product_id: product.id,
 				name: product.name,
 				price: Number(
-					product.discount_percentage ?? product.selling_price ?? 0,
+					product.discount_percentage ?? product.selling_price ?? 0
 				),
 				image: product.image ?? product.product_image?.[0]?.image ?? null,
 				qty: quantity,
@@ -229,7 +229,7 @@ export function GuestCartAction({ product }: { product: iVendorProductView }) {
 									'px-3 py-1.5 border rounded text-sm transition-all',
 									selectedColor === c.name
 										? 'border-orange-500 bg-orange-500/5 text-orange-600'
-										: 'border-orange-500/20 hover:bg-orange-500/5',
+										: 'border-orange-500/20 hover:bg-orange-500/5'
 								)}
 							>
 								{c.name}
@@ -252,7 +252,7 @@ export function GuestCartAction({ product }: { product: iVendorProductView }) {
 									'px-3 py-1.5 border rounded text-sm transition-all',
 									selectedSize === s.name
 										? 'border-orange-500 bg-orange-500/5 text-orange-600'
-										: 'border-orange-500/20 hover:bg-orange-500/5',
+										: 'border-orange-500/20 hover:bg-orange-500/5'
 								)}
 							>
 								{s.name}
@@ -315,7 +315,7 @@ export function GuestCartAction({ product }: { product: iVendorProductView }) {
 					className={cn(
 						'inline-flex items-center justify-center gap-2 px-4 py-3 rounded-md hover:bg-orange-500 hover:text-white',
 						isInWishlist &&
-							'bg-orange-500 text-white border-orange-500/50 hover:bg-orange-500 hover:text-white',
+							'bg-orange-500 text-white border-orange-500/50 hover:bg-orange-500 hover:text-white'
 					)}
 				>
 					<Heart className={cn('w-4 h-4', isInWishlist && 'fill-current')} />

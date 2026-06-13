@@ -85,7 +85,7 @@ export default function Checkout() {
 	const subtotal = useMemo(
 		() =>
 			items.reduce((sum, item) => sum + Number(item.totalproductprice || 0), 0),
-		[items],
+		[items]
 	);
 
 	const form = useForm<CheckoutFormData>({
@@ -105,7 +105,7 @@ export default function Checkout() {
 	const deliveryCharge = form.watch('delivery_charge');
 	const shipping =
 		cartData?.deliveryCharge?.find(
-			(charge) => charge.id.toString() === deliveryCharge?.toString(),
+			(charge) => charge.id.toString() === deliveryCharge?.toString()
 		)?.charge || 0;
 
 	const total = subtotal - discount + Number(shipping);
@@ -219,15 +219,16 @@ export default function Checkout() {
 						Thank you for your purchase! Your order has been placed
 						successfully.
 					</p>
-					{/* <p className="text-gray-800 mb-6">
-					Order Number:{' '}
-					<span className="font-bold text-orange-500">
-						#{orderSuccess.orderNumber}
-					</span>
-				</p> */}
+					<p className="text-gray-800 mb-6">
+						Order Number:{' '}
+						<span className="font-bold text-orange-500">
+							#{orderSuccess.orderNumber}
+						</span>
+					</p>
 					<p className="text-sm text-gray-500 mb-8">
 						We&apos;ll send you an update when your order is on its way.
 					</p>
+
 					<div className="flex flex-col sm:flex-row gap-3 justify-center">
 						<Link href="/account?view=orders">
 							<Button variant="outline">View Orders</Button>

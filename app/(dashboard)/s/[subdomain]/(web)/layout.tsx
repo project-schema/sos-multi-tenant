@@ -97,9 +97,7 @@ export default async function MySiteLayout({
 
 			{/* Facebook Pixel */}
 			{settings?.cms?.scripts_facebook_pixel && (
-				<Script
-					id="facebook-pixel-script"
-					strategy="afterInteractive"
+				<div
 					dangerouslySetInnerHTML={{
 						__html: settings?.cms?.scripts_facebook_pixel || '',
 					}}

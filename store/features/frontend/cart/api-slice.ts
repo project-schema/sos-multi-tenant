@@ -47,7 +47,7 @@ export type iCartResponse = {
 export type iAddToCartRequest = {
 	product_id: number;
 	purchase_type: 'single' | 'bulk';
-	tenant_id: string;
+	tenant_id: string | null;
 	qty: number[];
 	size_id: string | null[];
 	color_id: string | null[];

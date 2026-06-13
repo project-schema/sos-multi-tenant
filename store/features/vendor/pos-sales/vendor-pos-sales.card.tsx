@@ -10,7 +10,7 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover';
 import { Skeleton } from '@/components/ui/skeleton';
-import { cn, env, sign, tableSrCount } from '@/lib';
+import { cn, env, sign, tableSrCount, textCount } from '@/lib';
 import { useAudio } from '@/lib/audio';
 import { Plus, Trash2, X } from 'lucide-react';
 import { useState } from 'react';
@@ -40,7 +40,7 @@ export const VendorPosSalesCard = ({
 				<Card
 					className={cn(
 						posSelectProduct && 'border-blue-400',
-						`overflow-hidden hover:shadow-md transition-shadow cursor-pointer group border-2 hover:border-blue-400 py-0 gap-0`,
+						`overflow-hidden hover:shadow-md transition-shadow cursor-pointer group border-2 hover:border-blue-400 py-0 gap-0`
 					)}
 					onClick={handleCardClick}
 				>
@@ -91,7 +91,7 @@ const CardDetails = ({
 
 	const { data, isLoading, isError } = useVendorPosSalesProductDetailsQuery(
 		{ product_id: slug },
-		{ skip: !slug },
+		{ skip: !slug }
 	);
 	const { cart, addToCart, removeFromCart } = usePosSales();
 
@@ -134,7 +134,9 @@ const CardDetails = ({
 	return (
 		<div className="space-y-4">
 			<div className="flex justify-between items-center">
-				<h3 className="font-medium text-sm text-center">{product.name}</h3>
+				<h3 className="font-medium text-sm text-center">
+					{textCount(product.name, 30)}
+				</h3>
 				<Button
 					variant="link"
 					size="icon"
@@ -159,13 +161,13 @@ const CardDetails = ({
 				<tbody>
 					{product.product_variant?.map((variant, i) => {
 						const isSelected = selectedItem.some(
-							(item) => item.variant_id === variant.id,
+							(item) => item.variant_id === variant.id
 						);
 						const isOutOfStock = variant?.qty === 0;
 
 						// selected item qty
 						const selectedItemQty = selectedItem.find(
-							(item) => item.variant_id === variant.id,
+							(item) => item.variant_id === variant.id
 						)?.quantity;
 
 						// remaing qty
@@ -174,7 +176,7 @@ const CardDetails = ({
 							<tr
 								className={cn(
 									isSelected && 'bg-blue-50 rounded-2xl user-select-none',
-									'cursor-pointer',
+									'cursor-pointer'
 								)}
 								onClick={() => {
 									if (isOutOfStock || remainingQty <= 0) {
@@ -204,9 +206,15 @@ const CardDetails = ({
 								key={variant.id}
 							>
 								<td className="text-xs ">{tableSrCount(1, i)}</td>
-								<td className="text-sm px-3 py-2">{variant?.size?.name}</td>
-								<td className="text-sm px-3 py-2">{variant?.color?.name}</td>
-								<td className="text-sm px-3 py-2">{variant?.size?.name}</td>
+								<td className="text-sm px-3 py-2">
+									{textCount(variant?.size?.name, 10)}
+								</td>
+								<td className="text-sm px-3 py-2">
+									{textCount(variant?.color?.name, 10)}
+								</td>
+								<td className="text-sm px-3 py-2">
+									{textCount(variant?.size?.name, 10)}
+								</td>
 								<td className="text-sm px-3 py-2">
 									{isOutOfStock ? 'Out of Stock' : remainingQty}
 								</td>
@@ -231,7 +239,7 @@ const CardDetails = ({
 												sku: variant.product.sku,
 												image: '',
 												selling_price: parseFloat(
-													variant.product.selling_price,
+													variant.product.selling_price
 												),
 												quantity: 1,
 												stock: variant.qty,

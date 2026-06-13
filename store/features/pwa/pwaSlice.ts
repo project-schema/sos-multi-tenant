@@ -1,3 +1,4 @@
+import { env } from '@/lib/env';
 import { RootState } from '@/store';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
@@ -8,8 +9,8 @@ export interface PwaState {
 
 export const PWA_STORAGE_KEY = 'pwaPromptState';
 
-// const FIFTEEN_DAYS_MS = 15 * 24 * 60 * 60 * 1000;
-const FIFTEEN_DAYS_MS = 1000;
+const PWA_DISMISS_DAYS = Number(env.pwa_prompt_days) || 15;
+export const PWA_DISMISS_MS = PWA_DISMISS_DAYS * 24 * 60 * 60 * 1000;
 
 const initialState: PwaState = {
 	installed: false,
@@ -25,7 +26,7 @@ export const pwaSlice = createSlice({
 			state.dismissedUntil = null;
 		},
 		dismissFor15Days: (state) => {
-			state.dismissedUntil = Date.now() + FIFTEEN_DAYS_MS;
+			state.dismissedUntil = Date.now() + PWA_DISMISS_MS;
 		},
 		resetPrompt: (state) => {
 			state.dismissedUntil = null;
