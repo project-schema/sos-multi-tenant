@@ -59,8 +59,8 @@ export function VendorProductOrderStatus({
 							toast.error(res.message || 'Failed to update status');
 						}
 					}
-				} catch (err) {
-					toast.error('Failed to update status');
+				} catch (err:any) {
+					toast.error(err?.data?.data?.status||'Failed to update status');
 				} finally {
 					setClicked(false);
 				}

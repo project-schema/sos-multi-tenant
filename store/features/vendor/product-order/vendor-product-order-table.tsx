@@ -20,7 +20,8 @@ import { badgeFormat, dateFormat, sign, tableSrCount, timeFormat } from '@/lib';
 
 import { iPagination } from '@/types';
 import { Ellipsis } from 'lucide-react';
-import { VendorProductOrderDetailsModal } from './vendor-product-order-details-modal';
+import Link from 'next/link';
+import { VendorProductOrderDetailsLink } from './vendor-product-order-details-modal';
 import { VendorProductOrderStatusMenuItems } from './vendor-product-order-status-menu';
 import { iVendorProductOrder } from './vendor-product-order-type';
 
@@ -67,10 +68,17 @@ export function VendorProductOrderTable({
 								{tableSrCount(data.current_page, i)}
 							</TableCell>
 							<TableCell className="font-medium py-4">
-								#{item.order_id}
+								<Link
+									href={`/dashboard/product-order/${item.id}`}
+									className="hover:text-primary hover:underline"
+								>
+									#{item.order_id}
+								</Link>
 							</TableCell>
 							<TableCell className="py-2">{item.courier_name || '-'}</TableCell>
-							<TableCell className="py-2">{item?.product?.name}</TableCell>
+							<TableCell className="py-2 align-middle whitespace-pre-wrap min-w-3xs line-clamp-2">
+								{item?.product?.name}
+							</TableCell>
 							<TableCell className="py-2">{item.name || '-'}</TableCell>
 							<TableCell className="py-2">{item.order_media || '-'}</TableCell>
 							<TableCell className="py-2">
@@ -111,7 +119,7 @@ export function VendorProductOrderTable({
 										</Button>
 									</DropdownMenuTrigger>
 									<DropdownMenuContent align="end" className="w-56">
-										<VendorProductOrderDetailsModal order={item} />
+										<VendorProductOrderDetailsLink order={item} />
 										<VendorProductOrderStatusMenuItems data={item} />
 									</DropdownMenuContent>
 								</DropdownMenu>

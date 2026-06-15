@@ -103,6 +103,7 @@ export type iVendorPosSalesOrder = {
 	customer_id: number;
 	source_id: number;
 	exchange_qty: number;
+	note: string | null;
 	customer: {
 		id: number;
 		customer_name: string;
@@ -151,6 +152,7 @@ export type iVendorPosSaleShowData = {
 	total_qty: number;
 	payment_status: string;
 	change_amount: string;
+	note: string | null;
 	sale_details: {
 		id: number;
 		pos_sales_id: number;

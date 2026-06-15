@@ -1,16 +1,17 @@
 'use client';
 
 import { Container1 } from '@/components/dashboard';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { CardTitle } from '@/components/ui/card';
 import { sign, textCount, timeFormat } from '@/lib';
 import { Printer } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
-import { useVendorPosSalesOrderShowQuery } from './vendor-pos-sales.api-slice';
-import { iVendorPosSalesOrderShow } from './vendor-pos-sales.type';
 import { useVendorShopInfoQuery } from '../profile/vendor-profile-api-slice';
 import type { iVendorShopInfo } from '../profile/vendor-profile-type';
+import { useVendorPosSalesOrderShowQuery } from './vendor-pos-sales.api-slice';
+import { iVendorPosSalesOrderShow } from './vendor-pos-sales.type';
 
 function getShopDisplayName(shopInfo?: iVendorShopInfo) {
 	return shopInfo?.company_name || shopInfo?.name || 'Shop Name';
@@ -43,7 +44,7 @@ function VendorPosSalesThermalInvoice({
 	const grandTotal = totalPrice - discount;
 
 	return (
-		<div className="w-[58mm] mx-auto bg-white text-black font-mono text-xs leading-tight p-2">
+		<div className="w-[58mm] mx-auto bg-white text-black font-mono text-xs leading-tight p-0">
 			{/* Header */}
 			<div className="text-center border-b border-black pb-2 mb-2">
 				<div className="text-center">
@@ -77,9 +78,7 @@ function VendorPosSalesThermalInvoice({
 					<thead>
 						<tr className="border-b border-black">
 							<th className="text-left py-1 text-xs">Item</th>
-							<th className="text-right py-1 text-xs">Qty</th>
-							<th className="text-right py-1 text-xs">Rate</th>
-							<th className="text-right py-1 text-xs">Total</th>
+							<th className="text-right py-1 text-xs">Qt * Rate = Total</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -87,19 +86,16 @@ function VendorPosSalesThermalInvoice({
 							<tr key={item.id} className="border-b border-gray-300">
 								<td className="py-1 text-xs">
 									<div className="font-medium">
-										{textCount(item.product.name, 15)}
+										{textCount(item.product.name, 10)}
 									</div>
 									<div className="text-xs text-gray-600">
 										{item.unit.unit_name}{' '}
 										{item.size?.name && `(${item.size.name})`}
 									</div>
 								</td>
-								<td className="py-1 text-right text-xs">{item.qty}</td>
-								<td className="py-1 text-right text-xs">
-									{parseFloat(item.rate).toFixed(2)}
-								</td>
-								<td className="py-1 text-right text-xs">
-									{parseFloat(item.sub_total).toFixed(2)}
+								<td className="py-1 text-right text-xs pr-1">
+									{item.qty} * {parseFloat(item.rate).toFixed(2)} ={' '}
+									{(Number(item.qty) * Number(item.rate)).toFixed(2)}
 								</td>
 							</tr>
 						))}
@@ -216,6 +212,14 @@ function VendorPosSalesInvoice({
 
 	return (
 		<div className="max-w-4xl mx-auto border   border-gray-300 rounded-lg p-4 bg-white print:p-0 print:max-w-none print:w-auto print:border-none">
+			{/* show note in alert  */}
+
+			{saleData?.note && (
+				<Alert variant="info" className="mb-4 print:hidden">
+					<AlertTitle>Note</AlertTitle>
+					<AlertDescription>{saleData.note}</AlertDescription>
+				</Alert>
+			)}
 			{/* Header */}
 			<div className="text-center border-b-2 border-gray-300 pb-4 mb-6 print:text-center print:pb-2 print:mb-4">
 				<div className="flex justify-between items-start mb-4 print:block print:mb-2">

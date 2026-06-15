@@ -18,14 +18,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-	badgeFormat,
-	dateFormat,
-	env,
-	sign,
-	tableSrCount,
-	textCount,
-} from '@/lib';
+import { badgeFormat, dateFormat, env, sign, tableSrCount } from '@/lib';
 
 import { iPagination } from '@/types';
 import { Ellipsis, ExternalLink, Pencil } from 'lucide-react';
@@ -96,12 +89,12 @@ export function VendorProductTable({
 									</Avatar>
 								</Link>
 							</TableCell>
-							<TableCell className="py-2">
+							<TableCell className="py-2 align-middle whitespace-pre-wrap min-w-[100px] line-clamp-2">
 								<Link
 									className="hover:underline hover:text-blue-500 transition"
 									href={`/dashboard/product/${item.id}/view`}
 								>
-									{textCount(item.name, 15)}
+									{item.name}
 								</Link>
 							</TableCell>
 							<TableCell className="py-2">

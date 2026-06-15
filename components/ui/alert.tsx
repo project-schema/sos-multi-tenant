@@ -11,6 +11,16 @@ const alertVariants = cva(
         default: "bg-card text-card-foreground",
         destructive:
           "text-destructive bg-card [&>svg]:text-current *:data-[slot=alert-description]:text-destructive/90",
+        success:
+          "border-green-500/50 text-green-700 bg-green-50 dark:bg-green-950/30 dark:text-green-400 [&>svg]:text-current *:data-[slot=alert-description]:text-green-700/90 dark:*:data-[slot=alert-description]:text-green-400/90",
+        warning:
+          "border-amber-500/50 text-amber-700 bg-amber-50 dark:bg-amber-950/30 dark:text-amber-400 [&>svg]:text-current *:data-[slot=alert-description]:text-amber-700/90 dark:*:data-[slot=alert-description]:text-amber-400/90",
+        info:
+          "border-blue-500/50 text-blue-700 bg-blue-50 dark:bg-blue-950/30 dark:text-blue-400 [&>svg]:text-current *:data-[slot=alert-description]:text-blue-700/90 dark:*:data-[slot=alert-description]:text-blue-400/90",
+        secondary:
+          "border-border text-secondary-foreground bg-secondary/10 [&>svg]:text-current *:data-[slot=alert-description]:text-muted-foreground",
+        primary:
+          "border-primary/50 text-primary bg-primary/5 dark:bg-primary/10 [&>svg]:text-current *:data-[slot=alert-description]:text-primary/90",
       },
     },
     defaultVariants: {

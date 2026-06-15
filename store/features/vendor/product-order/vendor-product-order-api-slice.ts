@@ -1,5 +1,6 @@
 import { apiSlice } from '../../api/apiSlice';
 import {
+	iVendorProductOrder,
 	iVendorProductOrderResponse,
 	statusRouteMap,
 } from './vendor-product-order-type';
@@ -34,10 +35,20 @@ const api = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: ['VendorProductOrder'],
 		}),
+
+		// view
+		VendorProductOrderView: builder.query<iVendorProductOrder, { id: string }>({
+			query: ({ id }) => ({
+				url: `/tenant-product-order/order/view/${id}`,
+				method: 'GET',
+			}),
+			providesTags: ['VendorProductOrder'],
+		}),
 	}),
 });
 
 export const {
 	useVendorProductOrderAllQuery,
 	useVendorProductOrderUpdateMutation,
+	useVendorProductOrderViewQuery,
 } = api;
