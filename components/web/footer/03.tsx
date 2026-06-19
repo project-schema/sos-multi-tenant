@@ -1,4 +1,5 @@
 import { env, getApiDataWithSubdomain, imageFormat } from '@/lib';
+import { PwaFooterInstall } from '@/components/pwa-footer-install';
 import { webSocialLinks } from '@/lib/icon/social-icon';
 import { iBrand } from '@/store/features/admin/brand';
 import { iCategory } from '@/store/features/admin/category';
@@ -203,6 +204,7 @@ export default async function Footer03() {
 									{settings?.cms?.app_name}
 								</span>
 							</div>
+							<PwaFooterInstall className="text-white/80" />
 							<div>
 								<Image
 									src={imageFormat(

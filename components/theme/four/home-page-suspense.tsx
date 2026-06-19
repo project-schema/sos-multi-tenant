@@ -96,7 +96,7 @@ export default async function ThemeFourHomePageSuspense({
 												alt={e.name}
 												className="w-12 h-12 object-cover object-center rounded "
 											/>
-											{e.name}
+											<span className="line-clamp-2">{e.name}</span>
 										</Link>
 									</li>
 								))}

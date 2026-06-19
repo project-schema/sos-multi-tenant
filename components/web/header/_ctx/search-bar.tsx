@@ -25,7 +25,7 @@ export function SearchBar({
 }: SearchBarProps) {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
-		null,
+		null
 	);
 	const debouncedSearch = useDebounce(searchTerm, 500);
 
@@ -36,7 +36,7 @@ export function SearchBar({
 		},
 		{
 			skip: !debouncedSearch,
-		},
+		}
 	);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +59,7 @@ export function SearchBar({
 				)}
 
 				<ul className="max-h-64 overflow-auto">
-					{products.map((product) => (
+					{products?.map((product) => (
 						<li key={product.id}>
 							<Link
 								href={`/shop/${product.slug}`}

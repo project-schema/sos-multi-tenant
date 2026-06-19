@@ -32,7 +32,7 @@ export default function Card01({ product }: { product?: iVendorProduct }) {
 
 	// Check if product is in wishlist
 	const wishlistItem = wishlistData?.wishlist?.find(
-		(item) => item.product_id === product?.id,
+		(item) => item.product_id === product?.id
 	);
 	const isWishlisted = !!wishlistItem;
 	const isWishlistLoading = isAddingToWishlist || isDeletingFromWishlist;
@@ -85,7 +85,7 @@ export default function Card01({ product }: { product?: iVendorProduct }) {
 	};
 
 	return (
-		<div className="group relative border border-gray-100 bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
+		<div className="group h-full relative border border-gray-100 bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
 			{/* Image Container */}
 			<div className="relative aspect-square overflow-hidden bg-gray-100">
 				{/* Product Image */}
@@ -185,7 +185,6 @@ export default function Card01({ product }: { product?: iVendorProduct }) {
 							<>
 								<span className="text-sm text-red-500 line-through">
 									{product?.selling_price}
-									{sign.tk}
 								</span>
 								<span className="text-lg font-bold text-black">
 									{product?.discount_price}

@@ -1,4 +1,5 @@
 import { env, getApiDataWithSubdomain, imageFormat } from '@/lib';
+import { PwaFooterInstall } from '@/components/pwa-footer-install';
 import { webSocialLinks } from '@/lib/icon/social-icon';
 import { iBrand } from '@/store/features/admin/brand';
 import { iCategory } from '@/store/features/admin/category';
@@ -147,6 +148,8 @@ export default async function Footer02() {
 								{settings?.cms?.app_name ?? ''}
 							</span>
 						</div>
+
+						<PwaFooterInstall className="text-gray-500 hover:opacity-100" />
 
 						{/* Payment Methods */}
 						<div className="flex items-center space-x-2 flex-wrap justify-center">

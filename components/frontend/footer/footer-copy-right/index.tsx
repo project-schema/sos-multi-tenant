@@ -1,4 +1,5 @@
 import { iSettingsType } from '@/types';
+import { PwaFooterInstall } from '@/components/pwa-footer-install';
 import Link from 'next/link';
 import style from './footer-coy-right.module.css';
 
@@ -25,6 +26,7 @@ function FooterCopyRight({ settingsData }: { settingsData: iSettingsType }) {
 				</span>
 			</p>
 			<div className={style.footerCopyRight__links}>
+				<PwaFooterInstall className={style.footerCopyRight__Link} />
 				<Link href={'/'} className={style.footerCopyRight__Link}>
 					Privacy Policy
 				</Link>

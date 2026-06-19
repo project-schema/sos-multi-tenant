@@ -1,4 +1,5 @@
 import { env, getApiDataWithSubdomain, imageFormat } from '@/lib';
+import { PwaFooterInstall } from '@/components/pwa-footer-install';
 import { webSocialLinks } from '@/lib/icon/social-icon';
 import { iCategory } from '@/store/features/admin/category';
 import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
@@ -185,6 +186,8 @@ export default async function Footer01() {
 									<span className="font-semibold">{settings.cms.app_name}</span>
 								)}
 							</div>
+
+							<PwaFooterInstall className="text-gray-300" />
 
 							{/* Payment Methods */}
 							{settings?.cms?.footer_payment_methods && (

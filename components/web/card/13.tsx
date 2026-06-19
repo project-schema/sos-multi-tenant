@@ -30,7 +30,7 @@ export default function Card13({ category }: { category: iCategory }) {
 				text-lg sm:text-xl font-semibold text-white text-center
 				opacity-0 scale-90
 				group-hover:opacity-100 group-hover:scale-100
-				transition-all duration-300"
+				transition-all duration-300 line-clamp-2"
 			>
 				{category.name ?? ''}
 			</p>

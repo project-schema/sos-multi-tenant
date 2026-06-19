@@ -17,8 +17,12 @@ import {
 	type BeforeInstallPromptEvent,
 } from '@/lib/pwa-deferred-prompt';
 import {
+	isIOSDevice,
+	isStandaloneMode,
+	PWA_OPEN_INSTALL_EVENT,
+} from '@/lib/pwa-install';
+import {
 	dismissFor15Days,
-	selectCanShowPrompt,
 	selectIsInstalled,
 	setInstalled,
 } from '@/store/features/pwa/pwaSlice';
@@ -36,30 +40,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { useStore } from 'react-redux';
 
 type PromptVariant = 'chromium' | 'ios';
-
-function isIOSDevice(): boolean {
-	if (typeof navigator === 'undefined') return false;
-
-	const isClassicIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-	const isIpadOS =
-		navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
-
-	return isClassicIOS || isIpadOS;
-}
-
-function isStandaloneMode(): boolean {
-	if (typeof window === 'undefined') return false;
-
-	const isDisplayModeStandalone = window.matchMedia(
-		'(display-mode: standalone)'
-	).matches;
-
-	const isIosStandalone =
-		(window.navigator as Navigator & { standalone?: boolean }).standalone ===
-		true;
-
-	return isDisplayModeStandalone || isIosStandalone;
-}
 
 const IOS_INSTRUCTIONS = [
 	{
@@ -79,13 +59,10 @@ const IOS_INSTRUCTIONS = [
 	},
 ] as const;
 
-const CHROMIUM_FALLBACK_DELAY_MS = 2000;
-
 export function PWAInstallPrompt() {
 	const dispatch = useAppDispatch();
 	const store = useStore<RootState>();
 	const isInstalled = useAppSelector(selectIsInstalled);
-	const canShowPrompt = useAppSelector(selectCanShowPrompt);
 
 	const [mounted, setMounted] = useState(false);
 	const [open, setOpen] = useState(false);
@@ -95,7 +72,6 @@ export function PWAInstallPrompt() {
 	const [deferredPrompt, setDeferredPrompt] =
 		useState<BeforeInstallPromptEvent | null>(null);
 	const [isInstalling, setIsInstalling] = useState(false);
-	const [chromiumFallbackReady, setChromiumFallbackReady] = useState(false);
 
 	useEffect(() => {
 		setMounted(true);
@@ -146,47 +122,32 @@ export function PWAInstallPrompt() {
 		};
 	}, [mounted, dispatch]);
 
-	useEffect(() => {
-		if (!mounted) return;
-		if (isInstalled || !canShowPrompt) {
-			setChromiumFallbackReady(false);
-			setOpen(false);
-			setPromptVariant(null);
-			return;
-		}
+	const openInstallDialog = useCallback(() => {
+		if (isInstalled || isStandaloneMode()) return;
 
-		if (isIOSDevice() && !isStandaloneMode()) {
+		if (isIOSDevice()) {
 			setPromptVariant('ios');
 			setOpen(true);
 			return;
 		}
 
-		if (deferredPrompt) {
-			setChromiumFallbackReady(false);
-			setPromptVariant('chromium');
-			setOpen(true);
-			return;
-		}
-
-		setOpen(false);
-		setPromptVariant(null);
-
-		const timer = window.setTimeout(() => {
-			setChromiumFallbackReady(true);
-		}, CHROMIUM_FALLBACK_DELAY_MS);
-
-		return () => window.clearTimeout(timer);
-	}, [mounted, isInstalled, canShowPrompt, deferredPrompt]);
+		setPromptVariant('chromium');
+		setOpen(true);
+	}, [isInstalled]);
 
 	useEffect(() => {
-		if (!mounted || isInstalled || !canShowPrompt) return;
-		if (isIOSDevice() || deferredPrompt) return;
+		if (!mounted) return;
 
-		if (chromiumFallbackReady) {
-			setPromptVariant('chromium');
-			setOpen(true);
-		}
-	}, [mounted, isInstalled, canShowPrompt, deferredPrompt, chromiumFallbackReady]);
+		const handleOpenRequest = () => {
+			openInstallDialog();
+		};
+
+		window.addEventListener(PWA_OPEN_INSTALL_EVENT, handleOpenRequest);
+
+		return () => {
+			window.removeEventListener(PWA_OPEN_INSTALL_EVENT, handleOpenRequest);
+		};
+	}, [mounted, openInstallDialog]);
 
 	const handleInstall = useCallback(async () => {
 		if (!deferredPrompt) return;

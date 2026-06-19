@@ -188,7 +188,11 @@ export default function CommonWishList() {
 												wishId={item.id}
 											/>
 										) : (
-											<Button variant="secondary" disabled>
+											<Button
+												className="text-white"
+												variant="secondary"
+												disabled
+											>
 												Out of Stock
 											</Button>
 										)}

@@ -1,5 +1,6 @@
 import { getApiData, imageFormat } from '@/lib';
 import { DynamicIcon } from '@/lib/icon/dynamic-icon';
+import { PwaFooterInstall } from '@/components/pwa-footer-install';
 import { iFooterMedia, iSettingsType } from '@/types';
 import { MapPin, Phone } from 'lucide-react';
 import Image from 'next/image';
@@ -199,6 +200,8 @@ export const MainWebFooter = async ({
 								alt="..."
 							/>
 						</div>
+
+						<PwaFooterInstall className="text-[#969696] hover:text-primary" />
 					</div>
 
 					<div className="copy--right flex flex-wrap justify-between pt-[20px] pb-[29px] md:gap-[20px] gap-[12px]">

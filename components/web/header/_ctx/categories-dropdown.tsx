@@ -12,15 +12,6 @@ import { iSystem } from '@/store/features/vendor/cms/system/type';
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 
-const categories = [
-	'Electronics',
-	'Clothing',
-	'Home & Garden',
-	'Sports',
-	'Books',
-	'Toys',
-];
-
 interface CategoriesDropdownProps {
 	variant?: 'default' | 'compact';
 	className?: string;
@@ -39,7 +30,7 @@ export function CategoriesDropdown({
 	cms,
 }: CategoriesDropdownProps) {
 	const selectedCategory = categories?.find(
-		(cat) => cat.id === selectedCategoryId,
+		(cat) => cat.id === selectedCategoryId
 	);
 
 	const handleCategoryClick = (categoryId: number) => {
@@ -87,17 +78,19 @@ export function CategoriesDropdown({
 						<DropdownMenuItem
 							key={category.id}
 							onClick={() => handleCategoryClick(category.id)}
-							className={
+							className={`line-clamp-2 ${
 								selectedCategoryId === category.id ? 'bg-gray-100' : ''
-							}
+							}`}
 						>
 							{category.name}
 						</DropdownMenuItem>
 					) : (
 						<DropdownMenuItem key={category.id} asChild>
-							<Link href={`/category/${category?.id}`}>{category?.name}</Link>
+							<Link className="line-clamp-2" href={`/category/${category?.id}`}>
+								{category?.name}
+							</Link>
 						</DropdownMenuItem>
-					),
+					)
 				)}
 			</DropdownMenuContent>
 		</DropdownMenu>

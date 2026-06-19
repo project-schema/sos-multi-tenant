@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"scripts": {
-		"dev": "next dev --port 3090",
+		"dev": "rmdir /s /q .next 2>nul & next dev --port 3090",
 		"clean": "rm -rf .next",
 		"build": "npm run clean && next build",
 		"build-dev": "next build",
