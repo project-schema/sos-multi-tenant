@@ -21,7 +21,7 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { sign } from '@/lib';
+import { image, sign } from '@/lib';
 import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import {
 	useGetDeliveryChargeQuery,
@@ -97,7 +97,7 @@ export default function GuestCheckout() {
 
 	const subtotal = useMemo(
 		() => items.reduce((sum, item) => sum + item.price * item.qty, 0),
-		[items],
+		[items]
 	);
 
 	const form = useForm<CheckoutFormData>({
@@ -116,7 +116,7 @@ export default function GuestCheckout() {
 	const deliveryChargeId = form.watch('delivery_charge');
 	const shipping =
 		deliveryCharge?.deliveryCharge?.find(
-			(c) => c.id === Number(deliveryChargeId),
+			(c) => c.id === Number(deliveryChargeId)
 		)?.charge ?? 0;
 
 	const total = subtotal - discount + Number(shipping);
@@ -136,7 +136,7 @@ export default function GuestCheckout() {
 						amount_to_collect: total,
 						area_name:
 							deliveryCharge?.deliveryCharge?.find(
-								(c) => c.id === data.delivery_charge,
+								(c) => c.id === data.delivery_charge
 							)?.area || '',
 						city: 'City',
 						delivery_type: 1,
@@ -200,8 +200,8 @@ export default function GuestCheckout() {
 					String(
 						Array.isArray(firstError)
 							? firstError[0]
-							: firstError || 'Validation failed',
-					),
+							: firstError || 'Validation failed'
+					)
 				);
 				return;
 			}
@@ -338,7 +338,7 @@ export default function GuestCheckout() {
 																			{charge.area} - {charge.charge}
 																			{sign.tk}
 																		</SelectItem>
-																	),
+																	)
 																)}
 															</SelectContent>
 														</Select>
@@ -404,7 +404,7 @@ export default function GuestCheckout() {
 												<div className="w-14 h-14 rounded overflow-hidden flex-shrink-0 bg-gray-100">
 													{item.image ? (
 														<img
-															src={item.image}
+															src={image(item.image)}
 															alt={item.name}
 															className="w-full h-full object-cover"
 														/>
@@ -463,7 +463,7 @@ export default function GuestCheckout() {
 												<div className="font-semibold">{shipping}৳</div>
 												<div className="text-xs text-gray-500">
 													{deliveryCharge?.deliveryCharge?.find(
-														(c) => c.id === Number(deliveryChargeId),
+														(c) => c.id === Number(deliveryChargeId)
 													)?.area || ''}
 												</div>
 											</div>

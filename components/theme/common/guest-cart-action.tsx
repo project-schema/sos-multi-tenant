@@ -166,7 +166,10 @@ export function GuestCartAction({ product }: { product: iVendorProductView }) {
 				product_id: product.id,
 				name: product.name,
 				price: Number(
-					product.discount_percentage ?? product.selling_price ?? 0
+					product.discount_price ??
+						product.discount_price ??
+						product.selling_price ??
+						0
 				),
 				image: product.image ?? product.product_image?.[0]?.image ?? null,
 				qty: quantity,

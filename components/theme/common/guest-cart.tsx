@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { image } from '@/lib';
 import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import { Minus, Plus, ShoppingCart, X } from 'lucide-react';
 import { useSession } from 'next-auth/react';
@@ -28,7 +29,7 @@ export default function GuestCart() {
 		const updated = items.map((item) =>
 			item.product_id === productId
 				? { ...item, qty: Math.max(1, item.qty + delta) }
-				: item,
+				: item
 		);
 		setItems(updated);
 		setGuestCart(updated);
@@ -110,7 +111,7 @@ export default function GuestCart() {
 										<div className="relative w-20 h-20 rounded overflow-hidden flex-shrink-0 bg-gray-100">
 											{item.image ? (
 												<img
-													src={item.image}
+													src={image(item.image)}
 													alt={item.name}
 													className="object-cover w-full h-full"
 												/>

@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { image } from '@/lib';
 import MotionFadeIn from '@/store/features/auth/MotionFadeIn';
 import { Heart, ShoppingCart, X } from 'lucide-react';
 import { useSession } from 'next-auth/react';
@@ -126,7 +127,7 @@ export default function GuestWishList() {
 									<div className="w-20 h-20 rounded overflow-hidden flex-shrink-0 bg-gray-100">
 										{item.image ? (
 											<img
-												src={item.image}
+												src={image(item.image)}
 												alt={item.name}
 												className="object-cover w-full h-full"
 											/>
